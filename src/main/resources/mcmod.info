@@ -1,0 +1,16 @@
+[
+{
+  "modid": "hudpixel",
+  "name": "HudPixel Mod",
+  "description": "Unofficial Client Mod for the Hypixel Network.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["palechip"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
