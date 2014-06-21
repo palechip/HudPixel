@@ -18,57 +18,57 @@ public class HudPixelMod
     public static final String MODID = "hudpixel";
     public static final String VERSION = "1.0";
     private static HudPixelMod instance;
-    
+
     public static final boolean IS_DEBUGGING = false;
     public static Logger LOGGER;
-    
+
     private HypixelNetworkDetector hypixelDetector;
-    
+
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	instance = this;
-    	// Initialize the logger
-    	LOGGER = LogManager.getLogger("HudPixel");
-    	
-    	// register this class as an event handler
-    	MinecraftForge.EVENT_BUS.register(this);
-    	
-    	//initialize stuff
-    	this.hypixelDetector = new HypixelNetworkDetector();
+        instance = this;
+        // Initialize the logger
+        LOGGER = LogManager.getLogger("HudPixel");
+
+        // register this class as an event handler
+        MinecraftForge.EVENT_BUS.register(this);
+
+        //initialize stuff
+        this.hypixelDetector = new HypixelNetworkDetector();
     }
-    
+
     @SubscribeEvent
     public void onGuiShow(GuiOpenEvent event) {
-    	try {
-    		// check if the player is on Hypixel Network
-    		// this can only change when a new gui is opened
-    		this.hypixelDetector.check();
-    	} catch(Exception e) {
-    		this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
-    		e.printStackTrace();
-    	}
+        try {
+            // check if the player is on Hypixel Network
+            // this can only change when a new gui is opened
+            this.hypixelDetector.check();
+        } catch(Exception e) {
+            this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
+            e.printStackTrace();
+        }
     }
-    
+
     public static HudPixelMod instance() {
-    	return instance;
+        return instance;
     }
-    
+
     public void logDebug(String s) {
-    	if(IS_DEBUGGING) {
-    		LOGGER.info("[DEBUG] "  + s);
-    	}
+        if(IS_DEBUGGING) {
+            LOGGER.info("[DEBUG] "  + s);
+        }
     }
-    
+
     public void logInfo(String s) {
-    	LOGGER.info(s);
+        LOGGER.info(s);
     }
-    
+
     public void logWarn(String s) {
-    	LOGGER.warn(s);
+        LOGGER.warn(s);
     }
-    
+
     public void logError(String s) {
-    	LOGGER.error(s); 	
+        LOGGER.error(s); 	
     }
 }
