@@ -1,0 +1,138 @@
+package com.palechip.hudpixelmod.detectors;
+
+import java.util.ArrayList;
+
+import net.minecraft.client.gui.GuiDownloadTerrain;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.item.ItemStack;
+
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.games.Game;
+
+import cpw.mods.fml.client.FMLClientHandler;
+
+public class GameDetector {
+    // null if no game is detected
+    private Game currentGame;
+
+    private boolean isDetectionStarted = false;
+
+    private String bossbarContent = "";
+
+    // this means a lobby where you choose the game and not a pre-game lobby
+    private boolean isInLobby = false;
+    private static final String COMPASS_NAME = "\u00A7aGame Menu \u00A77(Right Click)";
+    private static final String CLOCK_NAME = "\u00A7aPlayer Visibility \u00A77(Right Click)";
+    private static final String WITHER_STAR_NAME = "\u00A7aLobby Selection \u00A77(Right Click)";
+    private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
+    private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
+    private static final String HYPIXEL_IP = "mc.hypixel.net";
+
+    public void onGuiShow(GuiScreen gui) {
+        // prevent exceptions
+        if(gui == null) return;
+        // GuiDownloadTerrain is opened when switching between servers, so it has to trigger the detection
+        if(HypixelNetworkDetector.isHypixelNetwork && !isDetectionStarted && gui instanceof GuiDownloadTerrain) {
+            // make sure the game is ended
+            if(this.currentGame != null) {
+                this.currentGame.endGame();
+            }
+            // we don't know which game will be next
+            this.currentGame = null;
+            this.isDetectionStarted = true;
+            this.isInLobby = false;
+        }
+    }
+
+    public void onChatMessage(String textMessage, String formattedMessage) {
+        if(this.isDetectionStarted) {
+            // detect lobbies
+            // the mod assumes that the player is in a lobby when he has the lobby compass, the lobby clock or the lobby selection star
+            ItemStack[] inventory = FMLClientHandler.instance().getClientPlayerEntity().inventory.mainInventory;
+
+            // limbo and MVP+ land count as lobby as well
+            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(CLOCK_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME)) || textMessage.equals("You were spawned in Limbo.") || textMessage.equals("[*] Welcome to Hypixel's MVP+ Land!")) {
+                // increase the chance of me noticing when a name was changed
+                if(HudPixelMod.IS_DEBUGGING) {
+                    if(inventory[0] != null && !inventory[0].getDisplayName().equals(COMPASS_NAME)) {
+                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE COMPASS MIGHT HAVE CHANGED!!!");
+                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[0].getDisplayName() + "\" Saved Name: \"" + COMPASS_NAME + "\"");
+                    }
+                    if(inventory[1] != null && !inventory[1].getDisplayName().equals(CLOCK_NAME)) {
+                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE CLOCK MIGHT HAVE CHANGED!!!");
+                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[1].getDisplayName() + "\" Saved Name: \"" + CLOCK_NAME + "\"");
+                    }
+                    if(inventory[8] != null && !inventory[8].getDisplayName().equals(WITHER_STAR_NAME)) {
+                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE WITHER STAR MIGHT HAVE CHANGED!!!");
+                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[8].getDisplayName() + "\" Saved Name: \"" + WITHER_STAR_NAME + "\"");
+                    }
+                }
+
+                this.isInLobby = true;
+                this.isDetectionStarted = false;
+                return;
+            }
+
+            // try detecting the game using the chat tag
+            // if the message contains a game tag
+            if(textMessage.startsWith("[") && textMessage.contains("]")) {
+                // extract the content
+                // e.g. [Quake] -> Quake
+                String gameTag = textMessage.substring(textMessage.indexOf("[") + 1, textMessage.indexOf("]"));
+
+                // check all games for a matching tag
+                for(Game game : Game.getGames()) {
+                    if(game.getChatTag() != null && !game.getChatTag().isEmpty() && game.getChatTag().equals(gameTag)) {
+                        // we found the game
+                        this.currentGame = game;
+                        this.isDetectionStarted = false;
+                        this.currentGame.setupNewGame();
+                        break;
+                    }
+                }
+            }
+            // we didn't find anything. Retry with the next chat message...
+        }
+    }
+
+    public void onClientTick() {
+        // check if the bossbar updated
+        if(BossStatus.bossName != null && !this.bossbarContent.equals(BossStatus.bossName)) {
+            this.bossbarContent = BossStatus.bossName;
+            this.onBossbarChange();
+        }
+    }
+
+    private void onBossbarChange() {
+        if(this.isDetectionStarted) {
+            // if there is a boss bar
+            if(BossStatus.bossName != null) {
+                // check all games for a matching name
+                for(Game game : Game.getGames()) {
+                    // please note the use of contains() and not equals()
+                    // in a pre-game lobby there will always be the IP in the bar. (because youtube)
+                    if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.contains(game.getBossbarName()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
+                        // we found the game
+                        this.currentGame = game;
+                        this.isDetectionStarted = false;
+                        this.currentGame.setupNewGame();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean isInLobby() {
+        return this.isInLobby;
+    }
+
+    public boolean isDetectionStarted() {
+        return this.isDetectionStarted;
+    }
+
+    public Game getCurrentGame() {
+        return this.currentGame;
+    }
+}

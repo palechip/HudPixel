@@ -3,14 +3,21 @@ package com.palechip.hudpixelmod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 @Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION)
 public class HudPixelMod
@@ -23,6 +30,7 @@ public class HudPixelMod
     public static Logger LOGGER;
 
     private HypixelNetworkDetector hypixelDetector;
+    private GameDetector gameDetector;
 
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -33,9 +41,11 @@ public class HudPixelMod
 
         // register this class as an event handler
         MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
 
         //initialize stuff
         this.hypixelDetector = new HypixelNetworkDetector();
+        this.gameDetector = new GameDetector();
     }
 
     @SubscribeEvent
@@ -44,8 +54,58 @@ public class HudPixelMod
             // check if the player is on Hypixel Network
             // this can only change when a new gui is opened
             this.hypixelDetector.check();
+
+            // pass the event to the GameDetector
+            this.gameDetector.onGuiShow(event.gui);
         } catch(Exception e) {
             this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public void onChatMessage(ClientChatReceivedEvent event) {
+        try {
+            // pass the event to the GameDetector
+            this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+        } catch(Exception e) {
+            this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientTick(ClientTickEvent event) {
+        try {
+            // pass the event to the GameDetector
+            this.gameDetector.onClientTick();
+        } catch(Exception e) {
+            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderTick(RenderTickEvent event) {
+        try {
+            //TODO: Add config for rendering
+            int height = 2;
+            int width = 2;
+            if(HypixelNetworkDetector.isHypixelNetwork) {
+                FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
+                if(IS_DEBUGGING) {
+                    fontRenderer.drawString("DetectionsStarted: " + gameDetector.isDetectionStarted(), width, height, 0xffffff);
+                    height += 8;
+                    fontRenderer.drawString("isInLobby: " + gameDetector.isInLobby(), width, height, 0xffffff);
+                    height += 8;
+                    if(gameDetector.getCurrentGame() != null) {
+                        fontRenderer.drawString("currentGame: " + gameDetector.getCurrentGame(), width, height, 0xffffff);
+                        height += 8;
+                    }
+                }
+            }
+        } catch(Exception e) {
+            this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
             e.printStackTrace();
         }
     }
