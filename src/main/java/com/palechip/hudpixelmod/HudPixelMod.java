@@ -28,10 +28,10 @@ public class HudPixelMod
     public void init(FMLInitializationEvent event)
     {
     	instance = this;
-    	// initialise the logger
+    	// Initialize the logger
     	LOGGER = LogManager.getLogger("HudPixel");
     	
-    	// register this class as a event handler
+    	// register this class as an event handler
     	MinecraftForge.EVENT_BUS.register(this);
     	
     	//initialize stuff
