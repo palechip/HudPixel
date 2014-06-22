@@ -3,7 +3,7 @@ package com.palechip.hudpixelmod.games;
 public class Quakecraft extends Game {
 
     protected Quakecraft() {
-        super("Quake", "", "", "");
+        super("Quake", "", "The game is starting! Right-click to shoot with your Railgun to instakill players!", "You earned a total of");
     }
 
     @Override

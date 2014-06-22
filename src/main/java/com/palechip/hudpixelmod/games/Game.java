@@ -81,7 +81,7 @@ public abstract class Game {
      * End the game. Calls onGameEnd().
      */
     public void endGame() {
-        if(!this.hasStarted) {
+        if(this.hasStarted) {
             this.hasStarted = false;
             this.onGameEnd();
         }
@@ -108,5 +108,9 @@ public abstract class Game {
 
     public String getEndMessage() {
         return END_MESSSSAGE;
+    }
+
+    public boolean hasGameStarted() {
+        return hasStarted;
     }
 }

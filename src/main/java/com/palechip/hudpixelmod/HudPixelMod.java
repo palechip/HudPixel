@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.palechip.hudpixelmod.detectors.GameDetector;
+import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -31,6 +32,7 @@ public class HudPixelMod
 
     private HypixelNetworkDetector hypixelDetector;
     private GameDetector gameDetector;
+    private GameStartStopDetector gameStartStopDetector;
 
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -46,6 +48,7 @@ public class HudPixelMod
         //initialize stuff
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
+        this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
     }
 
     @SubscribeEvent
@@ -68,6 +71,14 @@ public class HudPixelMod
         try {
             // pass the event to the GameDetector
             this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            
+            // check for start and stop
+            this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            
+            // pass the chat messages to the current game
+            if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
+                this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            }
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
             e.printStackTrace();
@@ -79,6 +90,11 @@ public class HudPixelMod
         try {
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
+            
+            // tick the current game
+            if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
+                this.gameDetector.onClientTick();
+            }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -94,12 +110,14 @@ public class HudPixelMod
             if(HypixelNetworkDetector.isHypixelNetwork) {
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
                 if(IS_DEBUGGING) {
-                    fontRenderer.drawString("DetectionsStarted: " + gameDetector.isDetectionStarted(), width, height, 0xffffff);
+                    fontRenderer.drawString("detectionStarted: " + gameDetector.isDetectionStarted(), width, height, 0xffffff);
                     height += 8;
                     fontRenderer.drawString("isInLobby: " + gameDetector.isInLobby(), width, height, 0xffffff);
                     height += 8;
                     if(gameDetector.getCurrentGame() != null) {
                         fontRenderer.drawString("currentGame: " + gameDetector.getCurrentGame(), width, height, 0xffffff);
+                        height += 8;
+                        fontRenderer.drawString("hasStarted: " + gameDetector.getCurrentGame().hasGameStarted(), width, height, 0xffffff);
                         height += 8;
                     }
                 }
