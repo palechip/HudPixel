@@ -16,6 +16,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -25,22 +26,35 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String VERSION = "1.0";
+    public static final boolean IS_DEBUGGING = false;
+
     private static HudPixelMod instance;
 
-    public static final boolean IS_DEBUGGING = false;
-    public static Logger LOGGER;
+    public Logger LOGGER;
+    public HudPixelConfig CONFIG;
 
     private HypixelNetworkDetector hypixelDetector;
     private GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
 
     @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        try {
+            instance = this;
+            // Initialize the logger
+            this.LOGGER = LogManager.getLogger("HudPixel");
+            // load the configuration file
+            this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
+            this.CONFIG.loadConfig();
+        } catch(Exception e) {
+            this.logWarn("An exception occured in preInit(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        instance = this;
-        // Initialize the logger
-        LOGGER = LogManager.getLogger("HudPixel");
-
         // register this class as an event handler
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
@@ -71,10 +85,10 @@ public class HudPixelMod
         try {
             // pass the event to the GameDetector
             this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-            
+
             // check for start and stop
             this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-            
+
             // pass the chat messages to the current game
             if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
                 this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
@@ -90,7 +104,7 @@ public class HudPixelMod
         try {
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
-            
+
             // tick the current game
             if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
                 this.gameDetector.onClientTick();
@@ -134,19 +148,19 @@ public class HudPixelMod
 
     public void logDebug(String s) {
         if(IS_DEBUGGING) {
-            LOGGER.info("[DEBUG] "  + s);
+            this.LOGGER.info("[DEBUG] "  + s);
         }
     }
 
     public void logInfo(String s) {
-        LOGGER.info(s);
+        this.LOGGER.info(s);
     }
 
     public void logWarn(String s) {
-        LOGGER.warn(s);
+        this.LOGGER.warn(s);
     }
 
     public void logError(String s) {
-        LOGGER.error(s); 	
+        this.LOGGER.error(s); 	
     }
 }
