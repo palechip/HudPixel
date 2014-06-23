@@ -35,6 +35,8 @@ public abstract class Game {
 
 
     protected Game(String chatTag, String bossbarName, String startMessage, String endMessage) {
+        this.renderStrings = new ArrayList<String>();
+        
         CHAT_TAG = chatTag;
         BOSSBAR_NAME = bossbarName;
         START_MESSAGE = startMessage;

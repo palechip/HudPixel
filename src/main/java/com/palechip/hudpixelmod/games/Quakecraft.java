@@ -1,39 +1,44 @@
 package com.palechip.hudpixelmod.games;
 
+import com.palechip.hudpixelmod.components.CoinCounterComponent;
+
 public class Quakecraft extends Game {
+
+    private static final int COIN_DISPLAY_INDEX = 0;
+
+    CoinCounterComponent coinCounter;
 
     protected Quakecraft() {
         super("Quake", "", "The game is starting! Right-click to shoot with your Railgun to instakill players!", "You earned a total of");
+        this.coinCounter = new CoinCounterComponent();
     }
 
     @Override
     public void setupNewGame() {
-        // TODO Auto-generated method stub
-
+        this.coinCounter.setupNewGame();
+        
+        this.renderStrings.clear();
+        this.renderStrings.add(this.coinCounter.getRenderingString());
     }
 
     @Override
     protected void onGameStart() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     protected void onGameEnd() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onTickUpdate() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        // TODO Auto-generated method stub
-
+        this.coinCounter.onChatMessage(textMessage, formattedMessage);
+        if(!this.coinCounter.getRenderingString().equals(this.renderStrings.get(COIN_DISPLAY_INDEX))) {
+            this.renderStrings.set(COIN_DISPLAY_INDEX, this.coinCounter.getRenderingString());
+        }
     }
 
 }

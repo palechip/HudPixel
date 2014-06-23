@@ -26,7 +26,8 @@ public class GameStartStopDetector {
                 }
                 // check for ending
                 else {
-                    if (textMessage.contains(this.gameDetector.getCurrentGame().getEndMessage())) {
+                    // we don't want guild coins triggering the end message
+                    if (!textMessage.toLowerCase().contains("guild coins") && textMessage.contains(this.gameDetector.getCurrentGame().getEndMessage())) {
                         this.gameDetector.getCurrentGame().endGame();
                     }
                 }
