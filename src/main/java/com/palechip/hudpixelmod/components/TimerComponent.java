@@ -19,7 +19,7 @@ public class TimerComponent {
     public void setupNewGame() {
         // reset
         this.startTime = 0;
-        this.runningTime = "0:00:00";
+        this.runningTime = "00:00";
     }
     
     public void onStartGame() {
@@ -38,6 +38,6 @@ public class TimerComponent {
         timeDifferenceHours = timeDifferenceMinutes / 60;
         
         // translate to our format
-        this.runningTime = timeDifferenceHours + ":" + ((timeDifferenceMinutes % 60 < 10) ? "0" : "") + timeDifferenceMinutes % 60 + ":" + ((timeDifferenceSeconds % 60 < 10) ? "0" : "") + timeDifferenceSeconds % 60;
+        this.runningTime = timeDifferenceHours > 0 ? timeDifferenceHours + ":" : "" + ((timeDifferenceMinutes % 60 < 10) ? "0" : "") + timeDifferenceMinutes % 60 + ":" + ((timeDifferenceSeconds % 60 < 10) ? "0" : "") + timeDifferenceSeconds % 60;
     }
 }
