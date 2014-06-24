@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod.detectors;
 import java.util.ArrayList;
 
 import net.minecraft.client.gui.GuiDownloadTerrain;
+import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,8 @@ public class GameDetector {
 
     private boolean isDetectionStarted = false;
 
+    private boolean isBypassing = false;
+
     private String bossbarContent = "";
 
     // this means a lobby where you choose the game and not a pre-game lobby
@@ -30,18 +33,30 @@ public class GameDetector {
     private static final String HYPIXEL_IP = "mc.hypixel.net";
 
     public void onGuiShow(GuiScreen gui) {
-        // prevent exceptions
-        if(gui == null) return;
-        // GuiDownloadTerrain is opened when switching between servers, so it has to trigger the detection
-        if(HypixelNetworkDetector.isHypixelNetwork && !isDetectionStarted && gui instanceof GuiDownloadTerrain) {
-            // make sure the game is ended
-            if(this.currentGame != null) {
-                this.currentGame.endGame();
+        if(HypixelNetworkDetector.isHypixelNetwork) {
+            // prevent exceptions
+            if(gui == null) {
+                this.isBypassing = false;
+                return;
             }
-            // we don't know which game will be next
-            this.currentGame = null;
-            this.isDetectionStarted = true;
-            this.isInLobby = false;
+
+            if(gui instanceof GuiGameOver) {
+                this.isBypassing = true;
+            }
+
+            // GuiDownloadTerrain is opened when switching between servers, so it has to trigger the detection
+            if(!this.isDetectionStarted && gui instanceof GuiDownloadTerrain) {
+                if(!this.isBypassing) {
+                    // make sure the game is ended
+                    if(this.currentGame != null) {
+                        this.currentGame.endGame();
+                    }
+                    // we don't know which game will be next
+                    this.currentGame = null;
+                    this.isDetectionStarted = true;
+                    this.isInLobby = false;
+                }
+            }
         }
     }
 
