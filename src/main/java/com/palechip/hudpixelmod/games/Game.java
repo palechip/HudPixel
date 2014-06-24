@@ -3,6 +3,10 @@ package com.palechip.hudpixelmod.games;
 import java.util.ArrayList;
 
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
+import com.palechip.hudpixelmod.games.tnt.BowSpleef;
+import com.palechip.hudpixelmod.games.tnt.Run;
+import com.palechip.hudpixelmod.games.tnt.Tag;
+import com.palechip.hudpixelmod.games.tnt.Wizards;
 
 public abstract class Game {
     // an array of all game classes
@@ -13,6 +17,10 @@ public abstract class Game {
 
         games.add(new Quakecraft());
         games.add(new MegaWalls());
+        games.add(new Tag());
+        games.add(new Run());
+        games.add(new BowSpleef());
+        games.add(new Wizards());
         games.add(new CreeperAttack());
         //Add games here.
     }
