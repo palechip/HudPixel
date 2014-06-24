@@ -17,6 +17,7 @@ public abstract class Game {
 
         games.add(new Quakecraft());
         games.add(new MegaWalls());
+        games.add(new VampireZ());
         games.add(new Tag());
         games.add(new Run());
         games.add(new BowSpleef());
