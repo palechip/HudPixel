@@ -4,7 +4,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 
 import net.minecraft.util.EnumChatFormatting;
 
-public class CoinCounterComponent {
+public class CoinCounterComponent implements IComponent{
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins: ";
     private int coins;
 
@@ -38,5 +38,17 @@ public class CoinCounterComponent {
                 // we failed getting the coins. Hopefully this never happens.
             }
         }
+    }
+
+    @Override
+    public void onGameStart() {
+    }
+
+    @Override
+    public void onGameEnd() {
+    }
+
+    @Override
+    public void onTickUpdate() {
     }
 }

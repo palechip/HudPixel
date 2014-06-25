@@ -7,7 +7,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 
 import net.minecraft.util.EnumChatFormatting;
 
-public class TimerComponent {
+public class TimerComponent implements IComponent{
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time: ";
     private long startTime;
     private String runningTime;
@@ -22,11 +22,6 @@ public class TimerComponent {
         this.runningTime = "00:00";
     }
     
-    public void onStartGame() {
-        // save the current time
-        this.startTime = System.currentTimeMillis();
-    }
-    
     public void onTickUpdate() {
         // update the time
         // I tried using Date, but it didn't work out as I wanted so I decided to write this myself
@@ -39,5 +34,19 @@ public class TimerComponent {
         
         // translate to our format
         this.runningTime = timeDifferenceHours > 0 ? timeDifferenceHours + ":" : "" + ((timeDifferenceMinutes % 60 < 10) ? "0" : "") + timeDifferenceMinutes % 60 + ":" + ((timeDifferenceSeconds % 60 < 10) ? "0" : "") + timeDifferenceSeconds % 60;
+    }
+
+    @Override
+    public void onGameStart() {
+        // save the current time
+        this.startTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onGameEnd() {
+    }
+
+    @Override
+    public void onChatMessage(String textMessage, String formattedMessage) {
     }
 }

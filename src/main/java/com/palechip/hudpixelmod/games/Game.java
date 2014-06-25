@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.games;
 
 import java.util.ArrayList;
 
+import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
 import com.palechip.hudpixelmod.games.tnt.BowSpleef;
 import com.palechip.hudpixelmod.games.tnt.Run;
@@ -30,6 +31,8 @@ public abstract class Game {
         return games;
     }
 
+    public ArrayList<IComponent> components;
+    
     // set of strings which are characteristic for the game
     protected String CHAT_TAG;
     protected String BOSSBAR_NAME;
@@ -45,6 +48,7 @@ public abstract class Game {
 
     protected Game(String chatTag, String bossbarName, String startMessage, String endMessage) {
         this.renderStrings = new ArrayList<String>();
+        this.components = new ArrayList<IComponent>();
         
         CHAT_TAG = chatTag;
         BOSSBAR_NAME = bossbarName;
@@ -52,31 +56,43 @@ public abstract class Game {
         END_MESSSSAGE = endMessage;
     }
 
-    /**
-     * This is called when the mod has detected that the player joined a game of this type.
-     * It should reset the rendered strings to the default ones.
-     */
-    public abstract void setupNewGame();
+    public  void setupNewGame() {
+        this.renderStrings.clear();
+        for(IComponent component : this.components) {
+            component.setupNewGame();
+            this.renderStrings.add(component.getRenderingString());
+        }
+    }
 
-    /**
-     * Called when the game starts.
-     */
-    protected abstract void onGameStart();
+    protected void onGameStart() {
+        for(IComponent component : this.components) {
+            component.onGameStart();
+        }
+    }
 
     /**
      * Called when the game ends.
      */
-    protected abstract void onGameEnd();
+    protected void onGameEnd() {
+        for(IComponent component : this.components) {
+            component.onGameEnd();
+        }
+    }
 
-    /**
-     * If the game is running, it'll receive ticks to update the rendered strings.
-     */
-    public abstract void onTickUpdate();
+    public void onTickUpdate() {
+        for(IComponent component : this.components) {
+            component.onTickUpdate();
+        }
+        for(int i = 0; i < components.size(); i++) {
+            this.renderStrings.set(i, this.components.get(i).getRenderingString());
+        }
+    }
 
-    /**
-     * If the game is running, it'll receive the chat messages which the client receives.
-     */
-    public abstract void onChatMessage(String textMessage, String formattedMessage);
+    public void onChatMessage(String textMessage, String formattedMessage) {
+        for(IComponent component : this.components) {
+            component.onChatMessage(textMessage, formattedMessage);
+        }
+    }
 
     /**
      * Start the game. Calls onGameStart().
