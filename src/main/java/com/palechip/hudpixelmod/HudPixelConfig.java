@@ -33,6 +33,7 @@ public class HudPixelConfig {
     public static boolean arenaCoinDisplay;
     public static boolean paintballTimeDisplay;
     public static boolean paintballCoinDisplay;
+    public static boolean paintballKillstreakTimerDisplay;
     // add further options here
 
     public HudPixelConfig(File config) {
@@ -56,6 +57,7 @@ public class HudPixelConfig {
         arenaCoinDisplay = this.config.get(ARENA_CATEGORY, "coinDisplay", true).getBoolean(true);
         paintballCoinDisplay = this.config.get(PAINTBALL_CATEGORY, "coinDisplay", true).getBoolean(true);
         paintballTimeDisplay = this.config.get(PAINTBALL_CATEGORY, "timeDisplay", true).getBoolean(true);
+        paintballKillstreakTimerDisplay = this.config.get(PAINTBALL_CATEGORY, "killstreakTimerDisplay", true).getBoolean(true);
         // load further options here
         this.config.save();
     }
