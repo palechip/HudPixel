@@ -27,7 +27,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String VERSION = "1.0";
-    public static final boolean IS_DEBUGGING = false;
+    public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
@@ -35,7 +35,7 @@ public class HudPixelMod
     public HudPixelConfig CONFIG;
 
     private HypixelNetworkDetector hypixelDetector;
-    private GameDetector gameDetector;
+    public GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
 
     @EventHandler
