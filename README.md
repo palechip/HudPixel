@@ -4,7 +4,8 @@
 This modification was written as an entry to the [Hypixel's Got Talent Contest](http://hypixel.net/threads/hypixels-got-talent.126629/).
 It's goal is to provide you with useful information while playing on Hypixel Network. It is designed to be stable and lightweight.
 
- __Features__
+***
+__Features__
  * Coin Counter (Displays your total amount of coins as you are playing)
  * Timer (Displays the time since the game has started)
  * Mega Walls Kill Counter (Counts and displays the amount of people you kill in Mega walls)
