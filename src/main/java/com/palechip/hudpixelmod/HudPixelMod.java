@@ -8,7 +8,11 @@ import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.server.gui.PlayerListComponent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -29,7 +33,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String VERSION = "1.0.0";
-    public static final boolean IS_DEBUGGING = false;
+    public static final boolean IS_DEBUGGING = true;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
 
     private static HudPixelMod instance;
@@ -42,6 +46,12 @@ public class HudPixelMod
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
+
+    // Rendering vars
+    private boolean renderOnTheRight;
+    private double scaleFactor;
+    private int startWidth;
+    private int startHeight;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -67,10 +77,22 @@ public class HudPixelMod
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
 
-        //initialize stuff
+        // initialize stuff
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
+
+        // initialize rendering vars
+        this.startHeight = HudPixelConfig.displayYOffset + 1;
+        this.renderOnTheRight = HudPixelConfig.displayMode.toLowerCase().equals("right");
+        Minecraft mc = FMLClientHandler.instance().getClient();
+        ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        this.scaleFactor = res.getScaledWidth() / mc.displayWidth;
+        if(this.renderOnTheRight) {
+            this.startWidth = (res.getScaledWidth() + this.startWidth) - 1;
+        } else {
+            this.startWidth = HudPixelConfig.displayXOffset + 1;
+        }
     }
 
     @SubscribeEvent
@@ -135,30 +157,34 @@ public class HudPixelMod
     @SubscribeEvent
     public void onRenderTick(RenderTickEvent event) {
         try {
-            //TODO: Add config for rendering
-            int height = 2;
-            int width = 2;
-            if(HypixelNetworkDetector.isHypixelNetwork) {
+            Minecraft mc = FMLClientHandler.instance().getClient();
+            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.gameDetector.getCurrentGame() != null) {
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
-                if(IS_DEBUGGING) {
-                    fontRenderer.drawString("detectionStarted: " + gameDetector.isDetectionStarted(), width, height, 0xffffff);
-                    height += RENDERING_HEIGHT_OFFSET;
-                    fontRenderer.drawString("isInLobby: " + gameDetector.isInLobby(), width, height, 0xffffff);
-                    height += RENDERING_HEIGHT_OFFSET;
-                    if(gameDetector.getCurrentGame() != null) {
-                        fontRenderer.drawString("currentGame: " + gameDetector.getCurrentGame(), width, height, 0xffffff);
-                        height += RENDERING_HEIGHT_OFFSET;
-                        fontRenderer.drawString("hasStarted: " + gameDetector.getCurrentGame().hasGameStarted(), width, height, 0xffffff);
-                        height += RENDERING_HEIGHT_OFFSET;
+                int width;
+                int height = this.startHeight;
+                Game currentGame = this.gameDetector.getCurrentGame();
+                
+                // get the right width
+                if(this.renderOnTheRight) {
+                    int maxWidth = 0;
+                    for(String s : this.gameDetector.getCurrentGame().getRenderStrings()) {
+                        if(s != null) {
+                            int stringWidth = mc.fontRenderer.getStringWidth(s);
+                            if(stringWidth > maxWidth) {
+                                maxWidth = stringWidth;
+                            }
+                        }
                     }
+                    maxWidth *= this.scaleFactor;
+                    width = this.startWidth - maxWidth;
+                } else {
+                    width = this.startWidth;
                 }
+                
                 // render the game
-                if(this.gameDetector.getCurrentGame() != null) {
-                    Game currentGame = this.gameDetector.getCurrentGame();
-                    for(int i = 0; i < currentGame.getRenderStrings().size(); i++) {
-                        fontRenderer.drawString(currentGame.getRenderStrings().get(i), width, height, 0xffffff);
-                        height += RENDERING_HEIGHT_OFFSET;
-                    }
+                for(int i = 0; i < currentGame.getRenderStrings().size(); i++) {
+                    fontRenderer.drawString(currentGame.getRenderStrings().get(i), width, height, 0xffffff);
+                    height += RENDERING_HEIGHT_OFFSET;
                 }
             }
         } catch(Exception e) {

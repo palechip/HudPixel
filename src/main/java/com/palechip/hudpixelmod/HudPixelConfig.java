@@ -7,6 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 public class HudPixelConfig {
     private Configuration config;
     
+    public static final String DISPLAY_CATEGORY = "Display";
     public static final String QUAKE_CATEGORY = "Quake";
     public static final String TNT_CATEGORY = "TNT Games";
     public static final String VAMPIREZ_CATEGORY = "VampireZ";
@@ -18,6 +19,9 @@ public class HudPixelConfig {
     public static final String PAINTBALL_CATEGORY = "Paintball Warfare";
     // define further categories here
     
+    public static String displayMode;
+    public static int displayXOffset;
+    public static int displayYOffset;
     public static boolean quakeCoinDisplay;
     public static boolean quakeTimeDisplay;
     public static boolean tntCoinDisplay;
@@ -46,6 +50,9 @@ public class HudPixelConfig {
     
     public void loadConfig() {
         this.config.load();
+        displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "left", "\"left\" or \"right\"").getString();
+        displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This will be added to the X position before rendering.").getInt();
+        displayXOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This will be added to the Y position before rendering.").getInt();
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "coinDisplay", true).getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "timeDisplay", true).getBoolean(true);
         tntCoinDisplay = this.config.get(TNT_CATEGORY, "coinDisplay", true).getBoolean(true);
