@@ -4,7 +4,7 @@
 This modification was written as an entry to the [Hypixel's Got Talent Contest](http://hypixel.net/threads/hypixels-got-talent.126629/).
 It's goal is to provide you with useful information while playing on Hypixel Network. It is designed to be stable and lightweight.
 
-___ Features ___
+ __Features__
  * Coin Counter (Displays your total amount of coins as you are playing)
  * Timer (Displays the time since the game has started)
  * Mega Walls Kill Counter (Counts and displays the amount of people you kill in Mega walls)
@@ -17,11 +17,11 @@ ___ Features ___
  (Please note that the coin counter and the timer are only active if you can't get the information form the scoreboard.)
  
  ***
- ___Todo ___
+ __Todo__
  * Update Notifier
  * Better Rendering
  * Implement all Arcade Games (they will only receive Coin counters and Timers)
  
  ***
- ___ Contributing ___
+ __Contributing__
  The mod is going to be open source. (I have yet to choose a license.) Feel free to open a pull request but please understand that I won't merge anything until the contest is over so that the mod stays my own work.
