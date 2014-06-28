@@ -17,11 +17,11 @@ It's goal is to provide you with useful information while playing on Hypixel Net
  (Please note that the coin counter and the timer are only active if you can't get the information form the scoreboard.)
  
  ***
- __Todo__
+__Todo__
  * Update Notifier
  * Better Rendering
  * Implement all Arcade Games (they will only receive Coin counters and Timers)
  
  ***
- __Contributing__
+__Contributing__
  The mod is going to be open source. (I have yet to choose a license.) Feel free to open a pull request but please understand that I won't merge anything until the contest is over so that the mod stays my own work.
