@@ -9,6 +9,8 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +28,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.0.0";
     public static final boolean IS_DEBUGGING = false;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
 
@@ -34,6 +36,8 @@ public class HudPixelMod
 
     public Logger LOGGER;
     public HudPixelConfig CONFIG;
+    private HudPixelUpdateNotifier  updater;
+    private boolean isUpdateMessageQueued;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -43,6 +47,8 @@ public class HudPixelMod
     public void preInit(FMLPreInitializationEvent event) {
         try {
             instance = this;
+            // check for updates
+            this.updater = new HudPixelUpdateNotifier();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
             // load the configuration file
@@ -116,6 +122,10 @@ public class HudPixelMod
                 this.gameDetector.getCurrentGame().updateRenderStrings();
             }
 
+            if(this.isUpdateMessageQueued) {
+                this.updateFound();
+            }
+
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -153,6 +163,22 @@ public class HudPixelMod
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    public void updateFound() {
+        try {
+            if(hypixelDetector.isHypixelNetwork && FMLClientHandler.instance().getClientPlayerEntity() != null) {
+                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText("[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] " + EnumChatFormatting.DARK_PURPLE + "Update available: " + EnumChatFormatting.GREEN + this.updater.newVersion));
+                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText("[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] " + EnumChatFormatting.DARK_PURPLE + "Download here: " + EnumChatFormatting.YELLOW + this.updater.downloadLink));
+                this.isUpdateMessageQueued = false;
+            } else {
+                // make this being called from onTick()
+                this.isUpdateMessageQueued = true;
+            }
+        } catch(Exception e) {
+            this.logWarn("An exception occured in updateFound(). Stacktrace below.");
             e.printStackTrace();
         }
     }
