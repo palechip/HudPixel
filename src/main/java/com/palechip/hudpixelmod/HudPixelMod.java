@@ -28,6 +28,7 @@ public class HudPixelMod
     public static final String MODID = "hudpixel";
     public static final String VERSION = "1.0";
     public static final boolean IS_DEBUGGING = false;
+    public static final int RENDERING_HEIGHT_OFFSET = 10;
 
     private static HudPixelMod instance;
 
@@ -106,10 +107,15 @@ public class HudPixelMod
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
 
-            // tick the current game
-            if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
-                this.gameDetector.getCurrentGame().onTickUpdate();
+            if(this.gameDetector.getCurrentGame() != null) {
+                // tick the current game
+                if(this.gameDetector.getCurrentGame().hasGameStarted()) {
+                    this.gameDetector.getCurrentGame().onTickUpdate();
+                }
+                // update render strings
+                this.gameDetector.getCurrentGame().updateRenderStrings();
             }
+
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -126,14 +132,14 @@ public class HudPixelMod
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
                 if(IS_DEBUGGING) {
                     fontRenderer.drawString("detectionStarted: " + gameDetector.isDetectionStarted(), width, height, 0xffffff);
-                    height += 8;
+                    height += RENDERING_HEIGHT_OFFSET;
                     fontRenderer.drawString("isInLobby: " + gameDetector.isInLobby(), width, height, 0xffffff);
-                    height += 8;
+                    height += RENDERING_HEIGHT_OFFSET;
                     if(gameDetector.getCurrentGame() != null) {
                         fontRenderer.drawString("currentGame: " + gameDetector.getCurrentGame(), width, height, 0xffffff);
-                        height += 8;
+                        height += RENDERING_HEIGHT_OFFSET;
                         fontRenderer.drawString("hasStarted: " + gameDetector.getCurrentGame().hasGameStarted(), width, height, 0xffffff);
-                        height += 8;
+                        height += RENDERING_HEIGHT_OFFSET;
                     }
                 }
                 // render the game
@@ -141,7 +147,7 @@ public class HudPixelMod
                     Game currentGame = this.gameDetector.getCurrentGame();
                     for(int i = 0; i < currentGame.getRenderStrings().size(); i++) {
                         fontRenderer.drawString(currentGame.getRenderStrings().get(i), width, height, 0xffffff);
-                        height += 8;
+                        height += RENDERING_HEIGHT_OFFSET;
                     }
                 }
             }
