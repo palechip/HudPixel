@@ -19,11 +19,9 @@ __Features__
 
 ---
 
-__Todo__
+__Planned__
 
-* Update Notifier
-* Better Rendering
-* Implement all Arcade Games (they will only receive Coin counters and Timers)
+* VamipreZ Killstreak Timer
 
 ---
 
