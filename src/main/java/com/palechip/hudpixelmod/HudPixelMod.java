@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod;
 
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +34,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.0.1";
     public static final boolean IS_DEBUGGING = true;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
 
@@ -52,6 +54,10 @@ public class HudPixelMod
     private double scaleFactor;
     private int startWidth;
     private int startHeight;
+    
+    private ArrayList<String> results;
+    private long resultRenderTime;
+    private long resultStartTime;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -144,9 +150,16 @@ public class HudPixelMod
                 this.gameDetector.getCurrentGame().updateRenderStrings();
             }
 
+            // check if the update message can be displayed
             if(this.isUpdateMessageQueued) {
                 this.updateFound();
             }
+            if(this.results != null) {
+                if((System.currentTimeMillis() - this.resultStartTime) >= this.resultRenderTime) {
+                    this.results = null;
+                }
+            }
+            
 
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -158,16 +171,21 @@ public class HudPixelMod
     public void onRenderTick(RenderTickEvent event) {
         try {
             Minecraft mc = FMLClientHandler.instance().getClient();
-            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.gameDetector.getCurrentGame() != null) {
+            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && (this.gameDetector.getCurrentGame() != null || this.results != null)) {
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
                 int width;
                 int height = this.startHeight;
-                Game currentGame = this.gameDetector.getCurrentGame();
+                ArrayList<String> renderStrings;
+                if(this.gameDetector.getCurrentGame() != null) {
+                    renderStrings = this.gameDetector.getCurrentGame().getRenderStrings();
+                } else {
+                    renderStrings = this.results;
+                }
                 
                 // get the right width
                 if(this.renderOnTheRight) {
                     int maxWidth = 0;
-                    for(String s : this.gameDetector.getCurrentGame().getRenderStrings()) {
+                    for(String s : renderStrings) {
                         if(s != null) {
                             int stringWidth = mc.fontRenderer.getStringWidth(s);
                             if(stringWidth > maxWidth) {
@@ -182,8 +200,8 @@ public class HudPixelMod
                 }
                 
                 // render the game
-                for(int i = 0; i < currentGame.getRenderStrings().size(); i++) {
-                    fontRenderer.drawString(currentGame.getRenderStrings().get(i), width, height, 0xffffff);
+                for(int i = 0; i < renderStrings.size(); i++) {
+                    fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
                     height += RENDERING_HEIGHT_OFFSET;
                 }
             }
@@ -191,6 +209,13 @@ public class HudPixelMod
             this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
             e.printStackTrace();
         }
+    }
+    
+    // called with the last set of rendering strings
+    public void displayResults(ArrayList<String> results) {
+        this.results = results;
+        this.resultStartTime = System.currentTimeMillis();
+        this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
 
     public void updateFound() {

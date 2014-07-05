@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.games;
 
 import java.util.ArrayList;
 
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.games.arcade.BountyHunters;
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
@@ -95,6 +96,8 @@ public abstract class Game {
         for(IComponent component : this.components) {
             component.onGameEnd();
         }
+        // display the results
+        HudPixelMod.instance().displayResults(this.getRenderStrings());
     }
 
     public void onTickUpdate() {

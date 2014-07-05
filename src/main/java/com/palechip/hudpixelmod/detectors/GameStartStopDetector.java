@@ -33,7 +33,7 @@ public class GameStartStopDetector {
                 }
             }
             // check if the game started before it was detected (I'm not sure if this is even possible)
-            else if(this.gameDetector.isDetectionStarted()) {
+            else if(this.gameDetector.isGameDetectionStarted()) {
                 for(Game game : Game.getGames()) {
                     if(!game.getStartMessage().isEmpty() && textMessage.contains(game.getStartMessage())) {
                         this.detectedStartBeforeGameDetection = true;

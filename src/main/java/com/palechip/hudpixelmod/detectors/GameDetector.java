@@ -17,7 +17,8 @@ public class GameDetector {
     // null if no game is detected
     private Game currentGame;
 
-    private boolean isDetectionStarted = false;
+    private boolean isGameDetectionStarted = false;
+    private boolean isLobbyDetectionStarted = false;
 
     private boolean isBypassing = false;
 
@@ -45,29 +46,74 @@ public class GameDetector {
             }
 
             // GuiDownloadTerrain is opened when switching between servers, so it has to trigger the detection
-            if(!this.isDetectionStarted && gui instanceof GuiDownloadTerrain) {
+            if(!(this.isGameDetectionStarted || this.isLobbyDetectionStarted) && gui instanceof GuiDownloadTerrain) {
                 if(!this.isBypassing) {
-                    // make sure the game is ended
+                    // start either lobby or game detection
                     if(this.currentGame != null) {
-                        this.currentGame.endGame();
+                        this.isLobbyDetectionStarted = true;
+                    } else {
+                        this.isGameDetectionStarted = true;
+                        this.isInLobby = false;
                     }
-                    // we don't know which game will be next
-                    this.currentGame = null;
-                    this.isDetectionStarted = true;
-                    this.isInLobby = false;
                 }
             }
         }
     }
 
     public void onChatMessage(String textMessage, String formattedMessage) {
-        if(this.isDetectionStarted) {
+        if(this.isGameDetectionStarted) {
+            // try detecting the game using the chat tag
+            // if the message contains a game tag
+            if(textMessage.startsWith("[") && textMessage.contains("]")) {
+                // extract the content
+                // e.g. [Quake] -> Quake
+                String gameTag = textMessage.substring(textMessage.indexOf("[") + 1, textMessage.indexOf("]"));
+
+                // check all games for a matching tag
+                for(Game game : Game.getGames()) {
+                    if(game.getChatTag() != null && !game.getChatTag().isEmpty() && game.getChatTag().equals(gameTag)) {
+                        // we found the game
+                        this.currentGame = game;
+                        this.isGameDetectionStarted = false;
+                        this.currentGame.setupNewGame();
+                        break;
+                    }
+                }
+            }
+            // check for limbo and MVP+ land
+            if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
+                if(textMessage.equals("You were spawned in Limbo.") || textMessage.equals("[*] Welcome to Hypixel's MVP+ Land!")) {
+                    this.isInLobby = true;
+                    this.isLobbyDetectionStarted = false;
+                    this.isGameDetectionStarted = false;
+                    if(this.currentGame != null) {
+                        // and terminate the game if it wasn't already
+                        this.currentGame.endGame();
+                        this.currentGame = null;
+                    }
+                }
+                
+            }
+         // we didn't find anything. Retry with the next chat message...
+        }
+    }
+
+    public void onClientTick() {
+        // check if the bossbar updated
+        if(BossStatus.bossName != null && !this.bossbarContent.equals(BossStatus.bossName)) {
+            this.bossbarContent = BossStatus.bossName;
+            this.onBossbarChange();
+        }
+        
+        // lobby detection is also done when game detection is active
+        // because players can change from lobby to lobby
+        if((this.isLobbyDetectionStarted || this.isGameDetectionStarted) && FMLClientHandler.instance().getClientPlayerEntity() != null && FMLClientHandler.instance().getClientPlayerEntity().inventory != null) {
             // detect lobbies
             // the mod assumes that the player is in a lobby when he has the lobby compass, the lobby clock or the lobby selection star
             ItemStack[] inventory = FMLClientHandler.instance().getClientPlayerEntity().inventory.mainInventory;
 
             // limbo and MVP+ land count as lobby as well
-            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(CLOCK_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME)) || textMessage.equals("You were spawned in Limbo.") || textMessage.equals("[*] Welcome to Hypixel's MVP+ Land!")) {
+            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(CLOCK_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME))) {
                 // increase the chance of me noticing when a name was changed
                 if(HudPixelMod.IS_DEBUGGING) {
                     if(inventory[0] != null && !inventory[0].getDisplayName().equals(COMPASS_NAME)) {
@@ -85,42 +131,19 @@ public class GameDetector {
                 }
 
                 this.isInLobby = true;
-                this.isDetectionStarted = false;
-                return;
-            }
-
-            // try detecting the game using the chat tag
-            // if the message contains a game tag
-            if(textMessage.startsWith("[") && textMessage.contains("]")) {
-                // extract the content
-                // e.g. [Quake] -> Quake
-                String gameTag = textMessage.substring(textMessage.indexOf("[") + 1, textMessage.indexOf("]"));
-
-                // check all games for a matching tag
-                for(Game game : Game.getGames()) {
-                    if(game.getChatTag() != null && !game.getChatTag().isEmpty() && game.getChatTag().equals(gameTag)) {
-                        // we found the game
-                        this.currentGame = game;
-                        this.isDetectionStarted = false;
-                        this.currentGame.setupNewGame();
-                        break;
-                    }
+                this.isLobbyDetectionStarted = false;
+                this.isGameDetectionStarted = false;
+                if(this.currentGame != null) {
+                    // and terminate the game if it wasn't already
+                    this.currentGame.endGame();
+                    this.currentGame = null;
                 }
             }
-            // we didn't find anything. Retry with the next chat message...
-        }
-    }
-
-    public void onClientTick() {
-        // check if the bossbar updated
-        if(BossStatus.bossName != null && !this.bossbarContent.equals(BossStatus.bossName)) {
-            this.bossbarContent = BossStatus.bossName;
-            this.onBossbarChange();
         }
     }
 
     private void onBossbarChange() {
-        if(this.isDetectionStarted) {
+        if(this.isGameDetectionStarted) {
             // if there is a boss bar
             if(BossStatus.bossName != null) {
                 // check all games for a matching name
@@ -130,7 +153,7 @@ public class GameDetector {
                     if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.contains(game.getBossbarName()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
                         // we found the game
                         this.currentGame = game;
-                        this.isDetectionStarted = false;
+                        this.isGameDetectionStarted = false;
                         this.currentGame.setupNewGame();
                         break;
                     }
@@ -143,8 +166,8 @@ public class GameDetector {
         return this.isInLobby;
     }
 
-    public boolean isDetectionStarted() {
-        return this.isDetectionStarted;
+    public boolean isGameDetectionStarted() {
+        return this.isGameDetectionStarted;
     }
 
     public Game getCurrentGame() {

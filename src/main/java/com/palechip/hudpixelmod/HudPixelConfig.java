@@ -22,6 +22,7 @@ public class HudPixelConfig {
     public static String displayMode;
     public static int displayXOffset;
     public static int displayYOffset;
+    public static int displayShowResultTime;
     public static boolean quakeCoinDisplay;
     public static boolean quakeTimeDisplay;
     public static boolean tntCoinDisplay;
@@ -53,6 +54,7 @@ public class HudPixelConfig {
         displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "left", "\"left\" or \"right\"").getString();
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This will be added to the X position before rendering.").getInt();
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This will be added to the Y position before rendering.").getInt();
+        displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "coinDisplay", true).getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "timeDisplay", true).getBoolean(true);
         tntCoinDisplay = this.config.get(TNT_CATEGORY, "coinDisplay", true).getBoolean(true);
