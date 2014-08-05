@@ -92,7 +92,7 @@ public class HudPixelMod
         this.startHeight = HudPixelConfig.displayYOffset + 1;
         this.renderOnTheRight = HudPixelConfig.displayMode.toLowerCase().equals("right");
         Minecraft mc = FMLClientHandler.instance().getClient();
-        ScaledResolution res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         this.scaleFactor = res.getScaledWidth() / mc.displayWidth;
         if(this.renderOnTheRight) {
             this.startWidth = (res.getScaledWidth() + this.startWidth) - 1;
