@@ -51,7 +51,6 @@ public class HudPixelMod
 
     // Rendering vars
     private boolean renderOnTheRight;
-    private double scaleFactor;
     private int startWidth;
     private int startHeight;
     
@@ -93,9 +92,8 @@ public class HudPixelMod
         this.renderOnTheRight = HudPixelConfig.displayMode.toLowerCase().equals("right");
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-        this.scaleFactor = res.getScaledWidth() / mc.displayWidth;
         if(this.renderOnTheRight) {
-            this.startWidth = (res.getScaledWidth() + this.startWidth) - 1;
+            this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         } else {
             this.startWidth = HudPixelConfig.displayXOffset + 1;
         }
@@ -138,6 +136,13 @@ public class HudPixelMod
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
+            // update the resolution for rendering on the right
+            if(this.renderOnTheRight) {
+                Minecraft mc = FMLClientHandler.instance().getClient();
+                ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+                this.startWidth = (res.getScaledWidth() + + HudPixelConfig.displayXOffset) - 1;
+            }
+            
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
 
@@ -193,7 +198,6 @@ public class HudPixelMod
                             }
                         }
                     }
-                    maxWidth *= this.scaleFactor;
                     width = this.startWidth - maxWidth;
                 } else {
                     width = this.startWidth;
