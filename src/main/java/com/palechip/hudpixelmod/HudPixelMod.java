@@ -201,8 +201,11 @@ public class HudPixelMod
                 
                 // render the game
                 for(int i = 0; i < renderStrings.size(); i++) {
-                    fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
-                    height += RENDERING_HEIGHT_OFFSET;
+                    // skip the string if it's empty
+                    if(renderStrings.get(i) != null && !renderStrings.get(i).isEmpty()) {
+                        fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
+                        height += RENDERING_HEIGHT_OFFSET;
+                    }
                 }
             }
         } catch(Exception e) {
