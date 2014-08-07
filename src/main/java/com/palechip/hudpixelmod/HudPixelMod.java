@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
@@ -14,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.server.gui.PlayerListComponent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -21,12 +23,14 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
@@ -54,9 +58,15 @@ public class HudPixelMod
     private int startWidth;
     private int startHeight;
     
+    // vars for displaying the results after a game
     private ArrayList<String> results;
     private long resultRenderTime;
     private long resultStartTime;
+    
+    // key related vars
+    public static final String KEY_CATEGORY = "HudPixel Mod";
+    private KeyBinding hideHUDKey;
+    private boolean isHUDShown = true;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -97,6 +107,10 @@ public class HudPixelMod
         } else {
             this.startWidth = HudPixelConfig.displayXOffset + 1;
         }
+        
+        // initializse key bindings
+        this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
+        ClientRegistry.registerKeyBinding(this.hideHUDKey);
     }
 
     @SubscribeEvent
@@ -176,7 +190,7 @@ public class HudPixelMod
     public void onRenderTick(RenderTickEvent event) {
         try {
             Minecraft mc = FMLClientHandler.instance().getClient();
-            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && (this.gameDetector.getCurrentGame() != null || this.results != null)) {
+            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && (this.gameDetector.getCurrentGame() != null || this.results != null) && this.isHUDShown) {
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
                 int width;
                 int height = this.startHeight;
@@ -215,6 +229,14 @@ public class HudPixelMod
         } catch(Exception e) {
             this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
             e.printStackTrace();
+        }
+    }
+    
+    @SubscribeEvent
+    public void onKeyInput(KeyInputEvent event) {
+        // check all listened keys
+        if(this.hideHUDKey.isPressed()) {
+            this.isHUDShown = !this.isHUDShown;
         }
     }
     
