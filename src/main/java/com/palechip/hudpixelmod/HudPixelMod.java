@@ -38,8 +38,8 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
-    public static final String VERSION = "1.0.1";
-    public static final boolean IS_DEBUGGING = true;
+    public static final String VERSION = "1.0.2";
+    public static final boolean IS_DEBUGGING = false;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
 
     private static HudPixelMod instance;
