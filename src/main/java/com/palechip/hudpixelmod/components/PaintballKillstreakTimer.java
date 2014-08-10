@@ -6,17 +6,30 @@ import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class PaintballKillstreakTimer implements IComponent {
+    private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717";
+
     private String renderedString;
 
     private String listenedKillstreak;
+    private boolean isTimed;
     private boolean isActive;
     private long startTime;
     private long duration;
+    private boolean hasCooldown;
+    private boolean isCoolingDown;
 
 
-    public PaintballKillstreakTimer(String killstreak) {
+    /**
+     * Setup a Timer for a specific killstreak
+     * @param killstreak The listened killsteak
+     * @param isTimed True if the killstreak has a duration
+     * @param hasCooldown True if there is a cooldown for the usage of the killstreak
+     */
+    public PaintballKillstreakTimer(String killstreak, boolean isTimed, boolean hasCooldown) {
         this.listenedKillstreak = killstreak;
         this.renderedString = "";
+        this.isTimed = isTimed;
+        this.hasCooldown = hasCooldown;
     }
 
     @Override
@@ -31,13 +44,14 @@ public class PaintballKillstreakTimer implements IComponent {
     @Override
     public void onGameEnd() {
         this.isActive = false;
+        this.isCoolingDown = false;
     }
 
     @Override
     public void onTickUpdate() {
         if(this.isActive) {
-            // only if we already measured the lenght
-            if( duration > 0) {
+            // only if we already measured the length
+            if(this.duration > 0) {
                 long remainingTime = this.duration - (System.currentTimeMillis() - this.startTime);
                 this.renderedString = this.getColorForTime(remainingTime / 1000) + remainingTime / 1000 + "s";
             } else {
@@ -52,7 +66,11 @@ public class PaintballKillstreakTimer implements IComponent {
         // test for starting
         if(textMessage.contains(FMLClientHandler.instance().getClient().getSession().getUsername() + " activated " + this.listenedKillstreak)) {
             this.startTime = System.currentTimeMillis();
-            this.isActive = true;
+            if(this.isTimed) {
+                this.isActive = true;
+            } else if(this.hasCooldown) {
+                this.isCoolingDown = true;
+            }
         }
         // test for expiring
         if(textMessage.contains("Your " + this.listenedKillstreak + " has expired!")) {
@@ -60,20 +78,29 @@ public class PaintballKillstreakTimer implements IComponent {
             // update the duration
             this.duration = System.currentTimeMillis() - this.startTime;
             this.renderedString = "";
+            if(this.hasCooldown) {
+                // Start the cooldown
+                this.isCoolingDown = true;
+            }
+        }
+        // test if the cooldown is over
+        if(textMessage.contains("You can now use " + this.listenedKillstreak + " again!")) {
+            this.isCoolingDown = false;
         }
     }
 
     @Override
     public String getRenderingString() {
-        if(this.renderedString.isEmpty()) {
-            // don't draw anything
+        if(this.isActive) {
+            return EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
+        } else if(this.isCoolingDown) {
+            // the listened killstreak will be red because the color from COOLDOWN_SIGN isn't reset
+            return COOLDOWN_SIGN + " " + this.listenedKillstreak;
+        } else  {
             return "";
         }
-        else {
-            return EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
-        }
     }
-    
+
     private String getColorForTime(long time) {
         if(time >= 10) {
             // green

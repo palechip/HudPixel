@@ -17,15 +17,22 @@ public class Paintball extends Game {
         }
         if(HudPixelConfig.paintballKillstreakTimerDisplay) {
             // Triple Shot
-            this.components.add(new PaintballKillstreakTimer("Triple Shot"));
+            this.components.add(new PaintballKillstreakTimer("Triple Shot", true, true));
             // Strong Arm
-            this.components.add(new PaintballKillstreakTimer("Strong Arm"));
+            this.components.add(new PaintballKillstreakTimer("Strong Arm", true, true));
             // Forcefield
-            this.components.add(new PaintballKillstreakTimer("Forcefield"));
+            this.components.add(new PaintballKillstreakTimer("Force Field", true, true));
             // Super Strong Arm
-            this.components.add(new PaintballKillstreakTimer("Super Strong Arm"));
+            this.components.add(new PaintballKillstreakTimer("Super Strong Arm", true, true));
             // Rambo
-            this.components.add(new PaintballKillstreakTimer("RAMBO"));
+            this.components.add(new PaintballKillstreakTimer("RAMBO", true, true));
+            // cooldown only killsteaks:
+            // TNT Rain
+            this.components.add(new PaintballKillstreakTimer("TNT Rain", false, true));
+            // Nuke
+            this.components.add(new PaintballKillstreakTimer("Nuke", false, true));
+            // Lightning
+            this.components.add(new PaintballKillstreakTimer("Lightning", false, true));
         }
     }
 
