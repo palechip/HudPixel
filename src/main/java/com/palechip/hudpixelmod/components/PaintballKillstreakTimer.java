@@ -50,7 +50,7 @@ public class PaintballKillstreakTimer implements IComponent {
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // test for starting
-        if(textMessage.contains(FMLClientHandler.instance().getClient().getSession().getUsername() + " purchased " + this.listenedKillstreak)) {
+        if(textMessage.contains(FMLClientHandler.instance().getClient().getSession().getUsername() + " activated " + this.listenedKillstreak)) {
             this.startTime = System.currentTimeMillis();
             this.isActive = true;
         }
