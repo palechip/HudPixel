@@ -17,7 +17,9 @@ public class MegaWalls extends Game {
         }
         if(HudPixelConfig.megaWallsKillCounter) {
             this.components.add(new MegaWallsKillCounter(KillType.Normal));
+            this.components.add(new MegaWallsKillCounter(KillType.Assists));
             this.components.add(new MegaWallsKillCounter(KillType.Final));
+            this.components.add(new MegaWallsKillCounter(KillType.Final_Assists));
         }
     }
 }
