@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
+import com.palechip.hudpixelmod.games.arcade.BlockingDead;
 import com.palechip.hudpixelmod.games.arcade.BountyHunters;
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
 import com.palechip.hudpixelmod.games.arcade.DragonWars;
@@ -43,6 +44,7 @@ public abstract class Game {
         games.add(new PartyGames1());
         games.add(new PartyGames2());
         games.add(new ThrowOut());
+        games.add(new BlockingDead());
         //Add games here.
     }
 
