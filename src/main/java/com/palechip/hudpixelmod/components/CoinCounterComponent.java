@@ -20,8 +20,8 @@ public class CoinCounterComponent implements IComponent{
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter game tag (relevant for MW)
         textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getChatTag() + "]: ", "");
-        // if this is a coin message
-        if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins")) {
+        // if this is a coin message and it isn't a tip
+        if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
             try {
                 String newCoins = textMessage.substring(1,textMessage.indexOf(" "));
                 this.coins += Integer.valueOf(newCoins);

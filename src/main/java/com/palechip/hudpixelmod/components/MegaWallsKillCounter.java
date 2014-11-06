@@ -36,10 +36,12 @@ public class MegaWallsKillCounter implements IComponent {
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-    	if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins")) {
+    	// coin message?, not from tipping
+    	if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
     		switch (this.trackedType) {
     		case Normal:
-    			if(!textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL")) {
+    			// exclude wither rushing reward
+    			if(!textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL") && !textMessage.contains("Wither Damage")) {
     				this.kills++;
     			}
     			break;
