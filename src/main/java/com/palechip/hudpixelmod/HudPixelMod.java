@@ -34,11 +34,12 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
-@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION)
+@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION, name = HudPixelMod.NAME)
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
-    public static final String VERSION = "1.0.3";
+    public static final String NAME = "HudPixel Reloaded";
+    public static final String VERSION = "2.0.0";
     public static final boolean IS_DEBUGGING = false;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
 

@@ -1,7 +1,7 @@
 [
 {
   "modid": "hudpixel",
-  "name": "HudPixel Mod",
+  "name": "HudPixel Reloaded",
   "description": "Unofficial Client Mod for the Hypixel Network.",
   "version": "${version}",
   "mcversion": "${mcversion}",

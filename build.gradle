@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0.3"
+version = "2.0.0"
 group= "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HudPixel"
+archivesBaseName = "HudPixelReloaded"
 
 minecraft {
     version = "1.7.10-10.13.2.1230"
