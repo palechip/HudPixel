@@ -25,12 +25,12 @@ public class GameDetector {
     private String bossbarContent = "";
 
     // this means a lobby where you choose the game and not a pre-game lobby
+    // removed MVP+ land as EULA broke it
     private boolean isInLobby = false;
     private static final String COMPASS_NAME = "\u00A7aGame Menu \u00A77(Right Click)";
     private static final String CLOCK_NAME = "\u00A7aPlayer Visibility \u00A77(Right Click)";
     private static final String WITHER_STAR_NAME = "\u00A7aLobby Selection \u00A77(Right Click)";
     private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
-    private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
     private static final String HYPIXEL_IP = "mc.hypixel.net";
 
     public void onGuiShow(GuiScreen gui) {
@@ -82,7 +82,8 @@ public class GameDetector {
             }
             // check for limbo and MVP+ land
             if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
-                if(textMessage.equals("You were spawned in Limbo.") || textMessage.equals("[*] Welcome to Hypixel's MVP+ Land!")) {
+                if(textMessage.equals("You were spawned in Limbo.") {
+                	// revoved MVP+ land testing because EULA broke MVP+ land
                     this.isInLobby = true;
                     this.isLobbyDetectionStarted = false;
                     this.isGameDetectionStarted = false;
