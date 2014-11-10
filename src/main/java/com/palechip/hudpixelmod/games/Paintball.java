@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
-import com.palechip.hudpixelmod.components.PaintballKillstreakTimer;
+import com.palechip.hudpixelmod.components.PaintballKillstreakTracker;
 import com.palechip.hudpixelmod.components.TimerComponent;
 
 public class Paintball extends Game {
@@ -15,24 +15,24 @@ public class Paintball extends Game {
         if(HudPixelConfig.paintballCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }
-        if(HudPixelConfig.paintballKillstreakTimerDisplay) {
+        if(HudPixelConfig.paintballKillstreakTrackerDisplay) {
             // Triple Shot
-            this.components.add(new PaintballKillstreakTimer("Triple Shot", true, true));
+            this.components.add(new PaintballKillstreakTracker("Triple Shot", true, true));
             // Strong Arm
-            this.components.add(new PaintballKillstreakTimer("Strong Arm", true, true));
+            this.components.add(new PaintballKillstreakTracker("Strong Arm", true, true));
             // Forcefield
-            this.components.add(new PaintballKillstreakTimer("Force Field", true, true));
+            this.components.add(new PaintballKillstreakTracker("Force Field", true, true));
             // Super Strong Arm
-            this.components.add(new PaintballKillstreakTimer("Super Strong Arm", true, true));
+            this.components.add(new PaintballKillstreakTracker("Super Strong Arm", true, true));
             // Rambo
-            this.components.add(new PaintballKillstreakTimer("RAMBO", true, true));
+            this.components.add(new PaintballKillstreakTracker("RAMBO", true, true));
             // cooldown only killsteaks:
             // TNT Rain
-            this.components.add(new PaintballKillstreakTimer("TNT Rain", false, true));
+            this.components.add(new PaintballKillstreakTracker("TNT Rain", false, true));
             // Nuke
-            this.components.add(new PaintballKillstreakTimer("Nuke", false, true));
+            this.components.add(new PaintballKillstreakTracker("Nuke", false, true));
             // Lightning
-            this.components.add(new PaintballKillstreakTimer("Lightning", false, true));
+            this.components.add(new PaintballKillstreakTracker("Lightning", false, true));
         }
     }
 
