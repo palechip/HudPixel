@@ -27,12 +27,12 @@ public class HypixelNetworkDetector {
         }
         String ip = FMLClientHandler.instance().getClient().func_147104_D().serverIP;
         // if the server ip ends with hypixel.net, it belongs to the Hypixel Network (mc.hypixel.net, test.hypixel.net, maybe mvp.hypixel.net after the new EULA,...)
-        if(!isHypixelNetwork && ip.endsWith(HYPIXEL_DOMAIN)) {
+        if(!isHypixelNetwork && ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
             isHypixelNetwork = true;
             HudPixelMod.instance().logInfo("Joined Hypixel Network");
         }
         // it can happen that the server data doesn't get null
-        else if(isHypixelNetwork && !ip.endsWith(HYPIXEL_DOMAIN)) {
+        else if(isHypixelNetwork && !ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
             isHypixelNetwork = false;
             HudPixelMod.instance().logInfo("Disconnected from Hypixel Network");
         }
