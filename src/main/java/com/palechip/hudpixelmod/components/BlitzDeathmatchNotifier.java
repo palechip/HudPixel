@@ -62,7 +62,7 @@ public class BlitzDeathmatchNotifier implements IComponent {
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        if(textMessage.contains("Deathmatch in 45 seconds!")) {
+        if(textMessage.contains("Deathmatch in 45 seconds!") || textMessage.contains("Deathmatch begins in 1 minute!")) {
             this.isDisplaying = true;
             this.ticksLeft = DISPLAY_TIME;
         }
