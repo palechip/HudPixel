@@ -32,6 +32,7 @@ public class GameDetector {
     private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
     private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
     private static final String HYPIXEL_IP = "mc.hypixel.net";
+    private static final String PARTY_DRAG_MESSAGE = "Found a server running";
 
     public void onGuiShow(GuiScreen gui) {
         if(HypixelNetworkDetector.isHypixelNetwork) {
@@ -82,7 +83,7 @@ public class GameDetector {
             }
             // check for limbo and MVP+ land
             if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
-                if(textMessage.equals("You were spawned in Limbo.") || textMessage.equals("[*] Welcome to Hypixel's MVP+ Land!")) {
+                if(textMessage.equals(LIMBO_MESSAGE) || textMessage.equals(MVPPLUS_LAND)) {
                     this.isInLobby = true;
                     this.isLobbyDetectionStarted = false;
                     this.isGameDetectionStarted = false;
@@ -94,7 +95,14 @@ public class GameDetector {
                 }
                 
             }
-         // we didn't find anything. Retry with the next chat message...
+            // check for party leaders dragging you directly from a game to another
+            if(this.currentGame != null) {
+            	if(textMessage.contains(PARTY_DRAG_MESSAGE)) {
+            		this.isInLobby = false;
+            		this.isGameDetectionStarted = true;
+            	}
+            }
+            // we didn't find anything. Retry with the next chat message...
         }
     }
 
