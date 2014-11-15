@@ -60,6 +60,8 @@ public class HudPixelMod
     private boolean renderOnTheRight;
     private int startWidth;
     private int startHeight;
+    // this will be rendered when there is nothing else to render
+    private ArrayList<String> defaultRenderingStrings;
     
     // vars for displaying the results after a game
     private ArrayList<String> results;
@@ -120,6 +122,14 @@ public class HudPixelMod
             this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         } else {
             this.startWidth = HudPixelConfig.displayXOffset + 1;
+        }
+        this.defaultRenderingStrings = new ArrayList<String>();
+        if(this.CONFIG.displayVersion) {
+        	this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + VERSION);
+        }
+        if(this.updater.isOutOfDate) {
+        	this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + this.updater.newVersion);
+        	this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + this.updater.downloadLink);
         }
     }
 
@@ -200,15 +210,21 @@ public class HudPixelMod
     public void onRenderTick(RenderTickEvent event) {
         try {
             Minecraft mc = FMLClientHandler.instance().getClient();
-            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && (this.gameDetector.getCurrentGame() != null || this.results != null) && this.isHUDShown) {
+            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
                 FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
                 int width;
                 int height = this.startHeight;
                 ArrayList<String> renderStrings;
                 if(this.gameDetector.getCurrentGame() != null) {
                     renderStrings = this.gameDetector.getCurrentGame().getRenderStrings();
-                } else {
+                } else if(this.results != null) {
                     renderStrings = this.results;
+                } else {
+                	if(!this.defaultRenderingStrings.isEmpty()) {
+                		renderStrings = this.defaultRenderingStrings;
+                	} else {
+                		return;
+                	}
                 }
                 
                 // get the right width

@@ -26,6 +26,7 @@ public class HudPixelConfig {
     public static int displayXOffset;
     public static int displayYOffset;
     public static int displayShowResultTime;
+    public static boolean displayVersion;
     public static boolean quakeCoinDisplay;
     public static boolean quakeTimeDisplay;
     public static boolean tntCoinDisplay;
@@ -69,6 +70,7 @@ public class HudPixelConfig {
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering.").getInt();
         displayYOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering.").getInt();
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
+        displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true ,COIN_COUNTER + "Quakecraft.").getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
         tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true,COIN_COUNTER + "the TNT Games").getBoolean(true);
