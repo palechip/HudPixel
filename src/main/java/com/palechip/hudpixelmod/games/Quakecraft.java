@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
+import com.palechip.hudpixelmod.components.KillstreakTracker;
 import com.palechip.hudpixelmod.components.TimerComponent;
 
 public class Quakecraft extends Game {
@@ -13,6 +14,9 @@ public class Quakecraft extends Game {
         }
         if(HudPixelConfig.quakeCoinDisplay) {
             this.components.add(new CoinCounterComponent());
+        }
+        if(HudPixelConfig.quakeKillstreakTracker) {
+            this.components.add(new KillstreakTracker());
         }
     }
 }

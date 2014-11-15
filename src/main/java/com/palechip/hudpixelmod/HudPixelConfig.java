@@ -29,6 +29,7 @@ public class HudPixelConfig {
     public static boolean displayVersion;
     public static boolean quakeCoinDisplay;
     public static boolean quakeTimeDisplay;
+    public static boolean quakeKillstreakTracker;
     public static boolean tntCoinDisplay;
     public static boolean tntTimeDisplay;
     public static boolean vampireCoinDisplay;
@@ -52,6 +53,7 @@ public class HudPixelConfig {
     public static final String TIMER = "Turn on/off the Time Display for ";
     public static final String MEGA_WALLS_KILL_COUNTER = "Enable/Disable the Kill and Assist Counter in Mega Walls";
     public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
+    public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
     public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
 
     public HudPixelConfig(File config) {
@@ -73,6 +75,7 @@ public class HudPixelConfig {
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true ,COIN_COUNTER + "Quakecraft.").getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
+        quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
         tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true,COIN_COUNTER + "the TNT Games").getBoolean(true);
         tntTimeDisplay = this.config.get(TNT_CATEGORY, "tntTimeDisplay", true, TIMER + "the TNT Games").getBoolean(true);
         vampireCoinDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZCoinDisplay", true, COIN_COUNTER + "VampireZ.").getBoolean(true);
