@@ -1,3 +1,8 @@
+The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and it's dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
+
+The MIT License applys for everything inside src/main/ or subdirectories and for everything not included in the Minecraft Forge download.
+
+
 The MIT License (MIT)
 
 Copyright (c) 2014 palechip
