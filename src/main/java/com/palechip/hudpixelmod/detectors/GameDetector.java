@@ -93,14 +93,14 @@ public class GameDetector {
                         this.currentGame = null;
                     }
                 }
-                
+
             }
             // check for party leaders dragging you directly from a game to another
             if(this.currentGame != null) {
-            	if(textMessage.contains(PARTY_DRAG_MESSAGE)) {
-            		this.isInLobby = false;
-            		this.isGameDetectionStarted = true;
-            	}
+                if(textMessage.contains(PARTY_DRAG_MESSAGE)) {
+                    this.isInLobby = false;
+                    this.isGameDetectionStarted = true;
+                }
             }
             // we didn't find anything. Retry with the next chat message...
         }
@@ -112,7 +112,7 @@ public class GameDetector {
             this.bossbarContent = BossStatus.bossName;
             this.onBossbarChange();
         }
-        
+
         // lobby detection is also done when game detection is active
         // because players can change from lobby to lobby
         if((this.isLobbyDetectionStarted || this.isGameDetectionStarted) && FMLClientHandler.instance().getClientPlayerEntity() != null && FMLClientHandler.instance().getClientPlayerEntity().inventory != null) {

@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Configuration;
 
 public class HudPixelConfig {
     private Configuration config;
-    
+
     // categories
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
@@ -20,7 +20,7 @@ public class HudPixelConfig {
     public static final String ARENA_CATEGORY = "arena brawl";
     public static final String PAINTBALL_CATEGORY = "paintball warfare";
     // define further categories here
-    
+
     // properties
     public static String displayMode;
     public static int displayXOffset;
@@ -46,25 +46,25 @@ public class HudPixelConfig {
     public static boolean paintballCoinDisplay;
     public static boolean paintballKillstreakTrackerDisplay;
     // add further options here
-    
+
     // descriptions
     public static final String COIN_COUNTER = "Turn on/off the Coin Counter for ";
     public static final String TIMER = "Turn on/off the Time Display for ";
     public static final String MEGA_WALLS_KILL_COUNTER = "Enable/Disable the Kill and Assist Counter in Mega Walls";
     public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
-    		public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
+    public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
 
     public HudPixelConfig(File config) {
         this.config = new Configuration(config);
         // if this is an old config file, the version is null
         // also happens when the config is generated but this.updateConfig() won't hurt
         if(this.config.getLoadedConfigVersion() == null) {
-        	this.updateConfig();
-        	this.config = new Configuration(config, "2");
+            this.updateConfig();
+            this.config = new Configuration(config, "2");
         }
         this.config.load();
     }
-    
+
     public void syncConfig() {
         displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "left", "Choose where to render everything the mod displays.(\"left\" or \"right\")").getString();
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering.").getInt();
@@ -90,40 +90,40 @@ public class HudPixelConfig {
         paintballTimeDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballTimeDisplay", true, TIMER + "Paintball Warfare.").getBoolean(true);
         paintballKillstreakTrackerDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballKillstreakTrackerDisplay", true, PAINTBALL_KILLSTREAK_TRACKER).getBoolean(true);
         // load further options here
-        
+
         if(this.config.hasChanged()) {
-        	this.config.save();
+            this.config.save();
         }
     }
-    
+
     public Configuration getConfigFile() {
-    	return config;
+        return config;
     }
-    
+
     // for the config gui introduced in 2.1.0, most properties need to be renamed
     private void updateConfig() {
-    	this.config.load();
-    	this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
-    	this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
-    	this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
-    	this.renameBooleanProperty(TNT_CATEGORY, "timeDisplay", "tntTimeDisplay");
-    	this.renameBooleanProperty(VAMPIREZ_CATEGORY, "coinDisplay", "vampireZTimeDisplay");
-    	this.renameBooleanProperty(VAMPIREZ_CATEGORY, "timeDisplay", "vampireZTimeDisplay");
-    	this.renameBooleanProperty(ARCADE_CATEGORY, "coinDisplay", "arcadeCoinDisplay");
-    	this.renameBooleanProperty(ARCADE_CATEGORY, "timeDisplay", "acrcadeTimeDisplay");
-    	this.renameBooleanProperty(WALLS_CATEGORY, "coinDisplay", "wallsCoinDisplay");
-    	this.renameBooleanProperty(WALLS_CATEGORY, "timeDisplay", "wallsTimeDisplay");
-    	this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
-    	this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
-    	this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
-    	// the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
-    	this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
-    	this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
-    	this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
-    	// the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
-    	this.config.save();
+        this.config.load();
+        this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
+        this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
+        this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
+        this.renameBooleanProperty(TNT_CATEGORY, "timeDisplay", "tntTimeDisplay");
+        this.renameBooleanProperty(VAMPIREZ_CATEGORY, "coinDisplay", "vampireZTimeDisplay");
+        this.renameBooleanProperty(VAMPIREZ_CATEGORY, "timeDisplay", "vampireZTimeDisplay");
+        this.renameBooleanProperty(ARCADE_CATEGORY, "coinDisplay", "arcadeCoinDisplay");
+        this.renameBooleanProperty(ARCADE_CATEGORY, "timeDisplay", "acrcadeTimeDisplay");
+        this.renameBooleanProperty(WALLS_CATEGORY, "coinDisplay", "wallsCoinDisplay");
+        this.renameBooleanProperty(WALLS_CATEGORY, "timeDisplay", "wallsTimeDisplay");
+        this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
+        this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
+        this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
+        // the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
+        this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
+        this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
+        this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
+        // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
+        this.config.save();
     }
-    
+
     /**
      * Renames a property in a given category. But other than Configuration.renameProperty(), it does turn it into a boolean property.
      * 

@@ -62,12 +62,12 @@ public class HudPixelMod
     private int startHeight;
     // this will be rendered when there is nothing else to render
     private ArrayList<String> defaultRenderingStrings;
-    
+
     // vars for displaying the results after a game
     private ArrayList<String> results;
     private long resultRenderTime;
     private long resultStartTime;
-    
+
     // key related vars
     public static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
@@ -104,12 +104,12 @@ public class HudPixelMod
 
         // initialize rendering vars
         this.loadRenderingProperties();
-        
+
         // initializse key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
     }
-    
+
     /**
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
@@ -125,11 +125,11 @@ public class HudPixelMod
         }
         this.defaultRenderingStrings = new ArrayList<String>();
         if(this.CONFIG.displayVersion) {
-        	this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + VERSION);
+            this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + VERSION);
         }
         if(this.updater.isOutOfDate) {
-        	this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + this.updater.newVersion);
-        	this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + this.updater.downloadLink);
+            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + this.updater.newVersion);
+            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + this.updater.downloadLink);
         }
     }
 
@@ -176,7 +176,7 @@ public class HudPixelMod
                 ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
                 this.startWidth = (res.getScaledWidth() + + HudPixelConfig.displayXOffset) - 1;
             }
-            
+
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
 
@@ -198,7 +198,7 @@ public class HudPixelMod
                     this.results = null;
                 }
             }
-            
+
 
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -220,13 +220,13 @@ public class HudPixelMod
                 } else if(this.results != null) {
                     renderStrings = this.results;
                 } else {
-                	if(!this.defaultRenderingStrings.isEmpty()) {
-                		renderStrings = this.defaultRenderingStrings;
-                	} else {
-                		return;
-                	}
+                    if(!this.defaultRenderingStrings.isEmpty()) {
+                        renderStrings = this.defaultRenderingStrings;
+                    } else {
+                        return;
+                    }
                 }
-                
+
                 // get the right width
                 if(this.renderOnTheRight) {
                     int maxWidth = 0;
@@ -242,7 +242,7 @@ public class HudPixelMod
                 } else {
                     width = this.startWidth;
                 }
-                
+
                 // render the game
                 for(int i = 0; i < renderStrings.size(); i++) {
                     // skip the string if it's empty
@@ -257,7 +257,7 @@ public class HudPixelMod
             e.printStackTrace();
         }
     }
-    
+
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
         // check all listened keys
@@ -265,17 +265,17 @@ public class HudPixelMod
             this.isHUDShown = !this.isHUDShown;
         }
     }
-    
+
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-    	if(eventArgs.modID.equals(MODID)){
-    		this.CONFIG.syncConfig();
-    		// reload stuff that uses the config values for immediate effect
-    		this.loadRenderingProperties();
-    		Game.loadGames();
-    	}
+        if(eventArgs.modID.equals(MODID)){
+            this.CONFIG.syncConfig();
+            // reload stuff that uses the config values for immediate effect
+            this.loadRenderingProperties();
+            Game.loadGames();
+        }
     }
-    
+
     // called with the last set of rendering strings
     public void displayResults(ArrayList<String> results) {
         this.results = results;

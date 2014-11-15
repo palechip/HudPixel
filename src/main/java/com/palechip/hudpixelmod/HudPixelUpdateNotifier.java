@@ -35,7 +35,7 @@ public class HudPixelUpdateNotifier extends Thread{
         // extract the versions
         String[] modVersion = HudPixelMod.VERSION.split("[.]");
         String[] latestVersion = information.get(0).split("[.]");
-        
+
         // compare major versions
         if(Integer.valueOf(modVersion[0]) < Integer.valueOf(latestVersion[0])) {
             this.newVersion = information.get(0);
