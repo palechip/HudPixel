@@ -1,30 +1,25 @@
 # HudPixel Mod
 ### An unofficial client-side Minecraft modification designed for the Hypixel Network.
 
-This modification was written as an entry to the [Hypixel's Got Talent Contest](http://hypixel.net/threads/hypixels-got-talent.126629/).
-It's goal is to provide you with useful information while playing on Hypixel Network. It is designed to be stable and lightweight.
+**Check the [Forum Thread](http://hypixel.net/threads/client-mod-hudpixel-reloaded-overlay-with-extra-information.204572/) for more information.**
 
-__Features__
+#### Contributing
+This mod is open source and contributions are always welcome.
 
-* Coin Counter (Displays your total amount of coins as you are playing)
-* Timer (Displays the time since the game has started)
-* Mega Walls Kill Counter (Counts and displays the amount of people you kill in Mega walls)
-* Blitz Star Tracker (Displays who currently has the blitz star, what Blitz was activated and how long it is active)
-* Blitz Deathmatch Notifier (Helps you not to miss when the deathmatch is going to start)
-* Arena Powerup Highlighter (Shows when a powerup has spawned so you don't rely on seeing the chat message)
-* Paintball Killstreak Timer (Tells you when your killstreak is going to run out)
-* Highly configurable (Check the file inside the config folder in your minecraft directory)
- 
-(Please note that the coin counter and the timer are only active if you can't get the information form the scoreboard.)
+#### How to build/compile the mod
+ 1. Make sure you have the Java Development Kit (jdk) installed
+ 2. Download the sources
+ 3. Open a command line in the main directory (where this readme is located)
+ 4. Run `gradlew build`
+ 5. Grab your build in `build\libs`
 
----
-
-__Planned__
-
-* VamipreZ Killstreak Timer
-
----
-
-__Contributing__
-
-The mod is going to be open source. (I have yet to choose a license.) Feel free to open a pull request but please understand that I won't merge anything until the contest is over so that the mod stays my own work.
+#### How to setup your IDE to work with this mod
+ 1. Make sure you have the Java Development Kit (jdk) installed
+ 2. Download the sources (ideally use a fork so you can do a pull request)
+ 3. Open a command line in the main directory (where this readme is located)
+ 4. Run `gradlew setupDecompWorkspace --refreshDependencies`
+ 5. If you are using IntelliJ IDEA as IDE, run `gradlew idea`
+ 6. If you are using Eclipse as IDE, head to [files.minecraftforge.net](http://files.minecraftforge.net), download the source code of the used version of Forge, unzip it and copy the `eclipse` folder into the main directory. Then run `gradlew eclipse`.
+ 7. Open the project with your IDE (for Eclipse: Point your workspace to the `eclipse` folder)
+ 8. Make sure you are using the Java Conventions for Formatting the code, but tell it to avoid tabs. (This is especially important for bigger pull requests. If you don't know how to do it, I'll help you once you make a pull request.)
+ 9. To be able to test the mod on the server, configure the IDE to pass Minecraft the following arguments on start `--username YOURUSERNAMEOREMAIL --password YOURPASSWORD` Use the data you are using to log in to the Minecraft launcher.
