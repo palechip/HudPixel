@@ -23,6 +23,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.config.GuiConfig;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -34,7 +36,7 @@ import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
-@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION, name = HudPixelMod.NAME)
+@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.HudPixelGuiFactory")
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
@@ -79,7 +81,7 @@ public class HudPixelMod
             this.LOGGER = LogManager.getLogger("HudPixel");
             // load the configuration file
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
-            this.CONFIG.loadConfig();
+            this.CONFIG.syncConfig();
         } catch(Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -99,8 +101,19 @@ public class HudPixelMod
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
 
         // initialize rendering vars
+        this.loadRenderingProperties();
+        
+        // initializse key bindings
+        this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
+        ClientRegistry.registerKeyBinding(this.hideHUDKey);
+    }
+    
+    /**
+     * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
+     */
+    public void loadRenderingProperties() {
         this.startHeight = HudPixelConfig.displayYOffset + 1;
-        this.renderOnTheRight = HudPixelConfig.displayMode.toLowerCase().equals("right");
+        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().equals("right") : false;
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         if(this.renderOnTheRight) {
@@ -108,10 +121,6 @@ public class HudPixelMod
         } else {
             this.startWidth = HudPixelConfig.displayXOffset + 1;
         }
-        
-        // initializse key bindings
-        this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
-        ClientRegistry.registerKeyBinding(this.hideHUDKey);
     }
 
     @SubscribeEvent
@@ -239,6 +248,16 @@ public class HudPixelMod
         if(this.hideHUDKey.isPressed()) {
             this.isHUDShown = !this.isHUDShown;
         }
+    }
+    
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+    	if(eventArgs.modID.equals(MODID)){
+    		this.CONFIG.syncConfig();
+    		// reload stuff that uses the config values for immediate effect
+    		this.loadRenderingProperties();
+    		Game.loadGames();
+    	}
     }
     
     // called with the last set of rendering strings
