@@ -7,7 +7,7 @@ import com.palechip.hudpixelmod.components.TimerComponent;
 public class Quakecraft extends Game {
 
     protected Quakecraft() {
-        super("Quake", "", "The game is starting! Right-click to shoot with your Railgun to instakill players!", "You earned a total of");
+        super("Quake", "Quakecraft", "The game is starting! Right-click to shoot with your Railgun to instakill players!", "You earned a total of");
         if(HudPixelConfig.quakeTimeDisplay) {
             this.components.add(new TimerComponent());
         }

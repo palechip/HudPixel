@@ -7,7 +7,7 @@ import com.palechip.hudpixelmod.components.TimerComponent;
 public class TheWalls extends Game {
 
     public TheWalls() {
-        super("Walls", "", "The game has started! You're on team ", "You earned a total of");
+        super("Walls", "Walls", "The game has started! You're on team ", "You earned a total of");
         if(HudPixelConfig.wallsTimeDisplay) {
             this.components.add(new TimerComponent());
         }

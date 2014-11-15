@@ -33,8 +33,8 @@ public abstract class Game {
 		games = new ArrayList<Game>();
 
 		games.add(new Quakecraft());
-		games.add(new TheWalls());
 		games.add(new MegaWalls());
+		games.add(new TheWalls());
 		games.add(new VampireZ());
 		games.add(new Paintball());
 		games.add(new Arena());

@@ -8,7 +8,7 @@ import com.palechip.hudpixelmod.components.TimerComponent;
 public class Paintball extends Game {
 
     protected Paintball() {
-        super("PB", "", "The game starts in 1 second!", "You earned a total of");
+        super("PB", "Paintball", "The game starts in 1 second!", "You earned a total of");
         if(HudPixelConfig.paintballTimeDisplay) {
             this.components.add(new TimerComponent());
         }
