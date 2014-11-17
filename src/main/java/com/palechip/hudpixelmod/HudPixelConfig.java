@@ -32,6 +32,7 @@ public class HudPixelConfig {
     public static boolean quakeKillstreakTracker;
     public static boolean tntCoinDisplay;
     public static boolean tntTimeDisplay;
+    public static boolean tntKillstreakTracker;
     public static boolean vampireCoinDisplay;
     public static boolean vampireTimeDisplay;
     public static boolean arcadeCoinDisplay;
@@ -78,6 +79,7 @@ public class HudPixelConfig {
         quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
         tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true,COIN_COUNTER + "the TNT Games").getBoolean(true);
         tntTimeDisplay = this.config.get(TNT_CATEGORY, "tntTimeDisplay", true, TIMER + "the TNT Games").getBoolean(true);
+        tntKillstreakTracker = this.config.get(TNT_CATEGORY, "tntKillstreakTracker", true, KILLSTREAK_TRACKER + "TNT Wizards.").getBoolean(true);
         vampireCoinDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZCoinDisplay", true, COIN_COUNTER + "VampireZ.").getBoolean(true);
         vampireTimeDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZTimeDisplay", true, TIMER + "VampireZ.").getBoolean(true);
         arcadeCoinDisplay = this.config.get(ARCADE_CATEGORY, "arcadeCoinDisplay", true, COIN_COUNTER + "the Arcade Games.").getBoolean(true);

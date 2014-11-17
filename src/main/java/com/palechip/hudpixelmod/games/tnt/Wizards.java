@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.games.tnt;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
+import com.palechip.hudpixelmod.components.KillstreakTracker;
 import com.palechip.hudpixelmod.components.TimerComponent;
 import com.palechip.hudpixelmod.games.Game;
 
@@ -13,6 +14,9 @@ public class Wizards extends Game {
         }
         if(HudPixelConfig.tntCoinDisplay) {
             this.components.add(new CoinCounterComponent());
+        }
+        if(HudPixelConfig.tntKillstreakTracker) {
+            this.components.add(new KillstreakTracker());
         }
     }
 }

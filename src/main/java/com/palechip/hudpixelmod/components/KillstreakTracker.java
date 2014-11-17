@@ -6,9 +6,9 @@ import net.minecraft.util.EnumChatFormatting;
 public class KillstreakTracker implements IComponent {
     private int currentKillstreak;
     private int greatestKillstreak;
-    
+
     private boolean showGreatest;
-    
+
     private final String CURRENT_KILLSTREAK_DISPLAY_TEXT = EnumChatFormatting.DARK_PURPLE + "Killstreak: ";
     private final String GREATEST_KILLSTREAK_DISPLAY_TEXT = EnumChatFormatting.LIGHT_PURPLE + "Best Killstreak: ";
 
@@ -30,12 +30,15 @@ public class KillstreakTracker implements IComponent {
         String username = FMLClientHandler.instance().getClient().getSession().getUsername();
         // Quake
         if(textMessage.contains(username + " gibbed ")) {
-            this.currentKillstreak++;
-            if(this.currentKillstreak > this.greatestKillstreak) {
-                this.greatestKillstreak = this.currentKillstreak;
-            }
+            this.addKill();
         } else if(textMessage.contains(" gibbed " + username)) {
-            this.currentKillstreak = 0;
+            this.resetKillstreak();
+        }
+        // TNT Wizards
+        else if(textMessage.contains("You killed ")) {
+            this.addKill();
+        } else if(textMessage.contains("You were killed by ")) {
+            this.resetKillstreak();
         }
     }
 
@@ -48,9 +51,20 @@ public class KillstreakTracker implements IComponent {
         }
     }
 
+    private void addKill() {
+        this.currentKillstreak++;
+        if(this.currentKillstreak > this.greatestKillstreak) {
+            this.greatestKillstreak = this.currentKillstreak;
+        }
+    }
+
+    private void resetKillstreak() {
+        this.currentKillstreak = 0;
+    }
+
     @Override
     public void onTickUpdate() { }
-    
+
     @Override
     public void onGameStart() { }
 }
