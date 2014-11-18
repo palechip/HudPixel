@@ -40,6 +40,12 @@ public class KillstreakTracker implements IComponent {
         } else if(textMessage.contains("You were killed by ")) {
             this.resetKillstreak();
         }
+        // Dragon Wars
+        else if(textMessage.contains(username + " killed ")) {
+            this.addKill();
+        } else if(textMessage.contains(" killed " + username)) {
+            this.resetKillstreak();
+        }
     }
 
     @Override

@@ -37,6 +37,7 @@ public class HudPixelConfig {
     public static boolean vampireTimeDisplay;
     public static boolean arcadeCoinDisplay;
     public static boolean arcadeTimeDisplay;
+    public static boolean arcadeKillstreakTracker;
     public static boolean wallsCoinDisplay;
     public static boolean wallsTimeDisplay;
     public static boolean megaWallsCoinDisplay;
@@ -84,6 +85,7 @@ public class HudPixelConfig {
         vampireTimeDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZTimeDisplay", true, TIMER + "VampireZ.").getBoolean(true);
         arcadeCoinDisplay = this.config.get(ARCADE_CATEGORY, "arcadeCoinDisplay", true, COIN_COUNTER + "the Arcade Games.").getBoolean(true);
         arcadeTimeDisplay = this.config.get(ARCADE_CATEGORY, "acrcadeTimeDisplay", true, TIMER + "the Arcade Games.").getBoolean(true);
+        arcadeKillstreakTracker = this.config.get(ARCADE_CATEGORY, "arcadeKillstreakTracker", true, KILLSTREAK_TRACKER + "some Arcade Games.").getBoolean(true);
         wallsCoinDisplay = this.config.get(WALLS_CATEGORY, "wallsCoinDisplay", true, COIN_COUNTER + "the classic Walls.").getBoolean(true);
         wallsTimeDisplay = this.config.get(WALLS_CATEGORY, "wallsTimeDisplay", true, TIMER + "the classic Walls.").getBoolean(true);
         megaWallsCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsCoinDisplay", true, COIN_COUNTER + "Mega Walls.").getBoolean(true);
