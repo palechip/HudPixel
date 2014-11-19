@@ -46,6 +46,12 @@ public class KillstreakTracker implements IComponent {
         } else if(textMessage.contains(" killed " + username)) {
             this.resetKillstreak();
         }
+        // Bounty Hunters
+        else if(textMessage.contains(" was killed by " + username)) {
+            this.addKill();
+        } else if(textMessage.contains(username + " was killed ")) {
+            this.resetKillstreak();
+        }
     }
 
     @Override
