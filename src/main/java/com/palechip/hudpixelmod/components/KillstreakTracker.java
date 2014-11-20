@@ -52,6 +52,12 @@ public class KillstreakTracker implements IComponent {
         } else if(textMessage.contains(username + " was killed ")) {
             this.resetKillstreak();
         }
+        // Throw Out
+        else if(textMessage.contains(" was punched into the void by " + username)) {
+            this.addKill();
+        } else if(textMessage.contains(username + " was punched into the void by ") || textMessage.contains(username + " became one with the void!")) {
+            this.resetKillstreak();
+        }
     }
 
     @Override
