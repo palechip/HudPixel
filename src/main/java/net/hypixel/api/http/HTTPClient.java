@@ -20,6 +20,7 @@ public class HTTPClient {
             URL urlObj = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
             connection.setRequestMethod("GET");
+            connection.addRequestProperty("User-Agent", "Mozilla/4.76");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             String result = "";
