@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import com.palechip.hudpixelmod.api.interaction.PublicAPIConnector;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -44,6 +45,7 @@ public class HudPixelMod
     public static final String VERSION = "2.1.0";
     public static final boolean IS_DEBUGGING = false;
     public static final int RENDERING_HEIGHT_OFFSET = 10;
+    public static final String HUDPIXEL_CHAT_PREFIX = "[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] ";
 
     private static HudPixelMod instance;
 
@@ -51,6 +53,7 @@ public class HudPixelMod
     public HudPixelConfig CONFIG;
     private HudPixelUpdateNotifier  updater;
     private boolean isUpdateMessageQueued;
+    private PublicAPIConnector apiConnection;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -84,6 +87,8 @@ public class HudPixelMod
             // load the configuration file
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
             this.CONFIG.syncConfig();
+            // Load the API key
+            this.apiConnection = new PublicAPIConnector();
         } catch(Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -161,6 +166,9 @@ public class HudPixelMod
 
             // check for start and stop
             this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            
+            // pass the message to the api connection
+            this.apiConnection.onChatMessage(event.message.getUnformattedText());
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
             e.printStackTrace();
@@ -286,8 +294,8 @@ public class HudPixelMod
     public void updateFound() {
         try {
             if(hypixelDetector.isHypixelNetwork && FMLClientHandler.instance().getClientPlayerEntity() != null) {
-                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText("[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] " + EnumChatFormatting.DARK_PURPLE + "Update available: " + EnumChatFormatting.GREEN + this.updater.newVersion));
-                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText("[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] " + EnumChatFormatting.DARK_PURPLE + "Download here: " + EnumChatFormatting.YELLOW + this.updater.downloadLink));
+                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Update available: " + EnumChatFormatting.GREEN + this.updater.newVersion));
+                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Download here: " + EnumChatFormatting.YELLOW + this.updater.downloadLink));
                 this.isUpdateMessageQueued = false;
             } else {
                 // make this being called from onTick()
