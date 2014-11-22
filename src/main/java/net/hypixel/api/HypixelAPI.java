@@ -138,6 +138,23 @@ public class HypixelAPI {
     }
 
     /**
+     * Call this method to get the active boosters
+     * This method is asynchronous and is preferred over it's synchronous counterpart.
+     *
+     * @param callback The callback to execute when finished
+     */
+    public void getBoosters(Callback<BoostersReply> callback) {
+        lock.readLock().lock();
+        try {
+            if (doKeyCheck(callback)) {
+                httpClient.get(BASE_URL + "boosters?key=" + apiKey.toString(), callback);
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    /**
      * Call this method to get a player's friends
      *
      * @param player   The player to find friends of
@@ -151,6 +168,28 @@ public class HypixelAPI {
                     callback.callback(new HypixelAPIException("No player was provided!"), null);
                 } else {
                     httpClient.get(BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
+                }
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    /**
+     * Call this method to get a player's session
+     * This method is asynchronous and is preferred over it's synchronous counterpart.
+     *
+     * @param player   The player to get the session of
+     * @param callback The callback to execute when finished
+     */
+    public void getSession(String player, Callback<SessionReply> callback) {
+        lock.readLock().lock();
+        try {
+            if (doKeyCheck(callback)) {
+                if (player == null) {
+                    callback.callback(new HypixelAPIException("No player was provided!"), null);
+                } else {
+                    httpClient.get(BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
                 }
             }
         } finally {

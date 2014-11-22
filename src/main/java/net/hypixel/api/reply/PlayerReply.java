@@ -4,14 +4,19 @@
 
 package net.hypixel.api.reply;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 @SuppressWarnings("unused")
 public class PlayerReply extends AbstractReply {
-    private JsonObject player;
+    private JsonElement player;
 
     public JsonObject getPlayer() {
-        return player;
+        if(player.isJsonNull()) {
+            return null;
+        } else {
+            return player.getAsJsonObject();
+        }
     }
 
     @Override
