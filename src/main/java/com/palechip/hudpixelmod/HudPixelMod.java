@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-import com.palechip.hudpixelmod.api.interaction.PublicAPIConnector;
+import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -53,7 +53,7 @@ public class HudPixelMod
     public HudPixelConfig CONFIG;
     private HudPixelUpdateNotifier  updater;
     private boolean isUpdateMessageQueued;
-    private PublicAPIConnector apiConnection;
+    private Queue apiQueue;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -88,7 +88,7 @@ public class HudPixelMod
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
             this.CONFIG.syncConfig();
             // Load the API key
-            this.apiConnection = new PublicAPIConnector();
+            this.apiQueue = new Queue();
         } catch(Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -166,9 +166,9 @@ public class HudPixelMod
 
             // check for start and stop
             this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-            
+
             // pass the message to the api connection
-            this.apiConnection.onChatMessage(event.message.getUnformattedText());
+            this.apiQueue.onChatMessage(event.message.getUnformattedText());
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
             e.printStackTrace();
@@ -196,6 +196,8 @@ public class HudPixelMod
                 // update render strings
                 this.gameDetector.getCurrentGame().updateRenderStrings();
             }
+
+            this.apiQueue.onClientTick();
 
             // check if the update message can be displayed
             if(this.isUpdateMessageQueued) {
