@@ -14,8 +14,9 @@ public class PublicAPIConnector implements ApiKeyLoadedCallback{
     HypixelAPI api;
     
     public PublicAPIConnector() {
-        this.keyHandler = new ApiKeyHandler(this);
+        // Instantiate the API first, so the key can't be loaded when the api is still null
         this.api = HypixelAPI.getInstance();
+        this.keyHandler = new ApiKeyHandler(this);
     }
 
     public void onChatMessage(String textMessage) {
