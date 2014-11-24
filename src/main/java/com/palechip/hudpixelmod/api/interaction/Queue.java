@@ -7,7 +7,9 @@ import com.google.gson.Gson;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;
@@ -84,6 +86,14 @@ public class Queue implements ApiKeyLoadedCallback{
      */
     public void getBoosters(BoosterResponseCallback callback) {
         this.queue.add(new QueueEntry(callback));
+    }
+    
+    /**
+     * Queues a Session request.
+     * @param callback
+     */
+    public void getSession(SessionResponseCallback callback, String player) {
+        this.queue.add(new QueueEntry(callback, player));
     }
     
     public void reportFailure(Throwable failCause) {

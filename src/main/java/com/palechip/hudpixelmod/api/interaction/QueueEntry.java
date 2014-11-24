@@ -4,16 +4,21 @@ import java.util.ArrayList;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.BoostersReply;
+import net.hypixel.api.reply.SessionReply;
 import net.hypixel.api.util.Callback;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 public class QueueEntry {
     private BoosterResponseCallback boosterCallback;
+    private SessionResponseCallback sessionCallback;
+    private String player;
     
     /**
      * This queue entry will perform a getBoosters request
@@ -23,10 +28,21 @@ public class QueueEntry {
         this.boosterCallback = callback;
     }
     
+    /**
+     * This queue entry will perform a getSession request
+     * @param callback
+     */
+    public QueueEntry(SessionResponseCallback callback, String player) {
+        this.sessionCallback = callback;
+        this.player = player;
+    }
+    
     public void run() {
         // is it a booster request?
         if(this.boosterCallback != null) {
             this.doBoosterRequest();
+        } else if(this.sessionCallback != null) {
+            this.doSessionRequest();
         }
     }
     
@@ -51,9 +67,37 @@ public class QueueEntry {
                     }
                     // pass the result
                     boosterCallback.onBoosterResponse(boosters);
-                    // open the way for the next request
-                    Queue.getInstance().unlockQueue();
                 }
+                // open the way for the next request
+                Queue.getInstance().unlockQueue();
+            }
+        });
+    }
+    
+    private void doSessionRequest() {
+        HypixelAPI api = Queue.getInstance().getAPI();
+     // do the request
+        api.getSession(this.player, new Callback<SessionReply>(SessionReply.class) {
+            @Override
+            public void callback(Throwable failCause, SessionReply result) {
+                if (failCause != null) {
+                    // if something went wrong, report it
+                    Queue.getInstance().reportFailure(failCause);
+                } else {
+                    // assemble the response
+                    Gson gson = Queue.getInstance().getGson();
+                    // the class session represents the entire request
+                    Session s = gson.fromJson(result.getSession(), Session.class);
+                    if(s == null) {
+                        // there was no session, so lets return a session with everything null except the player
+                        s = new Session();
+                    }
+                    s.setSessionOwner(player);
+                    // pass the result
+                    sessionCallback.onSessionRespone(s);
+                }
+                // open the way for the next request
+                Queue.getInstance().unlockQueue();
             }
         });
     }
