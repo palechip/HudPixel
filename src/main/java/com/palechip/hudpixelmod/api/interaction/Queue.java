@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.api.interaction.representations.Friend;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 import net.hypixel.api.HypixelAPI;
@@ -93,6 +95,10 @@ public class Queue implements ApiKeyLoadedCallback{
      * @param callback
      */
     public void getSession(SessionResponseCallback callback, String player) {
+        this.queue.add(new QueueEntry(callback, player));
+    }
+    
+    public void getFriends(FriendResponseCallback callback, String player) {
         this.queue.add(new QueueEntry(callback, player));
     }
     
