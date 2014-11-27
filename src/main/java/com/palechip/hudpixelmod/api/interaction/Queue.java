@@ -102,8 +102,15 @@ public class Queue implements ApiKeyLoadedCallback{
         this.queue.add(new QueueEntry(callback, player));
     }
     
-    public void reportFailure(Throwable failCause) {
-        //TODO
+    public void reportFailure(Throwable failCause, boolean secondTry) {
+        HudPixelMod logger = HudPixelMod.instance();
+        if(secondTry) {
+            logger.logError("An API requst failed on the second try. Giving up...");
+            failCause.printStackTrace();
+        } else {
+            logger.logWarn("An API request failed. Retrying...");
+            failCause.printStackTrace();
+        }
     }
     
     /**

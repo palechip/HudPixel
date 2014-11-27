@@ -19,6 +19,8 @@ import com.palechip.hudpixelmod.api.interaction.representations.Friend;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 public class QueueEntry {
+    private boolean isSecondTry;
+    
     private BoosterResponseCallback boosterCallback;
     private SessionResponseCallback sessionCallback;
     private FriendResponseCallback friendCallback;
@@ -61,6 +63,18 @@ public class QueueEntry {
         }
     }
     
+    private void failed(Throwable failCause) {
+        Queue.getInstance().reportFailure(failCause, this.isSecondTry);
+        if(this.isSecondTry) {
+            // open the way for the next request
+            Queue.getInstance().unlockQueue();
+        } else {
+            // retry
+            this.isSecondTry = true;
+            this.run();
+        }
+    }
+    
     private void doBoosterRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
         // do the request
@@ -68,8 +82,8 @@ public class QueueEntry {
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
                 if(failCause != null) {
-                    // if something went wrong, report it
-                    Queue.getInstance().reportFailure(failCause);
+                    // if something went wrong, handle it
+                    failed(failCause);
                 } else {
                     // assemble the response
                     ArrayList<Booster> boosters = new ArrayList<Booster>();
@@ -82,9 +96,9 @@ public class QueueEntry {
                     }
                     // pass the result
                     boosterCallback.onBoosterResponse(boosters);
+                    // open the way for the next request
+                    Queue.getInstance().unlockQueue();
                 }
-                // open the way for the next request
-                Queue.getInstance().unlockQueue();
             }
         });
     }
@@ -96,8 +110,8 @@ public class QueueEntry {
             @Override
             public void callback(Throwable failCause, SessionReply result) {
                 if (failCause != null) {
-                    // if something went wrong, report it
-                    Queue.getInstance().reportFailure(failCause);
+                    // if something went wrong, handle it
+                    failed(failCause);
                 } else {
                     // assemble the response
                     Gson gson = Queue.getInstance().getGson();
@@ -110,9 +124,9 @@ public class QueueEntry {
                     s.setSessionOwner(player);
                     // pass the result
                     sessionCallback.onSessionRespone(s);
+                    // open the way for the next request
+                    Queue.getInstance().unlockQueue();
                 }
-                // open the way for the next request
-                Queue.getInstance().unlockQueue();
             }
         });
     }
@@ -125,8 +139,8 @@ public class QueueEntry {
             @Override
             public void callback(Throwable failCause, FriendsReply result) {
                 if (failCause != null) {
-                    // if something went wrong, report it
-                    Queue.getInstance().reportFailure(failCause);
+                    // if something went wrong, handle it
+                    failed(failCause);
                 } else {
                     // assemble the response
                     ArrayList<Friend> friends = new ArrayList<Friend>();
@@ -140,9 +154,9 @@ public class QueueEntry {
                     }
                     // pass the result
                     friendCallback.onFriendResponse(friends);
+                    // open the way for the next request
+                    Queue.getInstance().unlockQueue();
                 }
-                // open the way for the next request
-                Queue.getInstance().unlockQueue();
             }
         });
     }
