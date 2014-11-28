@@ -66,6 +66,13 @@ public class QueueEntry {
     private void failed(Throwable failCause) {
         Queue.getInstance().reportFailure(failCause, this.isSecondTry);
         if(this.isSecondTry) {
+            if(this.boosterCallback != null) {
+                this.boosterCallback.onBoosterResponse(null);
+            } else if(this.sessionCallback != null) {
+                this.sessionCallback.onSessionRespone(null);
+            } else if(this.friendCallback != null) {
+                this.friendCallback.onFriendResponse(null);
+            }
             // open the way for the next request
             Queue.getInstance().unlockQueue();
         } else {
