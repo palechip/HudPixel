@@ -27,8 +27,8 @@ public class GameDetector {
     // this means a lobby where you choose the game and not a pre-game lobby
     private boolean isInLobby = false;
     private static final String COMPASS_NAME = "\u00A7aGame Menu \u00A77(Right Click)";
-    private static final String CLOCK_NAME = "\u00A7aPlayer Visibility \u00A77(Right Click)";
-    private static final String WITHER_STAR_NAME = "\u00A7aLobby Selection \u00A77(Right Click)";
+    private static final String PROFILE_NAME = "\u00A7aYour Profile \u00A77(Right Click)";
+    private static final String WITHER_STAR_NAME = "\u00A7aLobby Selector \u00A77(Right Click)";
     private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
     private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
     private static final String HYPIXEL_IP = "mc.hypixel.net";
@@ -122,16 +122,16 @@ public class GameDetector {
             ItemStack[] inventory = FMLClientHandler.instance().getClientPlayerEntity().inventory.mainInventory;
 
             // limbo and MVP+ land count as lobby as well
-            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(CLOCK_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME))) {
+            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(PROFILE_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME))) {
                 // increase the chance of me noticing when a name was changed
                 if(HudPixelMod.IS_DEBUGGING) {
                     if(inventory[0] != null && !inventory[0].getDisplayName().equals(COMPASS_NAME)) {
                         HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE COMPASS MIGHT HAVE CHANGED!!!");
                         HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[0].getDisplayName() + "\" Saved Name: \"" + COMPASS_NAME + "\"");
                     }
-                    if(inventory[1] != null && !inventory[1].getDisplayName().equals(CLOCK_NAME)) {
-                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE CLOCK MIGHT HAVE CHANGED!!!");
-                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[1].getDisplayName() + "\" Saved Name: \"" + CLOCK_NAME + "\"");
+                    if(inventory[1] != null && !inventory[1].getDisplayName().equals(PROFILE_NAME)) {
+                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE PROFILE MIGHT HAVE CHANGED!!!");
+                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[1].getDisplayName() + "\" Saved Name: \"" + PROFILE_NAME + "\"");
                     }
                     if(inventory[8] != null && !inventory[8].getDisplayName().equals(WITHER_STAR_NAME)) {
                         HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE WITHER STAR MIGHT HAVE CHANGED!!!");
