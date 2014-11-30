@@ -33,6 +33,7 @@ public class GameDetector {
     private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
     private static final String HYPIXEL_IP = "mc.hypixel.net";
     private static final String PARTY_DRAG_MESSAGE = "Found a server running";
+    private static final String PARTY_WARP_MESSAGE = " summoned you to their server.";
 
     public void onGuiShow(GuiScreen gui) {
         if(HypixelNetworkDetector.isHypixelNetwork) {
@@ -97,7 +98,7 @@ public class GameDetector {
             }
             // check for party leaders dragging you directly from a game to another
             if(this.currentGame != null) {
-                if(textMessage.contains(PARTY_DRAG_MESSAGE)) {
+                if(textMessage.contains(PARTY_DRAG_MESSAGE) || textMessage.contains(PARTY_WARP_MESSAGE)) {
                     this.isInLobby = false;
                     this.isGameDetectionStarted = true;
                 }
