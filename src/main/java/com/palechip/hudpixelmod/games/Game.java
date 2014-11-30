@@ -84,7 +84,7 @@ public abstract class Game {
         END_MESSSSAGE = endMessage;
     }
 
-    public  void setupNewGame() {
+    public void setupNewGame() {
         this.renderStrings.clear();
         for(IComponent component : this.components) {
             component.setupNewGame();
