@@ -12,9 +12,15 @@ public class MegaWallsKillCounter implements IComponent {
 
     private KillType trackedType;
     private int kills;
+    
+    // used for the advanced kill tracking
+    private static MegaWallsKillCounter normalKillCounter;
 
     public MegaWallsKillCounter(KillType type) {
         this.trackedType = type;
+        if(type == KillType.Normal) {
+            normalKillCounter = this;
+        }
     }
 
     @Override
@@ -44,10 +50,19 @@ public class MegaWallsKillCounter implements IComponent {
                 if(!textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL") && !textMessage.contains("Wither Damage")) {
                     this.kills++;
                 }
+                // some ninja detection for kills over 18
+                if(this.kills >= 18 && textMessage.contains("was killed by " + FMLClientHandler.instance().getClient().getSession().getUsername())) {
+                    this.kills++;
+                }
                 break;
             case Final:
                 if(!textMessage.contains("ASSIST") && textMessage.contains("FINAL KILL")) {
                     this.kills++;
+                    // for the advanced tracking we must subtract a normal kill
+                    // every time it turns out to be a final kill
+                    if(normalKillCounter.kills > 18) {
+                        normalKillCounter.kills -= 1;
+                    }
                 }
                 break;
             case Assists:
