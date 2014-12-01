@@ -44,7 +44,6 @@ public class HudPixelMod
     public static final String NAME = "HudPixel Reloaded";
     public static final String VERSION = "2.1.0";
     public static final boolean IS_DEBUGGING = false;
-    public static final int RENDERING_HEIGHT_OFFSET = 10;
     public static final String HUDPIXEL_CHAT_PREFIX = "[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] ";
 
     private static HudPixelMod instance;
@@ -53,28 +52,16 @@ public class HudPixelMod
     public HudPixelConfig CONFIG;
     private HudPixelUpdateNotifier  updater;
     private boolean isUpdateMessageQueued;
+    public HudPixelRenderer renderer;
     private Queue apiQueue;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
 
-    // Rendering vars
-    private boolean renderOnTheRight;
-    private int startWidth;
-    private int startHeight;
-    // this will be rendered when there is nothing else to render
-    private ArrayList<String> defaultRenderingStrings;
-
-    // vars for displaying the results after a game
-    private ArrayList<String> results;
-    private long resultRenderTime;
-    private long resultStartTime;
-
     // key related vars
     public static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
-    private boolean isHUDShown = true;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -106,36 +93,11 @@ public class HudPixelMod
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
-
-        // initialize rendering vars
-        this.loadRenderingProperties();
+        this.renderer = new HudPixelRenderer(this.updater);
 
         // initializse key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
-    }
-
-    /**
-     * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
-     */
-    public void loadRenderingProperties() {
-        this.startHeight = HudPixelConfig.displayYOffset + 1;
-        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().equals("right") : false;
-        Minecraft mc = FMLClientHandler.instance().getClient();
-        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-        if(this.renderOnTheRight) {
-            this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
-        } else {
-            this.startWidth = HudPixelConfig.displayXOffset + 1;
-        }
-        this.defaultRenderingStrings = new ArrayList<String>();
-        if(this.CONFIG.displayVersion) {
-            this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + VERSION);
-        }
-        if(this.updater.isOutOfDate) {
-            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + this.updater.newVersion);
-            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + this.updater.downloadLink);
-        }
     }
 
     @SubscribeEvent
@@ -178,13 +140,9 @@ public class HudPixelMod
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
-            // update the resolution for rendering on the right
-            if(this.renderOnTheRight) {
-                Minecraft mc = FMLClientHandler.instance().getClient();
-                ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-                this.startWidth = (res.getScaledWidth() + + HudPixelConfig.displayXOffset) - 1;
-            }
-
+            // update the resolution and the result display, this renders nothing
+            this.renderer.onClientTick();
+            
             // pass the event to the GameDetector
             this.gameDetector.onClientTick();
 
@@ -203,13 +161,6 @@ public class HudPixelMod
             if(this.isUpdateMessageQueued) {
                 this.updateFound();
             }
-            if(this.results != null) {
-                if((System.currentTimeMillis() - this.resultStartTime) >= this.resultRenderTime) {
-                    this.results = null;
-                }
-            }
-
-
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -219,49 +170,8 @@ public class HudPixelMod
     @SubscribeEvent
     public void onRenderTick(RenderTickEvent event) {
         try {
-            Minecraft mc = FMLClientHandler.instance().getClient();
-            if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
-                FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
-                int width;
-                int height = this.startHeight;
-                ArrayList<String> renderStrings;
-                if(this.gameDetector.getCurrentGame() != null) {
-                    renderStrings = this.gameDetector.getCurrentGame().getRenderStrings();
-                } else if(this.results != null) {
-                    renderStrings = this.results;
-                } else {
-                    if(!this.defaultRenderingStrings.isEmpty()) {
-                        renderStrings = this.defaultRenderingStrings;
-                    } else {
-                        return;
-                    }
-                }
-
-                // get the right width
-                if(this.renderOnTheRight) {
-                    int maxWidth = 0;
-                    for(String s : renderStrings) {
-                        if(s != null) {
-                            int stringWidth = mc.fontRenderer.getStringWidth(s);
-                            if(stringWidth > maxWidth) {
-                                maxWidth = stringWidth;
-                            }
-                        }
-                    }
-                    width = this.startWidth - maxWidth;
-                } else {
-                    width = this.startWidth;
-                }
-
-                // render the game
-                for(int i = 0; i < renderStrings.size(); i++) {
-                    // skip the string if it's empty
-                    if(renderStrings.get(i) != null && !renderStrings.get(i).isEmpty()) {
-                        fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
-                        height += RENDERING_HEIGHT_OFFSET;
-                    }
-                }
-            }
+            // render the game
+            this.renderer.onRenderTick();
         } catch(Exception e) {
             this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
             e.printStackTrace();
@@ -272,7 +182,7 @@ public class HudPixelMod
     public void onKeyInput(KeyInputEvent event) {
         // check all listened keys
         if(this.hideHUDKey.isPressed()) {
-            this.isHUDShown = !this.isHUDShown;
+            this.renderer.isHUDShown = !this.renderer.isHUDShown;
         }
     }
 
@@ -281,16 +191,9 @@ public class HudPixelMod
         if(eventArgs.modID.equals(MODID)){
             this.CONFIG.syncConfig();
             // reload stuff that uses the config values for immediate effect
-            this.loadRenderingProperties();
+            this.renderer.loadRenderingProperties(updater);
             Game.loadGames();
         }
-    }
-
-    // called with the last set of rendering strings
-    public void displayResults(ArrayList<String> results) {
-        this.results = results;
-        this.resultStartTime = System.currentTimeMillis();
-        this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
 
     public void updateFound() {
@@ -299,6 +202,9 @@ public class HudPixelMod
                 FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Update available: " + EnumChatFormatting.GREEN + this.updater.newVersion));
                 FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Download here: " + EnumChatFormatting.YELLOW + this.updater.downloadLink));
                 this.isUpdateMessageQueued = false;
+                // also update rendering vars to make sure it notices the update
+                this.renderer.loadRenderingProperties(this.updater);
+                
             } else {
                 // make this being called from onTick()
                 this.isUpdateMessageQueued = true;

@@ -106,7 +106,7 @@ public abstract class Game {
             component.onGameEnd();
         }
         // display the results
-        HudPixelMod.instance().displayResults(this.getRenderStrings());
+        HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
     }
 
     public void onTickUpdate() {
