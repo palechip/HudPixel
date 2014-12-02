@@ -20,6 +20,7 @@ public class HudPixelRenderer {
     
     // Rendering vars
     private boolean renderOnTheRight;
+    private boolean renderOnTheBottom;
     private int startWidth;
     private int startHeight;
     // this will be rendered when there is nothing else to render
@@ -41,15 +42,24 @@ public class HudPixelRenderer {
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
     public void loadRenderingProperties(HudPixelUpdateNotifier updater) {
-        this.startHeight = HudPixelConfig.displayYOffset + 1;
-        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().equals("right") : false;
+        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("right") : false;
+        this.renderOnTheBottom = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("bottom") : false;
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        
         if(this.renderOnTheRight) {
+            // begin on the right side
             this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         } else {
             this.startWidth = HudPixelConfig.displayXOffset + 1;
         }
+        if(this.renderOnTheBottom) {
+            // begin on the bottom
+            this.startHeight = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
+        } else {
+            this.startHeight = HudPixelConfig.displayYOffset + 1;
+        }
+        
         this.defaultRenderingStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion) {
             this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + HudPixelMod.VERSION);
@@ -64,12 +74,19 @@ public class HudPixelRenderer {
      * This doesn't render the game. It just does calculations which shouldn't be made during the rendering tick.
      */
     public void onClientTick() {
-        // update the resolution for rendering on the right
-        if(this.renderOnTheRight) {
+        // update the resolution for rendering on the right & for rendering on the bottom
+        if(this.renderOnTheRight || this.renderOnTheBottom) {
             Minecraft mc = FMLClientHandler.instance().getClient();
             ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            this.startWidth = (res.getScaledWidth() + + HudPixelConfig.displayXOffset) - 1;
+            if(this.renderOnTheRight) {
+                this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
+            }
+            if(this.renderOnTheBottom) {
+                this.startHeight = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
+            }
         }
+        
+        // check the result timer
         if(this.results != null) {
             if((System.currentTimeMillis() - this.resultStartTime) >= this.resultRenderTime) {
                 this.results = null;
@@ -94,7 +111,7 @@ public class HudPixelRenderer {
         if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
             FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
             int width;
-            int height = this.startHeight;
+            int height;
             ArrayList<String> renderStrings;
             if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
@@ -122,6 +139,13 @@ public class HudPixelRenderer {
                 width = this.startWidth - maxWidth;
             } else {
                 width = this.startWidth;
+            }
+
+            // and the right height
+            if(this.renderOnTheBottom) {
+                height = this.startHeight - renderStrings.size() * RENDERING_HEIGHT_OFFSET;
+            } else {
+                height = this.startHeight;
             }
 
             // render the game

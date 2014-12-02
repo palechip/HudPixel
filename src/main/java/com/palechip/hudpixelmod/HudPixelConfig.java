@@ -70,7 +70,7 @@ public class HudPixelConfig {
     }
 
     public void syncConfig() {
-        displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "left", "Choose where to render everything the mod displays.(\"left\" or \"right\")").getString();
+        displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays.(\"lefttop\", \"righttop\", \"leftbottom\" and \"rightbottom\")").getString();
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering.").getInt();
         displayYOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering.").getInt();
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);

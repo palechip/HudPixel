@@ -117,8 +117,13 @@ public abstract class Game {
 
     // this is called even if the game hasn't started
     public void updateRenderStrings() {
+        this.renderStrings.clear();
         for(int i = 0; i < components.size(); i++) {
-            this.renderStrings.set(i, this.components.get(i).getRenderingString());
+            // only add the string if it actually contains something
+            // so if you set the display to bottom, it doesn't float
+            if(!this.components.get(i).getRenderingString().isEmpty()) {
+                this.renderStrings.add(this.components.get(i).getRenderingString());
+            }
         }
     }
 
