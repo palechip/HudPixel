@@ -9,8 +9,6 @@
   "updateUrl": "",
   "authorList": ["palechip"],
   "credits": "",
-  "logoFile": "hdShieldLogo",
-  "screenshots": ["hypixelLogo.png"],
-  "dependencies": []
+  "logoFile": “hudpixelLogo”,
 }
 ]
