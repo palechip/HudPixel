@@ -2,15 +2,15 @@ package com.palechip.hudpixelmod;
 
 import java.util.ArrayList;
 
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
+
+import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 
 /**
  * Handles the display on the screen when no gui is displayed.

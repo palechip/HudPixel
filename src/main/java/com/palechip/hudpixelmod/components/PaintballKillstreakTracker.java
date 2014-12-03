@@ -1,7 +1,5 @@
 package com.palechip.hudpixelmod.components;
 
-import java.util.ArrayList;
-
 import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.client.FMLClientHandler;
 

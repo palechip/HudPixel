@@ -12,7 +12,6 @@ import net.minecraft.util.EnumChatFormatting;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
-import com.sun.xml.internal.ws.api.message.FilterMessageImpl;
 
 import cpw.mods.fml.client.FMLClientHandler;
 

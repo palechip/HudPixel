@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.components;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.util.EnumChatFormatting;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class KillstreakTracker implements IComponent {
     private int currentKillstreak;

@@ -3,19 +3,14 @@ package com.palechip.hudpixelmod.api.interaction;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import net.hypixel.api.HypixelAPI;
+
 import com.google.gson.Gson;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.representations.Booster;
-import com.palechip.hudpixelmod.api.interaction.representations.Friend;
-import com.palechip.hudpixelmod.api.interaction.representations.Session;
-
-import net.hypixel.api.HypixelAPI;
-import net.hypixel.api.reply.PlayerReply;
-import net.hypixel.api.util.Callback;
 
 public class Queue implements ApiKeyLoadedCallback{
     private static Queue instance;

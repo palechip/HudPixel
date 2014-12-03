@@ -1,10 +1,5 @@
 package com.palechip.hudpixelmod.components;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.palechip.hudpixelmod.HudPixelMod;
-
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerComponent implements IComponent{

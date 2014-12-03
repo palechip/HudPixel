@@ -1,8 +1,8 @@
 package com.palechip.hudpixelmod.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-
 import net.minecraft.util.EnumChatFormatting;
+
+import com.palechip.hudpixelmod.HudPixelMod;
 
 public class CoinCounterComponent implements IComponent{
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins: ";

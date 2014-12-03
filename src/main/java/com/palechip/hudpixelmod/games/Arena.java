@@ -1,7 +1,5 @@
 package com.palechip.hudpixelmod.games;
 
-import net.minecraft.util.EnumChatFormatting;
-
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
 

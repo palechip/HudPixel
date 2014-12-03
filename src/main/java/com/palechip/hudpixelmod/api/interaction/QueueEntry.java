@@ -10,7 +10,6 @@ import net.hypixel.api.util.Callback;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;

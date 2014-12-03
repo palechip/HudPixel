@@ -1,7 +1,5 @@
 package com.palechip.hudpixelmod.detectors;
 
-import java.util.ArrayList;
-
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiScreen;
