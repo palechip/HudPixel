@@ -9,6 +9,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.gui.BoosterDisplay;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -33,8 +34,11 @@ public class HudPixelRenderer {
     
     public boolean isHUDShown = true;
     
+    public BoosterDisplay boosterDisplay;
+    
     public HudPixelRenderer(HudPixelUpdateNotifier updater) {
-     // initialize rendering vars
+        this.boosterDisplay = new BoosterDisplay();
+        // initialize rendering vars
         this.loadRenderingProperties(updater);
     }
     
@@ -115,6 +119,8 @@ public class HudPixelRenderer {
             ArrayList<String> renderStrings;
             if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
+            } else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+                renderStrings = this.boosterDisplay.getRenderingStrings();
             } else if(this.results != null) {
                 renderStrings = this.results;
             } else {

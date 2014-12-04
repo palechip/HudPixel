@@ -35,4 +35,13 @@ public class Booster {
     public String getOwner() {
         return purchaser;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Booster) {
+            Booster b = (Booster)obj;
+            return this.dateActivated == b.dateActivated && this.purchaser.equals(b.purchaser) && this.gameType == b.gameType;
+        }
+        return super.equals(obj);
+    }
 }

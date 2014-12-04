@@ -124,6 +124,9 @@ public class HudPixelMod
 
             // pass the message to the api connection
             this.apiQueue.onChatMessage(event.message.getUnformattedText());
+            
+            // and the booster display needs it as well
+            this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
             e.printStackTrace();
@@ -149,6 +152,8 @@ public class HudPixelMod
             }
 
             this.apiQueue.onClientTick();
+            
+            this.renderer.boosterDisplay.onClientTick();
 
             // check if the update message can be displayed
             if(this.isUpdateMessageQueued) {
