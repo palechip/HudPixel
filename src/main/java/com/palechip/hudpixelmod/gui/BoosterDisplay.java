@@ -30,22 +30,16 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
     }
-    
+
     private void updateRenderStrings() {
-        // do this asnychronously to prevent a little lag spike upon opening the chat gui
-        new Thread() {
-            @Override
-            public void run() {
-                if(!isLocked) {
-                    renderingStrings.clear();
-                    renderingStrings.add(TITLE);
-                    for (Booster booster : activeBoosters) {
-                        // Add all active boosters. Tipped ones are white. Untipped ones are green. 
-                        renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName() + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
-                    }
-                }
+        if(!isLocked) {
+            renderingStrings.clear();
+            renderingStrings.add(TITLE);
+            for (Booster booster : activeBoosters) {
+                // Add all active boosters. Tipped ones are white. Untipped ones are green. 
+                renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName() + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
             }
-        }.start();
+        }
     }
 
     public void onChatMessage(String textMessage, String formattedMessage) {
@@ -80,20 +74,14 @@ public class BoosterDisplay implements BoosterResponseCallback{
             this.isInChatGui = false;
         }
     }
-    
+
     private void requestBoosters() {
-        // do this asnychronously to prevent a little lag spike upon opening the chat gui
-        new Thread() {
-            @Override
-            public void run() {
-                if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
-                    lastRequest = System.currentTimeMillis();
-                    Queue.getInstance().getBoosters(instance);
-                }
-            }
-        }.start();
+        if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
+            lastRequest = System.currentTimeMillis();
+            Queue.getInstance().getBoosters(instance);
+        }
     }
-    
+
     public ArrayList<String> getRenderingStrings() {
         return renderingStrings;
     }
