@@ -119,7 +119,7 @@ public class HudPixelRenderer {
             ArrayList<String> renderStrings;
             if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
-            } else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            } else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
             } else if(this.results != null) {
                 renderStrings = this.results;

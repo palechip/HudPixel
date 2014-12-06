@@ -17,6 +17,7 @@ public class HudPixelConfigGui extends GuiConfig {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
         Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
         // unfortunately there is no array for this
+        list.addAll(new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.DISPLAY_CATEGORY)).getChildElements());
         list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.QUAKE_CATEGORY)).getChildElements());
         list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.TNT_CATEGORY)).getChildElements());

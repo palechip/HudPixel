@@ -6,6 +6,7 @@ import java.util.UUID;
 import net.hypixel.api.HypixelAPI;
 
 import com.google.gson.Gson;
+import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
@@ -45,7 +46,7 @@ public class Queue implements ApiKeyLoadedCallback{
     
     public void onClientTick() {
         // run the queue
-        if(!this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
+        if(HudPixelConfig.useAPI && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
             QueueEntry entry = this.queue.get(0);
             entry.run();
             this.queue.remove(0);
@@ -82,7 +83,11 @@ public class Queue implements ApiKeyLoadedCallback{
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
-        this.queue.add(new QueueEntry(callback));
+        if(HudPixelConfig.useAPI) {
+            this.queue.add(new QueueEntry(callback));
+        } else {
+            callback.onBoosterResponse(null);
+        }
     }
     
     /**
@@ -90,11 +95,23 @@ public class Queue implements ApiKeyLoadedCallback{
      * @param callback
      */
     public void getSession(SessionResponseCallback callback, String player) {
-        this.queue.add(new QueueEntry(callback, player));
+        if(HudPixelConfig.useAPI) {
+            this.queue.add(new QueueEntry(callback, player));
+        } else {
+            callback.onSessionRespone(null);
+        }
     }
     
+    /**
+     * Queues a Friends request.
+     * @param callback
+     */
     public void getFriends(FriendResponseCallback callback, String player) {
-        this.queue.add(new QueueEntry(callback, player));
+        if(HudPixelConfig.useAPI) {
+            this.queue.add(new QueueEntry(callback, player));
+        } else {
+            callback.onFriendResponse(null);
+        }
     }
     
     public void reportFailure(Throwable failCause, boolean secondTry) {
