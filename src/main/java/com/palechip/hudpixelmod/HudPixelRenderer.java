@@ -24,6 +24,8 @@ public class HudPixelRenderer {
     private boolean renderOnTheBottom;
     private int startWidth;
     private int startHeight;
+    private int startWidthRight;
+    private int startHeightBottom;
     // this will be rendered when there is nothing else to render
     private ArrayList<String> defaultRenderingStrings;
 
@@ -51,18 +53,12 @@ public class HudPixelRenderer {
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         
-        if(this.renderOnTheRight) {
-            // begin on the right side
-            this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
-        } else {
-            this.startWidth = HudPixelConfig.displayXOffset + 1;
-        }
-        if(this.renderOnTheBottom) {
-            // begin on the bottom
-            this.startHeight = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
-        } else {
-            this.startHeight = HudPixelConfig.displayYOffset + 1;
-        }
+        // begin on the right side
+        this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
+        this.startWidth = HudPixelConfig.displayXOffset + 1;
+        // begin on the bottom
+        this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
+        this.startHeight = HudPixelConfig.displayYOffset + 1;
         
         this.defaultRenderingStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion) {
@@ -82,12 +78,8 @@ public class HudPixelRenderer {
         if(this.renderOnTheRight || this.renderOnTheBottom) {
             Minecraft mc = FMLClientHandler.instance().getClient();
             ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            if(this.renderOnTheRight) {
-                this.startWidth = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
-            }
-            if(this.renderOnTheBottom) {
-                this.startHeight = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
-            }
+            this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
+            this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
         }
         
         // check the result timer
@@ -117,10 +109,12 @@ public class HudPixelRenderer {
             int width;
             int height;
             ArrayList<String> renderStrings;
+            boolean isBoosterDisplay = false;
             if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             } else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
+                isBoosterDisplay = true;
             } else if(this.results != null) {
                 renderStrings = this.results;
             } else {
@@ -132,7 +126,7 @@ public class HudPixelRenderer {
             }
 
             // get the right width
-            if(this.renderOnTheRight) {
+            if(this.renderOnTheRight || isBoosterDisplay) {
                 int maxWidth = 0;
                 for(String s : renderStrings) {
                     if(s != null) {
@@ -142,14 +136,17 @@ public class HudPixelRenderer {
                         }
                     }
                 }
-                width = this.startWidth - maxWidth;
+                width = this.startWidthRight - maxWidth;
             } else {
                 width = this.startWidth;
             }
 
             // and the right height
-            if(this.renderOnTheBottom) {
-                height = this.startHeight - renderStrings.size() * RENDERING_HEIGHT_OFFSET;
+            if(this.renderOnTheBottom || isBoosterDisplay) {
+                height = this.startHeightBottom - renderStrings.size() * RENDERING_HEIGHT_OFFSET;
+                if(isBoosterDisplay) {
+                    height -= RENDERING_HEIGHT_OFFSET;
+                }
             } else {
                 height = this.startHeight;
             }
