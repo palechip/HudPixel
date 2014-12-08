@@ -30,6 +30,9 @@ public class Queue implements ApiKeyLoadedCallback{
     private static final int HEAT_COOLDOWN_PER_SECOND = 1;
     // keeps track of last second, so it can reduce the heat
     private long sec;
+    // saves when the mod last asked the user for a key
+    private long lastKeyNotice;
+    private static final int MIN_TIME_BETWEEN_KEY_NOTICES = 600; // = 1 min
     
     public Queue() {
         instance = this;
@@ -45,6 +48,14 @@ public class Queue implements ApiKeyLoadedCallback{
     }
     
     public void onClientTick() {
+        // request the key if necessary
+        if(HudPixelConfig.useAPI && !this.apiEnabled && !this.queue.isEmpty()) {
+            if(this.lastKeyNotice == 0 || System.currentTimeMillis() > this.lastKeyNotice + MIN_TIME_BETWEEN_KEY_NOTICES) {
+                this.lastKeyNotice = System.currentTimeMillis();
+                this.keyHandler.requestApiKey();
+            }
+        }
+        
         // run the queue
         if(HudPixelConfig.useAPI && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
             QueueEntry entry = this.queue.get(0);
