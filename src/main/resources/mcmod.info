@@ -10,5 +10,7 @@
   "authorList": ["palechip"],
   "credits": "",
   "logoFile": “hudpixelLogo.png”,
+  "screenshots": [],
+  "dependencies": []
 }
 ]
