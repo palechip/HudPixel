@@ -18,6 +18,8 @@ public class Paintball extends Game {
         if(HudPixelConfig.paintballKillstreakTrackerDisplay) {
             // Triple Shot
             this.components.add(new PaintballKillstreakTracker("Triple Shot", true, true));
+            // Quintuple Shot
+            this.components.add(new PaintballKillstreakTracker("Quintuple Shot", true, false));
             // Strong Arm
             this.components.add(new PaintballKillstreakTracker("Strong Arm", true, true));
             // Forcefield
@@ -26,6 +28,10 @@ public class Paintball extends Game {
             this.components.add(new PaintballKillstreakTracker("Super Strong Arm", true, true));
             // Rambo
             this.components.add(new PaintballKillstreakTracker("RAMBO", true, true));
+            // Backstab
+            this.components.add(new PaintballKillstreakTracker("Backstab", true, false));
+            // Sentry
+            this.components.add(new PaintballKillstreakTracker("Sentry", true, true));
             // cooldown only killsteaks:
             // TNT Rain
             this.components.add(new PaintballKillstreakTracker("TNT Rain", false, true));
