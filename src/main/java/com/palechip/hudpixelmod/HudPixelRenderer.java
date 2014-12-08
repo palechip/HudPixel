@@ -75,12 +75,10 @@ public class HudPixelRenderer {
      */
     public void onClientTick() {
         // update the resolution for rendering on the right & for rendering on the bottom
-        if(this.renderOnTheRight || this.renderOnTheBottom) {
-            Minecraft mc = FMLClientHandler.instance().getClient();
-            ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
-            this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
-        }
+        Minecraft mc = FMLClientHandler.instance().getClient();
+        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
+        this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
         
         // check the result timer
         if(this.results != null) {
