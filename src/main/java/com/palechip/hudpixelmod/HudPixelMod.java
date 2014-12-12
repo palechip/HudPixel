@@ -16,6 +16,7 @@ import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.util.ScoreboardReader;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
@@ -136,6 +137,9 @@ public class HudPixelMod
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
+            // make sure the Scoreboard reader updates when necessary
+            ScoreboardReader.resetCache();
+            
             // update the resolution and the result display, this renders nothing
             this.renderer.onClientTick();
             
