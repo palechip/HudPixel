@@ -2,8 +2,11 @@ package com.palechip.hudpixelmod.games;
 
 import java.util.ArrayList;
 
+import net.hypixel.api.util.GameType;
+
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
+import com.palechip.hudpixelmod.detectors.ArcadeGamesDetector;
 import com.palechip.hudpixelmod.games.arcade.BlockingDead;
 import com.palechip.hudpixelmod.games.arcade.BountyHunters;
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
@@ -21,6 +24,10 @@ import com.palechip.hudpixelmod.games.tnt.Wizards;
 public abstract class Game {
     // an array of all game classes
     private static ArrayList<Game> games;
+    
+    public static final String GAME_DETECTION_HELPER = "This is a game detection helper!";
+    public static final String START_MESSAGE_DEFAULT = "The game starts in 1 second!";
+    public static final String END_MESSAGE_DEFAULT = "You earned a total of";
 
     static {
         Game.loadGames();
@@ -43,6 +50,7 @@ public abstract class Game {
         games.add(new Run());
         games.add(new BowSpleef());
         games.add(new Wizards());
+        games.add(new ArcadeGamesDetector());
         games.add(new BountyHunters());
         games.add(new CreeperAttack());
         games.add(new DragonWars());
@@ -66,6 +74,7 @@ public abstract class Game {
     protected String BOSSBAR_NAME;
     protected String START_MESSAGE;
     protected String END_MESSSSAGE;
+    protected GameType GAME_TYPE;
 
     // the strings which the game wants to be rendered
     protected ArrayList<String> renderStrings;
@@ -74,7 +83,7 @@ public abstract class Game {
     protected boolean hasStarted;
 
 
-    protected Game(String chatTag, String bossbarName, String startMessage, String endMessage) {
+    protected Game(String chatTag, String bossbarName, String startMessage, String endMessage, GameType type) {
         this.renderStrings = new ArrayList<String>();
         this.components = new ArrayList<IComponent>();
 
@@ -82,6 +91,7 @@ public abstract class Game {
         BOSSBAR_NAME = bossbarName;
         START_MESSAGE = startMessage;
         END_MESSSSAGE = endMessage;
+        GAME_TYPE = type;
     }
 
     public void setupNewGame() {
@@ -118,6 +128,10 @@ public abstract class Game {
     // this is called even if the game hasn't started
     public void updateRenderStrings() {
         this.renderStrings.clear();
+        // add information about the game status for debug reasons
+        if(HudPixelMod.IS_DEBUGGING) {
+            renderStrings.add(this.GAME_TYPE.getName() + " " + (this.hasStarted ? "started" : "not started"));
+        }
         for(int i = 0; i < components.size(); i++) {
             // only add the string if it actually contains something
             // so if you set the display to bottom, it doesn't float
@@ -178,5 +192,9 @@ public abstract class Game {
 
     public boolean hasGameStarted() {
         return hasStarted;
+    }
+    
+    public GameType getType() {
+        return GAME_TYPE;
     }
 }

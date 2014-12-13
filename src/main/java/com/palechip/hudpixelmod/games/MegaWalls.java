@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod.games;
 
+import net.hypixel.api.util.GameType;
+
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
 import com.palechip.hudpixelmod.components.MegaWallsKillCounter;
@@ -11,7 +13,7 @@ public class MegaWalls extends Game {
         // don't start the game before the walls are down
         // it's not necessary and it prevents the game from breaking when
         // the player relogs during this time.
-        super("Mega Walls", "Mega Walls", "The walls have come down! Prepare for battle!", "You earned a total of");
+        super("Mega Walls", "Mega Walls", "The walls have come down! Prepare for battle!", END_MESSAGE_DEFAULT, GameType.WALLS3);
         if(HudPixelConfig.megaWallsCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }

@@ -14,7 +14,7 @@ public class GameStartStopDetector {
         if(!this.isChatMessage(textMessage)) { 
             if(this.gameDetector.getCurrentGame() != null) {
                 // check for starting
-                if(!this.gameDetector.getCurrentGame().hasGameStarted()) {
+                if(!this.gameDetector.getCurrentGame().hasGameStarted() && !this.gameDetector.getCurrentGame().getStartMessage().equals(Game.GAME_DETECTION_HELPER)) {
                     if (textMessage.contains(this.gameDetector.getCurrentGame().getStartMessage())) {
                         this.gameDetector.getCurrentGame().startGame();
                     }

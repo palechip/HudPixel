@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod.games.tnt;
 
+import net.hypixel.api.util.GameType;
+
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
 import com.palechip.hudpixelmod.components.KillstreakTracker;
@@ -8,7 +10,7 @@ import com.palechip.hudpixelmod.games.Game;
 
 public class Wizards extends Game {
     public Wizards() {
-        super("TNT Wizards", "", "You are on team", "You earned a total of");
+        super("TNT Wizards", "", "You are on team", END_MESSAGE_DEFAULT, GameType.TNTGAMES);
         if(HudPixelConfig.tntTimeDisplay) {
             this.components.add(new TimerComponent());
         }

@@ -1,11 +1,13 @@
 package com.palechip.hudpixelmod.games.arcade;
 
+import net.hypixel.api.util.GameType;
+
 import com.palechip.hudpixelmod.games.Game;
 
 public class BlockingDead extends Game {
 
     public BlockingDead() {
-        super("", "Blocking Dead", "1 seconds until the game starts!", "You earned a total of");
+        super("", "Blocking Dead", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARCADE);
     }
 
 }

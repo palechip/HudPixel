@@ -13,7 +13,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 
 public class GameDetector {
     // null if no game is detected
-    private Game currentGame;
+    protected Game currentGame;
 
     private boolean isGameDetectionStarted = false;
     private boolean isLobbyDetectionStarted = false;
