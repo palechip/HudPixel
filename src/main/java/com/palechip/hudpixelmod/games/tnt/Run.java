@@ -8,7 +8,7 @@ import com.palechip.hudpixelmod.games.Game;
 
 public class Run extends Game {
     public Run() {
-        super("TNT Run", "", "Go!", END_MESSAGE_DEFAULT, GameType.TNTGAMES);
+        super("TNT Run", "", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.TNTGAMES);
         if(HudPixelConfig.tntTimeDisplay) {
             this.components.add(new TimerComponent());
         }
