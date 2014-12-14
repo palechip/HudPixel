@@ -19,6 +19,7 @@ import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 public class QueueEntry {
     private boolean isSecondTry;
+    private long creationTime;
     
     private BoosterResponseCallback boosterCallback;
     private SessionResponseCallback sessionCallback;
@@ -31,6 +32,7 @@ public class QueueEntry {
      */
     public QueueEntry(BoosterResponseCallback callback) {
         this.boosterCallback = callback;
+        this.creationTime = System.currentTimeMillis();
     }
     
     /**
@@ -40,6 +42,7 @@ public class QueueEntry {
     public QueueEntry(SessionResponseCallback callback, String player) {
         this.sessionCallback = callback;
         this.player = player;
+        this.creationTime = System.currentTimeMillis();
     }
     
     /**
@@ -49,6 +52,7 @@ public class QueueEntry {
     public QueueEntry(FriendResponseCallback callback, String player) {
         this.friendCallback = callback;
         this.player = player;
+        this.creationTime = System.currentTimeMillis();
     }
     
     public void run() {
@@ -73,7 +77,7 @@ public class QueueEntry {
         }
     }
     
-    private void cancel() {
+    public void cancel() {
         if(this.boosterCallback != null) {
             this.boosterCallback.onBoosterResponse(null);
         } else if(this.sessionCallback != null) {
@@ -83,6 +87,10 @@ public class QueueEntry {
         }
         // open the way for the next request
         Queue.getInstance().unlockQueue();
+    }
+    
+    public long getCreationTime() {
+        return this.creationTime;
     }
     
     private void doBoosterRequest() {

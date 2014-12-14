@@ -33,7 +33,7 @@ public class Queue implements ApiKeyLoadedCallback{
     // saves when the mod last asked the user for a key
     private long lastKeyNotice;
     private static final int MIN_TIME_BETWEEN_KEY_NOTICES = 60000; // = 1 min
-    
+    private static final int API_DISABLED_TIMEOUT = 15000;
     public Queue() {
         instance = this;
         this.queue = new ArrayList<QueueEntry>();
@@ -50,6 +50,11 @@ public class Queue implements ApiKeyLoadedCallback{
     public void onClientTick() {
         // request the key if necessary
         if(HudPixelConfig.useAPI && !this.apiEnabled && !this.queue.isEmpty()) {
+            // if the api is disabled, the requests will expire
+            if(this.queue.get(0).getCreationTime() + API_DISABLED_TIMEOUT < System.currentTimeMillis()) {
+                this.queue.get(0).cancel();
+                this.queue.remove(0);
+            }
             if(this.lastKeyNotice == 0 || System.currentTimeMillis() > this.lastKeyNotice + MIN_TIME_BETWEEN_KEY_NOTICES) {
                 this.lastKeyNotice = System.currentTimeMillis();
                 this.keyHandler.requestApiKey();
