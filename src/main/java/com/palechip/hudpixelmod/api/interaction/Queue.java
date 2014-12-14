@@ -32,7 +32,7 @@ public class Queue implements ApiKeyLoadedCallback{
     private long sec;
     // saves when the mod last asked the user for a key
     private long lastKeyNotice;
-    private static final int MIN_TIME_BETWEEN_KEY_NOTICES = 600; // = 1 min
+    private static final int MIN_TIME_BETWEEN_KEY_NOTICES = 60000; // = 1 min
     
     public Queue() {
         instance = this;
