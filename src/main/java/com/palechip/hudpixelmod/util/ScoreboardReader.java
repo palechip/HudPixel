@@ -3,7 +3,8 @@ package com.palechip.hudpixelmod.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -44,9 +45,9 @@ public class ScoreboardReader {
         // Get the scoreboard.
         Scoreboard scoreboard = FMLClientHandler.instance().getClient().theWorld.getScoreboard();
         // Get the right objective. I think the 1 stands for the sidebar objective but I've just copied it from the rendering code.
-        ScoreObjective sidebarObjective = scoreboard.func_96539_a(1);
+        ScoreObjective sidebarObjective = scoreboard.getObjectiveInDisplaySlot(1);
         // Get a collection of all scores
-        Collection scores = scoreboard.func_96534_i(sidebarObjective);
+        Collection scores = scoreboard.getSortedScores(sidebarObjective);
         // Process all scores
         for(Object score : scores) {
             // Make sure it can be casted to Score

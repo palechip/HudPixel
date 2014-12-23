@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.components;
 
 import net.minecraft.util.EnumChatFormatting;
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class PaintballKillstreakTracker implements IComponent {
     private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717"; // fancy x

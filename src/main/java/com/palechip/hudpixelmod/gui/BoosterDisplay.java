@@ -11,7 +11,7 @@ import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class BoosterDisplay implements BoosterResponseCallback{
     private static final int REQUEST_COOLDOWN = 30000; // = 30s
