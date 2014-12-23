@@ -24,6 +24,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private ArrayList<Booster> activeBoosters;
     private boolean isLocked;
     private boolean isInChatGui;
+    private boolean hasFailed;
     
     public BoosterDisplay() {
         this.instance = this;
@@ -35,10 +36,10 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private void updateRenderStrings() {
         if(!isLocked) {
             renderingStrings.clear();
-            renderingStrings.add(TITLE);
+            renderingStrings.add(TITLE + (hasFailed ? "(Loading failed!)" : ""));
             for (Booster booster : activeBoosters) {
                 // Add all active boosters. Tipped ones are white. Untipped ones are green. 
-                renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName() + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
+                renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
             }
         }
     }
@@ -48,7 +49,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
             if(textMessage.contains("You sent a") && textMessage.contains("tip of")) {
                 // cut the extra stuff
                 String name = textMessage.substring(0, textMessage.indexOf(" in"));
-                // is it a ranked meber
+                // is it a ranked member
                 if(textMessage.contains("]")) {
                     name = name.substring(name.indexOf("]") + 2);
                 } else {
@@ -97,6 +98,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     public void onBoosterResponse(ArrayList<Booster> boosters) {
         if(boosters != null) {
             this.isLocked = true;
+            this.hasFailed = false;
             this.activeBoosters.clear();
             // get the active ones
             for (Booster booster : boosters) {
@@ -107,8 +109,10 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 }
             }
             this.isLocked = false;
-            // make it display
-            this.updateRenderStrings();
+        } else {
+            this.hasFailed = true;
         }
+        // make it display
+        this.updateRenderStrings();
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
@@ -149,7 +150,12 @@ public class HudPixelRenderer {
                 height = this.startHeight;
             }
 
-            // render the game
+            // render a box for the booster display
+            if(isBoosterDisplay) {
+                Gui.drawRect(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - RENDERING_HEIGHT_OFFSET, 1610612736);
+            }
+
+            // render the display
             for(int i = 0; i < renderStrings.size(); i++) {
                 // skip the string if it's empty
                 if(renderStrings.get(i) != null && !renderStrings.get(i).isEmpty()) {
