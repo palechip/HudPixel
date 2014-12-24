@@ -157,7 +157,7 @@ public class GameDetector {
                 for(Game game : Game.getGames()) {
                     // please note the use of contains() and not equals()
                     // in a pre-game lobby there will always be the IP in the bar. (because youtube)
-                    if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.contains(game.getBossbarName()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
+                    if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.toLowerCase().contains(game.getBossbarName().toLowerCase()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
                         // we found the game
                         this.currentGame = game;
                         this.isGameDetectionStarted = false;
