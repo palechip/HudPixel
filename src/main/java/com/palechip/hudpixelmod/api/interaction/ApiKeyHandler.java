@@ -13,7 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class ApiKeyHandler {
     private static ApiKeyHandler instance;

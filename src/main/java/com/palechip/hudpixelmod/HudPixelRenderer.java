@@ -12,7 +12,7 @@ import net.minecraft.util.EnumChatFormatting;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 
 /**
  * Handles the display on the screen when no gui is displayed.
@@ -104,7 +104,7 @@ public class HudPixelRenderer {
     public void onRenderTick() {
         Minecraft mc = FMLClientHandler.instance().getClient();
         if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
-            FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+            FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRenderer;
             int width;
             int height;
             ArrayList<String> renderStrings;
@@ -129,7 +129,7 @@ public class HudPixelRenderer {
                 int maxWidth = 0;
                 for(String s : renderStrings) {
                     if(s != null) {
-                        int stringWidth = mc.fontRendererObj.getStringWidth(s);
+                        int stringWidth = mc.fontRenderer.getStringWidth(s);
                         if(stringWidth > maxWidth) {
                             maxWidth = stringWidth;
                         }

@@ -18,18 +18,18 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 @Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.HudPixelGuiFactory")
 public class HudPixelMod

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class GameDetector {
     // null if no game is detected

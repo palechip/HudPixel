@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.detectors;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class HypixelNetworkDetector {
     // saves if the player is online on the Hypixel server
@@ -16,7 +16,8 @@ public class HypixelNetworkDetector {
     public void check() {
         // get the IP of the current server
         // only if there is one
-        if(FMLClientHandler.instance().getClient().getCurrentServerData() == null) {
+        // func_147104_D returns the ServerData of the current server
+        if(FMLClientHandler.instance().getClient().func_147104_D() == null) {
             // Did the player disconnect?
             if(isHypixelNetwork) {
                 isHypixelNetwork = false;
@@ -24,7 +25,7 @@ public class HypixelNetworkDetector {
             }
             return;
         }
-        String ip = FMLClientHandler.instance().getClient().getCurrentServerData().serverIP;
+        String ip = FMLClientHandler.instance().getClient().func_147104_D().serverIP;
         // if the server ip ends with hypixel.net, it belongs to the Hypixel Network (mc.hypixel.net, test.hypixel.net, mvp.hypixel.net, creative.hypixel.net)
         if(!isHypixelNetwork && ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
             isHypixelNetwork = true;
