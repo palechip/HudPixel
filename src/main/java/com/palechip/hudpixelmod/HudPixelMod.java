@@ -112,22 +112,29 @@ public class HudPixelMod
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
-            // pass the event to the GameDetector
-            this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            // this one reads the normal chat messages
+            if(event.type == 0) {
+                // pass the event to the GameDetector
+                this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
-            // pass the chat messages to the current game
-            if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
-                this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+                // pass the chat messages to the current game
+                if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
+                    this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+                }
+
+                // check for start and stop
+                this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+
+                // pass the message to the api connection
+                this.apiQueue.onChatMessage(event.message.getUnformattedText());
+
+                // and the booster display needs it as well
+                this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+            } 
+            // this one are the messages on the status bar
+            else {
+                // not used right now
             }
-
-            // check for start and stop
-            this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-
-            // pass the message to the api connection
-            this.apiQueue.onChatMessage(event.message.getUnformattedText());
-            
-            // and the booster display needs it as well
-            this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
             e.printStackTrace();
