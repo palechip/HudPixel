@@ -25,6 +25,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private boolean isLocked;
     private boolean isInChatGui;
     private boolean hasFailed;
+    private boolean isLoading;
     
     public BoosterDisplay() {
         this.instance = this;
@@ -36,7 +37,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private void updateRenderStrings() {
         if(!isLocked) {
             renderingStrings.clear();
-            renderingStrings.add(TITLE + (hasFailed ? "(Loading failed!)" : ""));
+            renderingStrings.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
             for (Booster booster : activeBoosters) {
                 // Add all active boosters. Tipped ones are white. Untipped ones are green. 
                 renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
@@ -86,6 +87,9 @@ public class BoosterDisplay implements BoosterResponseCallback{
             if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
                 lastRequest = System.currentTimeMillis();
                 Queue.getInstance().getBoosters(instance);
+                // show them that we are loading date
+                this.isLoading = true;
+                this.updateRenderStrings();
             }
         }
     }
@@ -96,6 +100,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
 
     @Override
     public void onBoosterResponse(ArrayList<Booster> boosters) {
+        this.isLoading = false;
         if(boosters != null) {
             this.isLocked = true;
             this.hasFailed = false;
