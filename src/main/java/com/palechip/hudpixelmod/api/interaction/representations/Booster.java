@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.util.UuidHelper;
+
 import net.hypixel.api.util.GameType;
 
 public class Booster {
@@ -9,6 +11,7 @@ public class Booster {
     private long length;
     private long originalLength;
     private String purchaser;
+    private String purchaserUuid;
     
     public Booster(){}
     
@@ -33,6 +36,10 @@ public class Booster {
     }
     
     public String getOwner() {
+        if(this.purchaser == null) {
+            this.purchaser = UuidHelper.getUsernameFormUUID(purchaserUuid);
+            
+        }
         return purchaser;
     }
     

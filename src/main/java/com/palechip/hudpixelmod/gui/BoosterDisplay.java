@@ -111,6 +111,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 if(booster.getRemainingTime() != booster.getTotalLength()) {
                     // it's active
                     this.activeBoosters.add(booster);
+                    // load the name of the owner if only a uuid is available
+                    booster.getOwner();
                 }
             }
             this.isLocked = false;
