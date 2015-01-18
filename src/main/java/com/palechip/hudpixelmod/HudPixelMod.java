@@ -56,6 +56,7 @@ public class HudPixelMod
     // key related vars
     public static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
+    private KeyBinding openConfigGui;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -89,9 +90,11 @@ public class HudPixelMod
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
         this.renderer = new HudPixelRenderer(this.updater);
 
-        // initializse key bindings
+        // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
+        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_P, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
+        ClientRegistry.registerKeyBinding(this.openConfigGui);
     }
 
     @SubscribeEvent
@@ -192,6 +195,10 @@ public class HudPixelMod
         // check all listened keys
         if(this.hideHUDKey.isPressed()) {
             this.renderer.isHUDShown = !this.renderer.isHUDShown;
+        }
+        if(this.openConfigGui.isPressed()) {
+            // open the config screen
+            FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
         }
     }
 
