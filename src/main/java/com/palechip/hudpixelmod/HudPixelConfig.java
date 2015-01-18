@@ -46,6 +46,7 @@ public class HudPixelConfig {
     public static boolean megaWallsKillCounter;
     public static boolean blitzCoinDisplay;
     public static boolean blitzDeathmatchNotifier;
+    public static boolean blitzStarTracker;
     public static boolean arenaCoinDisplay;
     public static boolean paintballTimeDisplay;
     public static boolean paintballCoinDisplay;
@@ -96,6 +97,7 @@ public class HudPixelConfig {
         megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER).getBoolean(true);
         blitzCoinDisplay = this.config.get(BLITZ_CATEGORY, "blitzCoinDisplay", true, COIN_COUNTER + "Blitz Survival Games.").getBoolean(true);
         blitzDeathmatchNotifier = this.config.get(BLITZ_CATEGORY, "blitzDeathmatchNotifier", true, BLITZ_DEATHMATCH_NOTIFIER).getBoolean(true);
+        blitzStarTracker = this.config.get(BLITZ_CATEGORY, "blitzStarTracker", true).getBoolean(true);
         arenaCoinDisplay = this.config.get(ARENA_CATEGORY, "arenaCoinDisplay", true, COIN_COUNTER + "Arena Brawl.").getBoolean(true);
         paintballCoinDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballCoinDisplay", true, COIN_COUNTER + "Paintball Warfare.").getBoolean(true);
         paintballTimeDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballTimeDisplay", true, TIMER + "Paintball Warfare.").getBoolean(true);
