@@ -26,12 +26,12 @@ public class UuidHelper {
         if(HudPixelMod.IS_DEBUGGING) {
             long time = System.currentTimeMillis();
             // For MC 1.7.10 getSessionService is called func_152347_ac()
-            String name = Minecraft.getMinecraft().getSessionService().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(uuid), (String)null), false).getName();
+            String name = Minecraft.getMinecraft().func_152347_ac().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(uuid), (String)null), false).getName();
             HudPixelMod.instance().logDebug("Took " + (System.currentTimeMillis() - time) + "ms to process UUID. Counter is at " + counter++);
             return name;
         } else {
          // For MC 1.7.10 getSessionService is called func_152347_ac()
-            return Minecraft.getMinecraft().getSessionService().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(uuid), (String)null), false).getName();
+            return Minecraft.getMinecraft().func_152347_ac().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(uuid), (String)null), false).getName();
         }
     }
 }
