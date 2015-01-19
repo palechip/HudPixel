@@ -23,5 +23,8 @@ public class MegaWalls extends Game {
             this.components.add(new MegaWallsKillCounter(KillType.Final));
             this.components.add(new MegaWallsKillCounter(KillType.Final_Assists));
         }
+        if(HudPixelConfig.megaWallsWitherCoinDisplay) {
+            this.components.add(new MegaWallsKillCounter(KillType.Wither_Coins));
+        }
     }
 }

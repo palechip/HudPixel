@@ -4,6 +4,8 @@ import net.hypixel.api.util.GameType;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
+import com.palechip.hudpixelmod.components.MegaWallsKillCounter;
+import com.palechip.hudpixelmod.components.MegaWallsKillCounter.KillType;
 import com.palechip.hudpixelmod.components.TimerComponent;
 
 public class TheWalls extends Game {
@@ -15,6 +17,10 @@ public class TheWalls extends Game {
         }
         if(HudPixelConfig.wallsCoinDisplay) {
             this.components.add(new CoinCounterComponent());
+        }
+        if(HudPixelConfig.wallsKillCounter) {
+            this.components.add(new MegaWallsKillCounter(KillType.Normal));
+            this.components.add(new MegaWallsKillCounter(KillType.Assists));
         }
     }
 
