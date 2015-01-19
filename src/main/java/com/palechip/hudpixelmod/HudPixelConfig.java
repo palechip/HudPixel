@@ -42,6 +42,7 @@ public class HudPixelConfig {
     public static boolean arcadeKillstreakTracker;
     public static boolean wallsCoinDisplay;
     public static boolean wallsTimeDisplay;
+    public static boolean wallsKillCounter;
     public static boolean megaWallsCoinDisplay;
     public static boolean megaWallsWitherCoinDisplay;
     public static boolean megaWallsKillCounter;
@@ -57,7 +58,7 @@ public class HudPixelConfig {
     // descriptions
     public static final String COIN_COUNTER = "Turn on/off the Coin Counter for ";
     public static final String TIMER = "Turn on/off the Time Display for ";
-    public static final String MEGA_WALLS_KILL_COUNTER = "Enable/Disable the Kill and Assist Counter in Mega Walls";
+    public static final String MEGA_WALLS_KILL_COUNTER = "Enable/Disable the Kill and Assist Counter in";
     public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
     public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
     public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
@@ -95,9 +96,10 @@ public class HudPixelConfig {
         arcadeKillstreakTracker = this.config.get(ARCADE_CATEGORY, "arcadeKillstreakTracker", true, KILLSTREAK_TRACKER + "some Arcade Games.").getBoolean(true);
         wallsCoinDisplay = this.config.get(WALLS_CATEGORY, "wallsCoinDisplay", true, COIN_COUNTER + "the classic Walls.").getBoolean(true);
         wallsTimeDisplay = this.config.get(WALLS_CATEGORY, "wallsTimeDisplay", true, TIMER + "the classic Walls.").getBoolean(true);
+        wallsKillCounter = this.config.get(WALLS_CATEGORY, "wallsKillCounter", true, MEGA_WALLS_KILL_COUNTER +"Walls").getBoolean(true);
         megaWallsCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsCoinDisplay", true, COIN_COUNTER + "Mega Walls.").getBoolean(true);
-        megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER).getBoolean(true);
         megaWallsWitherCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsWitherCoinDisplay", true, WITHER_COIN_COUNTER).getBoolean(true);
+        megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER + "Mega Walls.").getBoolean(true);
         blitzCoinDisplay = this.config.get(BLITZ_CATEGORY, "blitzCoinDisplay", true, COIN_COUNTER + "Blitz Survival Games.").getBoolean(true);
         blitzDeathmatchNotifier = this.config.get(BLITZ_CATEGORY, "blitzDeathmatchNotifier", true, BLITZ_DEATHMATCH_NOTIFIER).getBoolean(true);
         blitzStarTracker = this.config.get(BLITZ_CATEGORY, "blitzStarTracker", true).getBoolean(true);
