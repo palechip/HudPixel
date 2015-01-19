@@ -8,7 +8,8 @@ public class MegaWallsKillCounter implements IComponent {
     private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA +  "" + EnumChatFormatting.ITALIC +"Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE +  "" + EnumChatFormatting.ITALIC +"Final Assists: " + EnumChatFormatting.DARK_GRAY;
-    public static enum KillType {Normal, Final, Assists, Final_Assists};
+    private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
+    public static enum KillType {Normal, Final, Assists, Final_Assists, Wither_Coins};
 
     private KillType trackedType;
     private int kills;
@@ -75,6 +76,11 @@ public class MegaWallsKillCounter implements IComponent {
                     this.kills++;
                 }
                 break;
+            case Wither_Coins:
+                if(textMessage.contains("Wither Damage")) {
+                    this.kills += CoinCounterComponent.getCoinsFromMessage(textMessage);
+                }
+                break;
             }
         }
     }
@@ -90,6 +96,8 @@ public class MegaWallsKillCounter implements IComponent {
             return ASSISTS_DISPLAY + this.kills;
         case Final_Assists:
             return FINAL_ASSISTS_DISPLAY + this.kills;
+        case Wither_Coins:
+            return this.kills > 0 ? WITHER_COINS_DISPLAY + this.kills : "";
         }
         return "";
     }

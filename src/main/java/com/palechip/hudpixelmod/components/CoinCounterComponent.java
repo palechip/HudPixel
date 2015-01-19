@@ -22,13 +22,7 @@ public class CoinCounterComponent implements IComponent{
         textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getChatTag() + "]: ", "");
         // if this is a coin message and it isn't a tip
         if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
-            try {
-                String newCoins = textMessage.substring(1,textMessage.indexOf(" "));
-                this.coins += Integer.valueOf(newCoins);
-            } catch (Exception e) {
-                HudPixelMod.instance().logInfo("Failed to parse coin message. Ignoring.");
-                // we failed getting the coins. Hopefully this never happens.
-            }
+            this.coins += getCoinsFromMessage(textMessage);
         }
         // the total coin message overwrites the counter (but not guild coins!
         if(!textMessage.toLowerCase().contains("guild coins") && textMessage.contains("You earned a total of") && textMessage.toLowerCase().contains("coins")) {
@@ -41,6 +35,17 @@ public class CoinCounterComponent implements IComponent{
                 // we failed getting the coins. Hopefully this never happens.
             }
         }
+    }
+
+    public static int getCoinsFromMessage(String message) {
+        try {
+            String newCoins = message.substring(1,message.indexOf(" "));
+            return Integer.valueOf(newCoins);
+        } catch (Exception e) {
+            HudPixelMod.instance().logInfo("Failed to parse coin message. Ignoring.");
+            // we failed getting the coins. Hopefully this never happens.
+        }
+        return 0;
     }
 
     @Override

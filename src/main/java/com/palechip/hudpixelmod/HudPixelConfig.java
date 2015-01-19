@@ -43,6 +43,7 @@ public class HudPixelConfig {
     public static boolean wallsCoinDisplay;
     public static boolean wallsTimeDisplay;
     public static boolean megaWallsCoinDisplay;
+    public static boolean megaWallsWitherCoinDisplay;
     public static boolean megaWallsKillCounter;
     public static boolean blitzCoinDisplay;
     public static boolean blitzDeathmatchNotifier;
@@ -60,6 +61,7 @@ public class HudPixelConfig {
     public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
     public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
     public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
+    public static final String WITHER_COIN_COUNTER  = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
 
     public HudPixelConfig(File config) {
         this.config = new Configuration(config);
@@ -95,6 +97,7 @@ public class HudPixelConfig {
         wallsTimeDisplay = this.config.get(WALLS_CATEGORY, "wallsTimeDisplay", true, TIMER + "the classic Walls.").getBoolean(true);
         megaWallsCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsCoinDisplay", true, COIN_COUNTER + "Mega Walls.").getBoolean(true);
         megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER).getBoolean(true);
+        megaWallsWitherCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsWitherCoinDisplay", true, WITHER_COIN_COUNTER).getBoolean(true);
         blitzCoinDisplay = this.config.get(BLITZ_CATEGORY, "blitzCoinDisplay", true, COIN_COUNTER + "Blitz Survival Games.").getBoolean(true);
         blitzDeathmatchNotifier = this.config.get(BLITZ_CATEGORY, "blitzDeathmatchNotifier", true, BLITZ_DEATHMATCH_NOTIFIER).getBoolean(true);
         blitzStarTracker = this.config.get(BLITZ_CATEGORY, "blitzStarTracker", true).getBoolean(true);
