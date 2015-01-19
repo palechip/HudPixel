@@ -1,8 +1,6 @@
 package com.palechip.hudpixelmod.components;
 
-import com.palechip.hudpixelmod.components.MegaWallsKillCounter.KillType;
-
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.util.EnumChatFormatting;
 
 public class WallsKillCounter implements IComponent {
