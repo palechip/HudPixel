@@ -38,7 +38,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
-    public static final String VERSION = "2.3.0";
+    public static final String VERSION = "2.3.1";
     public static final boolean IS_DEBUGGING = false;
     public static final String HUDPIXEL_CHAT_PREFIX = "[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] ";
 

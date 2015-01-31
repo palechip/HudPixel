@@ -11,6 +11,7 @@ import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
@@ -21,6 +22,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private static final int REQUEST_COOLDOWN = 30000; // = 30s
     private static final int REFRESH_TIMEOUT = 120000; // 90s this is how often it refreshes when the chat gui stays open (e.g. when the person is afk)
     private static final String TITLE = EnumChatFormatting.RED + "Boosters";
+    public static final int TIP_ALL_BUTTON_HEIGHT = 20;
     private BoosterDisplay instance;
     private long lastRequest;
     private ArrayList<String> renderingStrings;
@@ -39,7 +41,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
         // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
-        this.tipAllButton = new GuiButton(-10, 0,0, 50, 20, "Tip all");
+        this.tipAllButton = new GuiButton(-10, 0,0, 50, TIP_ALL_BUTTON_HEIGHT, "Tip all");
     }
 
     private void updateRenderStrings() {
@@ -87,23 +89,25 @@ public class BoosterDisplay implements BoosterResponseCallback{
     }
     
     public void onClientTick() {
-        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
-            Minecraft mc = FMLClientHandler.instance().getClient();
-            if((mc.currentScreen instanceof GuiChat && !this.isInChatGui) || (this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT)) {
-                this.isInChatGui = true;
+        Minecraft mc = FMLClientHandler.instance().getClient();
+        if((mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui) || (HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters && this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT)) {
+            this.isInChatGui = true;
+            if(HudPixelConfig.displayTipAllButton) {
                 this.tipAllButton.visible = true;
                 this.tipAllButton.enabled = true;
                 this.tipAllLock = false;
+            }
+            if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 this.requestBoosters();
             }
-            if(!(mc.currentScreen instanceof GuiChat)) {
-                this.isInChatGui = false;
-                this.tipAllButton.visible = false;
-                this.tipAllButton.enabled = false;
-            }
+        }
+        if(!(mc.currentScreen instanceof GuiChat)) {
+            this.isInChatGui = false;
+            this.tipAllButton.visible = false;
+            this.tipAllButton.enabled = false;
         }
     }
-    
+
     public void onInitGui(InitGuiEvent event) {
         if(event.gui instanceof GuiChat) {
             event.buttonList.add(tipAllButton);
@@ -121,12 +125,16 @@ public class BoosterDisplay implements BoosterResponseCallback{
     }
     
     public void render(int rectX1, int rectY1, int rectX2, int rectY2, int buttonX, int buttonY, int buttonWidth) {
-        // Draw the semi-transparent background
-        Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
-        // move the tip-all button
-        this.tipAllButton.xPosition = buttonX;
-        this.tipAllButton.yPosition = buttonY;
-        this.tipAllButton.width = buttonWidth;
+        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            // Draw the semi-transparent background
+            Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
+        }
+        if(HudPixelConfig.displayTipAllButton) {
+            // move the tip-all button
+            this.tipAllButton.xPosition = buttonX;
+            this.tipAllButton.yPosition = buttonY;
+            this.tipAllButton.width = buttonWidth;
+        }
     }
 
     private void requestBoosters() {
