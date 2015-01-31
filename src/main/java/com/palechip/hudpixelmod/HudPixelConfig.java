@@ -19,6 +19,9 @@ public class HudPixelConfig {
     public static final String BLITZ_CATEGORY = "blitz survival games";
     public static final String ARENA_CATEGORY = "arena brawl";
     public static final String PAINTBALL_CATEGORY = "paintball warfare";
+    public static final String COPS_AND_CRIMS_CATEGORY = "cops and crims";
+    public static final String UHC_CATEGORY = "uhc";
+    public static final String WARLORDS_CATEGORY = "warlords";
     // define further categories here
 
     // properties
@@ -53,6 +56,10 @@ public class HudPixelConfig {
     public static boolean paintballTimeDisplay;
     public static boolean paintballCoinDisplay;
     public static boolean paintballKillstreakTrackerDisplay;
+    public static boolean copsAndCrimsCoinDisplay;
+    public static boolean copsAndCrimsTimeDisplay;
+    public static boolean uhcCoinDisplay;
+    public static boolean warlordsCoinDisplay;
     // add further options here
 
     // descriptions
@@ -107,6 +114,11 @@ public class HudPixelConfig {
         paintballCoinDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballCoinDisplay", true, COIN_COUNTER + "Paintball Warfare.").getBoolean(true);
         paintballTimeDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballTimeDisplay", true, TIMER + "Paintball Warfare.").getBoolean(true);
         paintballKillstreakTrackerDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballKillstreakTrackerDisplay", true, PAINTBALL_KILLSTREAK_TRACKER).getBoolean(true);
+        copsAndCrimsCoinDisplay = this.config.get(COPS_AND_CRIMS_CATEGORY, "copsAndCrimsCoinDisplay", true, COIN_COUNTER + "Cops and Crims.").getBoolean(true);
+        copsAndCrimsTimeDisplay = this.config.get(COPS_AND_CRIMS_CATEGORY, "copsAndCrimsTimeDisplay", true, TIMER + "Cops and Crims.").getBoolean(true);
+        uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
+        warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
+        
         // load further options here
 
         if(this.config.hasChanged()) {
