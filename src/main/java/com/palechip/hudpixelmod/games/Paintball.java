@@ -18,6 +18,13 @@ public class Paintball extends Game {
             this.components.add(new CoinCounterComponent());
         }
         if(HudPixelConfig.paintballKillstreakTrackerDisplay) {
+            // You can't use Bomberman when Lightning is on cooldown and vice versa
+            PaintballKillstreakTracker lightning = new PaintballKillstreakTracker("Lightning", false, true);
+            PaintballKillstreakTracker bomberman = new PaintballKillstreakTracker("Bomberman", false, true);
+            
+            lightning.addCooldownDependantKillstreak(bomberman);
+            bomberman.addCooldownDependantKillstreak(lightning);
+            
             // Triple Shot
             this.components.add(new PaintballKillstreakTracker("Triple Shot", true, true));
             // Quintuple Shot
@@ -40,7 +47,9 @@ public class Paintball extends Game {
             // Nuke
             this.components.add(new PaintballKillstreakTracker("Nuke", false, true));
             // Lightning
-            this.components.add(new PaintballKillstreakTracker("Lightning", false, true));
+            this.components.add(lightning);
+            // Bomberman
+            this.components.add(bomberman);
         }
     }
 
