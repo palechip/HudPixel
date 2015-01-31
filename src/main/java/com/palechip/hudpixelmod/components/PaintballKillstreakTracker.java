@@ -16,6 +16,7 @@ public class PaintballKillstreakTracker implements IComponent {
     private boolean hasCooldown;
     private boolean isCoolingDown;
 
+    private PaintballKillstreakTracker cooldownDependantKillstreak;
 
     /**
      * Setup a Timer for a specific killstreak
@@ -90,7 +91,7 @@ public class PaintballKillstreakTracker implements IComponent {
     public String getRenderingString() {
         if(this.isActive) {
             return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
-        } else if(this.isCoolingDown) {
+        } else if(this.isCoolingDown || (this.cooldownDependantKillstreak != null ? this.cooldownDependantKillstreak.isCoolingDown : false)) {
             // the listened killstreak will be red because the color from COOLDOWN_SIGN isn't reset
             return COOLDOWN_SIGN + " " + this.listenedKillstreak;
         } else  {
@@ -109,5 +110,9 @@ public class PaintballKillstreakTracker implements IComponent {
             // red
             return String.valueOf(EnumChatFormatting.RED);
         }
+    }
+    
+    public void addCooldownDependantKillstreak(PaintballKillstreakTracker killstreak) {
+        this.cooldownDependantKillstreak = killstreak;
     }
 }
