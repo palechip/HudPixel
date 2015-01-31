@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -19,7 +20,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
  */
 public class HudPixelRenderer {
     public static final int RENDERING_HEIGHT_OFFSET = 10;
-    public static final int CHAT_BOX_CORRECTION = 34; // includes 20 for the tip-all button height
+    public static final int CHAT_BOX_CORRECTION = 14;
     
     // Rendering vars
     private boolean renderOnTheRight;
@@ -30,6 +31,7 @@ public class HudPixelRenderer {
     private int startHeightBottom;
     // this will be rendered when there is nothing else to render
     private ArrayList<String> defaultRenderingStrings;
+    private ArrayList<String> nothingToDisplay;
 
     // vars for displaying the results after a game
     private ArrayList<String> results;
@@ -42,6 +44,7 @@ public class HudPixelRenderer {
     
     public HudPixelRenderer(HudPixelUpdateNotifier updater) {
         this.boosterDisplay = new BoosterDisplay();
+        this.nothingToDisplay = new ArrayList<String>(0);
         // initialize rendering vars
         this.loadRenderingProperties(updater);
     }
@@ -70,6 +73,7 @@ public class HudPixelRenderer {
             this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.newVersion);
             this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.downloadLink);
         }
+        
     }
     
     /**
@@ -110,23 +114,40 @@ public class HudPixelRenderer {
             int height;
             ArrayList<String> renderStrings;
             boolean isBoosterDisplay = false;
+            boolean isTipAllButton = false;
+            
+            // normal game display
             if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
-            } else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.displayNetworkBoosters) {
+            }
+            // booster display
+            else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
                 isBoosterDisplay = true;
-            } else if(this.results != null) {
+            }
+            // results after a game
+            else if(this.results != null) {
                 renderStrings = this.results;
+            }
+            // tip all button with nothing else to display
+            else if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+                renderStrings = this.nothingToDisplay;
             } else {
+                // default display
                 if(!this.defaultRenderingStrings.isEmpty()) {
                     renderStrings = this.defaultRenderingStrings;
                 } else {
                     return;
                 }
             }
+            
+            // should display the tip all button
+            if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+                isTipAllButton = true;
+            }
 
             // get the right width
-            if(this.renderOnTheRight || isBoosterDisplay) {
+            if(this.renderOnTheRight || isBoosterDisplay || isTipAllButton) {
                 int maxWidth = 0;
                 for(String s : renderStrings) {
                     if(s != null) {
@@ -142,18 +163,25 @@ public class HudPixelRenderer {
             }
 
             // and the right height
-            if(this.renderOnTheBottom || isBoosterDisplay) {
+            if(this.renderOnTheBottom || isBoosterDisplay || isTipAllButton) {
                 height = this.startHeightBottom - renderStrings.size() * RENDERING_HEIGHT_OFFSET;
-                if(isBoosterDisplay) {
+                if(isBoosterDisplay || isTipAllButton) {
                     height -= CHAT_BOX_CORRECTION;
+                    if(isTipAllButton) {
+                        height -= boosterDisplay.TIP_ALL_BUTTON_HEIGHT;
+                    }
                 }
             } else {
                 height = this.startHeight;
             }
 
             // render a box for the booster display
-            if(isBoosterDisplay) {
+            if((isBoosterDisplay && isTipAllButton) || (isTipAllButton && !renderStrings.isEmpty())) {
+                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), width - 2, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), (this.startWidthRight - width) + 4);
+            } else if(isBoosterDisplay) {
                 this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - CHAT_BOX_CORRECTION, width - 2, this.startHeightBottom - CHAT_BOX_CORRECTION, (this.startWidthRight - width) + 4);
+            } else if(isTipAllButton) {
+                this.boosterDisplay.render(0, 0, 0, 0, width - 152, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), 150);
             }
 
             // render the display

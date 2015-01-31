@@ -32,6 +32,7 @@ public class HudPixelConfig {
     public static int displayShowResultTime;
     public static boolean displayVersion;
     public static boolean displayNetworkBoosters;
+    public static boolean displayTipAllButton;
     public static boolean quakeCoinDisplay;
     public static boolean quakeTimeDisplay;
     public static boolean quakeKillstreakTracker;
@@ -90,6 +91,7 @@ public class HudPixelConfig {
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
+        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",true, "Show a button that runs /tip all.").getBoolean(true);
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true ,COIN_COUNTER + "Quakecraft.").getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
         quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
