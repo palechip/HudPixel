@@ -19,6 +19,7 @@ import cpw.mods.fml.client.FMLClientHandler;
  */
 public class HudPixelRenderer {
     public static final int RENDERING_HEIGHT_OFFSET = 10;
+    public static final int CHAT_BOX_CORRECTION = 34; // includes 20 for the tip-all button height
     
     // Rendering vars
     private boolean renderOnTheRight;
@@ -144,7 +145,7 @@ public class HudPixelRenderer {
             if(this.renderOnTheBottom || isBoosterDisplay) {
                 height = this.startHeightBottom - renderStrings.size() * RENDERING_HEIGHT_OFFSET;
                 if(isBoosterDisplay) {
-                    height -= RENDERING_HEIGHT_OFFSET;
+                    height -= CHAT_BOX_CORRECTION;
                 }
             } else {
                 height = this.startHeight;
@@ -152,7 +153,7 @@ public class HudPixelRenderer {
 
             // render a box for the booster display
             if(isBoosterDisplay) {
-                Gui.drawRect(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - RENDERING_HEIGHT_OFFSET, 1610612736);
+                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - CHAT_BOX_CORRECTION, width - 2, this.startHeightBottom - CHAT_BOX_CORRECTION, (this.startWidthRight - width) + 4);
             }
 
             // render the display

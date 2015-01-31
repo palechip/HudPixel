@@ -5,6 +5,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.LogManager;
@@ -204,7 +206,20 @@ public class HudPixelMod
             Game.loadGames();
         }
     }
-
+    
+    @SubscribeEvent
+    public void onInitGui(InitGuiEvent event) {
+        // pass the event to the booster display
+        // used to inject the tip-all button into GuiChat
+        this.renderer.boosterDisplay.onInitGui(event);
+    }
+    
+    @SubscribeEvent
+    public void onGuiActionPerformed(ActionPerformedEvent event) {
+        // notify all classes which have registered a button using on init gui
+        this.renderer.boosterDisplay.onGuiActionPerformed(event);
+    }
+    
     public void updateFound() {
         try {
             if(hypixelDetector.isHypixelNetwork && FMLClientHandler.instance().getClientPlayerEntity() != null) {
