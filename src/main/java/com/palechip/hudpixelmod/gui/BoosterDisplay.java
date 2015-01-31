@@ -38,7 +38,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.renderingStrings = new ArrayList<String>();
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
-        // params id:-10 x: y: h: w: displayString:
+        // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
         this.tipAllButton = new GuiButton(-10, 0,0, 50, 20, "Tip all");
     }
 
@@ -46,8 +46,15 @@ public class BoosterDisplay implements BoosterResponseCallback{
         if(!isLocked) {
             renderingStrings.clear();
             renderingStrings.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
+            for(Booster booster : tippedBoosters) {
+                // Update tipped boosters: Remove tipable boosters.
+                // This will also remove old boosters!
+                if(booster.canTip()) {
+                    tippedBoosters.remove(booster);
+                }
+            }
             for (Booster booster : activeBoosters) {
-                // Add all active boosters. Tipped ones are white. Untipped ones are green. 
+                // Add all active boosters. Tipped ones are white. Untipped ones are green.
                 renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
             }
         }
@@ -68,6 +75,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 for (Booster booster : activeBoosters) {
                     if(booster.getOwner().equalsIgnoreCase(name)) {
                         this.tippedBoosters.add(booster);
+                        // save the tipping time
+                        booster.tip();
                     }
                 }
 

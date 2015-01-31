@@ -5,6 +5,10 @@ import com.palechip.hudpixelmod.util.UuidHelper;
 import net.hypixel.api.util.GameType;
 
 public class Booster {
+    public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
+    
+    // these values are filled by the API
+    // purchaser is only filled for old boosters
     private int amount;
     private long dateActivated;
     private int gameType;
@@ -12,6 +16,9 @@ public class Booster {
     private long originalLength;
     private String purchaser;
     private String purchaserUuid;
+    
+    // properties used by the mod
+    private long tippingTime;
     
     public Booster(){}
     
@@ -41,6 +48,18 @@ public class Booster {
             
         }
         return purchaser;
+    }
+    
+    /**
+     * This saves the time when the booster was tipped.
+     */
+    public void tip() {
+        this.tippingTime = System.currentTimeMillis();
+    }
+    
+    public boolean canTip() {
+        // this expression will be true if the booster is active and wasn't tipped or can be tipped again
+        return (this.getRemainingTime() < this.getTotalLength() && (this.tippingTime == 0l || System.currentTimeMillis() > this.tippingTime + TIPPING_COOLDOWN ));
     }
     
     @Override
