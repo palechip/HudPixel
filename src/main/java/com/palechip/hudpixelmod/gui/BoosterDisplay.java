@@ -3,8 +3,12 @@ package com.palechip.hudpixelmod.gui;
 import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.api.interaction.Queue;
@@ -26,12 +30,16 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private boolean isInChatGui;
     private boolean hasFailed;
     private boolean isLoading;
+    private GuiButton tipAllButton;
+    private boolean tipAllLock = false;
     
     public BoosterDisplay() {
         this.instance = this;
         this.renderingStrings = new ArrayList<String>();
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
+        // params id:-10 x: y: h: w: displayString:
+        this.tipAllButton = new GuiButton(-10, 0,0, 50, 20, "Tip all");
     }
 
     private void updateRenderStrings() {
@@ -74,12 +82,42 @@ public class BoosterDisplay implements BoosterResponseCallback{
             Minecraft mc = FMLClientHandler.instance().getClient();
             if((mc.currentScreen instanceof GuiChat && !this.isInChatGui) || (this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT)) {
                 this.isInChatGui = true;
+                this.tipAllButton.visible = true;
+                this.tipAllButton.enabled = true;
+                this.tipAllLock = false;
                 this.requestBoosters();
             }
             if(!(mc.currentScreen instanceof GuiChat)) {
                 this.isInChatGui = false;
+                this.tipAllButton.visible = false;
+                this.tipAllButton.enabled = false;
             }
         }
+    }
+    
+    public void onInitGui(InitGuiEvent event) {
+        if(event.gui instanceof GuiChat) {
+            event.buttonList.add(tipAllButton);
+        }
+    }
+    
+    public void onGuiActionPerformed(ActionPerformedEvent event) {
+        if(event.gui instanceof GuiChat && event.button.id == this.tipAllButton.id && !this.tipAllLock) {
+            // Only let the button fire once. Then you have to reopen the chat gui.
+            this.tipAllLock = true;
+            this.tipAllButton.enabled = false;
+            // Run /tip all
+            FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/tip all");
+        }
+    }
+    
+    public void render(int rectX1, int rectY1, int rectX2, int rectY2, int buttonX, int buttonY, int buttonWidth) {
+        // Draw the semi-transparent background
+        Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
+        // move the tip-all button
+        this.tipAllButton.xPosition = buttonX;
+        this.tipAllButton.yPosition = buttonY;
+        this.tipAllButton.width = buttonWidth;
     }
 
     private void requestBoosters() {
