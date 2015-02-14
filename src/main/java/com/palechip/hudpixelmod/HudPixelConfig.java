@@ -73,14 +73,14 @@ public class HudPixelConfig {
     public static final String WITHER_COIN_COUNTER  = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
 
     public HudPixelConfig(File config) {
-        this.config = new Configuration(config);
-        // if this is an old config file, the version is null
-        // also happens when the config is generated but this.updateConfig() won't hurt
-        if(this.config.getLoadedConfigVersion() == null) {
-            this.updateConfig();
-            this.config = new Configuration(config, "2");
-        }
+        // the "3" is the defined config version
+        this.config = new Configuration(config, "3");
         this.config.load();
+        
+        // update the config if the versions mismatch
+        if(this.config.getLoadedConfigVersion() == null || !this.config.getLoadedConfigVersion().equals(this.config.getDefinedConfigVersion())) {
+            this.updateConfig(this.config.getLoadedConfigVersion());
+        }
     }
 
     public void syncConfig() {
@@ -91,7 +91,7 @@ public class HudPixelConfig {
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
-        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",true, "Show a button that runs /tip all.").getBoolean(true);
+        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",false, "Show a button that runs /tip all.").getBoolean(false);
         quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true ,COIN_COUNTER + "Quakecraft.").getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
         quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
@@ -133,26 +133,36 @@ public class HudPixelConfig {
     }
 
     // for the config gui introduced in 2.1.0, most properties need to be renamed
-    private void updateConfig() {
-        this.config.load();
-        this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
-        this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
-        this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
-        this.renameBooleanProperty(TNT_CATEGORY, "timeDisplay", "tntTimeDisplay");
-        this.renameBooleanProperty(VAMPIREZ_CATEGORY, "coinDisplay", "vampireZTimeDisplay");
-        this.renameBooleanProperty(VAMPIREZ_CATEGORY, "timeDisplay", "vampireZTimeDisplay");
-        this.renameBooleanProperty(ARCADE_CATEGORY, "coinDisplay", "arcadeCoinDisplay");
-        this.renameBooleanProperty(ARCADE_CATEGORY, "timeDisplay", "acrcadeTimeDisplay");
-        this.renameBooleanProperty(WALLS_CATEGORY, "coinDisplay", "wallsCoinDisplay");
-        this.renameBooleanProperty(WALLS_CATEGORY, "timeDisplay", "wallsTimeDisplay");
-        this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
-        this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
-        this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
-        // the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
-        this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
-        this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
-        this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
-        // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
+    private void updateConfig(String oldVersion) {
+        // allows to update multiple versions simultaneously.
+        boolean fallThrough = false;
+        if(oldVersion == null) {
+            fallThrough = true;
+            
+            this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
+            this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
+            this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
+            this.renameBooleanProperty(TNT_CATEGORY, "timeDisplay", "tntTimeDisplay");
+            this.renameBooleanProperty(VAMPIREZ_CATEGORY, "coinDisplay", "vampireZTimeDisplay");
+            this.renameBooleanProperty(VAMPIREZ_CATEGORY, "timeDisplay", "vampireZTimeDisplay");
+            this.renameBooleanProperty(ARCADE_CATEGORY, "coinDisplay", "arcadeCoinDisplay");
+            this.renameBooleanProperty(ARCADE_CATEGORY, "timeDisplay", "acrcadeTimeDisplay");
+            this.renameBooleanProperty(WALLS_CATEGORY, "coinDisplay", "wallsCoinDisplay");
+            this.renameBooleanProperty(WALLS_CATEGORY, "timeDisplay", "wallsTimeDisplay");
+            this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
+            this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
+            this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
+            // the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
+            this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
+            this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
+            this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
+            // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
+        }
+        if(fallThrough || oldVersion.equals("2")) {
+            fallThrough = true;
+            
+            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",false, "Show a button that runs /tip all.").set(false);;
+        }
         this.config.save();
     }
 
