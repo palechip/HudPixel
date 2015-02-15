@@ -41,6 +41,7 @@ public class HudPixelConfig {
     public static boolean tntKillstreakTracker;
     public static boolean vampireCoinDisplay;
     public static boolean vampireTimeDisplay;
+    public static boolean vampireBalance;
     public static boolean arcadeCoinDisplay;
     public static boolean arcadeTimeDisplay;
     public static boolean arcadeKillstreakTracker;
@@ -100,6 +101,7 @@ public class HudPixelConfig {
         tntKillstreakTracker = this.config.get(TNT_CATEGORY, "tntKillstreakTracker", true, KILLSTREAK_TRACKER + "TNT Wizards.").getBoolean(true);
         vampireCoinDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZCoinDisplay", true, COIN_COUNTER + "VampireZ.").getBoolean(true);
         vampireTimeDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZTimeDisplay", true, TIMER + "VampireZ.").getBoolean(true);
+        vampireBalance = this.config.get(VAMPIREZ_CATEGORY, "vampireZBalance", true, "Turn on/off the advanced Coin Counter for VampireZ. This one tracks spent coins as well!").getBoolean(true);
         arcadeCoinDisplay = this.config.get(ARCADE_CATEGORY, "arcadeCoinDisplay", true, COIN_COUNTER + "the Arcade Games.").getBoolean(true);
         arcadeTimeDisplay = this.config.get(ARCADE_CATEGORY, "acrcadeTimeDisplay", true, TIMER + "the Arcade Games.").getBoolean(true);
         arcadeKillstreakTracker = this.config.get(ARCADE_CATEGORY, "arcadeKillstreakTracker", true, KILLSTREAK_TRACKER + "some Arcade Games.").getBoolean(true);

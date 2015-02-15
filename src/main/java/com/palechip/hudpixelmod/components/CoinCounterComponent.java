@@ -6,7 +6,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 
 public class CoinCounterComponent implements IComponent{
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins: ";
-    private int coins;
+    protected int coins;
 
     public String getRenderingString() {
         return COINS_DISPLAY_TEXT + this.coins;
@@ -24,7 +24,7 @@ public class CoinCounterComponent implements IComponent{
         if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
             this.coins += getCoinsFromMessage(textMessage);
         }
-        // the total coin message overwrites the counter (but not guild coins!
+        // the total coin message overwrites the counter (but not guild coins!)
         if(!textMessage.toLowerCase().contains("guild coins") && textMessage.contains("You earned a total of") && textMessage.toLowerCase().contains("coins")) {
             try {
                 String messageStartingWithCoins = textMessage.substring(textMessage.indexOf("You earned a total of ") + 22);
