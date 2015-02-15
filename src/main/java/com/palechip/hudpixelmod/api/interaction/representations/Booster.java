@@ -14,11 +14,11 @@ public class Booster {
     private int gameType;
     private long length;
     private long originalLength;
-    private String purchaser;
     private String purchaserUuid;
     
     // properties used by the mod
     private long tippingTime;
+    private String owner;
     
     public Booster(){}
     
@@ -43,11 +43,11 @@ public class Booster {
     }
     
     public String getOwner() {
-        if(this.purchaser == null) {
-            this.purchaser = UuidHelper.getUsernameFormUUID(purchaserUuid);
+        if(this.owner == null) {
+            this.owner = UuidHelper.getUsernameFormUUID(purchaserUuid);
             
         }
-        return purchaser;
+        return owner;
     }
     
     /**
@@ -66,7 +66,7 @@ public class Booster {
     public boolean equals(Object obj) {
         if(obj instanceof Booster) {
             Booster b = (Booster)obj;
-            return this.dateActivated == b.dateActivated && this.purchaser.equals(b.purchaser) && this.gameType == b.gameType;
+            return this.dateActivated == b.dateActivated && this.owner.equals(b.owner) && this.gameType == b.gameType;
         }
         return super.equals(obj);
     }
