@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.components.TimerComponent;
 public class Quakecraft extends Game {
 
     protected Quakecraft() {
-        super("Quake", "Quakecraft", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.QUAKECRAFT);
+        super("Quake", "Quakecraft", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.QUAKECRAFT, HudPixelConfig.QUAKE_CATEGORY);
         if(HudPixelConfig.quakeTimeDisplay) {
             this.components.add(new TimerComponent());
         }

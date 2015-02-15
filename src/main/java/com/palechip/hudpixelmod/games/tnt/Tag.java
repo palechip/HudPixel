@@ -9,7 +9,7 @@ import com.palechip.hudpixelmod.games.Game;
 
 public class Tag extends Game {
     public Tag() {
-        super("TNT Tag", "", "The TNT has been released!", END_MESSAGE_DEFAULT, GameType.TNTGAMES);
+        super("TNT Tag", "", "The TNT has been released!", END_MESSAGE_DEFAULT, GameType.TNTGAMES, HudPixelConfig.TNT_CATEGORY);
         if(HudPixelConfig.tntTimeDisplay) {
             this.components.add(new TimerComponent());
         }

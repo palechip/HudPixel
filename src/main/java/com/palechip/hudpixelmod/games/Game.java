@@ -77,6 +77,7 @@ public abstract class Game {
     protected String START_MESSAGE;
     protected String END_MESSSSAGE;
     protected GameType GAME_TYPE;
+    protected String CONFIG_CATEGORY;
 
     // the strings which the game wants to be rendered
     protected ArrayList<String> renderStrings;
@@ -85,7 +86,7 @@ public abstract class Game {
     protected boolean hasStarted;
 
 
-    protected Game(String chatTag, String bossbarName, String startMessage, String endMessage, GameType type) {
+    protected Game(String chatTag, String bossbarName, String startMessage, String endMessage, GameType type, String configCategory) {
         this.renderStrings = new ArrayList<String>();
         this.components = new ArrayList<IComponent>();
 
@@ -94,6 +95,8 @@ public abstract class Game {
         START_MESSAGE = startMessage;
         END_MESSSSAGE = endMessage;
         GAME_TYPE = type;
+        CONFIG_CATEGORY = configCategory;
+        
     }
 
     public void setupNewGame() {
@@ -198,5 +201,9 @@ public abstract class Game {
     
     public GameType getType() {
         return GAME_TYPE;
+    }
+    
+    public String getConfigCategory() {
+        return CONFIG_CATEGORY;
     }
 }

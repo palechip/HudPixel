@@ -11,7 +11,7 @@ import com.palechip.hudpixelmod.components.WallsKillCounter.KillType;
 public class TheWalls extends Game {
 
     public TheWalls() {
-        super("Walls", "Walls", "The game has started! You're on team ", END_MESSAGE_DEFAULT, GameType.WALLS);
+        super("Walls", "Walls", "The game has started! You're on team ", END_MESSAGE_DEFAULT, GameType.WALLS, HudPixelConfig.WALLS_CATEGORY);
         if(HudPixelConfig.wallsTimeDisplay) {
             this.components.add(new TimerComponent());
         }

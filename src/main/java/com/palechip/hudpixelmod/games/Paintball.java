@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.components.TimerComponent;
 public class Paintball extends Game {
 
     protected Paintball() {
-        super("PB", "Paintball", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.PAINTBALL);
+        super("PB", "Paintball", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.PAINTBALL, HudPixelConfig.PAINTBALL_CATEGORY);
         if(HudPixelConfig.paintballTimeDisplay) {
             this.components.add(new TimerComponent());
         }

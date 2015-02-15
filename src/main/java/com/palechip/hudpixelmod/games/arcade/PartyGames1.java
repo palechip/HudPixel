@@ -9,7 +9,7 @@ import com.palechip.hudpixelmod.games.Game;
 public class PartyGames1 extends Game {
 
     public PartyGames1() {
-        super("", "Party Games 1", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARCADE);
+        super("", "Party Games 1", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARCADE, HudPixelConfig.ARCADE_CATEGORY);
         if(HudPixelConfig.arcadeTimeDisplay) {
             this.components.add(new TimerComponent());
         }
