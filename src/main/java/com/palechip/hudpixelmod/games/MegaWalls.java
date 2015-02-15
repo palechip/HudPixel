@@ -13,7 +13,7 @@ public class MegaWalls extends Game {
         // don't start the game before the walls are down
         // it's not necessary and it prevents the game from breaking when
         // the player relogs during this time.
-        super("Mega Walls", "Mega Walls", "The walls have come down! Prepare for battle!", END_MESSAGE_DEFAULT, GameType.WALLS3);
+        super("Mega Walls", "Mega Walls", "The walls have come down! Prepare for battle!", END_MESSAGE_DEFAULT, GameType.WALLS3, HudPixelConfig.MEGA_WALLS_CATEGORY);
         if(HudPixelConfig.megaWallsCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }

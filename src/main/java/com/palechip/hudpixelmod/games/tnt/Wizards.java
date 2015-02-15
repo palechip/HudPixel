@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.games.Game;
 
 public class Wizards extends Game {
     public Wizards() {
-        super("TNT Wizards", "", "You are on team", END_MESSAGE_DEFAULT, GameType.TNTGAMES);
+        super("TNT Wizards", "", "You are on team", END_MESSAGE_DEFAULT, GameType.TNTGAMES, HudPixelConfig.TNT_CATEGORY);
         if(HudPixelConfig.tntTimeDisplay) {
             this.components.add(new TimerComponent());
         }

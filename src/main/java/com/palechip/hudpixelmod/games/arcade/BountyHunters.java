@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.games.Game;
 public class BountyHunters extends Game {
 
     public BountyHunters() {
-        super("", "Bounty Hunters", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARCADE);
+        super("", "Bounty Hunters", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARCADE, HudPixelConfig.ARCADE_CATEGORY);
         if(HudPixelConfig.arcadeCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }

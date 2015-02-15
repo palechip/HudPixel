@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.detectors;
 
 import java.util.ArrayList;
 
+import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.games.Game;
@@ -16,7 +17,7 @@ public class ArcadeGamesDetector extends Game{
      * This is a dummy game which helps to detect the actual game.
      */
     public ArcadeGamesDetector() {
-        super("", "ARCADE GAMES", GAME_DETECTION_HELPER, GAME_DETECTION_HELPER, GameType.ARCADE);
+        super("", "ARCADE GAMES", GAME_DETECTION_HELPER, GAME_DETECTION_HELPER, GameType.ARCADE, HudPixelConfig.ARCADE_CATEGORY);
     }
 
     @Override

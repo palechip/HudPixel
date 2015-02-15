@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.components.VampireZBalanceComponent.Type;
 
 public class VampireZ extends Game {
     public VampireZ() {
-        super("VampireZ", "", "30 seconds till the first wave, get ready!", END_MESSAGE_DEFAULT, GameType.VAMPIREZ);
+        super("VampireZ", "", "30 seconds till the first wave, get ready!", END_MESSAGE_DEFAULT, GameType.VAMPIREZ, HudPixelConfig.VAMPIREZ_CATEGORY);
         if(HudPixelConfig.vampireTimeDisplay) {
             this.components.add(new TimerComponent());
         }

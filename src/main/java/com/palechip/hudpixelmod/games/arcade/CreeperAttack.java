@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.games.Game;
 public class CreeperAttack extends Game {
 
     public CreeperAttack() {
-        super("", "Creeper Attack", "The game has started! First wave in 10 seconds", END_MESSAGE_DEFAULT, GameType.ARCADE);
+        super("", "Creeper Attack", "The game has started! First wave in 10 seconds", END_MESSAGE_DEFAULT, GameType.ARCADE, HudPixelConfig.ARCADE_CATEGORY);
         if(HudPixelConfig.arcadeTimeDisplay) {
             this.components.add(new TimerComponent());
         }

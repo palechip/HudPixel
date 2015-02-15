@@ -16,21 +16,27 @@ public class HudPixelConfigGui extends GuiConfig {
     private static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
         Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
-        // unfortunately there is no array for this
+        // these categories have to be there always
         list.addAll(new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.DISPLAY_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.QUAKE_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.TNT_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.VAMPIREZ_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARCADE_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WALLS_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.MEGA_WALLS_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.BLITZ_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARENA_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.PAINTBALL_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.COPS_AND_CRIMS_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.UHC_CATEGORY)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WARLORDS_CATEGORY)).getChildElements());
+        if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
+            // Add the current game
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelMod.instance().gameDetector.getCurrentGame().getConfigCategory())).getChildElements());
+        } else {
+            // Add all games
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.QUAKE_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.TNT_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.VAMPIREZ_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARCADE_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WALLS_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.MEGA_WALLS_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.BLITZ_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARENA_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.PAINTBALL_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.COPS_AND_CRIMS_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.UHC_CATEGORY)).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WARLORDS_CATEGORY)).getChildElements());
+        }
         return list;
     }
 

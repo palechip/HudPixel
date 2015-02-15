@@ -9,7 +9,7 @@ import net.hypixel.api.util.GameType;
 public class CopsAndCrims extends Game {
 
     public CopsAndCrims() {
-        super("", "Cops and Crims", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.MCGO);
+        super("", "Cops and Crims", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.MCGO, HudPixelConfig.COPS_AND_CRIMS_CATEGORY);
         if(HudPixelConfig.copsAndCrimsCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }
