@@ -7,11 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
+import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -26,7 +28,8 @@ public class ApiKeyHandler {
     private static String API_KEY_STORAGE_PATH;
     private static String API_KEY_STORAGE_FILE;
     private static String API_KEY_REQUEST_MESSAGE_1 = "No API key found. This key is necessary for some cool features.";
-    private static String API_KEY_REQUEST_MESSAGE_2 = "Simply do " + EnumChatFormatting.RED + "/api" + EnumChatFormatting.RESET +" for creating a new one.";
+    private static String API_KEY_REQUEST_MESSAGE_2_PART1 = "Simply do ";
+    private static String API_KEY_REQUEST_MESSAGE_2_PART2 = " for creating a new one.";
     private static String API_KEY_REQUEST_MESSAGE_3 = "You can also add your key manually to config\\hypixel_api_key.txt.";
     private static String API_KEY_REQUEST_MESSAGE_4 = "If you don't want to use the API features, you can disable \"useAPI\" in the config";
     private static String EMPTY_FILE_CONTENT = "Replace this with the api key or do /api on Hypixel Network. This File gets reset when a key doesn't work.";
@@ -74,7 +77,7 @@ public class ApiKeyHandler {
                 };
             }.start();
             // tell the user
-            FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HudPixelMod.HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.GREEN + "API key successfully detected and saved. The API is ready for usage."));
+            new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
         }
     }
 
@@ -82,10 +85,10 @@ public class ApiKeyHandler {
      * Asks the user to do /api
      */
     public void requestApiKey() {
-        FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HudPixelMod.HUDPIXEL_CHAT_PREFIX + API_KEY_REQUEST_MESSAGE_1));
-        FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HudPixelMod.HUDPIXEL_CHAT_PREFIX + API_KEY_REQUEST_MESSAGE_2));
-        FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HudPixelMod.HUDPIXEL_CHAT_PREFIX + API_KEY_REQUEST_MESSAGE_3));
-        FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HudPixelMod.HUDPIXEL_CHAT_PREFIX + API_KEY_REQUEST_MESSAGE_4));
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_4).send();
     }
 
     /**
