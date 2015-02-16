@@ -9,6 +9,11 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 
+/**
+ * A helper which reads the scoreboard.
+ * @author palechip
+ *
+ */
 public class ScoreboardReader {
     private static boolean needsUpdate = true;
     private static ArrayList<String> scoreboardNames;

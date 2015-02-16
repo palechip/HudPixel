@@ -18,6 +18,7 @@ import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -40,7 +41,6 @@ public class HudPixelMod
     public static final String NAME = "HudPixel Reloaded";
     public static final String VERSION = "2.3.1";
     public static final boolean IS_DEBUGGING = false;
-    public static final String HUDPIXEL_CHAT_PREFIX = "[" + EnumChatFormatting.RED + "HudPixel" + EnumChatFormatting.RESET + "] ";
 
     private static HudPixelMod instance;
 
@@ -264,8 +264,8 @@ public class HudPixelMod
     public void updateFound() {
         try {
             if(hypixelDetector.isHypixelNetwork && FMLClientHandler.instance().getClientPlayerEntity() != null) {
-                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Update available: " + EnumChatFormatting.GREEN + this.updater.newVersion));
-                FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(new ChatComponentText(HUDPIXEL_CHAT_PREFIX + EnumChatFormatting.DARK_PURPLE + "Download here: " + EnumChatFormatting.YELLOW + this.updater.downloadLink));
+                new ChatMessageComposer("Update available: " , EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updater.newVersion, EnumChatFormatting.GREEN)).send();
+                new ChatMessageComposer("Download here: ", EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updater.downloadLink, EnumChatFormatting.YELLOW).makeLink("http://" + this.updater.downloadLink)).send();
                 this.isUpdateMessageQueued = false;
                 // also update rendering vars to make sure it notices the update
                 this.renderer.loadRenderingProperties(this.updater);
