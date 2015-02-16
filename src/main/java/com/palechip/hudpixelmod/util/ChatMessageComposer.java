@@ -12,7 +12,7 @@ import net.minecraft.util.IChatComponent;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 
-import net.minecraftforge.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 
 /**
  * A mighty chat message manager. His nickname is Skype. ;)
