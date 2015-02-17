@@ -62,6 +62,10 @@ public class Booster {
         return (this.getRemainingTime() < this.getTotalLength() && (this.tippingTime == 0l || System.currentTimeMillis() > this.tippingTime + TIPPING_COOLDOWN ));
     }
     
+    public void setTippingTime(long time) {
+        this.tippingTime = time;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Booster) {

@@ -28,6 +28,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private ArrayList<String> renderingStrings;
     private ArrayList<Booster> tippedBoosters;
     private ArrayList<Booster> activeBoosters;
+    private ArrayList<UnprocessedTip> unprocessedTips;
     private boolean isLocked;
     private boolean isInChatGui;
     private boolean hasFailed;
@@ -40,6 +41,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.renderingStrings = new ArrayList<String>();
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
+        this.unprocessedTips = new ArrayList<UnprocessedTip>();
         // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
         this.tipAllButton = new GuiButton(-10, 0,0, 50, TIP_ALL_BUTTON_HEIGHT, "Tip all");
     }
@@ -56,8 +58,29 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 }
             }
             for (Booster booster : activeBoosters) {
+                // Check if this booster was tipped while it wasn't loaded by the display
+                if(!this.unprocessedTips.isEmpty() && !tippedBoosters.contains(booster)) {
+                    for (UnprocessedTip tip : this.unprocessedTips) {
+                        if(booster.getOwner().equals(tip.name)) {
+                            this.tippedBoosters.add(booster);
+                            // save the tipping time
+                            booster.setTippingTime(tip.time);
+                            tip.markedForRemoval = true; // We can't just remove it because the owner could have multiple boosters...
+                        }
+                    }
+                }
+                
                 // Add all active boosters. Tipped ones are white. Untipped ones are green.
                 renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
+                
+                // Go through the unprocessedTips and remove processed ones
+                if(!this.unprocessedTips.isEmpty()) {
+                    for(UnprocessedTip tip : this.unprocessedTips) {
+                        if(tip.markedForRemoval) {
+                            this.unprocessedTips.remove(tip);
+                        }
+                    }
+                }
             }
         }
     }
@@ -74,12 +97,19 @@ public class BoosterDisplay implements BoosterResponseCallback{
                     name = name.substring(name.indexOf(" to ") + 4);
                 }
                 // set all boosters with this name to tipped
+                boolean foundIt = false;
                 for (Booster booster : activeBoosters) {
                     if(booster.getOwner().equalsIgnoreCase(name)) {
                         this.tippedBoosters.add(booster);
                         // save the tipping time
                         booster.tip();
+                        // we found a booster and don't need to save
+                        foundIt = true;
                     }
+                }
+                
+                if(!foundIt) {
+                    this.unprocessedTips.add(new UnprocessedTip(name, System.currentTimeMillis()));
                 }
 
                 // refresh the display strings
@@ -176,5 +206,24 @@ public class BoosterDisplay implements BoosterResponseCallback{
         }
         // make it display
         this.updateRenderStrings();
+    }
+    
+    private class UnprocessedTip {
+        public String name;
+        public long time;
+        public boolean markedForRemoval;
+        public UnprocessedTip(String name, long time) {
+            this.name = name;
+            this.time = time;
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if(obj instanceof UnprocessedTip) {
+                UnprocessedTip t = (UnprocessedTip)obj;
+                return this.name.equals(t.name);
+            }
+            return super.equals(obj);
+        }
     }
 }
