@@ -7,6 +7,7 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.games.CopsAndCrims;
 import com.palechip.hudpixelmod.games.Game;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -32,6 +33,7 @@ public class GameDetector {
     private static final String HYPIXEL_IP = "mc.hypixel.net";
     private static final String PARTY_DRAG_MESSAGE = "Found a server running";
     private static final String PARTY_WARP_MESSAGE = " summoned you to their server.";
+    private static final String COPS_AND_CRIMS_GAME_IN_PROGRESS_JOIN_MESSAGE = "Found an in-progress Cops and Crims game!";
 
     public void onGuiShow(GuiScreen gui) {
         if(HypixelNetworkDetector.isHypixelNetwork) {
@@ -76,33 +78,47 @@ public class GameDetector {
                         this.currentGame = game;
                         this.isGameDetectionStarted = false;
                         this.currentGame.setupNewGame();
+                        HudPixelMod.instance().logInfo("Detected " + game.getType().getName() + " by chat tag!");
                         break;
                     }
                 }
             }
-            // check for limbo and MVP+ land
-            if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
-                if(textMessage.equals(LIMBO_MESSAGE) || textMessage.equals(MVPPLUS_LAND)) {
-                    this.isInLobby = true;
-                    this.isLobbyDetectionStarted = false;
-                    this.isGameDetectionStarted = false;
-                    if(this.currentGame != null) {
-                        // and terminate the game if it wasn't already
-                        this.currentGame.endGame();
-                        this.currentGame = null;
-                    }
-                }
-
-            }
-            // check for party leaders dragging you directly from a game to another
-            if(this.currentGame != null) {
-                if(textMessage.contains(PARTY_DRAG_MESSAGE) || textMessage.contains(PARTY_WARP_MESSAGE)) {
-                    this.isInLobby = false;
-                    this.isGameDetectionStarted = true;
-                }
-            }
-            // we didn't find anything. Retry with the next chat message...
         }
+
+        // check for limbo and MVP+ land
+        if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
+            if(textMessage.equals(LIMBO_MESSAGE) || textMessage.equals(MVPPLUS_LAND)) {
+                this.isInLobby = true;
+                this.isLobbyDetectionStarted = false;
+                this.isGameDetectionStarted = false;
+                if(this.currentGame != null) {
+                    // and terminate the game if it wasn't already
+                    this.currentGame.endGame();
+                    this.currentGame = null;
+                }
+            }
+        }
+
+        // check for party leaders dragging you directly from a game to another
+        if(this.currentGame != null) {
+            if(textMessage.contains(PARTY_DRAG_MESSAGE) || textMessage.contains(PARTY_WARP_MESSAGE)) {
+                this.isInLobby = false;
+                this.isGameDetectionStarted = true;
+                HudPixelMod.instance().logInfo("Party Time! (Registered party action and starting game detection)");
+            }
+        }
+
+        // you can join Cops & Crims games in-progress and there is no hint other than a chat message
+        if(textMessage.contains(COPS_AND_CRIMS_GAME_IN_PROGRESS_JOIN_MESSAGE)) {
+            this.currentGame = Game.getGameByClass(CopsAndCrims.class);
+            this.isGameDetectionStarted = false;
+            this.currentGame.setupNewGame();
+            // the game has already started, so we need to start it.
+            this.currentGame.startGame();
+            HudPixelMod.instance().logInfo("Detected Cops & Crims being joined in-progress!");
+        }
+
+        // we didn't find anything. Retry with the next chat message...
     }
 
     public void onClientTick() {
@@ -162,6 +178,7 @@ public class GameDetector {
                         this.currentGame = game;
                         this.isGameDetectionStarted = false;
                         this.currentGame.setupNewGame();
+                        HudPixelMod.instance().logInfo("Detected " + game.getType().getName() + " by bossbar name!");
                         break;
                     }
                 }
