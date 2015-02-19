@@ -138,13 +138,13 @@ public class HudPixelMod
                     // and the booster display needs it as well
                     this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
                     // this one are the messages on the status bar
-                    else {
-                        // not used right now
-                    }
-                }       
-            } catch(Exception e) {
-                this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
-                e.printStackTrace();
+                } else {
+                    // not used right now
+                }
+            }
+        } catch(Exception e) {
+            this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
+            e.printStackTrace();
         }
     }
 
