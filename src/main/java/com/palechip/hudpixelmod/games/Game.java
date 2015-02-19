@@ -69,6 +69,20 @@ public abstract class Game {
         return games;
     }
 
+    /**
+     * Get the instance of a subclass of Game out of the games array
+     * @param clazz the subclass of Game
+     * @return the instance the the provided subclass taken from the games array
+     */
+    public static Game getGameByClass(Class<? extends Game> clazz) {
+        for(Game game : games) {
+            if(clazz.isInstance(game)) {
+                return game;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<IComponent> components;
 
     // set of strings which are characteristic for the game
