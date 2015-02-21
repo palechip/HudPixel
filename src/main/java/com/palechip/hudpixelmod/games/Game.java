@@ -48,6 +48,7 @@ public abstract class Game {
         games.add(new Blitz());
         games.add(new UHC());
         games.add(new CopsAndCrims());
+        games.add(new Warlords());
         games.add(new Tag());
         games.add(new Run());
         games.add(new BowSpleef());
