@@ -5,7 +5,7 @@ import net.minecraft.util.EnumChatFormatting;
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class LobbyCommandAutoCompleter {
     public static final String LOBBY_CONFIRMATION_MESSAGE = "Are you sure? Type /lobby again if you really want to quit.";
