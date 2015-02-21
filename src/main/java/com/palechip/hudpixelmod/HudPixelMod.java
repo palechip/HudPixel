@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -62,6 +63,8 @@ public class HudPixelMod
     private KeyBinding hideHUDKey;
     private KeyBinding openConfigGui;
 
+    private LobbyCommandAutoCompleter lobbyCommandConfirmer;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         try {
@@ -94,6 +97,7 @@ public class HudPixelMod
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
         this.limboHelper = new LimboStuckDetector();
         this.renderer = new HudPixelRenderer(this.updater);
+        this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -143,6 +147,10 @@ public class HudPixelMod
 
                     // and the booster display needs it as well
                     this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+
+                    //auto completion of /lobby
+                    this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+
                     // this one are the messages on the status bar
                 } else {
                     // not used right now
