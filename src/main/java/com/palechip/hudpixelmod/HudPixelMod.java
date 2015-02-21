@@ -14,9 +14,11 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.detectors.LimboStuckDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
@@ -39,7 +41,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
-    public static final String VERSION = "2.3.1";
+    public static final String VERSION = "2.4.0";
     public static final boolean IS_DEBUGGING = false;
 
     private static HudPixelMod instance;
@@ -54,11 +56,14 @@ public class HudPixelMod
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
+    private LimboStuckDetector limboHelper;
 
     // key related vars
     public static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
     private KeyBinding openConfigGui;
+
+    private LobbyCommandAutoCompleter lobbyCommandConfirmer;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -90,7 +95,9 @@ public class HudPixelMod
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
+        this.limboHelper = new LimboStuckDetector();
         this.renderer = new HudPixelRenderer(this.updater);
+        this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -119,6 +126,8 @@ public class HudPixelMod
         try {
             //Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
+                // Hook the limbo stuck detection
+                this.limboHelper.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                 // pass the event to the GameDetector
                 this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
@@ -136,7 +145,9 @@ public class HudPixelMod
 
                 // and the booster display needs it as well
                 this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-                // this one are the messages on the status bar
+                
+                //auto completion of /lobby
+                this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
             }       
         } catch(Exception e) {
             this.logWarn("An exception occured in onChatMessage(). Stacktrace below.");
@@ -151,6 +162,9 @@ public class HudPixelMod
             if(this.hypixelDetector.isHypixelNetwork) {
                 // make sure the Scoreboard reader updates when necessary
                 ScoreboardReader.resetCache();
+                
+                // Hook the limbo stuck detection
+                this.limboHelper.onClientTick();
 
                 // update the resolution and the result display, this renders nothing
                 this.renderer.onClientTick();
