@@ -63,6 +63,7 @@ public class HudPixelConfig {
     public static boolean copsAndCrimsTimeDisplay;
     public static boolean uhcCoinDisplay;
     public static boolean warlordsCoinDisplay;
+    public static boolean warlordsTimeDisplay;
     // add further options here
 
     // descriptions
@@ -124,7 +125,7 @@ public class HudPixelConfig {
         copsAndCrimsTimeDisplay = this.config.get(COPS_AND_CRIMS_CATEGORY, "copsAndCrimsTimeDisplay", true, TIMER + "Cops and Crims.").getBoolean(true);
         uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
         warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
-        
+        warlordsTimeDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsTimeDisplay", true, TIMER + "Warlords.").getBoolean(true);
         // load further options here
 
         if(this.config.hasChanged()) {
