@@ -26,8 +26,7 @@ public class HudPixelConfigGui extends GuiConfig {
         if (HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
             // Add the current game
             list.addAll(new ConfigElement(configFile.getCategory(HudPixelMod.instance().gameDetector.getCurrentGame().getConfigCategory())).getChildElements());
-            if (HypixelNetworkDetector.isHypixelNetwork) {// only send chat msg
-                                                          // if on server
+            if (HypixelNetworkDetector.isHypixelNetwork) {
                 new ChatMessageComposer("Opened the config for currently played game. Open in lobby to access all options.", EnumChatFormatting.DARK_GREEN).send();
             }
         } else {
@@ -44,7 +43,7 @@ public class HudPixelConfigGui extends GuiConfig {
             list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.COPS_AND_CRIMS_CATEGORY)).getChildElements());
             list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.UHC_CATEGORY)).getChildElements());
             list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WARLORDS_CATEGORY)).getChildElements());
-            new ChatMessageComposer("Opened the config with all options. Tipp: If you are in a game you'll only see relevant options.", EnumChatFormatting.DARK_GREEN).makeHover(new ChatMessageComposer("Test", EnumChatFormatting.GOLD)).send();
+            new ChatMessageComposer("Opened the config with all options. Tip: If you are in a game you'll only see relevant options.", EnumChatFormatting.DARK_GREEN).makeHover(new ChatMessageComposer("Test", EnumChatFormatting.GOLD)).send();
         }
         return list;
     }
