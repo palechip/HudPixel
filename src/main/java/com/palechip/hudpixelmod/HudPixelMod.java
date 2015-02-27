@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 package com.palechip.hudpixelmod;
 
 import net.minecraft.client.settings.KeyBinding;
@@ -15,6 +22,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
+import com.palechip.hudpixelmod.chat.WarlordsDamageChatDisable;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -64,6 +72,7 @@ public class HudPixelMod
     private KeyBinding openConfigGui;
 
     private LobbyCommandAutoCompleter lobbyCommandConfirmer;
+    private WarlordsDamageChatDisable warlordsChatDisabler;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -98,6 +107,7 @@ public class HudPixelMod
         this.limboHelper = new LimboStuckDetector();
         this.renderer = new HudPixelRenderer(this.updater);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
+        this.warlordsChatDisabler = new WarlordsDamageChatDisable();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -126,6 +136,7 @@ public class HudPixelMod
         try {
             //Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
+            	    	
                 // this one reads the normal chat messages
                 if(event.type == 0) {
                     // Hook the limbo stuck detection
@@ -150,6 +161,9 @@ public class HudPixelMod
 
                     //auto completion of /lobby
                     this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+                    
+                  //send event to Warlords damage chat disabler
+                    this.warlordsChatDisabler.onChat(event);
 
                     // this one are the messages on the status bar
                 } else {
