@@ -64,6 +64,8 @@ public class HudPixelConfig {
     public static boolean uhcCoinDisplay;
     public static boolean warlordsCoinDisplay;
     public static boolean warlordsTimeDisplay;
+    public static boolean disableWarlordsDamagePos;
+    public static boolean disableWarlordsDamageNeg;
     // add further options here
 
     // descriptions
@@ -73,15 +75,15 @@ public class HudPixelConfig {
     public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
     public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
     public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
-    public static final String WITHER_COIN_COUNTER  = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
+    public static final String WITHER_COIN_COUNTER = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
 
     public HudPixelConfig(File config) {
         // the "3" is the defined config version
         this.config = new Configuration(config, "3");
         this.config.load();
-        
+
         // update the config if the versions mismatch
-        if(this.config.getLoadedConfigVersion() == null || !this.config.getLoadedConfigVersion().equals(this.config.getDefinedConfigVersion())) {
+        if (this.config.getLoadedConfigVersion() == null || !this.config.getLoadedConfigVersion().equals(this.config.getDefinedConfigVersion())) {
             this.updateConfig(this.config.getLoadedConfigVersion());
         }
     }
@@ -95,11 +97,11 @@ public class HudPixelConfig {
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
-        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",false, "Show a button that runs /tip all.").getBoolean(false);
-        quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true ,COIN_COUNTER + "Quakecraft.").getBoolean(true);
+        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").getBoolean(false);
+        quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true, COIN_COUNTER + "Quakecraft.").getBoolean(true);
         quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
         quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
-        tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true,COIN_COUNTER + "the TNT Games").getBoolean(true);
+        tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true, COIN_COUNTER + "the TNT Games").getBoolean(true);
         tntTimeDisplay = this.config.get(TNT_CATEGORY, "tntTimeDisplay", true, TIMER + "the TNT Games").getBoolean(true);
         tntKillstreakTracker = this.config.get(TNT_CATEGORY, "tntKillstreakTracker", true, KILLSTREAK_TRACKER + "TNT Wizards.").getBoolean(true);
         vampireCoinDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZCoinDisplay", true, COIN_COUNTER + "VampireZ.").getBoolean(true);
@@ -110,7 +112,7 @@ public class HudPixelConfig {
         arcadeKillstreakTracker = this.config.get(ARCADE_CATEGORY, "arcadeKillstreakTracker", true, KILLSTREAK_TRACKER + "some Arcade Games.").getBoolean(true);
         wallsCoinDisplay = this.config.get(WALLS_CATEGORY, "wallsCoinDisplay", true, COIN_COUNTER + "the classic Walls.").getBoolean(true);
         wallsTimeDisplay = this.config.get(WALLS_CATEGORY, "wallsTimeDisplay", true, TIMER + "the classic Walls.").getBoolean(true);
-        wallsKillCounter = this.config.get(WALLS_CATEGORY, "wallsKillCounter", true, MEGA_WALLS_KILL_COUNTER +"Walls").getBoolean(true);
+        wallsKillCounter = this.config.get(WALLS_CATEGORY, "wallsKillCounter", true, MEGA_WALLS_KILL_COUNTER + "Walls").getBoolean(true);
         megaWallsCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsCoinDisplay", true, COIN_COUNTER + "Mega Walls.").getBoolean(true);
         megaWallsWitherCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsWitherCoinDisplay", true, WITHER_COIN_COUNTER).getBoolean(true);
         megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER + "Mega Walls.").getBoolean(true);
@@ -126,9 +128,11 @@ public class HudPixelConfig {
         uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
         warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
         warlordsTimeDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsTimeDisplay", true, TIMER + "Warlords.").getBoolean(true);
+        disableWarlordsDamagePos = this.config.get(WARLORDS_CATEGORY, "disableWarlordsDamagePos", false, "Disable the positive damage messages in warlords chat").getBoolean(false);
+        disableWarlordsDamageNeg = this.config.get(WARLORDS_CATEGORY, "disableWarlordsDamageNeg", false, "Disable the negitive damage messages in warlords chat").getBoolean(false);
         // load further options here
 
-        if(this.config.hasChanged()) {
+        if (this.config.hasChanged()) {
             this.config.save();
         }
     }
@@ -141,9 +145,9 @@ public class HudPixelConfig {
     private void updateConfig(String oldVersion) {
         // allows to update multiple versions simultaneously.
         boolean fallThrough = false;
-        if(oldVersion == null) {
+        if (oldVersion == null) {
             fallThrough = true;
-            
+
             this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
             this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
             this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
@@ -163,28 +167,29 @@ public class HudPixelConfig {
             this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
             // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
         }
-        if(fallThrough || oldVersion.equals("2")) {
+        if (fallThrough || oldVersion.equals("2")) {
             fallThrough = true;
-            
-            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton",false, "Show a button that runs /tip all.").set(false);;
+
+            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);;
         }
         this.config.save();
     }
 
     /**
-     * Renames a property in a given category. But other than Configuration.renameProperty(), it does turn it into a boolean property.
+     * Renames a property in a given category. But other than
+     * Configuration.renameProperty(), it does turn it into a boolean property.
      * 
-     * @param category the category in which the property resides
-     * @param oldPropName the existing property name
-     * @param newPropName the new property name
+     * @param category
+     *            the category in which the property resides
+     * @param oldPropName
+     *            the existing property name
+     * @param newPropName
+     *            the new property name
      * @return true if the category and property exist, false otherwise
      */
-    public boolean renameBooleanProperty(String category, String oldPropName, String newPropName)
-    {
-        if (this.config.hasCategory(category))
-        {
-            if (this.config.getCategory(category).containsKey(oldPropName) && !oldPropName.equalsIgnoreCase(newPropName))
-            {
+    public boolean renameBooleanProperty(String category, String oldPropName, String newPropName) {
+        if (this.config.hasCategory(category)) {
+            if (this.config.getCategory(category).containsKey(oldPropName) && !oldPropName.equalsIgnoreCase(newPropName)) {
                 this.config.get(category, newPropName, this.config.getCategory(category).get(oldPropName).getBoolean());
                 this.config.getCategory(category).remove(oldPropName);
                 return true;
