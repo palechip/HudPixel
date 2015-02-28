@@ -64,8 +64,10 @@ public class HudPixelConfig {
     public static boolean uhcCoinDisplay;
     public static boolean warlordsCoinDisplay;
     public static boolean warlordsTimeDisplay;
-    public static boolean disableWarlordsDamagePos;
-    public static boolean disableWarlordsDamageNeg;
+    public static int warlordsFilterDamageDone;
+    public static int warlordsFilterDamageTaken;
+    public static int warlordsFilterHealingDone;
+    public static int warlordsFilterHealingReceived;
     // add further options here
 
     // descriptions
@@ -76,6 +78,8 @@ public class HudPixelConfig {
     public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
     public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
     public static final String WITHER_COIN_COUNTER = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
+    public static final String WARLORDS_FILTER_1 = "Filter out all chat message containing lower ";
+    public static final String WARLORDS_FILTER_2 = " than this value.";
 
     public HudPixelConfig(File config) {
         // the "3" is the defined config version
@@ -128,8 +132,10 @@ public class HudPixelConfig {
         uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
         warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
         warlordsTimeDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsTimeDisplay", true, TIMER + "Warlords.").getBoolean(true);
-        disableWarlordsDamagePos = this.config.get(WARLORDS_CATEGORY, "disableWarlordsDamagePos", false, "Disable the positive damage messages in warlords chat").getBoolean(false);
-        disableWarlordsDamageNeg = this.config.get(WARLORDS_CATEGORY, "disableWarlordsDamageNeg", false, "Disable the negitive damage messages in warlords chat").getBoolean(false);
+        warlordsFilterDamageTaken = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageTaken", 0, WARLORDS_FILTER_1 + "Damage(taken)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterDamageDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageDone", 0, WARLORDS_FILTER_1 + "Damage(done)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterHealingReceived = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterHealingDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
         // load further options here
 
         if (this.config.hasChanged()) {

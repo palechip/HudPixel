@@ -15,7 +15,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
-import com.palechip.hudpixelmod.chat.WarlordsDamageChatDisable;
+import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
@@ -65,7 +65,7 @@ public class HudPixelMod
     private KeyBinding openConfigGui;
 
     private LobbyCommandAutoCompleter lobbyCommandConfirmer;
-    private WarlordsDamageChatDisable warlordsChatDisabler;
+    private WarlordsDamageChatFilter warlordsChatFilter;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -100,7 +100,7 @@ public class HudPixelMod
         this.limboHelper = new LimboStuckDetector();
         this.renderer = new HudPixelRenderer(this.updater);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
-        this.warlordsChatDisabler = new WarlordsDamageChatDisable();
+        this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -156,7 +156,7 @@ public class HudPixelMod
                     this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
                     
                   //send event to Warlords damage chat disabler
-                    this.warlordsChatDisabler.onChat(event);
+                    this.warlordsChatFilter.onChat(event);
 
                     // this one are the messages on the status bar
                 } else {
