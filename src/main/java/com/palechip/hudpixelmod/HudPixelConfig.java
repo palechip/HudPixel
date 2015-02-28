@@ -79,7 +79,7 @@ public class HudPixelConfig {
 
     public HudPixelConfig(File config) {
         // the "3" is the defined config version
-        this.config = new Configuration(config, "4");
+        this.config = new Configuration(config, "3");
         this.config.load();
 
         // update the config if the versions mismatch
@@ -141,8 +141,7 @@ public class HudPixelConfig {
         return config;
     }
 
-    // for the config gui introduced in 2.1.0, most properties need to be
-    // renamed
+    // for the config gui introduced in 2.1.0, most properties need to be renamed
     private void updateConfig(String oldVersion) {
         // allows to update multiple versions simultaneously.
         boolean fallThrough = false;
@@ -162,19 +161,16 @@ public class HudPixelConfig {
             this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
             this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
             this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
-            // the deathmatch notifier wasn't included in the config for 2.0.0
-            // as it was disabled
+            // the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
             this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
             this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
             this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
-            // the paintball killstreak tracker wasn't included in the config
-            // for 2.0.0 as it was disabled
+            // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
         }
         if (fallThrough || oldVersion.equals("2")) {
             fallThrough = true;
 
-            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);
-            ;
+            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);;
         }
         this.config.save();
     }

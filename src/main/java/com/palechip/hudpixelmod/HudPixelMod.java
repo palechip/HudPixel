@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 package com.palechip.hudpixelmod;
 
 import net.minecraft.client.settings.KeyBinding;

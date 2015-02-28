@@ -5,8 +5,8 @@ import com.palechip.hudpixelmod.HudPixelConfig;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class WarlordsDamageChatDisable {
-    public static final String takeDamage = "«";
-    public static final String giveDamage = "»";
+    public static final String takeDamage = "\u00AB";
+    public static final String giveDamage = "\u00BB";
 
     public WarlordsDamageChatDisable() {
     }
