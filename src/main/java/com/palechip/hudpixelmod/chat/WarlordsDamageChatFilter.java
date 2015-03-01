@@ -33,7 +33,7 @@ public class WarlordsDamageChatFilter {
                         }
                     }
                     // absorption
-                    else if(message.startsWith(absorption)) {
+                    else if(message.contains(absorption)) {
                         if(HudPixelConfig.warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
@@ -54,7 +54,7 @@ public class WarlordsDamageChatFilter {
                         }
                     }
                     // absorption
-                    else if(message.startsWith(absorption)) {
+                    else if(message.contains(absorption)) {
                         if(HudPixelConfig.warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
