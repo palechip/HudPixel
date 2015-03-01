@@ -86,7 +86,8 @@ public class WarlordsDamageAndHealingCounter implements IComponent {
                 // We failed :(
                 return 0;
             }
-            String result = m.group();
+         // Get the last occurrence in order to sort out party poopers with all number names
+            String result = m.group(m.groupCount());
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
         } catch(Exception e) {
