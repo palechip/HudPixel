@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.games.Warlords;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -17,36 +18,39 @@ public class WarlordsDamageChatFilter {
     }
 
     public void onChat(ClientChatReceivedEvent e) {
-        // check if the filter is enabled
-        if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0) {
-            String message = e.message.getUnformattedText();
-            // incoming
-            if(message.startsWith(take)) {
-                // healing
-                if(message.contains(healing)) {
-                    if(HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
-                        e.setCanceled(true);
+        // only if we are in a Warlords game
+        if(HudPixelMod.instance().gameDetector.getCurrentGame() instanceof Warlords) {
+            // check if the filter is enabled
+            if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0) {
+                String message = e.message.getUnformattedText();
+                // incoming
+                if(message.startsWith(take)) {
+                    // healing
+                    if(message.contains(healing)) {
+                        if(HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // damage
+                    else  {
+                        if(HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
                     }
                 }
-                // damage
-                else  {
-                    if(HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
-                        e.setCanceled(true);
+                // outgoing
+                else if(message.startsWith(give)) {
+                    // healing
+                    if(message.contains(healing)) {
+                        if(HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
                     }
-                }
-            }
-            // outgoing
-            else if(message.startsWith(give)) {
-                // healing
-                if(message.contains(healing)) {
-                    if(HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
-                        e.setCanceled(true);
-                    }
-                }
-                // damage
-                else  {
-                    if(HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
-                        e.setCanceled(true);
+                    // damage
+                    else  {
+                        if(HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
                     }
                 }
             }

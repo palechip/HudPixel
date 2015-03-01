@@ -155,7 +155,7 @@ public class HudPixelMod
                     //auto completion of /lobby
                     this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
                     
-                  //send event to Warlords damage chat disabler
+                    //send event to Warlords damage chat disabler
                     this.warlordsChatFilter.onChat(event);
 
                     // this one are the messages on the status bar
