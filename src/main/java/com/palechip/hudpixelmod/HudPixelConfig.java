@@ -68,6 +68,7 @@ public class HudPixelConfig {
     public static int warlordsFilterDamageTaken;
     public static int warlordsFilterHealingDone;
     public static int warlordsFilterHealingReceived;
+    public static boolean warlordsFilterAbsorbtion;
     // add further options here
 
     // descriptions
@@ -136,6 +137,7 @@ public class HudPixelConfig {
         warlordsFilterDamageDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageDone", 0, WARLORDS_FILTER_1 + "Damage(done)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterHealingReceived = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterHealingDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterAbsorbtion = this.config.get(WARLORDS_CATEGORY, "warlordsFilterAbsorbtion", false, "Filter out all chat messages containing information about absorbtion.").getBoolean();
         // load further options here
 
         if (this.config.hasChanged()) {

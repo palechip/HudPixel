@@ -13,6 +13,7 @@ public class WarlordsDamageChatFilter {
     public static final String take = "\u00AB";
     public static final String give = "\u00BB";
     public static final String healing = " healed ";
+    public static final String absorption = " absorbed ";
 
     public WarlordsDamageChatFilter() {
     }
@@ -31,6 +32,12 @@ public class WarlordsDamageChatFilter {
                             e.setCanceled(true);
                         }
                     }
+                    // absorption
+                    else if(message.startsWith(absorption)) {
+                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
+                            e.setCanceled(true);
+                        }
+                    }
                     // damage
                     else  {
                         if(HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
@@ -43,6 +50,12 @@ public class WarlordsDamageChatFilter {
                     // healing
                     if(message.contains(healing)) {
                         if(HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // absorption
+                    else if(message.startsWith(absorption)) {
+                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
                     }
