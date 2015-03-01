@@ -129,12 +129,12 @@ public class HudPixelMod
         try {
             //Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
-            	    	
+
                 // this one reads the normal chat messages
                 if(event.type == 0) {
                     // Hook the limbo stuck detection
                     this.limboHelper.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-                    
+
                     // pass the event to the GameDetector
                     this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 

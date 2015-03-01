@@ -64,6 +64,7 @@ public class HudPixelConfig {
     public static boolean uhcCoinDisplay;
     public static boolean warlordsCoinDisplay;
     public static boolean warlordsTimeDisplay;
+    public static boolean warlordsDamageAndHealthCounter;
     public static int warlordsFilterDamageDone;
     public static int warlordsFilterDamageTaken;
     public static int warlordsFilterHealingDone;
@@ -133,6 +134,7 @@ public class HudPixelConfig {
         uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
         warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
         warlordsTimeDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsTimeDisplay", true, TIMER + "Warlords.").getBoolean(true);
+        warlordsDamageAndHealthCounter = this.config.get(WARLORDS_CATEGORY, "warlordsDamageAndHealthCounter", true, "Counts the damage and healing you do in a Warlords game.").getBoolean();
         warlordsFilterDamageTaken = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageTaken", 0, WARLORDS_FILTER_1 + "Damage(taken)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterDamageDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageDone", 0, WARLORDS_FILTER_1 + "Damage(done)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterHealingReceived = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
