@@ -64,9 +64,9 @@ public class WarlordsDamageAndHealingCounter implements IComponent {
         
         switch(this.type) {
         case Healing:
-            return this.count > 0 ? EnumChatFormatting.GREEN + "Healing: " + formatted + "k" : "";
+            return  EnumChatFormatting.GREEN + "Healing: " + formatted + "k";
         case Damage:
-            return this.count > 0 ? EnumChatFormatting.RED + "Damage: " + formatted + "k" : "";
+            return EnumChatFormatting.RED + "Damage: " + formatted + "k";
         }
         return "";
     }
