@@ -1,7 +1,6 @@
 package com.palechip.hudpixelmod.util;
 
 import java.util.ArrayList;
-
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.event.HoverEvent;
@@ -145,7 +144,16 @@ public class ChatMessageComposer {
      * Send this message to the player. (with [HudPixel] prefix)
      */
     public void send() {
-        this.send(true);
+
+        try {
+            this.send(true);
+        } catch (Exception e) {
+            HudPixelMod.instance().logError("Could not send chat messege");
+            if (HudPixelMod.IS_DEBUGGING) {
+                e.printStackTrace();
+            }
+
+        }
     }
     
     /**
