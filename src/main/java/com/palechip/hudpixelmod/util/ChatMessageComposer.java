@@ -153,8 +153,13 @@ public class ChatMessageComposer {
      * @param prefix Send the [HudPixel] prefix?
      */
     public void send(boolean prefix) {
-        // send the assebled message to the player
-        FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(this.assembleMessage(prefix));
+        try {
+            // send the assebled message to the player
+            FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(this.assembleMessage(prefix));
+        } catch(Exception e) {
+            HudPixelMod.instance().logError("Failed to send chat message");
+            e.printStackTrace();
+        }
     }
     
     /**
