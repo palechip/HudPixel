@@ -1,9 +1,6 @@
 package com.palechip.hudpixelmod.util;
 
 import java.util.ArrayList;
-
-import com.palechip.hudpixelmod.HudPixelMod;
-
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.event.HoverEvent;
@@ -11,6 +8,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+
+import com.palechip.hudpixelmod.HudPixelMod;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 /**
