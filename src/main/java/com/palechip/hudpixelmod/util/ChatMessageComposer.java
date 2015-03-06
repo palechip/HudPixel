@@ -53,7 +53,7 @@ public class ChatMessageComposer {
             style.setItalic(true);
             break;
         case BOLD:
-            style.setItalic(true);
+            style.setBold(true);
             break;
         case UNDERLINE:
             style.setUnderlined(true);
