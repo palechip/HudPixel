@@ -48,8 +48,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
 
     private void updateRenderStrings() {
         if(!isLocked) {
-            renderingStrings.clear();
-            renderingStrings.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
+            ArrayList<String> temp = new ArrayList<String>();
+            temp.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
             for(Booster booster : tippedBoosters) {
                 // Update tipped boosters: Remove tipable boosters.
                 // This will also remove old boosters!
@@ -71,14 +71,14 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 }
                 
                 // Add all active boosters. Tipped ones are white. Untipped ones are green.
-                renderingStrings.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
-                
-                // Go through the unprocessedTips and remove processed ones
-                if(!this.unprocessedTips.isEmpty()) {
-                    for(UnprocessedTip tip : this.unprocessedTips) {
-                        if(tip.markedForRemoval) {
-                            this.unprocessedTips.remove(tip);
-                        }
+                temp.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
+            }
+            renderingStrings = temp;
+            // Go through the unprocessedTips and remove processed ones
+            if(!this.unprocessedTips.isEmpty()) {
+                for(UnprocessedTip tip : this.unprocessedTips) {
+                    if(tip.markedForRemoval) {
+                        this.unprocessedTips.remove(tip);
                     }
                 }
             }
