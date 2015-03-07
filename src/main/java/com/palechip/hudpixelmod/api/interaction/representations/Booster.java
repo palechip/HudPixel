@@ -43,9 +43,12 @@ public class Booster {
     }
     
     public String getOwner() {
-        if(this.owner == null) {
+        if(this.owner == null || this.owner.equals("!ERROR!")) {
             this.owner = UuidHelper.getUsernameFormUUID(purchaserUuid);
-            
+        }
+        // did getting the name fail?
+        if(this.owner == null) {
+            this.owner = "!ERROR!";
         }
         return owner;
     }

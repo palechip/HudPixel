@@ -17,7 +17,7 @@ This mod is open source and contributions are always welcome.
  1. Make sure you have the Java Development Kit (jdk) installed
  2. Download the sources (ideally use a fork so you can do a pull request)
  3. Open a command line in the main directory (where this readme is located)
- 4. Run `gradlew setupDecompWorkspace --refreshDependencies`
+ 4. Run `gradlew setupDecompWorkspace --refresh-dependencies`
  5. If you are using IntelliJ IDEA as IDE, run `gradlew idea`
  6. If you are using Eclipse as IDE, head to [files.minecraftforge.net](http://files.minecraftforge.net), download the source code of the used version of Forge, unzip it and copy the `eclipse` folder into the main directory. Then run `gradlew eclipse`.
  7. Open the project with your IDE (for Eclipse: Point your workspace to the `eclipse` folder)
