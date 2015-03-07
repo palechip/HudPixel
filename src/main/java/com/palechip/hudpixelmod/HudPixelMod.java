@@ -21,6 +21,7 @@ import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.detectors.LimboStuckDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
@@ -63,6 +64,7 @@ public class HudPixelMod
     public static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
     private KeyBinding openConfigGui;
+    private KeyBinding debugKey; // A key used to bind some debugging functionality
 
     private LobbyCommandAutoCompleter lobbyCommandConfirmer;
     private WarlordsDamageChatFilter warlordsChatFilter;
@@ -107,6 +109,10 @@ public class HudPixelMod
         this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_P, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
         ClientRegistry.registerKeyBinding(this.openConfigGui);
+        if(this.IS_DEBUGGING) {
+            this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
+            ClientRegistry.registerKeyBinding(this.debugKey);
+        }
     }
 
     @SubscribeEvent
@@ -236,6 +242,12 @@ public class HudPixelMod
                 if(this.openConfigGui.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
+                }
+                if(this.IS_DEBUGGING) {
+                    if (this.debugKey.isPressed()) {
+                        // Add debug code here
+                        new BlitzStatsDisplayer("palechip").display();
+                    }
                 }
             }
         } catch(Exception e) {

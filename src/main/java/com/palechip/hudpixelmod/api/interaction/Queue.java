@@ -11,6 +11,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 
 public class Queue implements ApiKeyLoadedCallback{
@@ -127,6 +128,19 @@ public class Queue implements ApiKeyLoadedCallback{
             this.queue.add(new QueueEntry(callback, player));
         } else {
             callback.onFriendResponse(null);
+        }
+    }
+    
+    /**
+     * Queues a Player request.
+     * @param callback
+     * @param player
+     */
+    public void getPlayer(PlayerResponseCallback callback, String player) {
+        if(HudPixelConfig.useAPI) {
+            this.queue.add(new QueueEntry(callback, player));
+        } else {
+            callback.onPlayerResponse(null);
         }
     }
     
