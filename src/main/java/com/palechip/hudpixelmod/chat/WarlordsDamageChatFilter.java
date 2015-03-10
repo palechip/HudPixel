@@ -14,6 +14,8 @@ public class WarlordsDamageChatFilter {
     public static final String give = "\u00BB";
     public static final String healing = " healed ";
     public static final String absorption = " absorbed ";
+    public static final String wounded = "You are now wounded.";
+    public static final String noLongerWounded = "You are no longer wounded.";
 
     public WarlordsDamageChatFilter() {
     }
@@ -22,7 +24,7 @@ public class WarlordsDamageChatFilter {
         // only if we are in a Warlords game
         if(HudPixelMod.instance().gameDetector.getCurrentGame() instanceof Warlords) {
             // check if the filter is enabled
-            if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0) {
+            if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
                 String message = e.message.getUnformattedText();
                 // incoming
                 if(message.startsWith(take)) {
@@ -64,6 +66,12 @@ public class WarlordsDamageChatFilter {
                         if(HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
+                    }
+                }
+                //Filter wounded messages
+                if (HudPixelConfig.warlordsFilterWounded) {
+                    if (message.equals(wounded) || message.equals(noLongerWounded)) {
+                        e.setCanceled(true);
                     }
                 }
             }
