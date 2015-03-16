@@ -71,7 +71,7 @@ public class WarlordsDamageChatFilter {
                 }
                 //Filter wounded messages
                 if (HudPixelConfig.warlordsFilterWounded) {
-                    if (message.equals(wounded1) || message.equals(wounded2) ||message.equals(noLongerWounded)) {
+                    if (message.equals(wounded1) || message.equals(wounded2) || message.equals(noLongerWounded)) {
                         e.setCanceled(true);
                     }
                 }
