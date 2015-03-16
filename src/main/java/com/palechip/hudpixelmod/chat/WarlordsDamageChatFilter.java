@@ -14,7 +14,8 @@ public class WarlordsDamageChatFilter {
     public static final String give = "\u00BB";
     public static final String healing = " healed ";
     public static final String absorption = " absorbed ";
-    public static final String wounded = "You are now wounded.";
+    public static final String wounded1 = "You are now wounded.";
+    public static final String wounded2 = "You are wounded.";
     public static final String noLongerWounded = "You are no longer wounded.";
 
     public WarlordsDamageChatFilter() {
@@ -70,7 +71,7 @@ public class WarlordsDamageChatFilter {
                 }
                 //Filter wounded messages
                 if (HudPixelConfig.warlordsFilterWounded) {
-                    if (message.equals(wounded) || message.equals(noLongerWounded)) {
+                    if (message.equals(wounded1) || message.equals(wounded2) ||message.equals(noLongerWounded)) {
                         e.setCanceled(true);
                     }
                 }
