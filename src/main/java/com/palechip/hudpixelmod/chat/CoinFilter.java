@@ -9,23 +9,25 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class CoinFilter {
-    public CoinFilter() {   
+    public CoinFilter() {
     }
+
     public void onChat(ClientChatReceivedEvent e) {
-        if (HudPixelConfig.filterCoins>0) {
+        if (HudPixelConfig.filterCoins > 0) {
             String messege = e.message.getUnformattedText();
-            if (messege.startsWith("+")&&messege.contains("oins")) {
+            if (messege.startsWith("+") && messege.contains("oins")) {
                 if (HudPixelConfig.filterCoins > getCoinsFromMessage(messege)) {
                     e.setCanceled(true);
                 }
             }
         }
     }
+
     public static int getCoinsFromMessage(String message) {
         try {
             Pattern p = Pattern.compile("[0-9]\\w+");
             Matcher m = p.matcher(message);
-            if(!m.find()) {
+            if (!m.find()) {
                 return Integer.MAX_VALUE;
             }
             String coins = m.group();
