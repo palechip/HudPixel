@@ -153,7 +153,7 @@ public class HudPixelMod
                     this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     //auto completion of /lobby
-                    this.lobbyCommandConfirmer.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+                     this.lobbyCommandConfirmer.onChatReceived(event);
                     
                     //send event to Warlords damage chat disabler
                     this.warlordsChatFilter.onChat(event);
