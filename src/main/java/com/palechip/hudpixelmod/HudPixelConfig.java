@@ -28,6 +28,7 @@ public class HudPixelConfig {
     public static boolean useAPI;
     public static boolean enableAfterStats;
     public static boolean autoCompleteSecondLobbyCmd;
+    public static int filterCoins;
     public static String displayMode;
     public static int displayXOffset;
     public static int displayYOffset;
@@ -100,6 +101,7 @@ public class HudPixelConfig {
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);
         enableAfterStats = this.config.get(Configuration.CATEGORY_GENERAL, "enableAfterStats", true, "Display statistics of the player who killed or beat you. (Not all games supported)").getBoolean();
         autoCompleteSecondLobbyCmd = this.config.get(Configuration.CATEGORY_GENERAL, "autoCompleteSecondLobbyCmd", false, "Automatically send the the second /lobby command for getting out of a game.").getBoolean(false);
+        filterCoins = this.config.get(Configuration.CATEGORY_GENERAL, "filterCoins", 0,"Filter out all coin messages containing less coins than this value.").getInt();
         displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays.(\"lefttop\", \"righttop\", \"leftbottom\" and \"rightbottom\")").getString();
         displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering.").getInt();
         displayYOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering.").getInt();

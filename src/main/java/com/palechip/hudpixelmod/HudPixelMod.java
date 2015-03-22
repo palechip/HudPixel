@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.chat.CoinFilter;
 import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.detectors.GameDetector;
@@ -68,6 +69,7 @@ public class HudPixelMod
 
     private LobbyCommandAutoCompleter lobbyCommandConfirmer;
     private WarlordsDamageChatFilter warlordsChatFilter;
+    private CoinFilter coinFilter;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -103,6 +105,7 @@ public class HudPixelMod
         this.renderer = new HudPixelRenderer(this.updater);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
+        this.coinFilter = new CoinFilter();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -163,6 +166,9 @@ public class HudPixelMod
                     
                     //send event to Warlords damage chat disabler
                     this.warlordsChatFilter.onChat(event);
+                    
+                    //send event to Coin filter
+                    this.coinFilter.onChat(event);
 
                     // this one are the messages on the status bar
                 } else {
