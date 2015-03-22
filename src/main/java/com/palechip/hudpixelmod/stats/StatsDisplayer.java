@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
@@ -14,7 +15,7 @@ import com.palechip.hudpixelmod.util.ChatMessageComposer;
 public abstract class StatsDisplayer implements PlayerResponseCallback{
 
     protected String playerName;
-    protected Map<String, Object> statistics;
+    protected JsonObject statistics;
     protected boolean shouldPrint;
 
     protected StatsDisplayer(String playerName) {
@@ -44,7 +45,7 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
     public void onPlayerResponse(Player player) {
         if(player != null){
             if(player.getStats() != null) {
-                this.statistics = (Map)Queue.getInstance().getGson().fromJson(player.getStats(), Map.class);
+                this.statistics = player.getStats();
                 if (this.shouldPrint) {
                     this.display();
                 }

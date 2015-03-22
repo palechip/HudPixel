@@ -15,8 +15,8 @@ public class BlitzStatsDisplayer extends StatsDisplayer{
     @Override
     public void displayStatsInChat() {
         ChatMessageComposer.printSeparationMessage(EnumChatFormatting.YELLOW);
-        new ChatMessageComposer(this.playerName + "\'s stats in " + GameType.SURVIVAL_GAMES, EnumChatFormatting.DARK_BLUE).send();
-        new ChatMessageComposer("Kills: " , EnumChatFormatting.DARK_BLUE).appendMessage(new ChatMessageComposer(this.statistics.get("kills").toString(), EnumChatFormatting.RED)).appendMessage(new ChatMessageComposer(" Wins: ",EnumChatFormatting.DARK_BLUE)).appendMessage(new ChatMessageComposer(this.statistics.get("wins").toString(), EnumChatFormatting.RED)).send();
+        new ChatMessageComposer(this.playerName + "\'s stats in " + GameType.SURVIVAL_GAMES.getName(), EnumChatFormatting.GREEN).send();
+        new ChatMessageComposer("Kills: " , EnumChatFormatting.GREEN).appendMessage(new ChatMessageComposer(this.statistics.get("HungerGames").getAsJsonObject().get("kills").getAsString(), EnumChatFormatting.GOLD)).appendMessage(new ChatMessageComposer(" Wins: ",EnumChatFormatting.GREEN)).appendMessage(new ChatMessageComposer(this.statistics.get("HungerGames").getAsJsonObject().get("wins").getAsString(), EnumChatFormatting.GOLD)).send();
         ChatMessageComposer.printSeparationMessage(EnumChatFormatting.YELLOW);
     }
 }
