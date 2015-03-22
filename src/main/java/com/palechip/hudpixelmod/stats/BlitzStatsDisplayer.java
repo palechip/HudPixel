@@ -3,13 +3,16 @@ package com.palechip.hudpixelmod.stats;
 import net.hypixel.api.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
 public class BlitzStatsDisplayer extends StatsDisplayer{
 
     public BlitzStatsDisplayer(String name) {
         super(name);
-        new ChatMessageComposer("Getting " + name + "\'s stats!", EnumChatFormatting.GREEN).send();
+        if(HudPixelConfig.useAPI && HudPixelConfig.enableAfterStats) {
+            new ChatMessageComposer("Getting " + name + "\'s stats!", EnumChatFormatting.GREEN).send();
+        }
     }
 
     @Override

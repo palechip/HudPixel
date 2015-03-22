@@ -6,6 +6,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
@@ -20,7 +21,9 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
 
     protected StatsDisplayer(String playerName) {
         this.playerName = playerName;
-        Queue.getInstance().getPlayer(this, playerName);
+        if(HudPixelConfig.useAPI && HudPixelConfig.enableAfterStats) {
+            Queue.getInstance().getPlayer(this, playerName);
+        }
     }
 
     /**
