@@ -21,6 +21,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
  */
 public class ChatMessageComposer {
     private static IChatComponent CHAT_PREFIX;
+    public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
     private IChatComponent chatComponent;
     private ArrayList<ChatMessageComposer> appendedMessages;
     
@@ -200,5 +201,12 @@ public class ChatMessageComposer {
         name2.getChatStyle().setColor(EnumChatFormatting.YELLOW);
         
         CHAT_PREFIX = new ChatComponentText("[").appendSibling(name1).appendSibling(name2).appendSibling(new ChatComponentText("] "));
+    }
+    
+    /**
+     * Prints a Hypixel style separaton message using the provided color.
+     */
+    public static void printSeparationMessage(EnumChatFormatting color) {
+        new ChatMessageComposer(SEPARATION_MESSAGE, color).addFormatting(EnumChatFormatting.BOLD).send(false);
     }
 }

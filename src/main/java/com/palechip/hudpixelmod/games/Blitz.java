@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod.games;
 import net.hypixel.api.util.GameType;
 
 import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.components.AfterStatsComponent;
 import com.palechip.hudpixelmod.components.BlitzDeathmatchNotifier;
 import com.palechip.hudpixelmod.components.BlitzStarTracker;
 import com.palechip.hudpixelmod.components.CoinCounterComponent;
@@ -21,6 +22,8 @@ public class Blitz extends Game {
             this.components.add(new BlitzDeathmatchNotifier());
         }
         
+        if(HudPixelConfig.useAPI && HudPixelConfig.enableAfterStats) {
+            this.components.add(new AfterStatsComponent(GameType.SURVIVAL_GAMES));
+        }
     }
-
 }

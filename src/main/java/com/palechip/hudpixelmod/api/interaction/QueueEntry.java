@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.reply.FriendsReply;
+import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.reply.SessionReply;
 import net.hypixel.api.util.Callback;
 
@@ -12,9 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
+import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
 public class QueueEntry {
@@ -24,6 +27,7 @@ public class QueueEntry {
     private BoosterResponseCallback boosterCallback;
     private SessionResponseCallback sessionCallback;
     private FriendResponseCallback friendCallback;
+    private PlayerResponseCallback playerCallback;
     private String player;
     
     /**
@@ -55,6 +59,12 @@ public class QueueEntry {
         this.creationTime = System.currentTimeMillis();
     }
     
+    public QueueEntry(PlayerResponseCallback callback, String player) {
+        this.playerCallback = callback;
+        this.player = player;
+        this.creationTime = System.currentTimeMillis();
+    }
+    
     public void run() {
         // is it a booster request?
         if(this.boosterCallback != null) {
@@ -63,6 +73,8 @@ public class QueueEntry {
             this.doSessionRequest();
         } else if(this.friendCallback != null) {
             this.doFriendRequest();
+        } else if(this.playerCallback != null) {
+            this.doPlayerRequest();
         }
     }
     
@@ -172,6 +184,28 @@ public class QueueEntry {
                     }
                     // pass the result
                     friendCallback.onFriendResponse(friends);
+                    // open the way for the next request
+                    Queue.getInstance().unlockQueue();
+                }
+            }
+        });
+    }
+    
+    private void doPlayerRequest() {
+        HypixelAPI api = Queue.getInstance().getAPI();
+        // do the request
+        api.getPlayer(player, null ,new Callback<PlayerReply>(PlayerReply.class) {
+            @Override
+            public void callback(Throwable failCause, PlayerReply result) {
+                if(failCause != null) {
+                    // if something went wrong, handle it
+                    failed(failCause);
+                } else {
+                    // assemble the response
+                    Gson gson = Queue.getInstance().getGson();
+                    Player player = gson.fromJson(result.getPlayer(), Player.class);
+                    // pass the result
+                    playerCallback.onPlayerResponse(player);
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
                 }
