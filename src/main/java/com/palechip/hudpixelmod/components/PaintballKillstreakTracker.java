@@ -107,8 +107,8 @@ public class PaintballKillstreakTracker implements IComponent {
             // orange
             return String.valueOf(EnumChatFormatting.GOLD);
         } else {
-            // red
-            return String.valueOf(EnumChatFormatting.RED);
+            // red and bold
+           return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
         }
     }
     
