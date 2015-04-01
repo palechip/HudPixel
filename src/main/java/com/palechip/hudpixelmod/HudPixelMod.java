@@ -21,6 +21,7 @@ import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.detectors.LimboStuckDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.motivation.MotivationMessager;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
@@ -67,6 +68,8 @@ public class HudPixelMod
     private LobbyCommandAutoCompleter lobbyCommandConfirmer;
     private WarlordsDamageChatFilter warlordsChatFilter;
 
+    private MotivationMessager motivation;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         try {
@@ -101,6 +104,7 @@ public class HudPixelMod
         this.renderer = new HudPixelRenderer(this.updater);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
+        this.motivation = new MotivationMessager();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
@@ -176,7 +180,10 @@ public class HudPixelMod
             if(this.hypixelDetector.isHypixelNetwork) {
                 // make sure the Scoreboard reader updates when necessary
                 ScoreboardReader.resetCache();
-                
+
+                // Motivate the player
+                this.motivation.onTick();
+
                 // Hook the limbo stuck detection
                 this.limboHelper.onClientTick();
 
