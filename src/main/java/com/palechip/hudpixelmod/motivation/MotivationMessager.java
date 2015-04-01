@@ -35,6 +35,7 @@ public class MotivationMessager {
         messages.add("Without you Hypixel would be missing it's best player.");
         messages.add("Lets own some noobs.");
         messages.add("It's not about coins, it's about fun and coins.");
+        messages.add("Are you alone? Do you want friends? Just add palechip! He's the author of the mod.");
     }
 
     public MotivationMessager() {}
