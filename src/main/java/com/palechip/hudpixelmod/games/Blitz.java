@@ -10,7 +10,7 @@ import com.palechip.hudpixelmod.components.CoinCounterComponent;
 public class Blitz extends Game {
 
     public Blitz() {
-        super("B-SG", "Blitz SG", "You will get the items for your", END_MESSAGE_DEFAULT, GameType.SURVIVAL_GAMES, HudPixelConfig.BLITZ_CATEGORY);
+        super("B-SG", "Blitz SG", "You will get your items", END_MESSAGE_DEFAULT, GameType.SURVIVAL_GAMES, HudPixelConfig.BLITZ_CATEGORY);
         if(HudPixelConfig.blitzCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }

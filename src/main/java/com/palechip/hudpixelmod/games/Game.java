@@ -13,6 +13,7 @@ import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
 import com.palechip.hudpixelmod.games.arcade.DragonWars;
 import com.palechip.hudpixelmod.games.arcade.EnderSpleef;
 import com.palechip.hudpixelmod.games.arcade.FarmHunt;
+import com.palechip.hudpixelmod.games.arcade.GalaxyWars;
 import com.palechip.hudpixelmod.games.arcade.PartyGames1;
 import com.palechip.hudpixelmod.games.arcade.PartyGames2;
 import com.palechip.hudpixelmod.games.arcade.ThrowOut;
@@ -63,6 +64,7 @@ public abstract class Game {
         games.add(new PartyGames2());
         games.add(new ThrowOut());
         games.add(new BlockingDead());
+        games.add(new GalaxyWars());
         //Add games here.
     }
 
