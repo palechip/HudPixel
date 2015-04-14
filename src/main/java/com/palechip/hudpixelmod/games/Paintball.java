@@ -21,9 +21,14 @@ public class Paintball extends Game {
             // You can't use Bomberman when Lightning is on cooldown and vice versa
             PaintballKillstreakTracker lightning = new PaintballKillstreakTracker("Lightning", false, true);
             PaintballKillstreakTracker bomberman = new PaintballKillstreakTracker("Bomberman", false, true);
+            PaintballKillstreakTracker endereye = new PaintballKillstreakTracker("Ender Eye", false, true);
+            PaintballKillstreakTracker enderpearl = new PaintballKillstreakTracker("Ender Pearl", false, true);
             
             lightning.addCooldownDependantKillstreak(bomberman);
             bomberman.addCooldownDependantKillstreak(lightning);
+            
+            endereye.addCooldownDependantKillstreak(enderpearl);
+            enderpearl.addCooldownDependantKillstreak(endereye);
             
             // Triple Shot
             this.components.add(new PaintballKillstreakTracker("Triple Shot", true, true));
@@ -46,6 +51,10 @@ public class Paintball extends Game {
             this.components.add(new PaintballKillstreakTracker("TNT Rain", false, true));
             // Nuke
             this.components.add(new PaintballKillstreakTracker("Nuke", false, true));
+            //ender eye
+            this.components.add(endereye);
+            //ender pearl
+            this.components.add(enderpearl);
             // Lightning
             this.components.add(lightning);
             // Bomberman
