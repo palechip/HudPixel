@@ -246,7 +246,6 @@ public class HudPixelMod
                 if(this.IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {
                         // Add debug code here
-                        new BlitzStatsDisplayer("palechip").display();
                     }
                 }
             }
