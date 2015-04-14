@@ -30,7 +30,6 @@ public class Player {
     protected int tipsSent;
     protected int thanksSent;
     protected int thanksReceived;
-    protected int tipsReceived;
     protected long timePlaying;
     protected long lastLogin;
     protected long firstLogin;
