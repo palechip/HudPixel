@@ -47,7 +47,7 @@ public enum GameType {
         return modID;
     }
 
-    public GameType getTypeByID(int modid) {
+    public static GameType getTypeByID(int modid) {
         for(GameType type : GameType.values()) {
             if(type.modID == modid) {
                 return type;

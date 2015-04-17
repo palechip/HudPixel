@@ -2,10 +2,10 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 
 import java.util.ArrayList;
 
-import net.hypixel.api.util.GameType;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
 
 public class Session {
     // the player this session belongs to, isn't included in the response but still relevant
@@ -17,12 +17,24 @@ public class Session {
     private ArrayList<String> playersArray;
     private String server;
     
+    private int gameID; // saves the ID the mod uses for the game and not the database ID.
+    
     public String getID() {
         return this._id;
     }
     
-    public GameType getGameType() {
-        return GameType.fromDatabase(this.gameType);
+    public int getGameID() {
+        if(this.gameID == 0) {
+            // go through all configurations
+            for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+                // if we find one with a matching database id
+                if(config.getDatabaseName().equals(gameType)) {
+                    // save it
+                    this.gameID = config.getModID();
+                }
+            }
+        }
+        return this.gameID;
     }
     
     public String getServer() {

@@ -2,16 +2,16 @@ package com.palechip.hudpixelmod.components;
 
 import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import com.palechip.hudpixelmod.util.GameType;
 
-import net.hypixel.api.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class AfterStatsComponent implements IComponent {
     private GameType type;
 
-    public AfterStatsComponent(GameType type) {
-        this.type = type;
+    public AfterStatsComponent(int modid) {
+        this.type = GameType.getTypeByID(modid);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class AfterStatsComponent implements IComponent {
     public void onChatMessage(String textMessage, String formattedMessage) {
         String username = FMLClientHandler.instance().getClient().getSession().getUsername();
         switch (this.type) {
-        case SURVIVAL_GAMES:
+        case BLITZ:
              if(textMessage.contains(username + " was killed")) {
                 if (textMessage.contains(" by ")) {
                     String killer;

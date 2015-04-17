@@ -1,8 +1,9 @@
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidHelper;
-
-import net.hypixel.api.util.GameType;
 
 public class Booster {
     public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
@@ -19,6 +20,7 @@ public class Booster {
     // properties used by the mod
     private long tippingTime;
     private String owner;
+    private int gameID; // saves the ID the mod uses for the game and not the database ID.
     
     public Booster(){}
     
@@ -30,8 +32,22 @@ public class Booster {
         return dateActivated;
     }
     
-    public GameType getGame() {
-        return GameType.fromId(gameType);
+    /**
+     * Returns the mod ID for the game which will can be used to get the game configuration
+     * @return
+     */
+    public int getGameID() {
+        if(this.gameID == 0) {
+            // go through all configurations
+            for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+                // if we find one with a matching database id
+                if(config.getDatabaseID() == this.gameType) {
+                    // save it
+                    this.gameID = config.getModID();
+                }
+            }
+        }
+        return this.gameID;
     }
     
     public long getRemainingTime() {

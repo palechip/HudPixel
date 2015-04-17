@@ -15,6 +15,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.games.GameManager;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -71,7 +72,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
                 }
                 
                 // Add all active boosters. Tipped ones are white. Untipped ones are green.
-                temp.add(EnumChatFormatting.GOLD + booster.getGame().getName().replace("Survival Games", "SG").replace(" Champions", "") + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
+                temp.add(EnumChatFormatting.GOLD + GameManager.getGameManager().getGameConfiguration(booster.getGameID()).getShortName() + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
             }
             renderingStrings = temp;
             // Go through the unprocessedTips and remove processed ones
