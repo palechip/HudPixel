@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -23,9 +24,9 @@ public class HudPixelConfigGui extends GuiConfig {
         // these categories have to be there always
         list.addAll(new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
         list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.DISPLAY_CATEGORY)).getChildElements());
-        if (HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
+        if (!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
             // Add the current game
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelMod.instance().gameDetector.getCurrentGame().getConfigCategory())).getChildElements());
+            list.addAll(new ConfigElement(configFile.getCategory(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getConfigCategory())).getChildElements());
             if (HypixelNetworkDetector.isHypixelNetwork) {
                 new ChatMessageComposer("Opened the config for currently played game. Open in lobby to access all options.", EnumChatFormatting.DARK_GREEN).send();
             }

@@ -1,7 +1,6 @@
 package com.palechip.hudpixelmod.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.VampireZ;
 
 import net.minecraft.util.EnumChatFormatting;
 

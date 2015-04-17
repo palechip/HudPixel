@@ -7,14 +7,16 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.CopsAndCrims;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class GameDetector {
-    // null if no game is detected
-    protected Game currentGame;
+    // Game.NO_GAME if no game is detected, never null
+    protected Game currentGame = Game.NO_GAME;
 
     private boolean isGameDetectionStarted = false;
     private boolean isLobbyDetectionStarted = false;
@@ -51,7 +53,7 @@ public class GameDetector {
             if(!(this.isGameDetectionStarted || this.isLobbyDetectionStarted) && gui instanceof GuiDownloadTerrain) {
                 if(!this.isBypassing) {
                     // start either lobby or game detection
-                    if(this.currentGame != null) {
+                    if(!this.currentGame.equals(Game.NO_GAME)) {
                         this.isLobbyDetectionStarted = true;
                     } else {
                         this.isGameDetectionStarted = true;
@@ -72,13 +74,13 @@ public class GameDetector {
                 String gameTag = textMessage.substring(textMessage.indexOf("[") + 1, textMessage.indexOf("]"));
 
                 // check all games for a matching tag
-                for(Game game : Game.getGames()) {
+                for(GameConfiguration game : GameManager.getGameManager().getConfigurations()) {
                     if(game.getChatTag() != null && !game.getChatTag().isEmpty() && game.getChatTag().equals(gameTag)) {
                         // we found the game
-                        this.currentGame = game;
+                        this.currentGame = GameManager.getGameManager().createGame(game.getModID());
                         this.isGameDetectionStarted = false;
                         this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + game.getType().getName() + " by chat tag!");
+                        HudPixelMod.instance().logInfo("Detected " + game.getOfficialName() + " by chat tag!");
                         break;
                     }
                 }
@@ -91,16 +93,16 @@ public class GameDetector {
                 this.isInLobby = true;
                 this.isLobbyDetectionStarted = false;
                 this.isGameDetectionStarted = false;
-                if(this.currentGame != null) {
+                if(!this.currentGame.equals(Game.NO_GAME)) {
                     // and terminate the game if it wasn't already
                     this.currentGame.endGame();
-                    this.currentGame = null;
+                    this.currentGame = Game.NO_GAME;
                 }
             }
         }
 
         // check for party leaders dragging you directly from a game to another
-        if(this.currentGame != null) {
+        if(!this.currentGame.equals(Game.NO_GAME)) {
             if(textMessage.contains(PARTY_DRAG_MESSAGE) || textMessage.contains(PARTY_WARP_MESSAGE)) {
                 this.isInLobby = false;
                 this.isGameDetectionStarted = true;
@@ -110,7 +112,7 @@ public class GameDetector {
 
         // you can join Cops & Crims games in-progress and there is no hint other than a chat message
         if(textMessage.contains(COPS_AND_CRIMS_GAME_IN_PROGRESS_JOIN_MESSAGE)) {
-            this.currentGame = Game.getGameByClass(CopsAndCrims.class);
+            this.currentGame = GameManager.getGameManager().createGame(GameType.COPS_AND_CRIMS);
             this.isGameDetectionStarted = false;
             this.currentGame.setupNewGame();
             // the game has already started, so we need to start it.
@@ -156,10 +158,10 @@ public class GameDetector {
                 this.isInLobby = true;
                 this.isLobbyDetectionStarted = false;
                 this.isGameDetectionStarted = false;
-                if(this.currentGame != null) {
+                if(!this.currentGame.equals(Game.NO_GAME)) {
                     // and terminate the game if it wasn't already
                     this.currentGame.endGame();
-                    this.currentGame = null;
+                    this.currentGame = Game.NO_GAME;
                 }
             }
         }
@@ -170,15 +172,15 @@ public class GameDetector {
             // if there is a boss bar
             if(BossStatus.bossName != null) {
                 // check all games for a matching name
-                for(Game game : Game.getGames()) {
+                for(GameConfiguration game : GameManager.getGameManager().getConfigurations()) {
                     // please note the use of contains() and not equals()
                     // in a pre-game lobby there will always be the IP in the bar. (because youtube)
                     if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.toLowerCase().contains(game.getBossbarName().toLowerCase()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
                         // we found the game
-                        this.currentGame = game;
+                        this.currentGame = GameManager.getGameManager().createGame(game.getModID());
                         this.isGameDetectionStarted = false;
                         this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + game.getType().getName() + " by bossbar name!");
+                        HudPixelMod.instance().logInfo("Detected " + game.getOfficialName() + " by bossbar name!");
                         break;
                     }
                 }

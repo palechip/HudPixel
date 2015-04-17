@@ -12,32 +12,18 @@ public class GameStartStopDetector {
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat messages
         if(!this.isChatMessage(textMessage)) { 
-            if(this.gameDetector.getCurrentGame() != null) {
+            if(!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                 // check for starting
-                if(!this.gameDetector.getCurrentGame().hasGameStarted() && !this.gameDetector.getCurrentGame().getStartMessage().equals(Game.GAME_DETECTION_HELPER)) {
-                    if (textMessage.contains(this.gameDetector.getCurrentGame().getStartMessage())) {
-                        this.gameDetector.getCurrentGame().startGame();
-                    }
-                    // check if we missed the start message
-                    if(this.detectedStartBeforeGameDetection) {
-                        this.detectedStartBeforeGameDetection = false;
+                if(!this.gameDetector.getCurrentGame().hasGameStarted()) {
+                    if (textMessage.contains(this.gameDetector.getCurrentGame().getConfiguration().getStartMessage())) {
                         this.gameDetector.getCurrentGame().startGame();
                     }
                 }
                 // check for ending
                 else {
                     // we don't want guild coins triggering the end message
-                    if (!textMessage.toLowerCase().contains("guild coins") && textMessage.contains(this.gameDetector.getCurrentGame().getEndMessage())) {
+                    if (!textMessage.toLowerCase().contains("guild coins") && textMessage.contains(this.gameDetector.getCurrentGame().getConfiguration().getEndMessage())) {
                         this.gameDetector.getCurrentGame().endGame();
-                    }
-                }
-            }
-            // check if the game started before it was detected (I'm not sure if this is even possible)
-            else if(this.gameDetector.isGameDetectionStarted()) {
-                for(Game game : Game.getGames()) {
-                    if(!game.getStartMessage().isEmpty() && textMessage.contains(game.getStartMessage())) {
-                        this.detectedStartBeforeGameDetection = true;
-                        break;
                     }
                 }
             }

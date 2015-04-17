@@ -24,10 +24,17 @@ public class PaintballKillstreakTracker implements IComponent {
      * @param isTimed True if the killstreak has a duration, otherwise it'll enter cooldown state upon activation
      * @param hasCooldown True if there is a cooldown for the usage of the killstreak
      */
+    @Deprecated
     public PaintballKillstreakTracker(String killstreak, boolean isTimed, boolean hasCooldown) {
         this.listenedKillstreak = killstreak;
         this.isTimed = isTimed;
         this.hasCooldown = hasCooldown;
+    }
+    
+    public PaintballKillstreakTracker(String killstreak, boolean isTimed, boolean hasCooldown, String cooldownDependantKillstreak) {
+        this(killstreak, isTimed, hasCooldown);
+        // TODO: Make work
+        // TODO: Also make that the trackers can save their timing
     }
 
     @Override
@@ -112,6 +119,7 @@ public class PaintballKillstreakTracker implements IComponent {
         }
     }
     
+    @Deprecated
     public void addCooldownDependantKillstreak(PaintballKillstreakTracker killstreak) {
         this.cooldownDependantKillstreak = killstreak;
     }

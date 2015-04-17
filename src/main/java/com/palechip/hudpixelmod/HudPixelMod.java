@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod;
 
+import java.util.ArrayList;
+
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -13,6 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
@@ -21,7 +26,10 @@ import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.detectors.LimboStuckDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
+import com.palechip.hudpixelmod.uptodate.UpToDateThread;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
@@ -44,7 +52,7 @@ public class HudPixelMod
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
     public static final String VERSION = "2.4.3";
-    public static final boolean IS_DEBUGGING = false;
+    public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
@@ -75,6 +83,9 @@ public class HudPixelMod
             instance = this;
             // check for updates
             this.updater = new HudPixelUpdateNotifier();
+            
+            // start the HudPixel Up To Date Loader
+            new UpToDateThread(event.getModConfigurationDirectory());
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
             // load the configuration file
@@ -145,7 +156,7 @@ public class HudPixelMod
                     this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     // pass the chat messages to the current game
-                    if(this.gameDetector.getCurrentGame() != null && this.gameDetector.getCurrentGame().hasGameStarted()) {
+                    if(!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.getCurrentGame().hasGameStarted()) {
                         this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
                     }
 
@@ -192,7 +203,7 @@ public class HudPixelMod
                 // pass the event to the GameDetector
                 this.gameDetector.onClientTick();
 
-                if(this.gameDetector.getCurrentGame() != null) {
+                if(!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                     // tick the current game
                     if(this.gameDetector.getCurrentGame().hasGameStarted()) {
                         this.gameDetector.getCurrentGame().onTickUpdate();
@@ -246,6 +257,8 @@ public class HudPixelMod
                 if(this.IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {
                         // Add debug code here
+                        logDebug(GameManager.getGameManager().createGame(1).toString());
+                        logDebug(GameManager.getGameManager().createGame(2).toString());
                     }
                 }
             }
@@ -263,7 +276,6 @@ public class HudPixelMod
                 this.CONFIG.syncConfig();
                 // reload stuff that uses the config values for immediate effect
                 this.renderer.loadRenderingProperties(updater);
-                Game.loadGames();
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");

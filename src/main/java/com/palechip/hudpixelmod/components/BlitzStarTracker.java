@@ -45,7 +45,7 @@ public class BlitzStarTracker implements IComponent {
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat tag
-        textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getChatTag() + "]: ", "");
+        textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getChatTag() + "]: ", "");
         // hide message
         if(textMessage.contains("The Blitz Star has been hidden in a chest! Find it to activate your Blitz!")) {
             this.currentPhase = Phase.HIDDEN;

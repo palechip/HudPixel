@@ -8,7 +8,6 @@ import net.minecraft.util.EnumChatFormatting;
 import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.games.Warlords;
 
 public class WarlordsDamageAndHealingCounter implements IComponent {
     public static enum Type {Damage, Healing};

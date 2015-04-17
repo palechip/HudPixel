@@ -11,6 +11,7 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -117,7 +118,7 @@ public class HudPixelRenderer {
             boolean isTipAllButton = false;
             
             // normal game display
-            if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
+            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             }
             // booster display
