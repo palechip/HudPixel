@@ -24,9 +24,7 @@ import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-import com.palechip.hudpixelmod.detectors.LimboStuckDetector;
 import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
 import com.palechip.hudpixelmod.uptodate.UpToDateThread;
@@ -66,7 +64,6 @@ public class HudPixelMod
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
-    private LimboStuckDetector limboHelper;
 
     // key related vars
     public static final String KEY_CATEGORY = "HudPixel Mod";
@@ -110,7 +107,6 @@ public class HudPixelMod
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
-        this.limboHelper = new LimboStuckDetector();
         this.renderer = new HudPixelRenderer(this.updater);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
@@ -149,8 +145,6 @@ public class HudPixelMod
 
                 // this one reads the normal chat messages
                 if(event.type == 0) {
-                    // Hook the limbo stuck detection
-                    this.limboHelper.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     // pass the event to the GameDetector
                     this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
@@ -193,9 +187,6 @@ public class HudPixelMod
             if(this.hypixelDetector.isHypixelNetwork) {
                 // make sure the Scoreboard reader updates when necessary
                 ScoreboardReader.resetCache();
-                
-                // Hook the limbo stuck detection
-                this.limboHelper.onClientTick();
 
                 // update the resolution and the result display, this renders nothing
                 this.renderer.onClientTick();
