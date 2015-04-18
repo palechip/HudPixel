@@ -18,12 +18,20 @@ import net.minecraft.scoreboard.Scoreboard;
 public class ScoreboardReader {
     private static boolean needsUpdate = true;
     private static ArrayList<String> scoreboardNames;
+    private static String scoreboardTitle;
     
     /**
      * Used to make sure that we maximally update the scoreboard names once a tick.
      */
     public static void resetCache() {
         needsUpdate = true;
+    }
+    
+    /**
+     * Get the top-most string which is displayed on the scoreboard. (doesn't have a score on the side)
+     */
+    public static String getScoreboardTitle() {
+        return scoreboardTitle;
     }
     
     /**
@@ -51,6 +59,7 @@ public class ScoreboardReader {
         Scoreboard scoreboard = FMLClientHandler.instance().getClient().theWorld.getScoreboard();
         // Get the right objective. I think the 1 stands for the sidebar objective but I've just copied it from the rendering code.
         ScoreObjective sidebarObjective = scoreboard.getObjectiveInDisplaySlot(1);
+        scoreboardTitle = sidebarObjective.getDisplayName();
         // Get a collection of all scores
         Collection scores = scoreboard.getSortedScores(sidebarObjective);
         // Process all scores

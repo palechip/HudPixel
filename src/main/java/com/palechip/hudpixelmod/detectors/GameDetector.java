@@ -1,5 +1,7 @@
 package com.palechip.hudpixelmod.detectors;
 
+import java.util.ArrayList;
+
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,6 +13,7 @@ import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.ScoreboardReader;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -98,6 +101,7 @@ public class GameDetector {
                     this.currentGame.endGame();
                     this.currentGame = Game.NO_GAME;
                 }
+                HudPixelMod.instance().logInfo("Detected Limbo or MVP+-LAND!");
             }
         }
 
@@ -128,6 +132,43 @@ public class GameDetector {
         if(BossStatus.bossName != null && !this.bossbarContent.equals(BossStatus.bossName)) {
             this.bossbarContent = BossStatus.bossName;
             this.onBossbarChange();
+        }
+
+        // scoreboard detection
+        if(this.isGameDetectionStarted) {
+            ArrayList<String> names = ScoreboardReader.getScoreboardNames();
+            String scoreboardName = ScoreboardReader.getScoreboardTitle();
+            String scoreboardMap = "";
+            // find the map name which may contain the game information
+            for(String s : names) {
+                if(s.contains("Map: ")) {
+                    // Get rid of the map part + the color code ("Map: "(5 chars) + color code (2 chars)
+                    scoreboardMap = s.substring(7);
+                }
+            }
+            // compare them with the game configurations
+            for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+                // check if the scoreboard names are the same
+                if(!config.getScoreboardName().isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
+                    // we found the game
+                    this.currentGame = GameManager.getGameManager().createGame(config.getModID());
+                    this.isGameDetectionStarted = false;
+                    this.currentGame.setupNewGame();
+                    HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard name!");
+                    // no need to continue with this method
+                    return;
+                }
+                // check if the scoreboard map (regex!) matches the map
+                if(!config.getScoreboardMap().isEmpty() && scoreboardMap.matches(config.getScoreboardMap())) {
+                    // we found the game
+                    this.currentGame = GameManager.getGameManager().createGame(config.getModID());
+                    this.isGameDetectionStarted = false;
+                    this.currentGame.setupNewGame();
+                    HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard map!");
+                    // no need to continue with this method
+                    return;
+                }
+            }
         }
 
         // lobby detection is also done when game detection is active
