@@ -107,6 +107,7 @@ public class HudPixelMod
         this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_P, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
         ClientRegistry.registerKeyBinding(this.openConfigGui);
+        new WarlordsCTFCrashPrevention();
     }
 
     @SubscribeEvent
