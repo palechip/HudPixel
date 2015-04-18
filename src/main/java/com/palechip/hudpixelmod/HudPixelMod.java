@@ -142,6 +142,8 @@ public class HudPixelMod
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
             ClientRegistry.registerKeyBinding(this.debugKey);
         }
+        
+        new WarlordsCTFCrashPrevention();
     }
 
     @SubscribeEvent
