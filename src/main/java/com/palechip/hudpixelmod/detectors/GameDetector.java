@@ -170,8 +170,8 @@ public class GameDetector {
             }
             // compare them with the game configurations
             for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
-                // check if the scoreboard names are the same
-                if(!config.getScoreboardName().isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
+                // check if the scoreboard names are the same. The check if scoreboardMap not empty is necessary to prevent the game being detected already in the pre-game lobby
+                if(!config.getScoreboardName().isEmpty() && !scoreboardMap.isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
                     // we found the game
                     this.currentGame = GameManager.getGameManager().createGame(config.getModID());
                     this.isGameDetectionStarted = false;
