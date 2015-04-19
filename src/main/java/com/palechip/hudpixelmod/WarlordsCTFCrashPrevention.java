@@ -26,25 +26,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.palechip.hudpixelmod.util.GameType;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
-import net.minecraftforge.fml.relauncher.FMLRelaunchLog;
 
 /**
  * A creative solution to the Warlords CTF crash. Removes the corrupt item using a trick.
@@ -60,7 +53,8 @@ public class WarlordsCTFCrashPrevention {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onRenderTick(RenderTickEvent event) {
-        if(event.phase == Phase.START) {
+        // only when the event starts
+        if(event.phase == Phase.START && HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID() == GameType.WARLORDS.getModID()) {
             try {
                 Minecraft mc = Minecraft.getMinecraft();
                 // check if the world exists
@@ -82,13 +76,9 @@ public class WarlordsCTFCrashPrevention {
                         } catch(Exception ex) {
                             // we found the corrupt item
                             HudPixelMod.instance().logInfo("Found corrupt Item which causes a crash. Will be removed! You won't crash <3!");
-                            // the trick is to unload the Item
-                            ArrayList<Entity> toUnload = new ArrayList<Entity>();
-                            toUnload.add(e);
-                            mc.theWorld.unloadEntities(toUnload);
-                            // the server will try to add it back but FML will deny it with a message this
-                            // [Client thread/WARN] [FML/]: Attempted to add a EntityItem to the world with a invalid item at (88.09,  40.13, 240.81), this is most likely a config issue between you and the server. Please double check your configs
-                            // I would really like to suppress the log spam but I've found no way to do it. :(
+                            // kill the entity
+                            e.setDead();
+                            // the server will try to add it back in regular intervals. Then the same process will happen again.
                         }
                     }
                 }
