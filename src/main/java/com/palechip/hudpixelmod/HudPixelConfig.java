@@ -23,6 +23,14 @@
 package com.palechip.hudpixelmod;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.palechip.hudpixelmod.components.IComponent;
+import com.palechip.hudpixelmod.games.ComponentsManager;
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -32,21 +40,9 @@ public class HudPixelConfig {
     // categories
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
-    public static final String QUAKE_CATEGORY = "quake";
-    public static final String TNT_CATEGORY = "tnt games";
-    public static final String VAMPIREZ_CATEGORY = "vampirez";
-    public static final String ARCADE_CATEGORY = "arcade games";
-    public static final String WALLS_CATEGORY = "the walls";
-    public static final String MEGA_WALLS_CATEGORY = "mega walls";
-    public static final String BLITZ_CATEGORY = "blitz survival games";
-    public static final String ARENA_CATEGORY = "arena brawl";
-    public static final String PAINTBALL_CATEGORY = "paintball warfare";
-    public static final String COPS_AND_CRIMS_CATEGORY = "cops and crims";
-    public static final String UHC_CATEGORY = "uhc";
-    public static final String WARLORDS_CATEGORY = "warlords";
-    // define further categories here
-
-    // properties
+    // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
+    
+    // static properties
     public static boolean useAPI;
     public static boolean enableAfterStats;
     public static boolean autoCompleteSecondLobbyCmd;
@@ -57,53 +53,19 @@ public class HudPixelConfig {
     public static boolean displayVersion;
     public static boolean displayNetworkBoosters;
     public static boolean displayTipAllButton;
-    public static boolean quakeCoinDisplay;
-    public static boolean quakeTimeDisplay;
-    public static boolean quakeKillstreakTracker;
-    public static boolean tntCoinDisplay;
-    public static boolean tntTimeDisplay;
-    public static boolean tntKillstreakTracker;
-    public static boolean vampireCoinDisplay;
-    public static boolean vampireTimeDisplay;
-    public static boolean vampireBalance;
-    public static boolean arcadeCoinDisplay;
-    public static boolean arcadeTimeDisplay;
-    public static boolean arcadeKillstreakTracker;
-    public static boolean wallsCoinDisplay;
-    public static boolean wallsTimeDisplay;
-    public static boolean wallsKillCounter;
-    public static boolean megaWallsCoinDisplay;
-    public static boolean megaWallsWitherCoinDisplay;
-    public static boolean megaWallsKillCounter;
-    public static boolean blitzCoinDisplay;
-    public static boolean blitzDeathmatchNotifier;
-    public static boolean blitzStarTracker;
-    public static boolean arenaCoinDisplay;
-    public static boolean paintballTimeDisplay;
-    public static boolean paintballCoinDisplay;
-    public static boolean paintballKillstreakTrackerDisplay;
-    public static boolean copsAndCrimsCoinDisplay;
-    public static boolean copsAndCrimsTimeDisplay;
-    public static boolean uhcCoinDisplay;
-    public static boolean warlordsCoinDisplay;
-    public static boolean warlordsTimeDisplay;
-    public static boolean warlordsDamageAndHealthCounter;
+    
     public static int warlordsFilterDamageDone;
     public static int warlordsFilterDamageTaken;
     public static int warlordsFilterHealingDone;
     public static int warlordsFilterHealingReceived;
     public static boolean warlordsFilterAbsorbtion;
     public static boolean warlordsFilterWounded;
+    
+    // non-static properties
+    private static HashMap<String, Boolean> properties = new HashMap<String, Boolean>();
     // add further options here
 
-    // descriptions
-    public static final String COIN_COUNTER = "Turn on/off the Coin Counter for ";
-    public static final String TIMER = "Turn on/off the Time Display for ";
-    public static final String MEGA_WALLS_KILL_COUNTER = "Enable/Disable the Kill and Assist Counter in";
-    public static final String PAINTBALL_KILLSTREAK_TRACKER = "Show/Hide your active Paintball killstreaks and the ones on cooldown.";
-    public static final String KILLSTREAK_TRACKER = "Enable/Disable tracking how many kills you can get within one live in ";
-    public static final String BLITZ_DEATHMATCH_NOTIFIER = "Show/Hide a little flashing message when death match is near in Blitz Survival Games";
-    public static final String WITHER_COIN_COUNTER = "Turn on/off the Counting of the Coins for Wither Damage in Mega Walls.";
+    // descriptions 
     public static final String WARLORDS_FILTER_1 = "Filter out all chat message containing lower ";
     public static final String WARLORDS_FILTER_2 = " than this value.";
 
@@ -118,6 +80,9 @@ public class HudPixelConfig {
         }
     }
 
+    /**
+     * Reads the config. Also creates new properties. Doesn't change the file but saves it if it has changed.
+     */
     public void syncConfig() {
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);
         enableAfterStats = this.config.get(Configuration.CATEGORY_GENERAL, "enableAfterStats", true, "Display statistics of the player who killed or beat you. (Not all games supported)").getBoolean();
@@ -129,79 +94,71 @@ public class HudPixelConfig {
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
         displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").getBoolean(false);
-        quakeCoinDisplay = this.config.get(QUAKE_CATEGORY, "quakeCoinDisplay", true, COIN_COUNTER + "Quakecraft.").getBoolean(true);
-        quakeTimeDisplay = this.config.get(QUAKE_CATEGORY, "quakeTimeDisplay", true, TIMER + "Quakecraft.").getBoolean(true);
-        quakeKillstreakTracker = this.config.get(QUAKE_CATEGORY, "quakeKillstreakTracker", true, KILLSTREAK_TRACKER + "Quakecraft.").getBoolean(true);
-        tntCoinDisplay = this.config.get(TNT_CATEGORY, "tntCoinDisplay", true, COIN_COUNTER + "the TNT Games").getBoolean(true);
-        tntTimeDisplay = this.config.get(TNT_CATEGORY, "tntTimeDisplay", true, TIMER + "the TNT Games").getBoolean(true);
-        tntKillstreakTracker = this.config.get(TNT_CATEGORY, "tntKillstreakTracker", true, KILLSTREAK_TRACKER + "TNT Wizards.").getBoolean(true);
-        vampireCoinDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZCoinDisplay", true, COIN_COUNTER + "VampireZ.").getBoolean(true);
-        vampireTimeDisplay = this.config.get(VAMPIREZ_CATEGORY, "vampireZTimeDisplay", true, TIMER + "VampireZ.").getBoolean(true);
-        vampireBalance = this.config.get(VAMPIREZ_CATEGORY, "vampireZBalance", true, "Turn on/off the advanced Coin Counter for VampireZ. This one tracks spent coins as well!").getBoolean(true);
-        arcadeCoinDisplay = this.config.get(ARCADE_CATEGORY, "arcadeCoinDisplay", true, COIN_COUNTER + "the Arcade Games.").getBoolean(true);
-        arcadeTimeDisplay = this.config.get(ARCADE_CATEGORY, "acrcadeTimeDisplay", true, TIMER + "the Arcade Games.").getBoolean(true);
-        arcadeKillstreakTracker = this.config.get(ARCADE_CATEGORY, "arcadeKillstreakTracker", true, KILLSTREAK_TRACKER + "some Arcade Games.").getBoolean(true);
-        wallsCoinDisplay = this.config.get(WALLS_CATEGORY, "wallsCoinDisplay", true, COIN_COUNTER + "the classic Walls.").getBoolean(true);
-        wallsTimeDisplay = this.config.get(WALLS_CATEGORY, "wallsTimeDisplay", true, TIMER + "the classic Walls.").getBoolean(true);
-        wallsKillCounter = this.config.get(WALLS_CATEGORY, "wallsKillCounter", true, MEGA_WALLS_KILL_COUNTER + "Walls").getBoolean(true);
-        megaWallsCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsCoinDisplay", true, COIN_COUNTER + "Mega Walls.").getBoolean(true);
-        megaWallsWitherCoinDisplay = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsWitherCoinDisplay", true, WITHER_COIN_COUNTER).getBoolean(true);
-        megaWallsKillCounter = this.config.get(MEGA_WALLS_CATEGORY, "megaWallsKillCounter", true, MEGA_WALLS_KILL_COUNTER + "Mega Walls.").getBoolean(true);
-        blitzCoinDisplay = this.config.get(BLITZ_CATEGORY, "blitzCoinDisplay", true, COIN_COUNTER + "Blitz Survival Games.").getBoolean(true);
-        blitzDeathmatchNotifier = this.config.get(BLITZ_CATEGORY, "blitzDeathmatchNotifier", true, BLITZ_DEATHMATCH_NOTIFIER).getBoolean(true);
-        blitzStarTracker = this.config.get(BLITZ_CATEGORY, "blitzStarTracker", true).getBoolean(true);
-        arenaCoinDisplay = this.config.get(ARENA_CATEGORY, "arenaCoinDisplay", true, COIN_COUNTER + "Arena Brawl.").getBoolean(true);
-        paintballCoinDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballCoinDisplay", true, COIN_COUNTER + "Paintball Warfare.").getBoolean(true);
-        paintballTimeDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballTimeDisplay", true, TIMER + "Paintball Warfare.").getBoolean(true);
-        paintballKillstreakTrackerDisplay = this.config.get(PAINTBALL_CATEGORY, "paintballKillstreakTrackerDisplay", true, PAINTBALL_KILLSTREAK_TRACKER).getBoolean(true);
-        copsAndCrimsCoinDisplay = this.config.get(COPS_AND_CRIMS_CATEGORY, "copsAndCrimsCoinDisplay", true, COIN_COUNTER + "Cops and Crims.").getBoolean(true);
-        copsAndCrimsTimeDisplay = this.config.get(COPS_AND_CRIMS_CATEGORY, "copsAndCrimsTimeDisplay", true, TIMER + "Cops and Crims.").getBoolean(true);
-        uhcCoinDisplay = this.config.get(UHC_CATEGORY, "uhcCoinDisplay", true, COIN_COUNTER + "UHC.").getBoolean(true);
-        warlordsCoinDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsCoinDisplay", true, COIN_COUNTER + "Warlords.").getBoolean(true);
-        warlordsTimeDisplay = this.config.get(WARLORDS_CATEGORY, "warlordsTimeDisplay", true, TIMER + "Warlords.").getBoolean(true);
-        warlordsDamageAndHealthCounter = this.config.get(WARLORDS_CATEGORY, "warlordsDamageAndHealthCounter", true, "Counts the damage and healing you do in a Warlords game.").getBoolean();
-        warlordsFilterDamageTaken = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageTaken", 0, WARLORDS_FILTER_1 + "Damage(taken)" + WARLORDS_FILTER_2).getInt();
-        warlordsFilterDamageDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterDamageDone", 0, WARLORDS_FILTER_1 + "Damage(done)" + WARLORDS_FILTER_2).getInt();
-        warlordsFilterHealingReceived = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
-        warlordsFilterHealingDone = this.config.get(WARLORDS_CATEGORY, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
-        warlordsFilterAbsorbtion = this.config.get(WARLORDS_CATEGORY, "warlordsFilterAbsorbtion", false, "Filter out all chat messages containing information about absorbtion.").getBoolean();
-        warlordsFilterWounded = this.config.get(WARLORDS_CATEGORY, "warlordsFilterWounded", false,"Filter out all chat messages containing information about being wounded.").getBoolean();
-        // load further options here
+        
+        // these are ugly and will be removed when the filter becomes a component
+        String warlordsCategory = GameManager.getGameManager().getGameConfiguration(GameType.WARLORDS).getConfigCategory();
+        warlordsFilterDamageTaken = this.config.get(warlordsCategory, "warlordsFilterDamageTaken", 0, WARLORDS_FILTER_1 + "Damage(taken)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterDamageDone = this.config.get(warlordsCategory, "warlordsFilterDamageDone", 0, WARLORDS_FILTER_1 + "Damage(done)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterHealingReceived = this.config.get(warlordsCategory, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterHealingDone = this.config.get(warlordsCategory, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
+        warlordsFilterAbsorbtion = this.config.get(warlordsCategory, "warlordsFilterAbsorbtion", false, "Filter out all chat messages containing information about absorbtion.").getBoolean();
+        warlordsFilterWounded = this.config.get(warlordsCategory, "warlordsFilterWounded", false,"Filter out all chat messages containing information about being wounded.").getBoolean();
+
+        // parse the non-static variables
+        // clear the list first
+        this.properties.clear();
+        // create local variables to make the code clearer
+        GameManager gameManager = GameManager.getGameManager();
+        ComponentsManager componentsManager = gameManager.getComponentsManager();
+        // go through all games
+        for(GameConfiguration gameConfig : gameManager.getConfigurations()) {
+            // go through all components of the game
+            for(IComponent component : componentsManager.getComponentInstances(gameConfig)) {
+                String settingName = gameConfig.getConfigPrefix() + component.getConfigName();
+                // check if we haven't already parsed this setting
+                if(!properties.containsKey(settingName)) {
+                    // generate the comment
+                    String comment = component.getConfigComment().replace("%game", gameConfig.getOfficialName());
+                    // read (and create if it doesn't exist) the property and add it to the properties map
+                    this.properties.put(settingName, this.config.get(gameConfig.getConfigCategory(), settingName, component.getConfigDefaultValue(), comment).getBoolean());
+                }
+            }
+        }
 
         if (this.config.hasChanged()) {
             this.config.save();
         }
     }
 
+    /**
+     * Get the value of a boolean dynamic setting
+     * @param settingName GameConfiguration.getConfigPrefix() + IComponent.getConfigName()
+     * @return the state of the setting. If the setting wasn't found, it'll return false
+     */
+    public static boolean getConfigValue(String settingName) {
+        if(properties.containsKey(settingName)) {
+            return properties.get(settingName);
+        } else {
+            return false;
+        }
+    }
+
+    
+
     public Configuration getConfigFile() {
         return config;
     }
 
-    // for the config gui introduced in 2.1.0, most properties need to be renamed
+    /**
+     * This helps not to lose data and can be used to update properties values and names.
+     * @param oldVersion the old config version
+     */
     private void updateConfig(String oldVersion) {
         // allows to update multiple versions simultaneously.
         boolean fallThrough = false;
         if (oldVersion == null) {
             fallThrough = true;
-
-            this.renameBooleanProperty(QUAKE_CATEGORY, "coinDisplay", "quakeCoinDisplay");
-            this.renameBooleanProperty(QUAKE_CATEGORY, "timeDisplay", "quakeTimeDisplay");
-            this.renameBooleanProperty(TNT_CATEGORY, "coinDisplay", "tntCoinDisplay");
-            this.renameBooleanProperty(TNT_CATEGORY, "timeDisplay", "tntTimeDisplay");
-            this.renameBooleanProperty(VAMPIREZ_CATEGORY, "coinDisplay", "vampireZTimeDisplay");
-            this.renameBooleanProperty(VAMPIREZ_CATEGORY, "timeDisplay", "vampireZTimeDisplay");
-            this.renameBooleanProperty(ARCADE_CATEGORY, "coinDisplay", "arcadeCoinDisplay");
-            this.renameBooleanProperty(ARCADE_CATEGORY, "timeDisplay", "acrcadeTimeDisplay");
-            this.renameBooleanProperty(WALLS_CATEGORY, "coinDisplay", "wallsCoinDisplay");
-            this.renameBooleanProperty(WALLS_CATEGORY, "timeDisplay", "wallsTimeDisplay");
-            this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "coinDisplay", "megaWallsCoinDisplay");
-            this.renameBooleanProperty(MEGA_WALLS_CATEGORY, "killCounter", "megaWallsKillCounter");
-            this.renameBooleanProperty(BLITZ_CATEGORY, "coinDisplay", "blitzCoinDisplay");
-            // the deathmatch notifier wasn't included in the config for 2.0.0 as it was disabled
-            this.renameBooleanProperty(ARENA_CATEGORY, "coinDisplay", "arenaCoinDisplay");
-            this.renameBooleanProperty(PAINTBALL_CATEGORY, "coinDisplay", "paintballCoinDisplay");
-            this.renameBooleanProperty(PAINTBALL_CATEGORY, "timeDisplay", "paintballTimeDisplay");
-            // the paintball killstreak tracker wasn't included in the config for 2.0.0 as it was disabled
+            // nobody should be updating from 2.1.0 anymore...
         }
         if (fallThrough || oldVersion.equals("2")) {
             fallThrough = true;

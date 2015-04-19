@@ -23,14 +23,25 @@
 package com.palechip.hudpixelmod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
+
+
+
 
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.games.GameConfiguration;
+import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.GuiConfig;
@@ -54,18 +65,15 @@ public class HudPixelConfigGui extends GuiConfig {
             }
         } else {
             // Add all games
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.QUAKE_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.TNT_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.VAMPIREZ_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARCADE_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WALLS_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.MEGA_WALLS_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.BLITZ_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.ARENA_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.PAINTBALL_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.COPS_AND_CRIMS_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.UHC_CATEGORY)).getChildElements());
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.WARLORDS_CATEGORY)).getChildElements());
+            // Collect all categories
+            Set<String> categories = new HashSet<String>();
+            for(GameConfiguration gameConfig : GameManager.getGameManager().getConfigurations()) {
+                // add the category, the set prevents that one category is added multiple times
+                categories.add(gameConfig.getConfigCategory());
+            }
+            for(String category : categories) {
+                list.addAll(new ConfigElement(configFile.getCategory(category)).getChildElements());
+            }
             if (HypixelNetworkDetector.isHypixelNetwork) {
                 new ChatMessageComposer("Opened the config with all options. Tip: If you are in a game you'll only see relevant options.", EnumChatFormatting.DARK_GREEN).send();
             }

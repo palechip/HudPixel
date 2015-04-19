@@ -79,4 +79,19 @@ public class CoinCounterComponent implements IComponent{
     @Override
     public void onTickUpdate() {
     }
+
+    @Override
+    public String getConfigName() {
+        return "CoinDisplay";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Enable/Disable the Coin Counter in %game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
 }

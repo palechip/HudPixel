@@ -87,4 +87,20 @@ public class WallsKillCounter implements IComponent {
         return "";
     }
 
+    @Override
+    public String getConfigName() {
+        // TODO Auto-generated method stub
+        return "KillCounter";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Enable/Disable the Kill and Assist Counter in %game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
+
 }

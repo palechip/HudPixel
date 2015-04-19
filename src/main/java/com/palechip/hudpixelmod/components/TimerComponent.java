@@ -66,4 +66,19 @@ public class TimerComponent implements IComponent{
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
     }
+
+    @Override
+    public String getConfigName() {
+        return "TimeDisplay";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Turn on/off the Time Display for %game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
 }

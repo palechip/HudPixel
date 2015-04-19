@@ -117,4 +117,19 @@ public class BlitzStarTracker implements IComponent {
         return "";
     }
 
+    @Override
+    public String getConfigName() {
+        return "StarTracker";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Display information about the Blitz Star gotten from the chat. (Was it found? Who found it? Was it used? ...)";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
+
 }

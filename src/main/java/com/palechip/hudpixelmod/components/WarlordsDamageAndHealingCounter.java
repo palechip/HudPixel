@@ -123,4 +123,19 @@ public class WarlordsDamageAndHealingCounter implements IComponent {
         return 0;
     }
 
+    @Override
+    public String getConfigName() {
+        return "DamageAndHealthCounter";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Counts the damage and healing you do in a %game game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
+
 }

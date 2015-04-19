@@ -51,7 +51,21 @@ public interface IComponent {
     
     /**
      * Gets the string the component wants to render.
-     * @return
      */
     public String getRenderingString();
+    
+    /**
+     * The suffix to construct config settings about this components. e.g. CoinCointer -> quakeCoinCounter, megaWallsCoincounter, etc.
+     */
+    public String getConfigName();
+    
+    /**
+     * The comment added to config settings of this component. May contain %game which is replaced with the game name.
+     */
+    public String getConfigComment();
+    
+    /**
+     * Specifies whether the component is enabled by default.
+     */
+    public boolean getConfigDefaultValue();
 }

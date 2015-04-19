@@ -107,10 +107,8 @@ public class HudPixelMod
             new UpToDateThread(event.getModConfigurationDirectory());
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
-            // load the configuration file
+            // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
-            this.CONFIG.syncConfig();
-            // Load the API key
             this.apiQueue = new Queue();
         } catch(Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");

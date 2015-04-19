@@ -80,4 +80,19 @@ public class AfterStatsComponent implements IComponent {
         return "";
     }
 
+    @Override
+    public String getConfigName() {
+        return "NYI";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "NYI";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return false;
+    }
+
 }

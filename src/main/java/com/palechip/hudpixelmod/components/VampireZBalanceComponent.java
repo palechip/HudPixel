@@ -116,4 +116,18 @@ public class VampireZBalanceComponent extends CoinCounterComponent {
         }
     }
     
+    @Override
+    public String getConfigName() {
+        return "Balance";
+    }
+    
+    @Override
+    public String getConfigComment() {
+        return "Turn on/off the advanced Coin Counter for %game. This one tracks spent coins as well!";
+    }
+    
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
 }

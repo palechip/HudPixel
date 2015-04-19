@@ -99,4 +99,19 @@ public class BlitzDeathmatchNotifier implements IComponent {
         }
     }
 
+    @Override
+    public String getConfigName() {
+        return "DeathmatchNotifier";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Show/Hide a little flashing message when deathmatch is near in %game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
+
 }

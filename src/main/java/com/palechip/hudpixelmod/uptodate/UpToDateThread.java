@@ -102,6 +102,9 @@ public class UpToDateThread extends Thread{
 
         // load and read local files
         this.readGamesFile(logger);
+        
+        // now the config can be read because it needs GameManager and ComponentManager to be working
+        HudPixelMod.instance().CONFIG.syncConfig();
 
         // download version information
         //TODO

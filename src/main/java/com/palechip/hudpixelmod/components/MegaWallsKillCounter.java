@@ -124,4 +124,27 @@ public class MegaWallsKillCounter implements IComponent {
         return "";
     }
 
+    @Override
+    public String getConfigName() {
+        if (this.trackedType == KillType.Wither_Coins) {
+            return "WitherCoinDisplay";
+        } else {
+            return "KillCounter";
+        }
+    }
+
+    @Override
+    public String getConfigComment() {
+        if (this.trackedType == KillType.Wither_Coins) {
+            return "Turn on/off the counting of coins for Wither Damage in %game.";
+        } else {
+            return "Enable/Disable the Kill and Assist Counter in %game.";
+        }
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
+
 }

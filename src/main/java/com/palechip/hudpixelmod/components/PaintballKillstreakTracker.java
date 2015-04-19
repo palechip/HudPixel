@@ -153,4 +153,19 @@ public class PaintballKillstreakTracker implements IComponent {
            return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
         }
     }
+
+    @Override
+    public String getConfigName() {
+        return "KillstreakTrackerDisplay";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Show/Hide your active %game killstreaks (including timer) and the ones on cooldown.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
 }

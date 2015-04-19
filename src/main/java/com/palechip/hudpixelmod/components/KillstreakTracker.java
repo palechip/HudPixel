@@ -107,4 +107,19 @@ public class KillstreakTracker implements IComponent {
 
     @Override
     public void onGameStart() { }
+
+    @Override
+    public String getConfigName() {
+        return "KillstreakTracker";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Enable/Disable tracking how many kills you can get within one live for %game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
+    }
 }

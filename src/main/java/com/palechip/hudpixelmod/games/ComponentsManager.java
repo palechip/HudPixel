@@ -29,6 +29,7 @@ import java.util.HashMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
 
@@ -91,7 +92,19 @@ public class ComponentsManager {
         }
     }
 
+    /**
+     * Creates instances for all components of a game. Only components enabled by the config will be returned.
+     * @param configuration The game for which the instances shall be created.
+     */
     public ArrayList<IComponent> getComponentInstances(GameConfiguration configuration) {
+        return this.getComponentInstances(configuration, false);
+    }
+    /**
+     * Creates instances for all components of a game.
+     * @param configuration The game for which the instances shall be created.
+     * @param ignoreConfig If this is true it will return all components regardless if they are enabled or not. (Used by the Config itself)
+     */
+    public ArrayList<IComponent> getComponentInstances(GameConfiguration configuration, boolean ignoreConfig) {
         ArrayList<IComponent> instanceList = new ArrayList<IComponent>();
         HudPixelMod logger = HudPixelMod.instance();
         // check if the configuration is valid
@@ -104,14 +117,15 @@ public class ComponentsManager {
             for(String component : configuration.getComponents()) {
                 // and check if the component was found
                 if(components.containsKey(component)) {
-                        //TODO: check if the config option for the component is turned on
-                        
                         // check if we have a instatiation configuration for this component
                         if(this.instances.containsKey(component)) {
                             try {
                             // get all instances
                             for(ComponentInstanceConfiguration config : this.instances.get(component)) {
-                                instanceList.add(config.getInstance());
+                                IComponent instance = config.getInstance();
+                                if(HudPixelConfig.getConfigValue(configuration.getConfigPrefix() + instance.getConfigName()) || ignoreConfig) {
+                                    instanceList.add(instance);
+                                }
                             }
                             logger.logDebug("Successfully instatiated the component " + component + " using its configuration.");
                             } catch (Exception e) {
@@ -120,7 +134,11 @@ public class ComponentsManager {
                         } else {
                             try {
                                 // instantiate the component with the empty default constructor
-                                instanceList.add((IComponent) this.components.get(component).newInstance());
+                                IComponent instance = (IComponent) this.components.get(component).newInstance();
+                                // check if the config says it is enabled (can't be done earlier because we need the instance)
+                                if(HudPixelConfig.getConfigValue(configuration.getConfigPrefix() + instance.getConfigName()) || ignoreConfig) {
+                                    instanceList.add(instance);
+                                }
                                 logger.logDebug("Successfully instatiated the component " + component + " using the empty constructor.");
                             } catch (Exception e) {
                                 logger.logError("Failed to instanciate component \"" + component + "\" using the empty constructor.");
@@ -133,6 +151,5 @@ public class ComponentsManager {
             }
             return instanceList;
         }
-
     }
 }
