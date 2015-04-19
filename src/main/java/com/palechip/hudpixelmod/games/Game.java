@@ -9,6 +9,7 @@ import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.detectors.ArcadeGamesDetector;
 import com.palechip.hudpixelmod.games.arcade.BlockingDead;
 import com.palechip.hudpixelmod.games.arcade.BountyHunters;
+import com.palechip.hudpixelmod.games.arcade.BuildBattle;
 import com.palechip.hudpixelmod.games.arcade.CreeperAttack;
 import com.palechip.hudpixelmod.games.arcade.DragonWars;
 import com.palechip.hudpixelmod.games.arcade.EnderSpleef;
@@ -65,6 +66,7 @@ public abstract class Game {
         games.add(new ThrowOut());
         games.add(new BlockingDead());
         games.add(new GalaxyWars());
+        games.add(new BuildBattle());
         //Add games here.
     }
 
