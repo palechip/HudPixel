@@ -9,7 +9,7 @@ public class Arena extends Game {
 
     public Arena() {
         super("Arena", "", START_MESSAGE_DEFAULT, END_MESSAGE_DEFAULT, GameType.ARENA, HudPixelConfig.ARENA_CATEGORY);
-        if(HudPixelConfig.arcadeCoinDisplay) {
+        if(HudPixelConfig.arenaCoinDisplay) {
             this.components.add(new CoinCounterComponent());
         }
     }
