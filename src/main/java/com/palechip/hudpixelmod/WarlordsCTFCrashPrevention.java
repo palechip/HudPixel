@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.games.Warlords;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -54,7 +54,7 @@ public class WarlordsCTFCrashPrevention {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onRenderTick(RenderTickEvent event) {
         // only when the event starts
-        if(event.phase == Phase.START && HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID() == GameType.WARLORDS.getModID()) {
+        if(event.phase == Phase.START && HudPixelMod.instance().gameDetector.getCurrentGame() instanceof Warlords) {
             try {
                 Minecraft mc = Minecraft.getMinecraft();
                 // check if the world exists
