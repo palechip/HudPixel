@@ -42,7 +42,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
-    public static final String VERSION = "2.4.3";
+    public static final String VERSION = "2.4.4";
     public static final boolean IS_DEBUGGING = false;
 
     private static HudPixelMod instance;
