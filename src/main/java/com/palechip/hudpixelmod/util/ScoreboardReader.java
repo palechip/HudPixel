@@ -51,6 +51,7 @@ public class ScoreboardReader {
     
     /**
      * Get the top-most string which is displayed on the scoreboard. (doesn't have a score on the side)
+     * Be aware that this can contain color codes.
      */
     public static String getScoreboardTitle() {
         return scoreboardTitle;
@@ -58,6 +59,7 @@ public class ScoreboardReader {
     
     /**
      * Get all currently visible strings on the scoreboard. (excluding title)
+     * Be aware that this can contain color codes.
      */
     public static ArrayList<String> getScoreboardNames() {
         // the array will only be updated upon request
@@ -76,11 +78,14 @@ public class ScoreboardReader {
         if(!scoreboardNames.isEmpty()) {
             scoreboardNames.clear();
         }
+        scoreboardTitle = "";
         
+        try {
         // Get the scoreboard.
         Scoreboard scoreboard = FMLClientHandler.instance().getClient().theWorld.getScoreboard();
         // Get the right objective. I think the 1 stands for the sidebar objective but I've just copied it from the rendering code.
         ScoreObjective sidebarObjective = scoreboard.getObjectiveInDisplaySlot(1);
+        // only update if there actually is something to update
         scoreboardTitle = sidebarObjective.getDisplayName();
         // Get a collection of all scores
         Collection scores = scoreboard.getSortedScores(sidebarObjective);
@@ -94,10 +99,15 @@ public class ScoreboardReader {
                 scoreboardNames.add(ScorePlayerTeam.formatPlayerName(team, ((Score)score).getPlayerName()));
             }
         }
+        } catch (Exception e) {
+             // it is possible that there is a null pointer exception thrown when there is no scoreboard
+             // just ignore this
+        }
     }
     
     static {
         scoreboardNames = new ArrayList<String>();
+        scoreboardTitle = "";
     }
     
     // prevent instantiation

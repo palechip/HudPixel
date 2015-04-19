@@ -29,6 +29,7 @@ import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringUtils;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
@@ -159,7 +160,8 @@ public class GameDetector {
         // scoreboard detection
         if(this.isGameDetectionStarted) {
             ArrayList<String> names = ScoreboardReader.getScoreboardNames();
-            String scoreboardName = ScoreboardReader.getScoreboardTitle();
+            // use the title without color codes
+            String scoreboardName = StringUtils.stripControlCodes(ScoreboardReader.getScoreboardTitle());
             String scoreboardMap = "";
             // find the map name which may contain the game information
             for(String s : names) {
