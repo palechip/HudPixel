@@ -32,6 +32,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -78,7 +79,23 @@ public class WarlordsCTFCrashPrevention {
                             HudPixelMod.instance().logInfo("Found corrupt Item which causes a crash. Will be removed! You won't crash <3!");
                             // kill the entity
                             e.setDead();
-                            // the server will try to add it back in regular intervals. Then the same process will happen again.
+                            // get some data needed to remove the entity instantly
+                            int x = e.chunkCoordX;
+                            int z = e.chunkCoordZ;
+                            World world = mc.theWorld;
+
+                            // remove it from the chunk if it was there. (Looks a little bit different than in World.updateEntities() because the original method wasn't visible)
+                            if (e.addedToChunk && world.getChunkProvider().chunkExists(x, z))
+                            {
+                                world.getChunkFromChunkCoords(x, z).removeEntity(e);
+                            }
+
+                            // remove it from the list
+                            world.loadedEntityList.remove(i--);
+                            // I don't know what this does but it seems to be necessary to keep track of some values ...
+                            world.onEntityRemoved(e);
+                            
+                            // the server may try to add it back in regular intervals. Then the same process will happen again.
                         }
                     }
                 }
