@@ -169,7 +169,7 @@
 		"startMessage": "30 seconds till the first wave, get ready!",
 		"endMessage": "You earned a total of",
 		"configCategory": "vampirez",
-		"configPrefix": "vampirez",
+		"configPrefix": "vampireZ",
 		"components": ["TimerComponent",
 		"CoinCounterComponent",
 		"VampireZBalanceComponent"]

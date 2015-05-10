@@ -71,7 +71,7 @@ public class HudPixelConfig {
 
     public HudPixelConfig(File config) {
         // the "3" is the defined config version
-        this.config = new Configuration(config, "3");
+        this.config = new Configuration(config, "4");
         this.config.load();
 
         // update the config if the versions mismatch
@@ -113,7 +113,7 @@ public class HudPixelConfig {
         // go through all games
         for(GameConfiguration gameConfig : gameManager.getConfigurations()) {
             // go through all components of the game
-            for(IComponent component : componentsManager.getComponentInstances(gameConfig)) {
+            for(IComponent component : componentsManager.getComponentInstances(gameConfig, true)) {
                 String settingName = gameConfig.getConfigPrefix() + component.getConfigName();
                 // check if we haven't already parsed this setting
                 if(!properties.containsKey(settingName)) {
@@ -164,6 +164,10 @@ public class HudPixelConfig {
             fallThrough = true;
 
             this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);;
+        }
+        if (fallThrough || oldVersion.equals("3")) {
+            // correct a little typo
+            this.renameBooleanProperty("arcade games", "acrcadeTimeDisplay", "arcadeTimeDisplay");
         }
         this.config.save();
     }
