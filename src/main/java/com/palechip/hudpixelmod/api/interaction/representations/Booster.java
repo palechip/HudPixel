@@ -46,6 +46,24 @@ public class Booster {
     
     public Booster(){}
     
+    // allows boosters to be created from the /booster queue command
+    public Booster(String name, int gameID) {
+        this.purchaserUuid = ""; // the UUID isn't necessary
+        this.owner = name;
+        this.gameID = gameID;
+        this.originalLength = 60*60; // one hour
+        // take Warlords into account
+        if(gameID == GameType.WARLORDS.getModID()) {
+            this.originalLength = 30*60; // half an hour
+        }
+        // we can't know the length
+        this.length = this.originalLength;
+        // neither can we know the activation time
+        this.dateActivated = System.currentTimeMillis();
+        // get the db id
+        this.gameType = GameManager.getGameManager().getGameConfiguration(gameID).getDatabaseID();
+    }
+    
     public int getCoinAmount() {
         return amount;
     }

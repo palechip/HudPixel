@@ -37,6 +37,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.chat.BoosterQueueCommandParser;
 import com.palechip.hudpixelmod.games.GameManager;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -58,7 +59,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private boolean isLoading;
     private GuiButton tipAllButton;
     private boolean tipAllLock = false;
-    
+    private BoosterQueueCommandParser commandParser;
+
     public BoosterDisplay() {
         this.instance = this;
         this.renderingStrings = new ArrayList<String>();
@@ -67,6 +69,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.unprocessedTips = new ArrayList<UnprocessedTip>();
         // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
         this.tipAllButton = new GuiButton(-10, 0,0, 50, TIP_ALL_BUTTON_HEIGHT, "Tip all");
+        this.commandParser = new BoosterQueueCommandParser(this);
     }
 
     private void updateRenderStrings() {
@@ -110,6 +113,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
 
     public void onChatMessage(String textMessage, String formattedMessage) {
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            // listen for the /booster queue command
+            this.commandParser.onChat(textMessage);
             if(textMessage.contains("You sent a") && textMessage.contains("tip of")) {
                 // cut the extra stuff
                 String name = textMessage.substring(0, textMessage.indexOf(" in"));
@@ -227,6 +232,42 @@ public class BoosterDisplay implements BoosterResponseCallback{
         } else {
             this.hasFailed = true;
         }
+        // make it display
+        this.updateRenderStrings();
+    }
+    
+    public void onBoosterQueueCommandParsed(ArrayList<Booster> boosters) {
+        // lock
+        this.isLocked = true;
+        ArrayList<Booster> updatedActiveBooster = new ArrayList<Booster>();
+        // go through all new boosters
+        for(Booster newBooster : boosters) {
+            // save if an old booster in the same game was found 
+            boolean found = false;
+            // look for an existing booster of the same game type
+            for(Booster oldBooster : this.activeBoosters) {
+                // if the old booster and the new booster are in the same game
+                if(newBooster.getGameID() == oldBooster.getGameID()) {
+                    found = true;
+                    // check if they represent the same booster
+                    if(newBooster.getOwner().equals(oldBooster.getOwner())) {
+                        // in this case add the old booster which may contain more information because it may be gotten from the API
+                        updatedActiveBooster.add(oldBooster);
+                    } else {
+                        // in this case the booster is new and need to be added
+                        updatedActiveBooster.add(newBooster);
+                    }
+                    break;
+                }
+            }
+            // if the booster just started and there was no previous one
+            if(!found) {
+                updatedActiveBooster.add(newBooster);
+            }
+        }
+        this.activeBoosters = updatedActiveBooster;
+        // unlock
+        this.isLocked = false;
         // make it display
         this.updateRenderStrings();
     }
