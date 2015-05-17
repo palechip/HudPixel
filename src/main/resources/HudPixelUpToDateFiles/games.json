@@ -753,14 +753,14 @@
 			},
 			{
 				"type": "String",
-				"value": "Bomberman"
+				"value": "Bomber Man"
 			}]
 		},
 		{
 			"ids": [3],
 			"params": [{
 				"type": "String",
-				"value": "Bomberman"
+				"value": "Bomber Man"
 			},
 			{
 				"type": "boolean",
