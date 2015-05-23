@@ -28,11 +28,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.text.WordUtils;
 
-
-
-
-
+import com.palechip.hudpixelmod.config.FancyConfigElement;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.GameConfiguration;
@@ -44,7 +43,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class HudPixelConfigGui extends GuiConfig {
@@ -53,35 +54,51 @@ public class HudPixelConfigGui extends GuiConfig {
      */
     private static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> displaySettings = new ArrayList<IConfigElement>();
+        List<IConfigElement> gameSettings = new ArrayList<IConfigElement>();
         Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
+        
         // these categories have to be there always
-        list.addAll(new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements());
-        list.addAll(new ConfigElement(configFile.getCategory(HudPixelConfig.DISPLAY_CATEGORY)).getChildElements());
-        if (!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
-            // Add the current game
-            list.addAll(new ConfigElement(configFile.getCategory(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getConfigCategory())).getChildElements());
-            if (HypixelNetworkDetector.isHypixelNetwork) {
-                new ChatMessageComposer("Opened the config for currently played game. Open in lobby to access all options.", EnumChatFormatting.DARK_GREEN).send();
-            }
-        } else {
-            // Add all games
-            // Collect all categories
-            Set<String> categories = new HashSet<String>();
-            for(GameConfiguration gameConfig : GameManager.getGameManager().getConfigurations()) {
-                // add the category, the set prevents that one category is added multiple times
+        list.add(new DummyCategoryElement("General Settings", "", new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements()));
+        // Assemble the fancy controls for the displaySettings
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays."), new String[] {"lefttop", "righttop","leftbottom", "rightbottom"}));
+        displaySettings.add(new ConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.")));
+        displaySettings.add(new ConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.")));
+        displaySettings.add(new ConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.")));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts."), -1, 600, NumberSliderEntry.class));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
+        // add the list to the main list
+        list.add(new DummyCategoryElement("Display Settings", "", displaySettings));
+        
+        // Add a button for the current game if there is one
+        Game currentGame = HudPixelMod.instance().gameDetector.getCurrentGame();
+        if (!currentGame.equals(Game.NO_GAME)) {
+            list.add(new DummyCategoryElement(WordUtils.capitalize(currentGame.getConfiguration().getConfigCategory()), "", new ConfigElement(configFile.getCategory(currentGame.getConfiguration().getConfigCategory())).getChildElements()));
+        }
+        
+        // Collect all categories
+        Set<String> categories = new HashSet<String>();
+        for(GameConfiguration gameConfig : GameManager.getGameManager().getConfigurations()) {
+            // add the category, the set prevents that one category is added multiple times
+            if(!gameConfig.getConfigCategory().isEmpty()) {
                 categories.add(gameConfig.getConfigCategory());
             }
-            for(String category : categories) {
-                list.addAll(new ConfigElement(configFile.getCategory(category)).getChildElements());
-            }
-            if (HypixelNetworkDetector.isHypixelNetwork) {
-                new ChatMessageComposer("Opened the config with all options. Tip: If you are in a game you'll only see relevant options.", EnumChatFormatting.DARK_GREEN).send();
-            }
         }
+        
+        // create entries in the gameSettings list
+        for(String category : categories) {
+            // and make add an entry to the game settings list
+            gameSettings.add(new DummyCategoryElement(WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
+        }
+        
+        // add the gameSettings list
+        list.add(new DummyCategoryElement("Game Settings", "", gameSettings));
+
         return list;
     }
 
     public HudPixelConfigGui(GuiScreen parent) {
-        super(parent, getConfigElements(), HudPixelMod.MODID, false, false, GuiConfig.getAbridgedConfigPath(HudPixelMod.instance().CONFIG.getConfigFile().toString()));
+        super(parent, getConfigElements(), HudPixelMod.MODID, false, false, "HudPixel Config");
     }
 }
