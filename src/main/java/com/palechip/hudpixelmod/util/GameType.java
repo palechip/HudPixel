@@ -56,7 +56,8 @@ public enum GameType {
     GALAXY_WARS(24),
     PARTY_GAMES_1(25),
     PARTY_GAGMES_2(26),
-    TRHOW_OUT(27);
+    TRHOW_OUT(27),
+    TURBO_KART_RACERS(28);
 
     private final int modID;
 

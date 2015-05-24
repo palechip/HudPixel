@@ -91,8 +91,8 @@ public class UpToDateThread extends Thread{
         
         // check if local files exist
         for(String file : files) {
-            // if the file doesn't exist
-            if(!(new File(configurationDirectory + File.separator + file).exists())) {
+            // if the file doesn't exist or the mod is in debugging mode (debugging mode always extracts the latest versions to reflect recent changes)
+            if(!(new File(configurationDirectory + File.separator + file).exists()) || HudPixelMod.IS_DEBUGGING) {
                 // make sure the directory exists
                 this.configurationDirectory.mkdirs();
                 // extract them from the jar

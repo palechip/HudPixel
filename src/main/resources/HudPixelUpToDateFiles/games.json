@@ -455,7 +455,23 @@
 		"configPrefix": "arcade",
 		"components": ["CoinCounterComponent",
 		"KillstreakTracker"]
-	}],
+	}, {
+        "officialName": "Turbo Kart Racers",
+		"shortName": "Kart Racers",
+		"databaseName": "GingerBread",
+		"databaseID": 25,
+		"modID": 28,
+		"chatTag": "",
+		"bossbarName": "Turbo Kart Racers",
+		"scoreboardName": "Turbo Kart Racers",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "turbo kart racers",
+		"configPrefix": "kartRacers",
+		"components": ["CoinCounterComponent", "TimerComponent"]
+    }
+    ],
 	"components": [{
 		"name": "WallsKillCounter",
 		"instances": [{
