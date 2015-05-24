@@ -32,6 +32,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;

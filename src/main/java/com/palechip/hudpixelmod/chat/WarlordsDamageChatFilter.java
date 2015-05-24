@@ -25,7 +25,7 @@ package com.palechip.hudpixelmod.chat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.util.GameType;
 

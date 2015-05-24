@@ -28,11 +28,11 @@ import net.minecraft.util.EnumChatFormatting;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.palechip.hudpixelmod.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback{

@@ -24,7 +24,7 @@ package com.palechip.hudpixelmod.stats;
 
 import net.minecraft.util.EnumChatFormatting;
 
-import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.GameType;

@@ -20,7 +20,7 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package com.palechip.hudpixelmod;
+package com.palechip.hudpixelmod.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.FancyConfigElement;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;

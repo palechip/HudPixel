@@ -28,7 +28,7 @@ import java.util.UUID;
 import net.hypixel.api.HypixelAPI;
 
 import com.google.gson.Gson;
-import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
