@@ -23,6 +23,7 @@
 package com.palechip.hudpixelmod.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -47,18 +48,22 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private static final int REFRESH_TIMEOUT = 120000; // 90s this is how often it refreshes when the chat gui stays open (e.g. when the person is afk)
     private static final String TITLE = EnumChatFormatting.RED + "Boosters";
     public static final int QUICK_LOAD_BUTTON_HEIGHT = 20;
+
     private BoosterDisplay instance;
     private long lastRequest;
     private ArrayList<String> renderingStrings;
+
     private ArrayList<Booster> tippedBoosters;
     private ArrayList<Booster> activeBoosters;
-    private ArrayList<UnprocessedTip> unprocessedTips;
-    private boolean isLocked;
+    private HashMap<String, Long> unprocessedTips;
+
     private boolean isInChatGui;
     private boolean hasFailed;
     private boolean isLoading;
+    
     private GuiButton quickLoadButton;
     private boolean quickLoadLock = false;
+    
     private BoosterQueueCommandParser commandParser;
 
     public BoosterDisplay() {
@@ -66,112 +71,154 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.renderingStrings = new ArrayList<String>();
         this.tippedBoosters = new ArrayList<Booster>();
         this.activeBoosters = new ArrayList<Booster>();
-        this.unprocessedTips = new ArrayList<UnprocessedTip>();
+        this.unprocessedTips = new HashMap<String, Long>();
         // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
         this.quickLoadButton = new GuiButton(-10, 0,0, 50, QUICK_LOAD_BUTTON_HEIGHT, "Quick Load");
         this.commandParser = new BoosterQueueCommandParser(this);
     }
 
-    private void updateRenderStrings() {
-        if(!isLocked) {
-            ArrayList<String> temp = new ArrayList<String>();
-            temp.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
-            for(Booster booster : tippedBoosters) {
-                // Update tipped boosters: Remove tipable boosters.
-                // This will also remove old boosters!
-                if(booster.canTip()) {
-                    tippedBoosters.remove(booster);
-                }
-            }
-            for (Booster booster : activeBoosters) {
-                // Check if this booster was tipped while it wasn't loaded by the display
-                if(!this.unprocessedTips.isEmpty() && !tippedBoosters.contains(booster)) {
-                    for (UnprocessedTip tip : this.unprocessedTips) {
-                        if(booster.getOwner().equals(tip.name)) {
-                            this.tippedBoosters.add(booster);
-                            // save the tipping time
-                            booster.setTippingTime(tip.time);
-                            tip.markedForRemoval = true; // We can't just remove it because the owner could have multiple boosters...
-                        }
-                    }
-                }
-                
-                // Add all active boosters. Tipped ones are white. Untipped ones are green.
-                temp.add(EnumChatFormatting.GOLD + GameManager.getGameManager().getGameConfiguration(booster.getGameID()).getShortName() + ": " + (tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
-            }
-            renderingStrings = temp;
-            // Go through the unprocessedTips and remove processed ones
-            if(!this.unprocessedTips.isEmpty()) {
-                for(UnprocessedTip tip : this.unprocessedTips) {
-                    if(tip.markedForRemoval) {
-                        this.unprocessedTips.remove(tip);
-                    }
-                }
+    /**
+     * Updates the rendering strings for the booster display.
+     * @param matchUnprocessedTips Should unprocessed tips be matched to the boosters and be cleared? Set to true if new boosters were loaded!
+     */
+    private void updateRenderStrings(boolean matchUnprocessedTips) {
+        // copy the activeBoosters Array so it can't be modified during this process
+        ArrayList<Booster> activeBoostersCache = new ArrayList<Booster>(this.activeBoosters);
+
+        // create a new replacement list
+        ArrayList<String> newRenderingStrings = new ArrayList<String>();
+        newRenderingStrings.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
+
+        // clean tippedBoosters
+        for(Booster booster : this.tippedBoosters) {
+            // if it is no longer tipped (because the half hour is over)
+            if(!booster.isTipped()) {
+                // remove it from the array making it tippable again
+                tippedBoosters.remove(booster);
             }
         }
+
+        for (Booster booster : activeBoostersCache) {
+            // Check if this booster was tipped while it wasn't loaded by the display
+            if(matchUnprocessedTips && !this.unprocessedTips.isEmpty()) {
+                // check if there is an unprocessed tip with this name
+                if(this.unprocessedTips.containsKey(booster.getOwner())) {
+                    // set the booster tipped
+                    booster.setTippingTime(this.unprocessedTips.get(booster.getOwner()));
+                    this.tippedBoosters.add(booster);
+                }
+            }
+
+            // Add all active boosters. Tipped ones are white. Untipped ones are green.
+            newRenderingStrings.add(EnumChatFormatting.GOLD + GameManager.getGameManager().getGameConfiguration(booster.getGameID()).getShortName() + ": " + (this.tippedBoosters.contains(booster) ? EnumChatFormatting.WHITE : EnumChatFormatting.GREEN) + booster.getOwner());
+        }
+
+        // if the unprocessed tips were matched, clear the list
+        if(matchUnprocessedTips) {
+            this.unprocessedTips.clear();
+        }
+
+        // set the rendering strings
+        renderingStrings = newRenderingStrings;
     }
 
+    /**
+     * Listen to the /booster queue output and tips which the player sent
+     */
     public void onChatMessage(String textMessage, String formattedMessage) {
+        // check the settings
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // listen for the /booster queue command
             this.commandParser.onChat(textMessage);
+            
+            // handle a tip which the player sent
             if(textMessage.contains("You sent a") && textMessage.contains("tip of")) {
                 // cut the extra stuff
                 String name = textMessage.substring(0, textMessage.indexOf(" in"));
-                // is it a ranked member
+                
+                // correctly handle the rank tag
                 if(textMessage.contains("]")) {
                     name = name.substring(name.indexOf("]") + 2);
                 } else {
                     name = name.substring(name.indexOf(" to ") + 4);
                 }
+                
                 // set all boosters with this name to tipped
                 boolean foundIt = false;
                 for (Booster booster : activeBoosters) {
                     if(booster.getOwner().equalsIgnoreCase(name)) {
-                        this.tippedBoosters.add(booster);
-                        // save the tipping time
+                        // save the tipping time and the state
                         booster.tip();
+                        // and add it to the tipped boosters
+                        this.tippedBoosters.add(booster);
                         // we found a booster and don't need to save
                         foundIt = true;
                     }
                 }
                 
+                // if no booster 
                 if(!foundIt) {
-                    this.unprocessedTips.add(new UnprocessedTip(name, System.currentTimeMillis()));
+                    this.unprocessedTips.put(name, System.currentTimeMillis());
                 }
 
-                // refresh the display strings
-                this.updateRenderStrings();
+                // refresh the display strings to reflect the newly tipped booster(s)
+                this.updateRenderStrings(false);
             }
         }
     }
     
+    /**
+     * Detects when GuiChat is opened or left and if the boosters need to be refreshed.
+     */
     public void onClientTick() {
         Minecraft mc = FMLClientHandler.instance().getClient();
-        if((mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui) || (HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters && this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT)) {
+        
+        // if the GuiChat was just entered in a lobby
+        if((mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui)) {
+            // save the state
             this.isInChatGui = true;
+            // activate the quick load button
             if(HudPixelConfig.displayQuickLoadButton) {
                 this.quickLoadButton.visible = true;
                 this.quickLoadButton.enabled = true;
                 this.quickLoadLock = false;
             }
-            if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
-                this.requestBoosters();
-            }
+            // request the boosters
+            this.requestBoosters();
         }
+        
+        // check if the boosters need to be refreshed
+        if(this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT) {
+            // refresh them
+            this.requestBoosters();
+        }
+        
+        // if the user left the GuiChat
         if(!(mc.currentScreen instanceof GuiChat)) {
+            // save the state
             this.isInChatGui = false;
+            // hide the button
             this.quickLoadButton.visible = false;
             this.quickLoadButton.enabled = false;
         }
     }
 
+    /**
+     * Injects the Quick Load button into the button list
+     * @param event provides the buttonList
+     */
     public void onInitGui(InitGuiEvent event) {
+        // only if we are in the chat
         if(event.gui instanceof GuiChat) {
+            // inject it
             event.buttonList.add(this.quickLoadButton);
         }
     }
-    
+
+    /**
+     * Listen to the button presses
+     * @param event contains information about which button was press
+     */
     public void onGuiActionPerformed(ActionPerformedEvent event) {
         if(event.gui instanceof GuiChat && event.button.id == this.quickLoadButton.id && !this.quickLoadLock) {
             // Only let the button fire once. Then you have to reopen the chat gui.
@@ -182,70 +229,100 @@ public class BoosterDisplay implements BoosterResponseCallback{
         }
     }
     
+    /**
+     * A helper method to draw the semi-transparent background and to set the button accordingly.
+     */
     public void render(int rectX1, int rectY1, int rectX2, int rectY2, int buttonX, int buttonY, int buttonWidth) {
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // Draw the semi-transparent background
             Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
         }
         if(HudPixelConfig.displayQuickLoadButton) {
-            // move the tip-all button
+            // move the quick load button
             this.quickLoadButton.xPosition = buttonX;
             this.quickLoadButton.yPosition = buttonY;
             this.quickLoadButton.width = buttonWidth;
         }
     }
 
+    /**
+     * Requests the Network Boosters from the API. Checks config and cooldown.
+     */
     private void requestBoosters() {
+        // check the config settings
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            // check if enough time has past
             if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
+                // save the time of the request
                 lastRequest = System.currentTimeMillis();
+                // tell the queue that we need boosters
                 Queue.getInstance().getBoosters(instance);
-                // show them that we are loading date
+                // show the user that we are loading date
                 this.isLoading = true;
-                this.updateRenderStrings();
+                // make the loading text be displayed
+                this.updateRenderStrings(false);
             }
         }
     }
 
+    /**
+     * Get the renderingStrings. They aren't updated with in this method.
+     */
     public ArrayList<String> getRenderingStrings() {
         return renderingStrings;
     }
 
     @Override
+    /**
+     * Handles when the Public API answers a booster request.
+     */
     public void onBoosterResponse(ArrayList<Booster> boosters) {
+        // we aren't loading anymore
         this.isLoading = false;
+
         if(boosters != null) {
-            this.isLocked = true;
+            // we've got a list, so this wasn't a fail
             this.hasFailed = false;
-            this.activeBoosters.clear();
+
+            ArrayList<Booster> newActiveBoosters = new ArrayList<Booster>();
+
             // get the active ones
             for (Booster booster : boosters) {
                 // is there less than the full duration remaining
-                if(booster.getRemainingTime() != booster.getTotalLength()) {
+                if(booster.getRemainingTime() < booster.getTotalLength()) {
                     // it's active
-                    this.activeBoosters.add(booster);
+                    newActiveBoosters.add(booster);
                     // load the name of the owner if only a uuid is available
                     booster.getOwner();
                 }
             }
-            this.isLocked = false;
+            
+            // update the activeBoosters
+            this.activeBoosters = newActiveBoosters;
         } else {
+            // nothing was returned, we failed
             this.hasFailed = true;
         }
-        // make it display
-        this.updateRenderStrings();
+        // make it display (only match unprocessed tips if the request was successful
+        this.updateRenderStrings(!this.hasFailed);
     }
     
+    /**
+     * Handles a list of boosters gathered by the /booster queue command.
+     */
     public void onBoosterQueueCommandParsed(ArrayList<Booster> boosters) {
-        // lock
-        this.isLocked = true;
+        // copy the activeBoosters Array so it can't be modified during this process
+        ArrayList<Booster> activeBoostersCache = new ArrayList<Booster>(this.activeBoosters);
+        // create a new list with the update boosters
         ArrayList<Booster> updatedActiveBooster = new ArrayList<Booster>();
+
         // go through all new boosters
         for(Booster newBooster : boosters) {
             // save if an old booster in the same game was found 
             boolean found = false;
+            
             // look for an existing booster of the same game type
-            for(Booster oldBooster : this.activeBoosters) {
+            for(Booster oldBooster : activeBoostersCache) {
                 // if the old booster and the new booster are in the same game
                 if(newBooster.getGameID() == oldBooster.getGameID()) {
                     found = true;
@@ -260,34 +337,16 @@ public class BoosterDisplay implements BoosterResponseCallback{
                     break;
                 }
             }
+            
             // if the booster just started and there was no previous one
             if(!found) {
                 updatedActiveBooster.add(newBooster);
             }
         }
+        // update the activeBoosters
         this.activeBoosters = updatedActiveBooster;
-        // unlock
-        this.isLocked = false;
         // make it display
-        this.updateRenderStrings();
+        this.updateRenderStrings(true);
     }
-    
-    private class UnprocessedTip {
-        public String name;
-        public long time;
-        public boolean markedForRemoval;
-        public UnprocessedTip(String name, long time) {
-            this.name = name;
-            this.time = time;
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            if(obj instanceof UnprocessedTip) {
-                UnprocessedTip t = (UnprocessedTip)obj;
-                return this.name.equals(t.name);
-            }
-            return super.equals(obj);
-        }
-    }
+
 }

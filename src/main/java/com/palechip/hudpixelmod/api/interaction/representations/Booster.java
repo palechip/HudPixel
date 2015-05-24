@@ -116,9 +116,14 @@ public class Booster {
         this.tippingTime = System.currentTimeMillis();
     }
     
-    public boolean canTip() {
-        // this expression will be true if the booster is active and wasn't tipped or can be tipped again
-        return (this.getRemainingTime() < this.getTotalLength() && (this.tippingTime == 0l || System.currentTimeMillis() > this.tippingTime + TIPPING_COOLDOWN ));
+    public boolean isTipped() {
+        // only if the booster is already active
+        if(this.getRemainingTime() < this.getTotalLength()) {
+            // this expression is true if there is a tipping time and it's less than half an hour ago
+            return ((this.tippingTime != 0l && System.currentTimeMillis() < this.tippingTime + TIPPING_COOLDOWN ));
+        } else {
+            return false;
+        }
     }
     
     public void setTippingTime(long time) {
