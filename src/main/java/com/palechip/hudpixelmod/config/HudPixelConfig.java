@@ -52,7 +52,7 @@ public class HudPixelConfig {
     public static int displayShowResultTime;
     public static boolean displayVersion;
     public static boolean displayNetworkBoosters;
-    public static boolean displayTipAllButton;
+    public static boolean displayQuickLoadButton;
     
     public static int warlordsFilterDamageDone;
     public static int warlordsFilterDamageTaken;
@@ -93,7 +93,7 @@ public class HudPixelConfig {
         displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
         displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
-        displayTipAllButton = this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").getBoolean(false);
+        displayQuickLoadButton = this.config.get(DISPLAY_CATEGORY, "displayQuickLoadButton", true, "Show a button that runs /booster queue in order to quickly load the network boosters.").getBoolean(true);
         
         // these are ugly and will be removed when the filter becomes a component
         String warlordsCategory = GameManager.getGameManager().getGameConfiguration(GameType.WARLORDS).getConfigCategory();
@@ -163,11 +163,15 @@ public class HudPixelConfig {
         if (fallThrough || oldVersion.equals("2")) {
             fallThrough = true;
 
-            this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);;
+            // this isn't necessary anymore since it is undon with version 4
+            //this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);
         }
         if (fallThrough || oldVersion.equals("3")) {
+            fallThrough = true;
             // correct a little typo
             this.renameBooleanProperty("arcade games", "acrcadeTimeDisplay", "arcadeTimeDisplay");
+            this.renameBooleanProperty(DISPLAY_CATEGORY, "displayTipAllButton", "displayQuickLoadButton");
+            this.config.get(DISPLAY_CATEGORY, "displayQuickLoadButton", true, "Show a button that runs /booster queue in order to quickly load the network boosters.").set(true);
         }
         this.config.save();
     }

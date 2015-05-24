@@ -46,7 +46,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private static final int REQUEST_COOLDOWN = 30000; // = 30s
     private static final int REFRESH_TIMEOUT = 120000; // 90s this is how often it refreshes when the chat gui stays open (e.g. when the person is afk)
     private static final String TITLE = EnumChatFormatting.RED + "Boosters";
-    public static final int TIP_ALL_BUTTON_HEIGHT = 20;
+    public static final int QUICK_LOAD_BUTTON_HEIGHT = 20;
     private BoosterDisplay instance;
     private long lastRequest;
     private ArrayList<String> renderingStrings;
@@ -57,8 +57,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
     private boolean isInChatGui;
     private boolean hasFailed;
     private boolean isLoading;
-    private GuiButton tipAllButton;
-    private boolean tipAllLock = false;
+    private GuiButton quickLoadButton;
+    private boolean quickLoadLock = false;
     private BoosterQueueCommandParser commandParser;
 
     public BoosterDisplay() {
@@ -68,7 +68,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
         this.activeBoosters = new ArrayList<Booster>();
         this.unprocessedTips = new ArrayList<UnprocessedTip>();
         // params id:-10 x:doesn't matter y:doesn't matter h:doesn't matter w:20 displayString:Tip all
-        this.tipAllButton = new GuiButton(-10, 0,0, 50, TIP_ALL_BUTTON_HEIGHT, "Tip all");
+        this.quickLoadButton = new GuiButton(-10, 0,0, 50, QUICK_LOAD_BUTTON_HEIGHT, "Quick Load");
         this.commandParser = new BoosterQueueCommandParser(this);
     }
 
@@ -150,10 +150,10 @@ public class BoosterDisplay implements BoosterResponseCallback{
         Minecraft mc = FMLClientHandler.instance().getClient();
         if((mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui) || (HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters && this.isInChatGui && System.currentTimeMillis() > this.lastRequest + REFRESH_TIMEOUT)) {
             this.isInChatGui = true;
-            if(HudPixelConfig.displayTipAllButton) {
-                this.tipAllButton.visible = true;
-                this.tipAllButton.enabled = true;
-                this.tipAllLock = false;
+            if(HudPixelConfig.displayQuickLoadButton) {
+                this.quickLoadButton.visible = true;
+                this.quickLoadButton.enabled = true;
+                this.quickLoadLock = false;
             }
             if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 this.requestBoosters();
@@ -161,24 +161,24 @@ public class BoosterDisplay implements BoosterResponseCallback{
         }
         if(!(mc.currentScreen instanceof GuiChat)) {
             this.isInChatGui = false;
-            this.tipAllButton.visible = false;
-            this.tipAllButton.enabled = false;
+            this.quickLoadButton.visible = false;
+            this.quickLoadButton.enabled = false;
         }
     }
 
     public void onInitGui(InitGuiEvent event) {
         if(event.gui instanceof GuiChat) {
-            event.buttonList.add(tipAllButton);
+            event.buttonList.add(this.quickLoadButton);
         }
     }
     
     public void onGuiActionPerformed(ActionPerformedEvent event) {
-        if(event.gui instanceof GuiChat && event.button.id == this.tipAllButton.id && !this.tipAllLock) {
+        if(event.gui instanceof GuiChat && event.button.id == this.quickLoadButton.id && !this.quickLoadLock) {
             // Only let the button fire once. Then you have to reopen the chat gui.
-            this.tipAllLock = true;
-            this.tipAllButton.enabled = false;
-            // Run /tip all
-            FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/tip all");
+            this.quickLoadLock = true;
+            this.quickLoadButton.enabled = false;
+            // Run /booster queue
+            FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/booster queue");
         }
     }
     
@@ -187,11 +187,11 @@ public class BoosterDisplay implements BoosterResponseCallback{
             // Draw the semi-transparent background
             Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
         }
-        if(HudPixelConfig.displayTipAllButton) {
+        if(HudPixelConfig.displayQuickLoadButton) {
             // move the tip-all button
-            this.tipAllButton.xPosition = buttonX;
-            this.tipAllButton.yPosition = buttonY;
-            this.tipAllButton.width = buttonWidth;
+            this.quickLoadButton.xPosition = buttonX;
+            this.quickLoadButton.yPosition = buttonY;
+            this.quickLoadButton.width = buttonWidth;
         }
     }
 

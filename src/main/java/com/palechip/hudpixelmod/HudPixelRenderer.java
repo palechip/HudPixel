@@ -154,7 +154,7 @@ public class HudPixelRenderer {
                 renderStrings = this.results;
             }
             // tip all button with nothing else to display
-            else if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
             } else {
                 // default display
@@ -165,8 +165,8 @@ public class HudPixelRenderer {
                 }
             }
             
-            // should display the tip all button
-            if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            // should display the quick load button
+            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
                 isTipAllButton = true;
             }
 
@@ -192,7 +192,7 @@ public class HudPixelRenderer {
                 if(isBoosterDisplay || isTipAllButton) {
                     height -= CHAT_BOX_CORRECTION;
                     if(isTipAllButton) {
-                        height -= boosterDisplay.TIP_ALL_BUTTON_HEIGHT;
+                        height -= boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT;
                     }
                 }
             } else {
@@ -201,11 +201,11 @@ public class HudPixelRenderer {
 
             // render a box for the booster display
             if((isBoosterDisplay && isTipAllButton) || (isTipAllButton && !renderStrings.isEmpty())) {
-                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), width - 2, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), (this.startWidthRight - width) + 4);
+                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), width - 2, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), (this.startWidthRight - width) + 4);
             } else if(isBoosterDisplay) {
                 this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - CHAT_BOX_CORRECTION, width - 2, this.startHeightBottom - CHAT_BOX_CORRECTION, (this.startWidthRight - width) + 4);
             } else if(isTipAllButton) {
-                this.boosterDisplay.render(0, 0, 0, 0, width - 152, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), 150);
+                this.boosterDisplay.render(0, 0, 0, 0, width - 152, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), 150);
             }
 
             // render the display
