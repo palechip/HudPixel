@@ -466,7 +466,7 @@
 		"scoreboardName": "Turbo Kart Racers",
 		"scoreboardMap": "",
 		"startMessage": "                 to get ahead of everyone else!",
-		"endMessage": "                            Reward Summary",
+		"endMessage": " For a total of",
 		"configCategory": "turbo kart racers",
 		"configPrefix": "kartRacers",
 		"components": ["CoinCounterComponent", "TimerComponent"]

@@ -45,13 +45,19 @@ public class CoinCounterComponent implements IComponent{
             this.coins += getCoinsFromMessage(textMessage);
         }
         // the total coin message overwrites the counter (but not guild coins!)
-        if(!textMessage.toLowerCase().contains("guild coins") && textMessage.contains("You earned a total of") && textMessage.toLowerCase().contains("coins")) {
+        if(!textMessage.toLowerCase().contains("guild coins") && (textMessage.contains("You earned a total of") || textMessage.contains("For a total of ")) && textMessage.toLowerCase().contains("coins")) {
             try {
-                String messageStartingWithCoins = textMessage.substring(textMessage.indexOf("You earned a total of ") + 22);
+                String messageStartingWithCoins = "";
+                if(textMessage.contains("You earned a total of")) {
+                    messageStartingWithCoins = textMessage.substring(textMessage.indexOf("You earned a total of ") + 22);
+                } else {
+                    messageStartingWithCoins = textMessage.substring(textMessage.indexOf("For a total of ") + 15);
+                }
                 String totalCoins = messageStartingWithCoins.substring(0,messageStartingWithCoins.indexOf(" "));
                 this.coins = Integer.valueOf(totalCoins.replace(" ", ""));
             } catch (Exception e) {
                 HudPixelMod.instance().logInfo("Failed to parse total coin message. Ignoring.");
+                e.printStackTrace();
                 // we failed getting the coins. Hopefully this never happens.
             }
         }
