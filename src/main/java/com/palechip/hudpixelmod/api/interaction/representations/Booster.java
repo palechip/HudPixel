@@ -52,12 +52,8 @@ public class Booster {
         this.owner = name;
         this.gameID = gameID;
         this.originalLength = 60*60; // one hour
-        // take Warlords into account
-        if(gameID == GameType.WARLORDS.getModID()) {
-            this.originalLength = 30*60; // half an hour
-        }
-        // we can't know the length
-        this.length = this.originalLength;
+        // we can't know the length but the booster must be active
+        this.length = this.originalLength - 1;
         // neither can we know the activation time
         this.dateActivated = System.currentTimeMillis();
         // get the db id
