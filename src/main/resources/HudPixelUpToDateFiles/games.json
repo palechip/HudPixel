@@ -469,7 +469,7 @@
 		"endMessage": " For a total of",
 		"configCategory": "turbo kart racers",
 		"configPrefix": "kartRacers",
-		"components": ["CoinCounterComponent", "TimerComponent"]
+		"components": ["CoinCounterComponent", "TkrTimer"]
     }
     ],
 	"components": [{
@@ -827,6 +827,36 @@
 			{
 				"type": "String",
 				"value": "Ender Eye"
+			}]
+		}]
+	},{
+		"name": "TkrTimer",
+		"instances": [{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "0"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "1"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "2"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "3"
 			}]
 		}]
 	}]
