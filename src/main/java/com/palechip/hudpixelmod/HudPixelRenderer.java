@@ -36,6 +36,8 @@ import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
+import com.palechip.hudpixelmod.uptodate.UpdateInformation;
+import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -66,7 +68,7 @@ public class HudPixelRenderer {
     
     public BoosterDisplay boosterDisplay;
     
-    public HudPixelRenderer(HudPixelUpdateNotifier updater) {
+    public HudPixelRenderer(UpdateNotifier updater) {
         this.boosterDisplay = new BoosterDisplay();
         this.nothingToDisplay = new ArrayList<String>(0);
         // initialize rendering vars
@@ -76,7 +78,7 @@ public class HudPixelRenderer {
     /**
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
-    public void loadRenderingProperties(HudPixelUpdateNotifier updater) {
+    public void loadRenderingProperties(UpdateNotifier updater) {
         this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("right") : false;
         this.renderOnTheBottom = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("bottom") : false;
         Minecraft mc = FMLClientHandler.instance().getClient();
@@ -93,9 +95,9 @@ public class HudPixelRenderer {
         if(HudPixelConfig.displayVersion) {
             this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + HudPixelMod.VERSION);
         }
-        if(updater.isOutOfDate) {
-            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.newVersion);
-            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.downloadLink);
+        if(updater.hasUpdate()) {
+            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.getUpdateInformation().getLatestVersion());
+            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.getUpdateInformation().getUpdateLink());
         }
         
     }

@@ -51,7 +51,12 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
+import com.palechip.hudpixelmod.uptodate.HudPixelDeactivatedException;
 import com.palechip.hudpixelmod.uptodate.UpToDateThread;
+import com.palechip.hudpixelmod.uptodate.UpdateChannel;
+import com.palechip.hudpixelmod.uptodate.UpdateInformation;
+import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
+import com.palechip.hudpixelmod.uptodate.VersionInformation;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 
@@ -73,17 +78,20 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
-    public static final String VERSION = "2.4.3";
+    public static final String VERSION = "2.5.0";
+    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.DEV;
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
     public Logger LOGGER;
     public HudPixelConfig CONFIG;
-    private HudPixelUpdateNotifier  updater;
-    private boolean isUpdateMessageQueued;
+    public UpdateNotifier  updateNotifier;
     public HudPixelRenderer renderer;
     private Queue apiQueue;
+    
+    private boolean deactivate = false;
+    private VersionInformation deactivationInformation;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -102,8 +110,8 @@ public class HudPixelMod
     public void preInit(FMLPreInitializationEvent event) {
         try {
             instance = this;
-            // check for updates
-            this.updater = new HudPixelUpdateNotifier();
+            // create an empty notifier
+            this.updateNotifier = new UpdateNotifier(new UpdateInformation());
             
             // start the HudPixel Up To Date Loader
             new UpToDateThread(event.getModConfigurationDirectory());
@@ -129,7 +137,7 @@ public class HudPixelMod
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
-        this.renderer = new HudPixelRenderer(this.updater);
+        this.renderer = new HudPixelRenderer(this.updateNotifier);
         this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
@@ -204,9 +212,22 @@ public class HudPixelMod
         }
     }
 
+    /**
+     * This is an emergency switch. It will crash the game. Only to be used in case of a severe bug or disallowed features.
+     */
+    public void invokeDeactivation(VersionInformation versionInformation) {
+        this.deactivationInformation = versionInformation;
+        this.deactivate = true;
+    }
+    
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
+            // check if HudPixel has to be deactivated
+            if(this.deactivate) {
+                throw new HudPixelDeactivatedException(this.deactivationInformation);
+            }
+            
             // Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
                 // make sure the Scoreboard reader updates when necessary
@@ -232,10 +253,11 @@ public class HudPixelMod
                 this.renderer.boosterDisplay.onClientTick();
 
                 // check if the update message can be displayed
-                if(this.isUpdateMessageQueued) {
-                    this.updateFound();
-                }
+                this.updateNotifier.onTick();
             }
+        } catch (HudPixelDeactivatedException e) {
+            // let the game crash with this exception
+            throw e;
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -288,7 +310,7 @@ public class HudPixelMod
             if(eventArgs.modID.equals(MODID)){
                 this.CONFIG.syncConfig();
                 // reload stuff that uses the config values for immediate effect
-                this.renderer.loadRenderingProperties(updater);
+                this.renderer.loadRenderingProperties(updateNotifier);
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -321,25 +343,6 @@ public class HudPixelMod
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
-    
-    public void updateFound() {
-        try {
-            if(hypixelDetector.isHypixelNetwork && FMLClientHandler.instance().getClientPlayerEntity() != null) {
-                new ChatMessageComposer("Update available: " , EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updater.newVersion, EnumChatFormatting.GREEN)).send();
-                new ChatMessageComposer("Download here: ", EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updater.downloadLink, EnumChatFormatting.YELLOW).makeLink("http://" + this.updater.downloadLink)).send();
-                this.isUpdateMessageQueued = false;
-                // also update rendering vars to make sure it notices the update
-                this.renderer.loadRenderingProperties(this.updater);
-                
-            } else {
-                // make this being called from onTick()
-                this.isUpdateMessageQueued = true;
-            }
-        } catch(Exception e) {
-            this.logWarn("An exception occured in updateFound(). Stacktrace below.");
             e.printStackTrace();
         }
     }

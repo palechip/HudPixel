@@ -32,11 +32,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import com.google.gson.Gson;
@@ -48,6 +51,8 @@ public class UpToDateThread extends Thread{
     private final File configurationDirectory;
     private static final String RESOURCE_LOCATION = "HudPixelUpToDateFiles/";
     private static final String CACHEFOLDER = "HudPixel-Up-To-Date";
+    private static final String REPOSITORY_URL = "https://raw.githubusercontent.com/palechip/HudPixelUpToDate/master/";
+    
     
     private static final String VERSION_MEMBER = "version";
 
@@ -80,7 +85,12 @@ public class UpToDateThread extends Thread{
         try{
             // let's start!
             this.start();
-        } catch(Exception e) {
+        }
+        catch(HudPixelDeactivatedException e) {
+            // let this pass through
+            throw e;
+        }
+        catch(Exception e) {
             HudPixelMod.instance().logError("The HudPixel Up to Date Thread died!, this may cause severe problems.");
             e.printStackTrace();
         }
@@ -107,9 +117,15 @@ public class UpToDateThread extends Thread{
         HudPixelMod.instance().CONFIG.syncConfig();
 
         // download version information
-        //TODO
+        VersionInformation versionInformation = this.downloadVersionInformation(logger);
+        // check if this version is deactivated, in case of deactivation the method will crash the game
+        this.checkForDeactivation(versionInformation, logger);
+        
+        // download update information
+        HudPixelMod.instance().updateNotifier = new UpdateNotifier(this.downloadUpdateInformation(logger));
+        
         // download changed files, replace and load them
-        //TODO
+        this.checkFileVersions(versionInformation, logger);
     }
 
     /**
@@ -169,6 +185,10 @@ public class UpToDateThread extends Thread{
         }
     }
     
+    
+    /**
+     * Loads a games.json file.
+     */
     private void readGamesFile(HudPixelMod logger) {
         // GAMES_FILE
         try {
@@ -186,6 +206,111 @@ public class UpToDateThread extends Thread{
             new GameManager(games.get("games").getAsJsonArray(), games.get("components").getAsJsonArray());
         } catch (Exception e) {
             logger.logError("The " + GAMES_FILE + "is corrupt. May things will not work correctly unless it is fixed!");
+        }
+    }
+    
+    /**
+     * Download a file form the online repository
+     * @param fileName the file name as in files
+     * @param version the version of the file to download
+     * @return True if the download was successful
+     */
+    private boolean downloadFile(String fileName, int version, HudPixelMod logger) {
+        try {
+            // log the download
+            logger.logInfo("Updating \"" + fileName + "\" to version " + version);
+            URL downloadURL = new URL( REPOSITORY_URL + fileName.substring(0, fileName.indexOf('.')) + "/v" + version + ".json");
+            File destinationFile = new File(this.configurationDirectory + File.separator + fileName);
+            // use Apache Commons to download the file
+            FileUtils.copyURLToFile(downloadURL, destinationFile, 2000, 4000);
+        } catch(IOException e) {
+            // log the error
+            logger.logError("Failed to download \"" + fileName +"\"! Couldn't get the latest version. This may cause bad behaviour.");
+            e.printStackTrace();
+            // faiture
+            return false;
+        }
+        // success
+        return true;
+    }
+    
+    /**
+     * Downloads to a string. Used for files which aren't saved.
+     * @param url the URL from where to download from
+     * @return The downloaded string or an empty json object in case of failture.
+     */
+    private String downloadFileToString(String url, HudPixelMod logger) {
+        try {
+            return IOUtils.toString(new URL(url));
+        } catch(Exception e) {
+            logger.logWarn("Faild to download \"" + url  + "\"! This is sad but not game-breaking.");
+        }
+        return "{}";
+    }
+    
+    /**
+     * Downloads the version information for this version
+     */
+    private VersionInformation downloadVersionInformation(HudPixelMod logger) {
+        try {
+            // get the json string
+            String json = this.downloadFileToString(REPOSITORY_URL + "/version/v" + HudPixelMod.VERSION + ".json", logger);
+            // parse it using gson
+            return this.gson.fromJson(json, VersionInformation.class);
+        } catch (Exception e) {
+            logger.logWarn("Failed to read the Version Information! This doesn't hurt but shouldn't be that way.");
+            // return an empty version information object
+            return new VersionInformation();
+        }
+    }
+    
+    /**
+     * Downloads the update information for this version
+     */
+    private UpdateInformation downloadUpdateInformation(HudPixelMod logger) {
+        // if the notifications are off
+        if(HudPixelMod.UPDATE_CHANNEL == UpdateChannel.NONE) {
+            // don't download anything, just return an empty update information object
+            return new UpdateInformation();
+        }
+        try {
+            // get the json string
+            String json = this.downloadFileToString(REPOSITORY_URL + "/update.json", logger);
+            // parse it using gson
+            JsonObject updateChannels = this.gson.fromJson(json, JsonObject.class);
+            // select the channel
+            JsonObject mcVersions = updateChannels.get(HudPixelMod.UPDATE_CHANNEL.getName()).getAsJsonObject();
+            // select the Minecraft version and return the parsed result
+            return this.gson.fromJson(mcVersions.get("MC-" + MinecraftForge.MC_VERSION), UpdateInformation.class);
+        } catch (Exception e) {
+            logger.logWarn("Failed to read the Update Information! This doesn't hurt but shouldn't be that way.");
+            // return an empty update information object
+            return new UpdateInformation();
+        }
+    }
+    
+    /**
+     * Check if this version of HudPixel was remotely deactivated.
+     * @param versionInformation The version information containing information about the deactivation
+     */
+    private void checkForDeactivation(VersionInformation versionInformation, HudPixelMod logger) {
+        if(versionInformation.isDeactivated()) {
+            logger.logError("SEVERE ERROR! THIS VERSION OF HUDPIXEL WAS REMOTELY DEACTIVATED! CRASHING THE GAME NOW!");
+            // cause the game to crash
+            HudPixelMod.instance().invokeDeactivation(versionInformation);
+            // Stop this thread
+            Thread.currentThread().stop(new HudPixelDeactivatedException(versionInformation));
+        }
+        
+    }
+    
+    private void checkFileVersions(VersionInformation versionInformation, HudPixelMod logger) {
+        // games.json
+        if(this.versions.get(GAMES_FILE) < versionInformation.getGameVersion()) {
+            // download the new version
+            this.downloadFile(GAMES_FILE, versionInformation.getGameVersion(), logger);
+            // read the file
+            this.readGamesFile(logger);
         }
     }
 }
