@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
+ *
+ * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 package com.palechip.hudpixelmod.components;
 
 import java.util.regex.Matcher;
@@ -5,10 +27,9 @@ import java.util.regex.Pattern;
 
 import net.minecraft.util.EnumChatFormatting;
 
-import com.palechip.hudpixelmod.HudPixelConfig;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.games.Warlords;
 
 public class WarlordsDamageAndHealingCounter implements IComponent {
     public static enum Type {Damage, Healing};
@@ -86,8 +107,13 @@ public class WarlordsDamageAndHealingCounter implements IComponent {
                 // We failed :(
                 return 0;
             }
-         // Get the last occurrence in order to sort out party poopers with all number names
-            String result = m.group(m.groupCount());
+            // save the result
+            String result = m.group();
+            // if there is a second match, we'll use that because the first was an all number username in this case
+            if(m.find()) {
+                result = m.group();
+            }
+            
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
         } catch(Exception e) {
@@ -95,6 +121,21 @@ public class WarlordsDamageAndHealingCounter implements IComponent {
         }
         // We failed :(
         return 0;
+    }
+
+    @Override
+    public String getConfigName() {
+        return "DamageAndHealthCounter";
+    }
+
+    @Override
+    public String getConfigComment() {
+        return "Counts the damage and healing you do in a %game game.";
+    }
+
+    @Override
+    public boolean getConfigDefaultValue() {
+        return true;
     }
 
 }

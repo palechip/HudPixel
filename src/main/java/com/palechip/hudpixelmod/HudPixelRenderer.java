@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
+ *
+ * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 package com.palechip.hudpixelmod;
 
 import java.util.ArrayList;
@@ -10,8 +32,12 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
+import com.palechip.hudpixelmod.uptodate.UpdateInformation;
+import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -42,7 +68,7 @@ public class HudPixelRenderer {
     
     public BoosterDisplay boosterDisplay;
     
-    public HudPixelRenderer(HudPixelUpdateNotifier updater) {
+    public HudPixelRenderer(UpdateNotifier updater) {
         this.boosterDisplay = new BoosterDisplay();
         this.nothingToDisplay = new ArrayList<String>(0);
         // initialize rendering vars
@@ -52,7 +78,7 @@ public class HudPixelRenderer {
     /**
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
-    public void loadRenderingProperties(HudPixelUpdateNotifier updater) {
+    public void loadRenderingProperties(UpdateNotifier updater) {
         this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("right") : false;
         this.renderOnTheBottom = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("bottom") : false;
         Minecraft mc = FMLClientHandler.instance().getClient();
@@ -69,9 +95,9 @@ public class HudPixelRenderer {
         if(HudPixelConfig.displayVersion) {
             this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + HudPixelMod.VERSION);
         }
-        if(updater.isOutOfDate) {
-            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.newVersion);
-            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.downloadLink);
+        if(updater.hasUpdate()) {
+            this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.getUpdateInformation().getLatestVersion());
+            this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.getUpdateInformation().getUpdateLink());
         }
         
     }
@@ -117,7 +143,7 @@ public class HudPixelRenderer {
             boolean isTipAllButton = false;
             
             // normal game display
-            if(HudPixelMod.instance().gameDetector.getCurrentGame() != null) {
+            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             }
             // booster display
@@ -130,7 +156,7 @@ public class HudPixelRenderer {
                 renderStrings = this.results;
             }
             // tip all button with nothing else to display
-            else if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
             } else {
                 // default display
@@ -141,8 +167,8 @@ public class HudPixelRenderer {
                 }
             }
             
-            // should display the tip all button
-            if(HudPixelConfig.displayTipAllButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            // should display the quick load button
+            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
                 isTipAllButton = true;
             }
 
@@ -168,7 +194,7 @@ public class HudPixelRenderer {
                 if(isBoosterDisplay || isTipAllButton) {
                     height -= CHAT_BOX_CORRECTION;
                     if(isTipAllButton) {
-                        height -= boosterDisplay.TIP_ALL_BUTTON_HEIGHT;
+                        height -= boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT;
                     }
                 }
             } else {
@@ -177,11 +203,11 @@ public class HudPixelRenderer {
 
             // render a box for the booster display
             if((isBoosterDisplay && isTipAllButton) || (isTipAllButton && !renderStrings.isEmpty())) {
-                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), width - 2, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), (this.startWidthRight - width) + 4);
+                this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), width - 2, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), (this.startWidthRight - width) + 4);
             } else if(isBoosterDisplay) {
                 this.boosterDisplay.render(width - 2, height - 2, this.startWidthRight, this.startHeightBottom - CHAT_BOX_CORRECTION, width - 2, this.startHeightBottom - CHAT_BOX_CORRECTION, (this.startWidthRight - width) + 4);
             } else if(isTipAllButton) {
-                this.boosterDisplay.render(0, 0, 0, 0, width - 152, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.TIP_ALL_BUTTON_HEIGHT), 150);
+                this.boosterDisplay.render(0, 0, 0, 0, width - 152, this.startHeightBottom - (CHAT_BOX_CORRECTION + boosterDisplay.QUICK_LOAD_BUTTON_HEIGHT), 150);
             }
 
             // render the display

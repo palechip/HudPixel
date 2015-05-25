@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
+ *
+ * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
 package com.palechip.hudpixelmod.detectors;
 
 import com.palechip.hudpixelmod.games.Game;
@@ -12,32 +34,18 @@ public class GameStartStopDetector {
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat messages
         if(!this.isChatMessage(textMessage)) { 
-            if(this.gameDetector.getCurrentGame() != null) {
+            if(!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                 // check for starting
-                if(!this.gameDetector.getCurrentGame().hasGameStarted() && !this.gameDetector.getCurrentGame().getStartMessage().equals(Game.GAME_DETECTION_HELPER)) {
-                    if (textMessage.contains(this.gameDetector.getCurrentGame().getStartMessage())) {
-                        this.gameDetector.getCurrentGame().startGame();
-                    }
-                    // check if we missed the start message
-                    if(this.detectedStartBeforeGameDetection) {
-                        this.detectedStartBeforeGameDetection = false;
+                if(!this.gameDetector.getCurrentGame().hasGameStarted()) {
+                    if (textMessage.contains(this.gameDetector.getCurrentGame().getConfiguration().getStartMessage())) {
                         this.gameDetector.getCurrentGame().startGame();
                     }
                 }
                 // check for ending
                 else {
                     // we don't want guild coins triggering the end message
-                    if (!textMessage.toLowerCase().contains("guild coins") && textMessage.contains(this.gameDetector.getCurrentGame().getEndMessage())) {
+                    if (!textMessage.toLowerCase().contains("guild coins") && textMessage.contains(this.gameDetector.getCurrentGame().getConfiguration().getEndMessage())) {
                         this.gameDetector.getCurrentGame().endGame();
-                    }
-                }
-            }
-            // check if the game started before it was detected (I'm not sure if this is even possible)
-            else if(this.gameDetector.isGameDetectionStarted()) {
-                for(Game game : Game.getGames()) {
-                    if(!game.getStartMessage().isEmpty() && textMessage.contains(game.getStartMessage())) {
-                        this.detectedStartBeforeGameDetection = true;
-                        break;
                     }
                 }
             }
