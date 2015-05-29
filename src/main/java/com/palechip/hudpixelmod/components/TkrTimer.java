@@ -14,7 +14,7 @@ public class TkrTimer implements IComponent {
     private int lap;
     private boolean running = false;
     private long startingTime = 0;
-    private String runningTime = "00:00:000";
+    private String runningTime = "00:00";
 
     private String officialTime = "";
 
@@ -56,9 +56,8 @@ public class TkrTimer implements IComponent {
             long timeDifferenceMinutes = timeDifferenceSeconds / 60;
 
             // translate to our format
-            this.runningTime = ((timeDifferenceMinutes % 60 < 10) ? "0" : "") + timeDifferenceMinutes % 60 + ":" + ((timeDifferenceSeconds % 60 < 10) ? "0" : "") + timeDifferenceSeconds % 60 + ":"+  ((timeDifference % 1000 < 100) ? "0" : "") + ((timeDifference % 1000 < 10) ? "0" : "") + timeDifference % 1000;
+            this.runningTime = (timeDifference < 0 ? "-"  : "") + ((Math.abs(timeDifferenceMinutes % 60) < 10) ? "0" : "") + Math.abs(timeDifferenceMinutes % 60) + ":" + ((Math.abs(timeDifferenceSeconds) % 60 < 10) ? "0" : "") + Math.abs(timeDifferenceSeconds % 60);
         }
-
     }
 
     @Override
@@ -84,25 +83,23 @@ public class TkrTimer implements IComponent {
                     this.startingTime = System.currentTimeMillis();
                 }
                 
-                // accuracy check after the first lap
-                if(lapNo == 1 && (this.lap == 0 || this.lap == 1)) {
+                // accuracy check and correction for the main timer after the first lap
+                if(lapNo == 1 && this.lap == 0 ) {
                     // save the current time
                     long currentTime = System.currentTimeMillis();
                     // save the measured time
                     long measuredTime = currentTime -  this.startingTime;
 
-                    ArrayList<Integer> officialTime = new ArrayList<Integer>(3);
+                    ArrayList<Integer> officialTime = new ArrayList<Integer>(2);
                     // convert the officialTime
-                    for (String s : this.officialTime.split(":")) {
+                    for (String s : textMessage.substring(textMessage.indexOf('(') + 1, textMessage.indexOf(')')).split(":")) {
                         officialTime.add(Integer.valueOf(s));
                     }
                     // convert everything into milliseconds
-                    long officialTimeMilliSeconds = officialTime.get(0) * 60 * 1000 + officialTime.get(1) * 1000 + officialTime.get(2);
+                    long officialTimeMilliSeconds = officialTime.get(0) * 60 * 1000 + officialTime.get(1) * 1000;
                     
                     // correct the main timer
-                    if(this.lap == 0) {
-                        this.startingTime = currentTime - officialTimeMilliSeconds;
-                    }
+                    this.startingTime = currentTime - officialTimeMilliSeconds;
 
                     // the start delay is the difference between our (greater) measured time and the official time
                     this.startDelay = this.startDelay + (measuredTime - officialTimeMilliSeconds);
