@@ -169,7 +169,7 @@ public class HudPixelMod
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(receiveCanceled=true)
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
             //Don't do anything unless we are on Hypixel
