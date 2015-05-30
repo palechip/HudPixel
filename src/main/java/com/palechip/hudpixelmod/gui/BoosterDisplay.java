@@ -178,7 +178,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
             // save the state
             this.isInChatGui = true;
             // activate the quick load button
-            if(HudPixelConfig.displayQuickLoadButton) {
+            if(HudPixelConfig.displayQuickLoadButton && HudPixelMod.instance().renderer.isHUDShown) {
                 this.quickLoadButton.visible = true;
                 this.quickLoadButton.enabled = true;
                 this.quickLoadLock = false;

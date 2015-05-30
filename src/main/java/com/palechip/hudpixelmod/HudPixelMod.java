@@ -79,8 +79,8 @@ public class HudPixelMod
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
     public static final String VERSION = "2.5.0";
-    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.DEV;
-    public static final boolean IS_DEBUGGING = true;
+    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.STABLE;
+    public static final boolean IS_DEBUGGING = false;
 
     private static HudPixelMod instance;
 
@@ -167,7 +167,7 @@ public class HudPixelMod
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(receiveCanceled=true)
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
             //Don't do anything unless we are on Hypixel
