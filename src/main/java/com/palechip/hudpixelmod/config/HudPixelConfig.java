@@ -32,7 +32,6 @@ import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
 
-import net.minecraft.command.CommandTitle;
 import net.minecraftforge.common.config.Configuration;
 
 public class HudPixelConfig {
