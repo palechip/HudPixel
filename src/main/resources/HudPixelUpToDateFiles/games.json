@@ -85,7 +85,7 @@
 		"scoreboardMap": "",
 		"startMessage": "",
 		"endMessage": "",
-		"configCategory": "",
+		"configCategory": "tnt games",
 		"configPrefix": "",
 		"components": []
 	},
@@ -270,7 +270,7 @@
 		"scoreboardMap": "",
 		"startMessage": "",
 		"endMessage": "",
-		"configCategory": "",
+		"configCategory": "arcade games",
 		"configPrefix": "",
 		"components": []
 	},

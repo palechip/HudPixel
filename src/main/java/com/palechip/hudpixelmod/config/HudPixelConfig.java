@@ -32,6 +32,7 @@ import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
 
+import net.minecraft.command.CommandTitle;
 import net.minecraftforge.common.config.Configuration;
 
 public class HudPixelConfig {
@@ -110,15 +111,21 @@ public class HudPixelConfig {
         // create local variables to make the code clearer
         GameManager gameManager = GameManager.getGameManager();
         ComponentsManager componentsManager = gameManager.getComponentsManager();
+        // this is used to have consistent naming for arcade games, tnt games, ...
+        HashMap<String, String> categoryGameNames = new HashMap<String, String>();
         // go through all games
         for(GameConfiguration gameConfig : gameManager.getConfigurations()) {
+            // save the game name for the category
+            if(!categoryGameNames.containsKey(gameConfig.getConfigCategory())) {
+                categoryGameNames.put(gameConfig.getConfigCategory(), gameConfig.getOfficialName());
+            }
             // go through all components of the game
             for(IComponent component : componentsManager.getComponentInstances(gameConfig, true)) {
                 String settingName = gameConfig.getConfigPrefix() + component.getConfigName();
                 // check if we haven't already parsed this setting
                 if(!properties.containsKey(settingName)) {
                     // generate the comment
-                    String comment = component.getConfigComment().replace("%game", gameConfig.getOfficialName());
+                    String comment = component.getConfigComment().replace("%game", categoryGameNames.get(gameConfig.getConfigCategory()));
                     // read (and create if it doesn't exist) the property and add it to the properties map
                     this.properties.put(settingName, this.config.get(gameConfig.getConfigCategory(), settingName, component.getConfigDefaultValue(), comment).getBoolean());
                 }
