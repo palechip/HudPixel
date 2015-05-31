@@ -1,5 +1,5 @@
 {
-	"version": 2,
+	"version": 3,
 	"games": [{
 		"officialName": "Quakecraft",
 		"shortName": "Quake",
@@ -74,7 +74,7 @@
 	},
 	{
 		"officialName": "The TNT Games",
-		"shortName": "TNT Games",
+		"shortName": "TNTGames",
 		"databaseName": "TNTGames",
 		"databaseID": 6,
 		"modID": 5,
