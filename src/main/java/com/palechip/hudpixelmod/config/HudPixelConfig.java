@@ -170,7 +170,7 @@ public class HudPixelConfig {
         if (fallThrough || oldVersion.equals("2")) {
             fallThrough = true;
 
-            // this isn't necessary anymore since it is undon with version 4
+            // this isn't necessary anymore since it is undone with version 4
             //this.config.get(DISPLAY_CATEGORY, "displayTipAllButton", false, "Show a button that runs /tip all.").set(false);
         }
         if (fallThrough || oldVersion.equals("3")) {
