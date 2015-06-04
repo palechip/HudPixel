@@ -54,7 +54,7 @@ public class GameDetector {
     // this means a lobby where you choose the game and not a pre-game lobby
     private boolean isInLobby = false;
     private static final String COMPASS_NAME = "\u00A7aGame Menu \u00A77(Right Click)";
-    private static final String PROFILE_NAME = "\u00A7aYour Profile \u00A77(Right Click)";
+    private static final String PROFILE_NAME = "\u00A7aMy Profile \u00A77(Right Click)";
     private static final String WITHER_STAR_NAME = "\u00A7aLobby Selector \u00A77(Right Click)";
     private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
     private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
