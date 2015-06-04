@@ -90,7 +90,7 @@ public class HudPixelConfigGui extends GuiConfig {
         // create entries in the gameSettings list
         for(String category : categories) {
             // and make add an entry to the game settings list
-            gameSettings.add(new DummyCategoryElement(WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
+            gameSettings.add(new DummyCategoryElement(EnumChatFormatting.GREEN + WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
         }
         
         // add the gameSettings list
