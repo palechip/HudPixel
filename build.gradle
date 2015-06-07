@@ -29,7 +29,7 @@ if (System.getenv().containsKey("BUILD_NUMBER")) {
 }
 
 group= "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "MC-1.8-HudPixelReloaded"
+archivesBaseName = "MC-1.7.10-HudPixelReloaded"
 
 minecraft {
     version = "1.7.10-10.13.2.1291"
