@@ -60,7 +60,7 @@ public class HudPixelConfigGui extends GuiConfig {
         Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
         
         // these categories have to be there always
-        list.add(new DummyCategoryElement("General Settings", "", new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements()));
+        list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "General Settings", "", new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements()));
         // Assemble the fancy controls for the displaySettings
         displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays."), new String[] {"lefttop", "righttop","leftbottom", "rightbottom"}));
         displaySettings.add(new ConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.")));
@@ -70,7 +70,7 @@ public class HudPixelConfigGui extends GuiConfig {
         displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
         displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
         // add the list to the main list
-        list.add(new DummyCategoryElement("Display Settings", "", displaySettings));
+        list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "Display Settings", "", displaySettings));
         
         // Add a button for the current game if there is one
         Game currentGame = HudPixelMod.instance().gameDetector.getCurrentGame();
@@ -90,11 +90,11 @@ public class HudPixelConfigGui extends GuiConfig {
         // create entries in the gameSettings list
         for(String category : categories) {
             // and make add an entry to the game settings list
-            gameSettings.add(new DummyCategoryElement(WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
+            gameSettings.add(new DummyCategoryElement(EnumChatFormatting.GREEN + WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
         }
         
         // add the gameSettings list
-        list.add(new DummyCategoryElement("Game Settings", "", gameSettings));
+        list.add(new DummyCategoryElement(EnumChatFormatting.GREEN + "Game Settings", "", gameSettings));
 
         return list;
     }
