@@ -18,8 +18,18 @@ buildscript {
 apply plugin: 'forge'
 
 version = "2.5.0"
+
+// check we are on Jenkins
+if (System.getenv().containsKey("BUILD_NUMBER")) {
+    // if so, set add the build number to the build
+    version = version + "." + System.getenv("BUILD_NUMBER")
+} else {
+    // otherwise add .local
+    version = version + ".local"
+}
+
 group= "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HudPixelReloaded"
+archivesBaseName = "MC-1.8-HudPixelReloaded"
 
 minecraft {
     version = "1.8-11.14.1.1334"
