@@ -53,6 +53,8 @@ public class UpToDateThread extends Thread{
     private static final String CACHEFOLDER = "HudPixel-Up-To-Date";
     private static final String REPOSITORY_URL = "https://raw.githubusercontent.com/palechip/HudPixelUpToDate/master/";
     
+    // a switch used to make developing easier. In distributions, this is allways false.
+    private static final boolean ALWAYS_EXTRACT = false;
     
     private static final String VERSION_MEMBER = "version";
 
@@ -102,7 +104,7 @@ public class UpToDateThread extends Thread{
         // check if local files exist
         for(String file : files) {
             // if the file doesn't exist or the mod is in debugging mode (debugging mode always extracts the latest versions to reflect recent changes)
-            if(!(new File(configurationDirectory + File.separator + file).exists()) || HudPixelMod.IS_DEBUGGING) {
+            if(!(new File(configurationDirectory + File.separator + file).exists()) || ALWAYS_EXTRACT) {
                 // make sure the directory exists
                 this.configurationDirectory.mkdirs();
                 // extract them from the jar
