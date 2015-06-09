@@ -79,8 +79,8 @@ public class HudPixelMod
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
     public static final String VERSION = "2.5.0";
-    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.STABLE;
-    public static final boolean IS_DEBUGGING = false;
+    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.DEV;
+    public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
