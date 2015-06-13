@@ -1,5 +1,5 @@
 {
-	"version": 3,
+	"version": 4,
 	"games": [{
 		"officialName": "Quakecraft",
 		"shortName": "Quake",
@@ -469,6 +469,22 @@
 		"configCategory": "turbo kart racers",
 		"configPrefix": "kartRacers",
 		"components": ["CoinCounterComponent", "TkrTimer"]
+    },
+    {
+        "officialName": "SkyWars",
+		"shortName": "SkyWars",
+		"databaseName": "UNKNOWN",
+		"databaseID": 51,
+		"modID": 29,
+		"chatTag": "",
+		"bossbarName": "Skywars",
+		"scoreboardName": "Skywars",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": " For a total of",
+		"configCategory": "skywars",
+		"configPrefix": "skywars",
+		"components": ["CoinCounterComponent", "TimerComponent"]
     }
     ],
 	"components": [{
