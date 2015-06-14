@@ -1,5 +1,5 @@
 {
-	"version": 4,
+	"version": 5,
 	"games": [{
 		"officialName": "Quakecraft",
 		"shortName": "Quake",
@@ -473,7 +473,7 @@
     {
         "officialName": "SkyWars",
 		"shortName": "SkyWars",
-		"databaseName": "UNKNOWN",
+		"databaseName": "skywars",
 		"databaseID": 51,
 		"modID": 29,
 		"chatTag": "",
@@ -481,7 +481,7 @@
 		"scoreboardName": "Skywars",
 		"scoreboardMap": "",
 		"startMessage": "The game starts in 1 second!",
-		"endMessage": " For a total of",
+		"endMessage": " You earned a total of",
 		"configCategory": "skywars",
 		"configPrefix": "skywars",
 		"components": ["CoinCounterComponent", "TimerComponent"]
