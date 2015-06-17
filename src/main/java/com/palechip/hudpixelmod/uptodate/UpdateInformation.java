@@ -23,6 +23,7 @@
 package com.palechip.hudpixelmod.uptodate;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.HudPixelProperties;
 
 /**
  * Used to parse the json structure used in update.json
@@ -44,7 +45,7 @@ public class UpdateInformation {
             return this.latest;
         } else {
             // assume that the current version is the latest one
-            return HudPixelMod.VERSION;
+            return HudPixelProperties.VERSION;
         }
     }
 

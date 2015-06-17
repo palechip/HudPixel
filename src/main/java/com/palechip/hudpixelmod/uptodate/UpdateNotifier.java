@@ -28,6 +28,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.HudPixelProperties;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 
@@ -73,14 +74,14 @@ public class UpdateNotifier {
      */
     public boolean isVersionGreater(String version) {
         // check if the versions are equal. In this case we don't need to compare anything
-        if(HudPixelMod.VERSION.equals(version)) {
+        if(HudPixelProperties.VERSION.equals(version)) {
             return false;
         }
 
         try {
             // convert the mod version into an integer array
             ArrayList<Integer> modVersion = new ArrayList<Integer>();
-            for(String s : HudPixelMod.VERSION.split("[.]")) {
+            for(String s : HudPixelProperties.VERSION.split("[.]")) {
                 modVersion.add(Integer.valueOf(s));
             }
             // convert the latest version into an integer array

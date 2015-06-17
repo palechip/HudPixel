@@ -73,13 +73,11 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
-@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory")
+@Mod(modid = HudPixelMod.MODID, version = HudPixelProperties.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory")
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     public static final String NAME = "HudPixel Reloaded";
-    public static final String VERSION = "2.5.0";
-    public static final UpdateChannel UPDATE_CHANNEL = UpdateChannel.DEV;
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
@@ -117,6 +115,9 @@ public class HudPixelMod
             new UpToDateThread(event.getModConfigurationDirectory());
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
+            // log the full version
+            this.logInfo("Used HudPixel Version: " + HudPixelProperties.VERSION);
+            
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
             this.apiQueue = new Queue();

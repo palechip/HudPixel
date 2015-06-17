@@ -93,7 +93,7 @@ public class HudPixelRenderer {
         
         this.defaultRenderingStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion) {
-            this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + HudPixelMod.VERSION);
+            this.defaultRenderingStrings.add("HudPixel RL " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
         }
         if(updater.hasUpdate()) {
             this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.getUpdateInformation().getLatestVersion());

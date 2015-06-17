@@ -45,6 +45,7 @@ import net.minecraftforge.common.config.Configuration;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.HudPixelProperties;
 import com.palechip.hudpixelmod.games.GameManager;
 
 public class UpToDateThread extends Thread{
@@ -256,7 +257,7 @@ public class UpToDateThread extends Thread{
     private VersionInformation downloadVersionInformation(HudPixelMod logger) {
         try {
             // get the json string
-            String json = this.downloadFileToString(REPOSITORY_URL + "/version/v" + HudPixelMod.VERSION + ".json", logger);
+            String json = this.downloadFileToString(REPOSITORY_URL + "/version/v" + HudPixelProperties.VERSION + ".json", logger);
             // parse it using gson
             return this.gson.fromJson(json, VersionInformation.class);
         } catch (Exception e) {
@@ -271,7 +272,7 @@ public class UpToDateThread extends Thread{
      */
     private UpdateInformation downloadUpdateInformation(HudPixelMod logger) {
         // if the notifications are off
-        if(HudPixelMod.UPDATE_CHANNEL == UpdateChannel.NONE) {
+        if(HudPixelProperties.UPDATE_CHANNEL == UpdateChannel.NONE) {
             // don't download anything, just return an empty update information object
             return new UpdateInformation();
         }
@@ -281,7 +282,7 @@ public class UpToDateThread extends Thread{
             // parse it using gson
             JsonObject updateChannels = this.gson.fromJson(json, JsonObject.class);
             // select the channel
-            JsonObject mcVersions = updateChannels.get(HudPixelMod.UPDATE_CHANNEL.getName()).getAsJsonObject();
+            JsonObject mcVersions = updateChannels.get(HudPixelProperties.UPDATE_CHANNEL.getName()).getAsJsonObject();
             // select the Minecraft version and return the parsed result
             return this.gson.fromJson(mcVersions.get("MC-" + MinecraftForge.MC_VERSION), UpdateInformation.class);
         } catch (Exception e) {

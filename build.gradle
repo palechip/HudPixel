@@ -17,15 +17,19 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "2.5.0"
+version = "2.5.1"
 
 // check we are on Jenkins
 if (System.getenv().containsKey("BUILD_NUMBER")) {
     // if so, set add the build number to the build
     version = version + "." + System.getenv("BUILD_NUMBER")
+    // set the update channel to dev
+    project.ext.updateChannel = 'dev'
 } else {
     // otherwise add .local
     version = version + ".local"
+    // set the update channel to none
+    project.ext.updateChannel = 'none'
 }
 
 group= "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -65,9 +69,18 @@ processResources
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
+    
+    // fill HudPixelProperties
+    from(sourceSets.main.resources.srcDirs) {
+        include 'hudpixel.properties'
         
-    // copy everything else, thats not the mcmod.info
+        // replace the version and the update channel
+        expand 'version':project.version, 'channel':project.ext.updateChannel
+    }
+    
+    // copy everything else, thats not the mcmod.info and not the hudpixel.properties
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+        exclude 'hudpixel.properties'
     }
 }
