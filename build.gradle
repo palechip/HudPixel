@@ -27,7 +27,7 @@ version = "2.5.1"
 
 
 // define a property saving the mc version
-project.ext.mcVersion = "1.8"
+project.ext.mcVersion = "1.7.10"
 
 // is this a recommended build
 project.ext.recommended = false
