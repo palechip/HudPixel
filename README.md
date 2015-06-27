@@ -7,7 +7,7 @@
 This mod is open source and contributions are always welcome.
 
 ### Build server
-There is a buildserver located at http://palechip.com:8080. It contains to the day builds of the repository. However please keep in mind that the builds there don't have to be as stable as the recommended builds. These builds are primarily aimed at testers.
+There is a buildserver located at http://palechip.com. It contains to the day builds of the repository. However please keep in mind that the builds there don't have to be as stable as the recommended builds. These builds are primarily aimed at testers.
 
 #### How to build/compile the mod
  1. Make sure you have the Java Development Kit (jdk) installed

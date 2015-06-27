@@ -33,6 +33,7 @@ import com.palechip.hudpixelmod.HudPixelProperties;
 public class UpdateInformation {
     private String latest;
     private String updateLink;
+    private String updateLinkDisplay;
     private String updateReason;
 
     /**
@@ -60,6 +61,19 @@ public class UpdateInformation {
         } else {
             // return a default link
             return "https://github.com/palechip/HudPixel/releases";
+        }
+    }
+
+    /**
+     * Get the message which should be displayed instead of the link. Used because the Jenkins links are so long. 
+     * @return A String representation of the display messag. 
+     */
+    public String getupdateLinkDisplay() {
+        // check if there is a valid value
+        if(this.updateLinkDisplay != null && !this.updateLinkDisplay.isEmpty()) {
+            return this.updateLinkDisplay;
+        } else {
+            return this.getUpdateLink();
         }
     }
 

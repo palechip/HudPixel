@@ -60,7 +60,7 @@ public class UpdateNotifier {
                 // send the message
                 new ChatMessageComposer("Update available: " , EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updateInformation.getLatestVersion(), EnumChatFormatting.GREEN)).send();
                 new ChatMessageComposer(this.updateInformation.getUpdateReason() , EnumChatFormatting.GOLD).addFormatting(EnumChatFormatting.ITALIC).send();
-                new ChatMessageComposer("Download here: ", EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updateInformation.getUpdateLink(), EnumChatFormatting.YELLOW).makeLink(this.updateInformation.getUpdateLink())).send();
+                new ChatMessageComposer("Download here: ", EnumChatFormatting.DARK_PURPLE).appendMessage(new ChatMessageComposer(this.updateInformation.getupdateLinkDisplay(), EnumChatFormatting.YELLOW).makeLink(this.updateInformation.getUpdateLink())).send();
                 // also update rendering vars to make sure it notices the update
                 HudPixelMod.instance().renderer.loadRenderingProperties(this);
                 

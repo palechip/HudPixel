@@ -1,6 +1,10 @@
+import org.ajoberstar.grgit.*
+
 buildscript {
     repositories {
         mavenCentral()
+        // needed for grgit
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -12,6 +16,8 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        // git plugin
+        classpath 'org.ajoberstar:grgit:1.3.0'
     }
 }
 
@@ -19,17 +25,42 @@ apply plugin: 'forge'
 
 version = "2.5.1"
 
+
+// define a property saving the mc version
+project.ext.mcVersion = "1.8"
+
+// is this a recommended build
+project.ext.recommended = false
+
+//define a property holding the message which can hide the link. Empty = link shown
+project.ext.linkDisplay = ""
+
 // check we are on Jenkins
 if (System.getenv().containsKey("BUILD_NUMBER")) {
     // if so, set add the build number to the build
     version = version + "." + System.getenv("BUILD_NUMBER")
-    // set the update channel to dev
-    project.ext.updateChannel = 'dev'
+    
+    // separate recommended and dev builds
+    if(project.ext.recommended) {
+        // set the update channel to stable
+        project.ext.updateChannel = 'stable'
+        // set the update link
+        project.ext.link = 'http://bit.ly/HudPixel'
+    } else {
+        // set the update channel to dev
+        project.ext.updateChannel = 'dev'
+        // set the update link
+        project.ext.link = System.getenv("BUILD_URL")
+        // hide the long link
+        project.ext.linkDisplay = "The Jenkins Build Server"
+    }
 } else {
     // otherwise add .local
     version = version + ".local"
     // set the update channel to none
     project.ext.updateChannel = 'none'
+    // set the update link to the default
+    project.ext.link = 'http://bit.ly/HudPixel'
 }
 
 group= "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -83,4 +114,36 @@ processResources
         exclude 'mcmod.info'
         exclude 'hudpixel.properties'
     }
+}
+
+task('updateHudPixelUpToDate') << {
+    // create the credentials for palechip/HudPixelUpToDate
+    def creds = new Credentials(username:'HudPixelBot',password:System.getenv("BOT_PASSWORD"))
+    // Clones or opens the HudPixelUpToDate repo
+    def grgit
+    if(file('cache/HudPixelUpToDate').exists()) {
+        grgit = Grgit.open(dir: 'cache/HudPixelUpToDate',creds: creds)
+        grgit.pull()
+    } else {
+        grgit = Grgit.clone(dir: 'cache/HudPixelUpToDate', uri: 'https://github.com/palechip/HudPixelUpToDate.git',credentials: creds)
+    }
+    // copy the relevant files
+    def versionJsonName = 'v' +project.version + '.json'
+    copy {
+        from 'uptodate'
+        into 'cache/HudPixelUpToDate'
+        // rename the files correctly
+        rename 'version.json', versionJsonName
+        rename 'update.json', project.ext.mcVersion + '-' + project.ext.updateChannel + '.json'
+        // expand all values
+        expand 'version':project.version, 'link':project.ext.link, 'linkDisplay':project.ext.linkDisplay
+    }
+    // Add the new file, as it isn't already tracked
+    grgit.add(patterns: ['version/' + versionJsonName])
+    // commit the changes
+    def  hudPixelBot = new Person('HudPixelBot', 'HudPixelBot@users.noreply.github.com')
+    def commitMessage = 'Update UpdateInformation for MC: ' + project.ext.mcVersion + ' Channel: ' + project.ext.updateChannel
+    grgit.commit(all: true, author: hudPixelBot, committer: hudPixelBot, message: commitMessage)
+    //Push the changes
+    grgit.push()
 }

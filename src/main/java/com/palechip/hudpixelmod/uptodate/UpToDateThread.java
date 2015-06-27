@@ -277,14 +277,10 @@ public class UpToDateThread extends Thread{
             return new UpdateInformation();
         }
         try {
-            // get the json string
-            String json = this.downloadFileToString(REPOSITORY_URL + "/update.json", logger);
-            // parse it using gson
-            JsonObject updateChannels = this.gson.fromJson(json, JsonObject.class);
-            // select the channel
-            JsonObject mcVersions = updateChannels.get(HudPixelProperties.UPDATE_CHANNEL.getName()).getAsJsonObject();
+            // get the json string for the matching mc version and update channel
+            String json = this.downloadFileToString(REPOSITORY_URL + "/" + MinecraftForge.MC_VERSION + "-" + HudPixelProperties.UPDATE_CHANNEL.getName() + ".json", logger);
             // select the Minecraft version and return the parsed result
-            return this.gson.fromJson(mcVersions.get("MC-" + MinecraftForge.MC_VERSION), UpdateInformation.class);
+            return this.gson.fromJson(json, UpdateInformation.class);
         } catch (Exception e) {
             logger.logWarn("Failed to read the Update Information! This doesn't hurt but shouldn't be that way.");
             // return an empty update information object
