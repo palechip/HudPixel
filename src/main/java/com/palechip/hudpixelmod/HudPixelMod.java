@@ -41,7 +41,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.api.interaction.Queue;
-import com.palechip.hudpixelmod.chat.LobbyCommandAutoCompleter;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
@@ -101,7 +100,6 @@ public class HudPixelMod
     private KeyBinding openConfigGui;
     private KeyBinding debugKey; // A key used to bind some debugging functionality
 
-    private LobbyCommandAutoCompleter lobbyCommandConfirmer;
     private WarlordsDamageChatFilter warlordsChatFilter;
 
     @EventHandler
@@ -139,7 +137,6 @@ public class HudPixelMod
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
         this.renderer = new HudPixelRenderer(this.updateNotifier);
-        this.lobbyCommandConfirmer = new LobbyCommandAutoCompleter();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
@@ -190,9 +187,6 @@ public class HudPixelMod
 
                 // and the booster display needs it as well
                 this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-
-                //auto completion of /lobby
-                this.lobbyCommandConfirmer.onChatReceived(event);
 
                 //send event to Warlords damage chat disabler
                 // NOT NEEDED IT 1.7.10
