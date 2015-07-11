@@ -239,7 +239,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
     public void render(int rectX1, int rectY1, int rectX2, int rectY2, int buttonX, int buttonY, int buttonWidth) {
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // Draw the semi-transparent background
-            Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1610612736);
+            Gui.drawRect(rectX1, rectY1, rectX2, rectY2, 1879048192);
         }
         if(HudPixelConfig.displayQuickLoadButton) {
             // move the quick load button
