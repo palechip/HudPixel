@@ -89,14 +89,18 @@ public class BoosterDisplay implements BoosterResponseCallback{
         ArrayList<String> newRenderingStrings = new ArrayList<String>();
         newRenderingStrings.add(TITLE + (isLoading ? "(Loading...)" : (hasFailed ? "(Loading failed!)" : "")));
 
+        ArrayList<Booster> tippedBoostersCache = new ArrayList<Booster>(this.tippedBoosters.size());
         // clean tippedBoosters
         for(Booster booster : this.tippedBoosters) {
-            // if it is no longer tipped (because the half hour is over)
-            if(!booster.isTipped()) {
-                // remove it from the array making it tippable again
-                tippedBoosters.remove(booster);
+            // if the booster is still tipped
+            if(booster.isTipped()) {
+                // re-add it to the new array
+                tippedBoostersCache.add(booster);
             }
         }
+        
+        // replace the array
+        this.tippedBoosters = tippedBoostersCache;
 
         for (Booster booster : activeBoostersCache) {
             // Check if this booster was tipped while it wasn't loaded by the display
