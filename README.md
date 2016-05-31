@@ -1,8 +1,8 @@
 # HudPixelExtended
 ### An unofficial client-side Minecraft modification designed for the Hypixel Network.
 
-**Check out the original version by  [palechip](https://github.com/palechip/HudPixel).
-Check out the ported version (for Minecraft 1.8.9/1.9) by [PixelModders/Eladka](https://github.com/PixelModders/HudPixel).**
+Check out the original version by  [palechip](https://github.com/palechip/HudPixel).
+Check out the ported version (for Minecraft 1.8.9/1.9) by [PixelModders/Eladka](https://github.com/PixelModders/HudPixel).
 
 #### Contributing
 This mod is open source and contributions are always welcome.
