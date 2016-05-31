@@ -27,14 +27,16 @@
 
 package de.unaussprechlich.hudpixelextended;
 
-import de.unaussprechlich.hudpixelextended.fancychat.FancyChatEventHandler;
+import de.unaussprechlich.hudpixelextended.util.HudPixelExtendedEventHandler;
+import de.unaussprechlich.hudpixelextended.newcomponents.OnlineFriendsComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class HudPixelExtended {
 
     private static HudPixelExtended hudPixelExtendedInstance = null;
-    private FancyChatEventHandler fancyChatEventHandler = new FancyChatEventHandler();
+    private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
+    public static OnlineFriendsComponent onlineFriends = new OnlineFriendsComponent();
 
     private HudPixelExtended(){
 
@@ -51,8 +53,8 @@ public class HudPixelExtended {
 
     public void setup(){
 
-        MinecraftForge.EVENT_BUS.register(fancyChatEventHandler);
-        FMLCommonHandler.instance().bus().register(fancyChatEventHandler);
+        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
+        FMLCommonHandler.instance().bus().register(hudPixelExtendedEventHandler);
 
     }
 }

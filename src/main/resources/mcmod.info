@@ -1,14 +1,14 @@
 [
 {
-  "modid": "hudpixel",
-  "name": "HudPixel Reloaded",
+  "modid": "hudpixelextended",
+  "name": "HudPixel Extended",
   "description": "Unofficial Client Mod for the Hypixel Network.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://github.com/palechip/HudPixel",
-  "updateUrl": "https://github.com/palechip/HudPixel/releases",
-  "authorList": ["palechip", "Michaelmvv", "minimonke", "mmxw11"],
-  "credits": "Created by palechip",
+  "url": "https://github.com/unaussprechlich/HudPixelExtended",
+  "updateUrl": "https://github.com/unaussprechlich/HudPixelExtended",
+  "authorList": ["palechip", "Michaelmvv", "minimonke", "mmxw11", "unaussprechlich" ],
+  "credits": "Created by unaussprechlich",
   "logoFile": "hudpixelLogo.png",
   "screenshots": [],
   "dependencies": []

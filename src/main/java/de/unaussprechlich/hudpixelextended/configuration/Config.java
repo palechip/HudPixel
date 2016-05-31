@@ -27,7 +27,8 @@ package de.unaussprechlich.hudpixelextended.configuration;
 public class Config {
 
     public static boolean isDebuging = true;
-    public static boolean isPingComponent = true;
+    public static boolean isPingShown = true;
 
 
+    public static boolean isFpsShown = true;
 }

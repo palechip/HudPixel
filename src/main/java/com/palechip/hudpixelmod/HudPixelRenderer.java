@@ -27,9 +27,12 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
 import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
+import de.unaussprechlich.hudpixelextended.configuration.Config;
+import de.unaussprechlich.hudpixelextended.newcomponents.FpsComponent;
+import de.unaussprechlich.hudpixelextended.newcomponents.PingComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -90,7 +93,7 @@ public class HudPixelRenderer {
             this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.getUpdateInformation().getLatestVersion());
             this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.getUpdateInformation().getupdateLinkDisplay());
         }
-        
+
     }
     
     /**
@@ -102,6 +105,8 @@ public class HudPixelRenderer {
         ScaledResolution res = new ScaledResolution(mc);
         this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
+
+        updateDefaultRenderStrings();
         
         // check the result timer
         if(this.results != null) {
@@ -109,6 +114,14 @@ public class HudPixelRenderer {
                 this.results = null;
             }
         }
+    }
+
+    private void updateDefaultRenderStrings(){
+        ArrayList<String> bufferStrings = new ArrayList<String>();
+        if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelExtended " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
+        if(Config.isPingShown)              bufferStrings.add(PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)               bufferStrings.add(FpsComponent.getFps());
+        this.defaultRenderingStrings = bufferStrings;
     }
     
     /**
@@ -122,10 +135,11 @@ public class HudPixelRenderer {
     
     /**
      * This renders the entire display
+     * TODO: this is shit .... maybe i should rewrite the hudpixel rendersystem
      */
     public void onRenderTick() {
         Minecraft mc = FMLClientHandler.instance().getClient();
-        if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
+        if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiIngameMenu) && this.isHUDShown) {
             FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
             int width;
             int height;
@@ -138,7 +152,7 @@ public class HudPixelRenderer {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             }
             // booster display
-            else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            else if(mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
                 isBoosterDisplay = true;
             }
@@ -147,7 +161,7 @@ public class HudPixelRenderer {
                 renderStrings = this.results;
             }
             // tip all button with nothing else to display
-            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
             } else {
                 // default display
@@ -159,7 +173,7 @@ public class HudPixelRenderer {
             }
             
             // should display the quick load button
-            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 isTipAllButton = true;
             }
 

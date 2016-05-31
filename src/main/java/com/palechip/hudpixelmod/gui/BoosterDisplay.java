@@ -22,17 +22,6 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.gui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
@@ -40,8 +29,17 @@ import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.chat.BoosterQueueCommandParser;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.games.GameManager;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoosterDisplay implements BoosterResponseCallback{
     private static final int REQUEST_COOLDOWN = 30000; // = 30s
@@ -172,13 +170,13 @@ public class BoosterDisplay implements BoosterResponseCallback{
     }
     
     /**
-     * Detects when GuiChat is opened or left and if the boosters need to be refreshed.
+     * Detects when GuiIngameMenu is opened or left and if the boosters need to be refreshed.
      */
     public void onClientTick() {
         Minecraft mc = FMLClientHandler.instance().getClient();
         
-        // if the GuiChat was just entered in a lobby
-        if((mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui)) {
+        // if the GuiIngameMenu was just entered in a lobby
+        if((mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && !this.isInChatGui)) {
             // save the state
             this.isInChatGui = true;
             // activate the quick load button
@@ -197,8 +195,8 @@ public class BoosterDisplay implements BoosterResponseCallback{
             this.requestBoosters();
         }
         
-        // if the user left the GuiChat
-        if(!(mc.currentScreen instanceof GuiChat)) {
+        // if the user left the GuiIngameMenu
+        if(!(mc.currentScreen instanceof GuiIngameMenu)) {
             // save the state
             this.isInChatGui = false;
             // hide the button
@@ -213,7 +211,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
      */
     public void onInitGui(InitGuiEvent event) {
         // only if we are in the chat
-        if(event.gui instanceof GuiChat) {
+        if(event.gui instanceof GuiIngameMenu) {
             // inject it
             event.buttonList.add(this.quickLoadButton);
         }
@@ -224,7 +222,7 @@ public class BoosterDisplay implements BoosterResponseCallback{
      * @param event contains information about which button was press
      */
     public void onGuiActionPerformed(ActionPerformedEvent event) {
-        if(event.gui instanceof GuiChat && event.button.id == this.quickLoadButton.id && !this.quickLoadLock) {
+        if(event.gui instanceof GuiIngameMenu && event.button.id == this.quickLoadButton.id && !this.quickLoadLock) {
             // Only let the button fire once. Then you have to reopen the chat gui.
             this.quickLoadLock = true;
             this.quickLoadButton.enabled = false;

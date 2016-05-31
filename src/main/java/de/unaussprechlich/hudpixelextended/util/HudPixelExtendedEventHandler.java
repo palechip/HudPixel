@@ -25,23 +25,32 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package de.unaussprechlich.hudpixelextended.fancychat;
+package de.unaussprechlich.hudpixelextended.util;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import de.unaussprechlich.hudpixelextended.HudPixelExtended;
 import de.unaussprechlich.hudpixelextended.configuration.Config;
+import de.unaussprechlich.hudpixelextended.fancychat.FancyChat;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class FancyChatEventHandler {
+public class HudPixelExtendedEventHandler {
 
     @SubscribeEvent
     public void onGuiShow(GuiOpenEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if(HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+            if(HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().openGui();
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
+                    System.out.println("FRIENDLIST -> updaten bitte");
+                    HudPixelExtended.onlineFriends.requireUpdate=true;
+                }
             } else if(Config.isDebuging){
                 FancyChat.getInstance().openGui();
             }
@@ -55,8 +64,9 @@ public class FancyChatEventHandler {
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+            if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onChat(e);
+                HudPixelExtended.onlineFriends.onChat(e);
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onChat(e);
 
@@ -71,8 +81,11 @@ public class FancyChatEventHandler {
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+            if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onClientTick();
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
+                    HudPixelExtended.onlineFriends.onClientTick();
+                }
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onClientTick();
             }
@@ -86,8 +99,11 @@ public class FancyChatEventHandler {
     public void onRenderTick(TickEvent.RenderTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+            if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onRenderTick();
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
+                    HudPixelExtended.onlineFriends.renderOnlineFriends();
+                }
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onRenderTick();
             }

@@ -59,12 +59,10 @@ import org.lwjgl.input.Keyboard;
 public class HudPixelMod
 {
     public static final String MODID = "hudpixelextended";
-    static final String NAME = "HudPixel Reloaded";
+    static final String NAME = "HudPixel Extended";
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
-
-
 
     private Logger LOGGER;
     public HudPixelConfig CONFIG;

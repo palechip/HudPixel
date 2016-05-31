@@ -24,9 +24,10 @@ package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
-import de.unaussprechlich.hudpixelextended.newcomponents.PingComponent;
 import com.palechip.hudpixelmod.util.GameType;
 import de.unaussprechlich.hudpixelextended.configuration.Config;
+import de.unaussprechlich.hudpixelextended.newcomponents.FpsComponent;
+import de.unaussprechlich.hudpixelextended.newcomponents.PingComponent;
 
 import java.util.ArrayList;
 
@@ -76,10 +77,10 @@ public class Game {
     public void setupNewGame() {
         this.renderStrings.clear();
 
-        // adds the pingComponent if isPingComponent
-        if(Config.isPingComponent){
-            this.renderStrings.add(PingComponent.getStaticRenderingString());
-        }
+        // adds the pingComponent if isPingShown
+        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)      this.renderStrings.add(FpsComponent.getFps());
+
 
         for(IComponent component : this.components) {
             component.setupNewGame();
@@ -113,6 +114,11 @@ public class Game {
     // this is called even if the game hasn't started
     public void updateRenderStrings() {
         this.renderStrings.clear();
+
+        // adds the pingComponent if isPingShown
+        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)     this.renderStrings.add(FpsComponent.getFps());
+
         // add information about the game status for debug reasons
         if(HudPixelMod.IS_DEBUGGING) {
             renderStrings.add(this.configuration.getShortName() + " " + (this.hasStarted ? "started" : "not started"));

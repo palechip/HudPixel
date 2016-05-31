@@ -56,7 +56,7 @@ public class FancyChat {
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
     private static final long displayTimeMs = 15000;
     // [SETTING] the offset between each chatline (in ms)
-    static final int RENDERING_HEIGHT_OFFSET = 9;
+    public static final int RENDERING_HEIGHT_OFFSET = 9;
     // [SETTING] the with of the fancy chat overlay
     public static final int FIELD_WIDTH = 325;
     // [SETTING] the with of the fancy chat overlay
@@ -100,7 +100,7 @@ public class FancyChat {
     /**
      * Fired by the onRenderTick event @ HudPixelMod.class
      */
-    void onRenderTick() {
+    public void onRenderTick() {
 
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
@@ -133,7 +133,7 @@ public class FancyChat {
      *
      * @firedBY -> HudPixelMod.onGuiShown() -> EVENT
      */
-    void openGui() {
+    public void openGui() {
         scroll = MAX_SCROLLIST_LINES;
     }
 
@@ -141,7 +141,7 @@ public class FancyChat {
      * Fired by the onClientTick event @ HudPixelMod.class
      * updates all the FancyChatObjects and delete them if they are expired
      */
-    void onClientTick() {
+    public void onClientTick() {
 
         // fires the handler for the mouse input and process the scroll-height
         if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
@@ -175,7 +175,7 @@ public class FancyChat {
      *
      * @param e The chat event
      */
-    void onChat(ClientChatReceivedEvent e) {
+    public void onChat(ClientChatReceivedEvent e) {
         String message = e.message.getUnformattedText();
 
         // [IF] it is a partyinventation
