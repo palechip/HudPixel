@@ -91,18 +91,21 @@ public class OnlineFriendsComponent {
                 }
 
             //checks if the messae is not the friendlist-header and if the player is not offline
-            } else if (!m.contains(IS_CURRENTLY_OFFLINE) && !m.startsWith(FRIENDS_LIST_START)) {
-                chatParser(m);
-                nextPageCounter++;
+            } else if(isFriendList) {
+                if (!(m.contains(IS_CURRENTLY_OFFLINE)) && !(m.startsWith(FRIENDS_LIST_START))) {
+                    chatParser(m);
+                    nextPageCounter++;
 
-                //if there is are more players online, than the first page shows the process runs again
-                if (nextPageCounter == 8) {
-                    nextRequest = true;
-                    nextPageCounter = 0;
+                    //if there is are more players online, than the first page shows the process runs again
+                    if (nextPageCounter >= 8) {
+                        nextRequest = true;
+                        nextPageCounter = 0;
+                    }
                 }
             }
+            // deletes the message
+            e.setCanceled(true);
         }
-        e.setCanceled(true);
     }
 
 
@@ -135,7 +138,6 @@ public class OnlineFriendsComponent {
     public void onClientTick() {
         if (requireUpdate) {
             if (System.currentTimeMillis() > (lastUpdate + UPDATE_DELAY)) {
-                System.out.println("FRIENDLIST -> updaten: machen wir :D");
                 updateOnlineFriends();
                 requireUpdate = false;
             }
@@ -143,6 +145,7 @@ public class OnlineFriendsComponent {
             if (System.currentTimeMillis() > (lastRequest + REQUEST_DELAY)) {
                 page++;
                 nextRequest = false;
+                friendListExpected = true;
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/f list " + page);
             }
         }
@@ -183,8 +186,8 @@ public class OnlineFriendsComponent {
         if (singleWords[3].equalsIgnoreCase("a")) {
             gameType = singleWords[4];
             //needed to add support for games like Crazy Walls who are written in two words
-            for (int i = 5; i <= singleWords.length; i++) {
-                gameType += singleWords[i];
+            for (int i = 5; i < singleWords.length; i++) {
+                gameType += " " + singleWords[i];
             }
 
         // if the player is in housing
