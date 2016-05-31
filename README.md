@@ -1,13 +1,11 @@
-# HudPixel Mod
+# HudPixelExtended
 ### An unofficial client-side Minecraft modification designed for the Hypixel Network.
 
-**Check the [Forum Thread](http://hypixel.net/threads/client-mod-hudpixel-reloaded-overlay-with-extra-information.204572/) for more information.**
+**Check out the original version by  [palechip](https://github.com/palechip/HudPixel).**
+**Check out the ported version (for Minecraft 1.8.9/1.9) by [PixelModders/Eladka](https://github.com/PixelModders/HudPixel).**
 
 #### Contributing
 This mod is open source and contributions are always welcome.
-
-### Build server
-There is a buildserver located at http://palechip.com. It contains to the day builds of the repository. However please keep in mind that the builds there don't have to be as stable as the recommended builds. These builds are primarily aimed at testers.
 
 #### How to build/compile the mod
  1. Make sure you have the Java Development Kit (jdk) installed
