@@ -1,5 +1,3 @@
-package de.unaussprechlich.configuration;
-
 /******************************************************************************
  * HudPixelExtended (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the
  * Hypixel Network.
@@ -24,8 +22,11 @@ package de.unaussprechlich.configuration;
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
+package de.unaussprechlich.hudpixelextended.configuration;
+
 public class Config {
 
+    public static boolean isDebuging = true;
     public static boolean isPingComponent = true;
 
 

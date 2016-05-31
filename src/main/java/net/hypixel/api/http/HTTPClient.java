@@ -5,7 +5,6 @@
 package net.hypixel.api.http;
 
 import com.google.gson.Gson;
-
 import net.hypixel.api.util.Callback;
 
 import java.io.BufferedReader;

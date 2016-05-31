@@ -1,0 +1,100 @@
+/******************************************************************************
+ * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
+ * an unofficial Minecraft Mod for the Hypixel Network.
+ * <p>
+ * Original version by palechip (github.com/palechip/HudPixel)
+ * "Reloaded" version by PixelModders -> Eladkay (github.com/PixelModders/HudPixel)
+ * <p>
+ * Copyright (c) 2016 unaussprechlich and contributors
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *******************************************************************************/
+
+package de.unaussprechlich.hudpixelextended.fancychat;
+
+import com.palechip.hudpixelmod.HudPixelMod;
+import de.unaussprechlich.hudpixelextended.configuration.Config;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+public class FancyChatEventHandler {
+
+    @SubscribeEvent
+    public void onGuiShow(GuiOpenEvent e) {
+        try {
+            //Don't do anything unless we are on Hypixel
+            if(HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+                FancyChat.getInstance().openGui();
+            } else if(Config.isDebuging){
+                FancyChat.getInstance().openGui();
+            }
+        } catch (Exception ex) {
+            HudPixelMod.instance().logWarn("[Extended] An exception occured in onGuiShow(). Stacktrace below.");
+            ex.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent(receiveCanceled=true)
+    public void onChatMessage(ClientChatReceivedEvent e) {
+        try {
+            //Don't do anything unless we are on Hypixel
+            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+                FancyChat.getInstance().onChat(e);
+            } else if(Config.isDebuging){
+                FancyChat.getInstance().onChat(e);
+
+            }
+        } catch (Exception ex) {
+            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            ex.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent(receiveCanceled=true)
+    public void onClientTick(TickEvent.ClientTickEvent e) {
+        try {
+            //Don't do anything unless we are on Hypixel
+            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+                FancyChat.getInstance().onClientTick();
+            } else if(Config.isDebuging){
+                FancyChat.getInstance().onClientTick();
+            }
+        } catch (Exception ex) {
+            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            ex.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent(receiveCanceled=true)
+    public void onRenderTick(TickEvent.RenderTickEvent e) {
+        try {
+            //Don't do anything unless we are on Hypixel
+            if (HudPixelMod.instance().getHypixelDetector().isHypixelNetwork) {
+                FancyChat.getInstance().onRenderTick();
+            } else if(Config.isDebuging){
+                FancyChat.getInstance().onRenderTick();
+            }
+        } catch (Exception ex) {
+            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            ex.printStackTrace();
+        }
+    }
+
+}

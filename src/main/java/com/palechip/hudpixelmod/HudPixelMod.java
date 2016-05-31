@@ -22,24 +22,6 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
-import net.minecraftforge.common.MinecraftForge;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
@@ -48,17 +30,15 @@ import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.GameManager;
-import com.palechip.hudpixelmod.stats.BlitzStatsDisplayer;
-import com.palechip.hudpixelmod.uptodate.HudPixelDeactivatedException;
-import com.palechip.hudpixelmod.uptodate.UpToDateThread;
-import com.palechip.hudpixelmod.uptodate.UpdateChannel;
-import com.palechip.hudpixelmod.uptodate.UpdateInformation;
-import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
-import com.palechip.hudpixelmod.uptodate.VersionInformation;
-import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import com.palechip.hudpixelmod.uptodate.*;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-
+import de.unaussprechlich.hudpixelextended.HudPixelExtended;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -71,17 +51,22 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 @Mod(modid = HudPixelMod.MODID, version = HudPixelProperties.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory")
 public class HudPixelMod
 {
-    public static final String MODID = "hudpixel";
-    public static final String NAME = "HudPixel Reloaded";
+    public static final String MODID = "hudpixelextended";
+    static final String NAME = "HudPixel Reloaded";
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
-    public Logger LOGGER;
+
+
+    private Logger LOGGER;
     public HudPixelConfig CONFIG;
     public UpdateNotifier  updateNotifier;
     public HudPixelRenderer renderer;
@@ -95,7 +80,7 @@ public class HudPixelMod
     private GameStartStopDetector gameStartStopDetector;
 
     // key related vars
-    public static final String KEY_CATEGORY = "HudPixel Mod";
+    private static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
     private KeyBinding openConfigGui;
     private KeyBinding debugKey; // A key used to bind some debugging functionality
@@ -131,6 +116,9 @@ public class HudPixelMod
         // register this class as an event handler
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
+
+        // setup HudPixelExtended
+        HudPixelExtended.getInstance().setup();
 
         // initialize stuff
         this.hypixelDetector = new HypixelNetworkDetector();
@@ -350,6 +338,15 @@ public class HudPixelMod
         if(IS_DEBUGGING) {
             this.LOGGER.info("[DEBUG] "  + s);
         }
+    }
+
+
+    public HypixelNetworkDetector getHypixelDetector() {
+        return hypixelDetector;
+    }
+
+    public Logger getLOGGER() {
+        return LOGGER;
     }
 
     public void logInfo(String s) {
