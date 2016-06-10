@@ -1,3 +1,9 @@
+package de.unaussprechlich.hudpixelextended.statsviewer.msc;
+
+import com.palechip.hudpixelmod.util.GameType;
+import de.unaussprechlich.hudpixelextended.statsviewer.gamemodes.WarlordsStatsViewer;
+import de.unaussprechlich.hudpixelextended.statsviewer.gamemodes.nullStatsViewer;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,44 +30,26 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package de.unaussprechlich.hudpixelextended.fancychat;
+public class StatsViewerFactory {
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.client.FMLClientHandler;
-
-import java.util.List;
-
-class FancyChatObject {
-
-    private long timestamp;
-    private List message;
-    private int size = 1;
-
-    public int getSize() {return size;}
-    long getTimestamp() {return timestamp;}
-    public List getMessage() {return message;}
-
-    FancyChatObject(String message){
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-
-        this.message = fontRenderer.listFormattedStringToWidth(message,FancyChat.FIELD_WIDTH);
-        this.size = this.message.size();
-
-        this.timestamp = System.currentTimeMillis();
-    }
+    public StatsViewerFactory(){}
 
     /**
-     * renders the textfield
-     * @param xStart x-start-cord
-     * @param yStart y-start-cord
-     * @param fontRenderer fontRenderer
-     * @return number of rendered lines
+     * Not really a factory ... but at least it generates and returns teh right class
+     * for the given gametype ... i will maybe switch to a real design pattern
+     * @param playerName the playername
+     * @param gameType the gametype
+     * @return the right statsViewer for the given player and gametype
      */
-    int drawTextField(int xStart, int yStart, FontRenderer fontRenderer){
-        for(Object s : message){
-            fontRenderer.drawStringWithShadow((String) s, xStart , yStart + 1, 0xffffff);
-            yStart += FancyChat.RENDERING_HEIGHT_OFFSET;
+
+    public static GameStatsViewer getStatsViewerClass(String playerName, GameType gameType){
+
+        if(gameType == GameType.WARLORDS){
+           return new WarlordsStatsViewer(playerName);
         }
-        return size;
+
+        return new nullStatsViewer();
     }
+
+
 }

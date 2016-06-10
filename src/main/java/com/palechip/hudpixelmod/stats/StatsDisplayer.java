@@ -22,11 +22,6 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.stats;
 
-import java.util.Map;
-
-import net.minecraft.util.EnumChatFormatting;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
@@ -34,6 +29,7 @@ import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback{
 
@@ -56,7 +52,7 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
         if(statistics != null) {
             // here we go
             try {
-                this.displayStatsInChat();
+                this.displayStats();
             } catch(Exception e) {
                 HudPixelMod.instance().logError("Failed to display stats.");
                 e.printStackTrace();
@@ -71,6 +67,7 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
         if(player != null){
             if(player.getStats() != null) {
                 this.statistics = player.getStats();
+                this.display();
                 if (this.shouldPrint) {
                     this.display();
                 }
@@ -92,5 +89,5 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
      * Prints relevant statistics of a game to the chat.
      * Gets called when statistics are not null.
      */
-    protected abstract void displayStatsInChat();
+    protected abstract void displayStats();
 }

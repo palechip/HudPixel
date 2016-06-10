@@ -22,41 +22,43 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction;
 
+import com.google.gson.Gson;
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.api.interaction.callbacks.*;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
+import net.hypixel.api.HypixelAPI;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
-import net.hypixel.api.HypixelAPI;
-
-import com.google.gson.Gson;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
-import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
-
 public class Queue implements ApiKeyLoadedCallback{
+
     private static Queue instance;
     private ApiKeyHandler keyHandler;
     public boolean apiEnabled = false;
     private HypixelAPI api;
+
     // even though the queue doesn't need it, it holds a gson instance which is used by QueueEntry
     private Gson gson;
     private ArrayList<QueueEntry> queue;
     private boolean isLocked;
+
     // used to limit the amount of requests, every request produces heat
     private int heat;
+
     // current values limit the queue to 1 request every 5 seconds on average
     private static final int HEAT_PER_REQUEST = 5;
     private static final int HEAT_MAXIMUM = 100;
     private static final int HEAT_COOLDOWN_PER_SECOND = 1;
+
     // keeps track of last second, so it can reduce the heat
     private long sec;
+
     // saves when the mod last asked the user for a key
     private long lastKeyNotice;
     private static final int MIN_TIME_BETWEEN_KEY_NOTICES = 60000; // = 1 min
     private static final int API_DISABLED_TIMEOUT = 15000;
+
     public Queue() {
         instance = this;
         this.queue = new ArrayList<QueueEntry>();

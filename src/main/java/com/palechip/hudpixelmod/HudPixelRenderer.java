@@ -73,8 +73,8 @@ public class HudPixelRenderer {
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
     public void loadRenderingProperties(UpdateNotifier updater) {
-        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("right") : false;
-        this.renderOnTheBottom = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("bottom") : false;
+        this.renderOnTheRight = HudPixelConfig.displayMode != null && HudPixelConfig.displayMode.toLowerCase().contains("right");
+        this.renderOnTheBottom = HudPixelConfig.displayMode != null && HudPixelConfig.displayMode.toLowerCase().contains("bottom");
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc);
         
@@ -133,6 +133,37 @@ public class HudPixelRenderer {
         this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
     
+    private ArrayList<String> getRightRenderstring(){
+        ArrayList<String> renderStrings = null;
+        boolean isBoosterDisplay = false;
+        boolean isTipAllButton = false;
+        // normal game display
+        if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+            renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
+        }
+        // booster display
+        else if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            renderStrings = this.boosterDisplay.getRenderingStrings();
+            isBoosterDisplay = true;
+        }
+        // results after a game
+        else if(this.results != null) {
+            renderStrings = this.results;
+        }
+        // tip all button with nothing else to display
+        else if(HudPixelConfig.displayQuickLoadButton && Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
+            renderStrings = this.nothingToDisplay;
+        } else {
+            // default display
+            if(!this.defaultRenderingStrings.isEmpty()) {
+                renderStrings = this.defaultRenderingStrings;
+            } else {
+                return renderStrings;
+            }
+        }
+        return renderStrings;
+    }
+    
     /**
      * This renders the entire display
      * TODO: this is shit .... maybe i should rewrite the hudpixel rendersystem
@@ -148,24 +179,27 @@ public class HudPixelRenderer {
             boolean isTipAllButton = false;
             
             // normal game display
-            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME) && !(mc.currentScreen instanceof GuiIngameMenu)) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             }
+
             // booster display
             else if(mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
                 isBoosterDisplay = true;
             }
+
             // results after a game
-            else if(this.results != null) {
+            else if(this.results != null && !(mc.currentScreen instanceof GuiIngameMenu ) ){
                 renderStrings = this.results;
             }
+
             // tip all button with nothing else to display
             else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
             } else {
                 // default display
-                if(!this.defaultRenderingStrings.isEmpty()) {
+                if(!this.defaultRenderingStrings.isEmpty() && !(mc.currentScreen instanceof GuiIngameMenu)) {
                     renderStrings = this.defaultRenderingStrings;
                 } else {
                     return;

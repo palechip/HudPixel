@@ -32,30 +32,52 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import de.unaussprechlich.hudpixelextended.HudPixelExtended;
 import de.unaussprechlich.hudpixelextended.configuration.Config;
 import de.unaussprechlich.hudpixelextended.fancychat.FancyChat;
+import de.unaussprechlich.hudpixelextended.statsviewer.StatsViewerRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class HudPixelExtendedEventHandler {
 
+
     @SubscribeEvent
-    public void onGuiShow(GuiOpenEvent e) {
+    public void onRenderPlayer(RenderPlayerEvent.Pre e){
+        try {
+            //Don't do anything unless we are on Hypixel
+            if(HypixelNetworkDetector.isHypixelNetwork ) {
+
+                //just triggeres the renderer if the player is waiting for the game to start
+                if(!(HudPixelMod.instance().gameDetector.isInLobby())
+                && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                    StatsViewerRender.onRenderPlayer(e);
+            }
+        } catch (Exception ex) {
+            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderPlayer(). Stacktrace below.");
+            ex.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public void onOpenGui(GuiOpenEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork) {
+
                 FancyChat.getInstance().openGui();
+
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    System.out.println("FRIENDLIST -> updaten bitte");
                     HudPixelExtended.onlineFriends.requireUpdate=true;
                 }
+
             } else if(Config.isDebuging){
                 FancyChat.getInstance().openGui();
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended] An exception occured in onGuiShow(). Stacktrace below.");
+            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onOpenGui(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -72,7 +94,7 @@ public class HudPixelExtendedEventHandler {
 
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            HudPixelMod.instance().logWarn("[Extended]An exception occurred in onChatMessage(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -83,6 +105,7 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onClientTick();
+
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
                     HudPixelExtended.onlineFriends.onClientTick();
                 }
@@ -90,7 +113,7 @@ public class HudPixelExtendedEventHandler {
                 FancyChat.getInstance().onClientTick();
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            HudPixelMod.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -108,7 +131,7 @@ public class HudPixelExtendedEventHandler {
                 FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occured in onChatMessage(). Stacktrace below.");
+            HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
             ex.printStackTrace();
         }
     }

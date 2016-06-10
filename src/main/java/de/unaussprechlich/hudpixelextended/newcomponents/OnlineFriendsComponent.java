@@ -120,7 +120,9 @@ public class OnlineFriendsComponent {
 
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
-        if (friendListExpected || onlineFriendsStrings.isEmpty()) {
+        if (friendListExpected){
+            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
+        } else if ( onlineFriendsStrings.isEmpty()) {
             fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... (try reopening the menu)", xStart, yStart, 0xffffff);
         } else {
             for (Object s : onlineFriendsStrings) {
@@ -187,7 +189,8 @@ public class OnlineFriendsComponent {
             gameType = singleWords[4];
             //needed to add support for games like Crazy Walls who are written in two words
             for (int i = 5; i < singleWords.length; i++) {
-                gameType += " " + singleWords[i];
+                gameType += " ";
+                gameType += singleWords[i];
             }
 
         // if the player is in housing

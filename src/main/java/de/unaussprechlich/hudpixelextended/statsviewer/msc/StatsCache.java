@@ -1,3 +1,9 @@
+package de.unaussprechlich.hudpixelextended.statsviewer.msc;
+
+import com.palechip.hudpixelmod.util.GameType;
+
+import java.util.HashMap;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,44 +30,30 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package de.unaussprechlich.hudpixelextended.fancychat;
-
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fml.client.FMLClientHandler;
-
-import java.util.List;
-
-class FancyChatObject {
-
-    private long timestamp;
-    private List message;
-    private int size = 1;
-
-    public int getSize() {return size;}
-    long getTimestamp() {return timestamp;}
-    public List getMessage() {return message;}
-
-    FancyChatObject(String message){
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-
-        this.message = fontRenderer.listFormattedStringToWidth(message,FancyChat.FIELD_WIDTH);
-        this.size = this.message.size();
-
-        this.timestamp = System.currentTimeMillis();
-    }
+public class StatsCache {
 
     /**
-     * renders the textfield
-     * @param xStart x-start-cord
-     * @param yStart y-start-cord
-     * @param fontRenderer fontRenderer
-     * @return number of rendered lines
+     * small class to save the loaded stats for future rendering
      */
-    int drawTextField(int xStart, int yStart, FontRenderer fontRenderer){
-        for(Object s : message){
-            fontRenderer.drawStringWithShadow((String) s, xStart , yStart + 1, 0xffffff);
-            yStart += FancyChat.RENDERING_HEIGHT_OFFSET;
+
+    private static HashMap<String, HashMap<GameType, GameStatsViewer>> statsCacheMap
+            = new HashMap<String, HashMap<GameType, GameStatsViewer>>();
+
+    public static boolean containsPlayer(String playerName){
+        return statsCacheMap.containsKey(playerName);
+    }
+
+    public static GameStatsViewer getPlayerByName(String playerName, GameType gameType){
+        if(statsCacheMap.containsKey(playerName)){
+            if(statsCacheMap.get(playerName).containsKey(gameType)){
+                return statsCacheMap.get(playerName).get(gameType);
+            }
         }
-        return size;
+
+        //when the stats for the given player are not stored create them with the statsfactory
+        statsCacheMap.put(playerName, new HashMap<GameType, GameStatsViewer>());
+        statsCacheMap.get(playerName).put(gameType, StatsViewerFactory.getStatsViewerClass(playerName, gameType));
+
+        return statsCacheMap.get(playerName).get(gameType);
     }
 }

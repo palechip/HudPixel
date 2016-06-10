@@ -27,6 +27,7 @@
 
 package de.unaussprechlich.hudpixelextended.newcomponents;
 
+import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.util.EnumChatFormatting;
@@ -79,6 +80,7 @@ public class PingComponent{
             @Override
             public void run(){
                 try {
+                    if(HypixelNetworkDetector.isHypixelNetwork)
                     serverPinger.ping(Minecraft.getMinecraft().getCurrentServerData());
                 } catch (UnknownHostException e) {
                     e.printStackTrace();

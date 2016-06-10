@@ -27,20 +27,22 @@
 
 package de.unaussprechlich.hudpixelextended;
 
-import de.unaussprechlich.hudpixelextended.util.HudPixelExtendedEventHandler;
 import de.unaussprechlich.hudpixelextended.newcomponents.OnlineFriendsComponent;
+import de.unaussprechlich.hudpixelextended.util.HudPixelExtendedEventHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.UUID;
 
 public class HudPixelExtended {
 
     private static HudPixelExtended hudPixelExtendedInstance = null;
     private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
     public static OnlineFriendsComponent onlineFriends = new OnlineFriendsComponent();
+    public static UUID UUID;
 
-    private HudPixelExtended(){
-
-    }
+    private HudPixelExtended(){}
 
     public static HudPixelExtended getInstance(){
         if(hudPixelExtendedInstance != null){
@@ -52,6 +54,8 @@ public class HudPixelExtended {
     }
 
     public void setup(){
+
+        UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
 
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
         FMLCommonHandler.instance().bus().register(hudPixelExtendedEventHandler);
