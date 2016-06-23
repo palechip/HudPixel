@@ -14,7 +14,8 @@ This mod is open source and contributions are always welcome.
  4. Run `gradlew build`
  5. Grab your build in `build\libs`
 
-#### How to setup your IDE to work with this mod
+#### How to setup your IDE to work with this mod 
+Use this [YoutubeGuide](https://www.youtube.com/watch?v=PfmlNiHonV0) provided by djsmegku.
  1. Make sure you have the Java Development Kit (jdk) installed
  2. Download the sources (ideally use a fork so you can do a pull request)
  3. Open a command line in the main directory (where this readme is located)
