@@ -1,6 +1,6 @@
 package de.unaussprechlich.hudpixelextended.statsviewer.gamemodes;
 
-import de.unaussprechlich.hudpixelextended.statsviewer.msc.GameStatsViewer;
+import de.unaussprechlich.hudpixelextended.statsviewer.msc.IGameStatsViewer;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class nullStatsViewer implements GameStatsViewer {
+public class nullStatsViewerI implements IGameStatsViewer {
 
     /**
      * defaultclass to display the "not supported" - message
@@ -38,7 +38,7 @@ public class nullStatsViewer implements GameStatsViewer {
 
     private ArrayList<String> renderList = new ArrayList<String>();
 
-    public nullStatsViewer(){
+    public nullStatsViewerI(){
         renderList.add("Gamemode not supported yet!");
     }
 

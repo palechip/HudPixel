@@ -25,14 +25,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package de.unaussprechlich.hudpixelextended.util;
+package de.unaussprechlich.hudpixelextended;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-import de.unaussprechlich.hudpixelextended.HudPixelExtended;
 import de.unaussprechlich.hudpixelextended.configuration.Config;
 import de.unaussprechlich.hudpixelextended.fancychat.FancyChat;
-import de.unaussprechlich.hudpixelextended.statsviewer.StatsViewerRender;
+import de.unaussprechlich.hudpixelextended.statsviewer.StatsViewerManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -41,7 +40,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class HudPixelExtendedEventHandler {
+class HudPixelExtendedEventHandler {
 
 
     @SubscribeEvent
@@ -50,10 +49,10 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork ) {
 
-                //just triggeres the renderer if the player is waiting for the game to start
+                //just triggeres the statsrenderer if the player is waiting for the game to start
                 if(!(HudPixelMod.instance().gameDetector.isInLobby())
                 && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
-                    StatsViewerRender.onRenderPlayer(e);
+                    StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderPlayer(). Stacktrace below.");
@@ -104,11 +103,20 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
+
+                //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
 
+                //Tick for the statsViewerManager
+                if(!(HudPixelMod.instance().gameDetector.isInLobby())
+                        && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                    StatsViewerManager.onClientTick();
+
+                //Tick for the friends list
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
                     HudPixelExtended.onlineFriends.onClientTick();
                 }
+
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onClientTick();
             }

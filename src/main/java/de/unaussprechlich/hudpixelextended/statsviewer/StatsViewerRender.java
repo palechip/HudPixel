@@ -1,12 +1,8 @@
 package de.unaussprechlich.hudpixelextended.statsviewer;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.util.GameType;
-import de.unaussprechlich.hudpixelextended.HudPixelExtended;
-import de.unaussprechlich.hudpixelextended.statsviewer.msc.GameStatsViewer;
+import de.unaussprechlich.hudpixelextended.statsviewer.msc.IGameStatsViewer;
 import de.unaussprechlich.hudpixelextended.statsviewer.msc.StatsCache;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -45,35 +41,36 @@ import org.lwjgl.opengl.GL11;
  *******************************************************************************/
 public class StatsViewerRender {
 
+    private static final int DURATION = 10000;
+
+    private IGameStatsViewer iGameStatsViewer;
+    private long expireTimestamp;
+
+    StatsViewerRender(GameType gameType, String playerName){
+        this.iGameStatsViewer = StatsCache.getPlayerByName(playerName, gameType);
+        this.expireTimestamp = System.currentTimeMillis() + DURATION;
+    }
+
+    long getExpireTimestamp() {
+        return expireTimestamp;
+    }
+
     /**
      * Renders the stats above the player
      * @param event RenderPlayerEvent
      */
-    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+    void onRenderPlayer(RenderPlayerEvent.Pre event) {
 
-        //returns if when the rendered player is the user
-        if(event.entityPlayer.getUniqueID().equals(HudPixelExtended.UUID)) return;
+        double offset = 0.3;
+        int i = 1;
 
-        Minecraft mc = Minecraft.getMinecraft();
-        if(mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null){
-            if(mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP && mc.objectMouseOver.entityHit.getName() == event.entityPlayer.getName()){
-
-                GameStatsViewer gameStatsViewer = StatsCache.getPlayerByName(event.entityPlayer.getName(),
-                        GameType.getTypeByID(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID()));
-
-                double offset = 0.3;
-                int i = 1;
-
-                if(gameStatsViewer.getRenderList() != null){
-                    for(String s : gameStatsViewer.getRenderList()){
-                        renderName(event.renderer, s, event.entityPlayer, event.x, event.y+(offset * i), event.z);
-                        i++;
-                    }
-                } else {
-                    renderName(event.renderer, "Loading stats ....", event.entityPlayer, event.x, event.y + offset, event.z);
-                }
-
+        if(this.iGameStatsViewer.getRenderList() != null){
+            for(String s : this.iGameStatsViewer.getRenderList()){
+                renderName(event.renderer, s, event.entityPlayer, event.x, event.y+(offset * i), event.z);
+                i++;
             }
+        } else {
+            renderName(event.renderer, "Loading stats ....", event.entityPlayer, event.x, event.y + offset, event.z);
         }
     }
 

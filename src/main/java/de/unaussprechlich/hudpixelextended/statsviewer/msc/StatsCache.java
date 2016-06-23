@@ -36,14 +36,14 @@ public class StatsCache {
      * small class to save the loaded stats for future rendering
      */
 
-    private static HashMap<String, HashMap<GameType, GameStatsViewer>> statsCacheMap
-            = new HashMap<String, HashMap<GameType, GameStatsViewer>>();
+    private static HashMap<String, HashMap<GameType, IGameStatsViewer>> statsCacheMap
+            = new HashMap<String, HashMap<GameType, IGameStatsViewer>>();
 
     public static boolean containsPlayer(String playerName){
         return statsCacheMap.containsKey(playerName);
     }
 
-    public static GameStatsViewer getPlayerByName(String playerName, GameType gameType){
+    public static IGameStatsViewer getPlayerByName(String playerName, GameType gameType){
         if(statsCacheMap.containsKey(playerName)){
             if(statsCacheMap.get(playerName).containsKey(gameType)){
                 return statsCacheMap.get(playerName).get(gameType);
@@ -51,7 +51,7 @@ public class StatsCache {
         }
 
         //when the stats for the given player are not stored create them with the statsfactory
-        statsCacheMap.put(playerName, new HashMap<GameType, GameStatsViewer>());
+        statsCacheMap.put(playerName, new HashMap<GameType, IGameStatsViewer>());
         statsCacheMap.get(playerName).put(gameType, StatsViewerFactory.getStatsViewerClass(playerName, gameType));
 
         return statsCacheMap.get(playerName).get(gameType);

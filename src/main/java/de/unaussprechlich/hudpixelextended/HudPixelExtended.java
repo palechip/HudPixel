@@ -28,7 +28,6 @@
 package de.unaussprechlich.hudpixelextended;
 
 import de.unaussprechlich.hudpixelextended.newcomponents.OnlineFriendsComponent;
-import de.unaussprechlich.hudpixelextended.util.HudPixelExtendedEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;

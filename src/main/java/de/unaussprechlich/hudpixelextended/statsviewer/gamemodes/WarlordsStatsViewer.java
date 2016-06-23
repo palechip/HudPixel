@@ -1,7 +1,7 @@
 package de.unaussprechlich.hudpixelextended.statsviewer.gamemodes;
 
 import com.palechip.hudpixelmod.stats.StatsDisplayer;
-import de.unaussprechlich.hudpixelextended.statsviewer.msc.GameStatsViewer;
+import de.unaussprechlich.hudpixelextended.statsviewer.msc.IGameStatsViewer;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class WarlordsStatsViewer extends StatsDisplayer implements GameStatsViewer {
+public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
     private int kills;
     private int assists;
@@ -70,7 +70,7 @@ public class WarlordsStatsViewer extends StatsDisplayer implements GameStatsView
     }
 
     /**
-     * Implements the GameStatsViewer interface
+     * Implements the IGameStatsViewer interface
      * @return the renderList
      */
     @Override

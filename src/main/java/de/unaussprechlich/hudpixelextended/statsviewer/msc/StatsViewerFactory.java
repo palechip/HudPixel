@@ -2,7 +2,7 @@ package de.unaussprechlich.hudpixelextended.statsviewer.msc;
 
 import com.palechip.hudpixelmod.util.GameType;
 import de.unaussprechlich.hudpixelextended.statsviewer.gamemodes.WarlordsStatsViewer;
-import de.unaussprechlich.hudpixelextended.statsviewer.gamemodes.nullStatsViewer;
+import de.unaussprechlich.hudpixelextended.statsviewer.gamemodes.nullStatsViewerI;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -42,13 +42,13 @@ public class StatsViewerFactory {
      * @return the right statsViewer for the given player and gametype
      */
 
-    public static GameStatsViewer getStatsViewerClass(String playerName, GameType gameType){
+    public static IGameStatsViewer getStatsViewerClass(String playerName, GameType gameType){
 
         if(gameType == GameType.WARLORDS){
            return new WarlordsStatsViewer(playerName);
         }
 
-        return new nullStatsViewer();
+        return new nullStatsViewerI();
     }
 
 
