@@ -85,7 +85,7 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
      * generates the renderList
      */
     private void generateRenderList(){
-        renderList.add(KD + GOLD + kd + WL + GOLD + wl);
+        renderList.add(KD + GOLD + kd + WL + GOLD + wl +"%");
         renderList.add(LOS + GOLD + losses + WIN + GOLD + wins);
         renderList.add(KDA + GOLD + kills + D_GRAY + " | " + GOLD + assists + D_GRAY + " | " + GOLD + deaths );
         renderList.add(SHA + GOLD + shamanLevel + WAR + GOLD + warriorLevel + PAL + GOLD + paladinLevel + MAG + GOLD + mageLevel);
@@ -103,7 +103,7 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         losses =    getInt("losses");
 
         kd = (double) Math.round(((double)kills/(double)deaths) * 100) / 100;
-        wl = (double) Math.round(((double)wins/ (double)losses) * 100) / 100;
+        wl = (double) Math.round(((double)(wins+losses)/ (double)losses) * 100);
 
         shamanLevel = getInt("shaman_health")    + getInt("shaman_energy")              + getInt("shaman_cooldown")
                 + getInt("shaman_critchance")    + getInt("shaman_critmultiplier")      + getInt("shaman_skill1")

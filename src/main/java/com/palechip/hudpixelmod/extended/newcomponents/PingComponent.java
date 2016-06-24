@@ -55,7 +55,11 @@ public class PingComponent{
         }
 
         // updates the current renderString
-        if(Minecraft.getMinecraft().getCurrentServerData() == null || Minecraft.getMinecraft() == null) pingString = "Ping: Irrelevant";
+        if(Minecraft.getMinecraft().getCurrentServerData() == null || Minecraft.getMinecraft() == null) {
+            lastValidPing = 0;
+            return pingString = "Ping: Irrelevant";
+        }
+
         if(Minecraft.getMinecraft().getCurrentServerData().pingToServer != lastValidPing
                 && Minecraft.getMinecraft().getCurrentServerData().pingToServer > 0){
             lastValidPing = Minecraft.getMinecraft().getCurrentServerData().pingToServer;

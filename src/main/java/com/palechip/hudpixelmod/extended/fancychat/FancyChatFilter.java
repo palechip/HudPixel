@@ -61,11 +61,7 @@ class FancyChatFilter {
      * message received by the client CONTAINS with the blacklisted string.
      */
     static final String[] blacklistContains = {
-            ". It’s their favourite drink! (+",
-            ". It’s their favourite food! (+",
-            ". It’s their favourite toy! (+",
-            ". They like it. (+",
-            ". They don’t like it very much. (+"
+
     };
     //------------------------------------------------------------------------------------------------------------------
     /**
@@ -73,7 +69,6 @@ class FancyChatFilter {
      * message received by the client ENDS with the blacklisted string.
      */
     static final String[] blacklistEnds = {
-            " Mystery Box!",
             "'s Hunger is already full!",
             "'s Exercise is already full!",
             "'s Thirst is already full!"
