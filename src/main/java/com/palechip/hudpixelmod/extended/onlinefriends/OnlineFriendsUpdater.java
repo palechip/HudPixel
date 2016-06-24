@@ -42,12 +42,8 @@ public class OnlineFriendsUpdater {
     private static final String FRIENDS_LIST_START = "                           Friends (Page ";
     // [SETTING] the friendlist offline message
     private static final String IS_CURRENTLY_OFFLINE = " is currently offline";
-    // [SETTING] time between every /f list X request (in ms)
-    private static final int REQUEST_DELAY = 10000;
     // [SETTING] time between every friendlist update (in ms)
     private static final int UPDATE_DELAY = 30000;
-    // [SETTING] maximal shown online players
-    private static final int MAX_SHOWN_ONLINE_FRIENDS = 20;
 
 //######################################################################################################################
 
@@ -128,7 +124,12 @@ public class OnlineFriendsUpdater {
 
         //if the player is in any gamemode game/lobby
         if (singleWords[3].equalsIgnoreCase("a")) {
-            gameType = singleWords[4];
+
+            if(singleWords[singleWords.length-1].equalsIgnoreCase("game"))
+                gameType = EnumChatFormatting.RED + singleWords[4];
+            else
+                gameType = singleWords[4];
+
             //needed to add support for games like Crazy Walls who are written in two words
             for (int i = 5; i < singleWords.length; i++) {
                 gameType += " ";

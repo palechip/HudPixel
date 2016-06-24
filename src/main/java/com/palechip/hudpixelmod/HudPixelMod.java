@@ -60,7 +60,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     static final String NAME = "HudPixel Reloaded";
-    public static final boolean IS_DEBUGGING = true;
+    public static final boolean IS_DEBUGGING = false;
 
     private static HudPixelMod instance;
 

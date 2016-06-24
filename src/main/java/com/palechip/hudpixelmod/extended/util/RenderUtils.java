@@ -65,15 +65,4 @@ public class RenderUtils {
         GlStateManager.disableBlend();
 
     }
-
-
-
-
-
-    public static void renderPlayerHead(){
-
-    }
-
-
-
 }

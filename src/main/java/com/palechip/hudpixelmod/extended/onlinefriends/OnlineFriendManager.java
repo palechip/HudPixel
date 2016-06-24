@@ -1,6 +1,5 @@
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -37,26 +36,26 @@ import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdat
  *******************************************************************************/
 public class OnlineFriendManager {
 
-    private static final int FRIENDDYSPLAY_OFFSET = 22;
+    private static final int FRIENDDYSPLAY_OFFSET = 24;
 
     private static ArrayList<OnlineFriend> onlineFriendsListBUFFER = new ArrayList<OnlineFriend>();
-    public static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
+    private static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
 
     public void renderOnlineFriends(){
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
-        int xStart = HudPixelConfig.displayXOffset;
-        int yStart = HudPixelConfig.displayXOffset;
+        int xStart = 2;
+        int yStart = 2;
 
         ArrayList<OnlineFriend> ofList =  onlineFriendsList;
 
         if(ofList.isEmpty()){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading/nobody Online ... (try reopening the menu)", xStart, yStart, 0xffffff);
-        } if(friendListExpected){
+            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... (try reopening the menu)", xStart, yStart, 0xffffff);
+        } else if(friendListExpected){
             fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
         } else {
             for (OnlineFriend of : ofList){
-                of.renderOnlineFriend(xStart,yStart,fontRenderer);
+                of.renderOnlineFriend(xStart,yStart);
                 yStart += FRIENDDYSPLAY_OFFSET;
             }
         }
