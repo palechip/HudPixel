@@ -22,14 +22,15 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod;
 
+import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.gui.BoosterDisplay;
-import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
 import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
+import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.gui.BoosterDisplay;
+import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -38,6 +39,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Handles the display on the screen when no gui is displayed.
@@ -106,7 +109,7 @@ public class HudPixelRenderer {
         this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
 
-        updateDefaultRenderStrings();
+        updateDefaultRenderStrings(Lists.newArrayList());
         
         // check the result timer
         if(this.results != null) {
@@ -115,20 +118,34 @@ public class HudPixelRenderer {
             }
         }
     }
-
-    private void updateDefaultRenderStrings(){
+    private static String pickColor() {
+        Random r = new Random();
+        String[] a = {
+                "" + EnumChatFormatting.RED + EnumChatFormatting.BOLD ,
+                "" + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD ,
+                "" + EnumChatFormatting.YELLOW + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.DARK_AQUA + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.BLUE + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.LIGHT_PURPLE + EnumChatFormatting.BOLD,
+        };
+        return a[r.nextInt(a.length)];
+    }
+    private ArrayList<String> updateDefaultRenderStrings(List list){
         ArrayList<String> bufferStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelReloaded " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
-        if(Config.isPingShown)              bufferStrings.add(PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)               bufferStrings.add(FpsComponent.getFps());
+        bufferStrings.addAll(list);
+        if(Config.isPingShown)              bufferStrings.add(EnumChatFormatting.GOLD +  PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)               bufferStrings.add(EnumChatFormatting.GOLD + FpsComponent.getFps());
         this.defaultRenderingStrings = bufferStrings;
+        return bufferStrings;
     }
     
     /**
      *  Called with the last set of rendering strings so they can be displayed longer.
      */
     public void displayResults(ArrayList<String> results) {
-        this.results = results;
+        this.results = updateDefaultRenderStrings(results);
         this.resultStartTime = System.currentTimeMillis();
         this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
@@ -250,10 +267,10 @@ public class HudPixelRenderer {
             }
 
             // render the display
-            for(int i = 0; i < renderStrings.size(); i++) {
+            for (String renderString : renderStrings) {
                 // skip the string if it's empty
-                if(renderStrings.get(i) != null && !renderStrings.get(i).isEmpty()) {
-                    fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
+                if (renderString != null && !renderString.isEmpty()) {
+                    fontRenderer.drawString(renderString, width, height, 0xffffff);
                     height += RENDERING_HEIGHT_OFFSET;
                 }
             }

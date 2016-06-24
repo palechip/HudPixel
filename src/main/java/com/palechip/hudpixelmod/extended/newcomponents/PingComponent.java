@@ -30,7 +30,6 @@ package com.palechip.hudpixelmod.extended.newcomponents;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.OldServerPinger;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.net.UnknownHostException;
 
@@ -64,8 +63,8 @@ public class PingComponent{
                 && Minecraft.getMinecraft().getCurrentServerData().pingToServer > 0){
             lastValidPing = Minecraft.getMinecraft().getCurrentServerData().pingToServer;
             pingString =
-                    EnumChatFormatting.WHITE
-                            + "Ping: "
+                   // EnumChatFormatting.WHITE
+                           /* + */"Ping: "
                             + lastValidPing
                             + "ms";
         }
