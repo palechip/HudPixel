@@ -31,6 +31,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
+import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -69,7 +70,7 @@ class HudPixelExtendedEventHandler {
                 FancyChat.getInstance().openGui();
 
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    HudPixelExtended.onlineFriends.requireUpdate=true;
+                    OnlineFriendsUpdater.requireUpdate=true;
                 }
 
             } else if(Config.isDebuging){
@@ -87,7 +88,7 @@ class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onChat(e);
-                HudPixelExtended.onlineFriends.onChat(e);
+                OnlineFriendsUpdater.onChat(e);
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onChat(e);
 
@@ -114,7 +115,7 @@ class HudPixelExtendedEventHandler {
 
                 //Tick for the friends list
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    HudPixelExtended.onlineFriends.onClientTick();
+                    OnlineFriendsUpdater.onClientTick();
                 }
 
             } else if(Config.isDebuging){
@@ -133,7 +134,7 @@ class HudPixelExtendedEventHandler {
             if (HypixelNetworkDetector.isHypixelNetwork) {
                 FancyChat.getInstance().onRenderTick();
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    HudPixelExtended.onlineFriends.renderOnlineFriends();
+                    HudPixelExtended.onlineFriendsManager.renderOnlineFriends();
                 }
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onRenderTick();

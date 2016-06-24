@@ -37,7 +37,7 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
     private int assists;
     private int deaths;
     private double kd;
-    private double wl;
+    private int wl;
     private int losses;
     private int wins;
     private int shamanLevel;
@@ -103,7 +103,7 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         losses =    getInt("losses");
 
         kd = (double) Math.round(((double)kills/(double)deaths) * 100) / 100;
-        wl = Math.round(((double)wins / (double)(wins+losses)) * 100);
+        wl = (int) Math.round(((double)wins / (double)(wins+losses)) * 100);
 
         shamanLevel = getInt("shaman_health")    + getInt("shaman_energy")              + getInt("shaman_cooldown")
                 + getInt("shaman_critchance")    + getInt("shaman_critmultiplier")      + getInt("shaman_skill1")

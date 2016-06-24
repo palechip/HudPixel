@@ -1,3 +1,10 @@
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.EnumChatFormatting;
+
+import static com.palechip.hudpixelmod.extended.util.RenderUtils.renderBox;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,38 +31,26 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+public class OnlineFriend {
 
-package com.palechip.hudpixelmod.extended;
 
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
+    private String username;
+    private String gamemode;
 
-import java.util.UUID;
-
-public class HudPixelExtended {
-
-    private static HudPixelExtended hudPixelExtendedInstance = null;
-    private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
-    public static OnlineFriendManager onlineFriendsManager = new OnlineFriendManager();
-    public static UUID UUID;
-
-    private HudPixelExtended(){}
-
-    public static HudPixelExtended getInstance(){
-        if(hudPixelExtendedInstance != null){
-            return hudPixelExtendedInstance;
-        } else {
-            hudPixelExtendedInstance = new HudPixelExtended();
-            return hudPixelExtendedInstance;
-        }
+    public OnlineFriend(String username, String gamemode){
+        this.gamemode = gamemode;
+        this.username = username;
     }
 
-    public void setup(){
 
-        UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
+    public String getUsername() {return username;}
+    public void setUsername(String username) {this.username = username;}
+    public String getGamemode() {return gamemode;}
+    public void setGamemode(String gamemode) {this.gamemode = gamemode;}
 
-        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
-
+    public void renderOnlineFriend(float xStart, float yStart, FontRenderer fontRenderer){
+        renderBox(xStart, yStart, 20, 20, 0);
+        fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + username,xStart + 22, yStart, 0xffffff);
+        fontRenderer.drawStringWithShadow(EnumChatFormatting.GREEN + gamemode,xStart + 22, yStart + 10, 0xffffff);
     }
 }

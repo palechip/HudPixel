@@ -25,19 +25,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package com.palechip.hudpixelmod.extended.newcomponents;
+package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
-import java.util.ArrayList;
-
-public class OnlineFriendsComponent {
+public class OnlineFriendsUpdater {
 
 //######################################################################################################################
 
@@ -56,79 +51,42 @@ public class OnlineFriendsComponent {
 
 //######################################################################################################################
 
-    private ArrayList<String> onlineFriendsStrings = new ArrayList<String>();
-
-    private boolean friendListExpected = false;
-    public  boolean requireUpdate = false;
-    private boolean nextRequest = false;
-    private boolean isFriendList = false;
-    private int nextPageCounter = 0;
-    private int page = 1;
-    private long lastUpdate = 0;
-    private long lastRequest = 0;
+    static boolean friendListExpected = false;
+    public static boolean requireUpdate = false;
+    private static boolean isFriendList = false;
+    private static long lastUpdate = 0;
 
     /**
      * listens to the chatevents if there is a requested friendlist
      * @param e ClientChatReceivedEven
      * @firedBY HudPixelExtendedEventHandler -> onChat()
      */
-    public void onChat(ClientChatReceivedEvent e) {
+    public static void onChat(ClientChatReceivedEvent e) {
 
         // checks first if there is a request
         if (friendListExpected) {
 
             String m = e.message.getUnformattedText();
 
-            //starts and stops the friendlist-chat-parser by the seperation message
+            //starts and stops the friendlist-chat-parser by the separation message
             if (m.startsWith(SEPARATION_MESSAGE)) {
                 if (isFriendList) {
-                    nextPageCounter = 0;
-                    page = 1;
+                    HudPixelExtended.onlineFriendsManager.update();
                     isFriendList = false;
                     friendListExpected = false;
                 } else {
                     isFriendList = true;
                 }
 
-            //checks if the messae is not the friendlist-header and if the player is not offline
+            //checks if the message is not the friendlist-header and if the player is not offline
             } else if(isFriendList) {
                 if (!(m.contains(IS_CURRENTLY_OFFLINE)) && !(m.startsWith(FRIENDS_LIST_START))) {
                     chatParser(m);
-                    nextPageCounter++;
 
-                    //if there is are more players online, than the first page shows the process runs again
-                    if (nextPageCounter >= 8) {
-                        nextRequest = true;
-                        nextPageCounter = 0;
-                    }
                 }
             }
             // deletes the message
             e.setCanceled(true);
-        }
-    }
-
-
-    /**
-     * renders the friendliste when the GuiIngameMenu is shwon
-     * @firedBY HudPixelExtendedEventHandler -> onRenderTick
-     */
-    public void renderOnlineFriends() {
-
-        int xStart = HudPixelConfig.displayXOffset;
-        int yStart = HudPixelConfig.displayXOffset;
-
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-
-        if (friendListExpected){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
-        } else if ( onlineFriendsStrings.isEmpty()) {
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... (try reopening the menu)", xStart, yStart, 0xffffff);
-        } else {
-            for (Object s : onlineFriendsStrings) {
-                fontRenderer.drawStringWithShadow((String) s, xStart, yStart, 0xffffff);
-                yStart += FancyChat.RENDERING_HEIGHT_OFFSET;
-            }
         }
     }
 
@@ -137,18 +95,11 @@ public class OnlineFriendsComponent {
      * request for a second,... /f list X command
      * @firedBY HudPixelExtendedEventHandler -> onClientTick()
      */
-    public void onClientTick() {
+    public static void onClientTick() {
         if (requireUpdate) {
             if (System.currentTimeMillis() > (lastUpdate + UPDATE_DELAY)) {
                 updateOnlineFriends();
                 requireUpdate = false;
-            }
-        } else if (nextRequest) {
-            if (System.currentTimeMillis() > (lastRequest + REQUEST_DELAY)) {
-                page++;
-                nextRequest = false;
-                friendListExpected = true;
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/f list " + page);
             }
         }
     }
@@ -156,11 +107,9 @@ public class OnlineFriendsComponent {
     /**
      * a internal function that triggers the update process and resets the request/update time
      */
-    private void updateOnlineFriends() {
-        onlineFriendsStrings.clear();
+    private static void updateOnlineFriends() {
         Minecraft.getMinecraft().thePlayer.sendChatMessage("/f list");
         friendListExpected = true;
-        lastRequest = System.currentTimeMillis();
         lastUpdate = System.currentTimeMillis();
     }
 
@@ -168,14 +117,7 @@ public class OnlineFriendsComponent {
      * a internal function which separates the message and extracts player, game and servertype
      * @param m message to parse
      */
-    private void chatParser(String m) {
-
-        //displays something if there is nothing to display or if the display is reloading
-        if (onlineFriendsStrings.size() == MAX_SHOWN_ONLINE_FRIENDS) {
-            onlineFriendsStrings.add(EnumChatFormatting.GRAY + "You have too many online friends ...");
-        } else if (onlineFriendsStrings.size() > MAX_SHOWN_ONLINE_FRIENDS) {
-            return;
-        }
+    private static void chatParser(String m) {
 
         //splits the string
         String[] singleWords = m.split(" ");
@@ -202,13 +144,8 @@ public class OnlineFriendsComponent {
             gameType = EnumChatFormatting.GRAY + "idle in Limbo";
         }
 
-        // creates the string to display
-        onlineFriendsStrings.add(""
-                + EnumChatFormatting.GOLD
-                + playerName
-                + EnumChatFormatting.WHITE
-                + " -> "
-                + EnumChatFormatting.GREEN
-                + gameType);
+        //updates the stored OnlinePlayers
+        HudPixelExtended.onlineFriendsManager.addPlayer(playerName, gameType);
+
     }
 }
