@@ -21,7 +21,7 @@ plugins {
 */
 version = "0.3"
 group = "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HudPixelExtended-1.8.9"
+archivesBaseName = "HudPixelReloaded-1.8.9"
 
 minecraft {
     version = "1.8.9-11.15.1.1902-1.8.9"

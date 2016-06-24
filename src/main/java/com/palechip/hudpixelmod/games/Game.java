@@ -25,9 +25,9 @@ package com.palechip.hudpixelmod.games;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.util.GameType;
-import de.unaussprechlich.hudpixelextended.configuration.Config;
-import de.unaussprechlich.hudpixelextended.newcomponents.FpsComponent;
-import de.unaussprechlich.hudpixelextended.newcomponents.PingComponent;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
+import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 
 import java.util.ArrayList;
 

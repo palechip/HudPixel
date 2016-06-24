@@ -32,7 +32,7 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.uptodate.*;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-import de.unaussprechlich.hudpixelextended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -58,8 +58,8 @@ import org.lwjgl.input.Keyboard;
 @Mod(modid = HudPixelMod.MODID, version = HudPixelProperties.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory")
 public class HudPixelMod
 {
-    public static final String MODID = "hudpixelextended";
-    static final String NAME = "HudPixel Extended";
+    public static final String MODID = "hudpixel";
+    static final String NAME = "HudPixel Reloaded";
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;

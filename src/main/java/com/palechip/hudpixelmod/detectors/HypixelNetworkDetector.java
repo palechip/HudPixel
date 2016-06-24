@@ -36,6 +36,10 @@ public class HypixelNetworkDetector {
      * Checks if the Player is on Hypixel Network.
      */
     public void check() {
+        if(HudPixelMod.IS_DEBUGGING) {
+            isHypixelNetwork = true;
+            return;
+        }
         // get the IP of the current server
         // only if there is one
         if(FMLClientHandler.instance().getClient().getCurrentServerData() == null) {

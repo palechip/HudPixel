@@ -27,9 +27,9 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
 import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
-import de.unaussprechlich.hudpixelextended.configuration.Config;
-import de.unaussprechlich.hudpixelextended.newcomponents.FpsComponent;
-import de.unaussprechlich.hudpixelextended.newcomponents.PingComponent;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
+import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -118,7 +118,7 @@ public class HudPixelRenderer {
 
     private void updateDefaultRenderStrings(){
         ArrayList<String> bufferStrings = new ArrayList<String>();
-        if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelExtended " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
+        if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelReloaded " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
         if(Config.isPingShown)              bufferStrings.add(PingComponent.getStaticRenderingString());
         if(Config.isFpsShown)               bufferStrings.add(FpsComponent.getFps());
         this.defaultRenderingStrings = bufferStrings;
