@@ -69,6 +69,11 @@ public class OnlineFriend {
         loadSkinFromURL();
     }
 
+    /**
+     * renders the loading animation
+     * @param xStart startposition of the friendsdisplay
+     * @param yStart startposition of the friendsdisplay
+     */
     private void renderLoadingBar(float xStart, float yStart){
 
         final int a = 2;
@@ -101,12 +106,12 @@ public class OnlineFriend {
                 RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
                 RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
                 break;
-
-
         }
     }
 
-
+    /**
+     * process the current loadingbar value
+     */
     private static int tickCounter = 0;
     public static void onClientTick(){
         if(tickCounter >= 2){
@@ -135,10 +140,13 @@ public class OnlineFriend {
      */
     void renderOnlineFriend(float xStart, float yStart){
 
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
-
-        //Renders the background of each online friend
-        RenderUtils.renderBoxWithColor(xStart, yStart, 120, 24, 0, 1f, 1f, 1f, 0.15f);
+        //makes the background larger, if the string is to long
+        if(fontRenderer.getStringWidth(gamemode) > 90)
+            RenderUtils.renderBoxWithColor(xStart, yStart, fontRenderer.getStringWidth(gamemode) + 30, 24, 0, 1f, 1f, 1f, 0.15f);
+        else
+            RenderUtils.renderBoxWithColor(xStart, yStart, 120, 24, 0, 1f, 1f, 1f, 0.15f);
 
         //drwaws the player head after t is loaded
         if(image != null && imageLoaded){
@@ -148,14 +156,12 @@ public class OnlineFriend {
             RenderUtils.drawModalRectWithCustomSizedTexture(
                     Math.round(xStart + 2), Math.round(yStart + 2), 0, 0,
                     20, 20, 20f, 20f , resourceLocation);
-        } else {
-            renderLoadingBar(xStart, yStart);
-        }
 
+        //if the players are not loaded yet the loading animation will be displayed
+        } else renderLoadingBar(xStart, yStart);
 
 
         //draws the strings with the minecraft fontRenderer
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + username,xStart + 26, yStart +4, 0xffffff);
         fontRenderer.drawStringWithShadow(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 13, 0xffffff);
 

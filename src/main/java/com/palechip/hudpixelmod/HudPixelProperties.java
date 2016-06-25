@@ -14,7 +14,7 @@ public class HudPixelProperties {
     public static final UpdateChannel UPDATE_CHANNEL;
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
 
-    private static final String DEFAULT_VERSION = "3.0.1";
+    private static final String DEFAULT_VERSION = "3.0.2";
     static {
         Properties props = null;
         try {
