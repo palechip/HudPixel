@@ -109,7 +109,7 @@ class OnlineFriend {
     void renderOnlineFriend(float xStart, float yStart){
 
         //Renders the background of each online friend
-        RenderUtils.renderBoxWithColor(xStart, yStart, 120, 23, 0, 1f, 1f, 1f, 0.15f);
+        RenderUtils.renderBoxWithColor(xStart, yStart, 120, 24, 0, 1f, 1f, 1f, 0.15f);
 
         //drwaws the player head after t is loaded
         if(image != null && resourceLocation != null && imageLoaded)
@@ -120,8 +120,8 @@ class OnlineFriend {
 
         //draws the strings with the minecraft fontRenderer
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-        fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + username,xStart + 26, yStart +3, 0xffffff);
-        fontRenderer.drawStringWithShadow(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 12, 0xffffff);
+        fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + username,xStart + 26, yStart +4, 0xffffff);
+        fontRenderer.drawStringWithShadow(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 13, 0xffffff);
     }
 }
 

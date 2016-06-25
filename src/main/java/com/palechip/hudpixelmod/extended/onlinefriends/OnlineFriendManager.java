@@ -37,7 +37,7 @@ import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdat
 
 public class OnlineFriendManager {
 
-    private static final int FRIENDDYSPLAY_OFFSET = 24;
+    private static final int FRIENDDYSPLAY_OFFSET = 25;
 
     private static ArrayList<OnlineFriend> onlineFriendsListBUFFER = new ArrayList<OnlineFriend>();
     private static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
