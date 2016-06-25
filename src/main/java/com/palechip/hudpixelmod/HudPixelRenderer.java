@@ -22,19 +22,25 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod;
 
+import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
+import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.gui.BoosterDisplay;
 import com.palechip.hudpixelmod.uptodate.UpdateNotifier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Handles the display on the screen when no gui is displayed.
@@ -70,8 +76,8 @@ public class HudPixelRenderer {
      * Loads and processes all values stored in the DISPLAY_CATEGORY in the config
      */
     public void loadRenderingProperties(UpdateNotifier updater) {
-        this.renderOnTheRight = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("right") : false;
-        this.renderOnTheBottom = HudPixelConfig.displayMode != null ? HudPixelConfig.displayMode.toLowerCase().contains("bottom") : false;
+        this.renderOnTheRight = HudPixelConfig.displayMode != null && HudPixelConfig.displayMode.toLowerCase().contains("right");
+        this.renderOnTheBottom = HudPixelConfig.displayMode != null && HudPixelConfig.displayMode.toLowerCase().contains("bottom");
         Minecraft mc = FMLClientHandler.instance().getClient();
         ScaledResolution res = new ScaledResolution(mc);
         
@@ -90,7 +96,7 @@ public class HudPixelRenderer {
             this.defaultRenderingStrings.add(EnumChatFormatting.RED + "UPDATE: " + updater.getUpdateInformation().getLatestVersion());
             this.defaultRenderingStrings.add(EnumChatFormatting.YELLOW + updater.getUpdateInformation().getupdateLinkDisplay());
         }
-        
+
     }
     
     /**
@@ -102,6 +108,8 @@ public class HudPixelRenderer {
         ScaledResolution res = new ScaledResolution(mc);
         this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
+
+        updateDefaultRenderStrings(Lists.newArrayList());
         
         // check the result timer
         if(this.results != null) {
@@ -110,22 +118,76 @@ public class HudPixelRenderer {
             }
         }
     }
+    private static String pickColor() {
+        Random r = new Random();
+        String[] a = {
+                "" + EnumChatFormatting.RED + EnumChatFormatting.BOLD ,
+                "" + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD ,
+                "" + EnumChatFormatting.YELLOW + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.DARK_AQUA + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.BLUE + EnumChatFormatting.BOLD,
+                "" + EnumChatFormatting.LIGHT_PURPLE + EnumChatFormatting.BOLD,
+        };
+        return a[r.nextInt(a.length)];
+    }
+    private ArrayList<String> updateDefaultRenderStrings(List list){
+        ArrayList<String> bufferStrings = new ArrayList<String>();
+        if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelReloaded " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
+        bufferStrings.addAll(list);
+        if(Config.isPingShown)              bufferStrings.add(EnumChatFormatting.GOLD +  PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)               bufferStrings.add(EnumChatFormatting.GOLD + FpsComponent.getFps());
+        this.defaultRenderingStrings = bufferStrings;
+        return bufferStrings;
+    }
     
     /**
      *  Called with the last set of rendering strings so they can be displayed longer.
      */
     public void displayResults(ArrayList<String> results) {
-        this.results = results;
+        this.results = updateDefaultRenderStrings(results);
         this.resultStartTime = System.currentTimeMillis();
         this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
     
+    private ArrayList<String> getRightRenderstring(){
+        ArrayList<String> renderStrings = null;
+        boolean isBoosterDisplay = false;
+        boolean isTipAllButton = false;
+        // normal game display
+        if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+            renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
+        }
+        // booster display
+        else if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            renderStrings = this.boosterDisplay.getRenderingStrings();
+            isBoosterDisplay = true;
+        }
+        // results after a game
+        else if(this.results != null) {
+            renderStrings = this.results;
+        }
+        // tip all button with nothing else to display
+        else if(HudPixelConfig.displayQuickLoadButton && Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
+            renderStrings = this.nothingToDisplay;
+        } else {
+            // default display
+            if(!this.defaultRenderingStrings.isEmpty()) {
+                renderStrings = this.defaultRenderingStrings;
+            } else {
+                return renderStrings;
+            }
+        }
+        return renderStrings;
+    }
+    
     /**
      * This renders the entire display
+     * TODO: this is shit .... maybe i should rewrite the hudpixel rendersystem
      */
     public void onRenderTick() {
         Minecraft mc = FMLClientHandler.instance().getClient();
-        if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiChat) && this.isHUDShown) {
+        if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiIngameMenu) && this.isHUDShown) {
             FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
             int width;
             int height;
@@ -134,24 +196,27 @@ public class HudPixelRenderer {
             boolean isTipAllButton = false;
             
             // normal game display
-            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME) && !(mc.currentScreen instanceof GuiIngameMenu)) {
                 renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
             }
+
             // booster display
-            else if(mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            else if(mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
                 renderStrings = this.boosterDisplay.getRenderingStrings();
                 isBoosterDisplay = true;
             }
+
             // results after a game
-            else if(this.results != null) {
+            else if(this.results != null && !(mc.currentScreen instanceof GuiIngameMenu ) ){
                 renderStrings = this.results;
             }
+
             // tip all button with nothing else to display
-            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
             } else {
                 // default display
-                if(!this.defaultRenderingStrings.isEmpty()) {
+                if(!this.defaultRenderingStrings.isEmpty() && !(mc.currentScreen instanceof GuiIngameMenu)) {
                     renderStrings = this.defaultRenderingStrings;
                 } else {
                     return;
@@ -159,7 +224,7 @@ public class HudPixelRenderer {
             }
             
             // should display the quick load button
-            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiChat && HudPixelMod.instance().gameDetector.isInLobby()) {
+            if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 isTipAllButton = true;
             }
 
@@ -202,10 +267,10 @@ public class HudPixelRenderer {
             }
 
             // render the display
-            for(int i = 0; i < renderStrings.size(); i++) {
+            for (String renderString : renderStrings) {
                 // skip the string if it's empty
-                if(renderStrings.get(i) != null && !renderStrings.get(i).isEmpty()) {
-                    fontRenderer.drawString(renderStrings.get(i), width, height, 0xffffff);
+                if (renderString != null && !renderString.isEmpty()) {
+                    fontRenderer.drawString(renderString, width, height, 0xffffff);
                     height += RENDERING_HEIGHT_OFFSET;
                 }
             }

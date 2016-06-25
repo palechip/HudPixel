@@ -22,15 +22,6 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction;
 
-import java.util.ArrayList;
-
-import net.hypixel.api.HypixelAPI;
-import net.hypixel.api.reply.BoostersReply;
-import net.hypixel.api.reply.FriendsReply;
-import net.hypixel.api.reply.PlayerReply;
-import net.hypixel.api.reply.SessionReply;
-import net.hypixel.api.util.Callback;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
@@ -41,6 +32,14 @@ import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
+import net.hypixel.api.HypixelAPI;
+import net.hypixel.api.reply.BoostersReply;
+import net.hypixel.api.reply.FriendsReply;
+import net.hypixel.api.reply.PlayerReply;
+import net.hypixel.api.reply.SessionReply;
+import net.hypixel.api.util.Callback;
+
+import java.util.ArrayList;
 
 public class QueueEntry {
     private boolean isSecondTry;

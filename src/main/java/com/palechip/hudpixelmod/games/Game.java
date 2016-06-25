@@ -22,11 +22,14 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.games;
 
-import java.util.ArrayList;
-
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
+import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
+
+import java.util.ArrayList;
 
 public class Game {
     public static final Game NO_GAME = new Game();
@@ -65,17 +68,20 @@ public class Game {
     
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Game) {
+        if (obj instanceof Game) {
             return ((Game) obj).configuration.getModID() == this.configuration.getModID();
-        } else if(obj instanceof GameType) {
-            return ((GameType) obj).getModID() == this.configuration.getModID();
-        } else {
-            return false;
-        }
+        } else
+            return obj instanceof GameType && ((GameType) obj).getModID() == this.configuration.getModID();
     }
 
     public void setupNewGame() {
         this.renderStrings.clear();
+
+        // adds the pingComponent if isPingShown
+        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)      this.renderStrings.add(FpsComponent.getFps());
+
+
         for(IComponent component : this.components) {
             component.setupNewGame();
             this.renderStrings.add(component.getRenderingString());
@@ -108,15 +114,20 @@ public class Game {
     // this is called even if the game hasn't started
     public void updateRenderStrings() {
         this.renderStrings.clear();
+
+        // adds the pingComponent if isPingShown
+        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)     this.renderStrings.add(FpsComponent.getFps());
+
         // add information about the game status for debug reasons
         if(HudPixelMod.IS_DEBUGGING) {
             renderStrings.add(this.configuration.getShortName() + " " + (this.hasStarted ? "started" : "not started"));
         }
-        for(int i = 0; i < components.size(); i++) {
+        for (IComponent component : components) {
             // only add the string if it actually contains something
             // so if you set the display to bottom, it doesn't float
-            if(!this.components.get(i).getRenderingString().isEmpty()) {
-                this.renderStrings.add(this.components.get(i).getRenderingString());
+            if (!component.getRenderingString().isEmpty()) {
+                this.renderStrings.add(component.getRenderingString());
             }
         }
     }

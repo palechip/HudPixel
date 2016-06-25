@@ -1,9 +1,9 @@
 package com.palechip.hudpixelmod;
 
+import com.palechip.hudpixelmod.uptodate.UpdateChannel;
+
 import java.io.InputStream;
 import java.util.Properties;
-
-import com.palechip.hudpixelmod.uptodate.UpdateChannel;
 
 /**
  * Static class providing properties from the hudpixel.properties file
@@ -12,7 +12,7 @@ import com.palechip.hudpixelmod.uptodate.UpdateChannel;
 public class HudPixelProperties {
     public static final String VERSION;
     public static final UpdateChannel UPDATE_CHANNEL;
-    public static final String SHORT_VERSION = "2.5.1"; // only to be used for the annotation which requires such a constant.
+    public static final String SHORT_VERSION = "0.2"; // only to be used for the annotation which requires such a constant.
 
     private static final String DEFAULT_VERSION = "2.5.1.0";
     static {
