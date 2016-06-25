@@ -49,31 +49,39 @@ class OnlineFriend {
     private String gamemode;
 
     private BufferedImage image;
-    private DynamicTexture texture;
     private ResourceLocation resourceLocation;
-    private int heigt;
-    private int width;
     private boolean imageLoaded = false;
 
+    String getUsername() {return username;}
+    String getGamemode() {return gamemode;}
+    void setGamemode(String gamemode) {this.gamemode = gamemode;}
+
+    /**
+     * Constructor ... also loads the playerhead
+     * @param username Username
+     * @param gamemode current string to render
+     */
     OnlineFriend(String username, String gamemode){
         this.gamemode = gamemode;
         this.username = username;
         loadSkinsFromURL();
     }
 
-    String getUsername() {return username;}
-    String getGamemode() {return gamemode;}
-    void setGamemode(String gamemode) {this.gamemode = gamemode;}
-
+    /**
+     * helper function to extract the player head from the skin and also store it in
+     * the dynamic resourcelocation provided by mc.
+     */
     private void setupImage(){
         image = image.getSubimage(8,8,8,8);
-        heigt = image.getHeight();
-        width = image.getWidth();
-        texture = new DynamicTexture(image);
+        DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(username, texture);
         imageLoaded = true;
     }
 
+    /**
+     * helper function to load the minecraft skin at "http://skins.minecraft.net/MinecraftSkins/<USERNAME>.png"
+     * uses a callback class so the mainthread isn't stopped while loading the image
+     */
     private void loadSkinsFromURL() {
         final ExecutorService service;
         final Future<BufferedImage> task;
@@ -93,22 +101,33 @@ class OnlineFriend {
         service.shutdownNow();
     }
 
+    /**
+     * Performs the rendering for the online friends display
+     * @param xStart Startposition given by the manager class
+     * @param yStart Startposition given by the manager class
+     */
     void renderOnlineFriend(float xStart, float yStart){
 
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-
+        //Renders the background of each online friend
         RenderUtils.renderBoxWithColor(xStart, yStart, 120, 23, 0, 1f, 1f, 1f, 0.15f);
 
+        //drwaws the player head after t is loaded
         if(image != null && resourceLocation != null && imageLoaded)
             RenderUtils.drawModalRectWithCustomSizedTexture(
                     Math.round(xStart + 2), Math.round(yStart + 2), 0, 0,
                     20, 20, 20f, 20f , resourceLocation);
 
+
+        //draws the strings with the minecraft fontRenderer
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + username,xStart + 26, yStart +3, 0xffffff);
         fontRenderer.drawStringWithShadow(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 12, 0xffffff);
     }
 }
 
+/**
+ * Helper class to get the image via url request and filereader
+ */
 class callURL implements Callable<BufferedImage> {
     private String username;
 
