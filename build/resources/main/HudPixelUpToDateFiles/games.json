@@ -1,0 +1,878 @@
+{
+	"version": 5,
+	"games": [{
+		"officialName": "Quakecraft",
+		"shortName": "Quake",
+		"databaseName": "Quake",
+		"databaseID": 2,
+		"modID": 1,
+		"chatTag": "Quake",
+		"bossbarName": "Quakecraft",
+		"scoreboardName": "Quakecraft",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "quake",
+		"configPrefix": "quake",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"KillstreakTracker"]
+	},
+	{
+		"officialName": "The Walls",
+		"shortName": "Walls",
+		"databaseName": "Walls",
+		"databaseID": 3,
+		"modID": 2,
+		"chatTag": "Walls",
+		"bossbarName": "Walls",
+		"scoreboardName": "Walls",
+		"scoreboardMap": "",
+		"startMessage": "The game has started! You",
+		"endMessage": "You earned a total of",
+		"configCategory": "the walls",
+		"configPrefix": "walls",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"WallsKillCounter"]
+	},
+	{
+		"officialName": "Paintball Warfare",
+		"shortName": "Paintball",
+		"databaseName": "Paintball",
+		"databaseID": 4,
+		"modID": 3,
+		"chatTag": "PB",
+		"bossbarName": "Paintball",
+		"scoreboardName": "Paintball",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "paintball warfare",
+		"configPrefix": "paintball",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"PaintballKillstreakTracker"]
+	},
+	{
+		"officialName": "Blitz Survival Games",
+		"shortName": "Blitz",
+		"databaseName": "HungerGames",
+		"databaseID": 5,
+		"modID": 4,
+		"chatTag": "B-SG",
+		"bossbarName": "Blitz SG",
+		"scoreboardName": "Blitz SG",
+		"scoreboardMap": "",
+		"startMessage": "You will get your items",
+		"endMessage": "You earned a total of",
+		"configCategory": "blitz survival games",
+		"configPrefix": "blitz",
+		"components": ["CoinCounterComponent",
+		"BlitzStarTracker",
+		"BlitzDeathmatchNotifier"]
+	},
+	{
+		"officialName": "The TNT Games",
+		"shortName": "TNTGames",
+		"databaseName": "TNTGames",
+		"databaseID": 6,
+		"modID": 5,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "",
+		"startMessage": "",
+		"endMessage": "",
+		"configCategory": "tnt games",
+		"configPrefix": "",
+		"components": []
+	},
+	{
+		"officialName": "TNT Bow Spleef",
+		"shortName": "Bow Spleef",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 6,
+		"chatTag": "Bow Spleef",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "(Bow Spleef \\([A-Z]\\))",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "tnt games",
+		"configPrefix": "tnt",
+		"components": ["TimerComponent"]
+	},
+	{
+		"officialName": "TNT Run",
+		"shortName": "TNT Run",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 7,
+		"chatTag": "TNT Run",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "(TNT Run \\([A-Z]\\))",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "tnt games",
+		"configPrefix": "tnt",
+		"components": ["TimerComponent"]
+	},
+	{
+		"officialName": "TNT Wizards",
+		"shortName": "Wizards",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 8,
+		"chatTag": "TNT Wizards",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "(Wizards \\([A-Z]\\))",
+		"startMessage": "You are on team",
+		"endMessage": "You earned a total of",
+		"configCategory": "tnt games",
+		"configPrefix": "tnt",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"KillstreakTracker"]
+	},
+	{
+		"officialName": "TNT Tag",
+		"shortName": "TNT Tag",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 9,
+		"chatTag": "TNT Tag",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "(TNT Tag \\([A-Z]\\))",
+		"startMessage": "The TNT has been released!",
+		"endMessage": "You earned a total of",
+		"configCategory": "tnt games",
+		"configPrefix": "tnt",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "VampireZ",
+		"shortName": "VampireZ",
+		"databaseName": "VampireZ",
+		"databaseID": 7,
+		"modID": 10,
+		"chatTag": "VampireZ",
+		"bossbarName": "VampireZ",
+		"scoreboardMap": "VampireZ",
+		"scoreboardName": "",
+		"startMessage": "30 seconds till the first wave, get ready!",
+		"endMessage": "You earned a total of",
+		"configCategory": "vampirez",
+		"configPrefix": "vampireZ",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"VampireZBalanceComponent"]
+	},
+	{
+		"officialName": "Mega Walls",
+		"shortName": "Mega Walls",
+		"databaseName": "Walls3",
+		"databaseID": 13,
+		"modID": 11,
+		"chatTag": "Mega Walls",
+		"bossbarName": "Mega Walls",
+		"scoreboardName": "Mega Walls",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "mega walls",
+		"configPrefix": "megaWalls",
+		"components": ["CoinCounterComponent",
+		"MegaWallsKillCounter"]
+	},
+	{
+		"officialName": "Arena Brawl",
+		"shortName": "Arena",
+		"databaseName": "Arena",
+		"databaseID": 17,
+		"modID": 12,
+		"chatTag": "Arena",
+		"bossbarName": "Arena Brawl",
+		"scoreboardName": "Arena Brawl",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arena brawl",
+		"configPrefix": "arena",
+		"components": ["CoinCounterComponent"]
+	},
+	{
+		"officialName": "UHC Champions",
+		"shortName": "UHC",
+		"databaseName": "UHC",
+		"databaseID": 20,
+		"modID": 13,
+		"chatTag": "",
+		"bossbarName": "UHC Champions",
+		"scoreboardName": "UHC Champions",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "uhc",
+		"configPrefix": "uhc",
+		"components": ["CoinCounterComponent"]
+	},
+	{
+		"officialName": "Cops and Crims",
+		"shortName": "Cops & Crims",
+		"databaseName": "MCGO",
+		"databaseID": 21,
+		"modID": 14,
+		"chatTag": "",
+		"bossbarName": "Cops and Crims",
+		"scoreboardName": "Cops and Crims",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "cops and crims",
+		"configPrefix": "copsAndCrims",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "Warlords",
+		"shortName": "Warlords",
+		"databaseName": "Battleground",
+		"databaseID": 23,
+		"modID": 15,
+		"chatTag": "",
+		"bossbarName": "WARLORDS",
+		"scoreboardName": "WARLORDS",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "warlords",
+		"configPrefix": "warlords",
+		"components": ["TimerComponent",
+		"CoinCounterComponent",
+		"WarlordsDamageAndHealingCounter"]
+	},
+	{
+		"officialName": "Arcade Games",
+		"shortName": "Arcade",
+		"databaseName": "Arcade",
+		"databaseID": 14,
+		"modID": 16,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "",
+		"startMessage": "",
+		"endMessage": "",
+		"configCategory": "arcade games",
+		"configPrefix": "",
+		"components": []
+	},
+	{
+		"officialName": "Blocking Dead",
+		"shortName": "Blocking Dead",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 17,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Blocking Dead",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": []
+	},
+	{
+		"officialName": "Bounty Hunters",
+		"shortName": "Bounty Hunters",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 18,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Bounty Hunters",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "Build Battle",
+		"shortName": "Build Battle",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 19,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Build Battle",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "Creeper Attack",
+		"shortName": "Creeper Attack",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 20,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Creeper Attack",
+		"startMessage": "The game has started! First wave in 10 seconds",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "Dragon Wars",
+		"shortName": "Dragon Wars",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 21,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Dragon Wars",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["CoinCounterComponent",
+		"KillstreakTracker"]
+	},
+	{
+		"officialName": "Ender Spleef",
+		"shortName": "Ender Spleef",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 22,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Ender Spleef",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent"]
+	},
+	{
+		"officialName": "Farm Hunt",
+		"shortName": "Farm Hunt",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 23,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Farm Hunt",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["CoinCounterComponent"]
+	},
+	{
+		"officialName": "Galaxy Wars",
+		"shortName": "Galaxy Wars",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 24,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Galaxy Wars",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent",
+		"CoinCounterComponent"]
+	},
+	{
+		"officialName": "Party Games 1",
+		"shortName": "Party Games 1",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 25,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Party Games 1",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent"]
+	},
+	{
+		"officialName": "Party Games 2",
+		"shortName": "Party Games 2",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 26,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Party Games 2",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["TimerComponent"]
+	},
+	{
+		"officialName": "Throw Out",
+		"shortName": "Throw Out",
+		"databaseName": "",
+		"databaseID": -1,
+		"modID": 27,
+		"chatTag": "",
+		"bossbarName": "",
+		"scoreboardName": "",
+		"scoreboardMap": "Throw Out",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": "You earned a total of",
+		"configCategory": "arcade games",
+		"configPrefix": "arcade",
+		"components": ["CoinCounterComponent",
+		"KillstreakTracker"]
+	}, {
+        "officialName": "Turbo Kart Racers",
+		"shortName": "Kart Racers",
+		"databaseName": "GingerBread",
+		"databaseID": 25,
+		"modID": 28,
+		"chatTag": "",
+		"bossbarName": "Turbo Kart Racers",
+		"scoreboardName": "Turbo Kart Racers",
+		"scoreboardMap": "",
+		"startMessage": "                 to get ahead of everyone else!",
+		"endMessage": " For a total of",
+		"configCategory": "turbo kart racers",
+		"configPrefix": "kartRacers",
+		"components": ["CoinCounterComponent", "TkrTimer"]
+    },
+    {
+        "officialName": "SkyWars",
+		"shortName": "SkyWars",
+		"databaseName": "skywars",
+		"databaseID": 51,
+		"modID": 29,
+		"chatTag": "",
+		"bossbarName": "Skywars",
+		"scoreboardName": "Skywars",
+		"scoreboardMap": "",
+		"startMessage": "The game starts in 1 second!",
+		"endMessage": " You earned a total of",
+		"configCategory": "skywars",
+		"configPrefix": "skywars",
+		"components": ["CoinCounterComponent", "TimerComponent"]
+    }
+    ],
+	"components": [{
+		"name": "WallsKillCounter",
+		"instances": [{
+			"ids": [2],
+			"params": [{
+				"type": "KillType",
+				"value": "Normal"
+			}]
+		},
+		{
+			"ids": [2],
+			"params": [{
+				"type": "KillType",
+				"value": "Assists"
+			}]
+		}]
+	},
+	{
+		"name": "VampireZBalanceComponent",
+		"instances": [{
+			"ids": [10],
+			"params": [{
+				"type": "Type",
+				"value": "Negative"
+			}]
+		},
+		{
+			"ids": [10],
+			"params": [{
+				"type": "Type",
+				"value": "Total"
+			}]
+		}]
+	},
+	{
+		"name": "MegaWallsKillCounter",
+		"instances": [{
+			"ids": [11],
+			"params": [{
+				"type": "KillType",
+				"value": "Normal"
+			}]
+		},
+		{
+			"ids": [11],
+			"params": [{
+				"type": "KillType",
+				"value": "Assists"
+			}]
+		},
+		{
+			"ids": [11],
+			"params": [{
+				"type": "KillType",
+				"value": "Final"
+			}]
+		},
+		{
+			"ids": [11],
+			"params": [{
+				"type": "KillType",
+				"value": "Final_Assists"
+			}]
+		},
+		{
+			"ids": [11],
+			"params": [{
+				"type": "KillType",
+				"value": "Wither_Coins"
+			}]
+		}]
+	},
+	{
+		"name": "WarlordsDamageAndHealingCounter",
+		"instances": [{
+			"ids": [15],
+			"params": [{
+				"type": "Type",
+				"value": "Damage"
+			}]
+		},
+		{
+			"ids": [15],
+			"params": [{
+				"type": "Type",
+				"value": "Healing"
+			}]
+		}]
+	},
+	{
+		"name": "PaintballKillstreakTracker",
+		"instances": [{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Triple Shot"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Quintuple Shot"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Strong Arm"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Super Strong Arm"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Force Field"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "RAMBO"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Backstab"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Sentry"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "TNT Rain"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Nuke"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": ""
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Lightning"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": "Bomber Man"
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Bomber Man"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": "Lightning"
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Ender Eye"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": "Ender Pearl"
+			}]
+		},
+		{
+			"ids": [3],
+			"params": [{
+				"type": "String",
+				"value": "Ender Pearl"
+			},
+			{
+				"type": "boolean",
+				"value": "false"
+			},
+			{
+				"type": "boolean",
+				"value": "true"
+			},
+			{
+				"type": "String",
+				"value": "Ender Eye"
+			}]
+		}]
+	},{
+		"name": "TkrTimer",
+		"instances": [{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "0"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "1"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "2"
+			}]
+		},
+		{
+			"ids": [28],
+			"params": [{
+				"type": "integer",
+				"value": "3"
+			}]
+		}]
+	}]
+}
