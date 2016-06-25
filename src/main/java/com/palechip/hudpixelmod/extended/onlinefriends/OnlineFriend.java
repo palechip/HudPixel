@@ -170,6 +170,8 @@ public class OnlineFriend {
     /**
      * helper function to load the minecraft skin at "http://skins.minecraft.net/MinecraftSkins/<USERNAME>.png"
      * uses a callback class so the mainthread isn't stopped while loading the image
+     * had to move to waiting code into a external thread ... so the mainthread is mot stopped
+     * while waiting
      */
     private void loadSkinFromURL(){
 
@@ -182,7 +184,6 @@ public class OnlineFriend {
 
                 service = Executors.newSingleThreadExecutor();
                 task = service.submit(new callURL());
-
 
                 try {
                     image = task.get();
