@@ -37,93 +37,185 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
 
-class OnlineFriend {
+public class OnlineFriend {
+
+    private static int loadingBar;
 
     private String username;
     private String gamemode;
 
     private BufferedImage image;
-    private DynamicTexture texture;
     private ResourceLocation resourceLocation;
-    private int heigt;
-    private int width;
     private boolean imageLoaded = false;
-
-    OnlineFriend(String username, String gamemode){
-        this.gamemode = gamemode;
-        this.username = username;
-        loadSkinsFromURL();
-    }
+    private boolean imageSetup = false;
 
     String getUsername() {return username;}
     String getGamemode() {return gamemode;}
     void setGamemode(String gamemode) {this.gamemode = gamemode;}
 
+    /**
+     * Constructor ... also loads the playerhead
+     * @param username Username
+     * @param gamemode current string to render
+     */
+    OnlineFriend(String username, String gamemode){
+        this.gamemode = gamemode;
+        this.username = username;
+
+        loadSkinFromURL();
+    }
+
+    /**
+     * renders the loading animation
+     * @param xStart startposition of the friendsdisplay
+     * @param yStart startposition of the friendsdisplay
+     */
+    private void renderLoadingBar(float xStart, float yStart){
+
+        final int a = 2;
+        final int b = 1;
+        final float alpha = 0.8f;
+
+        switch (loadingBar){
+            case 0:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 1:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 2:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                break;
+            case 3:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                break;
+            default:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, 0.8f);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+        }
+    }
+
+    /**
+     * process the current loadingbar value
+     */
+    private static int tickCounter = 0;
+    public static void onClientTick(){
+        if(tickCounter >= 2){
+            if (loadingBar >= 15) loadingBar = 0;
+            else loadingBar ++;
+            tickCounter = 0;
+        } else tickCounter ++;
+    }
+
+    /**
+     * helper function to extract the player head from the skin and also store it in
+     * the dynamic resourcelocation provided by mc.
+     */
     private void setupImage(){
         image = image.getSubimage(8,8,8,8);
-        heigt = image.getHeight();
-        width = image.getWidth();
-        texture = new DynamicTexture(image);
+        DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.func_71410_x().func_110434_K().func_110578_a(username, texture);
-        imageLoaded = true;
+        imageSetup = true;
+        System.out.println("Skin setup for: " + username);
     }
 
-    private void loadSkinsFromURL() {
-        final ExecutorService service;
-        final Future<BufferedImage> task;
-
-        service = Executors.newFixedThreadPool(1);
-        task    = service.submit(new callURL(username));
-
-        try {
-            image = task.get();
-            setupImage();
-        } catch(final InterruptedException ex) {
-            ex.printStackTrace();
-        } catch(final ExecutionException ex) {
-            ex.printStackTrace();
-        }
-
-        service.shutdownNow();
-    }
-
+    /**
+     * Performs the rendering for the online friends display
+     * @param xStart Startposition given by the manager class
+     * @param yStart Startposition given by the manager class
+     */
     void renderOnlineFriend(float xStart, float yStart){
 
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().field_71466_p;
 
-        RenderUtils.renderBoxWithColor(xStart, yStart, 120, 23, 0, 1f, 1f, 1f, 0.15f);
+        //makes the background larger, if the string is to long
+        if(fontRenderer.func_78256_a(gamemode) > 90)
+            RenderUtils.renderBoxWithColor(xStart, yStart, fontRenderer.func_78256_a(gamemode) + 30, 24, 0, 1f, 1f, 1f, 0.15f);
+        else
+            RenderUtils.renderBoxWithColor(xStart, yStart, 120, 24, 0, 1f, 1f, 1f, 0.15f);
 
-        if(image != null && resourceLocation != null && imageLoaded)
+        //drwaws the player head after t is loaded
+        if(image != null && imageLoaded){
+            if(!imageSetup)
+            setupImage();
+            else
             RenderUtils.drawModalRectWithCustomSizedTexture(
                     Math.round(xStart + 2), Math.round(yStart + 2), 0, 0,
                     20, 20, 20f, 20f , resourceLocation);
 
-        fontRenderer.func_175063_a(EnumChatFormatting.GOLD + username,xStart + 26, yStart +3, 0xffffff);
-        fontRenderer.func_175063_a(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 12, 0xffffff);
-    }
-}
+        //if the players are not loaded yet the loading animation will be displayed
+        } else renderLoadingBar(xStart, yStart);
 
-class callURL implements Callable<BufferedImage> {
-    private String username;
 
-    callURL(String username){
-        this.username = username;
+        //draws the strings with the minecraft fontRenderer
+        fontRenderer.func_175063_a(EnumChatFormatting.GOLD + username,xStart + 26, yStart +4, 0xffffff);
+        fontRenderer.func_175063_a(EnumChatFormatting.GREEN + gamemode,xStart + 26, yStart + 13, 0xffffff);
+
     }
-    public BufferedImage call() {
-        try {
-            BufferedImage image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
-            return image;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    /**
+     * helper function to load the minecraft skin at "http://skins.minecraft.net/MinecraftSkins/<USERNAME>.png"
+     * uses a callback class so the mainthread isn't stopped while loading the image
+     * had to move to waiting code into a external thread ... so the mainthread is mot stopped
+     * while waiting
+     */
+    private void loadSkinFromURL(){
+
+        new Thread() {
+            @Override
+            public void run() {
+
+                final ExecutorService service;
+                final Future<BufferedImage> task;
+
+                service = Executors.newSingleThreadExecutor();
+                task = service.submit(new callURL());
+
+                try {
+                    image = task.get();
+                    System.out.println("Skin loaded for: " + username);
+                } catch(final InterruptedException ex) {
+                    System.out.println("Something went wrong while loading the skin for:" + username);
+                    ex.printStackTrace();
+                } catch(final ExecutionException ex) {
+                    System.out.println("Something went wrong while loading the skin for:" + username);
+                    ex.printStackTrace();
+                }
+
+                imageLoaded = true;
+
+                service.shutdownNow();
+            }
+        }.start();
+    }
+
+    /**
+     * Helper class to get the image via url request and filereader
+     */
+    class callURL implements Callable<BufferedImage> {
+
+        public BufferedImage call() throws Exception {
+            System.out.println("Going to load the skin for: " + username);
+            return ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
         }
-        return null;
     }
+
+
 }
+
+
+

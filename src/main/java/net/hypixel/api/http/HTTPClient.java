@@ -15,7 +15,7 @@ import java.net.URL;
 public class HTTPClient {
     private Gson gson = new Gson();
     private String url;
-    private Object callback;
+    private Callback callback;
 
     public <T> void get(String url, Callback<T> callback) {
         this.url = url;
@@ -36,7 +36,7 @@ public class HTTPClient {
                     }
                     reader.close();
                     T out = gson.fromJson(result, ((Callback<T>)HTTPClient.this.callback).getClazz());
-                    ((Callback<T>)HTTPClient.this.callback).callback(null, out);
+                    ((Callback<T>)HTTPClient.this.callback).callback(new Error("idk what went wrong xd"), out); //this used to NPE
                 } catch(Throwable e) {
                     ((Callback<T>)HTTPClient.this.callback).callback(e, null);
                 }

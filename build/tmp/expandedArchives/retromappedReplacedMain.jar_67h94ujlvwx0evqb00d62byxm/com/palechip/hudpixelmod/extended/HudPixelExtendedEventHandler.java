@@ -31,6 +31,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
+import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 class HudPixelExtendedEventHandler {
-
 
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre e){
@@ -69,9 +69,7 @@ class HudPixelExtendedEventHandler {
 
                 FancyChat.getInstance().openGui();
 
-                if(Minecraft.func_71410_x().field_71462_r instanceof GuiIngameMenu){
                     OnlineFriendsUpdater.requireUpdate=true;
-                }
 
             } else if(Config.isDebuging){
                 FancyChat.getInstance().openGui();
@@ -116,7 +114,9 @@ class HudPixelExtendedEventHandler {
                 //Tick for the friends list
                 if(Minecraft.func_71410_x().field_71462_r instanceof GuiIngameMenu){
                     OnlineFriendsUpdater.onClientTick();
+                    OnlineFriend.onClientTick();
                 }
+
 
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onClientTick();
