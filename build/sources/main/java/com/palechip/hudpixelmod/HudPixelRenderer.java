@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod;
 
-import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
@@ -39,7 +38,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -109,7 +107,7 @@ public class HudPixelRenderer {
         this.startWidthRight = (res.getScaledWidth() + HudPixelConfig.displayXOffset) - 1;
         this.startHeightBottom = (res.getScaledHeight() + HudPixelConfig.displayYOffset) - 1;
 
-        updateDefaultRenderStrings(Lists.newArrayList());
+        updateDefaultRenderStrings();
         
         // check the result timer
         if(this.results != null) {
@@ -131,21 +129,22 @@ public class HudPixelRenderer {
         };
         return a[r.nextInt(a.length)];
     }
-    private ArrayList<String> updateDefaultRenderStrings(List list){
+    private void updateDefaultRenderStrings(){
         ArrayList<String> bufferStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelReloaded " + EnumChatFormatting.GOLD + HudPixelProperties.VERSION);
-        bufferStrings.addAll(list);
-        if(Config.isPingShown)              bufferStrings.add(EnumChatFormatting.GOLD +  PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)               bufferStrings.add(EnumChatFormatting.GOLD + FpsComponent.getFps());
+        if(Config.isPingShown)bufferStrings.add(EnumChatFormatting.GOLD +  PingComponent.getStaticRenderingString());
+        if(Config.isFpsShown)bufferStrings.add(EnumChatFormatting.GOLD + FpsComponent.getFps());
+
         this.defaultRenderingStrings = bufferStrings;
-        return bufferStrings;
     }
     
     /**
      *  Called with the last set of rendering strings so they can be displayed longer.
      */
     public void displayResults(ArrayList<String> results) {
-        this.results = updateDefaultRenderStrings(results);
+        if(Config.isPingShown) results.remove(0);
+        if(Config.isFpsShown) results.remove(0);
+        this.results = new ArrayList<String>(results);
         this.resultStartTime = System.currentTimeMillis();
         this.resultRenderTime = HudPixelConfig.displayShowResultTime >= 0 ? HudPixelConfig.displayShowResultTime * 1000 : Integer.MAX_VALUE; // transform to milliseconds
     }
@@ -165,7 +164,8 @@ public class HudPixelRenderer {
         }
         // results after a game
         else if(this.results != null) {
-            renderStrings = this.results;
+            renderStrings = new ArrayList<String>(defaultRenderingStrings);
+            renderStrings.addAll(results);
         }
         // tip all button with nothing else to display
         else if(HudPixelConfig.displayQuickLoadButton && Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
@@ -208,12 +208,14 @@ public class HudPixelRenderer {
 
             // results after a game
             else if(this.results != null && !(mc.currentScreen instanceof GuiIngameMenu ) ){
-                renderStrings = this.results;
+                renderStrings = new ArrayList<String>(defaultRenderingStrings);
+                renderStrings.addAll(results);
             }
 
             // tip all button with nothing else to display
             else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
                 renderStrings = this.nothingToDisplay;
+
             } else {
                 // default display
                 if(!this.defaultRenderingStrings.isEmpty() && !(mc.currentScreen instanceof GuiIngameMenu)) {

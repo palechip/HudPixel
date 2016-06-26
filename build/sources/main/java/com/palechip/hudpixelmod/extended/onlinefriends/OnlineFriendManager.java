@@ -55,7 +55,7 @@ public class OnlineFriendManager {
         ArrayList<OnlineFriend> ofList =  onlineFriendsList;
 
         if(ofList.isEmpty()){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... (try reopening the menu)", xStart, yStart, 0xffffff);
+            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Nobody online!", xStart, yStart, 0xffffff);
         } else if(friendListExpected){
             fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
         } else {

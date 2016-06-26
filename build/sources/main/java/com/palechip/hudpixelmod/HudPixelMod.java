@@ -348,14 +348,14 @@ public class HudPixelMod
     }
 
     public void logInfo(String s) {
-        this.LOGGER.info(s);
-    }
+    this.LOGGER.info(s);
+}
 
     public void logWarn(String s) {
         this.LOGGER.warn(s);
     }
 
     public void logError(String s) {
-        this.LOGGER.error(s); 	
+        this.LOGGER.error(s);
     }
 }

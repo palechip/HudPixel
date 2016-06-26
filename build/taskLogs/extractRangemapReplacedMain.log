@@ -1,5 +1,5 @@
 Symbol range map extraction starting
-Processing 94 files
+Processing 95 files
 processing com\palechip\hudpixelmod\HudPixelMod.java
 processing com\palechip\hudpixelmod\HudPixelProperties.java
 processing com\palechip\hudpixelmod\HudPixelRenderer.java
@@ -57,6 +57,7 @@ processing com\palechip\hudpixelmod\extended\statsviewer\gamemodes\nullStatsView
 processing com\palechip\hudpixelmod\extended\statsviewer\msc\IGameStatsViewer.java
 processing com\palechip\hudpixelmod\extended\statsviewer\msc\StatsCache.java
 processing com\palechip\hudpixelmod\extended\statsviewer\msc\StatsViewerFactory.java
+processing com\palechip\hudpixelmod\extended\util\LoggerHelper.java
 processing com\palechip\hudpixelmod\extended\util\McColorHelper.java
 processing com\palechip\hudpixelmod\extended\util\MessageBuffer.java
 processing com\palechip\hudpixelmod\extended\util\RenderUtils.java
