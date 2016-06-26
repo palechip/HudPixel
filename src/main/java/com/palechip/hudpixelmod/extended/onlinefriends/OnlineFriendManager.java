@@ -1,13 +1,3 @@
-package com.palechip.hudpixelmod.extended.onlinefriends;
-
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.FMLClientHandler;
-
-import java.util.ArrayList;
-
-import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater.friendListExpected;
-
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -34,13 +24,28 @@ import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdat
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.util.ArrayList;
+
+import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater.friendListExpected;
+
 public class OnlineFriendManager {
 
-    private static final int FRIENDDYSPLAY_OFFSET = 24;
+    private static final int FRIENDDYSPLAY_OFFSET = 25;
 
     private static ArrayList<OnlineFriend> onlineFriendsListBUFFER = new ArrayList<OnlineFriend>();
     private static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
 
+
+    /**
+     * Function to manage all the rendering for the friends display
+     */
     public void renderOnlineFriends(){
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
@@ -50,7 +55,7 @@ public class OnlineFriendManager {
         ArrayList<OnlineFriend> ofList =  onlineFriendsList;
 
         if(ofList.isEmpty()){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... (try reopening the menu)", xStart, yStart, 0xffffff);
+            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Nobody online!", xStart, yStart, 0xffffff);
         } else if(friendListExpected){
             fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
         } else {
@@ -61,12 +66,20 @@ public class OnlineFriendManager {
         }
     }
 
+
+    /**
+     * replace the currently shown onlinefriends list with the bufft one
+     */
     public void update(){
         onlineFriendsList = new ArrayList<OnlineFriend>(onlineFriendsListBUFFER);
         onlineFriendsListBUFFER.clear();
-
     }
 
+    /**
+     * ADD/COPY/UPDATE player to the BufferList
+     * @param playerName username
+     * @param gameType string to render
+     */
     void addPlayer(String playerName, String gameType) {
         if(!onlineFriendsList.isEmpty()) {
             for (OnlineFriend of : onlineFriendsList) {
