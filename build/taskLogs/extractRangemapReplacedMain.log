@@ -1,5 +1,5 @@
 Symbol range map extraction starting
-Processing 95 files
+Processing 106 files
 processing com\palechip\hudpixelmod\HudPixelMod.java
 processing com\palechip\hudpixelmod\HudPixelProperties.java
 processing com\palechip\hudpixelmod\HudPixelRenderer.java
@@ -82,7 +82,9 @@ processing com\palechip\hudpixelmod\util\MultiLineCommandParser.java
 processing com\palechip\hudpixelmod\util\ScoreboardReader.java
 processing com\palechip\hudpixelmod\util\UuidHelper.java
 processing net\hypixel\api\HypixelAPI.java
-processing net\hypixel\api\http\HTTPClient.java
+processing net\hypixel\api\exceptions\APIThrottleException.java
+processing net\hypixel\api\exceptions\HypixelAPIException.java
+processing net\hypixel\api\exceptions\ParamTypeException.java
 processing net\hypixel\api\reply\AbstractReply.java
 processing net\hypixel\api\reply\BoostersReply.java
 processing net\hypixel\api\reply\FindGuildReply.java
@@ -91,7 +93,16 @@ processing net\hypixel\api\reply\GuildReply.java
 processing net\hypixel\api\reply\KeyReply.java
 processing net\hypixel\api\reply\PlayerReply.java
 processing net\hypixel\api\reply\SessionReply.java
-processing net\hypixel\api\util\APIThrottleException.java
+processing net\hypixel\api\request\Request.java
+processing net\hypixel\api\request\RequestBuilder.java
+processing net\hypixel\api\request\RequestParam.java
+processing net\hypixel\api\request\RequestType.java
+processing net\hypixel\api\request\RequestVar.java
 processing net\hypixel\api\util\APIUtil.java
 processing net\hypixel\api\util\Callback.java
-processing net\hypixel\api\util\HypixelAPIException.java
+processing net\hypixel\api\util\GameType.java
+processing net\hypixel\api\util\Rarity.java
+processing net\hypixel\api\util\pets\Pet.java
+processing net\hypixel\api\util\pets\PetAttribute.java
+processing net\hypixel\api\util\pets\PetStats.java
+processing net\hypixel\api\util\pets\PetType.java

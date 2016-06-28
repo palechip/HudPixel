@@ -6,7 +6,6 @@ package net.hypixel.api;
 
 import com.google.common.base.Preconditions;
 import net.hypixel.api.http.HTTPClient;
-import net.hypixel.api.reply.*;
 import net.hypixel.api.util.APIUtil;
 import net.hypixel.api.util.Callback;
 import net.hypixel.api.util.HypixelAPIException;
