@@ -1,30 +1,39 @@
-// HypixelAPI (c) 2014
-// Code based on https://github.com/HypixelDev/PublicAPI/commit/0180d6af7c7cb477978c24ba384452e93f30a7b4
-// This is a temporary copyright header which will be replaced when a official header is added.
-
 package net.hypixel.api;
 
 import com.google.common.base.Preconditions;
-import net.hypixel.api.http.HTTPClient;
-import net.hypixel.api.reply.*;
-import net.hypixel.api.util.APIUtil;
+import com.google.gson.Gson;
+import net.hypixel.api.exceptions.APIThrottleException;
+import net.hypixel.api.exceptions.HypixelAPIException;
+import net.hypixel.api.reply.AbstractReply;
+import net.hypixel.api.request.Request;
 import net.hypixel.api.util.Callback;
-import net.hypixel.api.util.HypixelAPIException;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @SuppressWarnings("unused")
 public class HypixelAPI {
-    private static final String BASE_URL = "https://api.hypixel.net/";
+
     private static HypixelAPI instance;
+    private final Gson gson;
     private final ReentrantReadWriteLock lock;
-    private final HTTPClient httpClient;
+    private final ExecutorService exService = Executors.newCachedThreadPool();
+    private final HttpClient httpClient;
     private UUID apiKey;
+
     private HypixelAPI() {
+        gson = new Gson();
         lock = new ReentrantReadWriteLock();
-        httpClient = new HTTPClient();
+        httpClient = HttpClientBuilder.create().build();
     }
 
     /**
@@ -45,7 +54,19 @@ public class HypixelAPI {
      * the application will never exit.
      */
     public void finish() {
-        instance = null;
+        try {
+            exService.shutdown();
+            instance = null;
+        } catch (Exception e) {
+            throw new HypixelAPIException(e);
+        }
+    }
+
+    /**
+     * @return currently set API key
+     */
+    public UUID getApiKey() {
+        return apiKey;
     }
 
     /**
@@ -64,160 +85,46 @@ public class HypixelAPI {
     }
 
     /**
-     * Call this method to get information about this API's key
+     * Use this method to pull data off of the Public API
      *
-     * @param callback The callback to execute when finished
+     * @param request Request object to pull from API
+     * @param <R>     The class of the reply
+     * @throws HypixelAPIException
      */
-    public void getKeyInfo(Callback<KeyReply> callback) {
-        getKeyInfo(apiKey, callback);
-    }
-
-    /**
-     * Call this method to get information about the provided API key
-     *
-     * @param apiKey   The key to get information about
-     * @param callback The callback to execute when finished
-     */
-    public void getKeyInfo(UUID apiKey, Callback<KeyReply> callback) {
+    public <R extends AbstractReply> R getSync(Request request) throws HypixelAPIException {
         lock.readLock().lock();
+        SyncCallback<R> callback = new SyncCallback<R>(request.getRequestType().getReplyClass());
         try {
             if (doKeyCheck(callback)) {
-                httpClient.get(BASE_URL + "key?key=" + apiKey.toString(), callback);
+                Future<HttpResponse> future = get(request, callback);
+                future.get();
             }
+        } catch (InterruptedException e) {
+            callback.callback(e, null);
+        } catch (ExecutionException e){
+            callback.callback(e, null);
         } finally {
             lock.readLock().unlock();
+        }
+        if (callback.failCause != null) {
+            throw new HypixelAPIException(callback.failCause);
+        } else {
+            return callback.result;
         }
     }
 
     /**
-     * Call this method to find a guild's ID
+     * Execute Request asynchronously, executes Callback when finished
      *
-     * @param name     The name of the guild, optional
-     * @param player   A player in the guild, optional
-     * @param callback The callback to execute when finished
+     * @param request  Request to get
+     * @param callback Callback to execute
+     * @param <R>      Class of the reply
      */
-    public void findGuild(String name, String player, Callback<FindGuildReply> callback) {
+    public <R extends AbstractReply> void getAsync(Request request, Callback<R> callback) {
         lock.readLock().lock();
         try {
             if (doKeyCheck(callback)) {
-                String args;
-                if (name != null) {
-                    args = "byName=" + StringEscapeUtils.escapeHtml4(name);
-                } else if (player != null) {
-                    args = "byPlayer=" + StringEscapeUtils.escapeHtml4(player);
-                } else {
-                    callback.callback(new HypixelAPIException("Neither name nor player was provided!"), null);
-                    return;
-                }
-                httpClient.get(BASE_URL + "findGuild?key=" + apiKey.toString() + "&" + args, callback);
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * Call this method to get a guild's object
-     *
-     * @param id       The ID of the guild
-     * @param callback The callback to execute when finished
-     */
-    public void getGuild(String id, Callback<GuildReply> callback) {
-        lock.readLock().lock();
-        try {
-            if (doKeyCheck(callback)) {
-                if (id == null) {
-                    callback.callback(new HypixelAPIException("Guild id wasn't provided!"), null);
-                } else {
-                    httpClient.get(BASE_URL + "guild?key=" + apiKey.toString() + "&id=" + StringEscapeUtils.escapeHtml4(id), callback);
-                }
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * Call this method to get the active boosters
-     * This method is asynchronous and is preferred over it's synchronous counterpart.
-     *
-     * @param callback The callback to execute when finished
-     */
-    public void getBoosters(Callback<BoostersReply> callback) {
-        lock.readLock().lock();
-        try {
-            if (doKeyCheck(callback)) {
-                httpClient.get(BASE_URL + "boosters?key=" + apiKey.toString(), callback);
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * Call this method to get a player's friends
-     *
-     * @param player   The player to find friends of
-     * @param callback The callback to execute when finished
-     */
-    public void getFriends(String player, Callback<FriendsReply> callback) {
-        lock.readLock().lock();
-        try {
-            if (doKeyCheck(callback)) {
-                if (player == null) {
-                    callback.callback(new HypixelAPIException("No player was provided!"), null);
-                } else {
-                    httpClient.get(BASE_URL + "friends?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
-                }
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * Call this method to get a player's session
-     * This method is asynchronous and is preferred over it's synchronous counterpart.
-     *
-     * @param player   The player to get the session of
-     * @param callback The callback to execute when finished
-     */
-    public void getSession(String player, Callback<SessionReply> callback) {
-        lock.readLock().lock();
-        try {
-            if (doKeyCheck(callback)) {
-                if (player == null) {
-                    callback.callback(new HypixelAPIException("No player was provided!"), null);
-                } else {
-                    httpClient.get(BASE_URL + "session?key=" + apiKey.toString() + "&player=" + StringEscapeUtils.escapeHtml4(player), callback);
-                }
-            }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    /**
-     * Call this method to get a player's object
-     *
-     * @param player   The name of the player, optional
-     * @param uuid     The uuid of the player, optional
-     * @param callback The callback to execute when finished
-     */
-    public void getPlayer(String player, UUID uuid, Callback<PlayerReply> callback) {
-        lock.readLock().lock();
-        try {
-            if (doKeyCheck(callback)) {
-                String args;
-                if (player != null) {
-                    args = "name=" + StringEscapeUtils.escapeHtml4(player);
-                } else if (uuid != null) {
-                    args = "uuid=" + APIUtil.stripDashes(uuid);
-                } else {
-                    callback.callback(new HypixelAPIException("Neither player nor uuid was provided!"), null);
-                    return;
-                }
-                httpClient.get(BASE_URL + "player?key=" + apiKey.toString() + "&" + args, callback);
+                get(request, callback);
             }
         } finally {
             lock.readLock().unlock();
@@ -236,6 +143,87 @@ public class HypixelAPI {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Internal method
+     *
+     * @param callback The callback to execute
+     * @param <T>      The class of the callback
+     * @return The ResponseHandler that wraps the callback
+     */
+    private <T extends AbstractReply> ResponseHandler<HttpResponse> buildResponseHandler(final Callback<T> callback) {
+        return new ResponseHandler<HttpResponse>() {
+            @Override
+            public HttpResponse handleResponse(HttpResponse obj) throws ClientProtocolException, IOException {
+                T value;
+                try {
+                    value = gson.fromJson(EntityUtils.toString(obj.getEntity(), "UTF-8"), callback.getClazz());
+
+                    HypixelAPI.this.checkReply(value);
+                } catch (Throwable t) {
+                    callback.callback(t, null);
+                    return obj;
+                }
+                callback.callback(null, value);
+                return obj;
+            }
+        };
+    }
+
+    /**
+     * Checks reply and throws appropriate exceptions based on it's content
+     *
+     * @param reply The reply to check
+     * @param <T>   The class of the reply
+     */
+    public <T extends AbstractReply> void checkReply(T reply) {
+        if (reply != null) {
+            if (reply.isThrottle()) {
+                throw new APIThrottleException();
+            }
+        }
+    }
+
+    /**
+     * Internal method
+     *
+     * @param request  The request to get
+     * @param callback The callback to execute
+     */
+    private Future<HttpResponse> get(Request request, Callback<?> callback) {
+        return get(request.getURL(this), callback);
+    }
+
+    /**
+     * Internal method
+     *
+     * @param url      The URL to send the request to
+     * @param callback The callback to execute
+     */
+    private Future<HttpResponse> get(final String url, final Callback<?> callback) {
+        return exService.submit(new Callable<HttpResponse>() {
+            @Override
+            public HttpResponse call() throws Exception {
+                return httpClient.execute(new HttpGet(url), HypixelAPI.this.buildResponseHandler(callback));
+            }
+        });
+    }
+
+    private class SyncCallback<T extends AbstractReply> extends Callback<T> {
+        private Throwable failCause;
+        private T result;
+
+        private SyncCallback(Class<? extends AbstractReply> clazz) {
+            //noinspection unchecked
+            super((Class<T>) clazz);
+        }
+
+        @Override
+        public void callback(Throwable failCause, T result) {
+            this.failCause = failCause;
+            this.result = result;
         }
     }
 }

@@ -55,7 +55,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-@Mod(modid = HudPixelMod.MODID, version = HudPixelProperties.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory")
+@Mod(
+        modid = HudPixelMod.MODID,
+        version = HudPixelProperties.SHORT_VERSION,
+        name = HudPixelMod.NAME,
+        guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
+        clientSideOnly = true,
+        acceptedMinecraftVersions = "1.8.9"
+)
+
 public class HudPixelMod
 {
     public static final String MODID = "hudpixel";

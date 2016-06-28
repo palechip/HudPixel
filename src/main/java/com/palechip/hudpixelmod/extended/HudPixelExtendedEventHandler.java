@@ -52,7 +52,8 @@ class HudPixelExtendedEventHandler {
 
                 //just triggeres the statsrenderer if the player is waiting for the game to start
                 if(!(HudPixelMod.instance().gameDetector.isInLobby())
-                && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
+                && Config.isStats)
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
@@ -132,8 +133,8 @@ class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
-                FancyChat.getInstance().onRenderTick();
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
+                if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && Config.isFriendsDisplay){
                     HudPixelExtended.onlineFriendsManager.renderOnlineFriends();
                 }
             } else if(Config.isDebuging){

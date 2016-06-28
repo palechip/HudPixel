@@ -54,7 +54,7 @@ public class FancyChat {
 //######################################################################################################################
 
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
-    private static final long displayTimeMs = 15000;
+    private static long displayTimeMs = Config.displayMessages * 1000;
     // [SETTING] the offset between each chatline (in ms)
     public static final int RENDERING_HEIGHT_OFFSET = 9;
     // [SETTING] the with of the fancy chat overlay
@@ -62,7 +62,7 @@ public class FancyChat {
     // [SETTING] the with of the fancy chat overlay
     private static final int BOTTOM_Y_OFFSET = 28;
     // [SETTING] the with of the fancy chat overlay
-    private static final int MAX_STORED_FANCYCHATMESSAGES = 1000;
+    private static int MAX_STORED_FANCYCHATMESSAGES = Config.storedMessages;
     // [SETTING] the with of the fancy chat overlay
     private static final int MAX_SCROLLIST_LINES = 20;
     // [SETTING] the with of the fancy chat overlay

@@ -23,7 +23,7 @@
 package com.palechip.hudpixelmod.util;
 
 /**
- * Replaces net.hypixel.api.util.GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
+ * Replaces GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
  * @author palechip
  *
  */

@@ -1,8 +1,6 @@
-// HypixelAPI (c) 2014
-// Code based on https://github.com/HypixelDev/PublicAPI/commit/0180d6af7c7cb477978c24ba384452e93f30a7b4
-// This is a temporary copyright header which will be replaced when a official header is added.
-
 package net.hypixel.api.reply;
+
+import net.hypixel.api.request.RequestType;
 
 @SuppressWarnings("unused")
 public abstract class AbstractReply {
@@ -22,6 +20,8 @@ public abstract class AbstractReply {
     public String getCause() {
         return cause;
     }
+
+    public abstract RequestType getRequestType();
 
     @Override
     public String toString() {
