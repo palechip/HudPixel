@@ -1,5 +1,6 @@
 package com.palechip.hudpixelmod.extended.statsviewer.msc;
 
+import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.QuakeStatsViewer;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.WarlordsStatsViewer;
 import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.nullStatsViewerI;
@@ -46,6 +47,9 @@ public class StatsViewerFactory {
 
         if(gameType == GameType.WARLORDS){
            return new WarlordsStatsViewer(playerName);
+        }
+        if(gameType == GameType.QUAKECRAFT){
+            return new QuakeStatsViewer(playerName);
         }
 
         return new nullStatsViewerI();
