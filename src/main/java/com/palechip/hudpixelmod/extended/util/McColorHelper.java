@@ -43,5 +43,8 @@ public interface McColorHelper {
     EnumChatFormatting GRAY = EnumChatFormatting.GRAY;
     EnumChatFormatting GREEN = EnumChatFormatting.GREEN;
     EnumChatFormatting D_GRAY = EnumChatFormatting.DARK_GRAY;
+    EnumChatFormatting YELLOW = EnumChatFormatting.YELLOW;
+    EnumChatFormatting OBFUSCATED = EnumChatFormatting.OBFUSCATED;
+    EnumChatFormatting ITALIC = EnumChatFormatting.ITALIC;
 
 }

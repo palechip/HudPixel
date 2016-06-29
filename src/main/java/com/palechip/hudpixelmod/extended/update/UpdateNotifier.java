@@ -1,8 +1,9 @@
 package com.palechip.hudpixelmod.extended.update;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.palechip.hudpixelmod.HudPixelProperties;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import net.minecraft.client.Minecraft;
@@ -42,15 +43,31 @@ import java.net.URL;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class UpdateNotifier implements McColorHelper{
+public class UpdateNotifier implements McColorHelper {
 
+//######################################################################################################################
+    private static String KEY_VERSION = "Version";
+    private static String KEY_UPDATEMESSAGE = "UpdateMessage";
+    private static String KEY_DOWNLOADLINK = "DownloadLink";
+    private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-unaussprechlich-experimental/checkforversion/Version.json";
     private static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
+//######################################################################################################################
 
-
-    public UpdateNotifier(){
-        getHttpRequest();
+    //pauses the thread to
+    public UpdateNotifier(boolean wait){
+        new Thread(){
+            @Override
+            public void run(){
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getHttpRequest();
+            }
+        }.start();
 
     }
 
@@ -58,18 +75,43 @@ public class UpdateNotifier implements McColorHelper{
 
         try {
 
-            URL u = new URL("https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-unaussprechlich-experimental/checkforversion/version.json");
+            URL u = new URL(LINK_TO_UPDATEFILE);
             HttpsURLConnection con = (HttpsURLConnection) u.openConnection();
             con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String data = br.readLine();
-            System.out.println(data);
-            printUpdateMessage(jsonParser(data));
 
+            StringBuilder sBuilder = new StringBuilder();
+            String buff = "";
+            while(( buff = br.readLine()) != null){
+                sBuilder.append(buff);
+            }
+            String data = sBuilder.toString();
+            System.out.println(data);
+            JsonObject jsonObject= jsonParser(data);
+            if(!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(HudPixelProperties.VERSION))
+                printUpdateMessage(jsonObject);
         } catch (MalformedURLException e) {
+            LoggerHelper.logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");
             e.printStackTrace();
         } catch (IOException e) {
+            LoggerHelper.logError("[UpdateNotifier]: Something went wrong while reading the update file!");
             e.printStackTrace();
+        }
+
+    }
+
+    private String getStringFromJson(String key, JsonObject jsonObject){
+        try{
+            if(jsonObject.get(key) != null){
+                return removeQuotes(jsonObject.get(key).toString());
+            } else {
+                LoggerHelper.logWarn("[UpdateNotifier]: Key '" + key + "' not Found in Json!");
+                return "";
+            }
+        } catch (Exception e){
+            LoggerHelper.logError("[UpdateNotifier]: Something went wrong while extracting Key '" + key + "' from Json!");
+            e.printStackTrace();
+            return D_RED +"Something went wrong while extracting Key '" + key + "' from Json!";
         }
 
     }
@@ -83,54 +125,91 @@ public class UpdateNotifier implements McColorHelper{
         return s.replace("\"", "");
     }
 
+
+    /**
+     * Yeah, best code-style EU .... it's messy but it's just for generating a update message, so no need for being nice code
+     * @param jsonObject
+     */
     private void printUpdateMessage(JsonObject jsonObject){
 
         printMessage(GOLD + SEPARATION_MESSAGE);
 
         printMessage("");
 
-        printMessage(GREEN + "A new version of " + GOLD + "Hud" + EnumChatFormatting.YELLOW + "Pixel" + GREEN + " has been published!");
-        new ChatMessageComposer("V" + removeQuotes(jsonObject.get("Version").toString()), WHITE).appendMessage
-                (new ChatMessageComposer(" click here to download now", EnumChatFormatting.GRAY)
-                        .makeLink(removeQuotes(jsonObject.get("DownloadLink").toString()))).send();
+        //GOING TO PRINT THE DOWLOADLINK
+        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud" + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
+        new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), EnumChatFormatting.YELLOW).appendMessage
+                (new ChatMessageComposer(" > click here to download the newest version < ", EnumChatFormatting.ITALIC)
+                        .makeLink(getStringFromJson(KEY_DOWNLOADLINK, jsonObject))).send();
 
         printMessage("");
 
-        printMessage(GOLD  + "----------------- " + GREEN + "Changelog for "
-                    + WHITE + "V" + removeQuotes(jsonObject.get("Version").toString())
-                    + GOLD + " -----------------");
+        //GOING TO PRINT THE UPDATE NOE OR DIE TEXT
+        printMessage(GRAY + "Your currently running v" + HudPixelProperties.VERSION + "! This version will now no longer be supported " +
+                "by the HudPixelTeam! So make sure to update to the newest version befor sending any bug-reports or feature requests!" +
+                " HudPixel Reloaded v3 is still in development state, so expect bugs and new features at any time!");
 
+        printMessage("");
+
+        //GOING TO PRINT THE CURRENT BUGREPORTMESSAGE
+        printMessage(GOLD + "------" + GREEN + " You can enter a bugreports directly on GitHub " + GOLD + "------");
+        new ChatMessageComposer(" press this link to report a bug on GitHub", RED)
+                        .makeLink("https://github.com/HudPixel/HudPixelExtended/issues").send();
+
+        //GOING TO PRINT THE CHANGELOG
+        printMessage("");
+        printMessage(GOLD  + "----------------- " + GREEN + "Changelog for "
+                    + EnumChatFormatting.YELLOW + "v" + getStringFromJson(KEY_VERSION, jsonObject)
+                    + GOLD + " -----------------");
         JsonObject jsonObject2 = jsonObject.get("UpdateMessages").getAsJsonObject();
         for(int i = 1; true; i++){
-            JsonElement buffE = jsonObject2.get("" + i);
-            if(buffE != null){
-                printChangelogLine(removeQuotes(buffE.toString()));
+            String buff;
+            if((!(buff = getStringFromJson(i + "", jsonObject2)).equals(""))){
+                printChangelogStyle(buff);
             } else {
                 break;
             }
         }
 
-        printMessage(GOLD + "-----------------------------------------------------");
-        printMessage("");
         printMessage(GOLD + SEPARATION_MESSAGE);
-
-        System.out.println(jsonObject.get("Version"));
     }
 
-    private void printChangelogLine(String s){
-
+    /**
+     * colors the brackets in the right color
+     * @param s text to print
+     */
+    private void printChangelogStyle(String s){
         if (s.startsWith("[+]")){
             printMessage(GREEN + "[+]"
-                    + GRAY + s.substring(3)
+                    + printChangelogText(s.substring(3))
             );
         } else if (s.startsWith("[-]")){
             printMessage(D_RED + "[-]"
-                    + GRAY + s.substring(3)
+                    + printChangelogText(s.substring(3))
             );
         } else {
-            printMessage(BLUE + s.substring(0, s.indexOf("]") + 1)
-                    + GRAY + s.substring(s.indexOf("]") + 1));
+            printMessage(EnumChatFormatting.YELLOW + s.substring(0, s.indexOf("]") + 1)
+                    + printChangelogText(s.substring(s.indexOf("]") + 1)));
         }
+    }
+
+    /**
+     * makes everything between ' those quotes white
+     * @param s text to process
+     * @return the processed text
+     */
+    private String printChangelogText(String s){
+        String[] singleWords = s.split(" ");
+        StringBuilder sBuilder = new StringBuilder();
+        for(String i : singleWords){
+            if(i.startsWith("'") && i.endsWith("'")){
+                 i = i.replace("'", "");
+                sBuilder.append(WHITE + " ").append(i);
+            } else {
+                sBuilder.append(GRAY + " ").append(i);
+            }
+        }
+        return sBuilder.toString();
     }
 
     /**
