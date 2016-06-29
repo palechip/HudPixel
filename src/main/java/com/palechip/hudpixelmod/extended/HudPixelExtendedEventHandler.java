@@ -34,6 +34,7 @@ import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
+import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -65,12 +66,15 @@ class HudPixelExtendedEventHandler {
     @SubscribeEvent
     public void onOpenGui(GuiOpenEvent e) {
         try {
+            new UpdateNotifier();
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork) {
 
                 FancyChat.getInstance().openGui();
 
-                    OnlineFriendsUpdater.requireUpdate=true;
+                OnlineFriendsUpdater.requireUpdate=true;
+
+                new UpdateNotifier();
 
             } else if(Config.isDebuging){
                 FancyChat.getInstance().openGui();

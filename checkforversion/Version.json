@@ -1,0 +1,12 @@
+{
+  "Version": "3.0.4",
+  "DownloadLink": "http://unaussprechlich.net",
+  "UpdateMessages":{
+    "1": "[+] added a settings menu for the extended features. You can now access all settings by pressing 'ModOptions' in the pause menu and then open press on the config button for 'HudPixel Reloaded'. You can also just press the key for 'Open Config', 'P' is the default key.",
+    "2": "[-] removed some unnecessary code from GitHub.",
+    "3": "[fixed] a 'java.util.ConcurrentModificationException' caused by some n00by code-style",
+    "4": "[updated] to the newest 'HypixelApi' ... I had to rewrite some parts of it to make it Java language-level 6 compatible. So there could be bugs in the future."
+  }
+}
+
+
