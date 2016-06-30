@@ -135,9 +135,11 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
         }
     }
 
-    private float getTrigger(String trigger)
-    {
-        //no switch because java 6
+    private float getTrigger(String trigger){
+
+        /**
+         * Welcome to language Level 6 .... switching strings is not working here
+         **/
         if (trigger.equals("NINE_POINT_ZERO")) {
             return 9.0f;
         } else if (trigger.equals("FIVE_POINT_ZERO")) {
