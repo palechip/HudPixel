@@ -22,16 +22,15 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.games;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Can instantiate the components for a GameConfiguration.

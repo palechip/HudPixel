@@ -24,6 +24,8 @@ package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.components.IComponent;
+import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
@@ -86,11 +88,17 @@ public class Game {
             component.setupNewGame();
             this.renderStrings.add(component.getRenderingString());
         }
+        for(HudPixelModularGuiProvider e : ModularGuiHelper.providers) {
+            e.setupNewGame();
+        }
     }
 
     protected void onGameStart() {
         for(IComponent component : this.components) {
             component.onGameStart();
+        }
+        for(HudPixelModularGuiProvider e : ModularGuiHelper.providers) {
+            e.onGameStart();
         }
     }
 
@@ -101,6 +109,9 @@ public class Game {
         for(IComponent component : this.components) {
             component.onGameEnd();
         }
+        for(HudPixelModularGuiProvider e : ModularGuiHelper.providers) {
+            e.onGameEnd();
+        }
         // display the results
         HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
     }
@@ -108,6 +119,10 @@ public class Game {
     public void onTickUpdate() {
         for(IComponent component : this.components) {
             component.onTickUpdate();
+
+        }
+        for(HudPixelModularGuiProvider e : ModularGuiHelper.providers) {
+            e.onTickUpdate();
         }
     }
 

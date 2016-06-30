@@ -29,10 +29,12 @@ import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.uptodate.*;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -42,7 +44,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -68,7 +69,7 @@ public class HudPixelMod
 {
     public static final String MODID = "hudpixel";
     static final String NAME = "HudPixel Reloaded";
-    public static final boolean IS_DEBUGGING = false;
+    public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
@@ -120,8 +121,11 @@ public class HudPixelMod
     public void init(FMLInitializationEvent event)
     {
         // register this class as an event handler
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
+       // MinecraftForge.EVENT_BUS.register(this);
+       // FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register(new Renderer());
+        MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
+        ModularGuiHelper.init();
 
         // setup HudPixelExtended
         HudPixelExtended.getInstance().setup();

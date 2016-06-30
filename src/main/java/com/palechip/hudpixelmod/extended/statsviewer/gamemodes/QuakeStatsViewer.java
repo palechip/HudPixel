@@ -137,29 +137,29 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
 
     private float getTrigger(String trigger)
     {
-        switch(trigger) {
-            case "NINE_POINT_ZERO":
-                return 9.0f;
-            case "FIVE_POINT_ZERO":
-                return 5.0f;
-            case "TWO_POINT_FIVE":
-                return 2.5f;
-            case "ONE_POINT_FIVE":
-                return 1.5f;
-            case "ONE_POINT_FOUR":
-                return 1.4f;
-            case "ONE_POINT_THREE":
-                return 1.3f;
-            case "ONE_POINT_TWO":
-                return 1.2f;
-            case "ONE_POINT_ONE":
-                return 1.1f;
-            case "ONE_POINT_ZERO":
-                return 1.0f;
-            case "ZERO_POINT_NINE":
-                return 0.9f;
-            default:
-                return 666f;
+        //no switch because java 6
+        if (trigger.equals("NINE_POINT_ZERO")) {
+            return 9.0f;
+        } else if (trigger.equals("FIVE_POINT_ZERO")) {
+            return 5.0f;
+        } else if (trigger.equals("TWO_POINT_FIVE")) {
+            return 2.5f;
+        } else if (trigger.equals("ONE_POINT_FIVE")) {
+            return 1.5f;
+        } else if (trigger.equals("ONE_POINT_FOUR")) {
+            return 1.4f;
+        } else if (trigger.equals("ONE_POINT_THREE")) {
+            return 1.3f;
+        } else if (trigger.equals("ONE_POINT_TWO")) {
+            return 1.2f;
+        } else if (trigger.equals("ONE_POINT_ONE")) {
+            return 1.1f;
+        } else if (trigger.equals("ONE_POINT_ZERO")) {
+            return 1.0f;
+        } else if (trigger.equals("ZERO_POINT_NINE")) {
+            return 0.9f;
+        } else {
+            return 666f;
         }
     }
 }
