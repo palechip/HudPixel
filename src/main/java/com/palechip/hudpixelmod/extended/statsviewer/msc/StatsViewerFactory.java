@@ -55,6 +55,9 @@ public class StatsViewerFactory {
         if(gameType == GameType.THE_WALLS){
             return new WallsStatsViewer(playerName);
         }
+        if(gameType == GameType.COPS_AND_CRIMS){
+            return new CvCStatsViewer((playerName));
+        }
 
         return new nullStatsViewerI();
     }
