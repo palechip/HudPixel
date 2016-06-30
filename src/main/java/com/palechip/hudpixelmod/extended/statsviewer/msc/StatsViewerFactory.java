@@ -1,9 +1,7 @@
 package com.palechip.hudpixelmod.extended.statsviewer.msc;
 
-import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.QuakeStatsViewer;
+import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.*;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.WarlordsStatsViewer;
-import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.nullStatsViewerI;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -50,6 +48,12 @@ public class StatsViewerFactory {
         }
         if(gameType == GameType.QUAKECRAFT){
             return new QuakeStatsViewer(playerName);
+        }
+        if(gameType == GameType.PAINTBALL){
+            return new PaintballStatsViewer(playerName);
+        }
+        if(gameType == GameType.THE_WALLS){
+            return new WallsStatsViewer(playerName);
         }
 
         return new nullStatsViewerI();
