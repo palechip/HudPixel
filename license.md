@@ -9,7 +9,7 @@ For the rest of the code and for the build the following license applyies:
 
 The MIT License (MIT)
 
-Copyright (c) 2016 unaussprechlich, Eladkay, palechip
+Copyright (c) 2016 unaussprechlich, Eladkay, palechip, skyerzz 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
