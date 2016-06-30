@@ -103,8 +103,18 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         wins =      getInt("wins");
         losses =    getInt("losses");
 
-        kd = (double) Math.round(((double)kills/(double)deaths) * 100) / 100;
-        wl = (int) Math.round(((double)wins / (double)(wins+losses)) * 100);
+        if(deaths > 0) {
+            kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
+        }
+        else{
+            kd = 1;
+        }
+        if(losses>0) {
+            wl = (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
+        }
+        else{
+            wl = 1;
+        }
 
         shamanLevel = getInt("shaman_health")    + getInt("shaman_energy")              + getInt("shaman_cooldown")
                 + getInt("shaman_critchance")    + getInt("shaman_critmultiplier")      + getInt("shaman_skill1")
