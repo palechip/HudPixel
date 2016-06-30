@@ -32,7 +32,6 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
-import com.palechip.hudpixelmod.uptodate.*;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.settings.KeyBinding;
@@ -57,31 +56,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
+
 @Mod(
         modid = HudPixelMod.MODID,
-        version = HudPixelProperties.SHORT_VERSION,
+        version = SHORT_VERSION,
         name = HudPixelMod.NAME,
         guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         clientSideOnly = true,
         acceptedMinecraftVersions = "1.8.9"
 )
 
-public class HudPixelMod
-{
+public class HudPixelMod {
     public static final String MODID = "hudpixel";
     static final String NAME = "HudPixel Reloaded";
+    public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
+    public static final String DEFAULT_VERSION = "3.0.4";
     public static final boolean IS_DEBUGGING = true;
 
     private static HudPixelMod instance;
 
     private Logger LOGGER;
     public HudPixelConfig CONFIG;
-    public UpdateNotifier  updateNotifier;
     public HudPixelRenderer renderer;
     private Queue apiQueue;
     
     private boolean deactivate = false;
-    private VersionInformation deactivationInformation;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -99,16 +99,11 @@ public class HudPixelMod
     public void preInit(FMLPreInitializationEvent event) {
         try {
             instance = this;
-            // create an empty notifier
-            this.updateNotifier = new UpdateNotifier(new UpdateInformation());
-            
-            // start the HudPixel Up To Date Loader
-            new UpToDateThread(event.getModConfigurationDirectory());
+
+
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
-            // log the full version
-            this.logInfo("Used HudPixel Version: " + HudPixelProperties.VERSION);
-            
+
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
             this.apiQueue = new Queue();
@@ -137,7 +132,7 @@ public class HudPixelMod
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
-        this.renderer = new HudPixelRenderer(this.updateNotifier);
+        this.renderer = new HudPixelRenderer();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
@@ -191,8 +186,6 @@ public class HudPixelMod
                     // pass the message to the api connection
                     this.apiQueue.onChatMessage(event.message.getUnformattedText());
 
-                    // and the booster display needs it as well
-                    this.renderer.boosterDisplay.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     //send event to Warlords damage chat disabler
                     this.warlordsChatFilter.onChat(event);
@@ -207,24 +200,11 @@ public class HudPixelMod
             e.printStackTrace();
         }
     }
-
-    /**
-     * This is an emergency switch. It will crash the game. Only to be used in case of a severe bug or disallowed features.
-     */
-    public void invokeDeactivation(VersionInformation versionInformation) {
-        this.deactivationInformation = versionInformation;
-        this.deactivate = true;
-    }
     
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
 
-            // check if HudPixel has to be deactivated
-            if(this.deactivate) {
-                throw new HudPixelDeactivatedException(this.deactivationInformation);
-            }
-            
             // Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
                 // make sure the Scoreboard reader updates when necessary
@@ -248,14 +228,7 @@ public class HudPixelMod
 
                 this.apiQueue.onClientTick();
 
-                this.renderer.boosterDisplay.onClientTick();
-
-                // check if the update message can be displayed
-                this.updateNotifier.onTick();
             }
-        } catch (HudPixelDeactivatedException e) {
-            // let the game crash with this exception
-            throw e;
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
@@ -306,9 +279,7 @@ public class HudPixelMod
         try {
             // This event isn't bound to the Hypixel Network
             if(eventArgs.modID.equals(MODID)){
-                this.CONFIG.syncConfig();
-                // reload stuff that uses the config values for immediate effect
-                this.renderer.loadRenderingProperties(updateNotifier);
+                this.CONFIG.syncConfig();;
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -321,9 +292,7 @@ public class HudPixelMod
         try {
             // Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
-                // pass the event to the booster display
-                // used to inject the tip-all button into GuiChat
-                this.renderer.boosterDisplay.onInitGui(event);
+
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -336,8 +305,7 @@ public class HudPixelMod
         try {
             // Don't do anything unless we are on Hypixel
             if(this.hypixelDetector.isHypixelNetwork) {
-                // notify all classes which have registered a button using on init gui
-                this.renderer.boosterDisplay.onGuiActionPerformed(event);
+
             }
         } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");

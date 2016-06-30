@@ -1,18 +1,28 @@
-/*******************************************************************************
- * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
- * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
+
+import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
+
+import java.util.ArrayList;
+
+/******************************************************************************
+ * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
+ * an unofficial Minecraft Mod for the Hypixel Network.
+ * <p>
+ * Original version by palechip (github.com/palechip/HudPixel)
+ * "Reloaded" version by PixelModders -> Eladkay (github.com/PixelModders/HudPixel)
+ * <p>
+ * Copyright (c) 2016 unaussprechlich and contributors
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -20,26 +30,20 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package com.palechip.hudpixelmod.uptodate;
+public class nullStatsViewer implements IGameStatsViewer {
 
-/**
- * Represents the possible Update channels.
- * @author palechip
- *
- */
-public enum UpdateChannel {
-    STABLE("stable"), // see notifications only for stable updates
-    DEV("dev"), // see notifications for dev versions
-    NONE("none"); // see no update notifications (used for dev setups or self-compiled builds)
-    private String name;
-    private UpdateChannel(String name) {
-        this.name = name;
-    }
-    
     /**
-     * Get the name as used in update.json
+     * defaultclass to display the "not supported" - message
      */
-    public String getName() {
-        return this.name;
+
+    private ArrayList<String> renderList = new ArrayList<String>();
+
+    public nullStatsViewer(){
+        renderList.add("Gamemode not supported yet!");
+    }
+
+    @Override
+    public ArrayList<String> getRenderList() {
+        return renderList;
     }
 }

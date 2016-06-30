@@ -1,11 +1,19 @@
 package com.palechip.hudpixelmod.extended.boosterdisplay;
 
+import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
+import java.util.ArrayList;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -33,7 +41,10 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class BoosterManager extends FancyListManager {
+public class BoosterManager extends FancyListManager implements BoosterResponseCallback {
+
+    private long lastRequest;
+    private static final int REQUEST_COOLDOWN = 60000; // = 30s
 
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.SPEED_UHC,
@@ -61,6 +72,18 @@ public class BoosterManager extends FancyListManager {
         }
     }
 
+    public void requestBoosters(){
+        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            // check if enough time has past
+            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
+                // save the time of the request
+                lastRequest = System.currentTimeMillis();
+                // tell the queue that we need boosters
+                Queue.getInstance().getBoosters(HudPixelExtended.boosterManager);
+            }
+        }
+    }
+
     @Override
     public void onRender(){
         if(Minecraft.getMinecraft().currentScreen instanceof GuiChat)
@@ -69,6 +92,7 @@ public class BoosterManager extends FancyListManager {
 
     @Override
     public void onClientTick(){
+        requestBoosters();
         for(FancyListObject b : fancyListObjects){
             b.onClientTick();
         }
@@ -98,4 +122,32 @@ public class BoosterManager extends FancyListManager {
         }
     }
 
+    @Override
+    public void onBoosterResponse(ArrayList<Booster> boosters) {
+        LoggerHelper.logInfo("[BoosterDisplay]: Got a booster response!");
+
+        // we aren't loading anymore
+        if(boosters != null) {
+            for(Booster b : boosters){
+                GameType gameType = GameType.getTypeByID(b.getGameID());
+                Boolean found = false;
+                for(FancyListObject fco : fancyListObjects){
+                    BoosterExtended be = (BoosterExtended) fco;
+                    if(be.getGameType() == gameType ){
+                        be.setCurrentBooster(b);
+                        LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
+                                +" and owner " + b.getOwner() + " in the boosterdisplay!");
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
+                            +" and owner " + b.getOwner() + "!");
+                }
+            }
+        } else {
+            LoggerHelper.logWarn("[BoosterDisplay]: No response to requested Boosters!");
+        }
+    }
 }
