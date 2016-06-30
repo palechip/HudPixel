@@ -127,8 +127,9 @@ public class UpdateNotifier implements McColorHelper {
 
 
     /**
-     * Yeah, best code-style EU .... it's messy but it's just for generating a update message, so no need for being nice code
-     * @param jsonObject
+     * Yeah, best code-style EU .... it's messy but it's just for generating a update message,
+     * so no need for being nice code :P
+     * @param jsonObject updateJson Array
      */
     private void printUpdateMessage(JsonObject jsonObject){
 
@@ -137,7 +138,8 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE DOWLOADLINK
-        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud" + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
+        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud"
+                + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
         new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), EnumChatFormatting.YELLOW).appendMessage
                 (new ChatMessageComposer(" > click here to download the newest version < ", EnumChatFormatting.ITALIC)
                         .makeLink(getStringFromJson(KEY_DOWNLOADLINK, jsonObject))).send();

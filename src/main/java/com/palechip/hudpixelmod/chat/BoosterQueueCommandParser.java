@@ -40,7 +40,7 @@ public class BoosterQueueCommandParser extends MultiLineCommandParser {
     private BoosterDisplay display;
 
     public BoosterQueueCommandParser(BoosterDisplay display) {
-        super("                          Network Booster Queue", "(.* - No Triple Coins Boosters queued)|(.* - Triple Coins from.*)");
+        super("                          Network BoosterExtended Queue", "(.* - No Triple Coins Boosters queued)|(.* - Triple Coins from.*)");
         this.display = display;
     }
 

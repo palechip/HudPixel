@@ -157,7 +157,7 @@ public class OnlineFriend {
             else
             RenderUtils.drawModalRectWithCustomSizedTexture(
                     Math.round(xStart + 2), Math.round(yStart + 2), 0, 0,
-                    20, 20, 20f, 20f , resourceLocation);
+                    20, 20, 20f, 20f , resourceLocation, 1f);
 
         //if the players are not loaded yet the loading animation will be displayed
         } else renderLoadingBar(xStart, yStart);

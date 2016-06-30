@@ -1,3 +1,7 @@
+package com.palechip.hudpixelmod.extended.util;
+
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,32 +28,12 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package com.palechip.hudpixelmod.extended.util;
+public interface IEvent {
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import net.minecraft.client.Minecraft;
+    void onClientTick();
+    void onChatReceived(ClientChatReceivedEvent e);
+    void onRender();
+    void handleScrollInput(int i);
 
 
-public class SoundManager {
-
-    public enum Sounds{
-        NOTIFICATION_LONG("NOTIFICATION_LONG"),
-        NOTIFICATION_LONG2("NOTIFICATION_LONG2"),
-        NOTIFICATION_OLDSCHOOLMESSAGE("NOTIFICATION_OLDSCHOOLMESSAGE"),
-        NOTIFICATION_SHORT("NOTIFICATION_SHORT"),
-        NOTIFICATION_SHORT2("NOTIFICATION_SHORT2"),
-        NOTIFICATION_SHORT_WOOD("NOTIFICATION_SHORT_WOOD");
-
-        private final String name;
-
-        Sounds(String name){
-            this.name = name;
-        }
-    }
-
-    public static void playSound(Sounds name){
-        Minecraft.getMinecraft().thePlayer.playSound(HudPixelMod.MODID + ":" + name, 5, 1);
-    }
 }
-
-
