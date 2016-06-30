@@ -1,5 +1,6 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
@@ -29,8 +30,9 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public void onTickUpdate() {
         // translate to our format
+        if(HudPixelMod.instance().gameDetector.getCurrentGame() == Game.NO_GAME) return;
         tickTime++;
-        seconds = (int) (tickTime / 80);
+        seconds = (int) (tickTime / 40);
         minutes = seconds / 60;
         runningTime = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }

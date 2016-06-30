@@ -24,6 +24,10 @@ package com.palechip.hudpixelmod.components;
 
 import net.minecraft.util.EnumChatFormatting;
 
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.TimerModularGuiProvider
+ */
+@Deprecated
 public class TimerComponent implements IComponent{
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time: ";
     private long startTime;
