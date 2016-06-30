@@ -98,8 +98,18 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
         this.solo_wins = getInt("wins");
         this.team_wins = getInt("wins_teams");
 
-        this.solo_kd = Math.floor((solo_kills/solo_deaths) * 100)/100;
-        this.team_kd = Math.floor((team_kills/team_deaths) * 100)/100;
+        if(solo_deaths > 0) {
+            this.solo_kd = Math.floor((solo_kills / solo_deaths) * 1000) / 1000;
+        }
+        else{
+            this.solo_kd = 1;
+        }
+        if(this.team_deaths>0) {
+            this.team_kd = Math.floor((team_kills / team_deaths) * 1000) / 1000;
+        }
+        else{
+            this.team_kd = 1;
+        }
 
         this.trigger = getTrigger(getString("trigger"));
 
