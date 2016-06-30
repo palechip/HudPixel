@@ -44,6 +44,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -120,9 +121,11 @@ public class HudPixelMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        // register this class as an event handler
-       // MinecraftForge.EVENT_BUS.register(this);
-       // FMLCommonHandler.instance().bus().register(this);
+        // register this class as an event handler (but fn not because modular gui :3)
+       // if(!IS_DEBUGGING) {
+            MinecraftForge.EVENT_BUS.register(this);
+            FMLCommonHandler.instance().bus().register(this);
+       // }
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
@@ -216,6 +219,7 @@ public class HudPixelMod
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
+
             // check if HudPixel has to be deactivated
             if(this.deactivate) {
                 throw new HudPixelDeactivatedException(this.deactivationInformation);
@@ -237,6 +241,7 @@ public class HudPixelMod
                     if(this.gameDetector.getCurrentGame().hasGameStarted()) {
                         this.gameDetector.getCurrentGame().onTickUpdate();
                     }
+
                     // update render strings
                     this.gameDetector.getCurrentGame().updateRenderStrings();
                 }

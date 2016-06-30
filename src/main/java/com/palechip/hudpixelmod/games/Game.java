@@ -121,9 +121,6 @@ public class Game {
             component.onTickUpdate();
 
         }
-        for(HudPixelModularGuiProvider e : ModularGuiHelper.providers) {
-            e.onTickUpdate();
-        }
     }
 
     // this is called even if the game hasn't started

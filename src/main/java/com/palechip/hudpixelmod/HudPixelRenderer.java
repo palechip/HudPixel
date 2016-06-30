@@ -186,6 +186,7 @@ public class HudPixelRenderer {
      * TODO: this is shit .... maybe i should rewrite the hudpixel rendersystem
      */
     public void onRenderTick() {
+        if(true) return;
         Minecraft mc = FMLClientHandler.instance().getClient();
         if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiIngameMenu) && this.isHUDShown) {
             FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;

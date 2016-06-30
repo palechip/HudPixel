@@ -54,7 +54,6 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        System.out.println("gf");
         // if this is a coin message and it isn't a tip
         if((textMessage.startsWith("+") || textMessage.startsWith("(+")) && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
             this.coins += getCoinsFromMessage(textMessage);
