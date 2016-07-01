@@ -24,7 +24,10 @@ package com.palechip.hudpixelmod.components;
 
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
-
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.MWKillCounterModularGuiProvider
+ */
+@Deprecated
 public class MegaWallsKillCounter implements IComponent {
     private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
     private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;

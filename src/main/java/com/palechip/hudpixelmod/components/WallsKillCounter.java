@@ -25,11 +25,15 @@ package com.palechip.hudpixelmod.components;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraft.util.EnumChatFormatting;
 
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.WallsKillCounterModularGuiProvider
+ */
+@Deprecated
 public class WallsKillCounter implements IComponent {
     
     private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA +  "" + EnumChatFormatting.ITALIC +"Assists: " + EnumChatFormatting.DARK_GRAY;
-    public static enum KillType {Normal, Assists};
+    public enum KillType {Normal, Assists};
     
     private KillType trackedType;
     private int kills;
@@ -89,7 +93,6 @@ public class WallsKillCounter implements IComponent {
 
     @Override
     public String getConfigName() {
-        // TODO Auto-generated method stub
         return "KillCounter";
     }
 

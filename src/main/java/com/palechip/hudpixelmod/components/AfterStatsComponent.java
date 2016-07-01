@@ -29,7 +29,12 @@ import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
+/*
+    No real need for it anymore
+ */
+@Deprecated
 public class AfterStatsComponent implements IComponent {
+
     private GameType type;
 
     public AfterStatsComponent(int modid) {
