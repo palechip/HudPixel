@@ -31,6 +31,7 @@ import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.games.LoadGameConfigThread;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import eladkay.modulargui.lib.Renderer;
@@ -103,6 +104,8 @@ public class HudPixelMod {
 
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
+
+            new LoadGameConfigThread(event.getModConfigurationDirectory());
 
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
             this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());

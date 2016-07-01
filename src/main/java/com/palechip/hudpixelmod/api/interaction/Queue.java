@@ -124,6 +124,7 @@ public class Queue implements ApiKeyLoadedCallback{
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
+        System.out.println("Asking for booster!");
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback));
         } else {

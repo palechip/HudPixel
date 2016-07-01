@@ -131,6 +131,7 @@ public class QueueEntry {
     }
     
     private void doBoosterRequest() {
+        System.out.println("Do booster!");
         HypixelAPI api = Queue.getInstance().getAPI();
 
         Request request = RequestBuilder.newBuilder(RequestType.BOOSTERS)
