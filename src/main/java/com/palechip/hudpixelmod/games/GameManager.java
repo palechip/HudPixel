@@ -30,7 +30,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.components.IComponent;
 import com.palechip.hudpixelmod.util.GameType;
 
 /**

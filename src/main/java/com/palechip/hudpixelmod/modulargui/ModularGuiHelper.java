@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.modulargui;
 
 import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.modulargui.components.*;
+import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
 import eladkay.modulargui.lib.ModularGuiRegistry;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -24,6 +25,8 @@ public class ModularGuiHelper {
     public static final ModularGuiRegistry.Element PB_KILLSTREAK_TRACKER = new ModularGuiRegistry.Element("simp6", new PaintballKillstreakTrackerModularGuiProvider());
     public static final ModularGuiRegistry.Element WARLORDS_DAMAGE_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.RED + "Damage", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Damage));
     public static final ModularGuiRegistry.Element WARLORDS_HEALING_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.GREEN + "Healing", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Healing));
+
+    public static final ModularGuiRegistry.Element PLAY_GAME_MODULE = new ModularGuiRegistry.Element(EnumChatFormatting.DARK_RED + "Game", new PlayGameModularGuiProvider());
     public static void init() {
         ModularGuiRegistry.registerElement(COIN_COUNTER);
         providers.add((IHudPixelModularGuiProviderBase)COIN_COUNTER.provider);
@@ -49,6 +52,9 @@ public class ModularGuiHelper {
         providers.add((IHudPixelModularGuiProviderBase)WARLORDS_DAMAGE_TRACKER.provider);
         ModularGuiRegistry.registerElement(WARLORDS_HEALING_TRACKER);
         providers.add((IHudPixelModularGuiProviderBase)WARLORDS_HEALING_TRACKER.provider);
+
+        ModularGuiRegistry.registerElement(PLAY_GAME_MODULE);
+        providers.add((IHudPixelModularGuiProviderBase)PLAY_GAME_MODULE.provider);
     }
 
     @SubscribeEvent

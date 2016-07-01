@@ -24,6 +24,7 @@ package com.palechip.hudpixelmod;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
+import com.palechip.hudpixelmod.command.GameCommand;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.detectors.GameDetector;
@@ -33,9 +34,11 @@ import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.LoadGameConfigThread;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
+import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
@@ -92,7 +95,8 @@ public class HudPixelMod {
     private static final String KEY_CATEGORY = "HudPixel Mod";
     private KeyBinding hideHUDKey;
     private KeyBinding openConfigGui;
-    private KeyBinding debugKey; // A key used to bind some debugging functionality
+    private KeyBinding debugKey; // A key used to bind some debugging functionality.
+    private KeyBinding pressToPlay;
 
     private WarlordsDamageChatFilter warlordsChatFilter;
 
@@ -101,7 +105,7 @@ public class HudPixelMod {
         try {
             instance = this;
 
-
+            ClientCommandHandler.instance.registerCommand(new GameCommand());
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
@@ -140,9 +144,11 @@ public class HudPixelMod {
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
-        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_P, KEY_CATEGORY);
+        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_Q, KEY_CATEGORY);
+        this.pressToPlay = new KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
         ClientRegistry.registerKeyBinding(this.openConfigGui);
+        ClientRegistry.registerKeyBinding(this.pressToPlay);
         if(this.IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
             ClientRegistry.registerKeyBinding(this.debugKey);
@@ -264,6 +270,10 @@ public class HudPixelMod {
                 if(this.openConfigGui.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
+                }
+                if(this.pressToPlay.isPressed()) {
+                    // open the config screen
+                    FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
                 }
                 if(this.IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {

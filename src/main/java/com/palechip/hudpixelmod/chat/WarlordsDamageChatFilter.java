@@ -22,14 +22,13 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.chat;
 
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.util.GameType;
-
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class WarlordsDamageChatFilter {
     public static final String take = "\u00AB";
