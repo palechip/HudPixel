@@ -39,6 +39,7 @@ public class Renderer {
                     aDisplay = element.name + ": " + element.provider.content(); //get the display text for the element
                 else
                     aDisplay = element.provider.content();
+                if(element.provider.content() == null) return;
                 if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this check...
                     fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
                     h += 10; //increment height
