@@ -143,7 +143,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     void requestBoosters(Boolean forceRequest){
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // check if enough time has past
-            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN  || forceRequest) {
+            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
@@ -157,7 +157,9 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * Sorry for this messy if-for but somehow it works :P
      * @param boosters the boosters parsed by the callback
      */
+    @Override
     public void onBoosterResponse(ArrayList<Booster> boosters) {
+
         // we aren't loading anymore
         if(boosters != null) {
             for(Booster b : boosters){
@@ -167,7 +169,9 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                     for(FancyListObject fco : fancyListObjects){
                         BoosterExtended be = (BoosterExtended) fco;
                         if(be.getGameType() == gameType ){
-                            if(be.getBooster() != null  && !(be.getBooster().equals(b))){
+                            if(be.getBooster() != null  && be.getBooster().getOwner() == b.getOwner()){
+                                found = true; break;
+                            } else {
                                 be.setCurrentBooster(b);
                                 LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
                                         +" and owner " + b.getOwner() + " in the boosterdisplay!");

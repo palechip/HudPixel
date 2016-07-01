@@ -3,6 +3,7 @@ package eladkay.modulargui.lib;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,6 +28,7 @@ public class Renderer {
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
         if(!HypixelNetworkDetector.isHypixelNetwork && !HudPixelMod.IS_DEBUGGING) return;
+        if(!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
         int w = 5; //width, change this if needed
         int h = 15; //height, you shouldn't touch this usually
