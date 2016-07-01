@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
 
     private long lastRequest;
-    private static final int REQUEST_COOLDOWN = 20000; // = 30s
+    private static final int REQUEST_COOLDOWN = 60000; // = 30s
 
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.SPEED_UHC,
@@ -103,26 +103,24 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         String chat = e.message.getUnformattedText();
         if(!chat.contains("You tipped ") || chat.contains(":")) return;
 
-        System.out.println("TIPPED!");
-
-        String gamemode = "";
         String[] split = chat.split(" ");
-        gamemode = split[4];
+        String player = split[3];
+        String gamemode = split[4];
+
         for(int i = 5; i < split.length; i++)
             gamemode+=(" " + split[i]);
-
-        System.out.println(gamemode);
 
         GameType gameType = GameType.getTypeByName(gamemode);
 
         for(FancyListObject f : fancyListObjects){
             BoosterExtended b = (BoosterExtended) f;
             if(b.getGameType() == gameType)
-                b.setGameModeTipped();
+                b.setGameModeTipped(player);
         }
     }
 
     public void onBoosterResponse(ArrayList<Booster> boosters) {
+
         LoggerHelper.logInfo("[BoosterDisplay]: Got a booster response!");
 
         // we aren't loading anymore
@@ -130,19 +128,27 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
             for(Booster b : boosters){
                 GameType gameType = GameType.getTypeByID(b.getGameID());
                 Boolean found = false;
-                for(FancyListObject fco : fancyListObjects){
-                    BoosterExtended be = (BoosterExtended) fco;
-                    if(be.getGameType() == gameType ){
-                        be.setCurrentBooster(b);
-                        LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
-                                +" and owner " + b.getOwner() + " in the boosterdisplay!");
-                        found = true;
-                        break;
+                if(b.getRemainingTime() < b.getTotalLength()) {
+                    for(FancyListObject fco : fancyListObjects){
+                        BoosterExtended be = (BoosterExtended) fco;
+                        if(be.getGameType() == gameType ){
+                            if(be.getBooster() != null  && (be.getBooster().getOwner().equalsIgnoreCase(b.getOwner()))){
+                                LoggerHelper.logInfo("[BoosterDisplay]: booster with ID " + b.getGameID()
+                                        +" and owner " + b.getOwner() + " allready exists in the boosterdisplay!");
+                                found = true;
+                                break;
+                            }
+                            be.setCurrentBooster(b);
+                            LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
+                                    +" and owner " + b.getOwner() + " in the boosterdisplay!");
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                if(!found){
-                    LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
-                            +" and owner " + b.getOwner() + "!");
+                    if(!found){
+                        LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
+                                +" and owner " + b.getOwner() + "!");
+                    }
                 }
             }
         } else {

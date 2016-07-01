@@ -43,6 +43,10 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     private String countDown;
     private Booster booster;
 
+    public Booster getBooster() {
+        return booster;
+    }
+
     public GameType getGameType() {
         return gameType;
     }
@@ -54,9 +58,9 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
         this.resourceLocation = GameIconLoader.gameIconLocation(gameType);
     }
 
-    public void setGameModeTipped(){
+    public void setGameModeTipped(String player){
         timeNextTip = System.currentTimeMillis() + tipDelay;
-        if(booster != null) booster.tip();
+        if(booster != null && booster.getOwner().equalsIgnoreCase(player)) booster.tip();
     }
 
     public void setCurrentBooster(Booster booster){

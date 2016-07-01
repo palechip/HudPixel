@@ -31,7 +31,7 @@ public enum GameType {
     UNKNOWN         (-1, "UNKNOWN"),
     ALL_GAMES       (0,  "ALL GAMES"),
     QUAKECRAFT      (1,  "Quakecraft"),
-    THE_WALLS       (2,  "The Walls"),
+    THE_WALLS       (2,  "Walls"),
     PAINTBALL       (3,  "Paintball"),
     BLITZ           (4,  "Blitz Survival Games" ),
     TNT_GAMES       (5,  "TNT Games"),

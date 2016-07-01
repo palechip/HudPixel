@@ -76,13 +76,13 @@ public abstract class FancyListManager implements IEvent{
         if(Mouse.getX() > 280) return;
 
         if (i != 0) {
-            if (i > 0) {
+            if (i < 0) {
                 if(indexScroll >= (size() - shownObjects)){
                     indexScroll = size() - shownObjects;
                 } else {
                     indexScroll++;
                 }
-            } else if (i < 0) {
+            } else if (i > 0) {
                 if(indexScroll - 1 <= 0){
                     indexScroll = 0;
                 } else {
