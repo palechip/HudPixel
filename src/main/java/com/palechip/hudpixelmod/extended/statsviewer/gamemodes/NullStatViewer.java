@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class nullStatsViewerI implements IGameStatsViewer {
+public class NullStatViewer implements IGameStatsViewer {
 
     /**
      * defaultclass to display the "not supported" - message
@@ -38,7 +38,7 @@ public class nullStatsViewerI implements IGameStatsViewer {
 
     private ArrayList<String> renderList = new ArrayList<String>();
 
-    public nullStatsViewerI(){
+    public NullStatViewer(){
         renderList.add("Gamemode not supported yet!");
     }
 

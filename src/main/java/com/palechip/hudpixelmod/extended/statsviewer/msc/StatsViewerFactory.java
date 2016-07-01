@@ -59,7 +59,7 @@ public class StatsViewerFactory {
             return new CvCStatsViewer((playerName));
         }
 
-        return new nullStatsViewerI();
+        return new NullStatViewer();
     }
 
 
