@@ -56,7 +56,7 @@ public class StatsViewerFactory {
             return new WallsStatsViewer(playerName);
         }
 
-        return new nullStatsViewer();
+        return new nullStatsViewerI();
     }
 
 

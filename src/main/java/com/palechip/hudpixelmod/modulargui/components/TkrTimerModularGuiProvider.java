@@ -1,19 +1,22 @@
-package com.palechip.hudpixelmod.components;
+package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
 
-/*
-    Use @link com.palechip.hudpixelmod.modulargui.components.TkrTimerModularGuiProvider
- */
-@Deprecated
-public class TkrTimer implements IComponent {
+public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+    @Override
+    public boolean doesMatchForGame(Game game) {
+        return game.getConfiguration().getDatabaseName().equals("GingerBread");
+    }
+
     public static final String LAP_COMPLETION_MESSAGE_REGEX = "(Lap \\d Completed!).*";
 
-    private int lap;
+    private int lap = 0;
     private boolean running = false;
     private long startingTime = 0;
     private String runningTime = "00:00";
@@ -22,13 +25,6 @@ public class TkrTimer implements IComponent {
 
     private static long startDelay = 0l;
 
-    /**
-     * Create a new accurate Timer for Turbo Kart Racers
-     * @param lap The Lap this timer counts. 0 means all laps are counted.
-     */
-    public TkrTimer(int lap) {
-        this.lap = lap;
-    }
 
     @Override
     public void setupNewGame() {
@@ -69,7 +65,7 @@ public class TkrTimer implements IComponent {
             try {
                 // the lap number is the 5th character. It needs to be cast to String first because otherwise we get the wrong value
                 int lapNo = Integer.valueOf(String.valueOf(textMessage.charAt(4)));
-                
+
                 // check if the listened lap was completed
                 if(this.lap == lapNo) {
                     // extract the start message
@@ -77,14 +73,14 @@ public class TkrTimer implements IComponent {
                     // stop the timer
                     this.running = false;
                 }
-                
+
                 // start the next timer
                 if(this.lap - 1 == lapNo) {
                     this.running = true;
                     // there is no delay here
                     this.startingTime = System.currentTimeMillis();
                 }
-                
+
                 // accuracy check and correction for the main timer after the first lap
                 if(lapNo == 1 && this.lap == 0 ) {
                     // save the current time
@@ -99,7 +95,7 @@ public class TkrTimer implements IComponent {
                     }
                     // convert everything into milliseconds
                     long officialTimeMilliSeconds = officialTime.get(0) * 60 * 1000 + officialTime.get(1) * 1000;
-                    
+
                     // correct the main timer
                     this.startingTime = currentTime - officialTimeMilliSeconds;
 
@@ -117,12 +113,11 @@ public class TkrTimer implements IComponent {
         }
     }
 
-    @Override
     public String getRenderingString() {
         // for the general timer
         if(this.lap == 0) {
             // show the running time
-            return TimerComponent.TIME_DISPLAY_MESSAGE + this.runningTime;
+            return TimerModularGuiProvider.TIME_DISPLAY_MESSAGE + this.runningTime;
         } else {
             if(this.running) {
                 // show the result if the timer is running
@@ -135,18 +130,17 @@ public class TkrTimer implements IComponent {
     }
 
     @Override
-    public String getConfigName() {
-        return "AccurateTimeDisplay";
+    public boolean showElement() {
+        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
     }
 
     @Override
-    public String getConfigComment() {
-        return "Turn on/off the Accurate Time Display for %game.";
+    public String content() {
+        return getRenderingString();
     }
 
     @Override
-    public boolean getConfigDefaultValue() {
-        return true;
+    public boolean ignoreEmptyCheck() {
+        return false;
     }
-
 }

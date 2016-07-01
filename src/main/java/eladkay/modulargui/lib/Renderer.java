@@ -2,6 +2,7 @@ package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -34,12 +35,12 @@ public class Renderer {
             for (ModularGuiRegistry.Element element : display) { //for each element...
                 if(!element.provider.showElement()) continue; //if you shouldn't show it, skip it.
                 String aDisplay;
-                if(!element.name.isEmpty())
+                if(!element.name.isEmpty() && !(element.provider instanceof SimpleModularGuiProvider))
                     aDisplay = element.name + ": " + element.provider.content(); //get the display text for the element
                 else
                     aDisplay = element.provider.content();
-                if (!(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this check...
-                    /*if(!element.provider.ignoreEmptyCheck())*/ fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
+                if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this check...
+                    fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
                     h += 10; //increment height
                 }
             }

@@ -25,7 +25,10 @@ package com.palechip.hudpixelmod.components;
 import com.palechip.hudpixelmod.HudPixelMod;
 
 import net.minecraft.util.EnumChatFormatting;
-
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.BlitzStarTrackerModularGuiProvider
+ */
+@Deprecated
 public class BlitzStarTracker implements IComponent {
     private enum Phase {NOT_RELEASED, HIDDEN, FOUND, ACTIVE ,USED, FORFEIT};
     private static final String DISPLAY_MESSAGE = EnumChatFormatting.DARK_GREEN + "Blitz Star: ";

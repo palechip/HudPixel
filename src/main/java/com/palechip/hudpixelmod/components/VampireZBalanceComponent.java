@@ -25,7 +25,10 @@ package com.palechip.hudpixelmod.components;
 import com.palechip.hudpixelmod.HudPixelMod;
 
 import net.minecraft.util.EnumChatFormatting;
-
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.VZBalanceModularGuiProvider
+ */
+@Deprecated
 public class VampireZBalanceComponent extends CoinCounterComponent {
     public static enum Type {Negative, Total};
     public static final String NEGATIVE_COINS_DISPLAY_TEXT = EnumChatFormatting.RED + "Coins Spent: ";

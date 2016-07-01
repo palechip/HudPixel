@@ -9,7 +9,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame(Game game) {
-        return true;
+        return game != Game.NO_GAME;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return true;
+        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
     }
 
     @Override

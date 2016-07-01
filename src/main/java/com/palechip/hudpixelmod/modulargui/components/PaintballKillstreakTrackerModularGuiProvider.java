@@ -1,41 +1,23 @@
-/*******************************************************************************
- * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
- * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *******************************************************************************/
-package com.palechip.hudpixelmod.components;
+package com.palechip.hudpixelmod.modulargui.components;
 
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.HashMap;
 
-/*
-    Use @link com.palechip.hudpixelmod.modulargui.components.PaintballKillstreakTrackerModularGuiProvider
- */
-@Deprecated
-public class PaintballKillstreakTracker implements IComponent {
+public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+    @Override
+    public boolean doesMatchForGame(Game game) {
+        return game.getConfiguration().getDatabaseName().equals("Paintball");
+    }
+
     private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717"; // fancy x
     private static final String ACTIVE_SIGN = EnumChatFormatting.GREEN + "\u2713"; // check mark
-    
-    private static HashMap<String, PaintballKillstreakTracker> cooldownDependantKillstreaks = new HashMap<String, PaintballKillstreakTracker>();
+
+    private static HashMap<String, PaintballKillstreakTrackerModularGuiProvider> cooldownDependantKillstreaks = new HashMap<String, PaintballKillstreakTrackerModularGuiProvider>();
     private static HashMap<String, Long> durationStorage = new HashMap<String, Long>();
 
     private String renderedString;
@@ -56,7 +38,7 @@ public class PaintballKillstreakTracker implements IComponent {
      * @param hasCooldown True if there is a cooldown for the usage of the killstreak
      * @param cooldownDependantKillstreak Specifys that this killstreak also enters cooldown when the given killstreak is cooling down
      */
-    public PaintballKillstreakTracker(String killstreak, boolean isTimed, boolean hasCooldown, String cooldownDependantKillstreak) {
+    public PaintballKillstreakTrackerModularGuiProvider(String killstreak, boolean isTimed, boolean hasCooldown, String cooldownDependantKillstreak) {
         this.listenedKillstreak = killstreak;
         this.isTimed = isTimed;
         // look if we have saved a duration value from past instances
@@ -73,6 +55,7 @@ public class PaintballKillstreakTracker implements IComponent {
             cooldownDependantKillstreaks.put(this.listenedKillstreak, this);
         }
     }
+    public PaintballKillstreakTrackerModularGuiProvider() { System.out.println("PB killstreak tracker not implemented!"); }
 
     @Override
     public void setupNewGame() {
@@ -133,7 +116,6 @@ public class PaintballKillstreakTracker implements IComponent {
         }
     }
 
-    @Override
     public String getRenderingString() {
         if(this.isActive) {
             return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
@@ -154,22 +136,18 @@ public class PaintballKillstreakTracker implements IComponent {
             return String.valueOf(EnumChatFormatting.GOLD);
         } else {
             // red and bold
-           return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
+            return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
         }
     }
 
+
     @Override
-    public String getConfigName() {
-        return "KillstreakTrackerDisplay";
+    public boolean showElement() {
+        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
     }
 
     @Override
-    public String getConfigComment() {
-        return "Show/Hide your active %game killstreaks (including timer) and the ones on cooldown.";
-    }
-
-    @Override
-    public boolean getConfigDefaultValue() {
-        return true;
+    public String content() {
+        return getRenderingString();
     }
 }
