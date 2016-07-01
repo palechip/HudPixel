@@ -143,7 +143,6 @@ public class QueueEntry {
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
                 if(failCause != null) {
-                    System.out.println("IT RETURNED NULL!!!!");
                     // if something went wrong, handle it
                     failed(failCause);
                 } else {
@@ -152,12 +151,12 @@ public class QueueEntry {
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
                     // these objects are represented by the class BoosterExtended
+                    System.out.println(result);
                     for(JsonElement e : result.getBoosters()) {
                         Booster b = gson.fromJson(e, Booster.class);
                         boosters.add(b);
                     }
                     // pass the result
-                    System.out.println("Sending booster to class!");
                     boosterCallback.onBoosterResponse(boosters);
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();

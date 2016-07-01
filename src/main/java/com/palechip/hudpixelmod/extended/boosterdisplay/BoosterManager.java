@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
 
     private long lastRequest;
-    private static final int REQUEST_COOLDOWN = 60000; // = 30s
+    private static final int REQUEST_COOLDOWN = 20000; // = 30s
 
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.SPEED_UHC,
