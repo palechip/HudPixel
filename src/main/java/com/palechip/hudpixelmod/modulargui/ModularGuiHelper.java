@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod.modulargui;
 import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.modulargui.components.*;
 import eladkay.modulargui.lib.ModularGuiRegistry;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -20,6 +21,9 @@ public class ModularGuiHelper {
     public static final ModularGuiRegistry.Element VZ_BALANCE = new ModularGuiRegistry.Element(VZBalanceModularGuiProvider.TOTAL_COINS_DISPLAY_TEXT, new VZBalanceModularGuiProvider());
     public static final ModularGuiRegistry.Element WALLS2_KILLCOUNTER = new ModularGuiRegistry.Element("simp4", new WallsKillCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element WALLS3_KILLCOUNTER = new ModularGuiRegistry.Element("simp5", new MWKillCounterModularGuiProvider());
+    public static final ModularGuiRegistry.Element PB_KILLSTREAK_TRACKER = new ModularGuiRegistry.Element("simp6", new PaintballKillstreakTrackerModularGuiProvider());
+    public static final ModularGuiRegistry.Element WARLORDS_DAMAGE_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.RED + "Damage", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Damage));
+    public static final ModularGuiRegistry.Element WARLORDS_HEALING_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.GREEN + "Healing", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Healing));
     public static void init() {
         ModularGuiRegistry.registerElement(COIN_COUNTER);
         providers.add((IHudPixelModularGuiProviderBase)COIN_COUNTER.provider);
@@ -39,6 +43,12 @@ public class ModularGuiHelper {
         providers.add((IHudPixelModularGuiProviderBase)WALLS2_KILLCOUNTER.provider);
         ModularGuiRegistry.registerElement(WALLS3_KILLCOUNTER);
         providers.add((IHudPixelModularGuiProviderBase)WALLS3_KILLCOUNTER.provider);
+        ModularGuiRegistry.registerElement(PB_KILLSTREAK_TRACKER);
+        providers.add((IHudPixelModularGuiProviderBase)PB_KILLSTREAK_TRACKER.provider);
+        ModularGuiRegistry.registerElement(WARLORDS_DAMAGE_TRACKER);
+        providers.add((IHudPixelModularGuiProviderBase)WARLORDS_DAMAGE_TRACKER.provider);
+        ModularGuiRegistry.registerElement(WARLORDS_HEALING_TRACKER);
+        providers.add((IHudPixelModularGuiProviderBase)WARLORDS_HEALING_TRACKER.provider);
     }
 
     @SubscribeEvent
