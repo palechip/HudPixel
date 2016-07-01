@@ -1,7 +1,6 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.components.CoinCounterComponent;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
@@ -73,7 +72,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
                     break;
                 case Wither_Coins:
                     if(textMessage.contains("Wither Damage")) {
-                        this.kills += CoinCounterComponent.getCoinsFromMessage(textMessage);
+                        this.kills += CoinCounterModularGuiProvider.getCoinsFromMessage(textMessage);
                     }
                     break;
             }
