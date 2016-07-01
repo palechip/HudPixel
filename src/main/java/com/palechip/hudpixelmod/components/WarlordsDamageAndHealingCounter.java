@@ -29,6 +29,10 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.WarlordsDamageAndHealingCounterModularGuiProvider
+ */
+@Deprecated
 public class WarlordsDamageAndHealingCounter implements IComponent {
     public enum Type {Damage, Healing};
     
