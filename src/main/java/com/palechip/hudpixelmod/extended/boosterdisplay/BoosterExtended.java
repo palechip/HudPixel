@@ -32,6 +32,7 @@ import com.palechip.hudpixelmod.extended.util.GameIconLoader;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import com.palechip.hudpixelmod.util.GameType;
+import net.minecraft.util.EnumChatFormatting;
 
 public class BoosterExtended extends FancyListObject implements McColorHelper{
 
@@ -69,7 +70,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     @Override
     public void onClientTick(){
-        this.renderPicture = countDown();
+        this.renderPicture = EnumChatFormatting.WHITE + countDown();
         this.renderLineSmall = YELLOW + gameType.getName();
         this.renderLine1 = GOLD + gameType.getName();
         if(booster == null){

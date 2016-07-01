@@ -2,6 +2,7 @@ package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -75,6 +76,10 @@ public abstract class FancyListObject {
         RenderUtils.drawModalRectWithCustomSizedTexture(
                 Math.round(xStart), Math.round(yStart), 0, 0,
                 24, 24, 24 , 24 , resourceLocation, 1f);
+
+        if(!renderPicture.equals(EnumChatFormatting.WHITE + "")){
+            RenderUtils.renderBoxWithColor(xStart, yStart + 12, 24, 9, 0, 0f, 0f, 0f, 0.5f);
+        }
 
         //draws the strings with the minecraft fontRenderer
         fontRenderer.drawStringWithShadow( renderLine1, xStart + 28, yStart + 4, 0xffffff);
