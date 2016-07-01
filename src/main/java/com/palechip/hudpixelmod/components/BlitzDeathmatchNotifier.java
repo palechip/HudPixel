@@ -24,6 +24,10 @@ package com.palechip.hudpixelmod.components;
 
 import net.minecraft.util.EnumChatFormatting;
 
+/*
+    Use @link com.palechip.hudpixelmod.modulargui.components.BlitzDeathmatchNotifierModularGuiProvider
+ */
+@Deprecated
 public class BlitzDeathmatchNotifier implements IComponent {
     private static final String DISPLAY_STRING = "DEATHMATCH STARTING SOON";
     private static final int ANIMATION_TIME = 5; // in MC-Ticks

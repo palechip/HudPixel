@@ -35,6 +35,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
 
     @Override
     public void onGameEnd() {
+
     }
 
     @Override
@@ -54,7 +55,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
         // filter chat tag
         textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getChatTag() + "]: ", "");
         // hide message
-        if(textMessage.contains("The Blitz Star has been hidden in a chest! Find it to activate your Blitz!")) {
+        if(textMessage.contains("The Blitz Star has been hidden in a random chest!")) {
             this.currentPhase = Phase.HIDDEN;
         }
         // somebody found it.
@@ -75,7 +76,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
             this.currentPhase = Phase.ACTIVE;
         }
         // it's too close before deathmatch
-        else if(this.currentPhase != Phase.USED && this.currentPhase != Phase.ACTIVE && textMessage.contains("The Blitz Star can no longer be used!")) {
+        else if(this.currentPhase != Phase.USED && this.currentPhase != Phase.ACTIVE && textMessage.contains("The Blitz Star has been disabled!")) {
             this.currentPhase = Phase.FORFEIT;
         }
     }
@@ -84,7 +85,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
         switch (this.currentPhase) {
             case NOT_RELEASED:
                 // display nothing
-                return "";
+                return "Not released";
             case HIDDEN:
                 // it's hidden
                 return EnumChatFormatting.YELLOW + "Hidden";

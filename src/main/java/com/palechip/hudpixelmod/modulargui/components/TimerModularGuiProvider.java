@@ -30,11 +30,15 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public void onTickUpdate() {
         // translate to our format
-        if(HudPixelMod.instance().gameDetector.getCurrentGame() == Game.NO_GAME) return;
+        if(HudPixelMod.instance().gameDetector.getCurrentGame() == Game.NO_GAME || !HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()) return;
         tickTime++;
-        seconds = (int) (tickTime / 80);
-        seconds %= 80;
-        minutes = seconds / 60;
+        seconds = (int) (tickTime / 120);
+        if(seconds < 59) {
+            seconds = 0;
+            minutes++;
+        }
+        //seconds %= 60;
+        //minutes = seconds / 60;
         runningTime = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
 
