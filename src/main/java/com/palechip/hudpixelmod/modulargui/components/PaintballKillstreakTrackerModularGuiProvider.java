@@ -119,7 +119,8 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     public String getRenderingString() {
         if(this.isActive) {
             return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
-        } else if(this.isCoolingDown || ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak)) && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
+        } else if(this.isCoolingDown || ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak))
+                && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
             // the listened killstreak will be red because the color from COOLDOWN_SIGN isn't reset
             return COOLDOWN_SIGN + " " + this.listenedKillstreak;
         } else  {

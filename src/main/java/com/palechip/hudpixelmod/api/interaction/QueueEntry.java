@@ -143,6 +143,7 @@ public class QueueEntry {
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
                 if(failCause != null) {
+                    System.out.println("IT RETURNED NULL!!!!");
                     // if something went wrong, handle it
                     failed(failCause);
                 } else {
@@ -161,7 +162,7 @@ public class QueueEntry {
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
                 }
-            }
+        }
         });
     }
     
