@@ -23,13 +23,9 @@
 package com.palechip.hudpixelmod;
 
 import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
-import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
-import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 import com.palechip.hudpixelmod.games.Game;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
@@ -37,6 +33,8 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+;
 
 /**
  * Handles the display on the screen when no gui is displayed.
@@ -125,8 +123,7 @@ public class HudPixelRenderer {
     private void updateDefaultRenderStrings(){
         ArrayList<String> bufferStrings = new ArrayList<String>();
         if(HudPixelConfig.displayVersion)   bufferStrings.add("HudPixelReloaded " + EnumChatFormatting.GOLD + HudPixelMod.DEFAULT_VERSION);
-        if(Config.isPingShown)bufferStrings.add(EnumChatFormatting.GOLD +  PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)bufferStrings.add(EnumChatFormatting.GOLD + FpsComponent.getFps());
+
 
         this.defaultRenderingStrings = bufferStrings;
     }
@@ -172,50 +169,5 @@ public class HudPixelRenderer {
         }
         return renderStrings;
     }
-    
-    /**
-     * This renders the entire display
-     * TODO: this is shit .... maybe i should rewrite the hudpixel rendersystem
-     */
-    public void onRenderTick() {
-        if(true) return;
-        Minecraft mc = FMLClientHandler.instance().getClient();
-        if(HypixelNetworkDetector.isHypixelNetwork && !mc.gameSettings.showDebugInfo && (mc.inGameHasFocus || mc.currentScreen instanceof GuiIngameMenu) && this.isHUDShown) {
-            FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-            int width;
-            int height;
-            ArrayList<String> renderStrings;
-            boolean isBoosterDisplay = false;
-            boolean isTipAllButton = false;
-            
-            // normal game display
-            if(!HudPixelMod.instance().gameDetector.getCurrentGame().equals(Game.NO_GAME) && !(mc.currentScreen instanceof GuiIngameMenu)) {
-                renderStrings = HudPixelMod.instance().gameDetector.getCurrentGame().getRenderStrings();
-            }
 
-            // booster display
-            else if(mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby() && HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
-                isBoosterDisplay = true;
-            }
-
-            // results after a game
-            else if(this.results != null && !(mc.currentScreen instanceof GuiIngameMenu ) ){
-                renderStrings = new ArrayList<String>(defaultRenderingStrings);
-                renderStrings.addAll(results);
-            }
-
-            // tip all button with nothing else to display
-            else if(HudPixelConfig.displayQuickLoadButton && mc.currentScreen instanceof GuiIngameMenu && HudPixelMod.instance().gameDetector.isInLobby()) {
-                renderStrings = this.nothingToDisplay;
-
-            } else {
-                // default display
-                if(!this.defaultRenderingStrings.isEmpty() && !(mc.currentScreen instanceof GuiIngameMenu)) {
-                    renderStrings = this.defaultRenderingStrings;
-                } else {
-                    return;
-                }
-            }
-        }
-    }
 }
