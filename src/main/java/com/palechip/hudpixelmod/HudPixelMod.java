@@ -41,8 +41,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
-import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -55,7 +53,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -244,19 +241,6 @@ public class HudPixelMod {
         }
     }
 
-    @SubscribeEvent
-    public void onRenderTick(RenderTickEvent event) {
-        try {
-            // Don't do anything unless we are on Hypixel
-            if(this.hypixelDetector.isHypixelNetwork) {
-                // render the game
-                this.renderer.onRenderTick();
-            }
-        } catch(Exception e) {
-            this.logWarn("An exception occured in onRenderTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
 
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
@@ -299,32 +283,7 @@ public class HudPixelMod {
             e.printStackTrace();
         }
     }
-    
-    @SubscribeEvent
-    public void onInitGui(InitGuiEvent event) {
-        try {
-            // Don't do anything unless we are on Hypixel
-            if(this.hypixelDetector.isHypixelNetwork) {
 
-            }
-        } catch(Exception e) {
-            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
-    
-    @SubscribeEvent
-    public void onGuiActionPerformed(ActionPerformedEvent event) {
-        try {
-            // Don't do anything unless we are on Hypixel
-            if(this.hypixelDetector.isHypixelNetwork) {
-
-            }
-        } catch(Exception e) {
-            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
 
     public static HudPixelMod instance() {
         return instance;
@@ -336,10 +295,6 @@ public class HudPixelMod {
         }
     }
 
-
-    public HypixelNetworkDetector getHypixelDetector() {
-        return hypixelDetector;
-    }
 
     public Logger getLOGGER() {
         return LOGGER;

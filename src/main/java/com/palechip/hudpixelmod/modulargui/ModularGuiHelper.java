@@ -13,6 +13,11 @@ import java.util.List;
 
 public class ModularGuiHelper {
     public static List<IHudPixelModularGuiProviderBase> providers = Lists.newArrayList();
+    public static final ModularGuiRegistry.Element TITLE = new ModularGuiRegistry.Element("simp0", new SimpleTitleModularGuiProvider());
+    //ik i have these backwards
+    public static final ModularGuiRegistry.Element FPS = new ModularGuiRegistry.Element("Ping", new PingAndFpsModularGuiProvider(PingAndFpsModularGuiProvider.PingOrFps.FPS));
+    public static final ModularGuiRegistry.Element PING = new ModularGuiRegistry.Element("FPS", new PingAndFpsModularGuiProvider(PingAndFpsModularGuiProvider.PingOrFps.PING));
+
     public static final ModularGuiRegistry.Element COIN_COUNTER = new ModularGuiRegistry.Element(CoinCounterModularGuiProvider.COINS_DISPLAY_TEXT, new CoinCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element TIMER = new ModularGuiRegistry.Element(TimerModularGuiProvider.TIME_DISPLAY_MESSAGE, new TimerModularGuiProvider());
     public static final ModularGuiRegistry.Element BLITZ_STAR_TRACKER = new ModularGuiRegistry.Element(BlitzStarTrackerModularGuiProvider.DISPLAY_MESSAGE, new BlitzStarTrackerModularGuiProvider());
@@ -28,6 +33,15 @@ public class ModularGuiHelper {
 
     public static final ModularGuiRegistry.Element PLAY_GAME_MODULE = new ModularGuiRegistry.Element(EnumChatFormatting.DARK_RED + "Game", new PlayGameModularGuiProvider());
     public static void init() {
+        //order matters
+        ModularGuiRegistry.registerElement(TITLE);
+        providers.add((IHudPixelModularGuiProviderBase)TITLE.provider);
+        ModularGuiRegistry.registerElement(FPS);
+        providers.add((IHudPixelModularGuiProviderBase)FPS.provider);
+        ModularGuiRegistry.registerElement(PING);
+        providers.add((IHudPixelModularGuiProviderBase)PING.provider);
+
+        //order no longer matters
         ModularGuiRegistry.registerElement(COIN_COUNTER);
         providers.add((IHudPixelModularGuiProviderBase)COIN_COUNTER.provider);
         ModularGuiRegistry.registerElement(TIMER);

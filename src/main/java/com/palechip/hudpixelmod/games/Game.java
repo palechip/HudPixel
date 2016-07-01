@@ -23,14 +23,13 @@
 package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.extended.configuration.Config;
-import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
-import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
 
 import java.util.ArrayList;
+
+;
 
 public class Game {
     public static final Game NO_GAME = new Game();
@@ -74,11 +73,6 @@ public class Game {
     public void setupNewGame() {
         this.renderStrings.clear();
 
-        // adds the pingComponent if isPingShown
-        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)      this.renderStrings.add(FpsComponent.getFps());
-
-
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.setupNewGame();
         }
@@ -108,9 +102,6 @@ public class Game {
     public void updateRenderStrings() {
         this.renderStrings.clear();
 
-        // adds the pingComponent if isPingShown
-        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)     this.renderStrings.add(FpsComponent.getFps());
 
         // add information about the game status for debug reasons
         if(HudPixelMod.IS_DEBUGGING) {
