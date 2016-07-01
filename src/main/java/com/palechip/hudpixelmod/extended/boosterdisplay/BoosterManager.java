@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class BoosterManager extends FancyListManager implements BoosterResponseCallback {
+public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
 
     private long lastRequest;
     private static final int REQUEST_COOLDOWN = 60000; // = 30s
@@ -122,7 +122,6 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         }
     }
 
-    @Override
     public void onBoosterResponse(ArrayList<Booster> boosters) {
         LoggerHelper.logInfo("[BoosterDisplay]: Got a booster response!");
 
