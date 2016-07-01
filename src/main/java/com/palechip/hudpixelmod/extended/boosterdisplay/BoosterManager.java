@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
 
     private long lastRequest;
-    private static final int REQUEST_COOLDOWN = 60000; // = 30s
+    private static final int REQUEST_COOLDOWN = 60 * 1000 * 5; // = 5min
 
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.SPEED_UHC,
@@ -72,10 +72,10 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         }
     }
 
-    public void requestBoosters(){
+    public void requestBoosters(Boolean forceRequest){
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // check if enough time has past
-            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) {
+            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN  || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
@@ -92,7 +92,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
     @Override
     public void onClientTick(){
-        requestBoosters();
+        requestBoosters(false);
         for(FancyListObject b : fancyListObjects){
             b.onClientTick();
         }
@@ -120,9 +120,6 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     }
 
     public void onBoosterResponse(ArrayList<Booster> boosters) {
-
-        LoggerHelper.logInfo("[BoosterDisplay]: Got a booster response!");
-
         // we aren't loading anymore
         if(boosters != null) {
             for(Booster b : boosters){

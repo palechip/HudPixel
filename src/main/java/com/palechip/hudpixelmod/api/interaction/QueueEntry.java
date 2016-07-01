@@ -131,7 +131,6 @@ public class QueueEntry {
     }
     
     private void doBoosterRequest() {
-        System.out.println("Do booster!");
         HypixelAPI api = Queue.getInstance().getAPI();
 
         Request request = RequestBuilder.newBuilder(RequestType.BOOSTERS)
@@ -151,7 +150,6 @@ public class QueueEntry {
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
                     // these objects are represented by the class BoosterExtended
-                    System.out.println(result);
                     for(JsonElement e : result.getBoosters()) {
                         Booster b = gson.fromJson(e, Booster.class);
                         boosters.add(b);

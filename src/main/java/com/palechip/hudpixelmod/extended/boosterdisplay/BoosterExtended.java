@@ -28,6 +28,7 @@
 package com.palechip.hudpixelmod.extended.boosterdisplay;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.GameIconLoader;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
@@ -38,6 +39,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     private static final long tipDelay = 30 * 60 * 1000;
+    private static final long boosterLenght = 60 * 60 * 1000;
 
 
     private GameType gameType;
@@ -73,6 +75,11 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     @Override
     public void onClientTick(){
+        if(booster != null && (booster.getDateActivated() < System.currentTimeMillis() - boosterLenght)){
+            HudPixelExtended.boosterManager.requestBoosters(true);
+            booster = null;
+        }
+
         this.renderPicture = EnumChatFormatting.WHITE + countDown();
         this.renderLineSmall = YELLOW + gameType.getName();
         this.renderLine1 = GOLD + gameType.getName();
@@ -85,10 +92,12 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
                 this.renderLine2 = GREEN + booster.getOwner();
             }
         }
+
+
     }
 
     private String countDown(){
-        if(timeNextTip < System.currentTimeMillis()) {
+        if(timeNextTip < System.currentTimeMillis()){
             timeNextTip = 0;
             return "";
         }

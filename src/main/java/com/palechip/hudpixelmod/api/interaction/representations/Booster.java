@@ -74,7 +74,11 @@ public class Booster {
         }
         return this.gameID;
     }
-    
+
+    public long getDateActivated() {
+        return dateActivated;
+    }
+
     public long getRemainingTime() {
         return length;
     }
