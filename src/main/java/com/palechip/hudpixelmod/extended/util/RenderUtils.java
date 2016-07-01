@@ -71,7 +71,7 @@ public class RenderUtils {
     /**
      * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, float width, float height, float textureWidth, float textureHeight , ResourceLocation resourceLocation, Float alpha) {
+    public static void drawModalRectWithCustomSizedTexture(float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight , ResourceLocation resourceLocation, Float alpha) {
 
         GlStateManager.popMatrix();
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -84,9 +84,9 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(u * f), (double)((v + (float)height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((u + (float)width) * f), (double)((v + (float)height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((u + (float)width) * f), (double)(v * f1)).endVertex();
+        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(u * f), (double)((v + height) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((u + width) * f), (double)((v + height) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((u + width) * f), (double)(v * f1)).endVertex();
         worldrenderer.pos((double)x, (double)y, 0.0D).tex((double)(u * f), (double)(v * f1)).endVertex();
         tessellator.draw();
 

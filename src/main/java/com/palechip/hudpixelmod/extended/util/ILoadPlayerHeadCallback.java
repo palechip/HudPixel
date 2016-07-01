@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.util;
 
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraft.util.ResourceLocation;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -28,12 +28,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public interface IEvent {
+public interface ILoadPlayerHeadCallback {
 
-    void onClientTick();
-    void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
-    void onRender();
-    void handleScrollInput(int i);
-
-
+    public void onLoadPlayerHeadResponse(ResourceLocation resourceLocation);
 }

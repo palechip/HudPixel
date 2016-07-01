@@ -1,8 +1,15 @@
 package com.palechip.hudpixelmod.extended.footballdisplay;
 
+import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
+import com.palechip.hudpixelmod.extended.util.ImageLoader;
+import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
+
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.oX;
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.oY;
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.size;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -30,18 +37,52 @@ import net.minecraft.util.BlockPos;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class FootBallPlayer {
+public class FootBallPlayer implements ILoadPlayerHeadCallback{
 
-    EntityPlayer p;
+    private float x;
+    private float y;
+    private boolean isRed;
+    private boolean isBlue;
+    private  boolean isOwner;
+    private EntityPlayer p;
+    private ResourceLocation resourceLocation = null;
 
-    FootBallPlayer(EntityPlayer p){
+    FootBallPlayer(String username, EntityPlayer p){
         this.p = p;
+        this.resourceLocation = ImageLoader.steveHeadLocation();
+        new LoadPlayerHead(username, this);
     }
 
-    void onRender(){
-        BlockPos pos = p.getPosition();
-        if((pos.getX() < 40 && pos.getX() > -40) && (pos.getZ() < 40 && pos.getZ() > -40)){
-            RenderUtils.renderBoxWithColor(2 + (pos.getX()*2), 2 + (pos.getZ()*2), 3, 3, 0,1f, 0f, 0f, 1f);
+    public void setOwner(){isRed = false;isBlue = false;isOwner = true;}
+    public void setBlue() {isRed = false;isBlue = true; isOwner = false;}
+    public void setRed()  {isRed = true; isBlue = false;isOwner = false;}
+
+    void onRender(int s, boolean flip){
+
+        this.y = p.getPosition().getX();
+        this.x = p.getPosition().getZ();
+
+        final int hs = 10;
+        final int bs = 14;
+
+        if(flip){
+            if(isRed)           RenderUtils.renderBoxWithColor(oX + size/2 + x*s - bs/2 , oY + size/2 -  y*s + 2 , bs, bs -8 , 0, 1f, 0f, 0f, 1f);
+            else if(isBlue)     RenderUtils.renderBoxWithColor(oX + size/2 + x*s - bs/2 , oY + size/2 - y*s + 2 , bs, bs -8, 0, 0f, 0f, 1f, 1f);
+            else if(isOwner)    RenderUtils.renderBoxWithColor(oX + size/2 + x*s - bs/2 , oY + size/2 - y*s + 2 , bs, bs -8 , 0, 1f, 1f, 1f, 1f);
+
+            RenderUtils.drawModalRectWithCustomSizedTexture(oX + size/2 + x*s - hs/2 , oY + size/2 - y*s - hs/2, hs, hs, hs, hs, hs, hs,resourceLocation, 1f);
+        } else {
+            if(isRed)           RenderUtils.renderBoxWithColor(oX + size/2 - x*s - bs/2 , oY + size/2 -  y*s + 2 , bs, bs -8 , 0, 1f, 0f, 0f, 1f);
+            else if(isBlue)     RenderUtils.renderBoxWithColor(oX + size/2 - x*s - bs/2 , oY + size/2 -  y*s + 2 , bs, bs -8, 0, 0f, 0f, 1f, 1f);
+            else if(isOwner)    RenderUtils.renderBoxWithColor(oX + size/2 - x*s - bs/2 , oY + size/2 -  y*s + 2 , bs, bs -8 , 0, 1f, 1f, 1f, 1f);
+
+            RenderUtils.drawModalRectWithCustomSizedTexture(oX + size/2 - x*s - hs/2 , oY + size/2 - y*s - hs/2, hs, hs, hs, hs, hs, hs,resourceLocation, 1f);
         }
+
+    }
+
+    @Override
+    public void onLoadPlayerHeadResponse(ResourceLocation resourceLocation) {
+        if(resourceLocation != null) this.resourceLocation = resourceLocation;
     }
 }

@@ -50,7 +50,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!
-     * Also please upload the gameicon to the resource folder and link it in util.GameIconLoader
+     * Also please upload the gameicon to the resource folder and link it in util.ImageLoader
      * Also please add the new gamemode with the right ID and right name (put there the name it says
      * when tipping somebody in this gamemode) to the GameType enum class.
      **/
