@@ -1,6 +1,7 @@
 package com.palechip.hudpixelmod.modulargui;
 
 import com.google.common.collect.Lists;
+import com.palechip.hudpixelmod.modulargui.components.BlitzStarTrackerModularGuiProvider;
 import com.palechip.hudpixelmod.modulargui.components.CoinCounterModularGuiProvider;
 import com.palechip.hudpixelmod.modulargui.components.TimerModularGuiProvider;
 import eladkay.modulargui.lib.ModularGuiRegistry;
@@ -14,11 +15,14 @@ public class ModularGuiHelper {
     public static List<HudPixelModularGuiProvider> providers = Lists.newArrayList();
     public static ModularGuiRegistry.Element COIN_COUNTER = new ModularGuiRegistry.Element(CoinCounterModularGuiProvider.COINS_DISPLAY_TEXT, new CoinCounterModularGuiProvider());
     public static ModularGuiRegistry.Element TIMER = new ModularGuiRegistry.Element(TimerModularGuiProvider.TIME_DISPLAY_MESSAGE, new TimerModularGuiProvider());
+    public static ModularGuiRegistry.Element BLITZ_STAR_TRACKER = new ModularGuiRegistry.Element(BlitzStarTrackerModularGuiProvider.DISPLAY_MESSAGE, new BlitzStarTrackerModularGuiProvider());
     public static void init() {
         ModularGuiRegistry.registerElement(COIN_COUNTER);
         providers.add((HudPixelModularGuiProvider)COIN_COUNTER.provider);
         ModularGuiRegistry.registerElement(TIMER);
         providers.add((HudPixelModularGuiProvider)TIMER.provider);
+        ModularGuiRegistry.registerElement(BLITZ_STAR_TRACKER);
+        providers.add((HudPixelModularGuiProvider)BLITZ_STAR_TRACKER.provider);
     }
 
     @SubscribeEvent

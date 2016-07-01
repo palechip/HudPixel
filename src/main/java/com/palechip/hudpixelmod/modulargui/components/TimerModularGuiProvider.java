@@ -32,7 +32,8 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
         // translate to our format
         if(HudPixelMod.instance().gameDetector.getCurrentGame() == Game.NO_GAME) return;
         tickTime++;
-        seconds = (int) (tickTime / 40);
+        seconds = (int) (tickTime / 80);
+        seconds %= 80;
         minutes = seconds / 60;
         runningTime = (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
@@ -54,7 +55,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean showElement() {
         //return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
-        return true;
+        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
     }
 
     @Override
