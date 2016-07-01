@@ -43,6 +43,6 @@ public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvi
 
     @Override
     public String content() {
-        return EnumChatFormatting.AQUA + "HudPixel Reloaded " + HudPixelMod.SHORT_VERSION;
+        return EnumChatFormatting.AQUA + "HudPixel Reloaded " + HudPixelMod.DEFAULT_VERSION;
     }
 }
