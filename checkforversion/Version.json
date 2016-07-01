@@ -1,12 +1,11 @@
 {
-  "Version": "3.0.4",
-  "DownloadLink": "http://unaussprechlich.net",
+  "Version": "3.1",
+  "DownloadLink": "https://hypixel.net/threads/client-mod-hudpixel-reloaded-v3-even-better.769075/",
   "UpdateMessages":{
-    "1": "[+] added a settings menu for the extended features. You can now access all settings by pressing 'ModOptions' in the pause menu and then open press on the config button for 'HudPixel Reloaded' . You can also just press the key for 'Open Config' , 'P' is the default key.",
-    "2": "[-] removed some unnecessary code from GitHub.",
-    "3": "[-] removed the booster display, there will be a new one in the next update. Credits to '@skyerzz'",
-    "4": "[fixed] a 'java.util.ConcurrentModificationException' caused by some n00by code-style",
-    "5": "[updated] to the newest 'HypixelApi' ... I had to rewrite some parts of it to make it Java language-level 6 compatible. So there could be bugs in the future."
+    "1": "+New mod config gui",
+    "2": "+More stat viewers (Sneak while looking at a player in the in game lobby!)",
+    "3": "*Quake, Walls, PB, CaC",
+    "4": "+Highlight: ModularGUI! This is a complete rewrite of the component system previously found in HudPixel."
   }
 }
 
