@@ -156,6 +156,7 @@ public class QueueEntry {
                         boosters.add(b);
                     }
                     // pass the result
+                    System.out.println("Sending booster to class!");
                     boosterCallback.onBoosterResponse(boosters);
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
