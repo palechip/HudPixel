@@ -41,7 +41,7 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return true;
+        return Minecraft.getMinecraft().getCurrentServerData() != null;
     }
 
     @Override
