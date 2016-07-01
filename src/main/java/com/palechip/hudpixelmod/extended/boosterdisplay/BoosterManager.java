@@ -104,7 +104,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         if(!chat.contains("You tipped ") || chat.contains(":")) return;
 
         String[] split = chat.split(" ");
-        String player = split[3];
+        String player = split[2];
         String gamemode = split[4];
 
         for(int i = 5; i < split.length; i++)
@@ -133,8 +133,6 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                         BoosterExtended be = (BoosterExtended) fco;
                         if(be.getGameType() == gameType ){
                             if(be.getBooster() != null  && (be.getBooster().getOwner().equalsIgnoreCase(b.getOwner()))){
-                                LoggerHelper.logInfo("[BoosterDisplay]: booster with ID " + b.getGameID()
-                                        +" and owner " + b.getOwner() + " allready exists in the boosterdisplay!");
                                 found = true;
                                 break;
                             }

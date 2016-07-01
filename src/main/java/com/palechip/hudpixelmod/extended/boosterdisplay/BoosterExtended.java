@@ -29,6 +29,7 @@ package com.palechip.hudpixelmod.extended.boosterdisplay;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.extended.util.GameIconLoader;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import com.palechip.hudpixelmod.util.GameType;
@@ -41,7 +42,6 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     private GameType gameType;
     private long timeNextTip;
-    private String countDown;
     private Booster booster;
 
     public Booster getBooster() {
@@ -53,15 +53,18 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     }
 
     public BoosterExtended(GameType gameType) {
-        countDown = "";
         timeNextTip = 0;
         this.gameType = gameType;
         this.resourceLocation = GameIconLoader.gameIconLocation(gameType);
     }
 
     public void setGameModeTipped(String player){
+        LoggerHelper.logInfo("[BoosterDisplay]: You tipped " + player + " in " + gameType.getName());
         timeNextTip = System.currentTimeMillis() + tipDelay;
-        if(booster != null && booster.getOwner().equalsIgnoreCase(player)) booster.tip();
+        if(booster != null && booster.getOwner().equalsIgnoreCase(player)){
+            LoggerHelper.logInfo("[BoosterDisplay]: Also found a booster for " + player);
+            booster.tip();
+        }
     }
 
     public void setCurrentBooster(Booster booster){
