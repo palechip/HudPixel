@@ -11,3 +11,8 @@ New friends display:
 
 BoosterDisplay:
     - does not register tipped boosters yet
+
+FancyChat:
+    - make custom filter tabs
+    - make a option to deactivate the notification sound
+    - rewrite some of the backend
