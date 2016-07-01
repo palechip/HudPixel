@@ -85,7 +85,8 @@ public class PingComponent{
             public void run(){
                 try {
                     if(HypixelNetworkDetector.isHypixelNetwork)
-                    serverPinger.ping(Minecraft.getMinecraft().getCurrentServerData());
+                        if(Minecraft.getMinecraft().getCurrentServerData() != null)
+                            serverPinger.ping(Minecraft.getMinecraft().getCurrentServerData());
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }

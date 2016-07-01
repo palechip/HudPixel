@@ -45,7 +45,6 @@ public class GameManager {
     private boolean isEmpty;
 
     private ArrayList<GameConfiguration> configurations;
-    private ComponentsManager componentsManager;
     /**
      * Creates an empty instance. Better than null.
      */
@@ -74,8 +73,6 @@ public class GameManager {
                 logger.logDebug("Game parsed: " + configurations.get(configurations.size() - 1));
             }
 
-            // setup the Component Manager
-            componentsManager = new ComponentsManager(this.configurations, componentConfig);
 
             // set the gamemanager, so that it will be used
             theGameManager = this;
@@ -145,12 +142,6 @@ public class GameManager {
         return configurations;
     }
 
-    /**
-     * Get the component manager associated with the Game Manager.
-     */
-    public ComponentsManager getComponentsManager() {
-        return this.componentsManager;
-    }
 
     /**
      * Get the one and only GameManager. It may have empty values but it will never be null.
