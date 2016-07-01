@@ -1,12 +1,3 @@
-package com.palechip.hudpixelmod.extended.util.gui;
-
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEvent;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Mouse;
-
-import java.util.ArrayList;
-
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -33,6 +24,15 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package com.palechip.hudpixelmod.extended.util.gui;
+
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
+import com.palechip.hudpixelmod.extended.util.IEvent;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Mouse;
+
+import java.util.ArrayList;
+
 public abstract class FancyListManager implements IEvent{
 
     private int indexScroll = 0;
@@ -49,8 +49,10 @@ public abstract class FancyListManager implements IEvent{
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
 
+    /**
+     * this really renders nothing it just sets rge right offset for each element
+     */
     protected void renderDisplay(){
-
         float xStart = 2;
         float yStart = 2;
 
@@ -59,17 +61,18 @@ public abstract class FancyListManager implements IEvent{
         yStart += 13;
 
         for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
-
             fancyListObjects.get(i).onRenderTick(false, xStart, yStart);
             yStart += 25;
-
         }
 
         if(indexScroll + shownObjects <= size() -1)
             fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true,xStart, yStart);
-
     }
 
+    /**
+     * handels the scrollinput and processes the right index for the list
+     * @param i scroll input
+     */
     @Override
     public void handleScrollInput(int i){
         if(Minecraft.getMinecraft().displayHeight - Mouse.getY() > (26 * shownObjects + 28) * 2) return;

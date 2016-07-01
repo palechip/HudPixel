@@ -38,29 +38,40 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class BoosterExtended extends FancyListObject implements McColorHelper{
 
-    private static final long tipDelay = 30 * 60 * 1000;
-    private static final long boosterLenght = 60 * 60 * 1000;
+//######################################################################################################################
 
+    private static final long tipDelay = 30 * 60 * 1000; //the tipdelay time for a gamemode
+    private static final long boosterLenght = 60 * 60 * 1000; //the time a booster gets activated
+
+//######################################################################################################################
 
     private GameType gameType;
     private long timeNextTip;
     private Booster booster;
 
-    public Booster getBooster() {
-        return booster;
+    Booster getBooster() {return booster;}
+    void setCurrentBooster(Booster booster){
+        this.booster = booster;
     }
 
     public GameType getGameType() {
         return gameType;
     }
 
-    public BoosterExtended(GameType gameType) {
+    /**
+     * @param gameType The gametype this boosterdisplay is for
+     */
+    BoosterExtended(GameType gameType) {
         timeNextTip = 0;
         this.gameType = gameType;
         this.resourceLocation = GameIconLoader.gameIconLocation(gameType);
     }
 
-    public void setGameModeTipped(String player){
+    /**
+     * sets a this gamemode tipped also sets the current booster to tipped if there is any
+     * @param player the player you have tipped to
+     */
+    void setGameModeTipped(String player){
         LoggerHelper.logInfo("[BoosterDisplay]: You tipped " + player + " in " + gameType.getName());
         timeNextTip = System.currentTimeMillis() + tipDelay;
         if(booster != null && booster.getOwner().equalsIgnoreCase(player)){
@@ -69,10 +80,11 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
         }
     }
 
-    public void setCurrentBooster(Booster booster){
-        this.booster = booster;
-    }
 
+    /**
+     * It checks if the booster is outdated and also generates the current
+     * RenderStrings
+     */
     @Override
     public void onClientTick(){
         if(booster != null && (booster.getDateActivated() < System.currentTimeMillis() - boosterLenght)){
@@ -86,16 +98,17 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
         if(booster == null){
             this.renderLine2 = GRAY + "No Booster online!";
         } else {
-            if(booster.isTipped()){
+            if(booster.isTipped())
                 this.renderLine2 = RED + booster.getOwner();
-            } else {
+            else
                 this.renderLine2 = GREEN + booster.getOwner();
-            }
         }
-
-
     }
 
+    /**
+     * Generates the countdown displayed over the game icon
+     * @return the current countdown string
+     */
     private String countDown(){
         if(timeNextTip < System.currentTimeMillis()){
             timeNextTip = 0;

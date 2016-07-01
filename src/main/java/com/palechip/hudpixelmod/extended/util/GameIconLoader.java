@@ -1,9 +1,3 @@
-package com.palechip.hudpixelmod.extended.util;
-
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.util.GameType;
-import net.minecraft.util.ResourceLocation;
-
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -30,6 +24,12 @@ import net.minecraft.util.ResourceLocation;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package com.palechip.hudpixelmod.extended.util;
+
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraft.util.ResourceLocation;
+
 public class GameIconLoader {
 
     private final static String BASE_PATH = "textures/gameicons/";

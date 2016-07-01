@@ -1,20 +1,3 @@
-package com.palechip.hudpixelmod.extended.boosterdisplay;
-
-import com.palechip.hudpixelmod.api.interaction.Queue;
-import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.representations.Booster;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.extended.HudPixelExtended;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
-import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
-import com.palechip.hudpixelmod.util.GameType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-
-import java.util.ArrayList;
-
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -41,11 +24,36 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+
+package com.palechip.hudpixelmod.extended.boosterdisplay;
+
+import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
+import java.util.ArrayList;
+
 public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
 
-    private long lastRequest;
+//######################################################################################################################
+
     private static final int REQUEST_COOLDOWN = 60 * 1000 * 5; // = 5min
 
+    /**
+     * Enter a  new gamemode with booster here, the system will add the booster then!
+     * Also please upload the gameicon to the resource folder and link it in util.GameIconLoader
+     * Also please add the new gamemode with the right ID and right name (put there the name it says
+     * when tipping somebody in this gamemode) to the GameType enum class.
+     **/
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.SPEED_UHC,
             GameType.SMASH_HEROES,
@@ -65,31 +73,36 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
             GameType.VAMPIREZ
     };
 
+//######################################################################################################################
+
+    private long lastRequest;
+
+    /**
+     * sets the settings for the fancyListManager and also generates all boosters
+     * in the gamesWithBooster array.
+     */
     public BoosterManager(){
-        super(5);
+        super(5); //this sets how many boosters are displayed at once you can change that
         for(GameType g : gamesWithBooster){
             this.fancyListObjects.add(new BoosterExtended(g));
         }
     }
 
-    public void requestBoosters(Boolean forceRequest){
-        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
-            // check if enough time has past
-            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN  || forceRequest) {
-                // save the time of the request
-                lastRequest = System.currentTimeMillis();
-                // tell the queue that we need boosters
-                Queue.getInstance().getBoosters(HudPixelExtended.boosterManager);
-            }
-        }
-    }
-
+    /**
+     * Well you can do some stuff here befor rendering the display
+     * You still have to call the renderDisplay() method ... otherwise there
+     * will be nothing shown.
+     */
     @Override
     public void onRender(){
         if(Minecraft.getMinecraft().currentScreen instanceof GuiChat)
             this.renderDisplay();
     }
 
+    /**
+     * do some things while the gametick ... you should also send the tip
+     * to each FancyListObject
+     */
     @Override
     public void onClientTick(){
         requestBoosters(false);
@@ -98,6 +111,10 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         }
     }
 
+    /**
+     * Filters out the tipped message and notifies the BoosterExtended that is had been tipped.
+     * @param e The chatEvent
+     */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) {
         String chat = e.message.getUnformattedText();
@@ -119,6 +136,27 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         }
     }
 
+    /**
+     * This requests the boosters via the api interaction
+     * @param forceRequest Set this to true if you want to force the request
+     */
+    void requestBoosters(Boolean forceRequest){
+        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+            // check if enough time has past
+            if(System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN  || forceRequest) {
+                // save the time of the request
+                lastRequest = System.currentTimeMillis();
+                // tell the queue that we need boosters
+                Queue.getInstance().getBoosters(HudPixelExtended.boosterManager);
+            }
+        }
+    }
+
+    /**
+     * This method gets called when there is a booster response
+     * Sorry for this messy if-for but somehow it works :P
+     * @param boosters the boosters parsed by the callback
+     */
     public void onBoosterResponse(ArrayList<Booster> boosters) {
         // we aren't loading anymore
         if(boosters != null) {
@@ -129,25 +167,18 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                     for(FancyListObject fco : fancyListObjects){
                         BoosterExtended be = (BoosterExtended) fco;
                         if(be.getGameType() == gameType ){
-                            if(be.getBooster() != null  && (be.getBooster().getOwner().equalsIgnoreCase(b.getOwner()))){
-                                found = true;
-                                break;
+                            if(be.getBooster() != null  && !(be.getBooster().equals(b))){
+                                be.setCurrentBooster(b);
+                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
+                                        +" and owner " + b.getOwner() + " in the boosterdisplay!");
                             }
-                            be.setCurrentBooster(b);
-                            LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
-                                    +" and owner " + b.getOwner() + " in the boosterdisplay!");
-                            found = true;
-                            break;
+                            found = true; break;
                         }
                     }
-                    if(!found){
-                        LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
+                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
                                 +" and owner " + b.getOwner() + "!");
-                    }
                 }
             }
-        } else {
-            LoggerHelper.logWarn("[BoosterDisplay]: No response to requested Boosters!");
-        }
+        } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");
     }
 }
