@@ -3,7 +3,6 @@ package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.stats.StatsDisplayer;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 
