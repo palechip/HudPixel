@@ -58,7 +58,7 @@ public class GameIconLoader {
             case SMASH_HEROES:   return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SmashHeroes"+ EXTENSION);
             case CRAZY_WALLS:    return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "CrazyWalls" + EXTENSION);
             case SKYWARS:        return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Skywars"    + EXTENSION);
-            case TURBO_KART_RACERS:return new ResourceLocation(HudPixelMod.MODID,BASE_PATH+ "TurboKartRacers" + EXTENSION);
+            case TURBO_KART_RACERS: return new ResourceLocation(HudPixelMod.MODID,BASE_PATH+ "TurboKartRacers" + EXTENSION);
             default: return null;
         }
     }
