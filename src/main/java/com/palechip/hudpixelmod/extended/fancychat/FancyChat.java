@@ -39,14 +39,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.blacklistContains;
-import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.blacklistEnds;
-import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.fancyChatTriggers;
+import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.*;
 
 public class FancyChat {
 
@@ -54,7 +51,7 @@ public class FancyChat {
 //######################################################################################################################
 
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
-    private static final long displayTimeMs = 15000;
+    private static long displayTimeMs = Config.displayMessages * 1000;
     // [SETTING] the offset between each chatline (in ms)
     public static final int RENDERING_HEIGHT_OFFSET = 9;
     // [SETTING] the with of the fancy chat overlay
@@ -62,7 +59,7 @@ public class FancyChat {
     // [SETTING] the with of the fancy chat overlay
     private static final int BOTTOM_Y_OFFSET = 28;
     // [SETTING] the with of the fancy chat overlay
-    private static final int MAX_STORED_FANCYCHATMESSAGES = 1000;
+    private static int MAX_STORED_FANCYCHATMESSAGES = Config.storedMessages;
     // [SETTING] the with of the fancy chat overlay
     private static final int MAX_SCROLLIST_LINES = 20;
     // [SETTING] the with of the fancy chat overlay
@@ -142,11 +139,6 @@ public class FancyChat {
      * updates all the FancyChatObjects and delete them if they are expired
      */
     public void onClientTick() {
-
-        // fires the handler for the mouse input and process the scroll-height
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
-            handleMouseInput();
-        }
 
         // add a the secound spacer for the party-invite message
         if (spacerPartyRequired) {
@@ -395,10 +387,7 @@ public class FancyChat {
      *
      * @firedBY -> this.onClientTick()
      */
-    private void handleMouseInput() {
-
-        Mouse.poll();
-        int i = Mouse.getDWheel();
+    public void handleMouseInput(int i) {
 
         if (i != 0) {
             if (i > 0) {

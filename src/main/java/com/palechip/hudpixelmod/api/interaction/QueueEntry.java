@@ -37,6 +37,10 @@ import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.reply.FriendsReply;
 import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.reply.SessionReply;
+import net.hypixel.api.request.Request;
+import net.hypixel.api.request.RequestBuilder;
+import net.hypixel.api.request.RequestParam;
+import net.hypixel.api.request.RequestType;
 import net.hypixel.api.util.Callback;
 
 import java.util.ArrayList;
@@ -128,8 +132,13 @@ public class QueueEntry {
     
     private void doBoosterRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
+
+        Request request = RequestBuilder.newBuilder(RequestType.BOOSTERS)
+                .createRequest();
+
         // do the request
-        api.getBoosters(new Callback<BoostersReply>(BoostersReply.class) {
+        api.getAsync(request, new Callback<BoostersReply>(BoostersReply.class){
+
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
                 if(failCause != null) {
@@ -140,7 +149,7 @@ public class QueueEntry {
                     ArrayList<Booster> boosters = new ArrayList<Booster>();
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
-                    // these objects are represented by the class Booster
+                    // these objects are represented by the class BoosterExtended
                     for(JsonElement e : result.getBoosters()) {
                         Booster b = gson.fromJson(e, Booster.class);
                         boosters.add(b);
@@ -150,14 +159,19 @@ public class QueueEntry {
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
                 }
-            }
+        }
         });
     }
     
     private void doSessionRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
         // do the request
-        api.getSession(this.player, new Callback<SessionReply>(SessionReply.class) {
+
+        Request request = RequestBuilder.newBuilder(RequestType.SESSION)
+                .addParam(RequestParam.SESSION_BY_NAME, this.player)
+                .createRequest();
+
+        api.getAsync(request, new Callback<SessionReply>(SessionReply.class) {
             @Override
             public void callback(Throwable failCause, SessionReply result) {
                 if (failCause != null) {
@@ -184,8 +198,13 @@ public class QueueEntry {
     
     private void doFriendRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
+
+        Request request = RequestBuilder.newBuilder(RequestType.FRIENDS)
+                .addParam(RequestParam.FRIENDS_BY_NAME, this.player)
+                .createRequest();
+
         // do the request
-        api.getFriends(this.player, new Callback<FriendsReply>(FriendsReply.class) {
+        api.getAsync(request, new Callback<FriendsReply>(FriendsReply.class){
             
             @Override
             public void callback(Throwable failCause, FriendsReply result) {
@@ -197,7 +216,7 @@ public class QueueEntry {
                     ArrayList<Friend> friends = new ArrayList<Friend>();
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
-                    // these objects are represented by the class Booster
+                    // these objects are represented by the class BoosterExtended
                     for(JsonElement e : result.getRecords()) {
                         Friend f = gson.fromJson(e, Friend.class);
                         f.setPlayer(player);
@@ -214,8 +233,14 @@ public class QueueEntry {
     
     private void doPlayerRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
+
+        Request request = RequestBuilder.newBuilder(RequestType.PLAYER)
+                .addParam(RequestParam.PLAYER_BY_NAME, this.player)
+                .createRequest();
+
         // do the request
-        api.getPlayer(player, null ,new Callback<PlayerReply>(PlayerReply.class) {
+        api.getAsync(request, new Callback<PlayerReply>(PlayerReply.class){
+
             @Override
             public void callback(Throwable failCause, PlayerReply result) {
                 if(failCause != null) {

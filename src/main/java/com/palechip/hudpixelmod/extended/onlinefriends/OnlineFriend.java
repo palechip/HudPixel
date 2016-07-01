@@ -27,6 +27,7 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -130,7 +131,8 @@ public class OnlineFriend {
         DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(username, texture);
         imageSetup = true;
-        System.out.println("Skin setup for: " + username);
+
+        LoggerHelper.logInfo("[OnlineFriends]: Skin setup for " + username);
     }
 
     /**
@@ -155,7 +157,7 @@ public class OnlineFriend {
             else
             RenderUtils.drawModalRectWithCustomSizedTexture(
                     Math.round(xStart + 2), Math.round(yStart + 2), 0, 0,
-                    20, 20, 20f, 20f , resourceLocation);
+                    20, 20, 20f, 20f , resourceLocation, 1f);
 
         //if the players are not loaded yet the loading animation will be displayed
         } else renderLoadingBar(xStart, yStart);
@@ -187,12 +189,12 @@ public class OnlineFriend {
 
                 try {
                     image = task.get();
-                    System.out.println("Skin loaded for: " + username);
+                    LoggerHelper.logInfo("[OnlineFriends]: Skin loaded for " + username);
                 } catch(final InterruptedException ex) {
-                    System.out.println("Something went wrong while loading the skin for:" + username);
+                    LoggerHelper.logError("[OnlineFriends]:Something went wrong while loading the skin for" + username);
                     ex.printStackTrace();
                 } catch(final ExecutionException ex) {
-                    System.out.println("Something went wrong while loading the skin for:" + username);
+                    LoggerHelper.logError("[OnlineFriends]:Something went wrong while loading the skin for" + username);
                     ex.printStackTrace();
                 }
 
@@ -209,7 +211,7 @@ public class OnlineFriend {
     class callURL implements Callable<BufferedImage> {
 
         public BufferedImage call() throws Exception {
-            System.out.println("Going to load the skin for: " + username);
+            LoggerHelper.logInfo("[OnlineFriends]: Going to load the skin for " + username);
             return ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
         }
     }

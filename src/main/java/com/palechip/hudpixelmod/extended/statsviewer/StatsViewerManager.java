@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,10 +60,16 @@ public class StatsViewerManager {
      */
     public static void onClientTick(){
 
+        ArrayList<String> removeFromMap = new ArrayList<String>();
+
         //deletes the entry if the showduration has expired
         for(Map.Entry<String, StatsViewerRender> entry : statsViewerRenderMap.entrySet()){
             if(entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
-                statsViewerRenderMap.remove(entry.getKey());
+                removeFromMap.add(entry.getKey());
+        }
+
+        for(String s : removeFromMap){
+            statsViewerRenderMap.remove(s);
         }
 
         Minecraft mc = Minecraft.getMinecraft();

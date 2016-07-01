@@ -69,3 +69,8 @@ $RECYCLE.BIN/
 *.msp
 /outPut/
 /run/
+/build/
+/out/
+/HudPixelExtended.iml
+/HudPixelExtended.ipr
+/HudPixelExtended.iws

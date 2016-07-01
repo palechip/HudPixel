@@ -23,19 +23,18 @@
 package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.components.IComponent;
+import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.extended.configuration.Config;
-import com.palechip.hudpixelmod.extended.newcomponents.FpsComponent;
-import com.palechip.hudpixelmod.extended.newcomponents.PingComponent;
 
 import java.util.ArrayList;
+
+;
 
 public class Game {
     public static final Game NO_GAME = new Game();
 
     protected GameConfiguration configuration;
-    protected ArrayList<IComponent> components;
 
     // the strings which the game wants to be rendered
     protected ArrayList<String> renderStrings;
@@ -45,7 +44,6 @@ public class Game {
 
     private Game() {
         this.renderStrings = new ArrayList<String>();
-        this.components = new ArrayList<IComponent>();
         this.configuration = GameConfiguration.NULL_GAME;
     }
     
@@ -55,15 +53,13 @@ public class Game {
         // save the configuration
         this.configuration = configuration;
         // get our components
-        this.components = manager.getComponentsManager().getComponentInstances(configuration);
         
         HudPixelMod.instance().logDebug("Game created: " + this.toString());
     }
 
     @Override
     public String toString() {
-        return "Game [configuration=" + configuration + ", components="
-                + components + "]";
+        return "Game [configuration=" + configuration + "]";
     }
     
     @Override
@@ -77,20 +73,14 @@ public class Game {
     public void setupNewGame() {
         this.renderStrings.clear();
 
-        // adds the pingComponent if isPingShown
-        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)      this.renderStrings.add(FpsComponent.getFps());
-
-
-        for(IComponent component : this.components) {
-            component.setupNewGame();
-            this.renderStrings.add(component.getRenderingString());
+        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+            e.setupNewGame();
         }
     }
 
     protected void onGameStart() {
-        for(IComponent component : this.components) {
-            component.onGameStart();
+        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+            e.onGameStart();
         }
     }
 
@@ -98,45 +88,28 @@ public class Game {
      * Called when the game ends.
      */
     protected void onGameEnd() {
-        for(IComponent component : this.components) {
-            component.onGameEnd();
+        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+            e.onGameEnd();
         }
         // display the results
         HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
     }
 
     public void onTickUpdate() {
-        for(IComponent component : this.components) {
-            component.onTickUpdate();
-        }
     }
 
     // this is called even if the game hasn't started
     public void updateRenderStrings() {
         this.renderStrings.clear();
 
-        // adds the pingComponent if isPingShown
-        if(Config.isPingShown)this.renderStrings.add(PingComponent.getStaticRenderingString());
-        if(Config.isFpsShown)     this.renderStrings.add(FpsComponent.getFps());
 
         // add information about the game status for debug reasons
         if(HudPixelMod.IS_DEBUGGING) {
             renderStrings.add(this.configuration.getShortName() + " " + (this.hasStarted ? "started" : "not started"));
         }
-        for (IComponent component : components) {
-            // only add the string if it actually contains something
-            // so if you set the display to bottom, it doesn't float
-            if (!component.getRenderingString().isEmpty()) {
-                this.renderStrings.add(component.getRenderingString());
-            }
-        }
     }
 
-    public void onChatMessage(String textMessage, String formattedMessage) {
-        for(IComponent component : this.components) {
-            component.onChatMessage(textMessage, formattedMessage);
-        }
-    }
+    public void onChatMessage(String textMessage, String formattedMessage) {}
 
     /**
      * Start the game. Calls onGameStart().

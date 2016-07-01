@@ -24,6 +24,7 @@ package com.palechip.hudpixelmod.detectors;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 
+import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class HypixelNetworkDetector {
@@ -55,6 +56,7 @@ public class HypixelNetworkDetector {
         if(!isHypixelNetwork && ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
             isHypixelNetwork = true;
             HudPixelMod.instance().logInfo("Joined Hypixel Network");
+            new UpdateNotifier(true);
         }
         // it can happen that the server data doesn't get null
         else if(isHypixelNetwork && !ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {

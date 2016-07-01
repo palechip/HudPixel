@@ -22,25 +22,23 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.config;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.palechip.hudpixelmod.components.IComponent;
-import com.palechip.hudpixelmod.games.ComponentsManager;
+import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
-
-import net.minecraft.command.CommandTitle;
 import net.minecraftforge.common.config.Configuration;
 
+import java.io.File;
+import java.util.HashMap;
+
 public class HudPixelConfig {
+
     private Configuration config;
 
     // categories
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
+    public static final String EXTENDED_CATEGORY = "extended";
     // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
     
     // static properties
@@ -85,6 +83,16 @@ public class HudPixelConfig {
      * Reads the config. Also creates new properties. Doesn't change the file but saves it if it has changed.
      */
     public void syncConfig() {
+
+        Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
+        Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
+        Config.isFancyChat      = this.config.get(EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
+        Config.isFriendsDisplay = this.config.get(EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
+        Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
+
+        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 1000 , "How many messages the external Chat Gui can store.").getInt(1000);
+        Config.displayMessages  = this.config.get(EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
+
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);
         enableAfterStats = this.config.get(Configuration.CATEGORY_GENERAL, "enableAfterStats", true, "Display statistics of the player who killed or beat you. (Not all games supported)").getBoolean();
         displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays.(\"lefttop\", \"righttop\", \"leftbottom\" and \"rightbottom\")").getString();
@@ -107,27 +115,18 @@ public class HudPixelConfig {
         // parse the non-static variables
         // clear the list first
         this.properties.clear();
+
         // create local variables to make the code clearer
         GameManager gameManager = GameManager.getGameManager();
-        ComponentsManager componentsManager = gameManager.getComponentsManager();
+
         // this is used to have consistent naming for arcade games, tnt games, ...
         HashMap<String, String> categoryGameNames = new HashMap<String, String>();
+
         // go through all games
         for(GameConfiguration gameConfig : gameManager.getConfigurations()) {
             // save the game name for the category
             if(!categoryGameNames.containsKey(gameConfig.getConfigCategory())) {
                 categoryGameNames.put(gameConfig.getConfigCategory(), gameConfig.getOfficialName());
-            }
-            // go through all components of the game
-            for(IComponent component : componentsManager.getComponentInstances(gameConfig, true)) {
-                String settingName = gameConfig.getConfigPrefix() + component.getConfigName();
-                // check if we haven't already parsed this setting
-                if(!properties.containsKey(settingName)) {
-                    // generate the comment
-                    String comment = component.getConfigComment().replace("%game", categoryGameNames.get(gameConfig.getConfigCategory()));
-                    // read (and create if it doesn't exist) the property and add it to the properties map
-                    this.properties.put(settingName, this.config.get(gameConfig.getConfigCategory(), settingName, component.getConfigDefaultValue(), comment).getBoolean());
-                }
             }
         }
 

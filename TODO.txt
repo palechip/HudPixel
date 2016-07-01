@@ -1,0 +1,18 @@
+StatsFactories for:
+    - MW
+    - UHC
+    - ARENA BRAWL
+    - VAMPIRE Z
+    - BLITZ SG
+
+New friends display:
+    - some way of detecting online friends via api
+    - implement with the fancylist lib
+
+BoosterDisplay:
+    - does not register tipped boosters yet
+
+FancyChat:
+    - make custom filter tabs
+    - make a option to deactivate the notification sound
+    - rewrite some of the backend

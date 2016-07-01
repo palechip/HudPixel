@@ -1,7 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
 import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.stats.StatsDisplayer;
 
 import java.util.ArrayList;
 
@@ -102,8 +103,18 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         wins =      getInt("wins");
         losses =    getInt("losses");
 
-        kd = (double) Math.round(((double)kills/(double)deaths) * 100) / 100;
-        wl = (int) Math.round(((double)wins / (double)(wins+losses)) * 100);
+        if(deaths > 0) {
+            kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
+        }
+        else{
+            kd = 1;
+        }
+        if(losses>0) {
+            wl = (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
+        }
+        else{
+            wl = 1;
+        }
 
         shamanLevel = getInt("shaman_health")    + getInt("shaman_energy")              + getInt("shaman_cooldown")
                 + getInt("shaman_critchance")    + getInt("shaman_critmultiplier")      + getInt("shaman_skill1")
@@ -137,14 +148,13 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         try{
             return this.statistics.get("Battleground").getAsJsonObject().get(s).getAsInt();
         }catch(Exception ex){
-            System.out.println("No entry for " + s + "returning 0!");
+            LoggerHelper.logInfo("[Stats]: No entry for " + s + "returning 0!");
             return 0;
         }
-
     }
 
     /**
-     * the given by the abstract superclass
+     * given by the abstract superclass
      */
     @Override
     protected void displayStats() {
