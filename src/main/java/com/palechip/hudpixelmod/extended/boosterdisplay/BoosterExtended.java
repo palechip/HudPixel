@@ -28,6 +28,7 @@
 package com.palechip.hudpixelmod.extended.boosterdisplay;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.GameIconLoader;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
@@ -39,7 +40,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
 //######################################################################################################################
 
-    private static final long tipDelay = 30 * 60 * 1000; //the tipdelay time for a gamemode
+    private static final long tipDelay = 60 * 60 * 1000; //the tipdelay time for a gamemode
     private static final long boosterLenght =  60 * 60 * 1000; //the time a booster gets activated
 
 //######################################################################################################################
@@ -47,9 +48,11 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     private GameType gameType;
     private long timeNextTip;
     private Booster booster;
+    private long lastBoosterAdded;
 
     Booster getBooster() {return booster;}
     void setCurrentBooster(Booster booster){
+        lastBoosterAdded = System.currentTimeMillis();
         this.booster = booster;
     }
 
@@ -86,8 +89,12 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
      */
     @Override
     public void onClientTick(){
-        if(booster != null)
-        System.out.println(booster.getRemainingTime());
+        if(booster != null )
+            if(System.currentTimeMillis() - (booster.getRemainingTime() * 1000) > lastBoosterAdded){
+                this.booster = null;
+                HudPixelExtended.boosterManager.requestBoosters(true);
+            }
+
 
 
         this.renderPicture = EnumChatFormatting.WHITE + countDown();
