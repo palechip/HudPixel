@@ -22,23 +22,21 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.detectors;
 
-import java.util.ArrayList;
-
-import net.minecraft.client.gui.GuiDownloadTerrain;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StringUtils;
-
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-
+import net.minecraft.client.gui.GuiDownloadTerrain;
+import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.util.ArrayList;
 
 public class GameDetector {
     // Game.NO_GAME if no game is detected, never null
@@ -171,28 +169,33 @@ public class GameDetector {
                 }
             }
             // compare them with the game configurations
-            for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
-                // check if the scoreboard names are the same. The check if scoreboardMap not empty is necessary to prevent the game being detected already in the pre-game lobby
-                if(!config.getScoreboardName().isEmpty() && !scoreboardMap.isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
-                    // we found the game
-                    this.currentGame = GameManager.getGameManager().createGame(config.getModID());
-                    this.isGameDetectionStarted = false;
-                    this.currentGame.setupNewGame();
-                    HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard name!");
-                    // no need to continue with this method
-                    return;
+            try{
+                for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+                    // check if the scoreboard names are the same. The check if scoreboardMap not empty is necessary to prevent the game being detected already in the pre-game lobby
+                    if(!config.getScoreboardName().isEmpty() && !scoreboardMap.isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
+                        // we found the game
+                        this.currentGame = GameManager.getGameManager().createGame(config.getModID());
+                        this.isGameDetectionStarted = false;
+                        this.currentGame.setupNewGame();
+                        HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard name!");
+                        // no need to continue with this method
+                        return;
+                    }
+                    // check if the scoreboard map (regex!) matches the map
+                    if(!config.getScoreboardMap().isEmpty() && scoreboardMap.matches(config.getScoreboardMap())) {
+                        // we found the game
+                        this.currentGame = GameManager.getGameManager().createGame(config.getModID());
+                        this.isGameDetectionStarted = false;
+                        this.currentGame.setupNewGame();
+                        HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard map!");
+                        // no need to continue with this method
+                        return;
+                    }
                 }
-                // check if the scoreboard map (regex!) matches the map
-                if(!config.getScoreboardMap().isEmpty() && scoreboardMap.matches(config.getScoreboardMap())) {
-                    // we found the game
-                    this.currentGame = GameManager.getGameManager().createGame(config.getModID());
-                    this.isGameDetectionStarted = false;
-                    this.currentGame.setupNewGame();
-                    HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard map!");
-                    // no need to continue with this method
-                    return;
-                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
+
         }
 
         // lobby detection is also done when game detection is active

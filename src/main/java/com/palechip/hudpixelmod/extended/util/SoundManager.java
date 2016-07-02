@@ -40,15 +40,12 @@ public class SoundManager {
         NOTIFICATION_SHORT2("NOTIFICATION_SHORT2"),
         NOTIFICATION_SHORT_WOOD("NOTIFICATION_SHORT_WOOD");
 
-
         private final String name;
 
         Sounds(String name){
             this.name = name;
         }
     }
-
-
 
     public static void playSound(Sounds name){
         Minecraft.getMinecraft().thePlayer.playSound(HudPixelMod.MODID + ":" + name, 5, 1);

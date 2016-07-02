@@ -149,7 +149,7 @@ public class QueueEntry {
                     ArrayList<Booster> boosters = new ArrayList<Booster>();
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
-                    // these objects are represented by the class Booster
+                    // these objects are represented by the class BoosterExtended
                     for(JsonElement e : result.getBoosters()) {
                         Booster b = gson.fromJson(e, Booster.class);
                         boosters.add(b);
@@ -159,7 +159,7 @@ public class QueueEntry {
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
                 }
-            }
+        }
         });
     }
     
@@ -216,7 +216,7 @@ public class QueueEntry {
                     ArrayList<Friend> friends = new ArrayList<Friend>();
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
-                    // these objects are represented by the class Booster
+                    // these objects are represented by the class BoosterExtended
                     for(JsonElement e : result.getRecords()) {
                         Friend f = gson.fromJson(e, Friend.class);
                         f.setPlayer(player);

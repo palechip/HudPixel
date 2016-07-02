@@ -34,15 +34,30 @@ import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.lwjgl.input.Mouse;
 
-class HudPixelExtendedEventHandler {
+import java.util.ArrayList;
+
+public class HudPixelExtendedEventHandler{
+
+    private static ArrayList<IEventHandler> ieventArrayList = new ArrayList<IEventHandler>();
+
+    public static void registerIEvent(IEventHandler iEventHandler){
+        ieventArrayList.add(iEventHandler);
+    }
+
+    public static void unregisterIEvent(IEventHandler iEventHandler){
+        ieventArrayList.remove(iEventHandler);
+    }
 
     @SubscribeEvent
     public void onRenderPlayer(RenderPlayerEvent.Pre e){
@@ -80,20 +95,30 @@ class HudPixelExtendedEventHandler {
         }
     }
 
+    private ArrayList<IEventHandler> getIeventBuffer(){
+        return new ArrayList<IEventHandler>(ieventArrayList);
+    }
+
     @SubscribeEvent(receiveCanceled=true)
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
+
+                for(IEventHandler i : getIeventBuffer()){
+                    i.onChatReceived(e);
+                }
+
                 FancyChat.getInstance().onChat(e);
                 OnlineFriendsUpdater.onChat(e);
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onChat(e);
-
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in onChatMessage(). Stacktrace below.");
             ex.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -102,6 +127,12 @@ class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
+
+                for(IEventHandler i : getIeventBuffer()){
+                    i.onClientTick();
+                }
+
+                handleMouseScroll();
 
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
@@ -132,7 +163,13 @@ class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
+
+                for(IEventHandler i : getIeventBuffer()){
+                    i.onRender();
+                }
+
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();
+
                 if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && Config.isFriendsDisplay){
                     HudPixelExtended.onlineFriendsManager.renderOnlineFriends();
                 }
@@ -143,6 +180,20 @@ class HudPixelExtendedEventHandler {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
             ex.printStackTrace();
         }
+    }
+
+    private void handleMouseScroll(){
+
+        int i = Mouse.getDWheel();
+
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
+
+            for(IEventHandler iE : getIeventBuffer()){
+                iE.handleScrollInput(i);
+            }
+
+        }
+
     }
 
 }

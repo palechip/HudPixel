@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1c96dd1a-ad61-408f-a479-e0b2c2884a0b" name="Minecraft" url="http://localhost">
+        <fileTransfer mountedRoot="C:\Users\Heiko\AppData\Roaming\.minecraft\mods" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

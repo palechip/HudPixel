@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.extended.update;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.palechip.hudpixelmod.HudPixelProperties;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
@@ -88,7 +88,7 @@ public class UpdateNotifier implements McColorHelper {
             String data = sBuilder.toString();
             System.out.println(data);
             JsonObject jsonObject= jsonParser(data);
-            if(!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(HudPixelProperties.VERSION))
+            if(!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(HudPixelMod.DEFAULT_VERSION))
                 printUpdateMessage(jsonObject);
         } catch (MalformedURLException e) {
             LoggerHelper.logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");
@@ -127,8 +127,9 @@ public class UpdateNotifier implements McColorHelper {
 
 
     /**
-     * Yeah, best code-style EU .... it's messy but it's just for generating a update message, so no need for being nice code
-     * @param jsonObject
+     * Yeah, best code-style EU .... it's messy but it's just for generating a update message,
+     * so no need for being nice code :P
+     * @param jsonObject updateJson Array
      */
     private void printUpdateMessage(JsonObject jsonObject){
 
@@ -137,7 +138,8 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE DOWLOADLINK
-        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud" + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
+        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud"
+                + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
         new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), EnumChatFormatting.YELLOW).appendMessage
                 (new ChatMessageComposer(" > click here to download the newest version < ", EnumChatFormatting.ITALIC)
                         .makeLink(getStringFromJson(KEY_DOWNLOADLINK, jsonObject))).send();
@@ -145,7 +147,7 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE UPDATE NOE OR DIE TEXT
-        printMessage(GRAY + "Your currently running v" + HudPixelProperties.VERSION + "! This version will now no longer be supported " +
+        printMessage(GRAY + "Your currently running v" + HudPixelMod.DEFAULT_VERSION + "! This version will now no longer be supported " +
                 "by the HudPixelTeam! So make sure to update to the newest version befor sending any bug-reports or feature requests!" +
                 " HudPixel Reloaded v3 is still in development state, so expect bugs and new features at any time!");
 

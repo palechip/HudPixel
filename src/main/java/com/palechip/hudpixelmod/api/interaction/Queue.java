@@ -120,7 +120,7 @@ public class Queue implements ApiKeyLoadedCallback{
     }
     
     /**
-     * Queues a Booster request.
+     * Queues a BoosterExtended request.
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
