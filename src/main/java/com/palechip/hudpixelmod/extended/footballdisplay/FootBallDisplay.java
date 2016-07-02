@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.extended.footballdisplay;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEvent;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -41,9 +41,10 @@ import java.util.HashMap;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class FootBallDisplay implements IEvent {
+public class FootballDisplay implements IEventHandler {
 
-    HashMap<String, FootBallPlayer> footBallPlayers = new HashMap<String, FootBallPlayer>();
+    private boolean useOnYourOwnRisk = false;
+    HashMap<String, FootballPlayer> footballPlayers = new HashMap<String, FootballPlayer>();
     private boolean hasStarted;
     final static int size = 162; //offset
     final static int oX = 10; //offset
@@ -53,11 +54,11 @@ public class FootBallDisplay implements IEvent {
     private Entity football;
     private ResourceLocation resourceLocation;
 
-    public FootBallDisplay() {
-        HudPixelExtendedEventHandler.registerIEvent(this);
+    public FootballDisplay() {
+        if(useOnYourOwnRisk) HudPixelExtendedEventHandler.registerIEvent(this);
         String playerNamer = Minecraft.getMinecraft().thePlayer.getName();
-        footBallPlayers.put(playerNamer, new FootBallPlayer(playerNamer, Minecraft.getMinecraft().thePlayer));
-        footBallPlayers.get(playerNamer).setOwner();
+        footballPlayers.put(playerNamer, new FootballPlayer(playerNamer, Minecraft.getMinecraft().thePlayer));
+        footballPlayers.get(playerNamer).setOwner();
         resourceLocation = ImageLoader.soccerBallLocation();
     }
 
@@ -94,12 +95,12 @@ public class FootBallDisplay implements IEvent {
             }
             if (e != null && e instanceof EntityPlayer) {
                 EntityPlayer p = (EntityPlayer) e;
-                if (!footBallPlayers.containsKey(p.getName())) {
-                    footBallPlayers.put(p.getName(), new FootBallPlayer(p.getName(), p));
+                if (!footballPlayers.containsKey(p.getName())) {
+                    footballPlayers.put(p.getName(), new FootballPlayer(p.getName(), p));
                     if (p.getDisplayName().getUnformattedText().startsWith("§9[§9BLUE§9]")) {
-                        footBallPlayers.get(p.getName()).setBlue();
+                        footballPlayers.get(p.getName()).setBlue();
                     } else if (p.getDisplayName().getUnformattedText().startsWith("§c[§cRED§c]")) {
-                        footBallPlayers.get(p.getName()).setRed();
+                        footballPlayers.get(p.getName()).setRed();
                     }
                 }
             }
@@ -112,10 +113,10 @@ public class FootBallDisplay implements IEvent {
             setupPlayers();
             hasStarted = true;
         } else if (e.message.getUnformattedText().endsWith(Minecraft.getMinecraft().thePlayer.getName() + " joined the lobby!")
-                && HudPixelExtended.footBallDisplay != null) {
+                && HudPixelExtended.footballDisplay != null) {
             try {
                 HudPixelExtendedEventHandler.unregisterIEvent(this);
-                HudPixelExtended.footBallDisplay = null;
+                HudPixelExtended.footballDisplay = null;
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
@@ -158,7 +159,7 @@ public class FootBallDisplay implements IEvent {
             RenderUtils.renderBoxWithColor(oX + ((w / 2) - (gX / 2)), oY + h - b, gX, gY, 0, 0f, 0f, 1f, 1f);
 
 
-            for (FootBallPlayer fbp : footBallPlayers.values()) {
+            for (FootballPlayer fbp : footballPlayers.values()) {
                 fbp.onRender(h / 80, true);
             }
 
@@ -174,7 +175,7 @@ public class FootBallDisplay implements IEvent {
             RenderUtils.renderBoxWithColor(oX + ((w / 2) - (gX / 2)), oY + h - b, gX, gY, 0, 1f, 0f, 0f, 1f);
 
 
-            for (FootBallPlayer fbp : footBallPlayers.values()) {
+            for (FootballPlayer fbp : footballPlayers.values()) {
                 fbp.onRender(h / 80, false);
             }
 
