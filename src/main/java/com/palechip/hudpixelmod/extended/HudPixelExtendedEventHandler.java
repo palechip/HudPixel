@@ -31,7 +31,6 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
-import com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
@@ -108,11 +107,6 @@ public class HudPixelExtendedEventHandler{
 
                 for(IEventHandler i : getIeventBuffer()){
                     i.onChatReceived(e);
-                }
-
-                if(Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getName() != null)
-                if(e.message.getUnformattedText().equals("We are about to send you the Football Resource Pack")){
-                    HudPixelExtended.footballDisplay = new FootballDisplay();
                 }
 
                 FancyChat.getInstance().onChat(e);

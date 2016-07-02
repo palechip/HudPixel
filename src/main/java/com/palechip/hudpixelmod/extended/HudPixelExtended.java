@@ -28,7 +28,6 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -42,7 +41,6 @@ public class HudPixelExtended {
     public static OnlineFriendManager onlineFriendsManager = new OnlineFriendManager();
     public static UUID UUID;
     public static BoosterManager boosterManager;
-    public static FootballDisplay footballDisplay = null;
 
     private HudPixelExtended(){}
 
