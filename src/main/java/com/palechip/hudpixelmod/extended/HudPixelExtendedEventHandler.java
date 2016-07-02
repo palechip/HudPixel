@@ -31,11 +31,11 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
-import com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay;
+import com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
-import com.palechip.hudpixelmod.extended.util.IEvent;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -50,14 +50,14 @@ import java.util.ArrayList;
 
 public class HudPixelExtendedEventHandler{
 
-    private static ArrayList<IEvent> iEventArrayList = new ArrayList<IEvent>();
+    private static ArrayList<IEventHandler> ieventArrayList = new ArrayList<IEventHandler>();
 
-    public static void registerIEvent(IEvent iEvent){
-        iEventArrayList.add(iEvent);
+    public static void registerIEvent(IEventHandler iEventHandler){
+        ieventArrayList.add(iEventHandler);
     }
 
-    public static void unregisterIEvent(IEvent iEvent){
-        iEventArrayList.remove(iEvent);
+    public static void unregisterIEvent(IEventHandler iEventHandler){
+        ieventArrayList.remove(iEventHandler);
     }
 
     @SubscribeEvent
@@ -96,8 +96,8 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    private ArrayList<IEvent> getiEventBUFFER(){
-        return new ArrayList<IEvent>(iEventArrayList);
+    private ArrayList<IEventHandler> getIeventBuffer(){
+        return new ArrayList<IEventHandler>(ieventArrayList);
     }
 
     @SubscribeEvent(receiveCanceled=true)
@@ -106,13 +106,13 @@ public class HudPixelExtendedEventHandler{
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
 
-                for(IEvent i : getiEventBUFFER()){
+                for(IEventHandler i : getIeventBuffer()){
                     i.onChatReceived(e);
                 }
 
                 if(Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.getName() != null)
                 if(e.message.getUnformattedText().equals("We are about to send you the Football Resource Pack")){
-                    HudPixelExtended.footBallDisplay = new FootBallDisplay();
+                    HudPixelExtended.footballDisplay = new FootballDisplay();
                 }
 
                 FancyChat.getInstance().onChat(e);
@@ -134,7 +134,7 @@ public class HudPixelExtendedEventHandler{
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
 
-                for(IEvent i : getiEventBUFFER()){
+                for(IEventHandler i : getIeventBuffer()){
                     i.onClientTick();
                 }
 
@@ -170,7 +170,7 @@ public class HudPixelExtendedEventHandler{
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
 
-                for(IEvent i : getiEventBUFFER()){
+                for(IEventHandler i : getIeventBuffer()){
                     i.onRender();
                 }
 
@@ -194,7 +194,7 @@ public class HudPixelExtendedEventHandler{
 
         if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
 
-            for(IEvent iE : getiEventBUFFER()){
+            for(IEventHandler iE : getIeventBuffer()){
                 iE.handleScrollInput(i);
             }
 

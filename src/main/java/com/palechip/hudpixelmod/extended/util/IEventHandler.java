@@ -28,7 +28,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public interface IEvent {
+public interface IEventHandler {
 
     void onClientTick();
     void onChatReceived(ClientChatReceivedEvent e) throws Throwable;

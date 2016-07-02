@@ -27,13 +27,13 @@
 package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEvent;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
-public abstract class FancyListManager implements IEvent{
+public abstract class FancyListManager implements IEventHandler {
 
     private int indexScroll = 0;
     private int shownObjects;

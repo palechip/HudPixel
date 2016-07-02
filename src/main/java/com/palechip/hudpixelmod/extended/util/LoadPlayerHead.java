@@ -37,7 +37,7 @@ import java.util.concurrent.*;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class LoadPlayerHead implements IEvent{
+public class LoadPlayerHead implements IEventHandler {
 
     private BufferedImage image;
     private ResourceLocation resourceLocation;

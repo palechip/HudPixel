@@ -7,9 +7,9 @@ import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.oX;
-import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.oY;
-import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.size;
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay.oX;
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay.oY;
+import static com.palechip.hudpixelmod.extended.footballdisplay.FootballDisplay.size;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -37,7 +37,7 @@ import static com.palechip.hudpixelmod.extended.footballdisplay.FootBallDisplay.
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class FootBallPlayer implements ILoadPlayerHeadCallback{
+public class FootballPlayer implements ILoadPlayerHeadCallback{
 
     private float x;
     private float y;
@@ -47,7 +47,7 @@ public class FootBallPlayer implements ILoadPlayerHeadCallback{
     private EntityPlayer p;
     private ResourceLocation resourceLocation = null;
 
-    FootBallPlayer(String username, EntityPlayer p){
+    FootballPlayer(String username, EntityPlayer p){
         this.p = p;
         this.resourceLocation = ImageLoader.steveHeadLocation();
         new LoadPlayerHead(username, this);
