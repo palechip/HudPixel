@@ -2,7 +2,7 @@
   "Version": "3.1.1",
   "DownloadLink": "https://hypixel.net/threads/client-mod-hudpixel-reloaded-v3-even-better.769075/",
   "UpdateMessages":{
-    "1": "[DISPLAYSETTINGS] 'we are aware that the display settings are currently not working' we haven`t implemented them yet",
+    "1": "[DISPLAYSETTINGS] we are aware that 'the display settings are currently not working' we haven`t implemented them yet",
     "2": "[fixed] not saving boosters for 'Crazy Walls' and 'Smash Smash Heroes'",
     "3": "[fixed] some crazy 'lag' while making uuid requests",
     "4": "[fixed] some crazy 'lag' while loading images",
