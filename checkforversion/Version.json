@@ -1,11 +1,15 @@
 {
-  "Version": "3.1",
+  "Version": "3.1.1",
   "DownloadLink": "https://hypixel.net/threads/client-mod-hudpixel-reloaded-v3-even-better.769075/",
   "UpdateMessages":{
-    "1": "+New mod config gui",
-    "2": "+More stat viewers (Sneak while looking at a player in the in game lobby!)",
-    "3": "*Quake, Walls, PB, CaC",
-    "4": "+Highlight: ModularGUI! This is a complete rewrite of the component system previously found in HudPixel."
+    "1": "[DISPLAYSETTINGS] 'we are aware that the display settings are currently not working' we haven't implemented them yet",
+    "2": "[fixed] not saving boosters for 'Crazy Walls' and 'Smash Smash Heroes'",
+    "3": "[fixed] some crazy 'lag' while making uuid requests",
+    "4": "[fixed] some crazy 'lag' while loading images",
+    "5": "[fixed] no config pop-up when pressing the hotkey",
+    "6": "[updated&fixed] the internal game-management",
+    "7": "[-] removed the old rendering now completely",
+    "8": "[-] removed old and unused code"
   }
 }
 
