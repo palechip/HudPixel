@@ -1,18 +1,24 @@
-StatsFactories for:
+#2 New friends display:
+    - some way of detecting online friends via api
+    - implement with the fancylist lib
+
+#3 New game detection system:
+    - also detects gamelobbys
+    - easy to add gamemodes
+
+#4 FancyChat:
+    - make custom filter tabs
+    - make a option to deactivate the notification sound
+    - rewrite some of the backend
+    - click a friend to write a message or invite to a party
+
+#5 StatsFactories for:
     - MW
     - UHC
     - ARENA BRAWL
     - VAMPIRE Z
     - BLITZ SG
 
-New friends display:
-    - some way of detecting online friends via api
-    - implement with the fancylist lib
-
-BoosterDisplay:
+#6 BoosterDisplay:
     - does not register tipped boosters yet
-
-FancyChat:
-    - make custom filter tabs
-    - make a option to deactivate the notification sound
-    - rewrite some of the backend
+    - click a booster to tip

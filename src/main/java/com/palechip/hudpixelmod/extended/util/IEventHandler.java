@@ -1,14 +1,6 @@
-package com.palechip.hudpixelmod.extended.footballdisplay;
+package com.palechip.hudpixelmod.extended.util;
 
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEvent;
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-
-import java.util.HashMap;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -36,42 +28,12 @@ import java.util.HashMap;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class FootBallDisplay implements IEvent{
+public interface IEventHandler {
 
-    HashMap<String, FootBallPlayer> footBallPlayers = new HashMap<String,FootBallPlayer>();
+    void onClientTick();
+    void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
+    void onRender();
+    void handleScrollInput(int i);
 
-    FootBallDisplay(){
-        HudPixelExtendedEventHandler.registerIEvent(this);
-    }
 
-    @Override
-    public void onClientTick() {
-        for(Entity e : Minecraft.getMinecraft().theWorld.getLoadedEntityList()){
-            if(e != null && e instanceof EntityPlayer){
-                EntityPlayer p = (EntityPlayer) e;
-                if(!footBallPlayers.containsKey(p.getName())){
-                    footBallPlayers.put(p.getName(), new FootBallPlayer(p));
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onChatReceived(ClientChatReceivedEvent e) {
-
-    }
-
-    @Override
-    public void onRender() {
-        RenderUtils.renderBox(2, 2, 160, 160, 0);
-
-        for(FootBallPlayer fbp : footBallPlayers.values()){
-            fbp.onRender();
-        }
-    }
-
-    @Override
-    public void handleScrollInput(int i) {
-
-    }
 }

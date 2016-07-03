@@ -29,7 +29,7 @@ package com.palechip.hudpixelmod.extended.boosterdisplay;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
-import com.palechip.hudpixelmod.extended.util.GameIconLoader;
+import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
@@ -66,7 +66,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     BoosterExtended(GameType gameType) {
         timeNextTip = 0;
         this.gameType = gameType;
-        this.resourceLocation = GameIconLoader.gameIconLocation(gameType);
+        this.resourceLocation = ImageLoader.gameIconLocation(gameType);
     }
 
     /**

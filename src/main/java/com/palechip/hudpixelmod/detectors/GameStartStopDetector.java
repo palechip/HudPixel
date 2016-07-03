@@ -31,6 +31,7 @@ public class GameStartStopDetector {
     public GameStartStopDetector(GameDetector gameDetector) {
         this.gameDetector = gameDetector;
     }
+
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat messages
         if(!this.isChatMessage(textMessage)) { 

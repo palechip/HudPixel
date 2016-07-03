@@ -1,8 +1,6 @@
-package com.palechip.hudpixelmod.extended.footballdisplay;
+package com.palechip.hudpixelmod.extended.util;
 
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -30,18 +28,7 @@ import net.minecraft.util.BlockPos;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class FootBallPlayer {
+public interface ILoadPlayerHeadCallback {
 
-    EntityPlayer p;
-
-    FootBallPlayer(EntityPlayer p){
-        this.p = p;
-    }
-
-    void onRender(){
-        BlockPos pos = p.getPosition();
-        if((pos.getX() < 40 && pos.getX() > -40) && (pos.getZ() < 40 && pos.getZ() > -40)){
-            RenderUtils.renderBoxWithColor(2 + (pos.getX()*2), 2 + (pos.getZ()*2), 3, 3, 0,1f, 0f, 0f, 1f);
-        }
-    }
+    public void onLoadPlayerHeadResponse(ResourceLocation resourceLocation);
 }

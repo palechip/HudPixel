@@ -30,7 +30,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.ResourceLocation;
 
-public class GameIconLoader {
+public class ImageLoader {
 
     private final static String BASE_PATH = "textures/gameicons/";
     private final static String EXTENSION = "-64.png";
@@ -61,5 +61,13 @@ public class GameIconLoader {
             case TURBO_KART_RACERS: return new ResourceLocation(HudPixelMod.MODID,BASE_PATH+ "TurboKartRacers" + EXTENSION);
             default: return null;
         }
+    }
+
+    public static ResourceLocation steveHeadLocation(){
+        return new ResourceLocation(HudPixelMod.MODID, "textures/skins/SteveHead.png");
+    }
+
+    public static ResourceLocation soccerBallLocation(){
+        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/SoccerBall.png");
     }
 }

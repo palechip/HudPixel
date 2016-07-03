@@ -27,13 +27,13 @@
 package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEvent;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
-public abstract class FancyListManager implements IEvent{
+public abstract class FancyListManager implements IEventHandler {
 
     private int indexScroll = 0;
     private int shownObjects;
@@ -75,7 +75,11 @@ public abstract class FancyListManager implements IEvent{
      */
     @Override
     public void handleScrollInput(int i){
-        if(Minecraft.getMinecraft().displayHeight - Mouse.getY() > (26 * shownObjects + 28) * 2) return;
+
+        int mouseY = Minecraft.getMinecraft().displayHeight - Mouse.getY();
+        int mouseX = Mouse.getX();
+
+        if(mouseY > (26 * shownObjects + 28) * 2) return;
         if(Mouse.getX() > 280) return;
 
         if (i != 0) {

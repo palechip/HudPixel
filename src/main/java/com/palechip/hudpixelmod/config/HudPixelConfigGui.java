@@ -70,7 +70,7 @@ public class HudPixelConfigGui extends GuiConfig {
         Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
 
         // add the list to the main list
-        list.add(new DummyCategoryElement(EnumChatFormatting.GOLD + "Extended Settings", "", Config.getExtendedElements(configFile)));
+        list.add(new DummyCategoryElement(EnumChatFormatting.GOLD  + "Extended Settings", "", Config.getExtendedElements(configFile)));
         list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "General Settings", "", new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements()));
         list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "Display Settings", "", getDisplayElements(configFile)));
         

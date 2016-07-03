@@ -50,11 +50,12 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!
-     * Also please upload the gameicon to the resource folder and link it in util.GameIconLoader
+     * Also please upload the gameicon to the resource folder and link it in util.ImageLoader
      * Also please add the new gamemode with the right ID and right name (put there the name it says
      * when tipping somebody in this gamemode) to the GameType enum class.
      **/
     private final static GameType[] gamesWithBooster = new GameType[]{
+            GameType.QUAKECRAFT,
             GameType.SPEED_UHC,
             GameType.SMASH_HEROES,
             GameType.CRAZY_WALLS,
@@ -173,14 +174,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                                 found = true; break;
                             } else {
                                 be.setCurrentBooster(b);
-                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
-                                        +" and owner " + b.getOwner() + " in the boosterdisplay!");
+                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with[ >> DatabaseID: " + b.getGameType() +  " >> local GameType: " + b.getModGameType().getName()
+                                        +" >> owner: " + b.getOwner() + " ] in the boosterdisplay!");
                             }
                             found = true; break;
                         }
                     }
-                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
-                                +" and owner " + b.getOwner() + "!");
+                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with [ >> DatabaseID: " + b.getGameType()
+                                +" >> owner: " + b.getOwner() + "] !");
                 }
             }
         } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");

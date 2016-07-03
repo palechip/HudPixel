@@ -48,6 +48,7 @@ public class OnlineFriend {
 
     private String username;
     private String gamemode;
+    private boolean isOnline;
 
     private BufferedImage image;
     private ResourceLocation resourceLocation;
@@ -57,6 +58,8 @@ public class OnlineFriend {
     String getUsername() {return username;}
     String getGamemode() {return gamemode;}
     void setGamemode(String gamemode) {this.gamemode = gamemode;}
+    void setOnline(Boolean isOnline) {this.isOnline = isOnline;}
+    boolean isOnline(Boolean isOnline) {return isOnline;}
 
     /**
      * Constructor ... also loads the playerhead

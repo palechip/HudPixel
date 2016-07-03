@@ -46,6 +46,7 @@ public class Config {
     public static int     storedMessages = 1000;
     public static int     displayMessages = 8;
 
+
     public static List<IConfigElement> getExtendedElements(Configuration configFile){
 
         List<IConfigElement> extendedSettings = new ArrayList<IConfigElement>();
@@ -58,7 +59,10 @@ public class Config {
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "storedMessages"  , 1000 , "How many messages the external Chat Gui can store."), 100, 10000));
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right."), 1, 30, GuiConfigEntries.NumberSliderEntry.class));
 
+
         return extendedSettings;
     }
+
+
 
 }
