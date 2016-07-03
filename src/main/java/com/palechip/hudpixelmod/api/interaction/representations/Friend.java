@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.util.UuidHelper;
+
 public class Friend {
     private String _id;
     private String receiver;
@@ -29,6 +31,7 @@ public class Friend {
     private long started;
     
     private String friendName;
+    private String friendUUID;
     
     public long getStartingTime() {
         return this.started;
@@ -37,9 +40,15 @@ public class Friend {
     public String getFriendName() {
         return this.friendName;
     }
-    
+
+    public String getFriendUUID() {
+        return friendUUID;
+    }
+
+
+
     public boolean didFriendSendRequest() {
-        return this.sender.equals(this.friendName);
+        return this.sender.equals(this.friendUUID);
     }
     
     public String getId() {
@@ -51,9 +60,12 @@ public class Friend {
      */
     public void setPlayer(String player) {
         if(this.sender.equals(player)) {
-            this.friendName = this.receiver;
+            this.friendUUID = this.receiver;
+            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
+
         } else {
-            this.friendName = this.sender;
+            this.friendUUID = this.sender;
+            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
         }
     }
 }

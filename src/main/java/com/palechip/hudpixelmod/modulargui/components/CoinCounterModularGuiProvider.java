@@ -3,13 +3,16 @@ package com.palechip.hudpixelmod.modulargui.components;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame(Game game) {
-        return game != Game.NO_GAME;
+        if(game == Game.NO_GAME || game.getConfiguration().getModID() == GameType.FOOTBALL.getModID())
+            return false;
+        else return true;
     }
 
     @Override

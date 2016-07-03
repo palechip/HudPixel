@@ -22,12 +22,13 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
-import java.util.ArrayList;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
+
+import java.util.ArrayList;
 
 public class Session {
     // the player this session belongs to, isn't included in the response but still relevant
@@ -40,6 +41,7 @@ public class Session {
     private String server;
     
     private int gameID; // saves the ID the mod uses for the game and not the database ID.
+    private GameType gameTypeIntern;
     
     public String getID() {
         return this._id;
@@ -53,10 +55,17 @@ public class Session {
                 if(config.getDatabaseName().equals(gameType)) {
                     // save it
                     this.gameID = config.getModID();
+
                 }
             }
         }
         return this.gameID;
+    }
+
+    public GameType getGameType(){
+        getGameID();
+        this.gameTypeIntern = GameType.getTypeByID(gameID);
+        return gameTypeIntern;
     }
     
     public String getServer() {

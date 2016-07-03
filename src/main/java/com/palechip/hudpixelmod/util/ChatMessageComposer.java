@@ -123,7 +123,7 @@ public class ChatMessageComposer {
      * @param description Shown message when hovering over the clickable chat.
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
-    public ChatMessageComposer makeClickable(ClickEvent.Action action, String execute, ChatMessageComposer description) {
+    public ChatMessageComposer makeClickable(Action action, String execute, ChatMessageComposer description) {
         ChatStyle style = this.chatComponent.getChatStyle();
         
         style.setChatClickEvent(new ClickEvent(action, execute));

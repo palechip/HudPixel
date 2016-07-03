@@ -22,20 +22,17 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.util;
 
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.HashMap;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
 import com.palechip.hudpixelmod.HudPixelMod;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayerMP;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
 
 /**
  * A little helper to get the username of a given UUID.
@@ -74,8 +71,8 @@ public class UuidHelper {
                 // get the name
                 name = content.get("username").getAsString();
             } catch(Exception e) {
-                HudPixelMod.instance().logWarn("Failed to use the fallback API for username -> UUID!");
-                e.printStackTrace();
+                HudPixelMod.instance().logWarn("Failed to use the fallback API for " + uuid + " @ " + FALLBACK_API + uuid);
+                name = "!ERROR!";
             }
         }
         

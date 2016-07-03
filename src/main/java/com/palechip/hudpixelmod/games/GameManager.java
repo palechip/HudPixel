@@ -55,7 +55,7 @@ public class GameManager {
      * Creates a GameManager.
      * @param gameConfigFile a json file containing GameConfigurations of all games.
      */
-    public GameManager(JsonArray gameConfig, JsonArray componentConfig) {
+    public GameManager(JsonArray gameConfig) {
         HudPixelMod logger = HudPixelMod.instance();
         try {
             logger.logInfo("Trying to read a game configuration file...");
@@ -69,7 +69,7 @@ public class GameManager {
                 // serialize the element using gson and add it to the configurations.
                 configurations.add(gson.fromJson(config, GameConfiguration.class));
                 // log the result for debugging
-                logger.logDebug("Game parsed: " + configurations.get(configurations.size() - 1));
+                logger.logInfo("Game parsed: " + configurations.get(configurations.size() - 1));
             }
 
 

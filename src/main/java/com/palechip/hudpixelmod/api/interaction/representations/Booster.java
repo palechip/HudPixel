@@ -24,6 +24,7 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
 public class Booster {
@@ -55,6 +56,14 @@ public class Booster {
         this.dateActivated = System.currentTimeMillis();
         // get the db id
         this.gameType = GameManager.getGameManager().getGameConfiguration(gameID).getDatabaseID();
+    }
+
+    public int getGameType() {
+        return gameType;
+    }
+
+    public GameType getModGameType(){
+        return GameType.getTypeByID(gameID);
     }
 
     /**

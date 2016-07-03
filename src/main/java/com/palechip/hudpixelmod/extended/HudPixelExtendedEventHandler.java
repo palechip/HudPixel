@@ -41,6 +41,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
@@ -57,6 +58,17 @@ public class HudPixelExtendedEventHandler{
 
     public static void unregisterIEvent(IEventHandler iEventHandler){
         ieventArrayList.remove(iEventHandler);
+    }
+
+    @SubscribeEvent
+    public void onRenderWorldLast(RenderWorldLastEvent e){
+        try{
+            if(!HypixelNetworkDetector.isHypixelNetwork)return;
+
+        }catch (Exception ex){
+            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
+            ex.printStackTrace();
+        }
     }
 
     @SubscribeEvent
@@ -148,7 +160,6 @@ public class HudPixelExtendedEventHandler{
                     OnlineFriend.onClientTick();
                 }
 
-
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onClientTick();
             }
@@ -158,7 +169,7 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
+    @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel

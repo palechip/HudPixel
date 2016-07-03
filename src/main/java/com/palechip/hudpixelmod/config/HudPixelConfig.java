@@ -39,6 +39,7 @@ public class HudPixelConfig {
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
     public static final String EXTENDED_CATEGORY = "extended";
+    public static final String PRIVATE_CATEGORY = "private";
     // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
     
     // static properties

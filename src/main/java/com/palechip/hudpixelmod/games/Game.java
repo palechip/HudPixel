@@ -79,6 +79,7 @@ public class Game {
     }
 
     protected void onGameStart() {
+
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameStart();
         }
@@ -88,11 +89,10 @@ public class Game {
      * Called when the game ends.
      */
     protected void onGameEnd() {
+
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameEnd();
         }
-        // display the results
-        HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
     }
 
     public void onTickUpdate() {
