@@ -25,9 +25,10 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
 public class Friend {
+
     private String _id;
-    private String receiver;
-    private String sender;
+    private String uuidReceiver;
+    private String uuidSender;
     private long started;
     
     private String friendName;
@@ -48,23 +49,24 @@ public class Friend {
 
 
     public boolean didFriendSendRequest() {
-        return this.sender.equals(this.friendUUID);
+        return this.uuidSender.equals(this.friendUUID);
     }
     
     public String getId() {
         return this._id;
     }
+
     /**
      * Used because there is no way to see which one is the friend and which is the player
      * @param player The player for which the request was sent
      */
     public void setPlayer(String player) {
-        if(this.sender.equals(player)) {
-            this.friendUUID = this.receiver;
-            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
 
+        if(this.uuidSender.equals(player.replace("-", ""))){
+            this.friendUUID = this.uuidReceiver;
+            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
         } else {
-            this.friendUUID = this.sender;
+            this.friendUUID = this.uuidSender;
             this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
         }
     }

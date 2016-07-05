@@ -31,13 +31,11 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
+import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -95,8 +93,11 @@ public class HudPixelExtendedEventHandler{
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork) {
 
+                if(Minecraft.getMinecraft().thePlayer != null)
+                OnlineFriendManager.getInstance();
+
                 FancyChat.getInstance().openGui();
-                OnlineFriendsUpdater.requireUpdate=true;
+
 
             } else if(Config.isDebuging){
                 FancyChat.getInstance().openGui();
@@ -122,7 +123,7 @@ public class HudPixelExtendedEventHandler{
                 }
 
                 FancyChat.getInstance().onChat(e);
-                OnlineFriendsUpdater.onChat(e);
+
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onChat(e);
             }
@@ -144,6 +145,7 @@ public class HudPixelExtendedEventHandler{
                     i.onClientTick();
                 }
 
+                FancyListManager.processLoadingBar();
                 handleMouseScroll();
 
                 //Tick for FancyChat
@@ -154,11 +156,6 @@ public class HudPixelExtendedEventHandler{
                         && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
                     StatsViewerManager.onClientTick();
 
-                //Tick for the friends list
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    OnlineFriendsUpdater.onClientTick();
-                    OnlineFriend.onClientTick();
-                }
 
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onClientTick();
@@ -181,9 +178,6 @@ public class HudPixelExtendedEventHandler{
 
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();
 
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && Config.isFriendsDisplay){
-                    HudPixelExtended.onlineFriendsManager.renderOnlineFriends();
-                }
             } else if(Config.isDebuging){
                 FancyChat.getInstance().onRenderTick();
             }
@@ -195,15 +189,13 @@ public class HudPixelExtendedEventHandler{
 
     private void handleMouseScroll(){
 
+
         int i = Mouse.getDWheel();
 
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
-
-            for(IEventHandler iE : getIeventBuffer()){
-                iE.handleScrollInput(i);
-            }
-
+        for(IEventHandler iE : getIeventBuffer()){
+            iE.handleScrollInput(i);
         }
+
 
     }
 

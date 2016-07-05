@@ -2,11 +2,13 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
-import com.palechip.hudpixelmod.api.interaction.representations.Session;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
+import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -39,40 +41,48 @@ import java.util.HashMap;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler, SessionResponseCallback{
+public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler{
 
-    private static final int REQUEST_COOLDOWN = 5 * 60 * 1000; // = 5min
-    private static final String JOINED_MESSAGE = " joined.";
-    private static final String LEFT_MESSAGE = " left.";
+    private static final int REQUEST_COOLDOWN = 20 * 1000; // = 5min
+
+
 
     private static long lastRequest;
-    private static String playerName;
     private static ArrayList<String> friendsFromApi = new ArrayList<String>();
     private static HashMap<String, OnlineFriend> onlineFriends = new HashMap<String, OnlineFriend>();
 
     private static boolean isApiLoaded = false;
 
+
+    public static HashMap<String, OnlineFriend> getOnlineFriends() {
+        return onlineFriends;
+    }
+
     public static boolean isApiLoaded() {
         return isApiLoaded;
     }
 
+    public static ArrayList<String> getFriendsFromApi() {
+        return friendsFromApi;
+    }
+
     public void setupLoader(){
-        playerName = Minecraft.getMinecraft().thePlayer.getName();
+        HudPixelExtendedEventHandler.registerIEvent(this);
         requestFriends(true);
     }
 
-    private OnlineFriendsLoader(){
+    public OnlineFriendsLoader(){
         setupLoader();
     }
 
     private void requestFriends(Boolean forceRequest){
-        if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
+        if(HudPixelConfig.useAPI && Config.isFriendsDisplay) {
             // check if enough time has past
             if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
-                Queue.getInstance().getFriends(this, playerName);
+                Queue.getInstance().getFriends(this, "");
             }
         }
     }
@@ -81,18 +91,15 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     public void onFriendResponse(ArrayList<Friend> friends) {
         friendsFromApi.clear();
         for(Friend f : friends){
-            friendsFromApi.add(f.getFriendName());
+            if(f.getFriendName() != Minecraft.getMinecraft().thePlayer.getName())
+                friendsFromApi.add(f.getFriendName());
+                System.out.println(f.getFriendName());
         }
+        LoggerHelper.logInfo("[OnlineFriends][APIloader]: Loaded a total of " + friends.size() + " friends!");
         generateFriends();
         isApiLoaded = true;
     }
 
-    @Override
-    public void onSessionRespone(Session session) {
-        if(onlineFriends.containsKey(session.getSessionOwner())){
-            onlineFriends.get(session.getSessionOwner()).setGamemode(session.getGameType().getName());
-        }
-    }
 
     private void generateFriends(){
         for(String s : friendsFromApi){
@@ -100,19 +107,17 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
                 onlineFriends.put(s, new OnlineFriend(s, "not loaded yet!"));
             }
         }
+        OnlineFriendManager.getInstance().setFLClist(new ArrayList<FancyListObject>(onlineFriends.values()));
     }
 
     @Override
-    public void onClientTick() {requestFriends(false);}
+    public void onClientTick() {
+        requestFriends(false);
+    }
 
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        for(String s : friendsFromApi){
-            if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
-                onlineFriends.get(s).setOnline(true);
-            else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
-                onlineFriends.get(s).setOnline(false);
-        }
+
     }
 
     @Override

@@ -42,6 +42,7 @@ import net.hypixel.api.request.RequestBuilder;
 import net.hypixel.api.request.RequestParam;
 import net.hypixel.api.request.RequestType;
 import net.hypixel.api.util.Callback;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 
@@ -199,8 +200,8 @@ public class QueueEntry {
     private void doFriendRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
 
-        Request request = RequestBuilder.newBuilder(RequestType.FRIENDS)
-                .addParam(RequestParam.FRIENDS_BY_NAME, this.player)
+        final Request request = RequestBuilder.newBuilder(RequestType.FRIENDS)
+                .addParam(RequestParam.FRIENDS_BY_UUID, Minecraft.getMinecraft().thePlayer.getUniqueID())
                 .createRequest();
 
         // do the request
@@ -212,6 +213,7 @@ public class QueueEntry {
                     // if something went wrong, handle it
                     failed(failCause);
                 } else {
+
                     // assemble the response
                     ArrayList<Friend> friends = new ArrayList<Friend>();
                     Gson gson = Queue.getInstance().getGson();
@@ -219,7 +221,7 @@ public class QueueEntry {
                     // these objects are represented by the class BoosterExtended
                     for(JsonElement e : result.getRecords()) {
                         Friend f = gson.fromJson(e, Friend.class);
-                        f.setPlayer(player);
+                        f.setPlayer(Minecraft.getMinecraft().thePlayer.getUniqueID().toString());
                         friends.add(f);
                     }
                     // pass the result

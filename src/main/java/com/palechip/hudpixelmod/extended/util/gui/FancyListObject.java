@@ -39,6 +39,47 @@ public abstract class FancyListObject {
     protected String renderLineSmall;
     protected String renderPicture;
     protected ResourceLocation resourceLocation;
+    public static int loadingBar;
+
+    /**
+     * renders the loading animation
+     * @param xStart startposition of the friendsdisplay
+     * @param yStart startposition of the friendsdisplay
+     */
+    private void renderLoadingBar(float xStart, float yStart){
+
+        final int a = 2;
+        final int b = 1;
+        final float alpha = 0.8f;
+
+        switch (loadingBar){
+            case 0:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 1:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 2:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                break;
+            case 3:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                break;
+            default:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, 0.8f);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+        }
+    }
 
     /**
      * You have to call it each render tick from the FancyListManager
@@ -63,6 +104,9 @@ public abstract class FancyListObject {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         RenderUtils.renderBoxWithColor(xStart, yStart, 130, 12, 0, 0f, 0f, 0f, 0.3f);//draws the background
+
+        if(resourceLocation == null) renderLoadingBar(xStart, yStart);
+        else
         RenderUtils.drawModalRectWithCustomSizedTexture( //draws the texture
                 Math.round(xStart), Math.round(yStart), 0, 0,
                 12, 12, 12, 12, resourceLocation, 1f);
@@ -79,6 +123,9 @@ public abstract class FancyListObject {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 0f, 0f, 0f, 0.3f); //draws the background
+
+        if(resourceLocation == null) renderLoadingBar(xStart, yStart);
+        else
         RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
                 Math.round(xStart), Math.round(yStart), 0, 0,
                 24, 24, 24 , 24 , resourceLocation, 1f);

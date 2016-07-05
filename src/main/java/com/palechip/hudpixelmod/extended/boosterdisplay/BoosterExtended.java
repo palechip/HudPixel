@@ -95,8 +95,6 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
                 HudPixelExtended.boosterManager.requestBoosters(true);
             }
 
-
-
         this.renderPicture = EnumChatFormatting.WHITE + countDown();
         this.renderLineSmall = YELLOW + gameType.getName();
         this.renderLine1 = GOLD + gameType.getName();

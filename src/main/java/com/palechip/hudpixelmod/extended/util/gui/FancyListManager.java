@@ -33,6 +33,8 @@ import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
+import static com.palechip.hudpixelmod.extended.util.gui.FancyListObject.loadingBar;
+
 public abstract class FancyListManager implements IEventHandler {
 
     private int indexScroll = 0;
@@ -47,6 +49,19 @@ public abstract class FancyListManager implements IEventHandler {
     public FancyListManager(int shownObjects){
         this.shownObjects = shownObjects;
         HudPixelExtendedEventHandler.registerIEvent(this);
+    }
+
+
+    /**
+     * process the current loadingbar value
+     */
+    private static int tickCounter = 0;
+    public static void processLoadingBar(){
+        if(tickCounter >= 2){
+            if (loadingBar >= 15) loadingBar = 0;
+            else loadingBar ++;
+            tickCounter = 0;
+        } else tickCounter ++;
     }
 
     /**

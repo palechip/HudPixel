@@ -27,78 +27,75 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 
-import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater.friendListExpected;
+public class OnlineFriendManager extends FancyListManager{
 
-public class OnlineFriendManager {
+    private static final String JOINED_MESSAGE = " joined.";
+    private static final String LEFT_MESSAGE = " left.";
+    private static final int UPDATE_COOLDOWN = 60 * 1000; // = 1min
+    private static long lastUpdate = 0;
+    private static OnlineFriendManager instance;
 
-    private static final int FRIENDDYSPLAY_OFFSET = 25;
+    public static OnlineFriendManager getInstance() {
+        if(instance == null) instance = new OnlineFriendManager();
+        return instance;
+    }
 
-    private static ArrayList<OnlineFriend> onlineFriendsListBUFFER = new ArrayList<OnlineFriend>();
-    private static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
+    private OnlineFriendManager(){
+        super(8);
+        new OnlineFriendsLoader();
+    }
 
+    public void setFLClist(ArrayList<FancyListObject> fcoBUFF){
+        this.fancyListObjects = new ArrayList<FancyListObject>(fcoBUFF);
+    }
 
-    /**
-     * Function to manage all the rendering for the friends display
-     */
-    public void renderOnlineFriends(){
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-
-        int xStart = 2;
-        int yStart = 2;
-
-        ArrayList<OnlineFriend> ofList =  onlineFriendsList;
-
-        if(ofList.isEmpty()){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Nobody online!", xStart, yStart, 0xffffff);
-        } else if(friendListExpected){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
-        } else {
-            for (OnlineFriend of : ofList){
-                of.renderOnlineFriend(xStart,yStart);
-                yStart += FRIENDDYSPLAY_OFFSET;
+    private void updateRendering(){
+        if((System.currentTimeMillis() > lastUpdate + UPDATE_COOLDOWN)) {
+            // save the time of the request
+            lastUpdate = System.currentTimeMillis();
+            // tell the queue that we need boosters
+            for(FancyListObject fco : fancyListObjects){
+                fco.onClientTick();
             }
+            //this.fancyListObjects = new ArrayList<FancyListObject>(OnlineFriendsLoader.getOnlineFriends().values());
         }
     }
 
-
-    /**
-     * replace the currently shown onlinefriends list with the bufft one
-     */
-    public void update(){
-        onlineFriendsList = new ArrayList<OnlineFriend>(onlineFriendsListBUFFER);
-        onlineFriendsListBUFFER.clear();
+    @Override
+    public void onClientTick() {
+        updateRendering();
     }
 
-    /**
-     * ADD/COPY/UPDATE player to the BufferList
-     * @param playerName username
-     * @param gameType string to render
-     */
-    void addPlayer(String playerName, String gameType) {
-        if(!onlineFriendsList.isEmpty()) {
-            for (OnlineFriend of : onlineFriendsList) {
-                if (of.getUsername().equalsIgnoreCase(playerName)) {
-                    if (of.getGamemode().equalsIgnoreCase(gameType)) {
-                        onlineFriendsListBUFFER.add(of);
-                        return;
-                    } else {
-                        OnlineFriend ofBUFFER;
-                        ofBUFFER = of;
-                        ofBUFFER.setGamemode(gameType);
-                        onlineFriendsListBUFFER.add(ofBUFFER);
-                        return;
-                    }
+    @Override
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+        for(String s : OnlineFriendsLoader.getFriendsFromApi()){
+            if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
+                for (FancyListObject fco : fancyListObjects){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.getUsername().equals(s))
+                        of.setOnline(true);
                 }
-            }
-        }
 
-        onlineFriendsListBUFFER.add(new OnlineFriend(playerName, gameType));
+            else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
+                for (FancyListObject fco : fancyListObjects){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.getUsername().equals(s))
+                        of.setOnline(false);
+                }
+        }
     }
 
+    @Override
+    public void onRender() {
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdate != 0 && OnlineFriendsLoader.isApiLoaded())
+           this.renderDisplay();
+    }
 }
