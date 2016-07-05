@@ -45,14 +45,10 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
 
     private static final int REQUEST_COOLDOWN = 20 * 1000; // = 5min
 
-
-
     private static long lastRequest;
     private static ArrayList<String> friendsFromApi = new ArrayList<String>();
     private static HashMap<String, OnlineFriend> onlineFriends = new HashMap<String, OnlineFriend>();
-
     private static boolean isApiLoaded = false;
-
 
     public static HashMap<String, OnlineFriend> getOnlineFriends() {
         return onlineFriends;
@@ -116,9 +112,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-
-    }
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {}
 
     @Override
     public void onRender() {}

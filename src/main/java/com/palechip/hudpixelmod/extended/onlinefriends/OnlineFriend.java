@@ -44,7 +44,7 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
     String getGamemode() {return gamemode;}
     void setGamemode(String gamemode) {this.gamemode = gamemode;}
     void setOnline(Boolean isOnline) {this.isOnline = isOnline;}
-    boolean isOnline(Boolean isOnline) {return isOnline;}
+    public boolean isOnline() {return isOnline;}
 
     /**
      * Constructor ... also loads the playerhead
@@ -57,9 +57,9 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
 
         this.resourceLocation = null;
 
-        this.renderLine1 = GRAY + "● " + GOLD+ username;
+        this.renderLine1 = GRAY + "● " + GOLD + username;
         this.renderLine2 = gamemode;
-        this.renderLineSmall = GRAY + "● " + YELLOW+ username;
+        this.renderLineSmall = GRAY + "● " + YELLOW + username;
         this.renderPicture = WHITE + "";
 
         new LoadPlayerHead(username, this);
@@ -67,13 +67,12 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
 
     @Override
     public void onClientTick(){
-        if(isOnline) this.renderLine1 = GREEN + "● " + GOLD+ username;
-        else         this.renderLine1 = D_RED + "● " + GOLD+ username;
+        if(isOnline) this.renderLine1 = GREEN + "● " + GOLD + username;
+        else         this.renderLine1 = D_RED + "● " + GOLD + username;
         this.renderLine2 = gamemode;
-        if(isOnline) this.renderLineSmall = GREEN + "● " + YELLOW+ username;
-        else         this.renderLineSmall = D_RED + "● " + YELLOW+ username;
+        if(isOnline) this.renderLineSmall = GREEN + "● " + YELLOW + username;
+        else         this.renderLineSmall = D_RED + "● " + YELLOW + username;
     }
-
 
     @Override
     public void onLoadPlayerHeadResponse(ResourceLocation resourceLocation) {

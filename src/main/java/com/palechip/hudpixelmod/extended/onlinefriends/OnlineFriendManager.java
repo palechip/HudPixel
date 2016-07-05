@@ -34,12 +34,14 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class OnlineFriendManager extends FancyListManager{
 
     private static final String JOINED_MESSAGE = " joined.";
     private static final String LEFT_MESSAGE = " left.";
-    private static final int UPDATE_COOLDOWN = 60 * 1000; // = 1min
+    private static final int UPDATE_COOLDOWN = 10 * 1000; // = 1min
     private static long lastUpdate = 0;
     private static OnlineFriendManager instance;
 
@@ -59,13 +61,18 @@ public class OnlineFriendManager extends FancyListManager{
 
     private void updateRendering(){
         if((System.currentTimeMillis() > lastUpdate + UPDATE_COOLDOWN)) {
-            // save the time of the request
             lastUpdate = System.currentTimeMillis();
-            // tell the queue that we need boosters
-            for(FancyListObject fco : fancyListObjects){
+            for(FancyListObject fco : fancyListObjects)
                 fco.onClientTick();
-            }
-            //this.fancyListObjects = new ArrayList<FancyListObject>(OnlineFriendsLoader.getOnlineFriends().values());
+            //sort the list to display only friends first
+            Collections.sort(fancyListObjects, new Comparator<FancyListObject>() {
+                @Override
+                public int compare(FancyListObject f1, FancyListObject f2) {
+                    OnlineFriend o1 = (OnlineFriend) f1;
+                    OnlineFriend o2 = (OnlineFriend) f2;
+                    return Boolean.valueOf(o1.isOnline()).compareTo(o2.isOnline());
+                }
+            });
         }
     }
 
