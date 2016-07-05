@@ -111,8 +111,15 @@ public class LoadPlayerHead implements IEventHandler {
     }
 
     @Override
-    public void handleScrollInput(int i) {
+    public void handleMouseInput(int i, int mX, int mY) {
 
     }
+
+    @Override
+    public void onMouseClick(int mX, int mY) {
+
+    }
+
+
 
 }

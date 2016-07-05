@@ -27,6 +27,9 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
+import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.representations.Session;
 import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
 import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
@@ -34,11 +37,12 @@ import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.util.ResourceLocation;
 
 
-public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, McColorHelper{
+public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, SessionResponseCallback, McColorHelper{
 
     private String username;
     private String gamemode;
     private boolean isOnline;
+    private String friendUUID;
 
     String getUsername() {return username;}
     String getGamemode() {return gamemode;}
@@ -51,27 +55,29 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
      * @param username Username
      * @param gamemode current string to render
      */
-    OnlineFriend(String username, String gamemode){
+    OnlineFriend(String username, String gamemode, String uuid){
         this.gamemode = gamemode;
         this.username = username;
+        this.friendUUID = uuid;
 
         this.resourceLocation = null;
 
-        this.renderLine1 = GRAY + "● " + GOLD + username;
-        this.renderLine2 = gamemode;
-        this.renderLineSmall = GRAY + "● " + YELLOW + username;
+        this.renderLine1 = GRAY + "o " + GOLD + username;
+        this.renderLine2 = GRAY + gamemode;
+        this.renderLineSmall = GRAY + "o " + YELLOW + username;
         this.renderPicture = WHITE + "";
 
         new LoadPlayerHead(username, this);
     }
 
     @Override
-    public void onClientTick(){
-        if(isOnline) this.renderLine1 = GREEN + "● " + GOLD + username;
-        else         this.renderLine1 = D_RED + "● " + GOLD + username;
+    public void onTick(){
+        if(isOnline) this.renderLine1 = GREEN + "o " + GOLD + username;
+        else         this.renderLine1 = D_RED + "o " + GOLD + username;
         this.renderLine2 = gamemode;
-        if(isOnline) this.renderLineSmall = GREEN + "● " + YELLOW + username;
-        else         this.renderLineSmall = D_RED + "● " + YELLOW + username;
+        if(isOnline) this.renderLineSmall = GREEN + "o " + YELLOW + username;
+        else         this.renderLineSmall = D_RED + "o " + YELLOW + username;
+        Queue.getInstance().getSession(this,"3398b3a05f6b437a84a38a6add949dc3", true);
     }
 
     @Override
@@ -79,6 +85,12 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
         if(resourceLocation != null){
             this.resourceLocation = resourceLocation;
         }
+    }
+
+    @Override
+    public void onSessionRespone(Session session) {
+        System.out.println(session.toString());
+        gamemode = GREEN + session.getReplyGameType();
     }
 }
 

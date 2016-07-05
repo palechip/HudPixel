@@ -8,12 +8,10 @@ import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -43,24 +41,20 @@ import java.util.HashMap;
  *******************************************************************************/
 public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler{
 
-    private static final int REQUEST_COOLDOWN = 20 * 1000; // = 5min
+    private static final int REQUEST_COOLDOWN = 20 * 60 * 1000; // = 30min
 
     private static long lastRequest;
-    private static ArrayList<String> friendsFromApi = new ArrayList<String>();
-    private static HashMap<String, OnlineFriend> onlineFriends = new HashMap<String, OnlineFriend>();
+    private static ArrayList<String> allreadyStored = new ArrayList<String>();
     private static boolean isApiLoaded = false;
 
-    public static HashMap<String, OnlineFriend> getOnlineFriends() {
-        return onlineFriends;
+    public static ArrayList<String> getAllreadyStored() {
+        return allreadyStored;
     }
 
     public static boolean isApiLoaded() {
         return isApiLoaded;
     }
 
-    public static ArrayList<String> getFriendsFromApi() {
-        return friendsFromApi;
-    }
 
     public void setupLoader(){
         HudPixelExtendedEventHandler.registerIEvent(this);
@@ -78,33 +72,23 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
-                Queue.getInstance().getFriends(this, "");
+                Queue.getInstance().getFriends(this, Minecraft.getMinecraft().thePlayer.getUniqueID());
             }
         }
     }
 
     @Override
     public void onFriendResponse(ArrayList<Friend> friends) {
-        friendsFromApi.clear();
         for(Friend f : friends){
-            if(f.getFriendName() != Minecraft.getMinecraft().thePlayer.getName())
-                friendsFromApi.add(f.getFriendName());
-                System.out.println(f.getFriendName());
-        }
-        LoggerHelper.logInfo("[OnlineFriends][APIloader]: Loaded a total of " + friends.size() + " friends!");
-        generateFriends();
-        isApiLoaded = true;
-    }
-
-
-    private void generateFriends(){
-        for(String s : friendsFromApi){
-            if(!onlineFriends.containsKey(s)){
-                onlineFriends.put(s, new OnlineFriend(s, "not loaded yet!"));
+            if(!allreadyStored.contains(f.getFriendName())){
+                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), "not loaded yet!", f.getFriendUUID()));
+                allreadyStored.add(f.getFriendName());
             }
         }
-        OnlineFriendManager.getInstance().setFLClist(new ArrayList<FancyListObject>(onlineFriends.values()));
+        isApiLoaded = true;
+        LoggerHelper.logInfo("[OnlineFriends][APIloader]: Loaded a total of " + friends.size() + " friends!");
     }
+
 
     @Override
     public void onClientTick() {
@@ -118,7 +102,10 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     public void onRender() {}
 
     @Override
-    public void handleScrollInput(int i) {}
+    public void handleMouseInput(int i, int mX, int mY) {}
+
+    @Override
+    public void onMouseClick(int mX, int mY) {}
 
 
 }

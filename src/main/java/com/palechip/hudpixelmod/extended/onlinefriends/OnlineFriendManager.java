@@ -33,7 +33,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -55,15 +54,16 @@ public class OnlineFriendManager extends FancyListManager{
         new OnlineFriendsLoader();
     }
 
-    public void setFLClist(ArrayList<FancyListObject> fcoBUFF){
-        this.fancyListObjects = new ArrayList<FancyListObject>(fcoBUFF);
+    public void addFriend(FancyListObject fco){
+        this.fancyListObjects.add(fco);
     }
 
+    int count;
     private void updateRendering(){
         if((System.currentTimeMillis() > lastUpdate + UPDATE_COOLDOWN)) {
             lastUpdate = System.currentTimeMillis();
-            for(FancyListObject fco : fancyListObjects)
-                fco.onClientTick();
+            if(!fancyListObjects.isEmpty())
+                 fancyListObjects.get(0).onClientTick();
             //sort the list to display only friends first
             Collections.sort(fancyListObjects, new Comparator<FancyListObject>() {
                 @Override
@@ -83,7 +83,7 @@ public class OnlineFriendManager extends FancyListManager{
 
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        for(String s : OnlineFriendsLoader.getFriendsFromApi()){
+        for(String s : OnlineFriendsLoader.getAllreadyStored()){
             if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
                 for (FancyListObject fco : fancyListObjects){
                     OnlineFriend of = (OnlineFriend) fco;
@@ -105,4 +105,5 @@ public class OnlineFriendManager extends FancyListManager{
         if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdate != 0 && OnlineFriendsLoader.isApiLoaded())
            this.renderDisplay();
     }
+
 }

@@ -24,6 +24,8 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 
 import com.palechip.hudpixelmod.util.UuidHelper;
 
+import java.util.UUID;
+
 public class Friend {
 
     private String _id;
@@ -46,8 +48,6 @@ public class Friend {
         return friendUUID;
     }
 
-
-
     public boolean didFriendSendRequest() {
         return this.uuidSender.equals(this.friendUUID);
     }
@@ -56,18 +56,24 @@ public class Friend {
         return this._id;
     }
 
-    /**
-     * Used because there is no way to see which one is the friend and which is the player
-     * @param player The player for which the request was sent
-     */
-    public void setPlayer(String player) {
 
-        if(this.uuidSender.equals(player.replace("-", ""))){
-            this.friendUUID = this.uuidReceiver;
-            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
+    public void setPlayer(UUID player) {
+        if(this.uuidSender.equals(player.toString().replace("-", ""))){
+            this.friendUUID = uuidReceiver;
+            this.friendName = UuidHelper.getUsernameFormUUID(uuidReceiver);
         } else {
-            this.friendUUID = this.uuidSender;
-            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
+            this.friendUUID = uuidSender;
+            this.friendName = UuidHelper.getUsernameFormUUID(uuidSender);
+        }
+    }
+
+    public void setPlayer(String player) {
+        if(this.uuidSender.equals(player.replace("-", ""))){
+            this.friendUUID = uuidReceiver;
+            this.friendName = UuidHelper.getUsernameFormUUID(uuidReceiver);
+        } else {
+            this.friendUUID = uuidSender;
+            this.friendName = UuidHelper.getUsernameFormUUID(uuidSender);
         }
     }
 }

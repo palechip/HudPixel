@@ -135,19 +135,33 @@ public class Queue implements ApiKeyLoadedCallback{
      * Queues a Session request.
      * @param callback
      */
-    public void getSession(SessionResponseCallback callback, String player) {
+    public void getSession(SessionResponseCallback callback, String player, Boolean viaUUID) {
         if(HudPixelConfig.useAPI) {
-            this.queue.add(new QueueEntry(callback, player));
+            this.queue.add(new QueueEntry(callback, player, viaUUID));
         } else {
             callback.onSessionRespone(null);
         }
     }
+
+
     
     /**
      * Queues a Friends request.
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, String player) {
+        if(HudPixelConfig.useAPI) {
+            this.queue.add(new QueueEntry(callback, player));
+        } else {
+            callback.onFriendResponse(null);
+        }
+    }
+
+    /**
+     * Queues a Friends request.
+     * @param callback
+     */
+    public void getFriends(FriendResponseCallback callback, UUID player) {
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {

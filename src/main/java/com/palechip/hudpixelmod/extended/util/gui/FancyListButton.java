@@ -1,6 +1,7 @@
-package com.palechip.hudpixelmod.extended.util;
+package com.palechip.hudpixelmod.extended.util.gui;
 
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import net.minecraft.util.ResourceLocation;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -28,13 +29,44 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public interface IEventHandler {
+public abstract class FancyListButton {
 
-    void onClientTick();
-    void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
-    void onRender();
-    void handleMouseInput(int i, int mX, int mY);
-    void onMouseClick(int mX, int mY);
+    private float xStart;
+    private float yStart;
+    private boolean isHover;
 
+    private ResourceLocation resourceLocation;
 
+    private float r;
+    private float g;
+    private float b;
+
+    protected FancyListButton(float r, float g, float b, ResourceLocation resourceLocation){
+        this.r = r; this.g = g; this.b = b;
+        this.resourceLocation = resourceLocation;
+    }
+
+    protected abstract void onClick();
+
+    void onMouseClick(int mX, int mY){
+        if(isHover && mX > xStart && mX < xStart + 140 && mY > yStart && mY < yStart-24)
+            onClick();
+    }
+
+    void onMouseInput(int mX, int mY) {
+        if(mX > xStart && mX < xStart + 140 && mY > yStart && mY < yStart-24)
+            isHover = true;
+        else isHover = false;
+    }
+
+    void onRender(float xStart, float yStart){
+        this.xStart = xStart;
+        this.yStart = yStart;
+        if(!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 0.3f); //draws the background
+        else         RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 1f);
+        RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
+                Math.round(xStart), Math.round(yStart), 0, 0,
+                24, 24, 24 , 24 , resourceLocation, 1f);
+    }
 }
+

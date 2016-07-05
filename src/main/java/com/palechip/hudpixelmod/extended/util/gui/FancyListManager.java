@@ -28,17 +28,17 @@ package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
 import static com.palechip.hudpixelmod.extended.util.gui.FancyListObject.loadingBar;
 
-public abstract class FancyListManager implements IEventHandler {
+public abstract class FancyListManager implements IEventHandler{
 
     private int indexScroll = 0;
     private int shownObjects;
+
+    private int[] currentlyRendered;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
 
@@ -68,11 +68,13 @@ public abstract class FancyListManager implements IEventHandler {
      * this really renders nothing it just sets rge right offset for each element
      */
     protected void renderDisplay(){
+
+        if(fancyListObjects.isEmpty())return;
         float xStart = 2;
         float yStart = 2;
 
         if(indexScroll > 0)
-            fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart);
+        fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart);
         yStart += 13;
 
         for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
@@ -84,18 +86,28 @@ public abstract class FancyListManager implements IEventHandler {
             fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true,xStart, yStart);
     }
 
+
+    @Override
+    public void onMouseClick(int mX, int mY){
+        for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
+            fancyListObjects.get(i).onMouseClick(mX, mY);
+        }
+    }
+
     /**
      * handels the scrollinput and processes the right index for the list
      * @param i scroll input
      */
+
     @Override
-    public void handleScrollInput(int i){
+    public void handleMouseInput(int i, int mX, int mY){
 
-        int mouseY = Minecraft.getMinecraft().displayHeight - Mouse.getY();
-        int mouseX = Mouse.getX();
+        for(int fco = indexScroll; fco <= indexScroll + shownObjects -fco; i++) {
+            fancyListObjects.get(fco).onMouseInput(mX, mY);
+        }
 
-        if(mouseY > (26 * shownObjects + 28) * 2) return;
-        if(Mouse.getX() > 280) return;
+        if(mY > (26 * shownObjects + 28)) return;
+        if(mX > 152) return;
 
         if (i != 0) {
             if (i < 0) {

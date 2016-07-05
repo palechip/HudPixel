@@ -46,7 +46,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
 //######################################################################################################################
 
-    private static final int REQUEST_COOLDOWN = 5 * 60 * 1000; // = 5min
+    private static final int REQUEST_COOLDOWN = 10 * 60 * 1000; // = 10min
 
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!

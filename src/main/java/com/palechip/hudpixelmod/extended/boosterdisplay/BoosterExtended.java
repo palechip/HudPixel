@@ -88,7 +88,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
      * RenderStrings
      */
     @Override
-    public void onClientTick(){
+    public void onTick(){
         if(booster != null )
             if(System.currentTimeMillis() - (booster.getRemainingTime() * 1000) > lastBoosterAdded){
                 this.booster = null;
