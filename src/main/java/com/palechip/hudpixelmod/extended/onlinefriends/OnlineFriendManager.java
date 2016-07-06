@@ -51,6 +51,7 @@ public class OnlineFriendManager extends FancyListManager{
 
     private OnlineFriendManager(){
         super(8);
+        this.isButtons = true;
         new OnlineFriendsLoader();
     }
 
@@ -58,19 +59,19 @@ public class OnlineFriendManager extends FancyListManager{
         this.fancyListObjects.add(fco);
     }
 
-    int count;
     private void updateRendering(){
         if((System.currentTimeMillis() > lastUpdate + UPDATE_COOLDOWN)) {
             lastUpdate = System.currentTimeMillis();
             if(!fancyListObjects.isEmpty())
-                 fancyListObjects.get(0).onClientTick();
+                 for(FancyListObject fco : fancyListObjects)
+                         fco.onClientTick();
             //sort the list to display only friends first
             Collections.sort(fancyListObjects, new Comparator<FancyListObject>() {
                 @Override
                 public int compare(FancyListObject f1, FancyListObject f2) {
                     OnlineFriend o1 = (OnlineFriend) f1;
                     OnlineFriend o2 = (OnlineFriend) f2;
-                    return Boolean.valueOf(o1.isOnline()).compareTo(o2.isOnline());
+                    return Boolean.valueOf(o2.isOnline()).compareTo(o1.isOnline());
                 }
             });
         }

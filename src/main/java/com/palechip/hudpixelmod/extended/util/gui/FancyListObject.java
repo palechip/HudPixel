@@ -45,7 +45,7 @@ public abstract class FancyListObject {
     private float xStart;
     private float yStart;
     private boolean isHover;
-    private boolean notifyButtons;
+
 
     protected ArrayList<FancyListButton> fancyListObjectButtons = new ArrayList<FancyListButton>();
 
@@ -109,9 +109,13 @@ public abstract class FancyListObject {
     }
 
     void onMouseInput(int mX, int mY){
-        if(mX > xStart && mX < xStart + 140 && mY > yStart && mY < yStart-24){
+
+        if(mX > xStart && mX < (xStart + 140) && mY > yStart && mY < yStart + 24){
             isHover = true;
-        } else if(isHover && mX > xStart + 140 && mX < xStart + 140 + fancyListObjectButtons.size()*24 && mY > yStart && mY < yStart-24) {
+            for(FancyListButton fcob : fancyListObjectButtons)
+                fcob.isHover = false;
+        } else if(isHover && mX > xStart + 140 && mX < (xStart + 140 + fancyListObjectButtons.size()*24) && mY > yStart && mY < yStart+24) {
+            isHover = true;
             for(FancyListButton fcob : fancyListObjectButtons)
                 fcob.onMouseInput(mX, mY);
         } else isHover = false;
@@ -122,8 +126,6 @@ public abstract class FancyListObject {
     }
 
     public abstract void onTick();
-
-
 
     /**
      * This method draws the display in the smaller version and just with the first line of
@@ -151,7 +153,7 @@ public abstract class FancyListObject {
 
         if(!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 0f, 0f, 0f, 0.3f); //draws the background
         else{
-            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 1f, 1f, 1f, 0.3f);
+            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 1f, 1f, 1f, 0.2f);
             float xStartB = xStart + 140;
             float yStartB = yStart;
             for(FancyListButton fcob : fancyListObjectButtons){

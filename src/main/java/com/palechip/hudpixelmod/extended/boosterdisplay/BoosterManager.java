@@ -52,7 +52,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * Enter a  new gamemode with booster here, the system will add the booster then!
      * Also please upload the gameicon to the resource folder and link it in util.ImageLoader
      * Also please add the new gamemode with the right ID and right name (put there the name it says
-     * when tipping somebody in this gamemode) to the GameType enum class.
+     * when tipping somebody in this gamemode) to the GameType enum class. Also add the right tipname in the
+     * GameType enum!
      **/
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.QUAKECRAFT,
@@ -84,6 +85,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     public BoosterManager(){
         super(5); //this sets how many boosters are displayed at once you can change that
+        this.isButtons = true;
         for(GameType g : gamesWithBooster){
             this.fancyListObjects.add(new BoosterExtended(g));
         }

@@ -55,6 +55,10 @@ public class HudPixelExtendedEventHandler{
         ieventArrayList.remove(iEventHandler);
     }
 
+    private static ArrayList<IEventHandler> getIeventBuffer(){
+        return new ArrayList<IEventHandler>(ieventArrayList);
+    }
+
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent e){
         try{
@@ -97,10 +101,6 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    private ArrayList<IEventHandler> getIeventBuffer(){
-        return new ArrayList<IEventHandler>(ieventArrayList);
-    }
-
     @SubscribeEvent(receiveCanceled=true)
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
@@ -118,7 +118,7 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
+    @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
@@ -154,21 +154,28 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent
-    public void mouseClickEvent(MouseEvent e){
+    private static final long clickDelay = 1000;
+    private static long lastTimeClicked;
+    public static void mouseClickEvent(){
+
         if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
-        int scale = Minecraft.getMinecraft().gameSettings.guiScale;
-        int mX = Mouse.getX() / scale;
-        int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
-        System.out.println(e);
-        for(IEventHandler iE : getIeventBuffer()){
-            iE.onMouseClick(mX, mY);
+
+        if(System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)){
+            lastTimeClicked = System.currentTimeMillis();
+            System.out.println("GOGO CLICKED :D" );
+            int scale = Minecraft.getMinecraft().gameSettings.guiScale;
+            int mX = Mouse.getX() / scale;
+            int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
+            for(IEventHandler iE : getIeventBuffer()){
+                iE.onMouseClick(mX, mY);
+            }
         }
     }
 
+    private static void handleMouseScroll(){
 
+        mouseClickEvent();
 
-    private void handleMouseScroll(){
         if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
 
         int scale = Minecraft.getMinecraft().gameSettings.guiScale;

@@ -1,7 +1,9 @@
-package com.palechip.hudpixelmod.extended.util.gui;
+package com.palechip.hudpixelmod.extended.boosterdisplay;
 
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
-import net.minecraft.util.ResourceLocation;
+import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.extended.util.ImageLoader;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
+import net.minecraft.client.Minecraft;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -29,45 +31,18 @@ import net.minecraft.util.ResourceLocation;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public abstract class FancyListButton {
+class BoosterTipButton extends FancyListButton{
 
-    private float xStart = -1;
-    private float yStart = -1;
-    public boolean isHover;
+    private Booster booster;
 
-    private ResourceLocation resourceLocation;
 
-    private float r;
-    private float g;
-    private float b;
-
-    protected FancyListButton(float r, float g, float b, ResourceLocation resourceLocation){
-        this.r = r; this.g = g; this.b = b;
-        this.resourceLocation = resourceLocation;
+    BoosterTipButton(Booster booster) {
+        super(1f, 1f, 1f, ImageLoader.boosterTip());
+        this.booster = booster;
     }
 
-    protected abstract void onClick();
-
-    void onMouseClick(int mX, int mY){
-        if(isHover && mX > xStart && mX < xStart + 140 && mY > yStart && mY < yStart+24)
-            onClick();
-    }
-
-    void onMouseInput(int mX, int mY) {
-        if(xStart < 0 || yStart < 0) return;
-        if(mX > xStart && mX < xStart + 24 && mY > yStart && mY < yStart+24)
-            isHover = true;
-        else isHover = false;
-    }
-
-    void onRender(float xStart, float yStart){
-        this.xStart = xStart;
-        this.yStart = yStart;
-        if(!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 0.5f); //draws the background
-        else         RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 0.8f);
-        RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
-                Math.round(xStart), Math.round(yStart), 0, 0,
-               24, 24, 24 , 24 , resourceLocation, 1f);
+    @Override
+    protected void onClick() {
+        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + booster.getModGameType().getTipName());
     }
 }
-

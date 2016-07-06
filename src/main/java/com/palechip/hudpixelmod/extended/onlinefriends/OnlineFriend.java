@@ -27,7 +27,6 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
 import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
@@ -68,6 +67,9 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
         this.renderPicture = WHITE + "";
 
         new LoadPlayerHead(username, this);
+
+        this.addButton(new OnlineFriendsMessageButton(username));
+        this.addButton(new OnlineFriendsPartyButton(username));
     }
 
     @Override
@@ -77,7 +79,7 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
         this.renderLine2 = gamemode;
         if(isOnline) this.renderLineSmall = GREEN + "o " + YELLOW + username;
         else         this.renderLineSmall = D_RED + "o " + YELLOW + username;
-        Queue.getInstance().getSession(this,"3398b3a05f6b437a84a38a6add949dc3", true);
+        //Queue.getInstance().getSession(this,"3398b3a05f6b437a84a38a6add949dc3", true);
     }
 
     @Override

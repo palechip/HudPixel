@@ -54,6 +54,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     void setCurrentBooster(Booster booster){
         lastBoosterAdded = System.currentTimeMillis();
         this.booster = booster;
+        this.fancyListObjectButtons.clear();
     }
 
     public GameType getGameType() {
@@ -100,11 +101,16 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
         this.renderLine1 = GOLD + gameType.getName();
         if(booster == null){
             this.renderLine2 = GRAY + "No Booster online!";
+            this.fancyListObjectButtons.clear();
         } else {
-            if(booster.isTipped())
+            if(booster.isTipped()){
                 this.renderLine2 = RED + booster.getOwner();
-            else
+                this.fancyListObjectButtons.clear();
+            } else{
+                if(fancyListObjectButtons.isEmpty()) addButton(new BoosterTipButton(booster));
                 this.renderLine2 = GREEN + booster.getOwner();
+            }
+
         }
     }
 

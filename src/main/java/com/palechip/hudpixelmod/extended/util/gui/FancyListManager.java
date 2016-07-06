@@ -37,8 +37,7 @@ public abstract class FancyListManager implements IEventHandler{
 
     private int indexScroll = 0;
     private int shownObjects;
-
-    private int[] currentlyRendered;
+    protected boolean isButtons = false;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
 
@@ -73,6 +72,15 @@ public abstract class FancyListManager implements IEventHandler{
         float xStart = 2;
         float yStart = 2;
 
+        if(fancyListObjects.size() <= shownObjects){
+            yStart += 13;
+            for(FancyListObject fco : fancyListObjects){
+                fco.onRenderTick(false, xStart, yStart);
+                yStart += 25;
+            }
+            return;
+        }
+
         if(indexScroll > 0)
         fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart);
         yStart += 13;
@@ -89,8 +97,13 @@ public abstract class FancyListManager implements IEventHandler{
 
     @Override
     public void onMouseClick(int mX, int mY){
-        for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
-            fancyListObjects.get(i).onMouseClick(mX, mY);
+        if(fancyListObjects.isEmpty())return;
+        if(fancyListObjects.size() <= shownObjects)
+            for(FancyListObject fco : fancyListObjects)
+                fco.onMouseClick(mX, mY);
+        else for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
+            if(isButtons)
+                fancyListObjects.get(i).onMouseClick(mX, mY);
         }
     }
 
@@ -101,9 +114,13 @@ public abstract class FancyListManager implements IEventHandler{
 
     @Override
     public void handleMouseInput(int i, int mX, int mY){
-
-        for(int fco = indexScroll; fco <= indexScroll + shownObjects -fco; i++) {
-            fancyListObjects.get(fco).onMouseInput(mX, mY);
+        if(fancyListObjects.isEmpty())return;
+        if(fancyListObjects.size() <= shownObjects)
+            for(FancyListObject fco : fancyListObjects)
+                fco.onMouseInput(mX, mY);
+        else for(int fco = indexScroll; fco <= indexScroll + shownObjects -1; fco++) {
+            if(isButtons)
+                fancyListObjects.get(fco).onMouseInput(mX, mY);
         }
 
         if(mY > (26 * shownObjects + 28)) return;
