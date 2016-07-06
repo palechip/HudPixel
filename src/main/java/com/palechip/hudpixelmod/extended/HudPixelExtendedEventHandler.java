@@ -176,7 +176,7 @@ public class HudPixelExtendedEventHandler{
     private static void handleMouseScroll(){
 
         if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
-            printMessage(EnumChatFormatting.DARK_RED + "HUDPIXEL IS NOT SUPPORTED WITH 'GUI-SCALE: AUTO' - I can spam for days!! - just turn is to normal :P");
+            printMessage(EnumChatFormatting.DARK_RED + "HUDPIXEL IS NOT SUPPORTED WITH 'GUI-SCALE: AUTO' - I can spam for days!! - just set it back to 'normal' :P");
             return;
         }
 
