@@ -164,7 +164,6 @@ public class HudPixelExtendedEventHandler{
 
         if(System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)){
             lastTimeClicked = System.currentTimeMillis();
-            System.out.println("GOGO CLICKED :D" );
             int scale = Minecraft.getMinecraft().gameSettings.guiScale;
             int mX = Mouse.getX() / scale;
             int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;

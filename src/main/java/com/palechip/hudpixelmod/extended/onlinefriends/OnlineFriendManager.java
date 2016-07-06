@@ -134,7 +134,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
                     of.setGamemode(onlineFriends.get(of.getUsername()));
                     of.setOnline(true);
                 } else {
-                    of.setGamemode(EnumChatFormatting.DARK_GRAY + "offline");
+                    of.setGamemode(EnumChatFormatting.DARK_GRAY + "currently offline");
                     of.setOnline(false);
                 }
             }

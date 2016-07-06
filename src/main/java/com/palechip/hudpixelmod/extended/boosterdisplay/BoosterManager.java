@@ -99,7 +99,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender(){
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 500){
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600){
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
@@ -152,7 +152,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     void requestBoosters(Boolean forceRequest){
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // check if enough time has past
-            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
+            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
