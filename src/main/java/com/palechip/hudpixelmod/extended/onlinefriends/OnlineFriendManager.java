@@ -27,21 +27,27 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
-public class OnlineFriendManager extends FancyListManager{
+public class OnlineFriendManager extends FancyListManager implements IUpdater{
 
     private static final String JOINED_MESSAGE = " joined.";
     private static final String LEFT_MESSAGE = " left.";
-    private static final int UPDATE_COOLDOWN = 10 * 1000; // = 1min
-    private static long lastUpdate = 0;
+    private static final int UPDATE_COOLDOWN_RENDERING = 10 * 1000; // = 10sec
+    private static long lastUpdateRendering = 0;
+    private static final int UPDATE_COOLDOWN_ONLINE= 2* 60 * 1000; // = 10sec
+    private static long lastUpdateOnline = 0;
     private static OnlineFriendManager instance;
 
     public static OnlineFriendManager getInstance() {
@@ -60,8 +66,8 @@ public class OnlineFriendManager extends FancyListManager{
     }
 
     private void updateRendering(){
-        if((System.currentTimeMillis() > lastUpdate + UPDATE_COOLDOWN)) {
-            lastUpdate = System.currentTimeMillis();
+        if((System.currentTimeMillis() > lastUpdateRendering + UPDATE_COOLDOWN_RENDERING)) {
+            lastUpdateRendering = System.currentTimeMillis();
             if(!fancyListObjects.isEmpty())
                  for(FancyListObject fco : fancyListObjects)
                          fco.onClientTick();
@@ -79,6 +85,11 @@ public class OnlineFriendManager extends FancyListManager{
 
     @Override
     public void onClientTick() {
+        this.shownObjects = Config.friendsShownAtOnce;
+        if((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !fancyListObjects.isEmpty()) {
+            lastUpdateOnline = System.currentTimeMillis();
+            new OnlineFriendsUpdater(this);
+        }
         updateRendering();
     }
 
@@ -103,8 +114,30 @@ public class OnlineFriendManager extends FancyListManager{
 
     @Override
     public void onRender() {
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdate != 0 && OnlineFriendsLoader.isApiLoaded())
-           this.renderDisplay();
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded()){
+            this.renderDisplay();
+            this.isMouseHander = true;
+        } else {
+            this.isMouseHander = false;
+        }
+
     }
 
+    @Override
+    public void onUpdaterResponse(HashMap<String, String> onlineFriends) {
+        if(onlineFriends == null){
+            LoggerHelper.logWarn("[OnlineFriends][Updater]: Something went wrong while calling a update!");
+        } else if(!fancyListObjects.isEmpty()){
+            for(FancyListObject fco : fancyListObjects){
+                OnlineFriend of = (OnlineFriend) fco;
+                if(onlineFriends.containsKey(of.getUsername())){
+                    of.setGamemode(onlineFriends.get(of.getUsername()));
+                    of.setOnline(true);
+                } else {
+                    of.setGamemode(EnumChatFormatting.DARK_GRAY + "offline");
+                    of.setOnline(false);
+                }
+            }
+        }
+    }
 }

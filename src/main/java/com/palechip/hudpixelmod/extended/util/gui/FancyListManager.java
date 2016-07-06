@@ -36,8 +36,9 @@ import static com.palechip.hudpixelmod.extended.util.gui.FancyListObject.loading
 public abstract class FancyListManager implements IEventHandler{
 
     private int indexScroll = 0;
-    private int shownObjects;
+    protected int shownObjects;
     protected boolean isButtons = false;
+    protected boolean isMouseHander = false;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
 
@@ -97,6 +98,7 @@ public abstract class FancyListManager implements IEventHandler{
 
     @Override
     public void onMouseClick(int mX, int mY){
+        if(!isMouseHander)return;
         if(fancyListObjects.isEmpty())return;
         if(fancyListObjects.size() <= shownObjects)
             for(FancyListObject fco : fancyListObjects)
@@ -114,6 +116,7 @@ public abstract class FancyListManager implements IEventHandler{
 
     @Override
     public void handleMouseInput(int i, int mX, int mY){
+        if(!isMouseHander)return;
         if(fancyListObjects.isEmpty())return;
         if(fancyListObjects.size() <= shownObjects)
             for(FancyListObject fco : fancyListObjects)

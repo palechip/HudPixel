@@ -32,6 +32,7 @@ import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallbac
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
@@ -98,8 +99,12 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender(){
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat)
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 500){
             this.renderDisplay();
+            this.isMouseHander = true;
+        } else {
+            this.isMouseHander = false;
+        }
     }
 
     /**
@@ -108,6 +113,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onClientTick(){
+        this.shownObjects = Config.boostersShownAtOnce;
         requestBoosters(false);
         for(FancyListObject b : fancyListObjects){
             b.onClientTick();

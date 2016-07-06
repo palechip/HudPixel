@@ -91,7 +91,10 @@ public class HudPixelConfig {
         Config.isFriendsDisplay = this.config.get(EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
 
-        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 1000 , "How many messages the external Chat Gui can store.").getInt(1000);
+        Config.friendsShownAtOnce   = this.config.get(EXTENDED_CATEGORY, "friendsShownAtOnce"  , 10 , "How many friends are shown at once.").getInt(10);
+        Config.boostersShownAtOnce  = this.config.get(EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
+
+        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 10 , "How many messages the external Chat Gui can store.").getInt(10);
         Config.displayMessages  = this.config.get(EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
 
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);

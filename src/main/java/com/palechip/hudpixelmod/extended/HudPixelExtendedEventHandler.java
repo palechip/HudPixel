@@ -38,6 +38,8 @@ import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -174,6 +176,11 @@ public class HudPixelExtendedEventHandler{
 
     private static void handleMouseScroll(){
 
+        if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
+            printMessage(EnumChatFormatting.DARK_RED + "HUDPIXEL IS NOT SUPPORTED WITH 'GUI-SCALE: AUTO' - I can spam for days!! - just turn is to normal :P");
+            return;
+        }
+
         mouseClickEvent();
 
         if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
@@ -185,6 +192,16 @@ public class HudPixelExtendedEventHandler{
         for(IEventHandler iE : getIeventBuffer()){
             iE.handleMouseInput(i, mX, mY);
         }
+        FancyChat.getInstance().handleMouseInput(i);
 
+    }
+
+    /**
+     * prints the message to the clientchat
+     * @param message the message
+     **/
+    private static void printMessage(String message) {
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
+                new ChatComponentText(message));
     }
 }

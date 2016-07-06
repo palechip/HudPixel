@@ -67,19 +67,21 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
         this.renderPicture = WHITE + "";
 
         new LoadPlayerHead(username, this);
-
-        this.addButton(new OnlineFriendsMessageButton(username));
-        this.addButton(new OnlineFriendsPartyButton(username));
     }
 
     @Override
     public void onTick(){
-        if(isOnline) this.renderLine1 = GREEN + "o " + GOLD + username;
-        else         this.renderLine1 = D_RED + "o " + GOLD + username;
+        if(isOnline && this.fancyListObjectButtons.isEmpty()){
+            this.addButton(new OnlineFriendsMessageButton(username));
+            this.addButton(new OnlineFriendsPartyButton(username));
+        } else if(!isOnline){
+            this.fancyListObjectButtons.clear();
+        }
+        if(isOnline) this.renderLine1 = GOLD + username + GREEN + "  ";
+        else         this.renderLine1 = GOLD + username + D_RED + "  ";
         this.renderLine2 = gamemode;
-        if(isOnline) this.renderLineSmall = GREEN + "o " + YELLOW + username;
-        else         this.renderLineSmall = D_RED + "o " + YELLOW + username;
-        //Queue.getInstance().getSession(this,"3398b3a05f6b437a84a38a6add949dc3", true);
+        if(isOnline) this.renderLineSmall =  YELLOW + username + GREEN + "  ";
+        else         this.renderLineSmall =  YELLOW + username + D_RED + " ";
     }
 
     @Override
