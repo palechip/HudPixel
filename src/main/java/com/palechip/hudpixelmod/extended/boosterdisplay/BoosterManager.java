@@ -32,6 +32,7 @@ import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallbac
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
@@ -46,13 +47,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
 //######################################################################################################################
 
-    private static final int REQUEST_COOLDOWN = 5 * 60 * 1000; // = 5min
+    private static final int REQUEST_COOLDOWN = 10 * 60 * 1000; // = 10min
 
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!
      * Also please upload the gameicon to the resource folder and link it in util.ImageLoader
      * Also please add the new gamemode with the right ID and right name (put there the name it says
-     * when tipping somebody in this gamemode) to the GameType enum class.
+     * when tipping somebody in this gamemode) to the GameType enum class. Also add the right tipname in the
+     * GameType enum!
      **/
     private final static GameType[] gamesWithBooster = new GameType[]{
             GameType.QUAKECRAFT,
@@ -84,6 +86,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     public BoosterManager(){
         super(5); //this sets how many boosters are displayed at once you can change that
+        this.isButtons = true;
         for(GameType g : gamesWithBooster){
             this.fancyListObjects.add(new BoosterExtended(g));
         }
@@ -96,8 +99,12 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender(){
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat)
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600){
             this.renderDisplay();
+            this.isMouseHander = true;
+        } else {
+            this.isMouseHander = false;
+        }
     }
 
     /**
@@ -106,6 +113,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onClientTick(){
+        this.shownObjects = Config.boostersShownAtOnce;
         requestBoosters(false);
         for(FancyListObject b : fancyListObjects){
             b.onClientTick();
@@ -144,7 +152,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     void requestBoosters(Boolean forceRequest){
         if(HudPixelConfig.useAPI && HudPixelConfig.displayNetworkBoosters) {
             // check if enough time has past
-            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
+            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters

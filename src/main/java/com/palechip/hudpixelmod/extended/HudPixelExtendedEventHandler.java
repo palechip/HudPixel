@@ -31,17 +31,16 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriend;
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater;
+import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
@@ -51,20 +50,21 @@ import java.util.ArrayList;
 public class HudPixelExtendedEventHandler{
 
     private static ArrayList<IEventHandler> ieventArrayList = new ArrayList<IEventHandler>();
-
     public static void registerIEvent(IEventHandler iEventHandler){
         ieventArrayList.add(iEventHandler);
     }
-
     public static void unregisterIEvent(IEventHandler iEventHandler){
         ieventArrayList.remove(iEventHandler);
+    }
+
+    private static ArrayList<IEventHandler> getIeventBuffer(){
+        return new ArrayList<IEventHandler>(ieventArrayList);
     }
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent e){
         try{
             if(!HypixelNetworkDetector.isHypixelNetwork)return;
-
         }catch (Exception ex){
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
             ex.printStackTrace();
@@ -76,7 +76,6 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork ) {
-
                 //just triggeres the statsrenderer if the player is waiting for the game to start
                 if(!(HudPixelMod.instance().gameDetector.isInLobby())
                 && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
@@ -94,11 +93,8 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork) {
-
-                FancyChat.getInstance().openGui();
-                OnlineFriendsUpdater.requireUpdate=true;
-
-            } else if(Config.isDebuging){
+                if(Minecraft.getMinecraft().thePlayer != null)
+                OnlineFriendManager.getInstance();
                 FancyChat.getInstance().openGui();
             }
         } catch (Exception ex) {
@@ -107,23 +103,13 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    private ArrayList<IEventHandler> getIeventBuffer(){
-        return new ArrayList<IEventHandler>(ieventArrayList);
-    }
-
     @SubscribeEvent(receiveCanceled=true)
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
-
-                for(IEventHandler i : getIeventBuffer()){
+                for(IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);
-                }
-
-                FancyChat.getInstance().onChat(e);
-                OnlineFriendsUpdater.onChat(e);
-            } else if(Config.isDebuging){
                 FancyChat.getInstance().onChat(e);
             }
         } catch (Exception ex) {
@@ -134,34 +120,20 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
+    @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
-
-                for(IEventHandler i : getIeventBuffer()){
+                for(IEventHandler i : getIeventBuffer())
                     i.onClientTick();
-                }
-
+                FancyListManager.processLoadingBar();
                 handleMouseScroll();
-
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
-
                 //Tick for the statsViewerManager
-                if(!(HudPixelMod.instance().gameDetector.isInLobby())
-                        && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                if(!(HudPixelMod.instance().gameDetector.isInLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
                     StatsViewerManager.onClientTick();
-
-                //Tick for the friends list
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu){
-                    OnlineFriendsUpdater.onClientTick();
-                    OnlineFriend.onClientTick();
-                }
-
-            } else if(Config.isDebuging){
-                FancyChat.getInstance().onClientTick();
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
@@ -174,18 +146,9 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
-
-                for(IEventHandler i : getIeventBuffer()){
+                for(IEventHandler i : getIeventBuffer())
                     i.onRender();
-                }
-
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();
-
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && Config.isFriendsDisplay){
-                    HudPixelExtended.onlineFriendsManager.renderOnlineFriends();
-                }
-            } else if(Config.isDebuging){
-                FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
@@ -193,18 +156,51 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    private void handleMouseScroll(){
+    private static final long clickDelay = 1000;
+    private static long lastTimeClicked;
+    public static void mouseClickEvent(){
 
-        int i = Mouse.getDWheel();
+        if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
 
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
-
+        if(System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)){
+            lastTimeClicked = System.currentTimeMillis();
+            int scale = Minecraft.getMinecraft().gameSettings.guiScale;
+            int mX = Mouse.getX() / scale;
+            int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
             for(IEventHandler iE : getIeventBuffer()){
-                iE.handleScrollInput(i);
+                iE.onMouseClick(mX, mY);
             }
-
         }
+    }
+
+    private static void handleMouseScroll(){
+
+        if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
+            printMessage(EnumChatFormatting.DARK_RED + "HUDPIXEL IS NOT SUPPORTED WITH 'GUI-SCALE: AUTO' - I can spam for days!! - just set it back to 'normal' :P");
+            return;
+        }
+
+        mouseClickEvent();
+
+        if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
+
+        int scale = Minecraft.getMinecraft().gameSettings.guiScale;
+        int mX = Mouse.getX() / scale;
+        int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
+        int i = Mouse.getDWheel();
+        for(IEventHandler iE : getIeventBuffer()){
+            iE.handleMouseInput(i, mX, mY);
+        }
+        FancyChat.getInstance().handleMouseInput(i);
 
     }
 
+    /**
+     * prints the message to the clientchat
+     * @param message the message
+     **/
+    private static void printMessage(String message) {
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
+                new ChatComponentText(message));
+    }
 }

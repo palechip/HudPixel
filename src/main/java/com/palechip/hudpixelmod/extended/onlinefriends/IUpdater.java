@@ -1,3 +1,7 @@
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import java.util.HashMap;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,40 +28,7 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+public interface IUpdater {
 
-package com.palechip.hudpixelmod.extended;
-
-import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.util.UUID;
-
-public class HudPixelExtended {
-
-    private static HudPixelExtended hudPixelExtendedInstance = null;
-    private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
-    public static UUID UUID;
-    public static BoosterManager boosterManager;
-
-
-    private HudPixelExtended(){}
-
-    public static HudPixelExtended getInstance(){
-        if(hudPixelExtendedInstance != null){
-            return hudPixelExtendedInstance;
-        } else {
-            hudPixelExtendedInstance = new HudPixelExtended();
-            return hudPixelExtendedInstance;
-        }
-    }
-
-    public void setup(){
-
-        UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
-        boosterManager = new BoosterManager();
-
-        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
-
-    }
+    public void onUpdaterResponse(HashMap<String, String> onlineFriends);
 }

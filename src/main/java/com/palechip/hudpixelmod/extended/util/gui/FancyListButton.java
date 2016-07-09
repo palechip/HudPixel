@@ -1,3 +1,8 @@
+package com.palechip.hudpixelmod.extended.util.gui;
+
+import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import net.minecraft.util.ResourceLocation;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,40 +29,45 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+public abstract class FancyListButton {
 
-package com.palechip.hudpixelmod.extended;
+    private float xStart = -1;
+    private float yStart = -1;
+    public boolean isHover;
 
-import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
+    private ResourceLocation resourceLocation;
 
-import java.util.UUID;
+    private float r;
+    private float g;
+    private float b;
 
-public class HudPixelExtended {
-
-    private static HudPixelExtended hudPixelExtendedInstance = null;
-    private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
-    public static UUID UUID;
-    public static BoosterManager boosterManager;
-
-
-    private HudPixelExtended(){}
-
-    public static HudPixelExtended getInstance(){
-        if(hudPixelExtendedInstance != null){
-            return hudPixelExtendedInstance;
-        } else {
-            hudPixelExtendedInstance = new HudPixelExtended();
-            return hudPixelExtendedInstance;
-        }
+    protected FancyListButton(float r, float g, float b, ResourceLocation resourceLocation){
+        this.r = r; this.g = g; this.b = b;
+        this.resourceLocation = resourceLocation;
     }
 
-    public void setup(){
+    protected abstract void onClick();
 
-        UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
-        boosterManager = new BoosterManager();
+    void onMouseClick(int mX, int mY){
+        if(isHover && mX > xStart && mX < xStart + 140 && mY > yStart && mY < yStart+24)
+            onClick();
+    }
 
-        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
+    void onMouseInput(int mX, int mY) {
+        if(xStart < 0 || yStart < 0) return;
+        if(mX > xStart && mX < xStart + 24 && mY > yStart && mY < yStart+24)
+            isHover = true;
+        else isHover = false;
+    }
 
+    void onRender(float xStart, float yStart){
+        this.xStart = xStart;
+        this.yStart = yStart;
+        if(!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 0.5f); //draws the background
+        else         RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, 0, r, g, b, 0.8f);
+        RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
+                Math.round(xStart), Math.round(yStart), 0, 0,
+               24, 24, 24 , 24 , resourceLocation, 1f);
     }
 }
+

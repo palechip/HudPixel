@@ -1,3 +1,10 @@
+package com.palechip.hudpixelmod.extended.boosterdisplay;
+
+import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.extended.util.ImageLoader;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
+import net.minecraft.client.Minecraft;
+
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
  * an unofficial Minecraft Mod for the Hypixel Network.
@@ -24,40 +31,18 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+class BoosterTipButton extends FancyListButton{
 
-package com.palechip.hudpixelmod.extended;
-
-import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.util.UUID;
-
-public class HudPixelExtended {
-
-    private static HudPixelExtended hudPixelExtendedInstance = null;
-    private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
-    public static UUID UUID;
-    public static BoosterManager boosterManager;
+    private Booster booster;
 
 
-    private HudPixelExtended(){}
-
-    public static HudPixelExtended getInstance(){
-        if(hudPixelExtendedInstance != null){
-            return hudPixelExtendedInstance;
-        } else {
-            hudPixelExtendedInstance = new HudPixelExtended();
-            return hudPixelExtendedInstance;
-        }
+    BoosterTipButton(Booster booster) {
+        super(1f, 1f, 1f, ImageLoader.boosterTip());
+        this.booster = booster;
     }
 
-    public void setup(){
-
-        UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
-        boosterManager = new BoosterManager();
-
-        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
-
+    @Override
+    protected void onClick() {
+        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + booster.getModGameType().getTipName());
     }
 }

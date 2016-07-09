@@ -65,6 +65,7 @@ public class LoadPlayerHead implements IEventHandler {
         image = image.getSubimage(8,8,8,8);
         DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(username, texture);
+        LoggerHelper.logInfo("[LoadPlayer]: Loaded skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
         callback.onLoadPlayerHeadResponse(this.resourceLocation);
         HudPixelExtendedEventHandler.unregisterIEvent(this);
     }
@@ -85,10 +86,10 @@ public class LoadPlayerHead implements IEventHandler {
                     imageLoaded = true;
                 } catch (MalformedURLException e) {
                     failed = true;
-                    LoggerHelper.logInfo("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
                 } catch (IOException e) {
                     failed = true;
-                    LoggerHelper.logInfo("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
                 }
             }
         }.start();
@@ -110,8 +111,15 @@ public class LoadPlayerHead implements IEventHandler {
     }
 
     @Override
-    public void handleScrollInput(int i) {
+    public void handleMouseInput(int i, int mX, int mY) {
 
     }
+
+    @Override
+    public void onMouseClick(int mX, int mY) {
+
+    }
+
+
 
 }

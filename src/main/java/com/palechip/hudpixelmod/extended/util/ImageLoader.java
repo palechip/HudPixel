@@ -63,11 +63,8 @@ public class ImageLoader {
         }
     }
 
-    public static ResourceLocation steveHeadLocation(){
-        return new ResourceLocation(HudPixelMod.MODID, "textures/skins/SteveHead.png");
-    }
-
-    public static ResourceLocation soccerBallLocation(){
-        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/SoccerBall.png");
-    }
+    //TODO: make this work with enums for better futureproof
+    public static ResourceLocation partyLocation(){ return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Party.png");}
+    public static ResourceLocation boosterTip(){    return new ResourceLocation(HudPixelMod.MODID, "textures/msc/BoosterTip.png");}
+    public static ResourceLocation chatLocation(){  return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Chat.png");}
 }
