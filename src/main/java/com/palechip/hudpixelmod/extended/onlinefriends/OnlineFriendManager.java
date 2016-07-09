@@ -99,15 +99,20 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
             if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
                 for (FancyListObject fco : fancyListObjects){
                     OnlineFriend of = (OnlineFriend) fco;
-                    if(of.getUsername().equals(s))
+                    if(of.getUsername().equals(s)){
                         of.setOnline(true);
+                        of.setGamemode(EnumChatFormatting.WHITE + "not loaded yet!");
+                    }
+
                 }
 
             else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
                 for (FancyListObject fco : fancyListObjects){
                     OnlineFriend of = (OnlineFriend) fco;
-                    if(of.getUsername().equals(s))
+                    if(of.getUsername().equals(s)){
                         of.setOnline(false);
+                        of.setGamemode(EnumChatFormatting.DARK_GRAY + "currently offline");
+                    }
                 }
         }
     }

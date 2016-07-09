@@ -9,6 +9,7 @@ import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     public void onFriendResponse(ArrayList<Friend> friends) {
         for(Friend f : friends){
             if(!allreadyStored.contains(f.getFriendName())){
-                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), "not loaded yet!", f.getFriendUUID()));
+                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), EnumChatFormatting.DARK_GRAY + "not loaded yet!", f.getFriendUUID()));
                 allreadyStored.add(f.getFriendName());
             }
         }

@@ -38,9 +38,12 @@ import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
@@ -158,35 +161,59 @@ public class HudPixelExtendedEventHandler{
 
     private static final long clickDelay = 1000;
     private static long lastTimeClicked;
+    private static boolean doubleClick = false;
     public static void mouseClickEvent(){
-
-        if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
+        Minecraft mc = Minecraft.getMinecraft();
+        if(!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 
         if(System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)){
+            doubleClick = false;
             lastTimeClicked = System.currentTimeMillis();
-            int scale = Minecraft.getMinecraft().gameSettings.guiScale;
-            int mX = Mouse.getX() / scale;
-            int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
-            for(IEventHandler iE : getIeventBuffer()){
-                iE.onMouseClick(mX, mY);
+
+        } else if(System.currentTimeMillis() < (lastTimeClicked + clickDelay)){
+            if(!Mouse.isButtonDown(0) && !doubleClick){
+                doubleClick = true;
+                return;
             }
+
+            if(Mouse.isButtonDown(0) && doubleClick){
+                doubleClick = false;
+                int scale = 1;
+                if(mc.gameSettings.guiScale == 0){
+                    ScaledResolution res = new ScaledResolution( mc);
+                    scale = res.getScaleFactor();
+                } else {
+                    scale = mc.gameSettings.guiScale;
+                }
+
+                int mX = Mouse.getX() / scale;
+                int mY = (mc.displayHeight - Mouse.getY()) / scale;
+                for(IEventHandler iE : getIeventBuffer()){
+                    iE.onMouseClick(mX, mY);
+                }
+            }
+
+
         }
     }
 
     private static void handleMouseScroll(){
-
-        if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
-            printMessage(EnumChatFormatting.DARK_RED + "HUDPIXEL IS NOT SUPPORTED WITH 'GUI-SCALE: AUTO' - I can spam for days!! - just set it back to 'normal' :P");
-            return;
+        Minecraft mc = Minecraft.getMinecraft();
+        int scale = 1;
+        if(mc.gameSettings.guiScale == 0){
+            ScaledResolution res = new ScaledResolution( mc);
+            scale = res.getScaleFactor();
+        } else {
+            scale = mc.gameSettings.guiScale;
         }
 
         mouseClickEvent();
 
-        if(!(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu || Minecraft.getMinecraft().currentScreen instanceof GuiChat)) return;
+        if(!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 
-        int scale = Minecraft.getMinecraft().gameSettings.guiScale;
+
         int mX = Mouse.getX() / scale;
-        int mY = (Minecraft.getMinecraft().displayHeight - Mouse.getY()) / scale;
+        int mY = (mc.displayHeight - Mouse.getY()) / scale;
         int i = Mouse.getDWheel();
         for(IEventHandler iE : getIeventBuffer()){
             iE.handleMouseInput(i, mX, mY);
