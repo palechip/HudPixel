@@ -1,6 +1,7 @@
 package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
@@ -32,8 +33,8 @@ public class Renderer {
         if(!HypixelNetworkDetector.isHypixelNetwork && !HudPixelMod.IS_DEBUGGING) return;
         if(!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
-        int w = 5; //width, change this if needed
-        int h = 15; //height, you shouldn't touch this usually
+        int w = HudPixelConfig.displayXOffset; //width, change this if needed
+        int h = HudPixelConfig.displayYOffset; //height, you shouldn't touch this usually
         if (isEnabled) { //if enabled...
             FontRenderer fontRendererObj = FMLClientHandler.instance().getClient().fontRendererObj; //get the font renderer
             for (ModularGuiRegistry.Element element : display) { //for each element...

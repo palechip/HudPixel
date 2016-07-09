@@ -60,8 +60,8 @@ public class Config {
 
         List<IConfigElement> extendedSettings = new ArrayList<IConfigElement>();
 
-        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.")));
-        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.")));
+        //extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.")));
+        //extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "BoosterDisplay"   , true , "Activate or deactivate the booster display in the chat menu.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.")));

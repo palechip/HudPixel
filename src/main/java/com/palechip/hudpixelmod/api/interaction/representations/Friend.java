@@ -22,11 +22,12 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
 import java.util.UUID;
 
-public class Friend {
+public class Friend implements UuidCallback{
 
     private String _id;
     private String uuidReceiver;
@@ -60,20 +61,25 @@ public class Friend {
     public void setPlayer(UUID player) {
         if(this.uuidSender.equals(player.toString().replace("-", ""))){
             this.friendUUID = uuidReceiver;
-            this.friendName = UuidHelper.getUsernameFormUUID(uuidReceiver);
+            new UuidHelper(uuidReceiver, this);
         } else {
             this.friendUUID = uuidSender;
-            this.friendName = UuidHelper.getUsernameFormUUID(uuidSender);
+            new UuidHelper(uuidSender, this);
         }
     }
 
     public void setPlayer(String player) {
         if(this.uuidSender.equals(player.replace("-", ""))){
             this.friendUUID = uuidReceiver;
-            this.friendName = UuidHelper.getUsernameFormUUID(uuidReceiver);
+            new UuidHelper(uuidReceiver, this);
         } else {
             this.friendUUID = uuidSender;
-            this.friendName = UuidHelper.getUsernameFormUUID(uuidSender);
+            new UuidHelper(uuidSender, this);
         }
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.friendName = playerName;
     }
 }

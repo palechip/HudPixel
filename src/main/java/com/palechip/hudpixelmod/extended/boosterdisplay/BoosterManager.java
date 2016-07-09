@@ -99,7 +99,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender(){
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600){
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && Config.isBoosterDisplay){
             this.renderDisplay();
             this.isMouseHander = true;
         } else {

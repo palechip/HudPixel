@@ -119,7 +119,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
 
     @Override
     public void onRender() {
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded()){
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Config.isFriendsDisplay){
             this.renderDisplay();
             this.isMouseHander = true;
         } else {

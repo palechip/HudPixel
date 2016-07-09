@@ -27,12 +27,13 @@ import com.google.gson.JsonElement;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Session {
+public class Session implements UuidCallback{
     // the player this session belongs to, isn't included in the response but still relevant
     private String sessionOwner;
     
@@ -99,6 +100,11 @@ public class Session {
         this.sessionOwner = owner;
     }
     public void setSessionOwner(UUID owner) {
-        this.sessionOwner = UuidHelper.getUsernameFormUUID(owner.toString());
+        new UuidHelper(owner.toString(), this);
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.sessionOwner = playerName;
     }
 }

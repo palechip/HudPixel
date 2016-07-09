@@ -53,8 +53,8 @@ public class HudPixelConfigGui extends GuiConfig {
         //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayQuickLoadButton" , false     , "Show a button that runs /booster queue in order to quickly load the network boosters.")));
         //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayVersion"         , true      , "Show the mod version and name when there is nothing else to show.")));
         //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "showResultTime"         , 20        , "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts."), -1, 600, NumberSliderEntry.class));
-        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset"                , 0         , "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
-        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset"                , 0         , "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset"                , 5         , "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset"                , 5         , "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
 
         displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "enableBackground"   , false    , "Toggle the background of the hud.")));
         displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudRed"             , 0        , "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
