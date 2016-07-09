@@ -2,8 +2,8 @@
   "Version": "3.1.2",
   "DownloadLink": "http://www.mediafire.com/download/yrgja1nj808a5ay/HudPixelReloaded-1.8.9-v3-3.1.2.jar",
   "UpdateMessages":{
-    "1": "[+] layout for your online friends - click the red button to start a conversation (double click) - click the blue button to send a party invite (double click)",
-    "2": "[+] a direct 'tip' option to the booster display - click the white button to tip the current online booster in that gamemode (double click)",
+    "1": "[+] new layout for your online friends '-' click the red button to start a conversation (double click) '-' click the blue button to send a party invite (double click)",
+    "2": "[+] a direct 'tip' option to the booster display '-' click the white button to tip the current online booster in that gamemode (double click)",
     "3": "[+] background color support for the hud ... you can set the color under display settings",
     "4": "[+] added support for scale resolution",
     "5": "[fixed] hud offset",
