@@ -61,6 +61,9 @@ public class StatsViewerFactory {
         if (gameType == GameType.COPS_AND_CRIMS){
             return new CvCStatsViewer(playerName);
         }
+        if (gameType == GameType.UHC){
+            return new UHCStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }
