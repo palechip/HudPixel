@@ -32,35 +32,31 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * <p/>
- * Class "made" by hst
+ * Class "made" by hst on 22.07.16
  *******************************************************************************/
-public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class VampireStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
 
     private ArrayList<String> renderList;
-    private int headshot_kills;
-    private int kills;
-    private int round_wins;
-    private int bombs_defused;
-    private int bombs_planted;
     private int coins;
-    private int deaths;
-
-    private double kd;
+    private int zombie_kills;
+    private int vampire_deaths;
+    private int vampire_kills;
+    private int human_deaths;
+    private int human_kills;
 
     /*
     *Lets add some static finals. Players love static finals.
     */
-    private static final String HEADSHOT_KILLS = D_GRAY + " [" + GRAY + "Headshots" + D_GRAY + "] ";
-    private static final String KILLS = D_GRAY + " [" + GRAY + "Kills" + D_GRAY + "] ";
-    private static final String ROUND_WINS = D_GRAY + " [" + GRAY + "Wins" + D_GRAY + "] ";
-    private static final String BOMBS_DEFUSED = D_GRAY + " [" + GRAY + "Defused" + D_GRAY + "] ";
-    private static final String BOMBS_PLANTED = D_GRAY + " [" + GRAY + "Planted" + D_GRAY + "] ";
     private static final String COINS = D_GRAY + " [" + GRAY + "Coins" + D_GRAY + "] ";
-    private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
-    private static final String DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
+    private static final String ZOMBIE_KILLS = D_GRAY + " [" + GRAY + "Zombie Kills" + D_GRAY + "] ";
+    private static final String VAMPIRE_DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
+    private static final String VAMPIRE_KILLS = D_GRAY + " [" + GRAY + "Vampire Kills" + D_GRAY + "] ";
+    private static final String HUMAN_DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
+    private static final String HUMAN_KILLS = D_GRAY + " [" + GRAY + "Human Kills" + D_GRAY + "] ";
 
-    public CvCStatsViewer(String playerName) {
+
+    public VampireStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();
     }
@@ -79,28 +75,20 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     }
 
     private void generateRenderList() {
-        renderList.add(ROUND_WINS + GOLD + this.round_wins + COINS + GOLD + this.coins);
-        renderList.add(BOMBS_DEFUSED + GOLD + this.bombs_defused + BOMBS_PLANTED + GOLD + this.bombs_planted);
-        renderList.add(HEADSHOT_KILLS + GOLD + this.headshot_kills);
-        renderList.add(KILLS + GOLD + this.kills + DEATHS + GOLD + this.deaths + KD + GOLD + this.kd);
 
+        renderList.add(COINS + GOLD + this.coins + ZOMBIE_KILLS + GOLD + this.zombie_kills);
+        renderList.add(VAMPIRE_KILLS + GOLD + this.vampire_kills + VAMPIRE_DEATHS + GOLD + this.vampire_deaths);
+        renderList.add(HUMAN_KILLS + GOLD + this.human_kills + HUMAN_DEATHS + GOLD + this.human_deaths);
     }
 
     public void composeStats() {
 
-        this.headshot_kills = getInt("headshot_kills");
-        this.kills = getInt("kills");
-        this.round_wins = getInt("round_wins");
-        this.bombs_defused = getInt("bombs_defused");
-        this.bombs_planted = getInt("bombs_planted");
         this.coins = getInt("coins");
-        this.deaths = getInt("deaths");
-
-        if (deaths > 0) {
-            kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
-        } else {
-            kd = 1;
-        }
+        this.zombie_kills = getInt("zombie_kills");
+        this.vampire_deaths = getInt("vampire_deaths");
+        this.vampire_kills = getInt("vampire_kills");
+        this.human_deaths = getInt("human_deaths");
+        this.human_kills = getInt("human_kills");
 
         generateRenderList();
 
@@ -108,19 +96,10 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
     private int getInt(String s) {
         try {
-            return this.statistics.get("MCGO").getAsJsonObject().get(s).getAsInt();
+            return this.statistics.get("VampireZ").getAsJsonObject().get(s).getAsInt();
         } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.MCGO.Int]: No entry for " + s + "returning 0!");
+            LoggerHelper.logInfo("[Stats.VampireZ.Int]: No entry for " + s + "returning 0!");
             return 0;
-        }
-    }
-
-    private String getString(String s) {
-        try {
-            return this.statistics.get("MCGO").getAsJsonObject().get(s).getAsString();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.MCGO.String]: No entry for " + s + "returning Err!");
-            return "Err";
         }
     }
 }
