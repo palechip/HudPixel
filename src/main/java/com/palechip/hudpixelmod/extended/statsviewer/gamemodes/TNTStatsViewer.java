@@ -34,14 +34,15 @@ import java.util.ArrayList;
  * <p/>
  * Class "made" by hst on 22.07.16
  *******************************************************************************/
-public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class TNTStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
 
     private ArrayList<String> renderList;
     private int coins;
     private int kills;
     private int deaths;
-    private int score;
+    private int wins;
+
 
     private double kd;
 
@@ -52,11 +53,12 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private static final String COINS = D_GRAY + " [" + GRAY + "Coins" + D_GRAY + "] ";
     private static final String KILLS = D_GRAY + " [" + GRAY + "Kills" + D_GRAY + "] ";
     private static final String DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
-    private static final String SCORE = D_GRAY + " [" + GRAY + "Score" + D_GRAY + "] ";
+    private static final String WINS = D_GRAY + " [" + GRAY + "Wins" + D_GRAY + "] ";
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
 
 
-    public UHCStatsViewer(String playerName) {
+
+    public TNTStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();
     }
@@ -75,8 +77,7 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     }
 
     private void generateRenderList() {
-        renderList.add(" "/*This is a placeholder*/);
-        renderList.add(COINS + GOLD + this.coins + SCORE + GOLD + this.score);
+        renderList.add(COINS + GOLD + this.coins + WINS + GOLD + this.wins);
         renderList.add(KILLS + GOLD + this.kills + DEATHS + GOLD + this.deaths + KD + GOLD + this.kd);
 
     }
@@ -84,9 +85,9 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     public void composeStats() {
 
         this.coins = getInt("coins");
-        this.kills = getInt("kills");
-        this.deaths = getInt("deaths");
-        this.score = getInt("score");
+        this.kills = getInt("kills_bowspleef") + getInt("kills_capture") + getInt("kills_tntrun") + getInt("kills_pvprun");
+        this.deaths = getInt("deaths_bowspleef") + getInt("deaths_capture") + getInt("deaths_tntrun") + getInt("deaths_pvprun");
+        this.wins = getInt("wins_bowspleef") + getInt("wins_capture") + getInt("wins_tntrun") + getInt("wins_pvprun");
 
 
         if (deaths > 0) {

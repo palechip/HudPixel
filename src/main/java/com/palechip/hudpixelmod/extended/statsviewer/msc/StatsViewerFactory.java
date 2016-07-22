@@ -64,6 +64,9 @@ public class StatsViewerFactory {
         if (gameType == GameType.UHC){
             return new UHCStatsViewer(playerName);
         }
+        if (gameType == GameType.TNT_GAMES || gameType == GameType.TNT_RUN || gameType == GameType.TNT_TAG || gameType == GameType.TNT_WIZARDS){
+            return new TNTStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Original version by palechip (github.com/palechip/HudPixel)
  * "Reloaded" version by PixelModders -> Eladkay (github.com/PixelModders/HudPixel)
  * <p/>
- * Copyright (c) 2016 unaussprechlich and contributors
+ * Copyright (c) 2016 unaussprechlich, hst and contributors
  * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in

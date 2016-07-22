@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Minecraft">
+  <component name="PublishConfigData" serverName="Minecraft" uploadOnCheckin="1c96dd1a-ad61-408f-a479-e0b2c2884a0b">
     <serverData>
       <paths name="Minecraft">
         <serverdata>
@@ -10,5 +10,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="Minecraft" />
   </component>
 </project>
