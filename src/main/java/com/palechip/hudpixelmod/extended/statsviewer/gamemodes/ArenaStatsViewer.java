@@ -81,9 +81,9 @@ public class ArenaStatsViewer extends StatsDisplayer implements IGameStatsViewer
     public void composeStats() {
 
         this.coins = getInt("coins");
-        this.wins = getInt("wins_2v2") + getInt("wins_4v4");
-        this.kills = getInt("kills_2v2") + getInt("kills_4v4");
-        this.deaths = getInt("deaths_2v2") + getInt("deaths_4v4");
+        this.wins = getInt("wins_1v1") + getInt("wins_2v2") + getInt("wins_4v4");
+        this.kills = getInt("kills_1v1") + getInt("kills_2v2") + getInt("kills_4v4");
+        this.deaths = getInt("deaths_1v1") + getInt("deaths_2v2") + getInt("deaths_4v4");
 
         if (deaths > 0) {
             kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
