@@ -25,7 +25,7 @@ package com.palechip.hudpixelmod.util;
 /**
  * Replaces GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
  * @author palechip
- *
+ * //Added HungerGames - hst
  */
 public enum GameType {
     UNKNOWN         (-1, "UNKNOWN", ""),

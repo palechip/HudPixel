@@ -67,6 +67,9 @@ public class StatsViewerFactory {
         if (gameType == GameType.TNT_GAMES || gameType == GameType.TNT_RUN || gameType == GameType.TNT_TAG || gameType == GameType.TNT_WIZARDS){
             return new TNTStatsViewer(playerName);
         }
+        if (gameType == GameType.BLITZ) { //HungerGames
+            return new HGStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }
