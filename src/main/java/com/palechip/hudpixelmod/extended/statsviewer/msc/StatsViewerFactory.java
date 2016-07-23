@@ -68,10 +68,13 @@ public class StatsViewerFactory {
             return new TNTStatsViewer(playerName);
         }
         if (gameType == GameType.BLITZ) { //HungerGames
-            return new HGStatsViewer(playerName);
+            return new BlitzStatsViewer(playerName);
         }
         if (gameType == GameType.ARCADE_GAMES) {
             return new ArcadeStatsViewer(playerName);
+        }
+        if (gameType == GameType.ARENA) {
+            return new ArenaStatsViewer(playerName);
         }
 
         return new NullStatViewer();

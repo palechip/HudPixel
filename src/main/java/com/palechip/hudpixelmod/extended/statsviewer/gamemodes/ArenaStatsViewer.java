@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * <p/>
  * Class "made" by hst on 23.07.16
  *******************************************************************************/
-public class HGStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class ArenaStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
     private ArrayList<String> renderList;
     private int coins;
@@ -54,8 +54,7 @@ public class HGStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
 
 
-
-    public HGStatsViewer(String playerName) {
+    public ArenaStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();
     }
@@ -82,9 +81,9 @@ public class HGStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     public void composeStats() {
 
         this.coins = getInt("coins");
-        this.wins = getInt("wins");
-        this.kills = getInt("kills");
-        this.deaths = getInt("deaths");
+        this.wins = getInt("wins_2v2") + getInt("wins_4v4");
+        this.kills = getInt("kills_2v2") + getInt("kills_4v4");
+        this.deaths = getInt("deaths_2v2") + getInt("deaths_4v4");
 
         if (deaths > 0) {
             kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
@@ -105,4 +104,3 @@ public class HGStatsViewer extends StatsDisplayer implements IGameStatsViewer {
         }
     }
 }
-
