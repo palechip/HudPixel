@@ -70,6 +70,9 @@ public class StatsViewerFactory {
         if (gameType == GameType.BLITZ) { //HungerGames
             return new HGStatsViewer(playerName);
         }
+        if (gameType == GameType.ARCADE_GAMES) {
+            return new ArcadeStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }
