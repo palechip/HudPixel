@@ -1,9 +1,13 @@
 package com.palechip.hudpixelmod.modulargui;
 
 import com.google.common.collect.Lists;
+import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.components.*;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
 import eladkay.modulargui.lib.ModularGuiRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -12,7 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModularGuiHelper {
+public class ModularGuiHelper implements McColorHelper{
     public static List<IHudPixelModularGuiProviderBase> providers = Lists.newArrayList();
     public static final ModularGuiRegistry.Element TITLE = new ModularGuiRegistry.Element("simp0", new SimpleTitleModularGuiProvider());
     //ik i have these backwards
@@ -72,16 +76,18 @@ public class ModularGuiHelper {
         providers.add((IHudPixelModularGuiProviderBase)PLAY_GAME_MODULE.provider);
     }
 
-    private ArrayList<String> processAfterstats(){
+    private static ArrayList<String> processAfterstats(){
         ArrayList<String> renderList = new ArrayList<String>();
 
         /**
          * bitte was schönes hinmachen :D
          */
 
+        renderList.add(BLUE + UpdateNotifier.SEPARATION_MESSAGE);
+
+
         //collects all data
-        for (ModularGuiRegistry.Element element : ModularGuiRegistry.allElements){
-            String display;
+        for (ModularGuiRegistry.Element element : ModularGuiRegistry.allElements) {
             if(!element.provider.showElement() || element.provider.getAfterstats() == null || element.provider.getAfterstats().isEmpty()) continue; //if you shouldn't show it, skip it.
                 renderList.add(element.provider.getAfterstats());
         }
@@ -94,7 +100,20 @@ public class ModularGuiHelper {
     }
 
     public static void onGameEnd(){
+        ArrayList<String> renderList = processAfterstats();
+        for (String s: renderList) {
+            printMessage(s);
+        }
+    }
 
+    /**
+     * prints the message to the clientchat
+     *
+     * @param message the message
+     **/
+    private static void printMessage(String message) {
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
+                new ChatComponentText(message));
     }
 
     @SubscribeEvent

@@ -122,6 +122,10 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
 
     @Override
     public String getAfterstats() {
-        return null;
+        if (type == Type.Damage) {
+            return "You made a total of " + count + " damage.";
+        } else {
+            return "You healed a total of " + count;
+        }
     }
 }

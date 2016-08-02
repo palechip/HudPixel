@@ -79,6 +79,6 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public String getAfterstats() {
-        return null;
+        return "Time passed: " + runningTime;
     }
 }
