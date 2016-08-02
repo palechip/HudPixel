@@ -153,4 +153,9 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     public String content() {
         return getRenderingString();
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

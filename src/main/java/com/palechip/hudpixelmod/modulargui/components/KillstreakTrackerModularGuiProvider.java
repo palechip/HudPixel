@@ -108,4 +108,9 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

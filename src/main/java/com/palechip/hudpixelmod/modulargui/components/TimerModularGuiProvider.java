@@ -76,4 +76,9 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

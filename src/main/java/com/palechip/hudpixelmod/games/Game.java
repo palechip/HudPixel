@@ -79,7 +79,6 @@ public class Game {
     }
 
     protected void onGameStart() {
-
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameStart();
         }
@@ -93,6 +92,9 @@ public class Game {
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameEnd();
         }
+        ModularGuiHelper.onGameEnd();
+
+
     }
 
     public void onTickUpdate() {

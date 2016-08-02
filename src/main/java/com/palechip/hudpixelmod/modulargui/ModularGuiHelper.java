@@ -9,6 +9,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModularGuiHelper {
@@ -69,7 +70,30 @@ public class ModularGuiHelper {
 
         ModularGuiRegistry.registerElement(PLAY_GAME_MODULE);
         providers.add((IHudPixelModularGuiProviderBase)PLAY_GAME_MODULE.provider);
+    }
 
+    private ArrayList<String> processAfterstats(){
+        ArrayList<String> renderList = new ArrayList<String>();
+
+        /**
+         * bitte was schönes hinmachen :D
+         */
+
+        //collects all data
+        for (ModularGuiRegistry.Element element : ModularGuiRegistry.allElements){
+            String display;
+            if(!element.provider.showElement() || element.provider.getAfterstats() == null || element.provider.getAfterstats().isEmpty()) continue; //if you shouldn't show it, skip it.
+                renderList.add(element.provider.getAfterstats());
+        }
+
+        /**
+         * bitte was schönes hinmachen :D
+         */
+
+        return renderList;
+    }
+
+    public static void onGameEnd(){
 
     }
 
@@ -83,4 +107,5 @@ public class ModularGuiHelper {
         for(IHudPixelModularGuiProviderBase provider : ModularGuiHelper.providers)
             provider.onTickUpdate();
     }
+
 }

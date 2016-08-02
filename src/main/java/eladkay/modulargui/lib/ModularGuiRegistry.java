@@ -19,7 +19,7 @@ public class ModularGuiRegistry {
     public static boolean shouldRegisterExampleElements = false;
 
     //List of all elements in the Modular GUI
-    static ArrayList<Element> allElements = Lists.newArrayList();
+    public static ArrayList<Element> allElements = Lists.newArrayList();
     /*
         Example elements.
         You should keep a constant of your elements in some sort of registry class.

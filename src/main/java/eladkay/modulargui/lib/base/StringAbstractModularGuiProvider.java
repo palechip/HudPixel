@@ -38,5 +38,10 @@ public class StringAbstractModularGuiProvider implements IModularGuiProvider {
         return false;
     }
 
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
+
 }
 

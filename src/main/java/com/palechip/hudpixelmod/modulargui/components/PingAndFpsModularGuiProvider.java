@@ -54,6 +54,11 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
         return false;
     }
 
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
+
     public enum PingOrFps {PING, FPS}
 
     public PingAndFpsModularGuiProvider(PingOrFps pingOrFps) {
