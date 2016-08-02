@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ModularGuiHelper implements McColorHelper{
@@ -83,6 +84,7 @@ public class ModularGuiHelper implements McColorHelper{
          * bitte was schönes hinmachen :D
          */
 
+        renderList.add(" ");
         renderList.add(BLUE + UpdateNotifier.SEPARATION_MESSAGE);
 
 
@@ -96,11 +98,15 @@ public class ModularGuiHelper implements McColorHelper{
          * bitte was schönes hinmachen :D
          */
 
+        renderList.add(BLUE + UpdateNotifier.SEPARATION_MESSAGE);
+        renderList.add(" ");
+
         return renderList;
     }
 
     public static void onGameEnd(){
         ArrayList<String> renderList = processAfterstats();
+        Collections.reverse(renderList);
         for (String s: renderList) {
             printMessage(s);
         }
