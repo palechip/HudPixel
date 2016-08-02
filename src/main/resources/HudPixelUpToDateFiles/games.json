@@ -606,6 +606,22 @@
       "configCategory": "",
       "configPrefix": "",
       "components": [ ]
+    },
+    {
+      "officialName": "Smash Heroes",
+      "shortName": "Smash Heroes",
+      "databaseName": "SuperSmash",
+      "databaseID": 24,
+      "modID": 32,
+      "chatTag": "",
+      "bossbarName": "",
+      "scoreboardName": "Crazy Walls",
+      "scoreboardMap": "",
+      "startMessage": "                              Smash Heroes",
+      "endMessage": "                            Reward Summary",
+      "configCategory": "",
+      "configPrefix": "",
+      "components": [ ]
     }
   ]
 

@@ -76,6 +76,9 @@ public class StatsViewerFactory {
         if (gameType == GameType.ARENA) {
             return new ArenaStatsViewer(playerName);
         }
+        if (gameType == GameType.MEGA_WALLS) {
+            return new MegaWallsStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }
