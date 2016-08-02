@@ -119,4 +119,9 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

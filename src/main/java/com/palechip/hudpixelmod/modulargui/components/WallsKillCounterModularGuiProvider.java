@@ -76,4 +76,9 @@ public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGui
     public String content() {
         return getRenderingString();
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

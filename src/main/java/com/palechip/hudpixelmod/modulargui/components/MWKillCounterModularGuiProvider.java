@@ -109,4 +109,9 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

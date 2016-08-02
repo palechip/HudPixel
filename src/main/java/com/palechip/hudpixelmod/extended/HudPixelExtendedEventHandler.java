@@ -35,6 +35,7 @@ import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -122,6 +123,8 @@ public class HudPixelExtendedEventHandler{
             throwable.printStackTrace();
         }
     }
+    long lastSystemTime = System.currentTimeMillis();
+    int delay = 20 * 1000; //20s
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
@@ -137,8 +140,13 @@ public class HudPixelExtendedEventHandler{
                 //Tick for the statsViewerManager
                 if(!(HudPixelMod.instance().gameDetector.isInLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
                     StatsViewerManager.onClientTick();
+
+                if(lastSystemTime+delay < System.currentTimeMillis()){
+                    lastSystemTime = System.currentTimeMillis();
+                    ModularGuiHelper.onGameEnd();
+                }
             }
-        } catch (Exception ex) {
+        } catch (Exception ex){
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
             ex.printStackTrace();
         }

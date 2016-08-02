@@ -80,6 +80,10 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
 
     @Override
     public void onFriendResponse(ArrayList<Friend> friends) {
+        if(friends == null){
+            LoggerHelper.logWarn("[OnlineFriends][APIloader]: The api answered the request with NULL!");
+            return;
+        }
         for(Friend f : friends){
             if(!allreadyStored.contains(f.getFriendName())){
                 OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), EnumChatFormatting.DARK_GRAY + "not loaded yet!", f.getFriendUUID()));

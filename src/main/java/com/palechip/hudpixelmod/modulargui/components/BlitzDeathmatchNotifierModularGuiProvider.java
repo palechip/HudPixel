@@ -97,4 +97,9 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

@@ -143,4 +143,9 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }
