@@ -1,6 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
@@ -8,7 +9,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
 
-public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     @Override
     public boolean doesMatchForGame(Game game) {
         return game.getConfiguration().getDatabaseName().equals("GingerBread");
@@ -146,6 +147,6 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public String getAfterstats() {
-        return null;
+        return YELLOW + "You played a total of " + GREEN + lap + YELLOW + " laps.";
     }
 }

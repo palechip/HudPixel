@@ -48,7 +48,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public String getAfterstats() {
-        return "You earned a total of " + coins + " coins.";
+        return YELLOW + "You earned a total of " + GREEN + coins + YELLOW + " coins.";
     }
 
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins";
