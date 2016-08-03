@@ -91,6 +91,7 @@ public class HudPixelConfig {
         Config.isFancyChat      = this.config.get(EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
         Config.isFriendsDisplay = this.config.get(EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
+        Config.isHideOfflineFriends= this.config.get(EXTENDED_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
 
         Config.friendsShownAtOnce   = this.config.get(EXTENDED_CATEGORY, "friendsShownAtOnce"  , 10 , "How many friends are shown at once.").getInt(10);
         Config.boostersShownAtOnce  = this.config.get(EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);

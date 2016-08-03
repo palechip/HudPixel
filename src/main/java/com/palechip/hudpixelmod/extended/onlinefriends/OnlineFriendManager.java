@@ -36,6 +36,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,6 +51,8 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
     private static long lastUpdateOnline = 0;
     private static OnlineFriendManager instance;
 
+    private static ArrayList<FancyListObject> localStorageFCO = new ArrayList<FancyListObject>();
+
     public static OnlineFriendManager getInstance() {
         if(instance == null) instance = new OnlineFriendManager();
         return instance;
@@ -62,17 +65,18 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
     }
 
     public void addFriend(FancyListObject fco){
-        this.fancyListObjects.add(fco);
+        this.localStorageFCO.add(fco);
     }
 
     private void updateRendering(){
         if((System.currentTimeMillis() > lastUpdateRendering + UPDATE_COOLDOWN_RENDERING)) {
             lastUpdateRendering = System.currentTimeMillis();
-            if(!fancyListObjects.isEmpty())
-                 for(FancyListObject fco : fancyListObjects)
+
+            if(!localStorageFCO.isEmpty())
+                 for(FancyListObject fco : localStorageFCO)
                          fco.onClientTick();
             //sort the list to display only friends first
-            Collections.sort(fancyListObjects, new Comparator<FancyListObject>() {
+            Collections.sort(localStorageFCO, new Comparator<FancyListObject>() {
                 @Override
                 public int compare(FancyListObject f1, FancyListObject f2) {
                     OnlineFriend o1 = (OnlineFriend) f1;
@@ -80,13 +84,24 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
                     return Boolean.valueOf(o2.isOnline()).compareTo(o1.isOnline());
                 }
             });
+
+            if(Config.isHideOfflineFriends){
+                ArrayList<FancyListObject> buff = new ArrayList<FancyListObject>();
+                for(FancyListObject fco : localStorageFCO){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.isOnline()) buff.add(fco);
+                }
+                fancyListObjects = buff;
+            } else {
+                fancyListObjects = localStorageFCO;
+            }
         }
     }
 
     @Override
     public void onClientTick() {
         this.shownObjects = Config.friendsShownAtOnce;
-        if((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !fancyListObjects.isEmpty()) {
+        if((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
             lastUpdateOnline = System.currentTimeMillis();
             new OnlineFriendsUpdater(this);
         }
@@ -97,7 +112,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         for(String s : OnlineFriendsLoader.getAllreadyStored()){
             if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
-                for (FancyListObject fco : fancyListObjects){
+                for (FancyListObject fco : localStorageFCO){
                     OnlineFriend of = (OnlineFriend) fco;
                     if(of.getUsername().equals(s)){
                         of.setOnline(true);
@@ -107,7 +122,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
                 }
 
             else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
-                for (FancyListObject fco : fancyListObjects){
+                for (FancyListObject fco : localStorageFCO){
                     OnlineFriend of = (OnlineFriend) fco;
                     if(of.getUsername().equals(s)){
                         of.setOnline(false);
@@ -132,8 +147,8 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
     public void onUpdaterResponse(HashMap<String, String> onlineFriends) {
         if(onlineFriends == null){
             LoggerHelper.logWarn("[OnlineFriends][Updater]: Something went wrong while calling a update!");
-        } else if(!fancyListObjects.isEmpty()){
-            for(FancyListObject fco : fancyListObjects){
+        } else if(!localStorageFCO.isEmpty()){
+            for(FancyListObject fco : localStorageFCO){
                 OnlineFriend of = (OnlineFriend) fco;
                 if(onlineFriends.containsKey(of.getUsername())){
                     of.setGamemode(onlineFriends.get(of.getUsername()));
