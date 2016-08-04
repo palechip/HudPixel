@@ -22,15 +22,13 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.games;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.util.GameType;
+
+import java.util.ArrayList;
 
 /**
  * Manages all Games and can load them from a json file. Get your game here.
@@ -53,7 +51,7 @@ public class GameManager {
 
     /***
      * Creates a GameManager.
-     * @param gameConfigFile a json file containing GameConfigurations of all games.
+     * @param gameConfig a json file containing GameConfigurations of all games.
      */
     public GameManager(JsonArray gameConfig) {
         HudPixelMod logger = HudPixelMod.instance();

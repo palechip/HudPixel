@@ -75,8 +75,6 @@ public class ModularGuiHelper implements McColorHelper{
 
         ModularGuiRegistry.registerElement(PLAY_GAME_MODULE);
         providers.add((IHudPixelModularGuiProviderBase)PLAY_GAME_MODULE.provider);
-<<<<<<< HEAD
-=======
     }
 
     private static ArrayList<String> processAfterstats(){
@@ -122,7 +120,6 @@ public class ModularGuiHelper implements McColorHelper{
     private static void printMessage(String message) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
                 new ChatComponentText(message));
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
     }
 
     @SubscribeEvent

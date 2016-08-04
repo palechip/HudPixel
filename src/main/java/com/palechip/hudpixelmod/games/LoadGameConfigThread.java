@@ -183,7 +183,7 @@ public class LoadGameConfigThread extends Thread {
                 logger.logWarn("The " + GAMES_FILE + "is lacking a version flag. Assuming version 0.");
             }
             // pass it's other parts to GameManager
-            new GameManager(games.get("games").getAsJsonArray(), games.get("components").getAsJsonArray());
+            new GameManager(games.get("games").getAsJsonArray()/*, games.get("components").getAsJsonArray()*/);
         } catch (Exception e) {
             logger.logError("The " + GAMES_FILE + "is corrupt. May things will not work correctly unless it is fixed!");
         }

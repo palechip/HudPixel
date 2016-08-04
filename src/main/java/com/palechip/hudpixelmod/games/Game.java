@@ -93,15 +93,11 @@ public class Game {
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameEnd();
         }
-<<<<<<< HEAD
         // display the results
         HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
-=======
         ModularGuiHelper.onGameEnd();
         HudPixelExtended.gameEventObserver.onGameEnd();
 
-
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
     }
 
     public void onTickUpdate() {

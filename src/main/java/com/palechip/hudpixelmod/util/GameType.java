@@ -28,44 +28,6 @@ package com.palechip.hudpixelmod.util;
  * //Added HungerGames - hst
  */
 public enum GameType {
-<<<<<<< HEAD
-    UNKNOWN         (-1, "UNKNOWN"),
-    ALL_GAMES       (0,  "ALL GAMES"),
-    QUAKECRAFT      (1,  "Quakecraft"),
-    THE_WALLS       (2,  "Walls"),
-    PAINTBALL       (3,  "Paintball"),
-    BLITZ           (4,  "Blitz Survival Games" ),
-    TNT_GAMES       (5,  "TNT Games"),
-    BOW_SPLEEF      (6,  "Bow Spleef"),
-    TNT_RUN         (7,  "TNT Run"),
-    TNT_WIZARDS     (8,  "TNT Wizards"),
-    TNT_TAG         (9,  "TNT Tag"),
-    VAMPIREZ        (10, "VampireZ"),
-    MEGA_WALLS      (11, "Mega Walls"),
-    ARENA           (12, "Arena Brawl"),
-    UHC             (13, "UHC Champions"),
-    COPS_AND_CRIMS  (14, "Cops and Crimes"),
-    WARLORDS        (15, "Warlords"),
-    ARCADE_GAMES    (16, "Arcade Games"),
-    BLOCKING_DEAD   (17, "Blocking Dead"),
-    BOUNTY_HUNTERS  (18, "Bounty Hunters"),
-    BUILD_BATTLE    (19, "Build Battle"),
-    CREEPER_ATTACK  (20, "Creeper Attack"),
-    DRAGON_WARS     (21, "Dragon Wars"),
-    ENDER_SPLEEF    (22, "Ender Spleef"),
-    FARM_HUNT       (23, "Farm Hunters"),
-    GALAXY_WARS     (24, "Galaxy Wars"),
-    PARTY_GAMES_1   (25, "Party Games"),
-    PARTY_GAGMES_2  (26, "Party Games"),
-    TRHOW_OUT       (27, "Throw Out"),
-    TURBO_KART_RACERS(28,"Turbo Kart Racers"),
-
-    //TODO: ADD THIS TO THE CONFIG
-    SPEED_UHC       (29, "Speed UHC"),
-    SKYWARS         (30, "SkyWars"),
-    CRAZY_WALLS     (31, "Crazy Walls"),
-    SMASH_HEROES    (32, "Smash Heroes");
-=======
     UNKNOWN         (-1, "UNKNOWN", ""),
     ALL_GAMES       (0,  "ALL GAMES", ""),
     QUAKECRAFT      (1,  "Quakecraft", "quakecraft"),
@@ -101,8 +63,6 @@ public enum GameType {
     SMASH_HEROES    (32, "Smash Heroes", "smash"),
     SKYWARS         (30, "SkyWars", "skywars"),
     FOOTBALL        (33, "Football", "");
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
-
     private final int modID;
     private final String name;
     private final String tipName;

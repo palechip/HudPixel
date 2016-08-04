@@ -8,6 +8,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
@@ -85,9 +87,8 @@ public class LoadPlayerHead implements IEventHandler {
 
                 service = Executors.newSingleThreadExecutor();
                 task = service.submit(new LoadPlayerHead.callURL());
-
+                boolean failed;
                 try {
-<<<<<<< HEAD
                     image = task.get();
                     LoggerHelper.logInfo("[LoadPlayer]: Skin loaded for " + username);
                 } catch(final InterruptedException ex) {
@@ -96,16 +97,16 @@ public class LoadPlayerHead implements IEventHandler {
                 } catch(final ExecutionException ex) {
                     LoggerHelper.logWarn("[LoadPlayer]:Something went wrong while loading the skin for" + username);
                     ex.printStackTrace();
-=======
-                    image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
-                    imageLoaded = true;
-                } catch (MalformedURLException e) {
-                    failed = true;
-                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
-                } catch (IOException e) {
-                    failed = true;
-                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
+                    try {
+                        image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/" + username + ".png"));
+                        imageLoaded = true;
+                    } catch (MalformedURLException e) {
+                        failed = true;
+                        LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                    } catch (IOException e) {
+                        failed = true;
+                        LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                    }
                 }
 
                 imageLoaded = true;
@@ -135,7 +136,6 @@ public class LoadPlayerHead implements IEventHandler {
 
     }
 
-<<<<<<< HEAD
     /**
      * Helper class to get the image via url request and filereader
      */
@@ -145,13 +145,10 @@ public class LoadPlayerHead implements IEventHandler {
             return ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
         }
     }
-=======
     @Override
     public void onMouseClick(int mX, int mY) {
 
     }
 
 
-
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
 }

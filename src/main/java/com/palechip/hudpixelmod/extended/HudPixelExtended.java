@@ -57,10 +57,8 @@ public class HudPixelExtended {
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();
-<<<<<<< HEAD
-=======
         gameEventObserver = new GameEventObserver();
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
+
 
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 

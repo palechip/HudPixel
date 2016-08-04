@@ -113,12 +113,12 @@ public abstract class FancyListManager implements IEventHandler{
      * handels the scrollinput and processes the right index for the list
      * @param i scroll input
      */
-<<<<<<< HEAD
-    @Override
+//<<<<<<< HEAD
+   /* @Override
     public void handleScrollInput(int i){
         if(Minecraft.getMinecraft().displayHeight - Mouse.getY() > (26 * shownObjects + 28) * 2) return;
-        if(Mouse.getX() > 280) return;
-=======
+        if(Mouse.getX() > 280) return;*/
+//=======
 
     @Override
     public void handleMouseInput(int i, int mX, int mY){
@@ -134,7 +134,6 @@ public abstract class FancyListManager implements IEventHandler{
 
         if(mY > (26 * shownObjects + 28)) return;
         if(mX > 152) return;
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
 
         if (i != 0) {
             if (i < 0) {

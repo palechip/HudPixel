@@ -81,7 +81,10 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
         }
     }
 
+
     public String getRenderingString() {
+        if(currentPhase == null)
+            return "";
         switch (this.currentPhase) {
             case NOT_RELEASED:
                 // display nothing

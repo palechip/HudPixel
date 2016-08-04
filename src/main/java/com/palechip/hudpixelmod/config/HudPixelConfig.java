@@ -33,6 +33,7 @@ import java.util.HashMap;
 
 public class HudPixelConfig {
 
+    public static boolean displayNetworkBoosters;
     private Configuration config;
 
     // categories
@@ -124,6 +125,8 @@ public class HudPixelConfig {
         warlordsFilterHealingDone = this.config.get(warlordsCategory, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterAbsorbtion = this.config.get(warlordsCategory, "warlordsFilterAbsorbtion", false, "Filter out all chat messages containing information about absorbtion.").getBoolean();
         warlordsFilterWounded = this.config.get(warlordsCategory, "warlordsFilterWounded", false,"Filter out all chat messages containing information about being wounded.").getBoolean();
+
+        displayNetworkBoosters = this.config.getBoolean(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Display network boosters");
 
         // parse the non-static variables
         // clear the list first

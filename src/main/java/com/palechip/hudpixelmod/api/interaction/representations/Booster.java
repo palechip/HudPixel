@@ -24,20 +24,16 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
-import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
-<<<<<<< HEAD
-public class Booster {
-    public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
-    
-=======
+
 public class Booster implements UuidCallback{
 
->>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
     // these values are filled by the API
-    // purchaser is only filled for old boosters
+    // purchaser is onl filled for old boosters
+    public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
+
     private int amount;
     private long dateActivated;
     private int gameType;
