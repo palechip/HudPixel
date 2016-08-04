@@ -102,7 +102,7 @@ public class FancyChat {
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
         ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-        if (res.getScaledWidth() < 700) {
+        if (Minecraft.getMinecraft().displayWidth < 1300) {
             return;
         }
 

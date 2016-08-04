@@ -116,4 +116,9 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

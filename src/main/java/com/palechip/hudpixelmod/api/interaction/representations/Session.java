@@ -27,10 +27,13 @@ import com.google.gson.JsonElement;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.UuidCallback;
+import com.palechip.hudpixelmod.util.UuidHelper;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class Session {
+public class Session implements UuidCallback{
     // the player this session belongs to, isn't included in the response but still relevant
     private String sessionOwner;
     
@@ -42,6 +45,10 @@ public class Session {
     
     private int gameID; // saves the ID the mod uses for the game and not the database ID.
     private GameType gameTypeIntern;
+
+    public String getReplyGameType(){
+        return gameType;
+    }
     
     public String getID() {
         return this._id;
@@ -91,5 +98,13 @@ public class Session {
     
     public void setSessionOwner(String owner) {
         this.sessionOwner = owner;
+    }
+    public void setSessionOwner(UUID owner) {
+        new UuidHelper(owner.toString(), this);
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.sessionOwner = playerName;
     }
 }

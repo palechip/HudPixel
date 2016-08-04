@@ -1,12 +1,13 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     @Override
     public boolean doesMatchForGame(Game game) {
         return game.getConfiguration().getDatabaseName().equals("Walls");
@@ -75,5 +76,10 @@ public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGui
     @Override
     public String content() {
         return getRenderingString();
+    }
+
+    @Override
+    public String getAfterstats() {
+        return YELLOW + "You got a total of " + GREEN + kills + YELLOW + " kills.";
     }
 }

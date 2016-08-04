@@ -23,6 +23,7 @@
 package com.palechip.hudpixelmod.games;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
@@ -82,6 +83,7 @@ public class Game {
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameStart();
         }
+        HudPixelExtended.gameEventObserver.onGameStart();
     }
 
     /**
@@ -91,8 +93,15 @@ public class Game {
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameEnd();
         }
+<<<<<<< HEAD
         // display the results
         HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
+=======
+        ModularGuiHelper.onGameEnd();
+        HudPixelExtended.gameEventObserver.onGameEnd();
+
+
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
     }
 
     public void onTickUpdate() {

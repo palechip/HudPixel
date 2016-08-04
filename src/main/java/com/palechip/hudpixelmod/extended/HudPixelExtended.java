@@ -28,7 +28,7 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
+import com.palechip.hudpixelmod.games.GameEventObserver;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -38,9 +38,9 @@ public class HudPixelExtended {
 
     private static HudPixelExtended hudPixelExtendedInstance = null;
     private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
-    public static OnlineFriendManager onlineFriendsManager = new OnlineFriendManager();
     public static UUID UUID;
     public static BoosterManager boosterManager;
+    public static GameEventObserver gameEventObserver;
 
     private HudPixelExtended(){}
 
@@ -57,6 +57,10 @@ public class HudPixelExtended {
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();
+<<<<<<< HEAD
+=======
+        gameEventObserver = new GameEventObserver();
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
 
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 

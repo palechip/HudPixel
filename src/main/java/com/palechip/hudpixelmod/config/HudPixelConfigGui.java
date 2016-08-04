@@ -33,7 +33,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -48,14 +48,19 @@ public class HudPixelConfigGui extends GuiConfig {
 
         List<IConfigElement> displaySettings = new ArrayList<IConfigElement>();
 
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayMode"            , "lefttop" , "Choose where to render everything the mod displays."), new String[] {"lefttop", "righttop","leftbottom", "rightbottom"}));
-        displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayNetworkBoosters" , true      , "Show active Network Boosters in the Chat Gui. This feature requires the Public API.")));
-        displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayQuickLoadButton" , false     , "Show a button that runs /booster queue in order to quickly load the network boosters.")));
-        displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayVersion"         , true      , "Show the mod version and name when there is nothing else to show.")));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "showResultTime"         , 20        , "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts."), -1, 600, NumberSliderEntry.class));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset"                , 0         , "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset"                , 0         , "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
+        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayMode"            , "lefttop" , "Choose where to render everything the mod displays."), new String[] {"lefttop", "righttop","leftbottom", "rightbottom"}));
+        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayNetworkBoosters" , true      , "Show active Network Boosters in the Chat Gui. This feature requires the Public API.")));
+        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayQuickLoadButton" , false     , "Show a button that runs /booster queue in order to quickly load the network boosters.")));
+        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayVersion"         , true      , "Show the mod version and name when there is nothing else to show.")));
+        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "showResultTime"         , 20        , "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts."), -1, 600, NumberSliderEntry.class));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset"                , 5         , "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset"                , 5         , "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
 
+        displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "enableBackground"   , false    , "Toggle the background of the hud.")));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudRed"             , 0        , "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudGreen"           , 0        , "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudBlue"            , 0        , "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
+        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudAlpha"           , 0        , "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
         return displaySettings;
     }
 

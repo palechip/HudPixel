@@ -39,19 +39,18 @@ public class HudPixelConfig {
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
     public static final String EXTENDED_CATEGORY = "extended";
-    public static final String PRIVATE_CATEGORY = "private";
+
     // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
     
     // static properties
     public static boolean useAPI;
-    public static boolean enableAfterStats;
+    public static boolean enableAfterStats = true;
     public static boolean autoCompleteSecondLobbyCmd;
     public static String displayMode;
-    public static int displayXOffset;
-    public static int displayYOffset;
+    public static int displayXOffset = 5;
+    public static int displayYOffset = 5;
     public static int displayShowResultTime;
     public static boolean displayVersion;
-    public static boolean displayNetworkBoosters;
     public static boolean displayQuickLoadButton;
     
     public static int warlordsFilterDamageDone;
@@ -85,24 +84,37 @@ public class HudPixelConfig {
      */
     public void syncConfig() {
 
-        Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
-        Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
+        // Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
+        //  Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
+
+        Config.isBoosterDisplay = this.config.get(EXTENDED_CATEGORY, "BoosterDisplay"  , true , "Activate or deactivate the booster display in the chat menu.").getBoolean(true);
         Config.isFancyChat      = this.config.get(EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
         Config.isFriendsDisplay = this.config.get(EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
+        Config.isHideOfflineFriends= this.config.get(EXTENDED_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
 
-        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 1000 , "How many messages the external Chat Gui can store.").getInt(1000);
+        Config.friendsShownAtOnce   = this.config.get(EXTENDED_CATEGORY, "friendsShownAtOnce"  , 10 , "How many friends are shown at once.").getInt(10);
+        Config.boostersShownAtOnce  = this.config.get(EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
+
+        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 10 , "How many messages the external Chat Gui can store.").getInt(10);
         Config.displayMessages  = this.config.get(EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
+
+        Config.hudBackground    =   this.config.get(DISPLAY_CATEGORY, "enableBackground"  , false , "Toggle the background of the hud.").getBoolean(false);
+        Config.hudRed = (float)     this.config.get(DISPLAY_CATEGORY, "hudRed"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudGreen = (float)   this.config.get(DISPLAY_CATEGORY, "hudGreen"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudBlue = (float)    this.config.get(DISPLAY_CATEGORY, "hudBlue"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudAlpha = (float)   this.config.get(DISPLAY_CATEGORY, "hudAlpha"  , 255 , "Set the background color of the Hud.").getInt(255) / 255;
+
 
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);
         enableAfterStats = this.config.get(Configuration.CATEGORY_GENERAL, "enableAfterStats", true, "Display statistics of the player who killed or beat you. (Not all games supported)").getBoolean();
-        displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays.(\"lefttop\", \"righttop\", \"leftbottom\" and \"rightbottom\")").getString();
-        displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 0, "This value will be added to the X (horizontal) position before rendering.").getInt();
-        displayYOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 0, "This value will be added to the Y (vertical) position before rendering.").getInt();
-        displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
-        displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
-        displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
-        displayQuickLoadButton = this.config.get(DISPLAY_CATEGORY, "displayQuickLoadButton", true, "Show a button that runs /booster queue in order to quickly load the network boosters.").getBoolean(true);
+        //displayMode = this.config.get(DISPLAY_CATEGORY, "displayMode", "lefttop", "Choose where to render everything the mod displays.(\"lefttop\", \"righttop\", \"leftbottom\" and \"rightbottom\")").getString();
+        displayXOffset = this.config.get(DISPLAY_CATEGORY, "xOffset", 5, "This value will be added to the X (horizontal) position before rendering.").getInt();
+        displayYOffset = this.config.get(DISPLAY_CATEGORY, "yOffset", 5, "This value will be added to the Y (vertical) position before rendering.").getInt();
+        //displayShowResultTime = this.config.get(DISPLAY_CATEGORY, "showResultTime", 20, "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts.").getInt(20);
+        //displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
+        //displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
+
         
         // these are ugly and will be removed when the filter becomes a component
         String warlordsCategory = GameManager.getGameManager().getGameConfiguration(GameType.WARLORDS).getConfigCategory();

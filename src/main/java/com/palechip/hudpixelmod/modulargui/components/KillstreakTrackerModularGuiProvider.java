@@ -1,12 +1,14 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 
-public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     @Override
     public boolean doesMatchForGame(Game game) {
         return game.getConfiguration().getDatabaseName().equals("TNTGames") || game.getConfiguration().getDatabaseName().equals("Quake") || game.getConfiguration().getDatabaseName().equals("Arcade");
@@ -107,5 +109,10 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
     @Override
     public boolean ignoreEmptyCheck() {
         return false;
+    }
+
+    @Override
+    public String getAfterstats() {
+        return YELLOW + "Your greatest Killstreak: " + GREEN + greatestKillstreak + YELLOW + " Kills";
     }
 }

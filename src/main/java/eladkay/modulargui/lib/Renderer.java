@@ -1,7 +1,10 @@
 package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,8 +33,8 @@ public class Renderer {
         if(!HypixelNetworkDetector.isHypixelNetwork && !HudPixelMod.IS_DEBUGGING) return;
         if(!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
-        int w = 5; //width, change this if needed
-        int h = 15; //height, you shouldn't touch this usually
+        int w = HudPixelConfig.displayXOffset; //width, change this if needed
+        int h = HudPixelConfig.displayYOffset; //height, you shouldn't touch this usually
         if (isEnabled) { //if enabled...
             FontRenderer fontRendererObj = FMLClientHandler.instance().getClient().fontRendererObj; //get the font renderer
             for (ModularGuiRegistry.Element element : display) { //for each element...
@@ -43,6 +46,8 @@ public class Renderer {
                     aDisplay = element.provider.content();
                 if(element.provider.content() == null) return;
                 if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this check...
+                    if(Config.hudBackground)
+                        RenderUtils.renderBoxWithColor(w - 2, h -1, fontRendererObj.getStringWidth(aDisplay) + 4, 10, 0, Config.hudRed, Config.hudGreen, Config.hudBlue, Config.hudAlpha );
                     fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
                     h += 10; //increment height
                 }

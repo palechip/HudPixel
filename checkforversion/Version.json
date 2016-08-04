@@ -1,11 +1,16 @@
 {
-  "Version": "3.1",
-  "DownloadLink": "https://hypixel.net/threads/client-mod-hudpixel-reloaded-v3-even-better.769075/",
+  "Version": "3.1.3",
+  "DownloadLink": "http://www.mediafire.com/download/i2g5uzn0exnxwky/HudPixelReloaded-1.8.9-v3-3.1.3.jar",
   "UpdateMessages":{
-    "1": "+New mod config gui",
-    "2": "+More stat viewers (Sneak while looking at a player in the in game lobby!)",
-    "3": "*Quake, Walls, PB, CaC",
-    "4": "+Highlight: ModularGUI! This is a complete rewrite of the component system previously found in HudPixel."
+    "1": "[+] new layout for your online friends '-' click the red button to start a conversation (double click) '-' click the blue button to send a party invite (double click)",
+    "2": "[+] a direct 'tip' option to the booster display '-' click the white button to tip the current online booster in that gamemode (double click)",
+    "3": "[+] background color support for the hud ... you can set the color under display settings",
+    "4": "[+] added support for scale resolution",
+    "5": "[fixed] hud offset",
+    "6": "[fixed] reduced lag while loading the playername via fallback api (uuid to playername)",
+    "7": "[fixed] hide friends/booster display",
+    "8": "[fixed] crash while joining paintball - removed the killstreak until it is fixed",
+    "9": "[-]  removed some of the currently not implemented settings"
   }
 }
 

@@ -38,22 +38,28 @@ import java.util.HashMap;
  * A little helper to get the username of a given UUID.
  * @author palechip
  */
-public class UuidHelper {
-    private UuidHelper() {}
+public class UuidHelper extends Thread{
+    UuidCallback callback;
+    public UuidHelper(String uuid, UuidCallback callback) {
+        this.callback = callback;
+        getUsernameFormUUID(uuid);
+    }
     
     private static final String FALLBACK_API = "https://api.razex.de/user/username/";
     private static Gson gson = new Gson();
     private static HashMap<String, String> cache = new HashMap<String, String>();
+
     
     /**
      * This should only be called asynchronously since it takes about 150ms to complete on my computer.
      * @param uuid the UUID to lookup
      * @return the username or null if it failed
      */
-    public static String getUsernameFormUUID(String uuid) {
+    private void getUsernameFormUUID(String uuid) {
         // Check the cache first
         if(cache.containsKey(uuid)) {
-            return cache.get(uuid);
+            callback.onUuidCallback(cache.get(uuid));
+            return;
         }
         
         // For MC 1.7.10 getSessionService is called func_152347_ac()
@@ -81,6 +87,6 @@ public class UuidHelper {
             cache.put(uuid, name);
         }
         // and return the result
-        return name;
+        callback.onUuidCallback(name);
     }
 }

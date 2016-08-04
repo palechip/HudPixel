@@ -25,9 +25,10 @@ package com.palechip.hudpixelmod.util;
 /**
  * Replaces GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
  * @author palechip
- *
+ * //Added HungerGames - hst
  */
 public enum GameType {
+<<<<<<< HEAD
     UNKNOWN         (-1, "UNKNOWN"),
     ALL_GAMES       (0,  "ALL GAMES"),
     QUAKECRAFT      (1,  "Quakecraft"),
@@ -64,16 +65,55 @@ public enum GameType {
     SKYWARS         (30, "SkyWars"),
     CRAZY_WALLS     (31, "Crazy Walls"),
     SMASH_HEROES    (32, "Smash Heroes");
+=======
+    UNKNOWN         (-1, "UNKNOWN", ""),
+    ALL_GAMES       (0,  "ALL GAMES", ""),
+    QUAKECRAFT      (1,  "Quakecraft", "quakecraft"),
+    THE_WALLS       (2,  "Walls", "walls"),
+    PAINTBALL       (3,  "Paintball", "paintball"),
+    BLITZ           (4,  "Blitz Survival Games" , "blitz"),
+    TNT_GAMES       (5,  "TNT Games", "tnt"),
+    BOW_SPLEEF      (6,  "Bow Spleef", ""),
+    TNT_RUN         (7,  "TNT Run", ""),
+    TNT_WIZARDS     (8,  "TNT Wizards", ""),
+    TNT_TAG         (9,  "TNT Tag", ""),
+    VAMPIREZ        (10, "VampireZ", "vampirez"),
+    MEGA_WALLS      (11, "Mega Walls", "mega"),
+    ARENA           (12, "Arena Brawl", "arena"),
+    UHC             (13, "UHC Champions", "uhc"),
+    COPS_AND_CRIMS  (14, "Cops and Crimes", "cops"),
+    WARLORDS        (15, "Warlords", "warlords"),
+    ARCADE_GAMES    (16, "Arcade Games", "arcade"),
+    BLOCKING_DEAD   (17, "Blocking Dead", ""),
+    BOUNTY_HUNTERS  (18, "Bounty Hunters", ""),
+    BUILD_BATTLE    (19, "Build Battle", ""),
+    CREEPER_ATTACK  (20, "Creeper Attack", ""),
+    DRAGON_WARS     (21, "Dragon Wars", ""),
+    ENDER_SPLEEF    (22, "Ender Spleef", ""),
+    FARM_HUNT       (23, "Farm Hunters", ""),
+    GALAXY_WARS     (24, "Galaxy Wars", ""),
+    PARTY_GAMES_1   (25, "Party Games", ""),
+    PARTY_GAGMES_2  (26, "Party Games", ""),
+    TRHOW_OUT       (27, "Throw Out", ""),
+    TURBO_KART_RACERS(28,"Turbo Kart Racers", "turbo"),
+    SPEED_UHC       (29, "Speed UHC", "speed"),
+    CRAZY_WALLS     (31, "Crazy Walls", "crazy"),
+    SMASH_HEROES    (32, "Smash Heroes", "smash"),
+    SKYWARS         (30, "SkyWars", "skywars"),
+    FOOTBALL        (33, "Football", "");
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
 
     private final int modID;
     private final String name;
+    private final String tipName;
 
     public String getName() {
         return name;
     }
+    public String getTipName(){return tipName;}
 
-    GameType(int modID, String name) {
-
+    GameType(int modID, String name, String tipName) {
+        this.tipName = tipName;
         this.modID = modID;
         this.name = name;
     }

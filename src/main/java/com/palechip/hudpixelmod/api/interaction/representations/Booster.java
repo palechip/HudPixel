@@ -25,11 +25,17 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
+<<<<<<< HEAD
 public class Booster {
     public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
     
+=======
+public class Booster implements UuidCallback{
+
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
     // these values are filled by the API
     // purchaser is only filled for old boosters
     private int amount;
@@ -96,7 +102,7 @@ public class Booster {
     
     public String getOwner() {
         if(this.owner == null || this.owner.equals("!ERROR!")) {
-            this.owner = UuidHelper.getUsernameFormUUID(purchaserUuid);
+            new UuidHelper(purchaserUuid, this);
         }
         // did getting the name fail?
         if(this.owner == null) {
@@ -133,5 +139,10 @@ public class Booster {
             return this.owner.equals(b.owner) && this.gameType == b.gameType;
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.owner = playerName;
     }
 }

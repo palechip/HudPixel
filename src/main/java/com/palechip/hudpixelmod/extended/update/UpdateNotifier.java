@@ -50,9 +50,9 @@ public class UpdateNotifier implements McColorHelper {
     private static String KEY_UPDATEMESSAGE = "UpdateMessage";
     private static String KEY_DOWNLOADLINK = "DownloadLink";
     private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
-    private static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+    public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
-            "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
+            "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
 //######################################################################################################################
 
     //pauses the thread to
@@ -154,7 +154,7 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE CURRENT BUGREPORTMESSAGE
-        printMessage(GOLD + "------" + GREEN + " You can enter a bugreports directly on GitHub " + GOLD + "------");
+        printMessage(GOLD + "------" + GREEN + " You can enter a bugreport directly on GitHub " + GOLD + "------");
         new ChatMessageComposer(" press this link to report a bug on GitHub", RED)
                         .makeLink("https://github.com/HudPixel/HudPixelExtended/issues").send();
 

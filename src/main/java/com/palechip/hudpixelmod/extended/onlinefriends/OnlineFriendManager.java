@@ -27,78 +27,137 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import net.minecraft.client.gui.FontRenderer;
+import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
-import static com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendsUpdater.friendListExpected;
+public class OnlineFriendManager extends FancyListManager implements IUpdater{
 
-public class OnlineFriendManager {
+    private static final String JOINED_MESSAGE = " joined.";
+    private static final String LEFT_MESSAGE = " left.";
+    private static final int UPDATE_COOLDOWN_RENDERING = 10 * 1000; // = 10sec
+    private static long lastUpdateRendering = 0;
+    private static final int UPDATE_COOLDOWN_ONLINE= 2* 60 * 1000; // = 10sec
+    private static long lastUpdateOnline = 0;
+    private static OnlineFriendManager instance;
 
-    private static final int FRIENDDYSPLAY_OFFSET = 25;
+    private static ArrayList<FancyListObject> localStorageFCO = new ArrayList<FancyListObject>();
 
-    private static ArrayList<OnlineFriend> onlineFriendsListBUFFER = new ArrayList<OnlineFriend>();
-    private static ArrayList<OnlineFriend> onlineFriendsList = new ArrayList<OnlineFriend>();
+    public static OnlineFriendManager getInstance() {
+        if(instance == null) instance = new OnlineFriendManager();
+        return instance;
+    }
 
+    private OnlineFriendManager(){
+        super(8);
+        this.isButtons = true;
+        new OnlineFriendsLoader();
+    }
 
-    /**
-     * Function to manage all the rendering for the friends display
-     */
-    public void renderOnlineFriends(){
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+    public void addFriend(FancyListObject fco){
+        this.localStorageFCO.add(fco);
+    }
 
-        int xStart = 2;
-        int yStart = 2;
+    private void updateRendering(){
+        if((System.currentTimeMillis() > lastUpdateRendering + UPDATE_COOLDOWN_RENDERING)) {
+            lastUpdateRendering = System.currentTimeMillis();
 
-        ArrayList<OnlineFriend> ofList =  onlineFriendsList;
+            if(!localStorageFCO.isEmpty())
+                 for(FancyListObject fco : localStorageFCO)
+                         fco.onClientTick();
+            //sort the list to display only friends first
+            Collections.sort(localStorageFCO, new Comparator<FancyListObject>() {
+                @Override
+                public int compare(FancyListObject f1, FancyListObject f2) {
+                    OnlineFriend o1 = (OnlineFriend) f1;
+                    OnlineFriend o2 = (OnlineFriend) f2;
+                    return Boolean.valueOf(o2.isOnline()).compareTo(o1.isOnline());
+                }
+            });
 
-        if(ofList.isEmpty()){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Nobody online!", xStart, yStart, 0xffffff);
-        } else if(friendListExpected){
-            fontRenderer.drawStringWithShadow(EnumChatFormatting.GRAY + "Loading ... ", xStart, yStart, 0xffffff);
-        } else {
-            for (OnlineFriend of : ofList){
-                of.renderOnlineFriend(xStart,yStart);
-                yStart += FRIENDDYSPLAY_OFFSET;
+            if(Config.isHideOfflineFriends){
+                ArrayList<FancyListObject> buff = new ArrayList<FancyListObject>();
+                for(FancyListObject fco : localStorageFCO){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.isOnline()) buff.add(fco);
+                }
+                fancyListObjects = buff;
+            } else {
+                fancyListObjects = localStorageFCO;
             }
         }
     }
 
-
-    /**
-     * replace the currently shown onlinefriends list with the bufft one
-     */
-    public void update(){
-        onlineFriendsList = new ArrayList<OnlineFriend>(onlineFriendsListBUFFER);
-        onlineFriendsListBUFFER.clear();
+    @Override
+    public void onClientTick() {
+        this.shownObjects = Config.friendsShownAtOnce;
+        if((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
+            lastUpdateOnline = System.currentTimeMillis();
+            new OnlineFriendsUpdater(this);
+        }
+        updateRendering();
     }
 
-    /**
-     * ADD/COPY/UPDATE player to the BufferList
-     * @param playerName username
-     * @param gameType string to render
-     */
-    void addPlayer(String playerName, String gameType) {
-        if(!onlineFriendsList.isEmpty()) {
-            for (OnlineFriend of : onlineFriendsList) {
-                if (of.getUsername().equalsIgnoreCase(playerName)) {
-                    if (of.getGamemode().equalsIgnoreCase(gameType)) {
-                        onlineFriendsListBUFFER.add(of);
-                        return;
-                    } else {
-                        OnlineFriend ofBUFFER;
-                        ofBUFFER = of;
-                        ofBUFFER.setGamemode(gameType);
-                        onlineFriendsListBUFFER.add(ofBUFFER);
-                        return;
+    @Override
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+        for(String s : OnlineFriendsLoader.getAllreadyStored()){
+            if(e.message.getUnformattedText().equalsIgnoreCase(s + JOINED_MESSAGE))
+                for (FancyListObject fco : localStorageFCO){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.getUsername().equals(s)){
+                        of.setOnline(true);
+                        of.setGamemode(EnumChatFormatting.WHITE + "not loaded yet!");
                     }
+
+                }
+
+            else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
+                for (FancyListObject fco : localStorageFCO){
+                    OnlineFriend of = (OnlineFriend) fco;
+                    if(of.getUsername().equals(s)){
+                        of.setOnline(false);
+                        of.setGamemode(EnumChatFormatting.DARK_GRAY + "currently offline");
+                    }
+                }
+        }
+    }
+
+    @Override
+    public void onRender() {
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Config.isFriendsDisplay){
+            this.renderDisplay();
+            this.isMouseHander = true;
+        } else {
+            this.isMouseHander = false;
+        }
+
+    }
+
+    @Override
+    public void onUpdaterResponse(HashMap<String, String> onlineFriends) {
+        if(onlineFriends == null){
+            LoggerHelper.logWarn("[OnlineFriends][Updater]: Something went wrong while calling a update!");
+        } else if(!localStorageFCO.isEmpty()){
+            for(FancyListObject fco : localStorageFCO){
+                OnlineFriend of = (OnlineFriend) fco;
+                if(onlineFriends.containsKey(of.getUsername())){
+                    of.setGamemode(onlineFriends.get(of.getUsername()));
+                    of.setOnline(true);
+                } else {
+                    of.setGamemode(EnumChatFormatting.DARK_GRAY + "currently offline");
+                    of.setOnline(false);
                 }
             }
         }
-
-        onlineFriendsListBUFFER.add(new OnlineFriend(playerName, gameType));
     }
-
 }

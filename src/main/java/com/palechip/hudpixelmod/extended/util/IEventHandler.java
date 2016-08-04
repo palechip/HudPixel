@@ -33,7 +33,8 @@ public interface IEventHandler {
     void onClientTick();
     void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
     void onRender();
-    void handleScrollInput(int i);
+    void handleMouseInput(int i, int mX, int mY);
+    void onMouseClick(int mX, int mY);
 
 
 }

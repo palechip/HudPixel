@@ -32,6 +32,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
+import java.util.ArrayList;
+
 public abstract class FancyListObject {
 
     protected String renderLine1;
@@ -39,6 +41,59 @@ public abstract class FancyListObject {
     protected String renderLineSmall;
     protected String renderPicture;
     protected ResourceLocation resourceLocation;
+    public static int loadingBar;
+    private float xStart;
+    private float yStart;
+    private boolean isHover;
+
+
+    protected ArrayList<FancyListButton> fancyListObjectButtons = new ArrayList<FancyListButton>();
+
+    protected void addButton(FancyListButton fcob){
+        fancyListObjectButtons.add(fcob);
+    }
+
+
+
+    /**
+     * renders the loading animation
+     * @param xStart startposition of the friendsdisplay
+     * @param yStart startposition of the friendsdisplay
+     */
+    private void renderLoadingBar(float xStart, float yStart){
+
+        final int a = 2;
+        final int b = 1;
+        final float alpha = 0.8f;
+
+        switch (loadingBar){
+            case 0:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 1:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+            case 2:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                break;
+            case 3:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                break;
+            default:
+                RenderUtils.renderBoxWithColor(xStart + 7,  yStart + 9, 2, 6    , 0, 1f, 1f, 1f, 0.8f);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6    , 0, 1f, 1f, 1f, alpha);
+                break;
+        }
+    }
 
     /**
      * You have to call it each render tick from the FancyListManager
@@ -47,22 +102,42 @@ public abstract class FancyListObject {
      * @param yStart yStart
      */
     void onRenderTick(boolean small, float xStart, float yStart){
-        if(small) renderBoosterSMALL(xStart, yStart);
-        else      renderBoosterSHOWN(xStart, yStart);
+        this.xStart = xStart;
+        this.yStart = yStart;
+        if(small) renderBoosterSMALL();
+        else      renderBoosterSHOWN();
     }
 
-    public abstract void onClientTick();
+    void onMouseInput(int mX, int mY){
+
+        if(mX > xStart && mX < (xStart + 140) && mY > yStart && mY < yStart + 24){
+            isHover = true;
+            for(FancyListButton fcob : fancyListObjectButtons)
+                fcob.isHover = false;
+        } else if(isHover && mX > xStart + 140 && mX < (xStart + 140 + fancyListObjectButtons.size()*24) && mY > yStart && mY < yStart+24) {
+            isHover = true;
+            for(FancyListButton fcob : fancyListObjectButtons)
+                fcob.onMouseInput(mX, mY);
+        } else isHover = false;
+    }
+
+    public void onClientTick(){
+        onTick();
+    }
+
+    public abstract void onTick();
 
     /**
      * This method draws the display in the smaller version and just with the first line of
      * the string!
-     * @param xStart xStart
-     * @param yStart yStart
      */
-    private void renderBoosterSMALL(float xStart, float yStart){
+    private void renderBoosterSMALL(){
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         RenderUtils.renderBoxWithColor(xStart, yStart, 130, 12, 0, 0f, 0f, 0f, 0.3f);//draws the background
+
+        if(resourceLocation == null) renderLoadingBar(xStart, yStart);
+        else
         RenderUtils.drawModalRectWithCustomSizedTexture( //draws the texture
                 Math.round(xStart), Math.round(yStart), 0, 0,
                 12, 12, 12, 12, resourceLocation, 1f);
@@ -72,13 +147,24 @@ public abstract class FancyListObject {
 
     /**
      * This method draws the display with all it's components
-     * @param xStart xStart
-     * @param yStart yStart
      */
-    private void renderBoosterSHOWN(float xStart, float yStart){
+    private void renderBoosterSHOWN(){
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
-        RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 0f, 0f, 0f, 0.3f); //draws the background
+        if(!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 0f, 0f, 0f, 0.3f); //draws the background
+        else{
+            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 1f, 1f, 1f, 0.2f);
+            float xStartB = xStart + 140;
+            float yStartB = yStart;
+            for(FancyListButton fcob : fancyListObjectButtons){
+                fcob.onRender(xStartB, yStartB);
+                xStartB += 24;
+            }
+
+        }
+
+        if(resourceLocation == null) renderLoadingBar(xStart, yStart);
+        else
         RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
                 Math.round(xStart), Math.round(yStart), 0, 0,
                 24, 24, 24 , 24 , resourceLocation, 1f);
@@ -91,5 +177,10 @@ public abstract class FancyListObject {
         fontRenderer.drawStringWithShadow( renderLine2, xStart + 28, yStart + 13, 0xffffff); //draws the second line
         fontRenderer.drawString(renderPicture, Math.round(xStart), Math.round(yStart + 13),0xffffff); //draws the string over the image
 
+    }
+
+    public void onMouseClick(int mX, int mY) {
+        for(FancyListButton fcob : fancyListObjectButtons)
+            fcob.onMouseClick(mX, mY);
     }
 }

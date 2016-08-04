@@ -22,12 +22,16 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
-public class Friend {
+import java.util.UUID;
+
+public class Friend implements UuidCallback{
+
     private String _id;
-    private String receiver;
-    private String sender;
+    private String uuidReceiver;
+    private String uuidSender;
     private long started;
     
     private String friendName;
@@ -45,27 +49,37 @@ public class Friend {
         return friendUUID;
     }
 
-
-
     public boolean didFriendSendRequest() {
-        return this.sender.equals(this.friendUUID);
+        return this.uuidSender.equals(this.friendUUID);
     }
     
     public String getId() {
         return this._id;
     }
-    /**
-     * Used because there is no way to see which one is the friend and which is the player
-     * @param player The player for which the request was sent
-     */
-    public void setPlayer(String player) {
-        if(this.sender.equals(player)) {
-            this.friendUUID = this.receiver;
-            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
 
+
+    public void setPlayer(UUID player) {
+        if(this.uuidSender.equals(player.toString().replace("-", ""))){
+            this.friendUUID = uuidReceiver;
+            new UuidHelper(uuidReceiver, this);
         } else {
-            this.friendUUID = this.sender;
-            this.friendName = UuidHelper.getUsernameFormUUID(friendUUID);
+            this.friendUUID = uuidSender;
+            new UuidHelper(uuidSender, this);
         }
+    }
+
+    public void setPlayer(String player) {
+        if(this.uuidSender.equals(player.replace("-", ""))){
+            this.friendUUID = uuidReceiver;
+            new UuidHelper(uuidReceiver, this);
+        } else {
+            this.friendUUID = uuidSender;
+            new UuidHelper(uuidSender, this);
+        }
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.friendName = playerName;
     }
 }

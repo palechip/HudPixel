@@ -41,23 +41,37 @@ public class Config {
     public static boolean isPingShown = true;
     public static boolean isFpsShown = true;
     public static boolean isFancyChat = true;
+    public static boolean isBoosterDisplay = true;
     public static boolean isFriendsDisplay = true;
     public static boolean isStats = true;
+    public static boolean isHideOfflineFriends = true;
     public static int     storedMessages = 1000;
     public static int     displayMessages = 8;
+    public static int     friendsShownAtOnce = 10;
+    public static int     boostersShownAtOnce = 5;
+
+    public static float hudRed = 0f;
+    public static float hudGreen = 0f;
+    public static float hudBlue = 0f;
+    public static float hudAlpha = 1f;
+    public static boolean hudBackground = true;
 
 
     public static List<IConfigElement> getExtendedElements(Configuration configFile){
 
         List<IConfigElement> extendedSettings = new ArrayList<IConfigElement>();
 
-        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.")));
-        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.")));
+        //extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.")));
+        //extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.")));
+        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "BoosterDisplay"   , true , "Activate or deactivate the booster display in the chat menu.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.")));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.")));
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "storedMessages"  , 1000 , "How many messages the external Chat Gui can store."), 100, 10000));
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right."), 1, 30, GuiConfigEntries.NumberSliderEntry.class));
+        extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once."), 1, 15));
+        extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "friendsShownAtOnce"   , 10 , "How many friends are shown at once."), 1, 15));
+        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.")));
 
 
         return extendedSettings;

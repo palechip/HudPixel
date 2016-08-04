@@ -42,6 +42,12 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return YELLOW + "You earned a total of " + GREEN + coins + YELLOW + " coins.";
+    }
+
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins";
     protected int coins;
 

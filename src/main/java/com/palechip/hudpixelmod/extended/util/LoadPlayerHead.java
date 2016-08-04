@@ -63,6 +63,7 @@ public class LoadPlayerHead implements IEventHandler {
         image = image.getSubimage(8,8,8,8);
         DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(username, texture);
+        LoggerHelper.logInfo("[LoadPlayer]: Loaded skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
         callback.onLoadPlayerHeadResponse(this.resourceLocation);
         HudPixelExtendedEventHandler.unregisterIEvent(this);
     }
@@ -86,6 +87,7 @@ public class LoadPlayerHead implements IEventHandler {
                 task = service.submit(new LoadPlayerHead.callURL());
 
                 try {
+<<<<<<< HEAD
                     image = task.get();
                     LoggerHelper.logInfo("[LoadPlayer]: Skin loaded for " + username);
                 } catch(final InterruptedException ex) {
@@ -94,6 +96,16 @@ public class LoadPlayerHead implements IEventHandler {
                 } catch(final ExecutionException ex) {
                     LoggerHelper.logWarn("[LoadPlayer]:Something went wrong while loading the skin for" + username);
                     ex.printStackTrace();
+=======
+                    image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
+                    imageLoaded = true;
+                } catch (MalformedURLException e) {
+                    failed = true;
+                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                } catch (IOException e) {
+                    failed = true;
+                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
                 }
 
                 imageLoaded = true;
@@ -119,10 +131,11 @@ public class LoadPlayerHead implements IEventHandler {
     }
 
     @Override
-    public void handleScrollInput(int i) {
+    public void handleMouseInput(int i, int mX, int mY) {
 
     }
 
+<<<<<<< HEAD
     /**
      * Helper class to get the image via url request and filereader
      */
@@ -132,4 +145,13 @@ public class LoadPlayerHead implements IEventHandler {
             return ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
         }
     }
+=======
+    @Override
+    public void onMouseClick(int mX, int mY) {
+
+    }
+
+
+
+>>>>>>> cefb937f72c3603449ec8cd3ff2b464b4be41e08
 }

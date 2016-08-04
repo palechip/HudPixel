@@ -55,6 +55,30 @@ public class StatsViewerFactory {
         if(gameType == GameType.THE_WALLS){
             return new WallsStatsViewer(playerName);
         }
+        if (gameType == GameType.VAMPIREZ){
+            return new VampireStatsViewer(playerName);
+        }
+        if (gameType == GameType.COPS_AND_CRIMS){
+            return new CvCStatsViewer(playerName);
+        }
+        if (gameType == GameType.UHC){
+            return new UHCStatsViewer(playerName);
+        }
+        if (gameType == GameType.TNT_GAMES || gameType == GameType.TNT_RUN || gameType == GameType.TNT_TAG || gameType == GameType.TNT_WIZARDS){
+            return new TNTStatsViewer(playerName);
+        }
+        if (gameType == GameType.BLITZ) { //HungerGames
+            return new BlitzStatsViewer(playerName);
+        }
+        if (gameType == GameType.ARCADE_GAMES) {
+            return new ArcadeStatsViewer(playerName);
+        }
+        if (gameType == GameType.ARENA) {
+            return new ArenaStatsViewer(playerName);
+        }
+        if (gameType == GameType.MEGA_WALLS) {
+            return new MegaWallsStatsViewer(playerName);
+        }
 
         return new NullStatViewer();
     }

@@ -55,4 +55,9 @@ public class PlayGameModularGuiProvider extends HudPixelModularGuiProvider {
     public boolean ignoreEmptyCheck() {
         return true;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

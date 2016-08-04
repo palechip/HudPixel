@@ -119,4 +119,13 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        if (type == Type.Damage) {
+            return YELLOW + "You dealt a total of " + RED + count + " damage.\n";
+        } else {
+            return YELLOW + "You dealt a total of " + GREEN + count + " healing.";
+        }
+    }
 }

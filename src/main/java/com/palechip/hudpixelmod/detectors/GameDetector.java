@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 public class GameDetector {
     // Game.NO_GAME if no game is detected, never null
-    protected Game currentGame = Game.NO_GAME;
+    public static Game currentGame = Game.NO_GAME;
 
     private boolean isGameDetectionStarted = false;
     private boolean isLobbyDetectionStarted = false;

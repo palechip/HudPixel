@@ -27,4 +27,9 @@ public class NameModularGuiProvider implements IModularGuiProvider {
     public boolean ignoreEmptyCheck() {
         return false;
     }
+
+    @Override
+    public String getAfterstats() {
+        return null;
+    }
 }

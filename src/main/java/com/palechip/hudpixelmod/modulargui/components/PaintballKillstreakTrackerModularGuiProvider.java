@@ -26,7 +26,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     private boolean isActive;
     private long startTime;
     private long duration;
-    private boolean hasCooldown;
+    private boolean hasCooldown = false;
     private boolean isCoolingDown;
 
     private String cooldownDependantKillstreak;
@@ -117,15 +117,17 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     }
 
     public String getRenderingString() {
+        return "";
+        /*
         if(this.isActive) {
             return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
-        } else if(this.isCoolingDown || ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak))
-                && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
+        } else if(this.isCoolingDown ||
+                ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak)) && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
             // the listened killstreak will be red because the color from COOLDOWN_SIGN isn't reset
             return COOLDOWN_SIGN + " " + this.listenedKillstreak;
         } else  {
             return "";
-        }
+        }*/
     }
 
     private String getColorForTime(long time) {
@@ -150,5 +152,10 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     @Override
     public String content() {
         return getRenderingString();
+    }
+
+    @Override
+    public String getAfterstats() {
+        return null;
     }
 }
