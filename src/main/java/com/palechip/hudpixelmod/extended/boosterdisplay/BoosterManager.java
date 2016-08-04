@@ -55,7 +55,6 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * when tipping somebody in this gamemode) to the GameType enum class.
      **/
     private final static GameType[] gamesWithBooster = new GameType[]{
-            GameType.QUAKECRAFT,
             GameType.SPEED_UHC,
             GameType.SMASH_HEROES,
             GameType.CRAZY_WALLS,
@@ -174,14 +173,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                                 found = true; break;
                             } else {
                                 be.setCurrentBooster(b);
-                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with[ >> DatabaseID: " + b.getGameType() +  " >> local GameType: " + b.getModGameType().getName()
-                                        +" >> owner: " + b.getOwner() + " ] in the boosterdisplay!");
+                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
+                                        +" and owner " + b.getOwner() + " in the boosterdisplay!");
                             }
                             found = true; break;
                         }
                     }
-                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with [ >> DatabaseID: " + b.getGameType()
-                                +" >> owner: " + b.getOwner() + "] !");
+                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
+                                +" and owner " + b.getOwner() + "!");
                 }
             }
         } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");

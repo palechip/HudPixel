@@ -79,7 +79,10 @@ public class HudPixelMod {
 
     private Logger LOGGER;
     public HudPixelConfig CONFIG;
+    public HudPixelRenderer renderer;
     private Queue apiQueue;
+    
+    private boolean deactivate = false;
 
     private HypixelNetworkDetector hypixelDetector;
     public GameDetector gameDetector;
@@ -133,17 +136,16 @@ public class HudPixelMod {
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
+        this.renderer = new HudPixelRenderer();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
         this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
-        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_M, KEY_CATEGORY);
+        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_Q, KEY_CATEGORY);
         this.pressToPlay = new KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY);
-
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
         ClientRegistry.registerKeyBinding(this.openConfigGui);
         ClientRegistry.registerKeyBinding(this.pressToPlay);
-
         if(this.IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
             ClientRegistry.registerKeyBinding(this.debugKey);
@@ -214,6 +216,9 @@ public class HudPixelMod {
                 // make sure the Scoreboard reader updates when necessary
                 ScoreboardReader.resetCache();
 
+                // update the resolution and the result display, this renders nothing
+                this.renderer.onClientTick();
+
                 // pass the event to the GameDetector
                 this.gameDetector.onClientTick();
 
@@ -241,9 +246,11 @@ public class HudPixelMod {
     public void onKeyInput(KeyInputEvent event) {
         try {
             // Don't do anything unless we are on Hypixel
-            if(HypixelNetworkDetector.isHypixelNetwork) {
+            if(this.hypixelDetector.isHypixelNetwork) {
                 // check all listened keys
-
+                if(this.hideHUDKey.isPressed()) {
+                    this.renderer.isHUDShown = !this.renderer.isHUDShown;
+                }
                 if(this.openConfigGui.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
@@ -252,8 +259,10 @@ public class HudPixelMod {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
                 }
-                if(IS_DEBUGGING) {
-
+                if(this.IS_DEBUGGING) {
+                    if (this.debugKey.isPressed()) {
+                        // Add debug code here
+                    }
                 }
             }
         } catch(Exception e) {

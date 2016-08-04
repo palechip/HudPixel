@@ -75,11 +75,7 @@ public abstract class FancyListManager implements IEventHandler {
      */
     @Override
     public void handleScrollInput(int i){
-
-        int mouseY = Minecraft.getMinecraft().displayHeight - Mouse.getY();
-        int mouseX = Mouse.getX();
-
-        if(mouseY > (26 * shownObjects + 28) * 2) return;
+        if(Minecraft.getMinecraft().displayHeight - Mouse.getY() > (26 * shownObjects + 28) * 2) return;
         if(Mouse.getX() > 280) return;
 
         if (i != 0) {

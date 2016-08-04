@@ -69,8 +69,6 @@ public class ModularGuiHelper {
 
         ModularGuiRegistry.registerElement(PLAY_GAME_MODULE);
         providers.add((IHudPixelModularGuiProviderBase)PLAY_GAME_MODULE.provider);
-
-
     }
 
     @SubscribeEvent

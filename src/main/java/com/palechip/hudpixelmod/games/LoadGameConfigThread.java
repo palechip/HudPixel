@@ -3,10 +3,13 @@ package com.palechip.hudpixelmod.games;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -41,14 +44,19 @@ public class LoadGameConfigThread extends Thread {
     private final File configurationDirectory;
     private static final String RESOURCE_LOCATION = "HudPixelUpToDateFiles/";
     private static final String CACHEFOLDER = "HudPixelUpToDate";
+    private static final String REPOSITORY_URL = "https://raw.githubusercontent.com/palechip/HudPixelUpToDate/master/";
 
     // a switch used to make developing easier. In distributions, this is allways false.
-    private static final boolean ALWAYS_EXTRACT = true;
+    private static final boolean ALWAYS_EXTRACT = false;
+
+    private static final String VERSION_MEMBER = "version";
 
     private Gson gson = new Gson();
 
     // a list of all files to make the code a little more compact
     private static ArrayList<String> files;
+
+    private HashMap<String, Integer> versions = new HashMap<String, Integer>();
 
     // file names
     private static final String GAMES_FILE = "games.json";
@@ -167,12 +175,58 @@ public class LoadGameConfigThread extends Thread {
             // load it
             JsonObject games = this.loadFile(GAMES_FILE);
 
+            // get the version and save it
+            if (games.has(VERSION_MEMBER)) {
+                versions.put(GAMES_FILE, games.get(VERSION_MEMBER).getAsInt());
+            } else {
+                versions.put(GAMES_FILE, 0);
+                logger.logWarn("The " + GAMES_FILE + "is lacking a version flag. Assuming version 0.");
+            }
             // pass it's other parts to GameManager
-            new GameManager(games.get("games").getAsJsonArray());
-
+            new GameManager(games.get("games").getAsJsonArray(), games.get("components").getAsJsonArray());
         } catch (Exception e) {
             logger.logError("The " + GAMES_FILE + "is corrupt. May things will not work correctly unless it is fixed!");
         }
     }
 
+    /**
+     * Download a file form the online repository
+     *
+     * @param fileName the file name as in files
+     * @param version  the version of the file to download
+     * @return True if the download was successful
+     */
+    private boolean downloadFile(String fileName, int version, HudPixelMod logger) {
+        try {
+            // log the download
+            logger.logInfo("Updating \"" + fileName + "\" to version " + version);
+            URL downloadURL = new URL(REPOSITORY_URL + fileName.substring(0, fileName.indexOf('.')) + "/v" + version + ".json");
+            File destinationFile = new File(this.configurationDirectory + File.separator + fileName);
+            // use Apache Commons to download the file
+            FileUtils.copyURLToFile(downloadURL, destinationFile, 2000, 4000);
+        } catch (IOException e) {
+            // log the error
+            logger.logError("Failed to download \"" + fileName + "\"! Couldn't get the latest version. This may cause bad behaviour.");
+            e.printStackTrace();
+            // faiture
+            return false;
+        }
+        // success
+        return true;
+    }
+
+    /**
+     * Downloads to a string. Used for files which aren't saved.
+     *
+     * @param url the URL from where to download from
+     * @return The downloaded string or an empty json object in case of failture.
+     */
+    private String downloadFileToString(String url, HudPixelMod logger) {
+        try {
+            return IOUtils.toString(new URL(url));
+        } catch (Exception e) {
+            logger.logWarn("Faild to download \"" + url + "\"! This is sad but not gamebreaking.");
+        }
+        return "{}";
+    }
 }

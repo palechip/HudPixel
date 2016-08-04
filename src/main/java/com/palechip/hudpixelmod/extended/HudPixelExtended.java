@@ -42,7 +42,6 @@ public class HudPixelExtended {
     public static UUID UUID;
     public static BoosterManager boosterManager;
 
-
     private HudPixelExtended(){}
 
     public static HudPixelExtended getInstance(){
@@ -58,7 +57,6 @@ public class HudPixelExtended {
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();
-
 
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 

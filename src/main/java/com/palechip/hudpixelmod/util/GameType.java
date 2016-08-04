@@ -61,11 +61,9 @@ public enum GameType {
 
     //TODO: ADD THIS TO THE CONFIG
     SPEED_UHC       (29, "Speed UHC"),
-    CRAZY_WALLS     (31, "Crazy Walls"),
-    SMASH_HEROES    (32, "Smash Heroes"),
-
     SKYWARS         (30, "SkyWars"),
-    FOOTBALL        (33, "Football");
+    CRAZY_WALLS     (31, "Crazy Walls"),
+    SMASH_HEROES    (32, "Smash Heroes");
 
     private final int modID;
     private final String name;
