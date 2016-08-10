@@ -28,10 +28,15 @@ package com.palechip.hudpixelmod.extended.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class RenderUtils {
 
@@ -46,6 +51,24 @@ public class RenderUtils {
      */
     public static void renderBox(double xStart, double yStart, double width, double height, int border){
         renderBoxWithColor(xStart, yStart, width, height, border, 0, 0, 0, 0.5F);
+    }
+
+    public static void renderItemStackWithText(int id, int meta, int xStart, int yStart, String overlay){
+        GL11.glPushMatrix();
+        RenderHelper.enableStandardItemLighting();
+        GlStateManager.color(0.0F, 0.0F, 32.0F);
+        Minecraft mc = Minecraft.getMinecraft();
+        ItemStack iStack = new ItemStack(Item.getItemById(id));
+        if(meta > 0) iStack.setItemDamage(meta);
+
+        RenderItem renderItem = mc.getRenderItem();
+
+        renderItem.renderItemAndEffectIntoGUI(iStack, xStart, yStart);
+        renderItem.renderItemOverlayIntoGUI(mc.fontRendererObj,iStack, xStart, yStart, overlay);
+
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.disableBlend();
+        GL11.glPopMatrix();
     }
 
     public static void renderBoxWithColor(double xStart, double yStart, double width, double height, int border,

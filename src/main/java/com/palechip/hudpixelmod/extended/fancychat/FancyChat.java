@@ -161,6 +161,10 @@ public class FancyChat {
         }
     }
 
+    public void addMessage(String s){
+        fancyChatMessages.addMinecraftEntry(s);
+    }
+
 
     /**
      * Fired by the onChat event @ HudPixelMod.class.

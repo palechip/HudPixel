@@ -1,6 +1,7 @@
 package com.palechip.hudpixelmod.modulargui;
 
 import com.google.common.collect.Lists;
+import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.components.*;
@@ -108,6 +109,7 @@ public class ModularGuiHelper implements McColorHelper{
         ArrayList<String> renderList = processAfterstats();
         Collections.reverse(renderList);
         for (String s: renderList) {
+            FancyChat.getInstance().addMessage(s);
             printMessage(s);
         }
     }

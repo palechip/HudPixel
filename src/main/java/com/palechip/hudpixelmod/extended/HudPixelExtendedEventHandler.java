@@ -28,7 +28,6 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
@@ -36,18 +35,12 @@ import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
-import com.palechip.hudpixelmod.games.GameManager;
-import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
-import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
@@ -134,7 +127,6 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if (HypixelNetworkDetector.isHypixelNetwork) {
-                GameDetector.currentGame = GameManager.getGameManager().createGame(GameType.BLITZ);
                 for(IEventHandler i : getIeventBuffer())
                     i.onClientTick();
                 FancyListManager.processLoadingBar();
@@ -147,7 +139,6 @@ public class HudPixelExtendedEventHandler{
 
                 if(lastSystemTime+delay < System.currentTimeMillis()){
                     lastSystemTime = System.currentTimeMillis();
-                    ModularGuiHelper.onGameEnd();
                 }
 
 
@@ -160,11 +151,11 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
-    public void onRenderTick(TickEvent.RenderTickEvent e) {
+    @SubscribeEvent
+    public void onRenderTick(RenderGameOverlayEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork) {
+            if (HypixelNetworkDetector.isHypixelNetwork && e.type == RenderGameOverlayEvent.ElementType.HOTBAR && !e.isCancelable()) {
                 for(IEventHandler i : getIeventBuffer())
                     i.onRender();
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();

@@ -28,7 +28,7 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
-import com.palechip.hudpixelmod.games.GameEventObserver;
+import com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownDisplayManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -40,7 +40,6 @@ public class HudPixelExtended {
     private static HudPixelExtendedEventHandler hudPixelExtendedEventHandler = new HudPixelExtendedEventHandler();
     public static UUID UUID;
     public static BoosterManager boosterManager;
-    public static GameEventObserver gameEventObserver;
 
     private HudPixelExtended(){}
 
@@ -57,10 +56,10 @@ public class HudPixelExtended {
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();
-        gameEventObserver = new GameEventObserver();
-
 
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
+
+        CooldownDisplayManager.getInstance();
 
     }
 }

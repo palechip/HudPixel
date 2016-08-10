@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 public class GameEventObserver {
 
-    ArrayList <IGameEvents> clients = new ArrayList<IGameEvents>();
+    static ArrayList <IGameEvents> clients = new ArrayList<IGameEvents>();
 
-    public void onGameEnd(){
+    public static void registerClient(IGameEvents callback){
+        clients.add(callback);
+    }
+
+    public static void onGameEnd(){
         for(IGameEvents cm : clients)
             cm.onGameEnd();
     }
 
-    public void onGameStart(){
+    public static void onGameStart(){
         for(IGameEvents cm : clients)
             cm.onGameStart();
     }
