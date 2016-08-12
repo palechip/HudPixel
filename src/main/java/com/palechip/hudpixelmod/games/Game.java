@@ -89,13 +89,17 @@ public class Game {
      * Called when the game ends.
      */
     protected void onGameEnd() {
-        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
-            e.onGameEnd();
+        try {
+            for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+                e.onGameEnd();
+            }
+            // display the results
+            HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
+            ModularGuiHelper.onGameEnd();
+            GameEventObserver.onGameEnd();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // display the results
-        HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
-        ModularGuiHelper.onGameEnd();
-        GameEventObserver.onGameEnd();
 
     }
 

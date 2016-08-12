@@ -32,6 +32,7 @@ import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
+import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
@@ -41,6 +42,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
@@ -59,6 +61,11 @@ public class HudPixelExtendedEventHandler{
 
     private static ArrayList<IEventHandler> getIeventBuffer(){
         return new ArrayList<IEventHandler>(ieventArrayList);
+    }
+
+    @SubscribeEvent
+    public void onPlayerName(PlayerEvent.NameFormat e){
+        StaffManager.onPlayerName(e);
     }
 
     @SubscribeEvent
@@ -152,10 +159,10 @@ public class HudPixelExtendedEventHandler{
     }
 
     @SubscribeEvent
-    public void onRenderTick(RenderGameOverlayEvent e) {
+    public void onRenderTick(RenderGameOverlayEvent.Post e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork && e.type == RenderGameOverlayEvent.ElementType.HOTBAR && !e.isCancelable()) {
+            if (HypixelNetworkDetector.isHypixelNetwork && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 for(IEventHandler i : getIeventBuffer())
                     i.onRender();
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();

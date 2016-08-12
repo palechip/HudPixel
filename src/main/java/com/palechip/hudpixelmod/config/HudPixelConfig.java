@@ -94,6 +94,10 @@ public class HudPixelConfig {
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
         Config.isHideOfflineFriends= this.config.get(EXTENDED_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
 
+        Config.isHideCooldownDisplay= this.config.get(EXTENDED_CATEGORY,"hideCooldownDisplay"   , false , "Hide the cooldown display.").getBoolean(false);
+        Config.xOffsetCooldownDisplay   = this.config.get(EXTENDED_CATEGORY, "xOffsetCooldownDisplay"   , 0 , "x-Offset of the cooldown display").getInt(10);
+        Config.yOffsetCooldownDisplay   = this.config.get(EXTENDED_CATEGORY, "yOffsetCooldownDisplay"   , 30 , "y-Offset of the cooldown display").getInt(10);
+
         Config.friendsShownAtOnce   = this.config.get(EXTENDED_CATEGORY, "friendsShownAtOnce"  , 10 , "How many friends are shown at once.").getInt(10);
         Config.boostersShownAtOnce  = this.config.get(EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
 

@@ -294,7 +294,7 @@
       "scoreboardName": "WARLORDS",
       "scoreboardMap": "",
       "startMessage": "The game starts in 1 second!",
-      "endMessage": "You earned a total of",
+      "endMessage": "                            Reward Summary",
       "configCategory": "warlords",
       "configPrefix": "warlords",
       "components": [

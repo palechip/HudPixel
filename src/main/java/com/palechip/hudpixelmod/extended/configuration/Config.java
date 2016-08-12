@@ -56,6 +56,10 @@ public class Config {
     public static float hudAlpha = 1f;
     public static boolean hudBackground = true;
 
+    public static boolean isHideCooldownDisplay = false;
+    public static int xOffsetCooldownDisplay = 0;
+    public static int yOffsetCooldownDisplay = 25;
+
 
     public static List<IConfigElement> getExtendedElements(Configuration configFile){
 
@@ -72,6 +76,9 @@ public class Config {
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once."), 1, 15));
         extendedSettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "friendsShownAtOnce"   , 10 , "How many friends are shown at once."), 1, 15));
         extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.")));
+        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "hideCooldownDisplay"   , false , "Hide the cooldown display.")));
+        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "xOffsetCooldownDisplay"   , 0 , "x-Offset of the cooldown display")));
+        extendedSettings.add(new ConfigElement     (configFile.get(HudPixelConfig.EXTENDED_CATEGORY, "yOffsetCooldownDisplay"   , 30 , "y-Offset of the cooldown display")));
 
 
         return extendedSettings;

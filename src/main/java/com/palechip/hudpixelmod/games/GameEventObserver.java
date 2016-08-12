@@ -19,4 +19,9 @@ public class GameEventObserver {
         for(IGameEvents cm : clients)
             cm.onGameStart();
     }
+
+    public static void onSetupNewGame(){
+        for(IGameEvents cm : clients)
+            cm.onSetupNewGame();
+    }
 }

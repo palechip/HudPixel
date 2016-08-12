@@ -68,7 +68,6 @@ public class UpdateNotifier implements McColorHelper {
                 getHttpRequest();
             }
         }.start();
-
     }
 
     private void getHttpRequest(){
