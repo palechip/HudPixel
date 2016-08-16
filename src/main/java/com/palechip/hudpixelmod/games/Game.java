@@ -94,7 +94,6 @@ public class Game {
                 e.onGameEnd();
             }
             // display the results
-            HudPixelMod.instance().renderer.displayResults(this.getRenderStrings());
             ModularGuiHelper.onGameEnd();
             GameEventObserver.onGameEnd();
         } catch (Exception e) {

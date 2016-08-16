@@ -88,6 +88,10 @@ public class GameDetector {
         }
     }
 
+    public GameType getCurrentGametype(){
+        return GameType.getTypeByID(getCurrentGame().getConfiguration().getModID());
+    }
+
     public void onChatMessage(String textMessage, String formattedMessage) {
         if(this.isGameDetectionStarted) {
             // try detecting the game using the chat tag

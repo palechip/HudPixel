@@ -40,6 +40,12 @@ import java.util.HashMap;
  */
 public class UuidHelper extends Thread{
     UuidCallback callback;
+
+    /**
+     * generates a "uuid to name" request
+     * @param uuid the payers uuid
+     * @param callback the callback class
+     */
     public UuidHelper(String uuid, UuidCallback callback) {
         this.callback = callback;
         getUsernameFormUUID(uuid);

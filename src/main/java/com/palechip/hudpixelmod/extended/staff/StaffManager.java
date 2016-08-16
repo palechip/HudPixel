@@ -28,9 +28,13 @@ package com.palechip.hudpixelmod.extended.staff;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import net.minecraft.util.EnumChatFormatting;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
@@ -43,19 +47,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.palechip.hudpixelmod.extended.util.McColorHelper.D_RED;
-
-public class StaffManager implements IEventHandler{
+public class StaffManager implements IEventHandler, McColorHelper{
 
     private static ArrayList<String> adminList = new ArrayList<String>();
     private static ArrayList<String> helperList = new ArrayList<String>();
     private static String LINK_TO_STAFFJSON = "http://unaussprechlich.net/HudPixel/files/staffjson.php";
 
     public StaffManager(){
+        HudPixelExtendedEventHandler.registerIEvent(this);
         getHttpRequest();
     }
 
     public static void onPlayerName(PlayerEvent.NameFormat e){
+        if(!HudPixelMod.instance().gameDetector.getCurrentGametype().equals(GameType.ALL_GAMES)) return;
         if(adminList.contains(e.username)){
             e.displayname = hudAdminTag() + e.displayname;
         } else if(helperList.contains(e.username)){
@@ -63,15 +67,12 @@ public class StaffManager implements IEventHandler{
         }
     }
 
-
     private static String hudHelperTag(){
-        return EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.YELLOW + "Helper"
-                + EnumChatFormatting.GOLD + "] " + EnumChatFormatting.YELLOW;
+        return GOLD + "[Hud" + YELLOW + "Helper" + GOLD + "] " + YELLOW;
     }
 
     private static String hudAdminTag(){
-        return  EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.RED + "Admin"
-                + EnumChatFormatting.GOLD + "] " + EnumChatFormatting.RED;
+        return  GOLD + "[Hud" + D_RED + "Admin" + GOLD + "] " + D_RED;
     }
 
     private void getHttpRequest(){
@@ -136,12 +137,14 @@ public class StaffManager implements IEventHandler{
 
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        /*
         for(String s : adminList){
-            if(e.message.getUnformattedText().contains("] " + s + ":")){
-                e.message = hudAdminTag() + e.message.a;
-            }
-        }*/
+            if(e.message.getUnformattedText().contains("] " + s + ":"))
+                e.message = new ChatComponentText(hudAdminTag()).appendSibling(e.message);
+        }
+        for(String s : helperList){
+            if(e.message.getUnformattedText().contains("] " + s + ":"))
+                e.message = new ChatComponentText(hudHelperTag()).appendSibling(e.message);
+        }
     }
 
     @Override
