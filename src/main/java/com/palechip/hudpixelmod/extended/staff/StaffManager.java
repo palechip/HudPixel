@@ -57,12 +57,21 @@ public class StaffManager implements IEventHandler{
 
     public static void onPlayerName(PlayerEvent.NameFormat e){
         if(adminList.contains(e.username)){
-            e.displayname = EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.RED + "Admin"
-                    + EnumChatFormatting.GOLD + "]" + EnumChatFormatting.RED + e.displayname;
+            e.displayname = hudAdminTag() + e.displayname;
         } else if(helperList.contains(e.username)){
-            e.displayname = EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.YELLOW + "Helper"
-                    + EnumChatFormatting.GOLD + "]" + EnumChatFormatting.YELLOW + e.displayname;
+            e.displayname =  hudHelperTag() + e.displayname;
         }
+    }
+
+
+    private static String hudHelperTag(){
+        return EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.YELLOW + "Helper"
+                + EnumChatFormatting.GOLD + "] " + EnumChatFormatting.YELLOW;
+    }
+
+    private static String hudAdminTag(){
+        return  EnumChatFormatting.GOLD + "[Hud" + EnumChatFormatting.RED + "Admin"
+                + EnumChatFormatting.GOLD + "] " + EnumChatFormatting.RED;
     }
 
     private void getHttpRequest(){
@@ -128,15 +137,11 @@ public class StaffManager implements IEventHandler{
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         /*
-        String line = e.message.getFormattedText();
-        String pattern1 = "";
-
-        Pattern p1 = Pattern.compile(pattern1);
-        boolean found = false;
         for(String s : adminList){
-            if(e.message.getUnformattedText().contains(s)) found = true;
+            if(e.message.getUnformattedText().contains("] " + s + ":")){
+                e.message = hudAdminTag() + e.message.a;
+            }
         }*/
-
     }
 
     @Override
