@@ -16,8 +16,6 @@ import static com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownManagerF
 public class CooldownDisplayManager implements IEventHandler{
 
     static ArrayList<CooldownDisplayModule> cdModules = new ArrayList<CooldownDisplayModule>();
-    private static float xStart = Config.xOffsetCooldownDisplay;
-    private static float yStart = Config.yOffsetCooldownDisplay;
     private static CooldownDisplayManager instance;
 
     public static CooldownDisplayManager getInstance(){
@@ -28,7 +26,6 @@ public class CooldownDisplayManager implements IEventHandler{
     private CooldownDisplayManager(){
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
-
 
     int count = 0;
     @Override
@@ -43,10 +40,7 @@ public class CooldownDisplayManager implements IEventHandler{
             cdM.onClientTick();
     }
 
-    @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
 
-    }
 
     @Override
     public void onRender() {
@@ -65,16 +59,15 @@ public class CooldownDisplayManager implements IEventHandler{
         float xCenter = (Minecraft.getMinecraft().displayWidth / 2 / scale) - ((cdModules.size()/2) * 25) + 4;
         float yCenter = Minecraft.getMinecraft().displayHeight  / 2 / scale;
         for(int i = 0; i < cdModules.size(); i++)
-            cdModules.get(i).renderModule(xCenter + xStart + (i * 25), yCenter + yStart);
+            cdModules.get(i).renderModule(xCenter + Config.xOffsetCooldownDisplay + (i * 25), yCenter + Config.yOffsetCooldownDisplay);
     }
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY) {
-
-    }
+    public void handleMouseInput(int i, int mX, int mY) {}
 
     @Override
-    public void onMouseClick(int mX, int mY) {
+    public void onMouseClick(int mX, int mY) {}
 
-    }
+    @Override
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {}
 }

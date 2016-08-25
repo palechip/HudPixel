@@ -55,9 +55,14 @@ public class StaffManager implements IEventHandler, McColorHelper{
 
     public StaffManager(){
         HudPixelExtendedEventHandler.registerIEvent(this);
+        //loades the staff
         getHttpRequest();
     }
 
+    /**
+     * changes the tag above the player, when they join and are part of the hudpixel team
+     * @param e
+     */
     public static void onPlayerName(PlayerEvent.NameFormat e){
         if(!HudPixelMod.instance().gameDetector.getCurrentGametype().equals(GameType.ALL_GAMES)) return;
         if(adminList.contains(e.username)){
@@ -75,6 +80,9 @@ public class StaffManager implements IEventHandler, McColorHelper{
         return  GOLD + "[Hud" + D_RED + "Admin" + GOLD + "] " + D_RED;
     }
 
+    /**
+     * Does a http request to my server and get's the current staff members
+     */
     private void getHttpRequest(){
         try {
             URL u = new URL(LINK_TO_STAFFJSON);
@@ -100,17 +108,33 @@ public class StaffManager implements IEventHandler, McColorHelper{
         }
     }
 
+    /**
+     * Get's the data from the website and generates a JsonObjrect
+     * @param data website data
+     * @return the data as JsonObject
+     */
     private JsonObject jsonParser(String data){
         JsonParser jsonParser = new JsonParser();
         return jsonParser.parse(data).getAsJsonObject();
     }
 
+    /**
+     * get's all usernames i put into the category
+     * @param s JsonEntry
+     * @return usernames in a ArrayList
+     */
     private ArrayList<String> getArrayFromJsonEntry(String s){
         s = removeChars(s, "\"");
         s = removeChars(s, "[");
         return new ArrayList<String>(Arrays.asList(s.split(",")));
     }
 
+    /**
+     * Get's one json entry via key and returns everything inside as a string
+     * @param key the key
+     * @param jsonObject the JsonObject
+     * @return entry
+     */
     private String getStringFromJson(String key, JsonObject jsonObject){
         try{
             if(jsonObject.get(key) != null){
@@ -126,39 +150,43 @@ public class StaffManager implements IEventHandler, McColorHelper{
         }
     }
 
+    /**
+     * removes a char-type from a string
+     * @param s the string
+     * @param r this char will get replaced by noting
+     * @return
+     */
     private String removeChars(String s, String r){
         return s.replace(r, "");
     }
 
-    @Override
-    public void onClientTick() {
 
-    }
-
+    /**
+     * buts the admin/helper tag infront of a message a admin/helper has written
+     * @param e chat event
+     * @throws Throwable
+     */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         for(String s : adminList){
-            if(e.message.getUnformattedText().contains("] " + s + ":"))
+            if(e.message.getUnformattedText().contains("] " + s + ":") || e.message.getFormattedText().startsWith(s + ":"))
                 e.message = new ChatComponentText(hudAdminTag()).appendSibling(e.message);
         }
         for(String s : helperList){
-            if(e.message.getUnformattedText().contains("] " + s + ":"))
+            if(e.message.getUnformattedText().contains("] " + s + ":") || e.message.getFormattedText().startsWith(s + ":"))
                 e.message = new ChatComponentText(hudHelperTag()).appendSibling(e.message);
         }
     }
 
     @Override
-    public void onRender() {
-
-    }
+    public void onClientTick() {}
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY) {
-
-    }
+    public void onRender() {}
 
     @Override
-    public void onMouseClick(int mX, int mY) {
+    public void handleMouseInput(int i, int mX, int mY) {}
 
-    }
+    @Override
+    public void onMouseClick(int mX, int mY) {}
 }

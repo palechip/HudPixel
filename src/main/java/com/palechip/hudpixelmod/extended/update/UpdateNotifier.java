@@ -146,8 +146,8 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE UPDATE NOE OR DIE TEXT
-        printMessage(GRAY + "Your currently running v" + HudPixelMod.DEFAULT_VERSION + "! This version will now no longer be supported " +
-                "by the HudPixelTeam! So make sure to update to the newest version befor sending any bug-reports or feature requests!" +
+        printMessage(GRAY + "You are currently running v" + HudPixelMod.DEFAULT_VERSION + "! This version will now no longer be supported " +
+                "by the HudPixelTeam! Make sure to update to the newest version befor sending any bug-reports or feature requests!" +
                 " HudPixel Reloaded v3 is still in development state, so expect bugs and new features at any time!");
 
         printMessage("");
@@ -155,7 +155,7 @@ public class UpdateNotifier implements McColorHelper {
         //GOING TO PRINT THE CURRENT BUGREPORTMESSAGE
         printMessage(GOLD + "------" + GREEN + " You can enter a bugreport directly on GitHub " + GOLD + "------");
         new ChatMessageComposer(" press this link to report a bug on GitHub", RED)
-                        .makeLink("https://github.com/HudPixel/HudPixelExtended/issues").send();
+                        .makeLink("https://github.com/unaussprechlich/HudPixelExtended/issues").send();
 
         //GOING TO PRINT THE CHANGELOG
         printMessage("");

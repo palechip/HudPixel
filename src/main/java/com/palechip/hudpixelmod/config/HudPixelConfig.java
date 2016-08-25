@@ -40,6 +40,10 @@ public class HudPixelConfig {
     // when adding a new category, don't forget to add it to HudPixelConfigGui
     public static final String DISPLAY_CATEGORY = "display";
     public static final String EXTENDED_CATEGORY = "extended";
+    public static final String FRIENDSDISPLAY_CATEGORY = "friendsdisplay";
+    public static final String BOOSTERDISPLAY_CATEGORY = "boosterdisplay";
+    public static final String CHAT_CATEGORY = "chatdisplay";
+    public static final String COOLDOWN_CATEGORY = "cooldowndisplay";
 
     // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
     
@@ -87,23 +91,34 @@ public class HudPixelConfig {
 
         // Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
         //  Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
-
-        Config.isBoosterDisplay = this.config.get(EXTENDED_CATEGORY, "BoosterDisplay"  , true , "Activate or deactivate the booster display in the chat menu.").getBoolean(true);
-        Config.isFancyChat      = this.config.get(EXTENDED_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
-        Config.isFriendsDisplay = this.config.get(EXTENDED_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
-        Config.isHideOfflineFriends= this.config.get(EXTENDED_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
 
-        Config.isHideCooldownDisplay= this.config.get(EXTENDED_CATEGORY,"hideCooldownDisplay"   , false , "Hide the cooldown display.").getBoolean(false);
-        Config.xOffsetCooldownDisplay   = this.config.get(EXTENDED_CATEGORY, "xOffsetCooldownDisplay"   , 0 , "x-Offset of the cooldown display").getInt(10);
-        Config.yOffsetCooldownDisplay   = this.config.get(EXTENDED_CATEGORY, "yOffsetCooldownDisplay"   , 30 , "y-Offset of the cooldown display").getInt(10);
+        //COOLDOWNDISPLAY
+        Config.isHideCooldownDisplay= this.config.get(COOLDOWN_CATEGORY,"hideCooldownDisplay"   , false , "Hide the cooldown display.").getBoolean(false);
+        Config.xOffsetCooldownDisplay   = this.config.get(COOLDOWN_CATEGORY, "xOffsetCooldownDisplay"   , 0 , "x-Offset of the cooldown display").getInt(10);
+        Config.yOffsetCooldownDisplay   = this.config.get(COOLDOWN_CATEGORY, "yOffsetCooldownDisplay"   , 30 , "y-Offset of the cooldown display").getInt(10);
 
-        Config.friendsShownAtOnce   = this.config.get(EXTENDED_CATEGORY, "friendsShownAtOnce"  , 10 , "How many friends are shown at once.").getInt(10);
-        Config.boostersShownAtOnce  = this.config.get(EXTENDED_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
+        //FRIENDSDISPLAY
+        Config.isHideOfflineFriends= this.config.get(FRIENDSDISPLAY_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
+        Config.isFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
+        Config.friendsShownAtOnce   = this.config.get(FRIENDSDISPLAY_CATEGORY, "friendsShownAtOnce"  , 5 , "How many friends are shown at once.").getInt(5);
+        Config.xOffsetFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "xOffset", 2, "This value will be added to the X (horizontal) position before rendering.").getInt();
+        Config.yOffsetFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "yOffset", 2, "This value will be added to the Y (vertical) position before rendering.").getInt();
+        Config.shownFriendsDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide"   , false , "Puts the display right on the screen.").getBoolean(false);
 
-        Config.storedMessages   = this.config.get(EXTENDED_CATEGORY, "storedMessages"  , 10 , "How many messages the external Chat Gui can store.").getInt(10);
-        Config.displayMessages  = this.config.get(EXTENDED_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
+        //BOOSTERDISPLAY
+        Config.isBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "BoosterDisplay"  , true , "Activate or deactivate the booster display in the chat menu.").getBoolean(true);
+        Config.boostersShownAtOnce  = this.config.get(BOOSTERDISPLAY_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
+        Config.xOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "xOffset", 2, "This value will be added to the X (horizontal) position before rendering.").getInt();
+        Config.yOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "yOffset", 2, "This value will be added to the Y (vertical) position before rendering.").getInt();
+        Config.shownBooosterDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide"   , false , "Puts the display right on the screen.").getBoolean(false);
 
+        //CHATDISPLAY
+        Config.storedMessages   = this.config.get(CHAT_CATEGORY, "storedMessages"  , 10 , "How many messages the external Chat Gui can store.").getInt(10);
+        Config.displayMessages  = this.config.get(CHAT_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
+        Config.isFancyChat      = this.config.get(CHAT_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
+
+        //HUD
         Config.hudBackground    =   this.config.get(DISPLAY_CATEGORY, "enableBackground"  , false , "Toggle the background of the hud.").getBoolean(false);
         Config.hudRed = (float)     this.config.get(DISPLAY_CATEGORY, "hudRed"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
         Config.hudGreen = (float)   this.config.get(DISPLAY_CATEGORY, "hudGreen"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;

@@ -97,7 +97,7 @@ public class OnlineFriendsUpdater implements IEventHandler{
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        //TODO: THIS IS PRETTY AF ... I NEED MORE VARS TO MAKE IT WORK YOU CAN STILL UNDERSTAND HOW IT SEPARATES o.O
+        //TODO: THIS IS PRETTY AF ... I NEED MORE VARS TO MAKE IT WORK ... YOU CAN STILL UNDERSTAND HOW IT SEPARATES o.O
         // checks first if there is a request
         if (friendListExpected){
             String m = e.message.getUnformattedText();

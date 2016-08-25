@@ -84,7 +84,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * in the gamesWithBooster array.
      */
     public BoosterManager(){
-        super(5); //this sets how many boosters are displayed at once you can change that
+        //TODO render right side
+        super(5, Config.xOffsetBoosterDisplay, Config.yOffsetBoosterDisplay, Config.shownBooosterDisplayRight); //this sets how many boosters are displayed at once you can change that
         this.isButtons = true;
         for(GameType g : gamesWithBooster){
             this.fancyListObjects.add(new BoosterExtended(g));
@@ -110,9 +111,16 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * do some things while the gametick ... you should also send the tip
      * to each FancyListObject
      */
+    int count = 0;
     @Override
     public void onClientTick(){
+
         this.shownObjects = Config.boostersShownAtOnce;
+        this.yStart = Config.yOffsetBoosterDisplay;
+        this.xStart = Config.xOffsetBoosterDisplay;
+        this.renderRightSide = Config.shownBooosterDisplayRight;
+
+
         requestBoosters(false);
         for(FancyListObject b : fancyListObjects){
             b.onClientTick();

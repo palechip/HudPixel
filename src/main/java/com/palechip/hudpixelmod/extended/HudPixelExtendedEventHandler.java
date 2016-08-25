@@ -39,7 +39,6 @@ import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -48,6 +47,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
+
+import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 
 public class HudPixelExtendedEventHandler{
 
@@ -192,13 +193,7 @@ public class HudPixelExtendedEventHandler{
 
             if(Mouse.isButtonDown(0) && doubleClick){
                 doubleClick = false;
-                int scale = 1;
-                if(mc.gameSettings.guiScale == 0){
-                    ScaledResolution res = new ScaledResolution( mc);
-                    scale = res.getScaleFactor();
-                } else {
-                    scale = mc.gameSettings.guiScale;
-                }
+                int scale = getMcScale();
 
                 int mX = Mouse.getX() / scale;
                 int mY = (mc.displayHeight - Mouse.getY()) / scale;
@@ -206,25 +201,16 @@ public class HudPixelExtendedEventHandler{
                     iE.onMouseClick(mX, mY);
                 }
             }
-
-
         }
     }
 
     private static void handleMouseScroll(){
-        Minecraft mc = Minecraft.getMinecraft();
-        int scale = 1;
-        if(mc.gameSettings.guiScale == 0){
-            ScaledResolution res = new ScaledResolution( mc);
-            scale = res.getScaleFactor();
-        } else {
-            scale = mc.gameSettings.guiScale;
-        }
-
         mouseClickEvent();
 
+        Minecraft mc = Minecraft.getMinecraft();
         if(!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 
+        int scale = getMcScale();
 
         int mX = Mouse.getX() / scale;
         int mY = (mc.displayHeight - Mouse.getY()) / scale;

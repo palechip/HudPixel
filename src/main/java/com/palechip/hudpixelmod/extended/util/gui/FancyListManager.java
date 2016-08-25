@@ -28,6 +28,7 @@ package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.util.DisplayUtil;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,9 @@ public abstract class FancyListManager implements IEventHandler{
     protected int shownObjects;
     protected boolean isButtons = false;
     protected boolean isMouseHander = false;
+    protected float xStart = 2;
+    protected float yStart = 2;
+    protected boolean renderRightSide = false;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
 
@@ -46,8 +50,11 @@ public abstract class FancyListManager implements IEventHandler{
         return fancyListObjects.size();
     }
 
-    public FancyListManager(int shownObjects){
+    public FancyListManager(int shownObjects, float xStart, float yStart, boolean renderRightSide){
         this.shownObjects = shownObjects;
+        this.xStart = xStart;
+        this.yStart = yStart;
+        this.renderRightSide = renderRightSide;
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
 
@@ -70,29 +77,34 @@ public abstract class FancyListManager implements IEventHandler{
     protected void renderDisplay(){
 
         if(fancyListObjects.isEmpty())return;
-        float xStart = 2;
-        float yStart = 2;
+
+        float xStart = this.xStart;
+        float yStart = this.yStart;
+
+        if(renderRightSide){
+            xStart = DisplayUtil.getScaledMcWidth() - xStart - 140;
+        }
 
         if(fancyListObjects.size() <= shownObjects){
             yStart += 13;
             for(FancyListObject fco : fancyListObjects){
-                fco.onRenderTick(false, xStart, yStart);
+                fco.onRenderTick(false, xStart, yStart, renderRightSide);
                 yStart += 25;
             }
             return;
         }
 
         if(indexScroll > 0)
-        fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart);
+        fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart, renderRightSide);
         yStart += 13;
 
         for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
-            fancyListObjects.get(i).onRenderTick(false, xStart, yStart);
+            fancyListObjects.get(i).onRenderTick(false, xStart, yStart, renderRightSide);
             yStart += 25;
         }
 
         if(indexScroll + shownObjects <= size() -1)
-            fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true,xStart, yStart);
+            fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true,xStart, yStart, renderRightSide);
     }
 
 
@@ -113,12 +125,6 @@ public abstract class FancyListManager implements IEventHandler{
      * handels the scrollinput and processes the right index for the list
      * @param i scroll input
      */
-//<<<<<<< HEAD
-   /* @Override
-    public void handleScrollInput(int i){
-        if(Minecraft.getMinecraft().displayHeight - Mouse.getY() > (26 * shownObjects + 28) * 2) return;
-        if(Mouse.getX() > 280) return;*/
-//=======
 
     @Override
     public void handleMouseInput(int i, int mX, int mY){
@@ -133,7 +139,10 @@ public abstract class FancyListManager implements IEventHandler{
         }
 
         if(mY > (26 * shownObjects + 28)) return;
-        if(mX > 152) return;
+        if(renderRightSide){
+            float xStart = DisplayUtil.getScaledMcWidth() - this.xStart - 140;
+            if(mX < xStart || mX > xStart + 140) return;
+        } else if(mX > 140 + xStart) return;
 
         if (i != 0) {
             if (i < 0) {

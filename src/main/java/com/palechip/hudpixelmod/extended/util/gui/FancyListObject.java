@@ -44,6 +44,7 @@ public abstract class FancyListObject {
     public static int loadingBar;
     private float xStart;
     private float yStart;
+    private boolean renderRight;
     private boolean isHover;
 
 
@@ -101,9 +102,10 @@ public abstract class FancyListObject {
      * @param xStart xStart
      * @param yStart yStart
      */
-    void onRenderTick(boolean small, float xStart, float yStart){
+    void onRenderTick(boolean small, float xStart, float yStart, boolean renderRightSide){
         this.xStart = xStart;
         this.yStart = yStart;
+        this.renderRight = renderRightSide;
         if(small) renderBoosterSMALL();
         else      renderBoosterSHOWN();
     }
@@ -133,6 +135,11 @@ public abstract class FancyListObject {
      */
     private void renderBoosterSMALL(){
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+
+        float xStart = this.xStart;
+        if(renderRight){
+            xStart = xStart + 10;
+        }
 
         RenderUtils.renderBoxWithColor(xStart, yStart, 130, 12, 0, 0f, 0f, 0f, 0.3f);//draws the background
 

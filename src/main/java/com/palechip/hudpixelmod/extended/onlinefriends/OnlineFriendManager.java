@@ -32,7 +32,7 @@ import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -59,13 +59,13 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
     }
 
     private OnlineFriendManager(){
-        super(8);
+        super(5, Config.xOffsetFriendsDisplay, Config.yOffsetFriendsDisplay, Config.shownFriendsDisplayRight);
         this.isButtons = true;
         new OnlineFriendsLoader();
     }
 
-    public void addFriend(FancyListObject fco){
-        this.localStorageFCO.add(fco);
+    void addFriend(FancyListObject fco){
+        localStorageFCO.add(fco);
     }
 
     private void updateRendering(){
@@ -100,6 +100,9 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
 
     @Override
     public void onClientTick() {
+       // this.yStart = Config.yOffsetFriendsDisplay;
+       // this.xStart = Config.xOffsetFriendsDisplay;
+        this.renderRightSide = Config.shownFriendsDisplayRight;
         this.shownObjects = Config.friendsShownAtOnce;
         if((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
             lastUpdateOnline = System.currentTimeMillis();
@@ -118,9 +121,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
                         of.setOnline(true);
                         of.setGamemode(EnumChatFormatting.WHITE + "not loaded yet!");
                     }
-
                 }
-
             else if(e.message.getUnformattedText().equalsIgnoreCase(s + LEFT_MESSAGE))
                 for (FancyListObject fco : localStorageFCO){
                     OnlineFriend of = (OnlineFriend) fco;
@@ -134,7 +135,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater{
 
     @Override
     public void onRender() {
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiIngameMenu && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Config.isFriendsDisplay){
+        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Config.isFriendsDisplay){
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
