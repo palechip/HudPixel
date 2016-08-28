@@ -14,14 +14,17 @@ The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com
 
 ![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
-[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
+[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
 Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixelExtended) &  [HudPixel](https://github.com/PixelModders/HudPixel).
 
 ####Restrictions:
-The authors (PixelModders & unaussprechlich) are allowed to change the license at their desire. 
+The authors are allowed to change the license at their desire. 
 This license is void for members of PixelModders and to unaussprechlich.
 The licensor cannot revoke these freedoms as long as you follow the following license terms and the license terms given by the listed above Creative Commons License.
 
-1. You are not allowed to claim ownership over this project.
+1. [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material.
+1. You are not allowed to claim ownership over this project and repost it as your own project.
 2. You are not allowed to make money with the provided material. This project is 100% non commercial.
 3. Every single contibutor owns copyright ower his contributed code. After the contributed code is merged to the release branch you cannot revoke the given freedoms by this license. 
+4. If your own project contains a part of the licensed material you have to give the authors full access to all project related files.
+5. You are not allowed to act against the will of the authors.
