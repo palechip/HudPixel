@@ -16,7 +16,7 @@ Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixe
 ####Restrictions:
 The authors (PixelModders & unaussprechlich) are allowed to change the license at their desire. 
 This license is void for members of PixelModders and to unaussprechlich.
-The licensor cannot revoke these freedoms as long as you follow the following license terms and the license terms given by the listed above Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License:
+The licensor cannot revoke these freedoms as long as you follow the following license terms and the license terms given by the listed above Creative Commons License.
 
 1. You are not allowed to claim ownership over this project.
 2. You are not allowed to make money with the provided material. This project is 100% non commercial.
