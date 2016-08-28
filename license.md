@@ -19,7 +19,7 @@ Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixe
 
 ####Restrictions:
 The authors are allowed to change the license at their desire. 
-This license is void for members of PixelModders and to unaussprechlich, except for clause 2.
+This license is void for members of PixelModders and to unaussprechlich, except for clause 3.
 The licensor cannot revoke these freedoms in most cases, as long as you follow the following license terms and the license terms given by the listed above Creative Commons License, however in extreme cases the authors reserve the right to revoke all rights for usage of the codebase.
 
 1. [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material. GitHub contributors are NOT considered authors, neither are members of the HudHelper program. GitHub contributers still hold the rights for their code, but only when it is used separately from HudPixel and any license header must indicate that. 
