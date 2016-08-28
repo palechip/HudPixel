@@ -6,7 +6,7 @@ Parts of the code are based upon the [Hypixel Public API](https://github.com/Hyp
 The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license.
 The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com/PixelModders/HudPixel) is made by PixelModders/Eladkay and also published under the MIT license (to be changed to the new license as detailed below in the next minor update).
 
-##For the rest of the code and for the build the following license applies:
+###For the rest of the code and for the build the following license applies:
 
 ![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
