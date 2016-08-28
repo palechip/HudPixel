@@ -1,9 +1,13 @@
 ##[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and it's dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
+
 This project contains unofficial copy of pictures from the official [Hypixel website](https://hypixel.net/forums/). All copyright is hold by the creator!
+
 Parts of the code are based upon the [Hypixel Public API](https://github.com/HypixelDev/PublicAPI). These parts are all in src/main/java/net/hypixel/api and subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously intended for usage in this kind of application.
+
 The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license.
+
 The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com/PixelModders/HudPixel) is made by PixelModders/Eladkay and also published under the MIT license (to be changed to the new license as detailed below in the next minor update).
 
 ###For the rest of the code and for the build the following license applies:
