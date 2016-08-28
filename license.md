@@ -2,7 +2,7 @@
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and it's dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
 
-This project contains unofficial copy of pictures from the official [Hypixel website](https://hypixel.net/forums/). All copyright is hold by the creator!
+This project contains a unofficial copy of pictures from the official [Hypixel website](https://hypixel.net/forums/). All copyright is hold by the creator!
 
 Parts of the code are based upon the [Hypixel Public API](https://github.com/HypixelDev/PublicAPI). These parts are all in src/main/java/net/hypixel/api and subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously intended for usage in this kind of application.
 
