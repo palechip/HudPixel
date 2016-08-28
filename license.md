@@ -23,8 +23,8 @@ This license is void for members of PixelModders and to unaussprechlich.
 The licensor cannot revoke these freedoms as long as you follow the following license terms and the license terms given by the listed above Creative Commons License.
 
 1. [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material.
-1. You are not allowed to claim ownership over this project and repost it as your own project.
-2. You are not allowed to make money with the provided material. This project is 100% non commercial.
+1. You shall not claim ownership over this project and repost it as your own project.
+2. You shall not make money with the provided material. This project is 100% non commercial.
 3. Every single contibutor owns copyright ower his contributed code. After the contributed code is merged to the release branch you cannot revoke the given freedoms by this license. 
 4. If your own project contains a part of the licensed material you have to give the authors full access to all project related files.
-5. You are not allowed to act against the will of the authors.
+5. You shall not to act against the will of the authors making HudPixel a community project.
