@@ -11,7 +11,7 @@ The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com
 ![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
 [HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
-Based on a work at https://github.com/unaussprechlich/HudPixelExtended/tree/1.8.9-release.
+Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixelExtended) &  [HudPixel](https://github.com/PixelModders/HudPixel).
 
 ####Restrictions:
 The authors (PixelModders & unaussprechlich) are allowed to change the license at their desire. 
