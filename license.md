@@ -1,20 +1,22 @@
-[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtendedl)
+[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and it's dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
+This project contains unofficial copy of pictures from the official [Hypixel website](https://hypixel.net/forums/). All copyright is hold by the creator!
 Parts of the code are based upon the [Hypixel Public API](https://github.com/HypixelDev/PublicAPI). These parts are all in src/main/java/net/hypixel/api and subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously intended for usage in this kind of application.
 The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license.
 The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com/PixelModders/HudPixel) is made by PixelModders/Eladkay and also published under the MIT license (to be changed to the new license as detailed below in the next minor update).
 
-For the rest of the code and for the build the following license applies:
+##For the rest of the code and for the build the following license applies:
 
-HudPixel Reloaded License (by Eladkay)
+![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
+[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
+Based on a work at https://github.com/unaussprechlich/HudPixelExtended/tree/1.8.9-release.
 
-TL;DR: don't repost, the mod isn't yours, don't sell it.
+#Restrictions:
+The authors (PixelModders & unaussprechlich) are allowed to change the license at their desire. 
+This license is void for members of PixelModders and to unaussprechlich.
+The licensor cannot revoke these freedoms as long as you follow the following license terms and the license terms given by the listed above Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License:
 
-I don't like lengthy legal licenses, so I'll make it simple.
-1. You are allowed to download the mod and its sources and change them however you like.
-2. Don't distribute any copy of the mod unless you have made changes to the source and a Pull Request on GitHub was made to attempt to push the changes into the main repository. In that case, send it to Eladkay, Unaussprechilich as a conversation in Hypixel.net.
-3. Don't claim any of the code is yours. It's not. Unless you made a Pull Request that was merged, in which case, I suppose some of it is. Still, even if you made a thousand PRs that were merged, the only authors for the mod are PixelModders (especially palechip) and Unaussprechilich.
-4. Don't sell any copy of the mod. Even if you're just selling a link to the original download. You're not allowed to charge access to the mod. The mod will always be free.
-5. PixelModders is allowed to change the license at their discretion. 
-6. This license is void for members of PixelModders and to Unaussprechilich, except for clauses 5, and of course 6.
+1. You are not allowed to claim ownership over this project.
+2. You are not allowed to make money with the provided material. This project is 100% non commercial.
+3. Every single contibutor owns copyright ower his contributed code. After the contributed code is merged to the release branch you cannot revoke the given freedoms by this license. 
