@@ -154,7 +154,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
      * removes a char-type from a string
      * @param s the string
      * @param r this char will get replaced by noting
-     * @return
+     * @return s without r
      */
     private String removeChars(String s, String r){
         return s.replace(r, "");
