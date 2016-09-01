@@ -46,12 +46,7 @@ public class HudPixelExtended {
     private HudPixelExtended(){}
 
     public static HudPixelExtended getInstance(){
-        if(hudPixelExtendedInstance != null){
-            return hudPixelExtendedInstance;
-        } else {
-            hudPixelExtendedInstance = new HudPixelExtended();
-            return hudPixelExtendedInstance;
-        }
+        return hudPixelExtendedInstance == null ? hudPixelExtendedInstance = new HudPixelExtended() : hudPixelExtendedInstance;
     }
 
     public void setup(){

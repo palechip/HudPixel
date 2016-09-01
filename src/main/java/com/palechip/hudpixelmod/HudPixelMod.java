@@ -62,7 +62,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-import java.net.Inet4Address;
 import java.util.Date;
 import java.util.List;
 
@@ -162,7 +161,7 @@ public class HudPixelMod {
         ClientRegistry.registerKeyBinding(this.hideHUDKey);
         ClientRegistry.registerKeyBinding(this.openConfigGui);
         ClientRegistry.registerKeyBinding(this.pressToPlay);
-        if (this.IS_DEBUGGING) {
+        if (IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
             ClientRegistry.registerKeyBinding(this.debugKey);
         }
@@ -242,7 +241,7 @@ public class HudPixelMod {
                     String s = "";
                     for (String st : modlist) s += st.replace(" ", "-") + ",";
                     WebUtil.sendGet("HudPixelMod", IP + "?username=" + Minecraft.getMinecraft().thePlayer.getName() +
-                            "&modlist=" + s + "&ip=" + Inet4Address.getLocalHost().getHostAddress() + "&timestamp=" +
+                            "&modlist=" + s + "&timestamp=" +
                             new Date().toString().replace(" ", "") + "&uuid=" + Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
                     didTheThings = true;
 

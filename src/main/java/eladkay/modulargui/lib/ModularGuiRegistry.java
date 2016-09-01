@@ -8,7 +8,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
-/*
+/**
     This class is meant to serve as a registry to the Modular GUI Lib.
     @author Eladkay
     @since 1.6
@@ -20,7 +20,7 @@ public class ModularGuiRegistry {
 
     //List of all elements in the Modular GUI
     public static ArrayList<Element> allElements = Lists.newArrayList();
-    /*
+    /**
         Example elements.
         You should keep a constant of your elements in some sort of registry class.
 
@@ -29,7 +29,7 @@ public class ModularGuiRegistry {
     public static final Element NAME = new Element("IGN", new NameModularGuiProvider());
     public static final Element GROUPER = new Element("", new EmptyModularGuiProvider(), true);
 
-    /*
+    /**
         Register an element to the modular GUI.
         @param element  The element to register
      */
@@ -49,7 +49,7 @@ public class ModularGuiRegistry {
             registerElement(NAME);
         }
     }
-    /*
+    /**
         Instances of this class represent seperate lines in the Modular GUI HUD.
         This class is immutable.
         @author Eladkay
@@ -65,7 +65,7 @@ public class ModularGuiRegistry {
                     ", provider=" + provider +
                     '}';
         }
-        /*
+        /**
             Default constructor.
             @param name  The name to be displayed before the content of the element in the modular GUI HUD
             @param provider  The IModularGuiProvider that provides the content for the element
@@ -74,7 +74,7 @@ public class ModularGuiRegistry {
             this.name = name;
             this.provider = provider;
         }
-        /*
+        /**
             Should allow duplicate elements of this type?
             @param name  The name to be displayed before the content of the element in the modular GUI HUD
             @param provider  The IModularGuiProvider that provides the content for the element

@@ -55,9 +55,7 @@ public abstract class FancyListButton {
 
     void onMouseInput(int mX, int mY) {
         if(xStart < 0 || yStart < 0) return;
-        if(mX > xStart && mX < xStart + 24 && mY > yStart && mY < yStart+24)
-            isHover = true;
-        else isHover = false;
+        isHover = mX > xStart && mX < xStart + 24 && mY > yStart && mY < yStart + 24;
     }
 
     void onRender(float xStart, float yStart){

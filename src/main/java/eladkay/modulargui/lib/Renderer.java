@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 
-/*
+/**
     This class is responsible for rendering the elements of the modular GUI.
     @author Eladkay
     @since 1.5
@@ -24,7 +24,7 @@ public class Renderer {
     //Replace with some sort of config option
     private boolean isEnabled = true;
 
-    /*
+    /**
         Event: When the game renders its overlay.
         @author MinecraftForge
      */
