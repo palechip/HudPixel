@@ -3,6 +3,7 @@
     - implement with the fancylist lib
 
 #3 New game detection system:
+    - uses codename's system as suggested here: https://hypixel.net/threads/pm-reply-modding-questions.850647/
     - also detects gamelobbys
     - easy to add gamemodes
 
