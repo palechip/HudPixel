@@ -28,9 +28,9 @@ import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.command.GameCommand;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
-import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
+import com.palechip.hudpixelmod.detectors.newsystem.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.LoadGameConfigThread;
@@ -90,7 +90,7 @@ public class HudPixelMod {
     private Queue apiQueue;
 
     private HypixelNetworkDetector hypixelDetector;
-    public GameDetector gameDetector;
+    public com.palechip.hudpixelmod.detectors.GameDetector gameDetector;
     private GameStartStopDetector gameStartStopDetector;
 
     // key related vars
@@ -140,6 +140,7 @@ public class HudPixelMod {
         // if(!IS_DEBUGGING) {
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
+        new GameDetector();
         // }
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
@@ -150,7 +151,7 @@ public class HudPixelMod {
 
         // initialize createModList
         this.hypixelDetector = new HypixelNetworkDetector();
-        this.gameDetector = new GameDetector();
+        this.gameDetector = new com.palechip.hudpixelmod.detectors.GameDetector();
         this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
@@ -241,8 +242,8 @@ public class HudPixelMod {
                     String s = "";
                     for (String st : modlist) s += st.replace(" ", "-") + ",";
                     WebUtil.sendGet("HudPixelMod", IP + "?username=" + Minecraft.getMinecraft().thePlayer.getName() +
-                            "&modlist=" + s + "&timestamp=" +
-                            new Date().toString().replace(" ", "") + "&uuid=" + Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
+                            "&modlist=" + s + "&timestamp=" + new Date().toString().replace(" ", "") + "&uuid=" +
+                            Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
                     didTheThings = true;
 
                 }

@@ -43,7 +43,7 @@ public enum GameType {
     MEGA_WALLS      (11, "Mega Walls", "mega"),
     ARENA           (12, "Arena Brawl", "arena"),
     UHC             (13, "UHC Champions", "uhc"),
-    COPS_AND_CRIMS  (14, "Cops and Crimes", "cops"),
+    COPS_AND_CRIMS  (14, "Cops and Crims", "cops"),
     WARLORDS        (15, "Warlords", "warlords"),
     ARCADE_GAMES    (16, "Arcade Games", "arcade"),
     BLOCKING_DEAD   (17, "Blocking Dead", ""),
