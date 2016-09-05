@@ -1,9 +1,9 @@
-#1 ManagedGuiLib | @40% - unaussprechlich
+#1 ManagedGuiLib | @40% - unaussprechlich (Merge into ModularGuiLib when you're done, please -Elad)
 
 #2 New game detection system: | @50% - eladkay
     - uses codename's system as suggested here: https://hypixel.net/threads/pm-reply-modding-questions.850647/
-    - also detects gamelobbys -> to display stats in gamelobbys
-    - easy to add gamemodes (via server request?)
+    - also detects gamelobbys -> to display stats in gamelobbys (? -Elad)
+    - easy to add gamemodes (Done. Just add to GameType.)
 
 #3 FancyChat (allready designed the new chat on paper ... it will be awesome :) ) | @5% - unaussprechlich
     - make custom filter tabs
@@ -12,7 +12,7 @@
     
 #4 Fix some problems with the "/api" command | @10% - eladkay
 
-#5 1.8 / 1.8.9 / 1.9.4 / 10.x support | 0% - ?
+#5 1.8.9 / 1.9.4 / 10.x support | 0% - eladkay
 
 #6 Website | @90% - unaussprechlich & hst
 
