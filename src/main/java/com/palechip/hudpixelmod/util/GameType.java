@@ -28,54 +28,58 @@ package com.palechip.hudpixelmod.util;
  * //Added HungerGames - hst
  */
 public enum GameType {
-    UNKNOWN         (-1, "UNKNOWN", ""),
-    ALL_GAMES       (0,  "ALL GAMES", ""),
-    QUAKECRAFT      (1,  "Quakecraft", "quakecraft"),
-    THE_WALLS       (2,  "Walls", "walls"),
-    PAINTBALL       (3,  "Paintball", "paintball"),
-    BLITZ           (4,  "Blitz Survival Games" , "blitz"),
-    TNT_GAMES       (5,  "TNT Games", "tnt"),
-    BOW_SPLEEF      (6,  "Bow Spleef", ""),
-    TNT_RUN         (7,  "TNT Run", ""),
-    TNT_WIZARDS     (8,  "TNT Wizards", ""),
-    TNT_TAG         (9,  "TNT Tag", ""),
-    VAMPIREZ        (10, "VampireZ", "vampirez"),
-    MEGA_WALLS      (11, "Mega Walls", "mega"),
-    ARENA           (12, "Arena Brawl", "arena"),
-    UHC             (13, "UHC Champions", "uhc"),
-    COPS_AND_CRIMS  (14, "Cops and Crims", "cops"),
-    WARLORDS        (15, "Warlords", "warlords"),
-    ARCADE_GAMES    (16, "Arcade Games", "arcade"),
-    BLOCKING_DEAD   (17, "Blocking Dead", ""),
-    BOUNTY_HUNTERS  (18, "Bounty Hunters", ""),
-    BUILD_BATTLE    (19, "Build Battle", ""),
-    CREEPER_ATTACK  (20, "Creeper Attack", ""),
-    DRAGON_WARS     (21, "Dragon Wars", ""),
-    ENDER_SPLEEF    (22, "Ender Spleef", ""),
-    FARM_HUNT       (23, "Farm Hunters", ""),
-    GALAXY_WARS     (24, "Galaxy Wars", ""),
-    PARTY_GAMES_1   (25, "Party Games", ""),
-    PARTY_GAGMES_2  (26, "Party Games", ""),
-    TRHOW_OUT       (27, "Throw Out", ""),
-    TURBO_KART_RACERS(28,"Turbo Kart Racers", "turbo"),
-    SPEED_UHC       (29, "Speed UHC", "speed"),
-    CRAZY_WALLS     (31, "Crazy Walls", "crazy"),
-    SMASH_HEROES    (32, "Smash Heroes", "smash"),
-    SKYWARS         (30, "SkyWars", "skywars"),
-    FOOTBALL        (33, "Football", "");
+    UNKNOWN         (-1, "UNKNOWN", "", "none"),
+    ALL_GAMES       (0,  "ALL GAMES", "", "any"),
+    QUAKECRAFT      (1,  "Quakecraft", "quakecraft", "QUAKECRAFT"),
+    THE_WALLS       (2,  "Walls", "walls", "THE WALLS"),
+    PAINTBALL       (3,  "Paintball", "paintball", "PAINTBALL"),
+    BLITZ           (4,  "Blitz Survival Games" , "blitz", "BLITZ SG"),
+    TNT_GAMES       (5,  "TNT Games", "tnt", "THE TNT GAMES"),
+    BOW_SPLEEF      (6,  "Bow Spleef", "", TNT_GAMES.scoreboardName),
+    TNT_RUN         (7,  "TNT Run", "", TNT_GAMES.scoreboardName),
+    TNT_WIZARDS     (8,  "TNT Wizards", "", TNT_GAMES.scoreboardName),
+    TNT_TAG         (9,  "TNT Tag", "", TNT_GAMES.scoreboardName),
+    ANY_TNT         (5, TNT_GAMES.name, TNT_GAMES.tipName, TNT_GAMES.scoreboardName),
+    VAMPIREZ        (10, "VampireZ", "vampirez", "VAMPIREZ"),
+    MEGA_WALLS      (11, "Mega Walls", "mega", "MEGA WALLS"),
+    ARENA           (12, "Arena Brawl", "arena", "ARENA BRAWL"),
+    UHC             (13, "UHC Champions", "uhc", "UHC CHAMPIONS"),
+    COPS_AND_CRIMS  (14, "Cops and Crims", "cops", "COPS AND CRIMS"),
+    WARLORDS        (15, "Warlords", "warlords", "WARLORDS"),
+    ARCADE_GAMES    (16, "Arcade Games", "arcade", "ARCADE GAMES"),
+    BLOCKING_DEAD   (17, "Blocking Dead", "", ARCADE_GAMES.scoreboardName),
+    BOUNTY_HUNTERS  (18, "Bounty Hunters", "", ARCADE_GAMES.scoreboardName),
+    BUILD_BATTLE    (19, "Build Battle", "", ARCADE_GAMES.scoreboardName),
+    CREEPER_ATTACK  (20, "Creeper Attack", "", ARCADE_GAMES.scoreboardName),
+    DRAGON_WARS     (21, "Dragon Wars", "", ARCADE_GAMES.scoreboardName),
+    ENDER_SPLEEF    (22, "Ender Spleef", "", ARCADE_GAMES.scoreboardName),
+    FARM_HUNT       (23, "Farm Hunters", "", ARCADE_GAMES.scoreboardName),
+    GALAXY_WARS     (24, "Galaxy Wars", "", ARCADE_GAMES.scoreboardName),
+    PARTY_GAMES_1   (25, "Party Games", "", ARCADE_GAMES.scoreboardName),
+    PARTY_GAMES_2  (26, "Party Games", "", ARCADE_GAMES.scoreboardName),
+    TRHOW_OUT       (27, "Throw Out", "", ARCADE_GAMES.scoreboardName),
+    TURBO_KART_RACERS(28,"Turbo Kart Racers", "turbo", "TURBO KART RACERS"),
+    SPEED_UHC       (29, "Speed UHC", "speed", "SPEED UHC"),
+    CRAZY_WALLS     (31, "Crazy Walls", "crazy", "CRAZY WALLS"),
+    SMASH_HEROES    (32, "Smash Heroes", "smash", " SMASH HEROES"),
+    SMASH_HEROES_WOSPACE    (32, "Smash Heroes", "smash", "SMASH HEROES"),
+    SKYWARS         (30, "SkyWars", "skywars", "SKYWARS"),
+    FOOTBALL        (33, "Football", "", ARCADE_GAMES.scoreboardName),
+    ANY_ARCADE      (16, ARCADE_GAMES.name, ARCADE_GAMES.tipName, ARCADE_GAMES.scoreboardName);
     private final int modID;
     private final String name;
     private final String tipName;
-
+    public final String scoreboardName;
     public String getName() {
         return name;
     }
     public String getTipName(){return tipName;}
 
-    GameType(int modID, String name, String tipName) {
+    GameType(int modID, String name, String tipName, String scoreboardName) {
         this.tipName = tipName;
         this.modID = modID;
         this.name = name;
+        this.scoreboardName = scoreboardName;
     }
 
 

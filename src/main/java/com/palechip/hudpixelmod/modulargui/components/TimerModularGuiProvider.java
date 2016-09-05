@@ -1,14 +1,16 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean doesMatchForGame(Game game) {
-        return game != Game.NO_GAME;
+        return GameDetector.getCurrentGameType() != GameType.UNKNOWN;
     }
 
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time";
@@ -31,7 +33,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onTickUpdate() {
-        if(gameStarted){
+        if(gameStarted && !GameDetector.isLobby()){
             long timeBuff = System.currentTimeMillis() - gameStartedTime;
             String sMin;
             long min = (timeBuff/1000/60);
@@ -42,6 +44,8 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
             if(sec < 10) sSec = "0" + sec;
             else         sSec = ""  + sec;
             runningTime = sMin + ":" + sSec;
+        } else {
+            setupNewGame();
         }
     }
 

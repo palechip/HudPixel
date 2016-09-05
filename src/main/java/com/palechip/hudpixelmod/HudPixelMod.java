@@ -26,11 +26,13 @@ import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.command.GameCommand;
+import com.palechip.hudpixelmod.command.GameDetectorCommand;
+import com.palechip.hudpixelmod.command.ScoreboardCommand;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-import com.palechip.hudpixelmod.detectors.newsystem.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.LoadGameConfigThread;
@@ -91,6 +93,7 @@ public class HudPixelMod {
 
     private HypixelNetworkDetector hypixelDetector;
     public com.palechip.hudpixelmod.detectors.GameDetector gameDetector;
+    public com.palechip.hudpixelmod.detectors.oldsystem.GameDetector oldGD = new com.palechip.hudpixelmod.detectors.oldsystem.GameDetector();
     private GameStartStopDetector gameStartStopDetector;
 
     // key related vars
@@ -108,6 +111,8 @@ public class HudPixelMod {
             instance = this;
 
             ClientCommandHandler.instance.registerCommand(new GameCommand());
+            ClientCommandHandler.instance.registerCommand(new ScoreboardCommand());
+            ClientCommandHandler.instance.registerCommand(new GameDetectorCommand());
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
@@ -179,7 +184,7 @@ public class HudPixelMod {
             this.hypixelDetector.check();
 
             // pass the event to the GameDetector
-            this.gameDetector.onGuiShow(event.gui);
+            this.oldGD.onGuiShow(event.gui);
         } catch (Exception e) {
             this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
             e.printStackTrace();
@@ -196,7 +201,7 @@ public class HudPixelMod {
                 if (event.type == 0) {
 
                     // pass the event to the GameDetector
-                    this.gameDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
+                    this.oldGD.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     // pass the chat messages to the current game
                     if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.getCurrentGame().hasGameStarted()) {
@@ -249,7 +254,7 @@ public class HudPixelMod {
                 }
 
                 // pass the event to the GameDetector
-                this.gameDetector.onClientTick();
+                this.oldGD.onClientTick();
 
                 if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                     // tick the current game
@@ -340,3 +345,4 @@ public class HudPixelMod {
         this.LOGGER.error(s);
     }
 }
+

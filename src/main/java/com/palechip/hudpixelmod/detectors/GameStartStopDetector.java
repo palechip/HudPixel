@@ -23,6 +23,7 @@
 package com.palechip.hudpixelmod.detectors;
 
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.util.GameType;
 
 public class GameStartStopDetector {
     private GameDetector gameDetector;
@@ -35,7 +36,7 @@ public class GameStartStopDetector {
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat messages
         if(!this.isChatMessage(textMessage)) { 
-            if(!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+            if(!gameDetector.getCurrentGame().equals(Game.NO_GAME) || gameDetector.getCurrentGameType().equals(GameType.UNKNOWN)) {
                 // check for starting
                 if(!this.gameDetector.getCurrentGame().hasGameStarted()) {
                     if (textMessage.contains(this.gameDetector.getCurrentGame().getConfiguration().getStartMessage())) {

@@ -85,7 +85,7 @@ public class HudPixelExtendedEventHandler{
             //Don't do anything unless we are on Hypixel
             if(HypixelNetworkDetector.isHypixelNetwork ) {
                 //just triggeres the statsrenderer if the player is waiting for the game to start
-                if(!(HudPixelMod.instance().gameDetector.isInLobby())
+                if(!(HudPixelMod.instance().gameDetector.isLobby())
                 && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
                 && Config.isStats)
                     StatsViewerManager.onRenderPlayer(e);
@@ -142,7 +142,7 @@ public class HudPixelExtendedEventHandler{
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
-                if(!(HudPixelMod.instance().gameDetector.isInLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                if(!(HudPixelMod.instance().gameDetector.isLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
                     StatsViewerManager.onClientTick();
 
                 if(lastSystemTime+delay < System.currentTimeMillis()){

@@ -1,7 +1,9 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
@@ -14,7 +16,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame(Game game) {
-        return game.getConfiguration().getDatabaseName().equals("VampireZ");
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.VAMPIREZ);
     }
 
     @Override

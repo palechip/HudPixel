@@ -1,8 +1,10 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -11,7 +13,7 @@ import java.util.HashMap;
 public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
     @Override
     public boolean doesMatchForGame(Game game) {
-        return game.getConfiguration().getDatabaseName().equals("Paintball");
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.PAINTBALL);
     }
 
     private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717"; // fancy x

@@ -1,274 +1,212 @@
-/*******************************************************************************
- * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
- * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *******************************************************************************/
 package com.palechip.hudpixelmod.detectors;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.GameConfiguration;
 import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-import net.minecraft.client.gui.GuiDownloadTerrain;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StringUtils;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class GameDetector {
-    // Game.NO_GAME if no game is detected, never null
-    public static Game currentGame = Game.NO_GAME;
+    public static final Pattern LOBBY_MATCHER = Pattern.compile("\\w*lobby\\d+");
+    public static final char COLOR_CHAR = '\u00A7';
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
+    private static GameType currentGameType = GameType.UNKNOWN;
+    private static Game currentGame;
 
-    private boolean isGameDetectionStarted = false;
-    private boolean isLobbyDetectionStarted = false;
+    public static boolean doesGameTypeMatchWithCurrent(GameType type) {
+        switch (type) {
+            case UNKNOWN:
+                return currentGameType == GameType.UNKNOWN;
+            case ALL_GAMES:
+                return true;
 
-    private boolean isBypassing = false;
+            case QUAKECRAFT:
+                return currentGameType == GameType.QUAKECRAFT;
 
-    private String bossbarContent = "";
+            case THE_WALLS:
+                return currentGameType == GameType.THE_WALLS;
 
-    // this means a lobby where you choose the game and not a pre-game lobby
-    private boolean isInLobby = false;
-    private static final String COMPASS_NAME = "\u00A7aGame Menu \u00A77(Right Click)";
-    private static final String PROFILE_NAME = "\u00A7aMy Profile \u00A77(Right Click)";
-    private static final String WITHER_STAR_NAME = "\u00A7aLobby Selector \u00A77(Right Click)";
-    private static final String LIMBO_MESSAGE = "You were spawned in Limbo.";
-    private static final String MVPPLUS_LAND = "[*] Welcome to Hypixel's MVP+ Land!";
-    private static final String HYPIXEL_IP = "mc.hypixel.net";
-    private static final String PARTY_DRAG_MESSAGE = "Found a server running";
-    private static final String PARTY_WARP_MESSAGE = " summoned you to their server.";
-    private static final String COPS_AND_CRIMS_GAME_IN_PROGRESS_JOIN_MESSAGE = "Found an in-progress Cops and Crims game!";
+            case PAINTBALL:
+                return currentGameType == GameType.PAINTBALL;
 
-    public void onGuiShow(GuiScreen gui) {
-        if(HypixelNetworkDetector.isHypixelNetwork) {
-            // prevent exceptions
-            if(gui == null) {
-                this.isBypassing = false;
-                return;
-            }
+            case BLITZ:
+                return currentGameType == GameType.BLITZ;
 
-            if(gui instanceof GuiGameOver) {
-                this.isBypassing = true;
-            }
+            case TNT_GAMES:
+            case BOW_SPLEEF:
+            case TNT_RUN:
+            case TNT_WIZARDS:
+            case TNT_TAG:
+            case ANY_TNT:
+                return currentGameType == GameType.ANY_TNT;
 
-            // GuiDownloadTerrain is opened when switching between servers, so it has to trigger the detection
-            if(!(this.isGameDetectionStarted || this.isLobbyDetectionStarted) && gui instanceof GuiDownloadTerrain) {
-                if(!this.isBypassing) {
-                    // start either lobby or game detection
-                    if(!this.currentGame.equals(Game.NO_GAME)) {
-                        this.isLobbyDetectionStarted = true;
-                    } else {
-                        this.isGameDetectionStarted = true;
-                        this.isInLobby = false;
-                    }
-                }
-            }
+            case VAMPIREZ:
+                return currentGameType == GameType.VAMPIREZ;
+
+            case MEGA_WALLS:
+                return currentGameType == GameType.MEGA_WALLS;
+
+            case ARENA:
+                return currentGameType == GameType.ARENA;
+
+            case UHC:
+                return currentGameType == GameType.UHC;
+
+            case COPS_AND_CRIMS:
+                return currentGameType == GameType.COPS_AND_CRIMS;
+
+            case WARLORDS:
+                return currentGameType == GameType.WARLORDS;
+
+            case ARCADE_GAMES:
+            case BLOCKING_DEAD:
+            case BOUNTY_HUNTERS:
+            case BUILD_BATTLE:
+            case CREEPER_ATTACK:
+            case DRAGON_WARS:
+            case ENDER_SPLEEF:
+            case FARM_HUNT:
+            case GALAXY_WARS:
+            case PARTY_GAMES_1:
+            case PARTY_GAMES_2:
+            case TRHOW_OUT:
+            case TURBO_KART_RACERS:
+            case ANY_ARCADE:
+            case FOOTBALL:
+                return currentGameType == GameType.ANY_ARCADE;
+
+            case SPEED_UHC:
+                return currentGameType == GameType.SPEED_UHC;
+
+            case CRAZY_WALLS:
+                return currentGameType == GameType.CRAZY_WALLS;
+
+            case SMASH_HEROES:
+            case SMASH_HEROES_WOSPACE:
+                return currentGameType == GameType.SMASH_HEROES || currentGameType == GameType.SMASH_HEROES_WOSPACE;
+
+            case SKYWARS:
+                return currentGameType == GameType.SKYWARS;
+
+            default:
+                return false;
         }
     }
 
-    public GameType getCurrentGametype(){
-        return GameType.getTypeByID(getCurrentGame().getConfiguration().getModID());
+    public static boolean isLobby() {
+        return isLobby;
     }
 
-    public void onChatMessage(String textMessage, String formattedMessage) {
-        if(this.isGameDetectionStarted) {
-            // try detecting the game using the chat tag
-            // if the message contains a game tag
-            if(textMessage.startsWith("[") && textMessage.contains("]")) {
-                // extract the content
-                // e.g. [Quake] -> Quake
-                String gameTag = textMessage.substring(textMessage.indexOf("[") + 1, textMessage.indexOf("]"));
-
-                // check all games for a matching tag
-                for(GameConfiguration game : GameManager.getGameManager().getConfigurations()) {
-                    if(game.getChatTag() != null && !game.getChatTag().isEmpty() && game.getChatTag().equals(gameTag)) {
-                        // we found the game
-                        this.currentGame = GameManager.getGameManager().createGame(game.getModID());
-                        this.isGameDetectionStarted = false;
-                        this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + game.getOfficialName() + " by chat tag!");
-                        break;
-                    }
-                }
-            }
-        }
-
-        // check for limbo and MVP+ land
-        if(this.isLobbyDetectionStarted || this.isGameDetectionStarted) {
-            if(textMessage.equals(LIMBO_MESSAGE) || textMessage.equals(MVPPLUS_LAND)) {
-                this.isInLobby = true;
-                this.isLobbyDetectionStarted = false;
-                this.isGameDetectionStarted = false;
-                if(!this.currentGame.equals(Game.NO_GAME)) {
-                    // and terminate the game if it wasn't already
-                    this.currentGame.endGame();
-                    this.currentGame = Game.NO_GAME;
-                }
-                HudPixelMod.instance().logInfo("Detected Limbo or MVP+-LAND!");
-            }
-        }
-
-        // check for party leaders dragging you directly from a game to another
-        if(!this.currentGame.equals(Game.NO_GAME)) {
-            if(textMessage.contains(PARTY_DRAG_MESSAGE) || textMessage.contains(PARTY_WARP_MESSAGE)) {
-                this.isInLobby = false;
-                this.isGameDetectionStarted = true;
-                HudPixelMod.instance().logInfo("Party Time! (Registered party action and starting game detection)");
-            }
-        }
-
-        // you can join Cops & Crims games in-progress and there is no hint other than a chat message
-        if(textMessage.contains(COPS_AND_CRIMS_GAME_IN_PROGRESS_JOIN_MESSAGE)) {
-            this.currentGame = GameManager.getGameManager().createGame(GameType.COPS_AND_CRIMS);
-            this.isGameDetectionStarted = false;
-            this.currentGame.setupNewGame();
-            // the game has already started, so we need to start it.
-            this.currentGame.startGame();
-            HudPixelMod.instance().logInfo("Detected Cops & Crims being joined in-progress!");
-        }
-
-        // we didn't find anything. Retry with the next chat message...
+    public static GameType getCurrentGameType() {
+        return currentGameType;
     }
 
-    public void onClientTick() {
-        // check if the bossbar updated
-        if(BossStatus.bossName != null && !this.bossbarContent.equals(BossStatus.bossName)) {
-            this.bossbarContent = BossStatus.bossName;
-            this.onBossbarChange();
-        }
+    public static Game getCurrentGame() {
+        return currentGame = currentGameType == GameType.UNKNOWN ? Game.NO_GAME : GameManager.getGameManager().createGame(currentGameType);
+    }
 
-        // scoreboard detection
-        if(this.isGameDetectionStarted) {
-            ArrayList<String> names = ScoreboardReader.getScoreboardNames();
-            // use the title without color codes
-            String scoreboardName = StringUtils.stripControlCodes(ScoreboardReader.getScoreboardTitle());
-            String scoreboardMap = "";
-            // find the map name which may contain the game information
-            for(String s : names) {
-                if(s.contains("Map: ")) {
-                    // Get rid of the map part + the color code ("Map: "(5 chars) + color code (2 chars)
-                    scoreboardMap = s.substring(7);
-                }
-            }
-            // compare them with the game configurations
-            try{
-                for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
-                    // check if the scoreboard names are the same. The check if scoreboardMap not empty is necessary to prevent the game being detected already in the pre-game lobby
-                    if(!config.getScoreboardName().isEmpty() && !scoreboardMap.isEmpty() && config.getScoreboardName().equalsIgnoreCase(scoreboardName)) {
-                        // we found the game
-                        this.currentGame = GameManager.getGameManager().createGame(config.getModID());
-                        this.isGameDetectionStarted = false;
-                        this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard name!");
-                        // no need to continue with this method
-                        return;
-                    }
-                    // check if the scoreboard map (regex!) matches the map
-                    if(!config.getScoreboardMap().isEmpty() && scoreboardMap.matches(config.getScoreboardMap())) {
-                        // we found the game
-                        this.currentGame = GameManager.getGameManager().createGame(config.getModID());
-                        this.isGameDetectionStarted = false;
-                        this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + config.getOfficialName() + " by scoreboard map!");
-                        // no need to continue with this method
-                        return;
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+    int cooldown = 0;
+    private boolean schedule = false;
+    static {
+        MinecraftForge.EVENT_BUS.register(new GameDetector());
+    }
+    @SubscribeEvent
+    public void onServerChange(EntityJoinWorldEvent event) {
+        if(!(event.entity instanceof EntityPlayerSP)) return;
+        EntityPlayerSP player = (EntityPlayerSP) event.entity;
+        player.sendChatMessage("/whereami");
+        cooldown = 5;
 
-        }
+    }
 
-        // lobby detection is also done when game detection is active
-        // because players can change from lobby to lobby
-        if((this.isLobbyDetectionStarted || this.isGameDetectionStarted) && FMLClientHandler.instance().getClientPlayerEntity() != null && FMLClientHandler.instance().getClientPlayerEntity().inventory != null) {
-            // detect lobbies
-            // the mod assumes that the player is in a lobby when he has the lobby compass, the lobby clock or the lobby selection star
-            ItemStack[] inventory = FMLClientHandler.instance().getClientPlayerEntity().inventory.mainInventory;
+    int scheduleWhereami = -1;
+    @SubscribeEvent
+    public void onLogin(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        scheduleWhereami = 10;
+    }
 
-            // limbo and MVP+ land count as lobby as well
-            if((inventory[0] != null && inventory[0].getDisplayName().equals(COMPASS_NAME)) || (inventory[1] != null &&inventory[1].getDisplayName().equals(PROFILE_NAME)) ||  (inventory[8] != null && inventory[8].getDisplayName().equals(WITHER_STAR_NAME))) {
-                // increase the chance of me noticing when a name was changed
-                if(HudPixelMod.IS_DEBUGGING) {
-                    if(inventory[0] != null && !inventory[0].getDisplayName().equals(COMPASS_NAME)) {
-                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE COMPASS MIGHT HAVE CHANGED!!!");
-                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[0].getDisplayName() + "\" Saved Name: \"" + COMPASS_NAME + "\"");
+    public static String stripColor(String input) {
+        if (input == null)
+            return null;
+        return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
+    }
+
+
+    public void update(String s) {
+        s = s.toLowerCase();
+        switch (s) {
+            case "hypixel":
+                currentGameType = GameType.UNKNOWN; //main lobby
+                break;
+            case "hypixel.net":
+                ScoreboardReader.resetCache();
+                schedule = true;
+                break;
+            case "":
+            case " ":
+                schedule = true;
+                break;
+            case " smash heroes":
+            case "smash heroes":
+                currentGameType = GameType.SMASH_HEROES;
+            default:
+                schedule = false;
+
+                GameType game = currentGameType;
+                for (GameType type : GameType.values())
+                    if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))) {
+                        currentGameType = type;
+                        isLobby = false;
+                        ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame);
+                        ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart);
                     }
-                    if(inventory[1] != null && !inventory[1].getDisplayName().equals(PROFILE_NAME)) {
-                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE PROFILE MIGHT HAVE CHANGED!!!");
-                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[1].getDisplayName() + "\" Saved Name: \"" + PROFILE_NAME + "\"");
-                    }
-                    if(inventory[8] != null && !inventory[8].getDisplayName().equals(WITHER_STAR_NAME)) {
-                        HudPixelMod.instance().logDebug("THE LOBBY DETECTION ITEM NAME FOR THE WITHER STAR MIGHT HAVE CHANGED!!!");
-                        HudPixelMod.instance().logDebug("Actual Name: \"" + inventory[8].getDisplayName() + "\" Saved Name: \"" + WITHER_STAR_NAME + "\"");
-                    }
+                if(game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
+                    //success!
+                    //Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
+                } else {
+                    currentGameType = GameType.UNKNOWN;
+                    schedule = true;
                 }
 
-                this.isInLobby = true;
-                this.isLobbyDetectionStarted = false;
-                this.isGameDetectionStarted = false;
-                if(!this.currentGame.equals(Game.NO_GAME)) {
-                    // and terminate the game if it wasn't already
-                    this.currentGame.endGame();
-                    this.currentGame = Game.NO_GAME;
-                }
-            }
+                cooldown = -1;
+                break;
         }
     }
 
-    private void onBossbarChange() {
-        if(this.isGameDetectionStarted) {
-            // if there is a boss bar
-            if(BossStatus.bossName != null) {
-                // check all games for a matching name
-                for(GameConfiguration game : GameManager.getGameManager().getConfigurations()) {
-                    // please note the use of contains() and not equals()
-                    // in a pre-game lobby there will always be the IP in the bar. (because youtube)
-                    if(game.getBossbarName() != null && !game.getBossbarName().isEmpty() && BossStatus.bossName.toLowerCase().contains(game.getBossbarName().toLowerCase()) && BossStatus.bossName.toLowerCase().contains(this.HYPIXEL_IP)) {
-                        // we found the game
-                        this.currentGame = GameManager.getGameManager().createGame(game.getModID());
-                        this.isGameDetectionStarted = false;
-                        this.currentGame.setupNewGame();
-                        HudPixelMod.instance().logInfo("Detected " + game.getOfficialName() + " by bossbar name!");
-                        break;
-                    }
-                }
-            }
+    @SubscribeEvent
+    public void tickly(TickEvent.ClientTickEvent event) {
+        String title = ScoreboardReader.getScoreboardTitle();
+        title = stripColor(title).toLowerCase();
+        cooldown--;
+        scheduleWhereami--;
+        if(schedule || cooldown == 0) update(title);
+        if(scheduleWhereami == 0 && Minecraft.getMinecraft().thePlayer != null) {
+            scheduleWhereami = -1;
+            Minecraft.getMinecraft().thePlayer.sendChatMessage("/whereami");
         }
     }
 
-    public boolean isInLobby() {
-        return this.isInLobby;
-    }
-
-    public boolean isGameDetectionStarted() {
-        return this.isGameDetectionStarted;
-    }
-
-    public Game getCurrentGame() {
-        return this.currentGame;
+    private static boolean isLobby = false;
+    @SubscribeEvent
+    public void onChatMessage(ClientChatReceivedEvent event) {
+        String message = event.message.getUnformattedText();
+        if(message.toLowerCase().contains("currently on server".toLowerCase())) {
+            if(LOBBY_MATCHER.asPredicate().test(message)) { //lobby
+                isLobby = true;
+                ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameEnd);
+            }
+            event.setCanceled(true);
+        }
     }
 }

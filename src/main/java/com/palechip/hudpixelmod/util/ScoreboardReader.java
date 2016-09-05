@@ -22,15 +22,14 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A helper which reads the scoreboard.
@@ -54,6 +53,10 @@ public class ScoreboardReader {
      * Be aware that this can contain color codes.
      */
     public static String getScoreboardTitle() {
+        if(needsUpdate) {
+            updateNames();
+            needsUpdate = false;
+        }
         return scoreboardTitle;
     }
     

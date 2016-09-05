@@ -52,7 +52,7 @@ public class CooldownDisplayModule {
             isHidden = false;
         }
         ItemStack iStack = Minecraft.getMinecraft().thePlayer.inventory.getStackInSlot(slot);
-        if(GameDetector.currentGame.getConfiguration().getModID() == GameType.WARLORDS.getModID() && slot == 4 && iStack.getItemDamage() == 15)
+        if(GameDetector.getCurrentGame().getConfiguration().getModID() == GameType.WARLORDS.getModID() && slot == 4 && iStack.getItemDamage() == 15)
             coolDown = ">1m";
         else if(iStack.stackSize > 1)
             coolDown = "" + iStack.stackSize;

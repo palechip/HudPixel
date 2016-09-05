@@ -33,7 +33,7 @@ public class CooldownDisplayManager implements IEventHandler{
         count++;
         if(count > 40){
             count = 0;
-            cdModules = setCooldownDisplay(GameType.getTypeByID(GameDetector.currentGame.getConfiguration().getModID()));
+            cdModules = setCooldownDisplay(GameType.getTypeByID(GameDetector.getCurrentGame().getConfiguration().getModID()));
         }
         if(cdModules.isEmpty()) return;
         for(CooldownDisplayModule cdM : cdModules)

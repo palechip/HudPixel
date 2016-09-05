@@ -1,6 +1,6 @@
 #1 ManagedGuiLib | @40% - unaussprechlich (Merge into ModularGuiLib when you're done, please -Elad)
 
-#2 New game detection system: | @50% - eladkay
+#2 New game detection system: | DONE! - eladkay
     - uses codename's system as suggested here: https://hypixel.net/threads/pm-reply-modding-questions.850647/
     - also detects gamelobbys -> to display stats in gamelobbys (? -Elad)
     - easy to add gamemodes (Done. Just add to GameType.)
