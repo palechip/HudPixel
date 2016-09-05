@@ -82,7 +82,7 @@ public class HudPixelMod {
     public static final String MODID = "hudpixel";
     static final String NAME = "HudPixel Reloaded";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.1.4 dev";
+    public static final String DEFAULT_VERSION = "3.2";
     public static final boolean IS_DEBUGGING = false;
 
     private static HudPixelMod instance;
