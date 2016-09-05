@@ -1,25 +1,18 @@
-#2 New friends display:
-    - some way of detecting online friends via api
-    - implement with the fancylist lib
+#1 ManagedGuiLib | @40% - unaussprechlich
 
-#3 New game detection system:
+#2 New game detection system: | @50% - eladkay
     - uses codename's system as suggested here: https://hypixel.net/threads/pm-reply-modding-questions.850647/
-    - also detects gamelobbys
-    - easy to add gamemodes
+    - also detects gamelobbys -> to display stats in gamelobbys
+    - easy to add gamemodes (via server request?)
 
-#4 FancyChat:
+#3 FancyChat (allready designed the new chat on paper ... it will be awesome :) ) | @5% - unaussprechlich
     - make custom filter tabs
     - make a option to deactivate the notification sound
-    - rewrite some of the backend
-    - click a friend to write a message or invite to a party
+    - rewrite some of the backend -> more like: rewrite everything :D
+    
+#4 Fix some problems with the "/api" command | @10% - eladkay
 
-#5 StatsFactories for:
-    - MW
-    - UHC
-    - ARENA BRAWL
-    - VAMPIRE Z
-    - BLITZ SG
+#5 1.8 / 1.8.9 / 1.9.4 / 10.x support | 0% - ?
 
-#6 BoosterDisplay (seems to be done? -Elad):
-    - does not register tipped boosters yet
-    - click a booster to tip
+#6 Website | @90% - unaussprechlich & hst
+
