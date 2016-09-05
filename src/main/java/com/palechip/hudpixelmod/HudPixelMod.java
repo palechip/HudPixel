@@ -31,7 +31,6 @@ import com.palechip.hudpixelmod.command.ScoreboardCommand;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.detectors.GameStartStopDetector;
 import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.games.Game;
@@ -93,8 +92,6 @@ public class HudPixelMod {
 
     private HypixelNetworkDetector hypixelDetector;
     public com.palechip.hudpixelmod.detectors.GameDetector gameDetector;
-    public com.palechip.hudpixelmod.detectors.oldsystem.GameDetector oldGD = new com.palechip.hudpixelmod.detectors.oldsystem.GameDetector();
-    private GameStartStopDetector gameStartStopDetector;
 
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
@@ -157,7 +154,6 @@ public class HudPixelMod {
         // initialize createModList
         this.hypixelDetector = new HypixelNetworkDetector();
         this.gameDetector = new com.palechip.hudpixelmod.detectors.GameDetector();
-        this.gameStartStopDetector = new GameStartStopDetector(this.gameDetector);
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
@@ -182,9 +178,6 @@ public class HudPixelMod {
             // check if the player is on Hypixel Network
             // this can only change when a new gui is opened
             this.hypixelDetector.check();
-
-            // pass the event to the GameDetector
-            this.oldGD.onGuiShow(event.gui);
         } catch (Exception e) {
             this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
             e.printStackTrace();
@@ -200,16 +193,12 @@ public class HudPixelMod {
                 // this one reads the normal chat messages
                 if (event.type == 0) {
 
-                    // pass the event to the GameDetector
-                    this.oldGD.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     // pass the chat messages to the current game
                     if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.getCurrentGame().hasGameStarted()) {
                         this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
                     }
 
-                    // check for start and stop
-                    this.gameStartStopDetector.onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
 
                     // pass the message to the api connection
                     this.apiQueue.onChatMessage(event.message.getUnformattedText());
@@ -253,8 +242,6 @@ public class HudPixelMod {
 
                 }
 
-                // pass the event to the GameDetector
-                this.oldGD.onClientTick();
 
                 if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                     // tick the current game

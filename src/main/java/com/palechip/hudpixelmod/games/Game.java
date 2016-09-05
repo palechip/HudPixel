@@ -82,7 +82,6 @@ public class Game {
         for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameStart();
         }
-        GameEventObserver.onGameStart();
     }
 
     /**
@@ -95,7 +94,6 @@ public class Game {
             }
             // display the results
             ModularGuiHelper.onGameEnd();
-            GameEventObserver.onGameEnd();
         } catch (Exception e) {
             e.printStackTrace();
         }

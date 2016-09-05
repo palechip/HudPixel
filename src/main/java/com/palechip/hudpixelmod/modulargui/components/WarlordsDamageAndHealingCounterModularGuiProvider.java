@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean doesMatchForGame(Game game) {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS) && !GameDetector.isLobby();
     }
 
     public enum Type {Damage, Healing};

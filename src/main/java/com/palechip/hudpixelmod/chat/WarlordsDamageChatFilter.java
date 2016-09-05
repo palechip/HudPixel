@@ -24,6 +24,7 @@ package com.palechip.hudpixelmod.chat;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.detectors.GameDetector;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -44,7 +45,7 @@ public class WarlordsDamageChatFilter {
 
     public void onChat(ClientChatReceivedEvent e) {
         // only if we are in a Warlords game
-        if(HudPixelMod.instance().gameDetector.getCurrentGame().equals(GameType.WARLORDS)) {
+        if(GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
             // check if the filter is enabled
             if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
                 String message = e.message.getUnformattedText();

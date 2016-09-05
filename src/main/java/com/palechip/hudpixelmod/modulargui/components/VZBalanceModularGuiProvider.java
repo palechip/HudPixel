@@ -16,7 +16,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame(Game game) {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.VAMPIREZ);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.VAMPIREZ) && !GameDetector.isLobby();
     }
 
     @Override

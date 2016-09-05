@@ -100,7 +100,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
+        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
     }
 
     @Override
