@@ -127,6 +127,7 @@ public class Queue implements ApiKeyLoadedCallback{
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback));
         } else {
+            ApiKeyHandler.requestApiKey();
             callback.onBoosterResponse(null);
         }
     }
@@ -139,6 +140,7 @@ public class Queue implements ApiKeyLoadedCallback{
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player, viaUUID));
         } else {
+            ApiKeyHandler.requestApiKey();
             callback.onSessionRespone(null);
         }
     }
@@ -153,6 +155,7 @@ public class Queue implements ApiKeyLoadedCallback{
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
+            ApiKeyHandler.requestApiKey();
             callback.onFriendResponse(null);
         }
     }
@@ -165,6 +168,7 @@ public class Queue implements ApiKeyLoadedCallback{
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
+            ApiKeyHandler.requestApiKey();
             callback.onFriendResponse(null);
         }
     }
@@ -178,6 +182,7 @@ public class Queue implements ApiKeyLoadedCallback{
         if(HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
+            ApiKeyHandler.requestApiKey();
             callback.onPlayerResponse(null);
         }
     }

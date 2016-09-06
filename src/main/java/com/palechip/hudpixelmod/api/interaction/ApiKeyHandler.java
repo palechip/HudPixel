@@ -22,22 +22,14 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import net.minecraft.event.ClickEvent.Action;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
-
+import net.minecraft.event.ClickEvent.Action;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.io.*;
 
 public class ApiKeyHandler {
     private static ApiKeyHandler instance;
@@ -106,7 +98,7 @@ public class ApiKeyHandler {
     /**
      * Asks the user to do /api
      */
-    public void requestApiKey() {
+    public static void requestApiKey() {
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();

@@ -10,7 +10,7 @@
     - make a option to deactivate the notification sound
     - rewrite some of the backend -> more like: rewrite everything :D
     
-#4 Fix some problems with the "/api" command | @10% - eladkay
+#4 Fix some problems with the "/api" command | DONE! - eladkay
 
 #5 1.8.9 / 1.9.4 / 10.x support | 0% - eladkay
 
