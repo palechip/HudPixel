@@ -51,7 +51,7 @@ public abstract class MultiLineCommandParser {
     public void onChat(String message) {
         // if there is no command output in progress
         if(!this.isMessageOngoing) {
-            // check if the message contains the start message
+            // isHypixelNetwork if the message contains the start message
             if(message.contains(this.startMessage)) {
                 // save that the command has started
                 this.isMessageOngoing = true;
@@ -59,7 +59,7 @@ public abstract class MultiLineCommandParser {
                 this.onCommandStart();
             }
         } else {
-            // check if the message matches our messagePattern
+            // isHypixelNetwork if the message matches our messagePattern
             Matcher matcher = this.messagePattern.matcher(message);
             if(matcher.matches()) {
                 // call onCommandReceived

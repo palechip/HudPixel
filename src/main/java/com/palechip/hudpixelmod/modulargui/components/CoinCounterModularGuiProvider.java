@@ -1,8 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -10,7 +9,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.getCurrentGameType() != GameType.UNKNOWN;
     }
 
@@ -32,7 +31,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby();
     }
 
     @Override

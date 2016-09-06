@@ -1,9 +1,8 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.TURBO_KART_RACERS);
     }
 
@@ -63,13 +62,13 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        // check if the message is relevant
+        // isHypixelNetwork if the message is relevant
         if(textMessage.matches(LAP_COMPLETION_MESSAGE_REGEX)) {
             try {
                 // the lap number is the 5th character. It needs to be cast to String first because otherwise we get the wrong value
                 int lapNo = Integer.valueOf(String.valueOf(textMessage.charAt(4)));
 
-                // check if the listened lap was completed
+                // isHypixelNetwork if the listened lap was completed
                 if(this.lap == lapNo) {
                     // extract the start message
                     this.officialTime = textMessage.substring(textMessage.indexOf('(') + 1, textMessage.indexOf(')'));
@@ -84,7 +83,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
                     this.startingTime = System.currentTimeMillis();
                 }
 
-                // accuracy check and correction for the main timer after the first lap
+                // accuracy isHypixelNetwork and correction for the main timer after the first lap
                 if(lapNo == 1 && this.lap == 0 ) {
                     // save the current time
                     long currentTime = System.currentTimeMillis();
@@ -134,7 +133,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby();
     }
 
     @Override

@@ -30,9 +30,8 @@ import com.palechip.hudpixelmod.command.GameDetectorCommand;
 import com.palechip.hudpixelmod.command.ScoreboardCommand;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
-import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.LoadGameConfigThread;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
@@ -42,9 +41,9 @@ import com.palechip.hudpixelmod.util.WebUtil;
 import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -82,7 +81,11 @@ public class HudPixelMod {
     static final String NAME = "HudPixel Reloaded";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
     public static final String DEFAULT_VERSION = "3.2";
-    public static final boolean IS_DEBUGGING = false;
+    public static final String HYPIXEL_DOMAIN = "hypixel.net";
+    public static boolean isUpdateNotifierDone = false;
+    private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a
+    //dev environment
+    public static final boolean IS_DEBUGGING = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment") && !devEnvOverride;
 
     private static HudPixelMod instance;
 
@@ -90,8 +93,7 @@ public class HudPixelMod {
     public HudPixelConfig CONFIG;
     private Queue apiQueue;
 
-    private HypixelNetworkDetector hypixelDetector;
-    public com.palechip.hudpixelmod.detectors.GameDetector gameDetector;
+    public GameDetector gameDetector;
 
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
@@ -101,6 +103,39 @@ public class HudPixelMod {
     private KeyBinding pressToPlay;
 
     private WarlordsDamageChatFilter warlordsChatFilter;
+
+    /**
+     * Checks if the Player is on Hypixel Network.
+     */
+    public static boolean isHypixelNetwork() {
+        if (IS_DEBUGGING) {
+            return true;
+        }
+        // get the IP of the current server
+        // only if there is one
+        if (FMLClientHandler.instance().getClient().getCurrentServerData() == null) {
+            // Did the player disconnect?
+            instance().logDebug("Disconnected from Hypixel Network");
+            return false;
+        }
+        String ip = FMLClientHandler.instance().getClient().getCurrentServerData().serverIP;
+        // if the server ip ends with hypixel.net, it belongs to the Hypixel Network (mc.hypixel.net, test.hypixel.net, mvp.hypixel.net, creative.hypixel.net)
+        if (ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
+            instance().logDebug("Joined Hypixel Network");
+            if(!isUpdateNotifierDone) {
+                new UpdateNotifier(true);
+                isUpdateNotifierDone = true;
+            }
+            return true;
+        }
+        // it can happen that the server data doesn't get null
+        else if (!ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
+
+            instance().logDebug("Disconnected from Hypixel Network");
+            return false;
+        }
+        return false;
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -142,7 +177,6 @@ public class HudPixelMod {
         // if(!IS_DEBUGGING) {
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
-        new GameDetector();
         // }
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
@@ -152,8 +186,7 @@ public class HudPixelMod {
         HudPixelExtended.getInstance().setup();
 
         // initialize createModList
-        this.hypixelDetector = new HypixelNetworkDetector();
-        this.gameDetector = new com.palechip.hudpixelmod.detectors.GameDetector();
+        this.gameDetector = new GameDetector();
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
@@ -172,23 +205,13 @@ public class HudPixelMod {
     }
 
 
-    @SubscribeEvent
-    public void onGuiShow(GuiOpenEvent event) {
-        try {
-            // check if the player is on Hypixel Network
-            // this can only change when a new gui is opened
-            this.hypixelDetector.check();
-        } catch (Exception e) {
-            this.logWarn("An exception occured in onGuiShow(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
+
 
     @SubscribeEvent(receiveCanceled = true)
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (this.hypixelDetector.isHypixelNetwork) {
+            if (isHypixelNetwork()) {
 
                 // this one reads the normal chat messages
                 if (event.type == 0) {
@@ -225,7 +248,7 @@ public class HudPixelMod {
         try {
 
             // Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork) {
+            if (isHypixelNetwork()) {
                 // make sure the Scoreboard reader updates when necessary
                 ScoreboardReader.resetCache();
 
@@ -267,8 +290,8 @@ public class HudPixelMod {
     public void onKeyInput(KeyInputEvent event) {
         try {
             // Don't do anything unless we are on Hypixel
-            if (this.hypixelDetector.isHypixelNetwork) {
-                // check all listened keys
+            if (isHypixelNetwork()) {
+                // isHypixelNetwork all listened keys
                 if (this.hideHUDKey.isPressed()) {
                 }
                 if (this.openConfigGui.isPressed()) {

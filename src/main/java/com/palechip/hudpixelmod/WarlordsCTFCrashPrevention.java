@@ -58,7 +58,7 @@ public class WarlordsCTFCrashPrevention {
         if(event.phase == Phase.START && HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID() == GameType.WARLORDS.getModID()) {
             try {
                 Minecraft mc = Minecraft.getMinecraft();
-                // check if the world exists
+                // isHypixelNetwork if the world exists
                 if(mc.theWorld == null) {
                     return;
                 }

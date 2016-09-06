@@ -158,7 +158,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     void requestBoosters(Boolean forceRequest){
         if(HudPixelConfig.useAPI && Config.isBoosterDisplay) {
-            // check if enough time has past
+            // isHypixelNetwork if enough time has past
             if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();

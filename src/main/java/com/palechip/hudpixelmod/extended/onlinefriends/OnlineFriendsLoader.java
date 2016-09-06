@@ -68,7 +68,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
 
     private void requestFriends(Boolean forceRequest){
         if(HudPixelConfig.useAPI && Config.isFriendsDisplay) {
-            // check if enough time has past
+            // isHypixelNetwork if enough time has past
             if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();

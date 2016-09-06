@@ -28,7 +28,6 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
@@ -72,7 +71,7 @@ public class HudPixelExtendedEventHandler{
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent e){
         try{
-            if(!HypixelNetworkDetector.isHypixelNetwork)return;
+            if(!HudPixelMod.isHypixelNetwork())return;
         }catch (Exception ex){
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
             ex.printStackTrace();
@@ -83,7 +82,7 @@ public class HudPixelExtendedEventHandler{
     public void onRenderPlayer(RenderPlayerEvent.Pre e){
         try {
             //Don't do anything unless we are on Hypixel
-            if(HypixelNetworkDetector.isHypixelNetwork ) {
+            if(HudPixelMod.isHypixelNetwork() ) {
                 //just triggeres the statsrenderer if the player is waiting for the game to start
                 if(!(HudPixelMod.instance().gameDetector.isLobby())
                 && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
@@ -100,7 +99,7 @@ public class HudPixelExtendedEventHandler{
     public void onOpenGui(GuiOpenEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if(HypixelNetworkDetector.isHypixelNetwork) {
+            if(HudPixelMod.isHypixelNetwork()) {
                 if(Minecraft.getMinecraft().thePlayer != null)
                 OnlineFriendManager.getInstance();
                 FancyChat.getInstance().openGui();
@@ -115,7 +114,7 @@ public class HudPixelExtendedEventHandler{
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork) {
+            if (HudPixelMod.isHypixelNetwork()) {
                 for(IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);
                 FancyChat.getInstance().onChat(e);
@@ -134,7 +133,7 @@ public class HudPixelExtendedEventHandler{
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork) {
+            if (HudPixelMod.isHypixelNetwork()) {
                 for(IEventHandler i : getIeventBuffer())
                     i.onClientTick();
                 FancyListManager.processLoadingBar();
@@ -163,7 +162,7 @@ public class HudPixelExtendedEventHandler{
     public void onRenderTick(RenderGameOverlayEvent.Post e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HypixelNetworkDetector.isHypixelNetwork && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
+            if (HudPixelMod.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 for(IEventHandler i : getIeventBuffer())
                     i.onRender();
                 if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();

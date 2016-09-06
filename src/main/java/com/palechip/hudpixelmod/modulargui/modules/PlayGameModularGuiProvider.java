@@ -1,6 +1,5 @@
 package com.palechip.hudpixelmod.modulargui.modules;
 
-import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -8,7 +7,7 @@ public class PlayGameModularGuiProvider extends HudPixelModularGuiProvider {
 
     public static String content = "";
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return true;
     }
 

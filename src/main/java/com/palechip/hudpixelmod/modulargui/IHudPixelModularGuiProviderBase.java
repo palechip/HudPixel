@@ -1,10 +1,9 @@
 package com.palechip.hudpixelmod.modulargui;
 
-import com.palechip.hudpixelmod.games.Game;
 import eladkay.modulargui.lib.IModularGuiProvider;
 
 public interface IHudPixelModularGuiProviderBase extends IModularGuiProvider {
-    public abstract boolean doesMatchForGame(Game game);
+    public abstract boolean doesMatchForGame();
 
     /**
      * This is called when the mod has detected that the player joined a game of this type.

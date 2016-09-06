@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.cooldowndisplay;
 
-import com.palechip.hudpixelmod.detectors.GameDetector;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;

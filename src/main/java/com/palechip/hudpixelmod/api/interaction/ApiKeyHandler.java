@@ -125,7 +125,7 @@ public class ApiKeyHandler {
                 path.mkdirs();
             }
 
-            // check if the file exists
+            // isHypixelNetwork if the file exists
             if(!file.exists()) {
                 // there is no file so there can't be an api key
                 // create it
@@ -160,7 +160,7 @@ public class ApiKeyHandler {
      */
     private void saveAPIKey() {
         try {
-            // we don't check whether the file exists since we already do it on startup
+            // we don't isHypixelNetwork whether the file exists since we already do it on startup
             // there is no way the user deletes the file after startup unintentionally
             PrintWriter writer = new PrintWriter(new File(API_KEY_STORAGE_FILE));
             writer.write(this.apiKey);

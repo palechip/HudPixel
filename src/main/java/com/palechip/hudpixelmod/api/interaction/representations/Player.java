@@ -32,7 +32,7 @@ public class Player {
     protected JsonObject player;
     
     
-    // the following information isn't complete. If a value is missing, check the player request.
+    // the following information isn't complete. If a value is missing, isHypixelNetwork the player request.
     
     // arrays
     protected JsonObject stats;

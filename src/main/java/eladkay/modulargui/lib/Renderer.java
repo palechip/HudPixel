@@ -2,7 +2,6 @@ package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
@@ -30,7 +29,7 @@ public class Renderer {
      */
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if(!HypixelNetworkDetector.isHypixelNetwork && !HudPixelMod.IS_DEBUGGING) return;
+        if(!HudPixelMod.isHypixelNetwork() && !HudPixelMod.IS_DEBUGGING) return;
         if(!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
         int w = HudPixelConfig.displayXOffset; //width, change this if needed
@@ -45,7 +44,7 @@ public class Renderer {
                 else
                     aDisplay = element.provider.content();
                 if(element.provider.content() == null) return;
-                if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this check...
+                if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this isHypixelNetwork...
                     if(Config.hudBackground)
                         RenderUtils.renderBoxWithColor(w - 2, h -1, fontRendererObj.getStringWidth(aDisplay) + 4, 10, 0, Config.hudRed, Config.hudGreen, Config.hudBlue, Config.hudAlpha );
                     fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it

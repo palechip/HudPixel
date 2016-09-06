@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.cooldowndisplay;
 
-import com.palechip.hudpixelmod.detectors.GameDetector;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.util.RenderUtils;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.Minecraft;

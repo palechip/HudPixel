@@ -1,8 +1,6 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -12,12 +10,12 @@ import java.util.HashMap;
 
 public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.PAINTBALL);
     }
 
     private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717"; // fancy x
-    private static final String ACTIVE_SIGN = EnumChatFormatting.GREEN + "\u2713"; // check mark
+    private static final String ACTIVE_SIGN = EnumChatFormatting.GREEN + "\u2713"; // isHypixelNetwork mark
 
     private static HashMap<String, PaintballKillstreakTrackerModularGuiProvider> cooldownDependantKillstreaks = new HashMap<String, PaintballKillstreakTrackerModularGuiProvider>();
     private static HashMap<String, Long> durationStorage = new HashMap<String, Long>();
@@ -148,7 +146,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby();
     }
 
     @Override

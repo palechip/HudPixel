@@ -1,15 +1,13 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelModularGuiProvider {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ);
     }
 
@@ -87,7 +85,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public boolean showElement() {
-        return isDisplaying && doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
+        return isDisplaying && doesMatchForGame() && !GameDetector.isLobby();
     }
 
     @Override

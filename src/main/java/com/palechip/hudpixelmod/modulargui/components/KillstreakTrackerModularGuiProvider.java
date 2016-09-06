@@ -1,9 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.detectors.GameDetector;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -11,7 +9,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.ANY_TNT) || GameDetector.doesGameTypeMatchWithCurrent(GameType.QUAKECRAFT) || GameDetector.doesGameTypeMatchWithCurrent(GameType.ANY_ARCADE);
     }
 
@@ -99,7 +97,7 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame()) && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby();
     }
 
     @Override

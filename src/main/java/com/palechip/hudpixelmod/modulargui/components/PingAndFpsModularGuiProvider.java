@@ -1,7 +1,6 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.detectors.HypixelNetworkDetector;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.OldServerPinger;
@@ -10,7 +9,7 @@ import java.net.UnknownHostException;
 
 public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return true;
     }
 
@@ -115,7 +114,7 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
             @Override
             public void run(){
                 try {
-                    if(HypixelNetworkDetector.isHypixelNetwork)
+                    if(HudPixelMod.isHypixelNetwork())
                         if(Minecraft.getMinecraft().getCurrentServerData() != null)
                             serverPinger.ping(Minecraft.getMinecraft().getCurrentServerData());
                 } catch (UnknownHostException e) {

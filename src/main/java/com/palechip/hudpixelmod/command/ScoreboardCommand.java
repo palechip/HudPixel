@@ -6,7 +6,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 
-import static com.palechip.hudpixelmod.detectors.GameDetector.stripColor;
+import static com.palechip.hudpixelmod.GameDetector.stripColor;
 
 public class ScoreboardCommand extends CommandBase {
 

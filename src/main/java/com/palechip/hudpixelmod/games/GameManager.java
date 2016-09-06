@@ -88,7 +88,7 @@ public class GameManager {
     public Game createGame(int modID) {
         // get the correct configuration
         GameConfiguration config = this.getGameConfiguration(modID);
-        // check if it's a valid configuration
+        // isHypixelNetwork if it's a valid configuration
         if(config == GameConfiguration.NULL_GAME) {
             // not valid, return NO_GAME
             return Game.NO_GAME;

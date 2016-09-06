@@ -2,8 +2,7 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.detectors.GameDetector;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 
@@ -12,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS) && !GameDetector.isLobby();
     }
 
@@ -109,7 +108,7 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
+        return doesMatchForGame();
     }
 
     @Override

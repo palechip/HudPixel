@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.detectors;
+package com.palechip.hudpixelmod;
 
 import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.GameManager;
@@ -8,6 +8,7 @@ import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -127,7 +128,6 @@ public class GameDetector {
         EntityPlayerSP player = (EntityPlayerSP) event.entity;
         player.sendChatMessage("/whereami");
         cooldown = 5;
-
     }
 
     int scheduleWhereami = -1;
@@ -173,7 +173,7 @@ public class GameDetector {
                     }
                 if(game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
                     //success!
-                    //Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
+                    if(HudPixelMod.IS_DEBUGGING) Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
                 } else {
                     currentGameType = GameType.UNKNOWN;
                     schedule = true;

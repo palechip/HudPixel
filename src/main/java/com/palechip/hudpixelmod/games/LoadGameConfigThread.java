@@ -89,7 +89,7 @@ public class LoadGameConfigThread extends Thread {
     public void run() {
         HudPixelMod logger = HudPixelMod.instance();
 
-        // check if local files exist
+        // isHypixelNetwork if local files exist
         for (String file : files) {
             // if the file doesn't exist or the mod is in debugging mode (debugging mode always extracts the latest versions to reflect recent changes)
             if (!(new File(configurationDirectory + File.separator + file).exists()) || ALWAYS_EXTRACT) {
