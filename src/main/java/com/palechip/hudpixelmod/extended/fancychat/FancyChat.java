@@ -308,7 +308,7 @@ public class FancyChat {
         int xStart = res.getScaledWidth() - FIELD_WIDTH - 2;
 
         //draws the transparent box behind the text
-        RenderUtils.renderBox(xStart, yStart, FIELD_WIDTH, RENDERING_HEIGHT_OFFSET * lines, 0);
+        RenderUtils.renderBox(xStart, yStart, FIELD_WIDTH, RENDERING_HEIGHT_OFFSET * lines);
 
         //draws the strings & splits them with a method @ FancyChatObject.class
         for (FancyChatObject fco : renderFco) {

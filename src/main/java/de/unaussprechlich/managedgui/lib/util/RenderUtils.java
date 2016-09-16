@@ -104,6 +104,14 @@ public class RenderUtils {
     }
 
     public static void renderBoxWithColor(float v, float v1, int i, int i1, int i2, float v2, float v3, float v4, float alpha) {
-        renderBoxWithColor((short) v, (short) v1)
+        renderBoxWithColor((short) v, (short) v1, (short) i1, (short) i2, new ColorRGBA(v2, v3, v4, alpha));
+    }
+
+    public static void drawModalRectWithCustomSizedTexture(int round, int round1, int i, int i1, int i2, int i3, int i4, int i5, ResourceLocation resourceLocation, float v) {
+        drawModalRectWithCustomSizedTexture((short) round, (short) round1, (short) i4, (short) i5, resourceLocation, v);
+    }
+
+    public static void renderBox(int xStart, int yStart, int fieldWidth, int i) {
+        renderBox((short) xStart, (short) yStart, (short) fieldWidth, (short) i);
     }
 }
