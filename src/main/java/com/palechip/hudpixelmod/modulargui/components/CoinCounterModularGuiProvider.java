@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -62,19 +62,19 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // if this is a coin message and it isn't a tip
-        if((textMessage.startsWith("+") || textMessage.startsWith("(+")) && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
+        if ((textMessage.startsWith("+") || textMessage.startsWith("(+")) && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
             this.coins += getCoinsFromMessage(textMessage);
         }
         // the total coin message overwrites the counter (but not guild coins!)
-        if(!textMessage.toLowerCase().contains("guild coins") && (textMessage.contains("You earned a total of") || textMessage.contains("For a total of ")) && textMessage.toLowerCase().contains("coins")) {
+        if (!textMessage.toLowerCase().contains("guild coins") && (textMessage.contains("You earned a total of") || textMessage.contains("For a total of ")) && textMessage.toLowerCase().contains("coins")) {
             try {
                 String messageStartingWithCoins = "";
-                if(textMessage.contains("You earned a total of")) {
+                if (textMessage.contains("You earned a total of")) {
                     messageStartingWithCoins = textMessage.substring(textMessage.indexOf("You earned a total of ") + 22);
                 } else {
                     messageStartingWithCoins = textMessage.substring(textMessage.indexOf("For a total of ") + 15);
                 }
-                String totalCoins = messageStartingWithCoins.substring(0,messageStartingWithCoins.indexOf(" "));
+                String totalCoins = messageStartingWithCoins.substring(0, messageStartingWithCoins.indexOf(" "));
                 this.coins = Integer.valueOf(totalCoins.replace(" ", ""));
             } catch (Exception e) {
                 HudPixelMod.instance().logInfo("Failed to parse total coin message. Ignoring.");
@@ -86,7 +86,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     public static int getCoinsFromMessage(String message) {
         try {
-            String newCoins = message.substring(message.indexOf("+") + 1,message.indexOf(" "));
+            String newCoins = message.substring(message.indexOf("+") + 1, message.indexOf(" "));
             return Integer.valueOf(newCoins);
         } catch (Exception e) {
             HudPixelMod.instance().logInfo("Failed to parse coin message. Ignoring.");

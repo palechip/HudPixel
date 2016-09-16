@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -31,7 +31,7 @@ import net.hypixel.api.HypixelAPI;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Queue implements ApiKeyLoadedCallback{
+public class Queue implements ApiKeyLoadedCallback {
 
     private static Queue instance;
     private ApiKeyHandler keyHandler;
@@ -71,31 +71,31 @@ public class Queue implements ApiKeyLoadedCallback{
     public void onChatMessage(String textMessage) {
         this.keyHandler.onChatMessage(textMessage);
     }
-    
+
     public void onClientTick() {
         // request the key if necessary
-        if(HudPixelConfig.useAPI && !this.apiEnabled && !this.queue.isEmpty()) {
+        if (HudPixelConfig.useAPI && !this.apiEnabled && !this.queue.isEmpty()) {
             // if the api is disabled, the requests will expire
-            if(this.queue.get(0).getCreationTime() + API_DISABLED_TIMEOUT < System.currentTimeMillis()) {
+            if (this.queue.get(0).getCreationTime() + API_DISABLED_TIMEOUT < System.currentTimeMillis()) {
                 this.queue.get(0).cancel();
                 this.queue.remove(0);
             }
-            if(this.lastKeyNotice == 0 || System.currentTimeMillis() > this.lastKeyNotice + MIN_TIME_BETWEEN_KEY_NOTICES) {
+            if (this.lastKeyNotice == 0 || System.currentTimeMillis() > this.lastKeyNotice + MIN_TIME_BETWEEN_KEY_NOTICES) {
                 this.lastKeyNotice = System.currentTimeMillis();
                 this.keyHandler.requestApiKey();
             }
         }
-        
+
         // run the queue
-        if(HudPixelConfig.useAPI && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
+        if (HudPixelConfig.useAPI && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
             QueueEntry entry = this.queue.get(0);
             entry.run();
             this.queue.remove(0);
             this.heat += HEAT_PER_REQUEST;
         }
-        
+
         long currentSec = System.currentTimeMillis() / 1000;
-        if(this.sec < currentSec) {
+        if (this.sec < currentSec) {
             this.heat -= HEAT_COOLDOWN_PER_SECOND * (currentSec - this.sec);
             this.sec = currentSec;
         }
@@ -103,41 +103,41 @@ public class Queue implements ApiKeyLoadedCallback{
 
     @Override
     public void ApiKeyLoaded(boolean failed, String key) {
-        if(failed) {
+        if (failed) {
             this.apiEnabled = false;
         } else {
             this.api.setApiKey(UUID.fromString(key));
             this.apiEnabled = true;
         }
     }
-    
+
     public HypixelAPI getAPI() {
         return this.api;
     }
-    
+
     public Gson getGson() {
         return gson;
     }
-    
+
     /**
      * Queues a BoosterExtended request.
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
-        if(HudPixelConfig.useAPI) {
+        if (HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback));
         } else {
             ApiKeyHandler.requestApiKey();
             callback.onBoosterResponse(null);
         }
     }
-    
+
     /**
      * Queues a Session request.
      * @param callback
      */
     public void getSession(SessionResponseCallback callback, String player, Boolean viaUUID) {
-        if(HudPixelConfig.useAPI) {
+        if (HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player, viaUUID));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -146,13 +146,12 @@ public class Queue implements ApiKeyLoadedCallback{
     }
 
 
-    
     /**
      * Queues a Friends request.
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, String player) {
-        if(HudPixelConfig.useAPI) {
+        if (HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -165,31 +164,31 @@ public class Queue implements ApiKeyLoadedCallback{
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, UUID player) {
-        if(HudPixelConfig.useAPI) {
+        if (HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();
             callback.onFriendResponse(null);
         }
     }
-    
+
     /**
      * Queues a Player request.
      * @param callback
      * @param player
      */
     public void getPlayer(PlayerResponseCallback callback, String player) {
-        if(HudPixelConfig.useAPI) {
+        if (HudPixelConfig.useAPI) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();
             callback.onPlayerResponse(null);
         }
     }
-    
+
     public void reportFailure(Throwable failCause, boolean secondTry) {
         HudPixelMod logger = HudPixelMod.instance();
-        if(secondTry) {
+        if (secondTry) {
             logger.logError("An API requst failed on the second try. Giving up...");
             failCause.printStackTrace();
         } else {
@@ -197,14 +196,14 @@ public class Queue implements ApiKeyLoadedCallback{
             failCause.printStackTrace();
         }
     }
-    
+
     /**
      * Called when a request is finished to allow the next request to enter
      */
     public void unlockQueue() {
         this.isLocked = false;
     }
-    
+
     public static Queue getInstance() {
         return instance;
     }

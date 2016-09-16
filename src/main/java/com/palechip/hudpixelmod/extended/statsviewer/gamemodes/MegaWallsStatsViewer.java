@@ -58,7 +58,6 @@ public class MegaWallsStatsViewer extends StatsDisplayer implements IGameStatsVi
     private static final String WL = D_GRAY + " [" + GRAY + "W/L" + D_GRAY + "] ";
 
 
-
     public MegaWallsStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();
@@ -98,10 +97,9 @@ public class MegaWallsStatsViewer extends StatsDisplayer implements IGameStatsVi
             kd = 1;
         }
 
-        if( losses > 0) {
+        if (losses > 0) {
             wl = (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
-        }
-        else {
+        } else {
             wl = 1;
         }
 

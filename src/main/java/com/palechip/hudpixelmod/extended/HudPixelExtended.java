@@ -43,13 +43,14 @@ public class HudPixelExtended {
     public static BoosterManager boosterManager;
     public static StaffManager staffManager;
 
-    private HudPixelExtended(){}
+    private HudPixelExtended() {
+    }
 
-    public static HudPixelExtended getInstance(){
+    public static HudPixelExtended getInstance() {
         return hudPixelExtendedInstance == null ? hudPixelExtendedInstance = new HudPixelExtended() : hudPixelExtendedInstance;
     }
 
-    public void setup(){
+    public void setup() {
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();

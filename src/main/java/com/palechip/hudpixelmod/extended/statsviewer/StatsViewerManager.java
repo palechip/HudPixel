@@ -1,8 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -43,47 +43,48 @@ public class StatsViewerManager {
 
     /**
      * Renders the stats above the player
+     *
      * @param event RenderPlayerEvent
      */
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
 
         //returns if when the rendered player is the user
-        if(event.entityPlayer.getUniqueID().equals(HudPixelExtended.UUID)) return;
+        if (event.entityPlayer.getUniqueID().equals(HudPixelExtended.UUID)) return;
 
         //renders every entry in the map
-        if(statsViewerRenderMap.containsKey(event.entityPlayer.getName()))
+        if (statsViewerRenderMap.containsKey(event.entityPlayer.getName()))
             statsViewerRenderMap.get(event.entityPlayer.getName()).onRenderPlayer(event);
     }
 
     /**
      * Function to create and delete the current shown stats
      */
-    public static void onClientTick(){
+    public static void onClientTick() {
 
         ArrayList<String> removeFromMap = new ArrayList<String>();
 
         //deletes the entry if the showduration has expired
-        for(Map.Entry<String, StatsViewerRender> entry : statsViewerRenderMap.entrySet()){
-            if(entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
+        for (Map.Entry<String, StatsViewerRender> entry : statsViewerRenderMap.entrySet()) {
+            if (entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
                 removeFromMap.add(entry.getKey());
         }
 
-        for(String s : removeFromMap){
+        for (String s : removeFromMap) {
             statsViewerRenderMap.remove(s);
         }
 
         Minecraft mc = Minecraft.getMinecraft();
 
         //don't display if the player is not sneaking
-        if(mc.thePlayer == null || !mc.thePlayer.isSneaking())return;
+        if (mc.thePlayer == null || !mc.thePlayer.isSneaking()) return;
 
         //checks if there is a new stats viewer to add
-        if(mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null){
-            if(mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP){
-                if(!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())){
+        if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
+            if (mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP) {
+                if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
                     statsViewerRenderMap.put(mc.objectMouseOver.entityHit.getName(), new StatsViewerRender(
-                        GameType.getTypeByID(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID()),
-                        mc.objectMouseOver.entityHit.getName()));
+                            GameType.getTypeByID(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID()),
+                            mc.objectMouseOver.entityHit.getName()));
                 }
             }
         }

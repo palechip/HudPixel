@@ -10,7 +10,7 @@ public class StorageFourSide {
     public short TOP;
     public short BOTTOM;
 
-    public StorageFourSide(){
+    public StorageFourSide() {
         this.LEFT = 0;
         this.RIGHT = 0;
         this.TOP = 0;
@@ -18,7 +18,7 @@ public class StorageFourSide {
     }
 
 
-    public StorageFourSide(short LEFT, short RIGHT, short TOP, short BOTTOM){
+    public StorageFourSide(short LEFT, short RIGHT, short TOP, short BOTTOM) {
         this.LEFT = LEFT;
         this.RIGHT = RIGHT;
         this.TOP = TOP;

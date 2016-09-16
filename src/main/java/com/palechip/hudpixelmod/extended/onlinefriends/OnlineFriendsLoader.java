@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler{
+public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler {
 
     private static final int REQUEST_COOLDOWN = 20 * 60 * 1000; // = 30min
 
@@ -57,19 +57,19 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
 
-    public void setupLoader(){
+    public void setupLoader() {
         HudPixelExtendedEventHandler.registerIEvent(this);
         requestFriends(true);
     }
 
-    public OnlineFriendsLoader(){
+    public OnlineFriendsLoader() {
         setupLoader();
     }
 
-    private void requestFriends(Boolean forceRequest){
-        if(HudPixelConfig.useAPI && Config.isFriendsDisplay) {
+    private void requestFriends(Boolean forceRequest) {
+        if (HudPixelConfig.useAPI && Config.isFriendsDisplay) {
             // isHypixelNetwork if enough time has past
-            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
+            if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
@@ -80,12 +80,12 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
 
     @Override
     public void onFriendResponse(ArrayList<Friend> friends) {
-        if(friends == null){
+        if (friends == null) {
             LoggerHelper.logWarn("[OnlineFriends][APIloader]: The api answered the request with NULL!");
             return;
         }
-        for(Friend f : friends){
-            if(!allreadyStored.contains(f.getFriendName())){
+        for (Friend f : friends) {
+            if (!allreadyStored.contains(f.getFriendName())) {
                 OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), EnumChatFormatting.DARK_GRAY + "not loaded yet!", f.getFriendUUID()));
                 allreadyStored.add(f.getFriendName());
             }
@@ -101,16 +101,20 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {}
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+    }
 
     @Override
-    public void onRender() {}
+    public void onRender() {
+    }
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY) {}
+    public void handleMouseInput(int i, int mX, int mY) {
+    }
 
     @Override
-    public void onMouseClick(int mX, int mY) {}
+    public void onMouseClick(int mX, int mY) {
+    }
 
 
 }

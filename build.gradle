@@ -60,6 +60,12 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
+apply plugin: 'java'
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
 
 processResources
 {

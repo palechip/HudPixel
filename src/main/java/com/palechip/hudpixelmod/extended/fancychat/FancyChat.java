@@ -29,8 +29,8 @@ package com.palechip.hudpixelmod.extended.fancychat;
 
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
-import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
+import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -82,8 +82,8 @@ public class FancyChat {
     private FancyChat() {
     }
 
-    public static FancyChat getInstance(){
-        if(fancyChatInstance != null){
+    public static FancyChat getInstance() {
+        if (fancyChatInstance != null) {
             return fancyChatInstance;
         } else {
             fancyChatInstance = new FancyChat();
@@ -161,7 +161,7 @@ public class FancyChat {
         }
     }
 
-    public void addMessage(String s){
+    public void addMessage(String s) {
         fancyChatMessages.addMinecraftEntry(s);
     }
 
@@ -209,13 +209,14 @@ public class FancyChat {
 
     /**
      * small methode that adds a FancyChat message to the right buffers and adjust the scrollheight
+     *
      * @param s Formatted chat string
      */
-    private void addFancyChatEntry(String s){
+    private void addFancyChatEntry(String s) {
         fancyChatObjects.add(new FancyChatObject(s));
         fancyChatMessages.addMinecraftEntry(s);
-        if(scroll < fancyChatMessages.messageBuffer.size()
-                && scroll > MAX_SCROLLIST_LINES){
+        if (scroll < fancyChatMessages.messageBuffer.size()
+                && scroll > MAX_SCROLLIST_LINES) {
             scroll++;
         }
     }

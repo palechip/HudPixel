@@ -31,40 +31,42 @@ import com.palechip.hudpixelmod.util.GameType;
  *******************************************************************************/
 public class StatsViewerFactory {
 
-    public StatsViewerFactory(){}
+    public StatsViewerFactory() {
+    }
 
     /**
      * Not really a factory ... but at least it generates and returns teh right class
      * for the given gametype ... i will maybe switch to a real design pattern
+     *
      * @param playerName the playername
-     * @param gameType the gametype
+     * @param gameType   the gametype
      * @return the right statsViewer for the given player and gametype
      */
 
-    public static IGameStatsViewer getStatsViewerClass(String playerName, GameType gameType){
+    public static IGameStatsViewer getStatsViewerClass(String playerName, GameType gameType) {
 
-        if(gameType == GameType.WARLORDS){
-           return new WarlordsStatsViewer(playerName);
+        if (gameType == GameType.WARLORDS) {
+            return new WarlordsStatsViewer(playerName);
         }
-        if(gameType == GameType.QUAKECRAFT){
+        if (gameType == GameType.QUAKECRAFT) {
             return new QuakeStatsViewer(playerName);
         }
-        if(gameType == GameType.PAINTBALL){
+        if (gameType == GameType.PAINTBALL) {
             return new PaintballStatsViewer(playerName);
         }
-        if(gameType == GameType.THE_WALLS){
+        if (gameType == GameType.THE_WALLS) {
             return new WallsStatsViewer(playerName);
         }
-        if (gameType == GameType.VAMPIREZ){
+        if (gameType == GameType.VAMPIREZ) {
             return new VampireStatsViewer(playerName);
         }
-        if (gameType == GameType.COPS_AND_CRIMS){
+        if (gameType == GameType.COPS_AND_CRIMS) {
             return new CvCStatsViewer(playerName);
         }
-        if (gameType == GameType.UHC){
+        if (gameType == GameType.UHC) {
             return new UHCStatsViewer(playerName);
         }
-        if (gameType == GameType.TNT_GAMES || gameType == GameType.TNT_RUN || gameType == GameType.TNT_TAG || gameType == GameType.TNT_WIZARDS){
+        if (gameType == GameType.TNT_GAMES || gameType == GameType.TNT_RUN || gameType == GameType.TNT_TAG || gameType == GameType.TNT_WIZARDS) {
             return new TNTStatsViewer(playerName);
         }
         if (gameType == GameType.BLITZ) { //HungerGames

@@ -11,7 +11,7 @@ public class StorageFourDifferent<T, E, U, V> {
     public V v;
 
 
-    public StorageFourDifferent(T t,E e,U u,V v){
+    public StorageFourDifferent(T t, E e, U u, V v) {
         this.t = t;
         this.e = e;
         this.u = u;

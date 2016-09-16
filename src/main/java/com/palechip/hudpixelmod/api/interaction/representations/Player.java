@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -30,32 +30,32 @@ import com.google.gson.JsonObject;
 public class Player {
     // this contains everything
     protected JsonObject player;
-    
-    
+
+
     // the following information isn't complete. If a value is missing, isHypixelNetwork the player request.
-    
+
     // arrays
     protected JsonObject stats;
-    
+
     // simple properties
     protected String uuid;
     protected String playername;
     protected String displayname;
     protected String packageRank;
-    
+
     protected int vanityTokens;
     protected int tournamentTokens;
     protected int networkLevel;
     protected int networkExp;
     protected int karma;
-    
+
     protected int tipsSent;
     protected int thanksSent;
     protected int thanksReceived;
     protected long timePlaying;
     protected long lastLogin;
     protected long firstLogin;
-    
+
     public JsonObject getStats() {
         return stats;
     }

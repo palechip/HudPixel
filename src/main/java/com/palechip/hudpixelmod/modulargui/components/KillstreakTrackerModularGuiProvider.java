@@ -38,39 +38,39 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
     public void onChatMessage(String textMessage, String formattedMessage) {
         String username = FMLClientHandler.instance().getClient().getSession().getUsername();
         // Quake
-        if(textMessage.contains(username + " gibbed ")) {
+        if (textMessage.contains(username + " gibbed ")) {
             this.addKill();
-        } else if(textMessage.contains(" gibbed " + username)) {
+        } else if (textMessage.contains(" gibbed " + username)) {
             this.resetKillstreak();
         }
         // TNT Wizards
-        else if(textMessage.contains("You killed ")) {
+        else if (textMessage.contains("You killed ")) {
             this.addKill();
-        } else if(textMessage.contains("You were killed by ")) {
+        } else if (textMessage.contains("You were killed by ")) {
             this.resetKillstreak();
         }
         // Dragon Wars
-        else if(textMessage.contains(username + " killed ")) {
+        else if (textMessage.contains(username + " killed ")) {
             this.addKill();
-        } else if(textMessage.contains(" killed " + username)) {
+        } else if (textMessage.contains(" killed " + username)) {
             this.resetKillstreak();
         }
         // Bounty Hunters
-        else if(textMessage.contains(" was killed by " + username)) {
+        else if (textMessage.contains(" was killed by " + username)) {
             this.addKill();
-        } else if(textMessage.contains(username + " was killed ")) {
+        } else if (textMessage.contains(username + " was killed ")) {
             this.resetKillstreak();
         }
         // Throw Out
-        else if(textMessage.contains(" was punched into the void by " + username)) {
+        else if (textMessage.contains(" was punched into the void by " + username)) {
             this.addKill();
-        } else if(textMessage.contains(username + " was punched into the void by ") || textMessage.contains(username + " became one with the void!")) {
+        } else if (textMessage.contains(username + " was punched into the void by ") || textMessage.contains(username + " became one with the void!")) {
             this.resetKillstreak();
         }
     }
 
     public String getRenderingString() {
-        if(this.showGreatest) {
+        if (this.showGreatest) {
             return GREATEST_KILLSTREAK_DISPLAY_TEXT + this.greatestKillstreak;
         } else {
             return CURRENT_KILLSTREAK_DISPLAY_TEXT + this.currentKillstreak;
@@ -79,7 +79,7 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
 
     private void addKill() {
         this.currentKillstreak++;
-        if(this.currentKillstreak > this.greatestKillstreak) {
+        if (this.currentKillstreak > this.greatestKillstreak) {
             this.greatestKillstreak = this.currentKillstreak;
         }
     }
@@ -89,10 +89,12 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
     }
 
     @Override
-    public void onTickUpdate() { }
+    public void onTickUpdate() {
+    }
 
     @Override
-    public void onGameStart() { }
+    public void onGameStart() {
+    }
 
 
     @Override

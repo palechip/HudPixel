@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -22,9 +22,9 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.chat;
 
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -45,48 +45,48 @@ public class WarlordsDamageChatFilter {
 
     public void onChat(ClientChatReceivedEvent e) {
         // only if we are in a Warlords game
-        if(GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
+        if (GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
             // isHypixelNetwork if the filter is enabled
-            if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
+            if (HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
                 String message = e.message.getUnformattedText();
                 // incoming
-                if(message.startsWith(take)) {
+                if (message.startsWith(take)) {
                     // healing
-                    if(message.contains(healing)) {
-                        if(HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
+                    if (message.contains(healing)) {
+                        if (HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                     // absorption
-                    else if(message.contains(absorption)) {
-                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
+                    else if (message.contains(absorption)) {
+                        if (HudPixelConfig.warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
                     }
                     // damage
-                    else  {
-                        if(HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
+                    else {
+                        if (HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                 }
                 // outgoing
-                else if(message.startsWith(give)) {
+                else if (message.startsWith(give)) {
                     // healing
-                    if(message.contains(healing)) {
-                        if(HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
+                    if (message.contains(healing)) {
+                        if (HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                     // absorption
-                    else if(message.contains(absorption)) {
-                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
+                    else if (message.contains(absorption)) {
+                        if (HudPixelConfig.warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
                     }
                     // damage
-                    else  {
-                        if(HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
+                    else {
+                        if (HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
@@ -112,7 +112,7 @@ public class WarlordsDamageChatFilter {
             // do some regex magic
             Pattern p = Pattern.compile("\\s[0-9]+\\s");
             Matcher m = p.matcher(message);
-            if(!m.find()) {
+            if (!m.find()) {
                 // We failed :(
                 return Integer.MAX_VALUE;
             }
@@ -120,7 +120,7 @@ public class WarlordsDamageChatFilter {
             String result = m.group(m.groupCount());
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
-        } catch(Exception e) {
+        } catch (Exception e) {
             HudPixelMod.instance().logDebug("Failed to extract damage from this message: " + message);
         }
         // We failed :(

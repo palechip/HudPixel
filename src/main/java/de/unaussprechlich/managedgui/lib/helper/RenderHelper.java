@@ -14,8 +14,8 @@ public class RenderHelper {
 
     public static void renderContainer(Container container) {
         StorageTwoSame<Short> innerSize = processInnerSize(container.width, container.height, container.padding);
-        renderContainerBackground((short) (container.xStart + container.margin.LEFT + container.border.LEFT),(short) (container.yStart + container.margin.TOP + container.border.TOP), container.backgroundRGBA, innerSize.t0, innerSize.t1, container.backgroundImage);
-        RenderUtils.renderBorder((short) (container.xStart + container.margin.LEFT ), (short)(container.yStart + container.margin.TOP), innerSize.t0, innerSize.t1, container.border, container.borderRGBA);
+        renderContainerBackground((short) (container.xStart + container.margin.LEFT + container.border.LEFT), (short) (container.yStart + container.margin.TOP + container.border.TOP), container.backgroundRGBA, innerSize.t0, innerSize.t1, container.backgroundImage);
+        RenderUtils.renderBorder((short) (container.xStart + container.margin.LEFT), (short) (container.yStart + container.margin.TOP), innerSize.t0, innerSize.t1, container.border, container.borderRGBA);
     }
 
     private static void renderContainerBackground(short xStart, short yStart, ColorRGBA color, short width, short height, ResourceLocation image) {

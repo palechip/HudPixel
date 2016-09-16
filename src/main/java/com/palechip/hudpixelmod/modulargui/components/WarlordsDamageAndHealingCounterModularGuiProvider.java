@@ -1,8 +1,8 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 
@@ -15,7 +15,9 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS) && !GameDetector.isLobby();
     }
 
-    public enum Type {Damage, Healing};
+    public enum Type {Damage, Healing}
+
+    ;
 
     private Type type;
     private int count;
@@ -44,13 +46,13 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // incoming
-        if(textMessage.startsWith(WarlordsDamageChatFilter.give)) {
+        if (textMessage.startsWith(WarlordsDamageChatFilter.give)) {
             // healing
-            if(this.type == Type.Healing && textMessage.contains(WarlordsDamageChatFilter.healing)) {
+            if (this.type == Type.Healing && textMessage.contains(WarlordsDamageChatFilter.healing)) {
                 this.count += getDamageOrHealthValue(textMessage);
             }
             // damage
-            if(this.type == Type.Damage && !textMessage.contains(WarlordsDamageChatFilter.absorption) && !textMessage.contains(WarlordsDamageChatFilter.healing)) {
+            if (this.type == Type.Damage && !textMessage.contains(WarlordsDamageChatFilter.absorption) && !textMessage.contains(WarlordsDamageChatFilter.healing)) {
                 this.count += getDamageOrHealthValue(textMessage);
             }
         }
@@ -58,7 +60,7 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
 
     public String getRenderingString() {
         // if the played class doens't have access to healing, they won't be bothered.
-        if(this.count == 0 && this.type == Type.Healing) {
+        if (this.count == 0 && this.type == Type.Healing) {
             return "";
         }
 
@@ -66,7 +68,7 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
         double formatted = Math.round(this.count / 100.0) / 10.0;
 
         //eladkay: yes, I know.
-        switch(this.type) {
+        switch (this.type) {
             case Healing:
                 return formatted + "k";
             case Damage:
@@ -86,20 +88,20 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
             // do some regex magic
             Pattern p = Pattern.compile("\\s[0-9]+\\s");
             Matcher m = p.matcher(message);
-            if(!m.find()) {
+            if (!m.find()) {
                 // We failed :(
                 return 0;
             }
             // save the result
             String result = m.group();
             // if there is a second match, we'll use that because the first was an all number username in this case
-            if(m.find()) {
+            if (m.find()) {
                 result = m.group();
             }
 
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
-        } catch(Exception e) {
+        } catch (Exception e) {
             HudPixelMod.instance().logDebug("Failed to extract damage from this message: " + message);
         }
         // We failed :(

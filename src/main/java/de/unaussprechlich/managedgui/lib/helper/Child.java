@@ -8,10 +8,15 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 public interface Child {
 
     void onClientTick();
+
     void onRenderTick();
+
     void onChatMessage(ClientChatReceivedEvent e);
+
     void onClick(MouseHandler.ClickType clickType);
+
     void onScroll(int i);
+
     void onMouseMove(int mX, int mY);
 
 }

@@ -1,6 +1,6 @@
 package net.hypixel.api.request;
 
-public enum RequestVar{
+public enum RequestVar {
     NAME("name"),
     BY_NAME("byName"),
     BY_UUID("byUuid"),
@@ -11,12 +11,12 @@ public enum RequestVar{
 
     private final String varType;
 
-    RequestVar(String s){
+    RequestVar(String s) {
         this.varType = s;
     }
 
-    public String getValue(){
-        return  varType;
+    public String getValue() {
+        return varType;
     }
 
 }

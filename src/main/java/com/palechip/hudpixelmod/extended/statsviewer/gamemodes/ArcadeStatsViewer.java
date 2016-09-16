@@ -46,7 +46,6 @@ public class ArcadeStatsViewer extends StatsDisplayer implements IGameStatsViewe
     private static final String COINS = D_GRAY + " [" + GRAY + "Coins" + D_GRAY + "] ";
 
 
-
     public ArcadeStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();

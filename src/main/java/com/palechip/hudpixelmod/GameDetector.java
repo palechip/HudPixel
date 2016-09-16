@@ -119,18 +119,21 @@ public class GameDetector {
 
     int cooldown = 0;
     private boolean schedule = false;
+
     static {
         MinecraftForge.EVENT_BUS.register(new GameDetector());
     }
+
     @SubscribeEvent
     public void onServerChange(EntityJoinWorldEvent event) {
-        if(!(event.entity instanceof EntityPlayerSP)) return;
+        if (!(event.entity instanceof EntityPlayerSP)) return;
         EntityPlayerSP player = (EntityPlayerSP) event.entity;
         player.sendChatMessage("/whereami");
         cooldown = 5;
     }
 
     int scheduleWhereami = -1;
+
     @SubscribeEvent
     public void onLogin(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         scheduleWhereami = 10;
@@ -171,9 +174,10 @@ public class GameDetector {
                         ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame);
                         ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart);
                     }
-                if(game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
+                if (game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
                     //success!
-                    if(HudPixelMod.IS_DEBUGGING) Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
+                    if (HudPixelMod.IS_DEBUGGING)
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
                 } else {
                     currentGameType = GameType.UNKNOWN;
                     schedule = true;
@@ -190,19 +194,20 @@ public class GameDetector {
         title = stripColor(title).toLowerCase();
         cooldown--;
         scheduleWhereami--;
-        if(schedule || cooldown == 0) update(title);
-        if(scheduleWhereami == 0 && Minecraft.getMinecraft().thePlayer != null) {
+        if (schedule || cooldown == 0) update(title);
+        if (scheduleWhereami == 0 && Minecraft.getMinecraft().thePlayer != null) {
             scheduleWhereami = -1;
             Minecraft.getMinecraft().thePlayer.sendChatMessage("/whereami");
         }
     }
 
     private static boolean isLobby = false;
+
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
-        if(message.toLowerCase().contains("currently on server".toLowerCase())) {
-            if(LOBBY_MATCHER.asPredicate().test(message)) { //lobby
+        if (message.toLowerCase().contains("currently on server".toLowerCase())) {
+            if (LOBBY_MATCHER.asPredicate().test(message)) { //lobby
                 isLobby = true;
                 ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameEnd);
             }

@@ -36,7 +36,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.HashMap;
 
-public class OnlineFriendsUpdater implements IEventHandler{
+public class OnlineFriendsUpdater implements IEventHandler {
 
     //######################################################################################################################
     // [SETTING] the friendlist separation message
@@ -49,20 +49,20 @@ public class OnlineFriendsUpdater implements IEventHandler{
     private static final int REQUEST_DELAY = 5000;
     //######################################################################################################################
 
-    private  HashMap<String, String> onlineFriends = new HashMap<String, String>();
-    private  boolean friendListExpected = false;
-    private  boolean friendsListStarted = false;
-    private  boolean maybeFriendsList = false;
-    private  long lastRequest = 0;
-    private  boolean hasFinished = false;
+    private HashMap<String, String> onlineFriends = new HashMap<String, String>();
+    private boolean friendListExpected = false;
+    private boolean friendsListStarted = false;
+    private boolean maybeFriendsList = false;
+    private long lastRequest = 0;
+    private boolean hasFinished = false;
 
-    private  int count = 0;
-    private  int page = 1;
-    private  boolean requestNextPage = false;
+    private int count = 0;
+    private int page = 1;
+    private boolean requestNextPage = false;
 
     private IUpdater callback;
 
-    OnlineFriendsUpdater(IUpdater iUpdater){
+    OnlineFriendsUpdater(IUpdater iUpdater) {
         LoggerHelper.logInfo("[OnlineFriends][Updater]: going to update your online friends!");
         HudPixelExtendedEventHandler.registerIEvent(this);
         onlineFriends.clear();
@@ -70,7 +70,7 @@ public class OnlineFriendsUpdater implements IEventHandler{
         requestPage(1);
     }
 
-    private void requestPage(int page){
+    private void requestPage(int page) {
         requestNextPage = false;
         lastRequest = System.currentTimeMillis();
         friendListExpected = true;
@@ -80,18 +80,20 @@ public class OnlineFriendsUpdater implements IEventHandler{
     /**
      * function which checks if the friendlist is outdated and if there is another
      * request for a second,... /f list X command
+     *
      * @firedBY HudPixelExtendedEventHandler > onClientTick()
      */
     @Override
     public void onClientTick() {
-        if(requestNextPage && System.currentTimeMillis() > (lastRequest + REQUEST_DELAY)){
-            LoggerHelper.logInfo("[OnlineFriends][Updater]: Why do you have so many friends ... i will request page " +  page + " now!") ;
+        if (requestNextPage && System.currentTimeMillis() > (lastRequest + REQUEST_DELAY)) {
+            LoggerHelper.logInfo("[OnlineFriends][Updater]: Why do you have so many friends ... i will request page " + page + " now!");
             requestPage(page);
         }
     }
 
     /**
      * listens to the chatevents if there is a requested friendlist
+     *
      * @param e ClientChatReceivedEven
      * @firedBY HudPixelExtendedEventHandler > onChat()
      */
@@ -99,30 +101,29 @@ public class OnlineFriendsUpdater implements IEventHandler{
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         //TODO: THIS IS PRETTY AF ... I NEED MORE VARS TO MAKE IT WORK ... YOU CAN STILL UNDERSTAND HOW IT SEPARATES o.O
         // checks first if there is a request
-        if (friendListExpected){
+        if (friendListExpected) {
             String m = e.message.getUnformattedText();
             //starts and stops the friendlistchatparser by the separation message
 
             if (m.startsWith(SEPARATION_MESSAGE)) {
-                if(friendsListStarted){
+                if (friendsListStarted) {
                     resetFriendList(false);
                 } else {
                     maybeFriendsList = true;
                 }
 
-            } else if(maybeFriendsList){
-                if(m.contains(FRIENDS_LIST_START)){
+            } else if (maybeFriendsList) {
+                if (m.contains(FRIENDS_LIST_START)) {
                     maybeFriendsList = false;
                     friendsListStarted = true;
-                }
-                else
+                } else
                     resetFriendList(true);
-            }else if(m.contains(IS_CURRENTLY_OFFLINE)){
+            } else if (m.contains(IS_CURRENTLY_OFFLINE)) {
                 hasFinished = true;
-            }else if(!m.contains(IS_CURRENTLY_OFFLINE) && friendsListStarted){
-                count ++;
-                if(count >= 8){
-                    page ++;
+            } else if (!m.contains(IS_CURRENTLY_OFFLINE) && friendsListStarted) {
+                count++;
+                if (count >= 8) {
+                    page++;
                     requestNextPage = true;
                 }
                 chatParser(m);
@@ -136,6 +137,7 @@ public class OnlineFriendsUpdater implements IEventHandler{
 
     /**
      * a internal function which separates the message and extracts player, game and servertype
+     *
      * @param m message to parse
      */
     private void chatParser(String m) {
@@ -153,8 +155,8 @@ public class OnlineFriendsUpdater implements IEventHandler{
 
             if (singleWords[singleWords.length - 1].equalsIgnoreCase("game"))
                 gameType = EnumChatFormatting.RED + singleWords[4];
-            else if(singleWords[singleWords.length - 1].equalsIgnoreCase("lobby"))
-                    gameType = EnumChatFormatting.GREEN + singleWords[4];
+            else if (singleWords[singleWords.length - 1].equalsIgnoreCase("lobby"))
+                gameType = EnumChatFormatting.GREEN + singleWords[4];
 
             //needed to add support for games like Crazy Walls who are written in two words
             for (int i = 5; i < singleWords.length; i++) {
@@ -169,18 +171,18 @@ public class OnlineFriendsUpdater implements IEventHandler{
             // if the player is idling in the limbo
         else if (singleWords[2].equalsIgnoreCase("idle"))
             gameType = EnumChatFormatting.GRAY + "idle in Limbo";
-        LoggerHelper.logInfo("[OnlineFriends][Updater]: [" +  playerName + "] -> " + gameType) ;
+        LoggerHelper.logInfo("[OnlineFriends][Updater]: [" + playerName + "] -> " + gameType);
         onlineFriends.put(playerName, gameType);
     }
 
-    private void resetFriendList(boolean error){
-        if(error) {
+    private void resetFriendList(boolean error) {
+        if (error) {
             callback.onUpdaterResponse(null);
-            LoggerHelper.logInfo("[OnlineFriends][Updater]: Something went wrong on Page: " +  page + " Line: " + count + "!") ;
+            LoggerHelper.logInfo("[OnlineFriends][Updater]: Something went wrong on Page: " + page + " Line: " + count + "!");
             HudPixelExtendedEventHandler.unregisterIEvent(this);
             callback.onUpdaterResponse(null);
         } else {
-            if(hasFinished){
+            if (hasFinished) {
                 HudPixelExtendedEventHandler.unregisterIEvent(this);
                 callback.onUpdaterResponse(onlineFriends);
             }
@@ -192,13 +194,16 @@ public class OnlineFriendsUpdater implements IEventHandler{
     }
 
     @Override
-    public void onRender() {}
+    public void onRender() {
+    }
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY) {}
+    public void handleMouseInput(int i, int mX, int mY) {
+    }
 
     @Override
-    public void onMouseClick(int mX, int mY) {}
+    public void onMouseClick(int mX, int mY) {
+    }
 
 
 }

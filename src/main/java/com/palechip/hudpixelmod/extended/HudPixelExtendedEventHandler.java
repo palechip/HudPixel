@@ -49,44 +49,46 @@ import java.util.ArrayList;
 
 import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 
-public class HudPixelExtendedEventHandler{
+public class HudPixelExtendedEventHandler {
 
     private static ArrayList<IEventHandler> ieventArrayList = new ArrayList<IEventHandler>();
-    public static void registerIEvent(IEventHandler iEventHandler){
+
+    public static void registerIEvent(IEventHandler iEventHandler) {
         ieventArrayList.add(iEventHandler);
     }
-    public static void unregisterIEvent(IEventHandler iEventHandler){
+
+    public static void unregisterIEvent(IEventHandler iEventHandler) {
         ieventArrayList.remove(iEventHandler);
     }
 
-    private static ArrayList<IEventHandler> getIeventBuffer(){
+    private static ArrayList<IEventHandler> getIeventBuffer() {
         return new ArrayList<IEventHandler>(ieventArrayList);
     }
 
     @SubscribeEvent
-    public void onPlayerName(PlayerEvent.NameFormat e){
+    public void onPlayerName(PlayerEvent.NameFormat e) {
         StaffManager.onPlayerName(e);
     }
 
     @SubscribeEvent
-    public void onRenderWorldLast(RenderWorldLastEvent e){
-        try{
-            if(!HudPixelMod.isHypixelNetwork())return;
-        }catch (Exception ex){
+    public void onRenderWorldLast(RenderWorldLastEvent e) {
+        try {
+            if (!HudPixelMod.isHypixelNetwork()) return;
+        } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
 
     @SubscribeEvent
-    public void onRenderPlayer(RenderPlayerEvent.Pre e){
+    public void onRenderPlayer(RenderPlayerEvent.Pre e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if(HudPixelMod.isHypixelNetwork() ) {
+            if (HudPixelMod.isHypixelNetwork()) {
                 //just triggeres the statsrenderer if the player is waiting for the game to start
-                if(!(HudPixelMod.instance().gameDetector.isLobby())
-                && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
-                && Config.isStats)
+                if (!(HudPixelMod.instance().gameDetector.isLobby())
+                        && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
+                        && Config.isStats)
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
@@ -99,9 +101,9 @@ public class HudPixelExtendedEventHandler{
     public void onOpenGui(GuiOpenEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if(HudPixelMod.isHypixelNetwork()) {
-                if(Minecraft.getMinecraft().thePlayer != null)
-                OnlineFriendManager.getInstance();
+            if (HudPixelMod.isHypixelNetwork()) {
+                if (Minecraft.getMinecraft().thePlayer != null)
+                    OnlineFriendManager.getInstance();
                 FancyChat.getInstance().openGui();
             }
         } catch (Exception ex) {
@@ -110,12 +112,12 @@ public class HudPixelExtendedEventHandler{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
+    @SubscribeEvent(receiveCanceled = true)
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
-                for(IEventHandler i : getIeventBuffer())
+                for (IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);
                 FancyChat.getInstance().onChat(e);
             }
@@ -126,6 +128,7 @@ public class HudPixelExtendedEventHandler{
             throwable.printStackTrace();
         }
     }
+
     long lastSystemTime = System.currentTimeMillis();
     int delay = 20 * 1000; //20s
 
@@ -134,25 +137,25 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
-                for(IEventHandler i : getIeventBuffer())
+                for (IEventHandler i : getIeventBuffer())
                     i.onClientTick();
                 FancyListManager.processLoadingBar();
                 handleMouseScroll();
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
-                if(!(HudPixelMod.instance().gameDetector.isLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                if (!(HudPixelMod.instance().gameDetector.isLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
                     StatsViewerManager.onClientTick();
 
-                if(lastSystemTime+delay < System.currentTimeMillis()){
+                if (lastSystemTime + delay < System.currentTimeMillis()) {
                     lastSystemTime = System.currentTimeMillis();
                 }
 
 
-            } else if(Config.isDebuging){
+            } else if (Config.isDebuging) {
                 FancyChat.getInstance().onClientTick();
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
             ex.printStackTrace();
         }
@@ -163,9 +166,9 @@ public class HudPixelExtendedEventHandler{
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
-                for(IEventHandler i : getIeventBuffer())
+                for (IEventHandler i : getIeventBuffer())
                     i.onRender();
-                if(Config.isFancyChat) FancyChat.getInstance().onRenderTick();
+                if (Config.isFancyChat) FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
@@ -176,45 +179,46 @@ public class HudPixelExtendedEventHandler{
     private static final long clickDelay = 1000;
     private static long lastTimeClicked;
     private static boolean doubleClick = false;
-    public static void mouseClickEvent(){
-        Minecraft mc = Minecraft.getMinecraft();
-        if(!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 
-        if(System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)){
+    public static void mouseClickEvent() {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
+
+        if (System.currentTimeMillis() > (lastTimeClicked + clickDelay) && Mouse.isButtonDown(0)) {
             doubleClick = false;
             lastTimeClicked = System.currentTimeMillis();
 
-        } else if(System.currentTimeMillis() < (lastTimeClicked + clickDelay)){
-            if(!Mouse.isButtonDown(0) && !doubleClick){
+        } else if (System.currentTimeMillis() < (lastTimeClicked + clickDelay)) {
+            if (!Mouse.isButtonDown(0) && !doubleClick) {
                 doubleClick = true;
                 return;
             }
 
-            if(Mouse.isButtonDown(0) && doubleClick){
+            if (Mouse.isButtonDown(0) && doubleClick) {
                 doubleClick = false;
                 int scale = getMcScale();
 
                 int mX = Mouse.getX() / scale;
                 int mY = (mc.displayHeight - Mouse.getY()) / scale;
-                for(IEventHandler iE : getIeventBuffer()){
+                for (IEventHandler iE : getIeventBuffer()) {
                     iE.onMouseClick(mX, mY);
                 }
             }
         }
     }
 
-    private static void handleMouseScroll(){
+    private static void handleMouseScroll() {
         mouseClickEvent();
 
         Minecraft mc = Minecraft.getMinecraft();
-        if(!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
+        if (!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 
         int scale = getMcScale();
 
         int mX = Mouse.getX() / scale;
         int mY = (mc.displayHeight - Mouse.getY()) / scale;
         int i = Mouse.getDWheel();
-        for(IEventHandler iE : getIeventBuffer()){
+        for (IEventHandler iE : getIeventBuffer()) {
             iE.handleMouseInput(i, mX, mY);
         }
         FancyChat.getInstance().handleMouseInput(i);
@@ -222,6 +226,7 @@ public class HudPixelExtendedEventHandler{
 
     /**
      * prints the message to the clientchat
+     *
      * @param message the message
      **/
     private static void printMessage(String message) {

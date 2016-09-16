@@ -10,55 +10,55 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 /**
  * Created by kecka on 25.08.2016.
  */
-public class Screen implements Child{
+public class Screen implements Child {
 
     private ChildRegistry childRegistry = new ChildRegistry();
     private GuiScreen guiScreen;
     private String id;
 
-    public Screen (String id, GuiScreen guiScreen){
+    public Screen(String id, GuiScreen guiScreen) {
         this.id = id;
         this.guiScreen = guiScreen;
     }
 
-    private boolean checkDisplayType(){
+    private boolean checkDisplayType() {
         return Minecraft.getMinecraft().currentScreen.getClass().equals(guiScreen.getClass());
     }
 
 
     @Override
     public void onClientTick() {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onClientTick();
     }
 
     @Override
     public void onRenderTick() {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onRender();
     }
 
     @Override
     public void onChatMessage(ClientChatReceivedEvent e) {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onChatMessage(e);
     }
 
     @Override
     public void onClick(MouseHandler.ClickType clickType) {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onClick(clickType);
     }
 
     @Override
     public void onScroll(int i) {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onScroll(i);
     }
 
     @Override
     public void onMouseMove(int mX, int mY) {
-        if(!checkDisplayType()) return;
+        if (!checkDisplayType()) return;
         childRegistry.onMouseMove(mX, mY);
     }
 }

@@ -1,8 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer;
 
-import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
 import com.palechip.hudpixelmod.extended.statsviewer.msc.StatsCache;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -46,7 +46,7 @@ public class StatsViewerRender {
     private IGameStatsViewer iGameStatsViewer;
     private long expireTimestamp;
 
-    StatsViewerRender(GameType gameType, String playerName){
+    StatsViewerRender(GameType gameType, String playerName) {
         this.iGameStatsViewer = StatsCache.getPlayerByName(playerName, gameType);
         this.expireTimestamp = System.currentTimeMillis() + DURATION;
     }
@@ -57,6 +57,7 @@ public class StatsViewerRender {
 
     /**
      * Renders the stats above the player
+     *
      * @param event RenderPlayerEvent
      */
     void onRenderPlayer(RenderPlayerEvent.Pre event) {
@@ -64,9 +65,9 @@ public class StatsViewerRender {
         double offset = 0.3;
         int i = 1;
 
-        if(this.iGameStatsViewer.getRenderList() != null){
-            for(String s : this.iGameStatsViewer.getRenderList()){
-                renderName(event.renderer, s, event.entityPlayer, event.x, event.y+(offset * i), event.z);
+        if (this.iGameStatsViewer.getRenderList() != null) {
+            for (String s : this.iGameStatsViewer.getRenderList()) {
+                renderName(event.renderer, s, event.entityPlayer, event.x, event.y + (offset * i), event.z);
                 i++;
             }
         } else {
@@ -76,12 +77,13 @@ public class StatsViewerRender {
 
     /**
      * renders a string above a Player copied from the original mc namerenderer
+     *
      * @param renderer the renderer
-     * @param str the string to render
+     * @param str      the string to render
      * @param entityIn the entity to render above
-     * @param x x-cord
-     * @param y y-cord
-     * @param z z-cord
+     * @param x        x-cord
+     * @param y        y-cord
+     * @param z        z-cord
      */
 
     private static void renderName(RendererLivingEntity renderer, String str, EntityPlayer entityIn, double x, double y, double z) {
@@ -89,7 +91,7 @@ public class StatsViewerRender {
         float f = 1.6F;
         float f1 = 0.016666668F * f;
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
+        GlStateManager.translate((float) x + 0.0F, (float) y + entityIn.height + 0.5F, (float) z);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-renderer.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(renderer.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
@@ -106,10 +108,10 @@ public class StatsViewerRender {
         int j = fontrenderer.getStringWidth(str) / 2;
         GlStateManager.disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos((double)(-j - 1), (double)(-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double)(-j - 1), (double)(8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double)(j + 1), (double)(8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double)(j + 1), (double)(-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos((double) (-j - 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos((double) (-j - 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos((double) (j + 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos((double) (j + 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, i, 553648127);

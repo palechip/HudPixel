@@ -38,7 +38,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public void onTickUpdate() {
-        if(this.isDisplaying) {
+        if (this.isDisplaying) {
           /*  // count down the ticks
             this.ticksLeft--;
             if(this.ticksLeft <= 0) {
@@ -67,16 +67,16 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        if(textMessage.contains("Deathmatch in 45 seconds!") || textMessage.contains("Deathmatch begins in 1 minute!")) {
+        if (textMessage.contains("Deathmatch in 45 seconds!") || textMessage.contains("Deathmatch begins in 1 minute!")) {
             this.isDisplaying = true;
-           // this.ticksLeft = DISPLAY_TIME;
+            // this.ticksLeft = DISPLAY_TIME;
         } else if (textMessage.contains("Reward Summary") || textMessage.contains("lobby")) {
             isDisplaying = false;
         }
     }
 
     public String getRenderingString() {
-        if(this.isDisplaying) {
+        if (this.isDisplaying) {
             return this.renderingString;
         } else {
             return "";

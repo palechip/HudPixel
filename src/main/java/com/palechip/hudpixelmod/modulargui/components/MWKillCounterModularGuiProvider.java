@@ -15,10 +15,13 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
 
     private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
     private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;
-    private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA +  "" + EnumChatFormatting.ITALIC +"Assists: " + EnumChatFormatting.DARK_GRAY;
-    private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE +  "" + EnumChatFormatting.ITALIC +"Final Assists: " + EnumChatFormatting.DARK_GRAY;
+    private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
+    private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
-    public static enum KillType {Normal, Final, Assists, Final_Assists, Wither_Coins};
+
+    public static enum KillType {Normal, Final, Assists, Final_Assists, Wither_Coins}
+
+    ;
 
     private KillType trackedType = KillType.Normal;
     private int kills;
@@ -44,35 +47,35 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // coin message?, not from tipping
-        if(textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
+        if (textMessage.startsWith("+") && textMessage.toLowerCase().contains("coins") && !textMessage.toLowerCase().contains("for being generous :)")) {
             switch (this.trackedType) {
                 case Normal:
                     // exclude wither rushing reward
-                    if(!textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL") && !textMessage.contains("Wither Damage")) {
+                    if (!textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL") && !textMessage.contains("Wither Damage")) {
                         this.kills++;
                     }
                     // some ninja detection for kills over 18
-                    if(this.kills >= 18 && textMessage.contains("was killed by " + FMLClientHandler.instance().getClient().getSession().getUsername())) {
+                    if (this.kills >= 18 && textMessage.contains("was killed by " + FMLClientHandler.instance().getClient().getSession().getUsername())) {
                         this.kills++;
                     }
                     break;
                 case Final:
-                    if(!textMessage.contains("ASSIST") && textMessage.contains("FINAL KILL")) {
+                    if (!textMessage.contains("ASSIST") && textMessage.contains("FINAL KILL")) {
                         this.kills++;
                     }
                     break;
                 case Assists:
-                    if(textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL")) {
+                    if (textMessage.contains("ASSIST") && !textMessage.contains("FINAL KILL")) {
                         this.kills++;
                     }
                     break;
                 case Final_Assists:
-                    if(textMessage.contains("ASSIST") && textMessage.contains("FINAL KILL")) {
+                    if (textMessage.contains("ASSIST") && textMessage.contains("FINAL KILL")) {
                         this.kills++;
                     }
                     break;
                 case Wither_Coins:
-                    if(textMessage.contains("Wither Damage")) {
+                    if (textMessage.contains("Wither Damage")) {
                         this.kills += CoinCounterModularGuiProvider.getCoinsFromMessage(textMessage);
                     }
                     break;

@@ -42,8 +42,9 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class BoosterManager extends FancyListManager implements BoosterResponseCallback{
+public class BoosterManager extends FancyListManager implements BoosterResponseCallback {
 
 //######################################################################################################################
 
@@ -83,11 +84,11 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * sets the settings for the fancyListManager and also generates all boosters
      * in the gamesWithBooster array.
      */
-    public BoosterManager(){
+    public BoosterManager() {
         //TODO render right side
         super(5, Config.xOffsetBoosterDisplay, Config.yOffsetBoosterDisplay, Config.shownBooosterDisplayRight); //this sets how many boosters are displayed at once you can change that
         this.isButtons = true;
-        for(GameType g : gamesWithBooster){
+        for (GameType g : gamesWithBooster) {
             this.fancyListObjects.add(new BoosterExtended(g));
         }
     }
@@ -98,8 +99,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * will be nothing shown.
      */
     @Override
-    public void onRender(){
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && Config.isBoosterDisplay){
+    public void onRender() {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && Config.isBoosterDisplay) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
@@ -112,8 +113,9 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * to each FancyListObject
      */
     int count = 0;
+
     @Override
-    public void onClientTick(){
+    public void onClientTick() {
 
         this.shownObjects = Config.boostersShownAtOnce;
         this.yStart = Config.yOffsetBoosterDisplay;
@@ -122,44 +124,46 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
 
         requestBoosters(false);
-        for(FancyListObject b : fancyListObjects){
+        for (FancyListObject b : fancyListObjects) {
             b.onClientTick();
         }
     }
 
     /**
      * Filters out the tipped message and notifies the BoosterExtended that is had been tipped.
+     *
      * @param e The chatEvent
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) {
         String chat = e.message.getUnformattedText();
-        if(!chat.contains("You tipped ") || chat.contains(":")) return;
+        if (!chat.contains("You tipped ") || chat.contains(":")) return;
 
         String[] split = chat.split(" ");
         String player = split[2];
         String gamemode = split[4];
 
-        for(int i = 5; i < split.length; i++)
-            gamemode+=(" " + split[i]);
+        for (int i = 5; i < split.length; i++)
+            gamemode += (" " + split[i]);
 
         GameType gameType = GameType.getTypeByName(gamemode);
 
-        for(FancyListObject f : fancyListObjects){
+        for (FancyListObject f : fancyListObjects) {
             BoosterExtended b = (BoosterExtended) f;
-            if(b.getGameType() == gameType)
+            if (b.getGameType() == gameType)
                 b.setGameModeTipped(player);
         }
     }
 
     /**
      * This requests the boosters via the api interaction
+     *
      * @param forceRequest Set this to true if you want to force the request
      */
-    void requestBoosters(Boolean forceRequest){
-        if(HudPixelConfig.useAPI && Config.isBoosterDisplay) {
+    void requestBoosters(Boolean forceRequest) {
+        if (HudPixelConfig.useAPI && Config.isBoosterDisplay) {
             // isHypixelNetwork if enough time has past
-            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
+            if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
@@ -171,32 +175,36 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     /**
      * This method gets called when there is a booster response
      * Sorry for this messy if-for but somehow it works :P
+     *
      * @param boosters the boosters parsed by the callback
      */
     @Override
     public void onBoosterResponse(ArrayList<Booster> boosters) {
 
         // we aren't loading anymore
-        if(boosters != null) {
-            for(Booster b : boosters){
+        if (boosters != null) {
+            for (Booster b : boosters) {
                 GameType gameType = GameType.getTypeByID(b.getGameID());
                 Boolean found = false;
-                if(b.getRemainingTime() < b.getTotalLength()) {
-                    for(FancyListObject fco : fancyListObjects){
+                if (b.getRemainingTime() < b.getTotalLength()) {
+                    for (FancyListObject fco : fancyListObjects) {
                         BoosterExtended be = (BoosterExtended) fco;
-                        if(be.getGameType() == gameType ){
-                            if(be.getBooster() != null  && be.getBooster().getOwner() == b.getOwner()){
-                                found = true; break;
+                        if (be.getGameType() == gameType) {
+                            if (be.getBooster() != null && Objects.equals(be.getBooster().getOwner(), b.getOwner())) {
+                                found = true;
+                                break;
                             } else {
                                 be.setCurrentBooster(b);
                                 LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
-                                        +" and owner " + b.getOwner() + " in the boosterdisplay!");
+                                        + " and owner " + b.getOwner() + " in the boosterdisplay!");
                             }
-                            found = true; break;
+                            found = true;
+                            break;
                         }
                     }
-                    if(!found) LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
-                                +" and owner " + b.getOwner() + "!");
+                    if (!found)
+                        LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
+                                + " and owner " + b.getOwner() + "!");
                 }
             }
         } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");

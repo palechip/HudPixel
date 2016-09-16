@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -49,7 +49,7 @@ import java.util.UUID;
 public class QueueEntry {
     private boolean isSecondTry;
     private long creationTime;
-    
+
     private BoosterResponseCallback boosterCallback;
     private SessionResponseCallback sessionCallback;
     private FriendResponseCallback friendCallback;
@@ -57,7 +57,7 @@ public class QueueEntry {
     private String player;
     private UUID playerUUID;
     private Boolean viaUUID;
-    
+
     /**
      * This queue entry will perform a getBoosters request
      * @param callback
@@ -66,7 +66,7 @@ public class QueueEntry {
         this.boosterCallback = callback;
         this.creationTime = System.currentTimeMillis();
     }
-    
+
     /**
      * This queue entry will perform a getSession request
      * @param callback
@@ -98,29 +98,29 @@ public class QueueEntry {
         this.playerUUID = player;
         this.creationTime = System.currentTimeMillis();
     }
-    
+
     public QueueEntry(PlayerResponseCallback callback, String player) {
         this.playerCallback = callback;
         this.player = player;
         this.creationTime = System.currentTimeMillis();
     }
-    
+
     public void run() {
         // is it a booster request?
-        if(this.boosterCallback != null) {
+        if (this.boosterCallback != null) {
             this.doBoosterRequest();
-        } else if(this.sessionCallback != null) {
+        } else if (this.sessionCallback != null) {
             this.doSessionRequest();
-        } else if(this.friendCallback != null) {
+        } else if (this.friendCallback != null) {
             this.doFriendRequest();
-        } else if(this.playerCallback != null) {
+        } else if (this.playerCallback != null) {
             this.doPlayerRequest();
         }
     }
-    
+
     private void failed(Throwable failCause) {
         Queue.getInstance().reportFailure(failCause, this.isSecondTry);
-        if(this.isSecondTry) {
+        if (this.isSecondTry) {
             this.cancel();
         } else {
             // retry
@@ -128,23 +128,23 @@ public class QueueEntry {
             this.run();
         }
     }
-    
+
     public void cancel() {
-        if(this.boosterCallback != null) {
+        if (this.boosterCallback != null) {
             this.boosterCallback.onBoosterResponse(null);
-        } else if(this.sessionCallback != null) {
+        } else if (this.sessionCallback != null) {
             this.sessionCallback.onSessionRespone(null);
-        } else if(this.friendCallback != null) {
+        } else if (this.friendCallback != null) {
             this.friendCallback.onFriendResponse(null);
         }
         // open the way for the next request
         Queue.getInstance().unlockQueue();
     }
-    
+
     public long getCreationTime() {
         return this.creationTime;
     }
-    
+
     private void doBoosterRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
 
@@ -152,11 +152,11 @@ public class QueueEntry {
                 .createRequest();
 
         // do the request
-        api.getAsync(request, new Callback<BoostersReply>(BoostersReply.class){
+        api.getAsync(request, new Callback<BoostersReply>(BoostersReply.class) {
 
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
-                if(failCause != null) {
+                if (failCause != null) {
                     // if something went wrong, handle it
                     failed(failCause);
                 } else {
@@ -165,7 +165,7 @@ public class QueueEntry {
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
                     // these objects are represented by the class BoosterExtended
-                    for(JsonElement e : result.getBoosters()) {
+                    for (JsonElement e : result.getBoosters()) {
                         Booster b = gson.fromJson(e, Booster.class);
                         boosters.add(b);
                     }
@@ -174,17 +174,17 @@ public class QueueEntry {
                     // open the way for the next request
                     Queue.getInstance().unlockQueue();
                 }
-        }
+            }
         });
     }
 
-    private UUID stringToUUID(String s){
+    private UUID stringToUUID(String s) {
         String uuidS = s.substring(0, 8) + "-" + s.substring(8, 12) + "-"
-                + s.substring(12, 16) + "-" + s.substring(16,20) + "-"
+                + s.substring(12, 16) + "-" + s.substring(16, 20) + "-"
                 + s.substring(20);
         return UUID.fromString(uuidS);
     }
-    
+
     private void doSessionRequest() {
 
         HypixelAPI api = Queue.getInstance().getAPI();
@@ -192,12 +192,12 @@ public class QueueEntry {
         final Request request;
         // do the request
 
-        if(this.viaUUID){
-             request = RequestBuilder.newBuilder(RequestType.SESSION)
+        if (this.viaUUID) {
+            request = RequestBuilder.newBuilder(RequestType.SESSION)
                     .addParam(RequestParam.SESSION_BY_UUID, stringToUUID(player))
                     .createRequest();
         } else {
-             request = RequestBuilder.newBuilder(RequestType.SESSION)
+            request = RequestBuilder.newBuilder(RequestType.SESSION)
                     .addParam(RequestParam.SESSION_BY_NAME, this.player)
                     .createRequest();
         }
@@ -214,11 +214,11 @@ public class QueueEntry {
                     System.out.println(gson.toString());
                     // the class session represents the entire request
                     Session s = gson.fromJson(result.getSession(), Session.class);
-                    if(s == null) {
+                    if (s == null) {
                         // there was no session, so lets return a session with everything null except the player
                         s = new Session();
                     }
-                    if(viaUUID)
+                    if (viaUUID)
                         s.setSessionOwner(player);
                     else
                         s.setSessionOwner(player);
@@ -230,14 +230,14 @@ public class QueueEntry {
             }
         });
     }
-    
+
     private void doFriendRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
 
         final Request request;
         // do the request
 
-        if(this.playerUUID != null){
+        if (this.playerUUID != null) {
             request = RequestBuilder.newBuilder(RequestType.FRIENDS)
                     .addParam(RequestParam.FRIENDS_BY_UUID, playerUUID)
                     .createRequest();
@@ -247,8 +247,8 @@ public class QueueEntry {
                     .createRequest();
         }
         // do the request
-        api.getAsync(request, new Callback<FriendsReply>(FriendsReply.class){
-            
+        api.getAsync(request, new Callback<FriendsReply>(FriendsReply.class) {
+
             @Override
             public void callback(Throwable failCause, FriendsReply result) {
                 if (failCause != null) {
@@ -261,12 +261,12 @@ public class QueueEntry {
                     Gson gson = Queue.getInstance().getGson();
                     // the response for the booster query is an array with objects
                     // these objects are represented by the class BoosterExtended
-                    for(JsonElement e : result.getRecords()) {
+                    for (JsonElement e : result.getRecords()) {
 
                         Friend f = gson.fromJson(e, Friend.class);
 
-                        if(playerUUID != null) f.setPlayer(playerUUID);
-                        else                   f.setPlayer(player);
+                        if (playerUUID != null) f.setPlayer(playerUUID);
+                        else f.setPlayer(player);
 
                         friends.add(f);
                     }
@@ -278,7 +278,7 @@ public class QueueEntry {
             }
         });
     }
-    
+
     private void doPlayerRequest() {
         HypixelAPI api = Queue.getInstance().getAPI();
 
@@ -287,11 +287,11 @@ public class QueueEntry {
                 .createRequest();
 
         // do the request
-        api.getAsync(request, new Callback<PlayerReply>(PlayerReply.class){
+        api.getAsync(request, new Callback<PlayerReply>(PlayerReply.class) {
 
             @Override
             public void callback(Throwable failCause, PlayerReply result) {
-                if(failCause != null) {
+                if (failCause != null) {
                     // if something went wrong, handle it
                     failed(failCause);
                 } else {

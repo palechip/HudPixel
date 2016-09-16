@@ -36,7 +36,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderUtils {
 
-    public static void renderBorder(short xStart, short yStart, short innerHight, short innerWidth, StorageFourSide border, ColorRGBA color){
+    public static void renderBorder(short xStart, short yStart, short innerHight, short innerWidth, StorageFourSide border, ColorRGBA color) {
         renderBoxWithColor(xStart, yStart, (short) (innerWidth + border.LEFT + border.RIGHT), border.TOP, color);
         renderBoxWithColor(xStart, (short) (yStart + border.TOP + innerHight), (short) (innerWidth + border.LEFT + border.RIGHT), border.BOTTOM, color);
         renderBoxWithColor(xStart, (short) (yStart + border.TOP), border.LEFT, innerHight, color);
@@ -47,17 +47,18 @@ public class RenderUtils {
     /**
      * helper-method, that draws a box wth semitransparent background. Should be with the onRender
      * event.
+     *
      * @param xStart left upper x-cord
      * @param yStart left upper y-cord
      * @param width  with of the box
      * @param height height of the box
      */
-    public static void renderBox(short xStart, short yStart, short width, short height){
+    public static void renderBox(short xStart, short yStart, short width, short height) {
         renderBoxWithColor(xStart, yStart, width, height, new ColorRGBA(0, 0, 0, 0.5f));
     }
 
     public static void renderBoxWithColor(short xStart, short yStart, short width, short height,
-                                          ColorRGBA color){
+                                          ColorRGBA color) {
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -68,8 +69,8 @@ public class RenderUtils {
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
         worldrenderer.pos(xStart + width, yStart + height, 0.0D).endVertex();
-        worldrenderer.pos(xStart + width , yStart, 0.0D).endVertex();
-        worldrenderer.pos(xStart, yStart , 0.0D).endVertex();
+        worldrenderer.pos(xStart + width, yStart, 0.0D).endVertex();
+        worldrenderer.pos(xStart, yStart, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -79,7 +80,7 @@ public class RenderUtils {
     /**
      * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(short x, short y,  short width, short height , ResourceLocation resourceLocation, Float alpha) {
+    public static void drawModalRectWithCustomSizedTexture(short x, short y, short width, short height, ResourceLocation resourceLocation, Float alpha) {
 
         GlStateManager.popMatrix();
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -92,13 +93,17 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(width * f), (double)((height + height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((width + width) * f), (double)((height + height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((width + width) * f), (double)(height * f1)).endVertex();
-        worldrenderer.pos((double)x, (double)y, 0.0D).tex((double)(width * f), (double)(height * f1)).endVertex();
+        worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (width * f), (double) ((height + height) * f1)).endVertex();
+        worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((width + width) * f), (double) ((height + height) * f1)).endVertex();
+        worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((width + width) * f), (double) (height * f1)).endVertex();
+        worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (width * f), (double) (height * f1)).endVertex();
         tessellator.draw();
 
         GlStateManager.pushMatrix();
 
+    }
+
+    public static void renderBoxWithColor(float v, float v1, int i, int i1, int i2, float v2, float v3, float v4, float alpha) {
+        renderBoxWithColor((short) v, (short) v1)
     }
 }

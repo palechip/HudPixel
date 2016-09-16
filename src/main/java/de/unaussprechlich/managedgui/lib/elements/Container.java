@@ -11,7 +11,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 /**
  * Created by kecka on 25.08.2016.
  */
-public abstract  class Container implements Child{
+public abstract class Container implements Child {
 
     public String name;
 
@@ -31,54 +31,59 @@ public abstract  class Container implements Child{
     public ResourceLocation backgroundImage;
 
     abstract boolean onClientTickLocal();
+
     abstract boolean onRenderTickLocal(short xStart, short yStart, short width, short height);
+
     abstract boolean onChatMessageLocal(ClientChatReceivedEvent e);
+
     abstract boolean onClickLocal(MouseHandler.ClickType clickType, boolean isThisContainer);
+
     abstract boolean onScrollLocal(int i, boolean isThisContainer);
+
     abstract boolean onMouseMoveLocal(int mX, int mY);
 
     //CONSTRUCTOR
-    public Container (String name){
+    public Container(String name) {
 
     }
 
-    private boolean checkIfMouseOverContainer(int mX, int mY){
-        return (   mX > xStart + margin.LEFT && mX < xStartInner + padding.RIGHT + border.RIGHT + width
-                && mY > yStart + margin.TOP  && mY < yStartInner + padding.BOTTOM + border.BOTTOM + height);
+    private boolean checkIfMouseOverContainer(int mX, int mY) {
+        return (mX > xStart + margin.LEFT && mX < xStartInner + padding.RIGHT + border.RIGHT + width
+                && mY > yStart + margin.TOP && mY < yStartInner + padding.BOTTOM + border.BOTTOM + height);
     }
 
     @Override
     public void onClientTick() {
-        if(!onClientTickLocal()) return;
+        if (!onClientTickLocal()) return;
         xStartInner = (short) (xStart + padding.LEFT + border.LEFT + margin.LEFT);
-        yStartInner = (short) (yStart + padding.TOP  + border.TOP  + margin.TOP);
+        yStartInner = (short) (yStart + padding.TOP + border.TOP + margin.TOP);
     }
 
     @Override
     public void onRenderTick() {
-        if(!onRenderTickLocal(xStartInner, yStartInner, width, height)) return;
+        if (!onRenderTickLocal(xStartInner, yStartInner, width, height)) return;
         RenderHelper.renderContainer(this);
     }
 
     @Override
     public void onChatMessage(ClientChatReceivedEvent e) {
-        if(!onChatMessageLocal(e)) return;
+        if (!onChatMessageLocal(e)) return;
     }
 
     @Override
     public void onClick(MouseHandler.ClickType clickType) {
         boolean isThisContainer = checkIfMouseOverContainer(MouseHandler.getmX(), MouseHandler.getmY());
-        if(!onClickLocal(clickType, isThisContainer)) return;
+        if (!onClickLocal(clickType, isThisContainer)) return;
     }
 
     @Override
     public void onScroll(int i) {
         boolean isThisContainer = checkIfMouseOverContainer(MouseHandler.getmX(), MouseHandler.getmY());
-        if(!onScrollLocal(i, isThisContainer)) return;
+        if (!onScrollLocal(i, isThisContainer)) return;
     }
 
     @Override
     public void onMouseMove(int mX, int mY) {
-        if(!onMouseMoveLocal(mX, mY)) return;
+        if (!onMouseMoveLocal(mX, mY)) return;
     }
 }

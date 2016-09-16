@@ -102,7 +102,7 @@ public class HypixelAPI {
             }
         } catch (InterruptedException e) {
             callback.callback(e, null);
-        } catch (ExecutionException e){
+        } catch (ExecutionException e) {
             callback.callback(e, null);
         } finally {
             lock.readLock().unlock();

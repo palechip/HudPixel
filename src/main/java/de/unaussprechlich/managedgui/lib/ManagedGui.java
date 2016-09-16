@@ -12,28 +12,30 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 /**
  * Created by kecka on 25.08.2016.
  */
-public class ManagedGui{
+public class ManagedGui {
 
     private static ManagedGui instance;
     private static ChildRegistry childRegistry = new ChildRegistry();
 
-    public static ChildRegistry getChildRegistry() {return childRegistry;}
+    public static ChildRegistry getChildRegistry() {
+        return childRegistry;
+    }
 
-    public static ManagedGui Instance(){
-        if(instance == null) instance = new ManagedGui();
+    public static ManagedGui Instance() {
+        if (instance == null) instance = new ManagedGui();
         return instance;
     }
 
-    private ManagedGui(){
+    private ManagedGui() {
         setup();
     }
 
-    private void setup(){
+    private void setup() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent e){
+    public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             MouseHandler.onClientTick();
             childRegistry.onClientTick();
@@ -44,7 +46,7 @@ public class ManagedGui{
     }
 
     @SubscribeEvent
-    public void onRender(RenderGameOverlayEvent.Post e){
+    public void onRender(RenderGameOverlayEvent.Post e) {
         try {
             childRegistry.onRender();
         } catch (Exception ex) {
@@ -64,7 +66,7 @@ public class ManagedGui{
         }
     }
 
-    @SubscribeEvent(receiveCanceled=true)
+    @SubscribeEvent(receiveCanceled = true)
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             childRegistry.onChatMessage(e);

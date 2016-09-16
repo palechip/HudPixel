@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
@@ -35,7 +35,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
     @Override
     public void onGameStart() {
         // start the general timer and the first lap timer
-        if(this.lap == 0 || this.lap == 1) {
+        if (this.lap == 0 || this.lap == 1) {
             // add the start delay. Setting the start into the future if we know the start delay
             this.startingTime = System.currentTimeMillis() + this.startDelay;
             this.running = true;
@@ -49,27 +49,27 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public void onTickUpdate() {
-        if(this.running) {
+        if (this.running) {
             // update the time
             long timeDifference = System.currentTimeMillis() - this.startingTime;
             long timeDifferenceSeconds = timeDifference / 1000;
             long timeDifferenceMinutes = timeDifferenceSeconds / 60;
 
             // translate to our format
-            this.runningTime = (timeDifference < 0 ? "-"  : "") + ((Math.abs(timeDifferenceMinutes % 60) < 10) ? "0" : "") + Math.abs(timeDifferenceMinutes % 60) + ":" + ((Math.abs(timeDifferenceSeconds) % 60 < 10) ? "0" : "") + Math.abs(timeDifferenceSeconds % 60);
+            this.runningTime = (timeDifference < 0 ? "-" : "") + ((Math.abs(timeDifferenceMinutes % 60) < 10) ? "0" : "") + Math.abs(timeDifferenceMinutes % 60) + ":" + ((Math.abs(timeDifferenceSeconds) % 60 < 10) ? "0" : "") + Math.abs(timeDifferenceSeconds % 60);
         }
     }
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // isHypixelNetwork if the message is relevant
-        if(textMessage.matches(LAP_COMPLETION_MESSAGE_REGEX)) {
+        if (textMessage.matches(LAP_COMPLETION_MESSAGE_REGEX)) {
             try {
                 // the lap number is the 5th character. It needs to be cast to String first because otherwise we get the wrong value
                 int lapNo = Integer.valueOf(String.valueOf(textMessage.charAt(4)));
 
                 // isHypixelNetwork if the listened lap was completed
-                if(this.lap == lapNo) {
+                if (this.lap == lapNo) {
                     // extract the start message
                     this.officialTime = textMessage.substring(textMessage.indexOf('(') + 1, textMessage.indexOf(')'));
                     // stop the timer
@@ -77,18 +77,18 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
                 }
 
                 // start the next timer
-                if(this.lap - 1 == lapNo) {
+                if (this.lap - 1 == lapNo) {
                     this.running = true;
                     // there is no delay here
                     this.startingTime = System.currentTimeMillis();
                 }
 
                 // accuracy isHypixelNetwork and correction for the main timer after the first lap
-                if(lapNo == 1 && this.lap == 0 ) {
+                if (lapNo == 1 && this.lap == 0) {
                     // save the current time
                     long currentTime = System.currentTimeMillis();
                     // save the measured time
-                    long measuredTime = currentTime -  this.startingTime;
+                    long measuredTime = currentTime - this.startingTime;
 
                     ArrayList<Integer> officialTime = new ArrayList<Integer>(2);
                     // convert the officialTime
@@ -110,18 +110,18 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
             }
         }
         // stop the general timer when finishing
-        if(textMessage.startsWith(FMLClientHandler.instance().getClient().getSession().getUsername() + " has finished the race at position ") && this.lap == 0) {
+        if (textMessage.startsWith(FMLClientHandler.instance().getClient().getSession().getUsername() + " has finished the race at position ") && this.lap == 0) {
             this.running = false;
         }
     }
 
     public String getRenderingString() {
         // for the general timer
-        if(this.lap == 0) {
+        if (this.lap == 0) {
             // show the running time
             return TimerModularGuiProvider.TIME_DISPLAY_MESSAGE + this.runningTime;
         } else {
-            if(this.running) {
+            if (this.running) {
                 // show the result if the timer is running
                 return EnumChatFormatting.YELLOW + "Lap " + this.lap + ": " + this.runningTime;
             } else {

@@ -50,19 +50,20 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
     /**
      * Some static-final stuff to make the code cleaner ....
      */
-    private static final String SHA =  D_GRAY + " [" + WHITE + "SHA" + D_GRAY + "] ";
-    private static final String WAR =  D_GRAY + " [" + WHITE + "WAR" + D_GRAY + "] ";
-    private static final String PAL =  D_GRAY + " [" + WHITE + "PAL" + D_GRAY + "] ";
-    private static final String MAG =  D_GRAY + " [" + WHITE + "MAG" + D_GRAY + "] ";
-    private static final String KDA =  D_GRAY + " [" + WHITE + "K"   + D_GRAY + "|"
-                          + WHITE + "A" + D_GRAY + "|" + WHITE + "D" + D_GRAY + "] ";
-    private static final String LOS =  D_GRAY + " [" + WHITE + "LOS" + D_GRAY + "] ";
-    private static final String WIN =  D_GRAY + " [" + WHITE + "WIN" + D_GRAY + "] ";
-    private static final String KD  =  D_GRAY + " [" + WHITE + "K/D" + D_GRAY + "] ";
-    private static final String WL  =  D_GRAY + " [" + WHITE + "Wl"  + D_GRAY + "] ";
+    private static final String SHA = D_GRAY + " [" + WHITE + "SHA" + D_GRAY + "] ";
+    private static final String WAR = D_GRAY + " [" + WHITE + "WAR" + D_GRAY + "] ";
+    private static final String PAL = D_GRAY + " [" + WHITE + "PAL" + D_GRAY + "] ";
+    private static final String MAG = D_GRAY + " [" + WHITE + "MAG" + D_GRAY + "] ";
+    private static final String KDA = D_GRAY + " [" + WHITE + "K" + D_GRAY + "|"
+            + WHITE + "A" + D_GRAY + "|" + WHITE + "D" + D_GRAY + "] ";
+    private static final String LOS = D_GRAY + " [" + WHITE + "LOS" + D_GRAY + "] ";
+    private static final String WIN = D_GRAY + " [" + WHITE + "WIN" + D_GRAY + "] ";
+    private static final String KD = D_GRAY + " [" + WHITE + "K/D" + D_GRAY + "] ";
+    private static final String WL = D_GRAY + " [" + WHITE + "Wl" + D_GRAY + "] ";
 
     /**
      * constructor for the StatsViewerFactory
+     *
      * @param playerName name of the Player
      */
     public WarlordsStatsViewer(String playerName) {
@@ -72,12 +73,13 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
 
     /**
      * Implements the IGameStatsViewer interface
+     *
      * @return the renderList
      */
     @Override
-    public ArrayList<String> getRenderList(){
-        if(renderList.isEmpty()){
-           return null;
+    public ArrayList<String> getRenderList() {
+        if (renderList.isEmpty()) {
+            return null;
         }
         return renderList;
     }
@@ -85,10 +87,10 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
     /**
      * generates the renderList
      */
-    private void generateRenderList(){
-        renderList.add(KD + GOLD + kd + WL + GOLD + wl +"%");
+    private void generateRenderList() {
+        renderList.add(KD + GOLD + kd + WL + GOLD + wl + "%");
         renderList.add(LOS + GOLD + losses + WIN + GOLD + wins);
-        renderList.add(KDA + GOLD + kills + D_GRAY + " | " + GOLD + assists + D_GRAY + " | " + GOLD + deaths );
+        renderList.add(KDA + GOLD + kills + D_GRAY + " | " + GOLD + assists + D_GRAY + " | " + GOLD + deaths);
         renderList.add(SHA + GOLD + shamanLevel + WAR + GOLD + warriorLevel + PAL + GOLD + paladinLevel + MAG + GOLD + mageLevel);
     }
 
@@ -97,43 +99,41 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
      */
     private void composeStats() {
 
-        kills =     getInt("kills");
-        assists =   getInt("assists");
-        deaths =    getInt("deaths");
-        wins =      getInt("wins");
-        losses =    getInt("losses");
+        kills = getInt("kills");
+        assists = getInt("assists");
+        deaths = getInt("deaths");
+        wins = getInt("wins");
+        losses = getInt("losses");
 
-        if(deaths > 0) {
+        if (deaths > 0) {
             kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
-        }
-        else{
+        } else {
             kd = 1;
         }
-        if(losses>0) {
+        if (losses > 0) {
             wl = (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
-        }
-        else{
+        } else {
             wl = 1;
         }
 
-        shamanLevel = getInt("shaman_health")    + getInt("shaman_energy")              + getInt("shaman_cooldown")
-                + getInt("shaman_critchance")    + getInt("shaman_critmultiplier")      + getInt("shaman_skill1")
-                + getInt("shaman_skill2")        + getInt("shaman_skill3")              + getInt("shaman_skill4")
+        shamanLevel = getInt("shaman_health") + getInt("shaman_energy") + getInt("shaman_cooldown")
+                + getInt("shaman_critchance") + getInt("shaman_critmultiplier") + getInt("shaman_skill1")
+                + getInt("shaman_skill2") + getInt("shaman_skill3") + getInt("shaman_skill4")
                 + getInt("shaman_skill5");
 
-        warriorLevel = getInt("warrior_health")  + getInt("warrior_energy")             + getInt("warrior_cooldown")
-                + getInt("warrior_critchance")   + getInt("warrior_critmultiplier")     + getInt("warrior_skill1")
-                + getInt("warrior_skill2")       + getInt("warrior_skill3")             + getInt("warrior_skill4")
+        warriorLevel = getInt("warrior_health") + getInt("warrior_energy") + getInt("warrior_cooldown")
+                + getInt("warrior_critchance") + getInt("warrior_critmultiplier") + getInt("warrior_skill1")
+                + getInt("warrior_skill2") + getInt("warrior_skill3") + getInt("warrior_skill4")
                 + getInt("warrior_skill5");
 
-        mageLevel = getInt("mage_health")        + getInt("mage_energy")                + getInt("mage_cooldown")
-                + getInt("mage_critchance")      + getInt("mage_critmultiplier")        + getInt("mage_skill1")
-                + getInt("mage_skill2")          + getInt("mage_skill3")                + getInt("mage_skill4")
+        mageLevel = getInt("mage_health") + getInt("mage_energy") + getInt("mage_cooldown")
+                + getInt("mage_critchance") + getInt("mage_critmultiplier") + getInt("mage_skill1")
+                + getInt("mage_skill2") + getInt("mage_skill3") + getInt("mage_skill4")
                 + getInt("mage_skill5");
 
-        paladinLevel = getInt("paladin_health")  + getInt("paladin_energy")             + getInt("paladin_cooldown")
-                + getInt("paladin_critchance")   + getInt("paladin_critmultiplier")     + getInt("paladin_skill1")
-                + getInt("paladin_skill2")       + getInt("paladin_skill3")             + getInt("paladin_skill4")
+        paladinLevel = getInt("paladin_health") + getInt("paladin_energy") + getInt("paladin_cooldown")
+                + getInt("paladin_critchance") + getInt("paladin_critmultiplier") + getInt("paladin_skill1")
+                + getInt("paladin_skill2") + getInt("paladin_skill3") + getInt("paladin_skill4")
                 + getInt("paladin_skill5");
 
         generateRenderList();
@@ -141,13 +141,14 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
 
     /**
      * little helper function that gets the Json entry
+     *
      * @param s entry in the "Warlords" object
      * @return 0 if the entry is null
      */
-    private int getInt(String s){
-        try{
+    private int getInt(String s) {
+        try {
             return this.statistics.get("Battleground").getAsJsonObject().get(s).getAsInt();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LoggerHelper.logInfo("[Stats]: No entry for " + s + "returning 0!");
             return 0;
         }

@@ -54,7 +54,6 @@ public class BlitzStatsViewer extends StatsDisplayer implements IGameStatsViewer
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
 
 
-
     public BlitzStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();

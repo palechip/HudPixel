@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -46,7 +46,7 @@ public class HudPixelConfig {
     public static final String COOLDOWN_CATEGORY = "cooldowndisplay";
 
     // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
-    
+
     // static properties
     public static boolean useAPI;
     public static boolean enableAfterStats = true;
@@ -57,14 +57,14 @@ public class HudPixelConfig {
     public static int displayShowResultTime;
     public static boolean displayVersion;
     public static boolean displayQuickLoadButton;
-    
+
     public static int warlordsFilterDamageDone;
     public static int warlordsFilterDamageTaken;
     public static int warlordsFilterHealingDone;
     public static int warlordsFilterHealingReceived;
     public static boolean warlordsFilterAbsorbtion;
     public static boolean warlordsFilterWounded;
-    
+
     // non-static properties
     private static HashMap<String, Boolean> properties = new HashMap<String, Boolean>();
     // add further options here
@@ -91,39 +91,39 @@ public class HudPixelConfig {
 
         // Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
         // Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
-        Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
+        Config.isStats = this.config.get(EXTENDED_CATEGORY, "StatsDisplay", true, "Activate or deactivate the stats display above the player.").getBoolean(true);
 
         //COOLDOWNDISPLAY
-        Config.isHideCooldownDisplay= this.config.get(COOLDOWN_CATEGORY,"hideCooldownDisplay"   , false , "Hide the cooldown display.").getBoolean(false);
-        Config.xOffsetCooldownDisplay   = this.config.get(COOLDOWN_CATEGORY, "xOffsetCooldownDisplay"   , 0 , "x-Offset of the cooldown display").getInt(10);
-        Config.yOffsetCooldownDisplay   = this.config.get(COOLDOWN_CATEGORY, "yOffsetCooldownDisplay"   , 30 , "y-Offset of the cooldown display").getInt(10);
+        Config.isHideCooldownDisplay = this.config.get(COOLDOWN_CATEGORY, "hideCooldownDisplay", false, "Hide the cooldown display.").getBoolean(false);
+        Config.xOffsetCooldownDisplay = this.config.get(COOLDOWN_CATEGORY, "xOffsetCooldownDisplay", 0, "x-Offset of the cooldown display").getInt(10);
+        Config.yOffsetCooldownDisplay = this.config.get(COOLDOWN_CATEGORY, "yOffsetCooldownDisplay", 30, "y-Offset of the cooldown display").getInt(10);
 
         //FRIENDSDISPLAY
-        Config.isHideOfflineFriends= this.config.get(FRIENDSDISPLAY_CATEGORY,"hideOfflineFriends"   , false , "Hide offline friends in the FriendsDisplay.").getBoolean(false);
-        Config.isFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "OnlineFriends"   , true , "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
-        Config.friendsShownAtOnce   = this.config.get(FRIENDSDISPLAY_CATEGORY, "friendsShownAtOnce"  , 5 , "How many friends are shown at once.").getInt(5);
+        Config.isHideOfflineFriends = this.config.get(FRIENDSDISPLAY_CATEGORY, "hideOfflineFriends", false, "Hide offline friends in the FriendsDisplay.").getBoolean(false);
+        Config.isFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "OnlineFriends", true, "Activate or deactivate the online friends display in the pause menu.").getBoolean(true);
+        Config.friendsShownAtOnce = this.config.get(FRIENDSDISPLAY_CATEGORY, "friendsShownAtOnce", 5, "How many friends are shown at once.").getInt(5);
         Config.xOffsetFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "xOffset", 2, "This value will be added to the X (horizontal) position before rendering.").getInt();
         Config.yOffsetFriendsDisplay = this.config.get(FRIENDSDISPLAY_CATEGORY, "yOffset", 2, "This value will be added to the Y (vertical) position before rendering.").getInt();
-        Config.shownFriendsDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide"   , false , "Puts the display right on the screen.").getBoolean(false);
+        Config.shownFriendsDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide", false, "Puts the display right on the screen.").getBoolean(false);
 
         //BOOSTERDISPLAY
-        Config.isBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "BoosterDisplay"  , true , "Activate or deactivate the booster display in the chat menu.").getBoolean(true);
-        Config.boostersShownAtOnce  = this.config.get(BOOSTERDISPLAY_CATEGORY, "boostersShownAtOnce"  , 5 , "How many boosters are shown at once.").getInt(5);
+        Config.isBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "BoosterDisplay", true, "Activate or deactivate the booster display in the chat menu.").getBoolean(true);
+        Config.boostersShownAtOnce = this.config.get(BOOSTERDISPLAY_CATEGORY, "boostersShownAtOnce", 5, "How many boosters are shown at once.").getInt(5);
         Config.xOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "xOffset", 2, "This value will be added to the X (horizontal) position before rendering.").getInt();
         Config.yOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "yOffset", 2, "This value will be added to the Y (vertical) position before rendering.").getInt();
-        Config.shownBooosterDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide"   , false , "Puts the display right on the screen.").getBoolean(false);
+        Config.shownBooosterDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide", false, "Puts the display right on the screen.").getBoolean(false);
 
         //CHATDISPLAY
-        Config.storedMessages   = this.config.get(CHAT_CATEGORY, "storedMessages"  , 10 , "How many messages the external Chat Gui can store.").getInt(10);
-        Config.displayMessages  = this.config.get(CHAT_CATEGORY, "displayMessages" , 8    , "How long a detected message will be displayed on the bottom right.").getInt(8);
-        Config.isFancyChat      = this.config.get(CHAT_CATEGORY, "ExternalChat"    , true , "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
+        Config.storedMessages = this.config.get(CHAT_CATEGORY, "storedMessages", 10, "How many messages the external Chat Gui can store.").getInt(10);
+        Config.displayMessages = this.config.get(CHAT_CATEGORY, "displayMessages", 8, "How long a detected message will be displayed on the bottom right.").getInt(8);
+        Config.isFancyChat = this.config.get(CHAT_CATEGORY, "ExternalChat", true, "Activate or deactivate the external chat. This will not stop storing messages.").getBoolean(true);
 
         //HUD
-        Config.hudBackground    =   this.config.get(DISPLAY_CATEGORY, "enableBackground"  , false , "Toggle the background of the hud.").getBoolean(false);
-        Config.hudRed = (float)     this.config.get(DISPLAY_CATEGORY, "hudRed"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
-        Config.hudGreen = (float)   this.config.get(DISPLAY_CATEGORY, "hudGreen"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
-        Config.hudBlue = (float)    this.config.get(DISPLAY_CATEGORY, "hudBlue"  , 0 , "Set the background color of the Hud.").getInt(0) / 255;
-        Config.hudAlpha = (float)   this.config.get(DISPLAY_CATEGORY, "hudAlpha"  , 255 , "Set the background color of the Hud.").getInt(255) / 255;
+        Config.hudBackground = this.config.get(DISPLAY_CATEGORY, "enableBackground", false, "Toggle the background of the hud.").getBoolean(false);
+        Config.hudRed = (float) this.config.get(DISPLAY_CATEGORY, "hudRed", 0, "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudGreen = (float) this.config.get(DISPLAY_CATEGORY, "hudGreen", 0, "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudBlue = (float) this.config.get(DISPLAY_CATEGORY, "hudBlue", 0, "Set the background color of the Hud.").getInt(0) / 255;
+        Config.hudAlpha = (float) this.config.get(DISPLAY_CATEGORY, "hudAlpha", 255, "Set the background color of the Hud.").getInt(255) / 255;
 
 
         useAPI = this.config.get(Configuration.CATEGORY_GENERAL, "useAPI", true, "Allow the usage of the Hypixel Public API. All features using the API won't work without it.").getBoolean(true);
@@ -135,7 +135,7 @@ public class HudPixelConfig {
         //displayVersion = this.config.get(DISPLAY_CATEGORY, "displayVersion", true, "Show the mod version and name when there is nothing else to show.").getBoolean();
         //displayNetworkBoosters = this.config.get(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Show active Network Boosters in the Chat Gui. This feature requires the Public API.").getBoolean(true);
 
-        
+
         // these are ugly and will be removed when the filter becomes a component
         String warlordsCategory = GameManager.getGameManager().getGameConfiguration(GameType.WARLORDS).getConfigCategory();
         warlordsFilterDamageTaken = this.config.get(warlordsCategory, "warlordsFilterDamageTaken", 0, WARLORDS_FILTER_1 + "Damage(taken)" + WARLORDS_FILTER_2).getInt();
@@ -143,7 +143,7 @@ public class HudPixelConfig {
         warlordsFilterHealingReceived = this.config.get(warlordsCategory, "warlordsFilterHealingReceived", 0, WARLORDS_FILTER_1 + "Healing(received)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterHealingDone = this.config.get(warlordsCategory, "warlordsFilterHealingDone", 0, WARLORDS_FILTER_1 + "Healing(done)" + WARLORDS_FILTER_2).getInt();
         warlordsFilterAbsorbtion = this.config.get(warlordsCategory, "warlordsFilterAbsorbtion", false, "Filter out all chat messages containing information about absorbtion.").getBoolean();
-        warlordsFilterWounded = this.config.get(warlordsCategory, "warlordsFilterWounded", false,"Filter out all chat messages containing information about being wounded.").getBoolean();
+        warlordsFilterWounded = this.config.get(warlordsCategory, "warlordsFilterWounded", false, "Filter out all chat messages containing information about being wounded.").getBoolean();
 
         displayNetworkBoosters = this.config.getBoolean(DISPLAY_CATEGORY, "displayNetworkBoosters", true, "Display network boosters");
 
@@ -158,9 +158,9 @@ public class HudPixelConfig {
         HashMap<String, String> categoryGameNames = new HashMap<String, String>();
 
         // go through all games
-        for(GameConfiguration gameConfig : gameManager.getConfigurations()) {
+        for (GameConfiguration gameConfig : gameManager.getConfigurations()) {
             // save the game name for the category
-            if(!categoryGameNames.containsKey(gameConfig.getConfigCategory())) {
+            if (!categoryGameNames.containsKey(gameConfig.getConfigCategory())) {
                 categoryGameNames.put(gameConfig.getConfigCategory(), gameConfig.getOfficialName());
             }
         }
@@ -176,14 +176,13 @@ public class HudPixelConfig {
      * @return the state of the setting. If the setting wasn't found, it'll return false
      */
     public static boolean getConfigValue(String settingName) {
-        if(properties.containsKey(settingName)) {
+        if (properties.containsKey(settingName)) {
             return properties.get(settingName);
         } else {
             return false;
         }
     }
 
-    
 
     public Configuration getConfigFile() {
         return config;
@@ -219,7 +218,7 @@ public class HudPixelConfig {
     /**
      * Renames a property in a given category. But other than
      * Configuration.renameProperty(), it does turn it into a boolean property.
-     * 
+     *
      * @param category
      *            the category in which the property resides
      * @param oldPropName

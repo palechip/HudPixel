@@ -122,7 +122,7 @@ public class HudPixelMod {
         // if the server ip ends with hypixel.net, it belongs to the Hypixel Network (mc.hypixel.net, test.hypixel.net, mvp.hypixel.net, creative.hypixel.net)
         if (ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
             instance().logDebug("Joined Hypixel Network");
-            if(!isUpdateNotifierDone) {
+            if (!isUpdateNotifierDone) {
                 new UpdateNotifier(true);
                 isUpdateNotifierDone = true;
             }
@@ -203,8 +203,6 @@ public class HudPixelMod {
 
         new WarlordsCTFCrashPrevention();
     }
-
-
 
 
     @SubscribeEvent(receiveCanceled = true)

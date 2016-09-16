@@ -10,9 +10,11 @@ public class ColorRGBA {
     public float BLUE = 0;
     public float ALPHA = 0;
 
-    public ColorRGBA(){
+    public ColorRGBA() {
 
-    };
+    }
+
+    ;
 
     public ColorRGBA(float RED, float GREEN, float BLUE, float ALPHA) {
         this.RED = RED;

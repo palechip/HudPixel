@@ -37,14 +37,22 @@ class FancyChatObject {
     private List message;
     private int size = 1;
 
-    public int getSize() {return size;}
-    long getTimestamp() {return timestamp;}
-    public List getMessage() {return message;}
+    public int getSize() {
+        return size;
+    }
 
-    FancyChatObject(String message){
+    long getTimestamp() {
+        return timestamp;
+    }
+
+    public List getMessage() {
+        return message;
+    }
+
+    FancyChatObject(String message) {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
-        this.message = fontRenderer.listFormattedStringToWidth(message,FancyChat.FIELD_WIDTH);
+        this.message = fontRenderer.listFormattedStringToWidth(message, FancyChat.FIELD_WIDTH);
         this.size = this.message.size();
 
         this.timestamp = System.currentTimeMillis();
@@ -52,14 +60,15 @@ class FancyChatObject {
 
     /**
      * renders the textfield
-     * @param xStart x-start-cord
-     * @param yStart y-start-cord
+     *
+     * @param xStart       x-start-cord
+     * @param yStart       y-start-cord
      * @param fontRenderer fontRenderer
      * @return number of rendered lines
      */
-    int drawTextField(int xStart, int yStart, FontRenderer fontRenderer){
-        for(Object s : message){
-            fontRenderer.drawStringWithShadow((String) s, xStart , yStart + 1, 0xffffff);
+    int drawTextField(int xStart, int yStart, FontRenderer fontRenderer) {
+        for (Object s : message) {
+            fontRenderer.drawStringWithShadow((String) s, xStart, yStart + 1, 0xffffff);
             yStart += FancyChat.RENDERING_HEIGHT_OFFSET;
         }
         return size;

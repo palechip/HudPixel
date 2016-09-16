@@ -47,7 +47,7 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
         composeStats();
     }
 
-    private void generateRenderList(){
+    private void generateRenderList() {
         renderList.add(WINS + GOLD + wins + LOSSES + GOLD + losses + WL + GOLD + wl);
         renderList.add(KILLS + GOLD + kills + DEATHS + GOLD + deaths + KD + GOLD + kd);
     }
@@ -59,17 +59,15 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
         this.wins = getInt("wins");
         this.losses = getInt("losses");
 
-        if(deaths>0){
-            this.kd = Math.floor((kills/deaths) * 1000) / 1000;
-        }
-        else{
+        if (deaths > 0) {
+            this.kd = Math.floor((kills / deaths) * 1000) / 1000;
+        } else {
             this.kd = 1;
         }
 
-        if(losses > 0){
-            this.wl = Math.floor((kills/deaths) * 1000) / 1000;
-        }
-        else{
+        if (losses > 0) {
+            this.wl = Math.floor((kills / deaths) * 1000) / 1000;
+        } else {
             this.wl = 1;
         }
 
@@ -77,10 +75,10 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
 
     }
 
-    private int getInt(String s){
-        try{
+    private int getInt(String s) {
+        try {
             return this.statistics.get("Walls").getAsJsonObject().get(s).getAsInt();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LoggerHelper.logInfo("[Stats.Walls.Int]: No entry for " + s + " returning 0!");
             return 0;
         }

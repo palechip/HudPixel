@@ -9,7 +9,7 @@ public class StorageTwoDifferent<T, E> {
     public E e;
 
 
-    public StorageTwoDifferent(T t, E e){
+    public StorageTwoDifferent(T t, E e) {
         this.t = t;
         this.e = e;
 

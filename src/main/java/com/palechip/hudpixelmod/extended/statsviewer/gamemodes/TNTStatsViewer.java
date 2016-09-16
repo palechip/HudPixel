@@ -57,7 +57,6 @@ public class TNTStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
 
 
-
     public TNTStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();

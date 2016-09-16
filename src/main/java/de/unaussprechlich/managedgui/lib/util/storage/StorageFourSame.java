@@ -11,7 +11,7 @@ public class StorageFourSame<T> {
     public T t3;
 
 
-    public StorageFourSame(T t0, T t1, T t2, T t3){
+    public StorageFourSame(T t0, T t1, T t2, T t3) {
         this.t0 = t0;
         this.t1 = t1;
         this.t2 = t2;

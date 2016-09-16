@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -46,14 +46,14 @@ public class Game {
         this.renderStrings = new ArrayList<String>();
         this.configuration = GameConfiguration.NULL_GAME;
     }
-    
+
     public Game(GameConfiguration configuration, GameManager manager) {
         this();
-        
+
         // save the configuration
         this.configuration = configuration;
         // get our components
-        
+
         HudPixelMod.instance().logDebug("Game created: " + this.toString());
     }
 
@@ -61,7 +61,7 @@ public class Game {
     public String toString() {
         return "Game [configuration=" + configuration + "]";
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Game) {
@@ -73,13 +73,13 @@ public class Game {
     public void setupNewGame() {
         this.renderStrings.clear();
 
-        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+        for (IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.setupNewGame();
         }
     }
 
     protected void onGameStart() {
-        for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+        for (IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
             e.onGameStart();
         }
     }
@@ -89,7 +89,7 @@ public class Game {
      */
     protected void onGameEnd() {
         try {
-            for(IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
+            for (IHudPixelModularGuiProviderBase e : ModularGuiHelper.providers) {
                 e.onGameEnd();
             }
             // display the results
@@ -109,18 +109,19 @@ public class Game {
 
 
         // add information about the game status for debug reasons
-        if(HudPixelMod.IS_DEBUGGING) {
+        if (HudPixelMod.IS_DEBUGGING) {
             renderStrings.add(this.configuration.getShortName() + " " + (this.hasStarted ? "started" : "not started"));
         }
     }
 
-    public void onChatMessage(String textMessage, String formattedMessage) {}
+    public void onChatMessage(String textMessage, String formattedMessage) {
+    }
 
     /**
      * Start the game. Calls onGameStart().
      */
     public void startGame() {
-        if(!this.hasStarted) {
+        if (!this.hasStarted) {
             this.hasStarted = true;
             this.onGameStart();
         }
@@ -130,7 +131,7 @@ public class Game {
      * End the game. Calls onGameEnd().
      */
     public void endGame() {
-        if(this.hasStarted) {
+        if (this.hasStarted) {
             this.hasStarted = false;
             this.onGameEnd();
         }

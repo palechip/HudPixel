@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
@@ -13,7 +13,9 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ);
     }
 
-    private enum Phase {NOT_RELEASED, HIDDEN, FOUND, ACTIVE ,USED, FORFEIT};
+    private enum Phase {NOT_RELEASED, HIDDEN, FOUND, ACTIVE, USED, FORFEIT}
+
+    ;
     public static final String DISPLAY_MESSAGE = EnumChatFormatting.DARK_GREEN + "Blitz Star";
 
     private Phase currentPhase;
@@ -42,9 +44,9 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
     @Override
     public void onTickUpdate() {
         // update the time when active
-        if(this.currentPhase == Phase.ACTIVE) {
+        if (this.currentPhase == Phase.ACTIVE) {
             // expired?
-            if(System.currentTimeMillis() - startTime >= DURATION) {
+            if (System.currentTimeMillis() - startTime >= DURATION) {
                 this.currentPhase = Phase.USED;
             }
 
@@ -56,20 +58,20 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
         // filter chat tag
         textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getChatTag() + "]: ", "");
         // hide message
-        if(textMessage.contains("The Blitz Star has been hidden in a random chest!")) {
+        if (textMessage.contains("The Blitz Star has been hidden in a random chest!")) {
             this.currentPhase = Phase.HIDDEN;
         }
         // somebody found it.
-        else if(textMessage.contains("found the Blitz Star!")) {
+        else if (textMessage.contains("found the Blitz Star!")) {
             this.owner = textMessage.substring(0, textMessage.indexOf(' ') + 1).replace(" ", "");
             this.currentPhase = Phase.FOUND;
         }
         // the holder was killed
-        else if(textMessage.contains(this.owner + " was killed")) {
+        else if (textMessage.contains(this.owner + " was killed")) {
             this.owner = ""; // we could find the killer but it isn't done intentionally.
         }
         // somebody used it
-        else if(textMessage.contains(" BLITZ! ")) {
+        else if (textMessage.contains(" BLITZ! ")) {
             // update the owner
             this.owner = textMessage.substring(0, textMessage.indexOf(' ')).replace(" ", "");
             this.startTime = System.currentTimeMillis();
@@ -77,14 +79,14 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
             this.currentPhase = Phase.ACTIVE;
         }
         // it's too close before deathmatch
-        else if(this.currentPhase != Phase.USED && this.currentPhase != Phase.ACTIVE && textMessage.contains("The Blitz Star has been disabled!")) {
+        else if (this.currentPhase != Phase.USED && this.currentPhase != Phase.ACTIVE && textMessage.contains("The Blitz Star has been disabled!")) {
             this.currentPhase = Phase.FORFEIT;
         }
     }
 
 
     public String getRenderingString() {
-        if(currentPhase == null)
+        if (currentPhase == null)
             return "";
         switch (this.currentPhase) {
             case NOT_RELEASED:

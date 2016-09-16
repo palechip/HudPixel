@@ -18,6 +18,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     private boolean gameStarted;
     private int minutes = 0;
     private int seconds = 0;
+
     public String getRenderingString() {
         return TIME_DISPLAY_MESSAGE + runningTime;
     }
@@ -31,16 +32,16 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onTickUpdate() {
-        if(gameStarted && !GameDetector.isLobby()){
+        if (gameStarted && !GameDetector.isLobby()) {
             long timeBuff = System.currentTimeMillis() - gameStartedTime;
             String sMin;
-            long min = (timeBuff/1000/60);
-            if(min < 10) sMin = "0" + min;
-            else         sMin = ""  + min;
+            long min = (timeBuff / 1000 / 60);
+            if (min < 10) sMin = "0" + min;
+            else sMin = "" + min;
             String sSec;
-            long sec = (timeBuff/1000) - (min*60);
-            if(sec < 10) sSec = "0" + sec;
-            else         sSec = ""  + sec;
+            long sec = (timeBuff / 1000) - (min * 60);
+            if (sec < 10) sSec = "0" + sec;
+            else sSec = "" + sec;
             runningTime = sMin + ":" + sSec;
         } else {
             setupNewGame();
