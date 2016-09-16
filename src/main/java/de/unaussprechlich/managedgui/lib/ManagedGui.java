@@ -9,9 +9,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-/**
- * Created by kecka on 25.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public class ManagedGui {
 
     private static ManagedGui instance;

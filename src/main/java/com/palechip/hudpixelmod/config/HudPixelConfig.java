@@ -45,7 +45,6 @@ public class HudPixelConfig {
     public static final String CHAT_CATEGORY = "chatdisplay";
     public static final String COOLDOWN_CATEGORY = "cooldowndisplay";
 
-    // all game related categories are created dynamically using GameConfiguration.getConfigCategory()
 
     // static properties
     public static boolean useAPI;
@@ -111,7 +110,7 @@ public class HudPixelConfig {
         Config.boostersShownAtOnce = this.config.get(BOOSTERDISPLAY_CATEGORY, "boostersShownAtOnce", 5, "How many boosters are shown at once.").getInt(5);
         Config.xOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "xOffset", 2, "This value will be added to the X (horizontal) position before rendering.").getInt();
         Config.yOffsetBoosterDisplay = this.config.get(BOOSTERDISPLAY_CATEGORY, "yOffset", 2, "This value will be added to the Y (vertical) position before rendering.").getInt();
-        Config.shownBooosterDisplayRight = this.config.get(FRIENDSDISPLAY_CATEGORY, "showRightSide", false, "Puts the display right on the screen.").getBoolean(false);
+        Config.shownBooosterDisplayRight = this.config.get(BOOSTERDISPLAY_CATEGORY, "showRightSide", false, "Puts the display right on the screen.").getBoolean(false);
 
         //CHATDISPLAY
         Config.storedMessages = this.config.get(CHAT_CATEGORY, "storedMessages", 10, "How many messages the external Chat Gui can store.").getInt(10);

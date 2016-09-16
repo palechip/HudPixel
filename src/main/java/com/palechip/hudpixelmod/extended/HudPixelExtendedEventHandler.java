@@ -166,8 +166,7 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
-                for (IEventHandler i : getIeventBuffer())
-                    i.onRender();
+                getIeventBuffer().forEach(IEventHandler::onRender);
                 if (Config.isFancyChat) FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {

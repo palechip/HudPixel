@@ -28,7 +28,7 @@ package com.palechip.hudpixelmod.extended.staff;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
@@ -64,20 +64,20 @@ public class StaffManager implements IEventHandler, McColorHelper{
      * @param e
      */
     public static void onPlayerName(PlayerEvent.NameFormat e){
-        if(!HudPixelMod.instance().gameDetector.doesGameTypeMatchWithCurrent(GameType.ALL_GAMES)) return;
+        if(!GameDetector.doesGameTypeMatchWithCurrent(GameType.ALL_GAMES)) return;
         if(adminList.contains(e.username)){
-            e.displayname = hudAdminTag() + e.entityPlayer.getDisplayNameString();
+            e.displayname = hudAdminTag() + e.displayname;
         } else if(helperList.contains(e.username)){
-            e.displayname =  hudHelperTag() + e.entityPlayer.getDisplayNameString();
+            e.displayname =  hudHelperTag() + e.displayname;
         }
     }
 
     private static String hudHelperTag(){
-        return GOLD + "[Hud" + YELLOW + "Helper" + GOLD + "] " + YELLOW;
+        return GOLD + "[Hud" + YELLOW + "Helper" + GOLD + "]" + YELLOW;
     }
 
     private static String hudAdminTag(){
-        return  GOLD + "[Hud" + D_RED + "Admin" + GOLD + "] " + D_RED;
+        return  GOLD + "[Hud" + D_RED + "Admin" + GOLD + "]" + D_RED;
     }
 
     /**

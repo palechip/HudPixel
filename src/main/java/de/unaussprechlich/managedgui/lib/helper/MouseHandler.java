@@ -8,9 +8,11 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import org.lwjgl.input.Mouse;
 
-/**
- * Created by kecka on 25.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public class MouseHandler {
 
     private static int scale;

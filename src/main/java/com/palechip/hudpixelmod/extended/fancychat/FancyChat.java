@@ -53,17 +53,17 @@ public class FancyChat {
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
     private static long displayTimeMs = Config.displayMessages * 1000;
     // [SETTING] the offset between each chatline (in ms)
-    public static final int RENDERING_HEIGHT_OFFSET = 9;
+    public static final short RENDERING_HEIGHT_OFFSET = 9;
     // [SETTING] the with of the fancy chat overlay
-    public static final int FIELD_WIDTH = 325;
+    public static final short FIELD_WIDTH = 325;
     // [SETTING] the with of the fancy chat overlay
-    private static final int BOTTOM_Y_OFFSET = 28;
+    private static final short BOTTOM_Y_OFFSET = 28;
     // [SETTING] the with of the fancy chat overlay
     private static int MAX_STORED_FANCYCHATMESSAGES = Config.storedMessages;
     // [SETTING] the with of the fancy chat overlay
-    private static final int MAX_SCROLLIST_LINES = 20;
+    private static final short MAX_SCROLLIST_LINES = 20;
     // [SETTING] the with of the fancy chat overlay
-    private static final int SCROLLED_PER_NOTCH = 5;
+    private static final short SCROLLED_PER_NOTCH = 5;
 
 //######################################################################################################################
 
@@ -237,7 +237,7 @@ public class FancyChat {
 
         //draws the transparent box behind the text
         RenderUtils.renderBox(xStart, yStart - (size - 1) * RENDERING_HEIGHT_OFFSET,
-                FIELD_WIDTH, RENDERING_HEIGHT_OFFSET * size, 0);
+                (int)(FIELD_WIDTH), RENDERING_HEIGHT_OFFSET * size);
 
         //corrects the offset between background and text
         yStart += 1;
@@ -264,8 +264,8 @@ public class FancyChat {
         //gets the height of the scroller in ratio to the currently stored messages
         double boxHeight = MAX_SCROLLIST_LINES * RENDERING_HEIGHT_OFFSET;
         double heightRatio = ((double) MAX_SCROLLIST_LINES / (double) (fancyChatMessages.messageBuffer.size()));
-        double height = 0;
-        if (heightRatio > 0) height = boxHeight * heightRatio;
+        long height = 0;
+        if (heightRatio > 0) height = Math.round(boxHeight * heightRatio);
 
         //gets the position of the scroller in ratio to the currently stored messages
         double posRatio = ((double) (scroll) / (double) (fancyChatMessages.messageBuffer.size()));
@@ -277,11 +277,11 @@ public class FancyChat {
         double xStart = res.getScaledWidth() - FIELD_WIDTH - 2 - 5;
 
         //renders the scrollbar background
-        RenderUtils.renderBoxWithColor(xStart, yStart, 5, MAX_SCROLLIST_LINES * RENDERING_HEIGHT_OFFSET, 0,
+        RenderUtils.renderBoxWithColor((float)(xStart), (float)(yStart), 5, MAX_SCROLLIST_LINES * RENDERING_HEIGHT_OFFSET,
                 0, 0, 0, 0.5F);
 
         //renders the scroller on the scrollbar
-        RenderUtils.renderBoxWithColor(xStart, (yStart + boxHeight) - yPos, 3, height, 0,
+        RenderUtils.renderBoxWithColor((float)(xStart), (float)((yStart + boxHeight) - yPos), 3, (int)(height),
                 1, 1, 1, 1F);
 
     }

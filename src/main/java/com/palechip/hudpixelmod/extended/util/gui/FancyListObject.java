@@ -69,29 +69,29 @@ public abstract class FancyListObject {
 
         switch (loadingBar) {
             case 0:
-                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor((short)xStart + 7, (short) yStart + 9, 2, (short)6 + a, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
                 break;
             case 1:
-                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6 + b, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + a, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
                 break;
             case 2:
-                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + a, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6 + b, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + a, 1f, 1f, 1f, alpha);
                 break;
             case 3:
-                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + b, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6 + b, 1f, 1f, 1f, alpha);
                 break;
             default:
-                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6, 0, 1f, 1f, 1f, 0.8f);
-                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
-                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6, 0, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 7, yStart + 9, 2, 6,1f, 1f, 1f, 0.8f);
+                RenderUtils.renderBoxWithColor(xStart + 11, yStart + 9, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(xStart + 15, yStart + 9, 2, 6,1f, 1f, 1f, alpha);
                 break;
         }
     }
@@ -138,11 +138,12 @@ public abstract class FancyListObject {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         float xStart = this.xStart;
+        System.out.print(renderRight);
         if (renderRight) {
             xStart = xStart + 10;
         }
 
-        RenderUtils.renderBoxWithColor(xStart, yStart, 130, 12, 0, 0f, 0f, 0f, 0.3f);//draws the background
+        RenderUtils.renderBoxWithColor(xStart, yStart, 130, 12, 0f, 0f, 0f, 0.3f);//draws the background
 
         if (resourceLocation == null) renderLoadingBar(xStart, yStart);
         else
@@ -160,9 +161,9 @@ public abstract class FancyListObject {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         if (!isHover)
-            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 0f, 0f, 0f, 0.3f); //draws the background
+            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0f, 0f, 0f, 0.3f); //draws the background
         else {
-            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0, 1f, 1f, 1f, 0.2f);
+            RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 1f, 1f, 1f, 0.2f);
             float xStartB = xStart + 140;
             float yStartB = yStart;
             for (FancyListButton fcob : fancyListObjectButtons) {
@@ -179,7 +180,7 @@ public abstract class FancyListObject {
                     24, 24, 24, 24, resourceLocation, 1f);
 
         if (!renderPicture.equals(EnumChatFormatting.WHITE + "")) { //draws a background over the image if there is a string to render
-            RenderUtils.renderBoxWithColor(xStart, yStart + 12, 24, 9, 0, 0f, 0f, 0f, 0.5f);
+            RenderUtils.renderBoxWithColor(xStart, yStart + 12, 24, 9, 0f, 0f, 0f, 0.5f);
         }
 
         fontRenderer.drawStringWithShadow(renderLine1, xStart + 28, yStart + 4, 0xffffff); //draws the first line

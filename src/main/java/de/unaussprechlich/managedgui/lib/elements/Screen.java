@@ -7,9 +7,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/**
- * Created by kecka on 25.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public class Screen implements Child {
 
     private ChildRegistry childRegistry = new ChildRegistry();

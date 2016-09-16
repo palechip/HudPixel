@@ -8,9 +8,11 @@ import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/**
- * Created by kecka on 25.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public abstract class Container implements Child {
 
     public String name;

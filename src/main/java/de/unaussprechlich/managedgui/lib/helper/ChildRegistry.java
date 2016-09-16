@@ -4,9 +4,11 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 
-/**
- * Created by kecka on 26.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public class ChildRegistry {
 
     private ArrayList<Child> childs = new ArrayList<Child>();

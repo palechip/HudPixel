@@ -2,9 +2,11 @@ package de.unaussprechlich.managedgui.lib.helper;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/**
- * Created by kecka on 26.08.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public interface Child {
 
     void onClientTick();

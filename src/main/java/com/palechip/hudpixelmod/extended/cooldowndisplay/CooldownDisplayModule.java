@@ -16,7 +16,7 @@ public class CooldownDisplayModule {
     private int id;
     private int meta;
     private int slot;
-    private static int size = 20;
+    private static short size = 20;
     private ItemStack itemStack;
     private boolean isHidden = false;
 
@@ -31,17 +31,17 @@ public class CooldownDisplayModule {
     public void renderModule(float xStart, float yStart) {
         if (isHidden) return;
         if (!Objects.equals(coolDown, "")) {
-            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, new ColorRGBA(0, 1f, 0f, 0f), 0.5f);
+            RenderUtils.renderBoxWithColor((short)(xStart - 2), (short)(yStart - 2), size, size, new ColorRGBA(0, 1f, 0f, 0f));
         } else {
-            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, 0, 0f, 1f, 0f, 0.5f);
+            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, 0f, 1f, 0f, 0.5f);
         }
-        RenderUtils.renderBoxWithColor(xStart - 1, yStart - 1, size - 2, size - 2, 0, 0f, 0f, 0f, 0.6f);
+        RenderUtils.renderBoxWithColor(xStart - 1, yStart - 1, size - 2, size - 2, 0f, 0f, 0f, 0.6f);
         RenderUtils.renderItemStackWithText(id, meta, Math.round(xStart), Math.round(yStart), coolDown);
         if (Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().equals(Minecraft.getMinecraft().thePlayer.inventory.getStackInSlot(slot))) {
-            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, 1, 0, 1f, 1f, 1f, 1f);
-            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 3 + size, size, 1, 0, 1f, 1f, 1f, 1f);
-            RenderUtils.renderBoxWithColor(xStart - 3 + size, yStart - 2, 1, size, 0, 1f, 1f, 1f, 1f);
-            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, 1, size, 0, 1f, 1f, 1f, 1f);
+            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, 1, 1f, 1f, 1f, 1f);
+            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 3 + size, size, 1, 1f, 1f, 1f, 1f);
+            RenderUtils.renderBoxWithColor(xStart - 3 + size, yStart - 2, 1, size, 1f, 1f, 1f, 1f);
+            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, 1, size, 1f, 1f, 1f, 1f);
 
         }
     }

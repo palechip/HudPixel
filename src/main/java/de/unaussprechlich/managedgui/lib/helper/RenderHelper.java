@@ -7,9 +7,11 @@ import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import de.unaussprechlich.managedgui.lib.util.storage.StorageTwoSame;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by kecka on 02.09.2016.
- */
+/******************************************************************************
+
+ * Copyright (c) 2016 unaussprechlich
+
+ *******************************************************************************/
 public class RenderHelper {
 
     public static void renderContainer(Container container) {
