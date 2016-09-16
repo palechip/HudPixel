@@ -218,7 +218,6 @@ public class HudPixelExtendedEventHandler{
             iE.handleMouseInput(i, mX, mY);
         }
         FancyChat.getInstance().handleMouseInput(i);
-
     }
 
     /**

@@ -24,21 +24,25 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package com.palechip.hudpixelmod.extended.util;
+package de.unaussprechlich.managedgui.lib.util;
 
+import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 public class RenderUtils {
+
+    public static void renderBorder(short xStart, short yStart, short innerHight, short innerWidth, StorageFourSide border, ColorRGBA color){
+        renderBoxWithColor(xStart, yStart, (short) (innerWidth + border.LEFT + border.RIGHT), border.TOP, color);
+        renderBoxWithColor(xStart, (short) (yStart + border.TOP + innerHight), (short) (innerWidth + border.LEFT + border.RIGHT), border.BOTTOM, color);
+        renderBoxWithColor(xStart, (short) (yStart + border.TOP), border.LEFT, innerHight, color);
+        renderBoxWithColor((short) (xStart + border.LEFT + innerWidth), (short) (yStart + border.TOP), border.RIGHT, innerHight, color);
+    }
+
 
     /**
      * helper-method, that draws a box wth semitransparent background. Should be with the onRender
@@ -47,44 +51,25 @@ public class RenderUtils {
      * @param yStart left upper y-cord
      * @param width  with of the box
      * @param height height of the box
-     * @param border expands the box in each direction with this given number
      */
-    public static void renderBox(double xStart, double yStart, double width, double height, int border){
-        renderBoxWithColor(xStart, yStart, width, height, border, 0, 0, 0, 0.5F);
+    public static void renderBox(short xStart, short yStart, short width, short height){
+        renderBoxWithColor(xStart, yStart, width, height, new ColorRGBA(0, 0, 0, 0.5f));
     }
 
-    public static void renderItemStackWithText(int id, int meta, int xStart, int yStart, String overlay){
-        GL11.glPushMatrix();
-        RenderHelper.enableStandardItemLighting();
-        GlStateManager.color(0.0F, 0.0F, 32.0F);
-        Minecraft mc = Minecraft.getMinecraft();
-        ItemStack iStack = new ItemStack(Item.getItemById(id));
-        if(meta > 0) iStack.setItemDamage(meta);
-
-        RenderItem renderItem = mc.getRenderItem();
-
-        renderItem.renderItemAndEffectIntoGUI(iStack, xStart, yStart);
-        renderItem.renderItemOverlayIntoGUI(mc.fontRendererObj,iStack, xStart, yStart, overlay);
-
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableBlend();
-        GL11.glPopMatrix();
-    }
-
-    public static void renderBoxWithColor(double xStart, double yStart, double width, double height, int border,
-                                          float red, float green, float blue, float alpha){
+    public static void renderBoxWithColor(short xStart, short yStart, short width, short height,
+                                          ColorRGBA color){
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(red, green, blue, alpha);
+        GlStateManager.color(color.RED, color.GREEN, color.BLUE, color.ALPHA);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(xStart - border, yStart + height + border, 0.0D).endVertex();
-        worldrenderer.pos(xStart + width + border, yStart + height + border, 0.0D).endVertex();
-        worldrenderer.pos(xStart + width + border, yStart - border, 0.0D).endVertex();
-        worldrenderer.pos(xStart - border, yStart - border, 0.0D).endVertex();
+        worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
+        worldrenderer.pos(xStart + width, yStart + height, 0.0D).endVertex();
+        worldrenderer.pos(xStart + width , yStart, 0.0D).endVertex();
+        worldrenderer.pos(xStart, yStart , 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -92,9 +77,9 @@ public class RenderUtils {
     }
 
     /**
-     * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight
+     * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight , ResourceLocation resourceLocation, Float alpha) {
+    public static void drawModalRectWithCustomSizedTexture(short x, short y,  short width, short height , ResourceLocation resourceLocation, Float alpha) {
 
         GlStateManager.popMatrix();
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -102,15 +87,15 @@ public class RenderUtils {
         //this line took me like 3 hours to fine out the color wasn't resetting :D
         GlStateManager.color(1f, 1f, 1f, alpha);
 
-        float f = 1.0F / textureWidth;
-        float f1 = 1.0F / textureHeight;
+        float f = 1.0F / height;
+        float f1 = 1.0F / width;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(u * f), (double)((v + height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((u + width) * f), (double)((v + height) * f1)).endVertex();
-        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((u + width) * f), (double)(v * f1)).endVertex();
-        worldrenderer.pos((double)x, (double)y, 0.0D).tex((double)(u * f), (double)(v * f1)).endVertex();
+        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(width * f), (double)((height + height) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((width + width) * f), (double)((height + height) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((width + width) * f), (double)(height * f1)).endVertex();
+        worldrenderer.pos((double)x, (double)y, 0.0D).tex((double)(width * f), (double)(height * f1)).endVertex();
         tessellator.draw();
 
         GlStateManager.pushMatrix();

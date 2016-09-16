@@ -29,7 +29,7 @@ package com.palechip.hudpixelmod.extended.fancychat;
 
 import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

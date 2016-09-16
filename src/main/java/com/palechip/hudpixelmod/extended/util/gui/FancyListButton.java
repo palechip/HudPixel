@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.util.gui;
 
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.util.ResourceLocation;
 
 /******************************************************************************

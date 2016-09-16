@@ -90,7 +90,7 @@ public class HudPixelConfig {
     public void syncConfig() {
 
         // Config.isFpsShown       = this.config.get(EXTENDED_CATEGORY, "showFPS"         , true , "Show your current FPS in the HudPixel Gui.").getBoolean(true);
-        //  Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
+        // Config.isPingShown      = this.config.get(EXTENDED_CATEGORY, "showPing"        , true , "Show your current Ping in the HudPixel Gui.").getBoolean(true);
         Config.isStats          = this.config.get(EXTENDED_CATEGORY, "StatsDisplay"    , true , "Activate or deactivate the stats display above the player.").getBoolean(true);
 
         //COOLDOWNDISPLAY

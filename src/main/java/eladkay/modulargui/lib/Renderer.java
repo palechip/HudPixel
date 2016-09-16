@@ -3,7 +3,7 @@ package eladkay.modulargui.lib;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.configuration.Config;
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

@@ -123,7 +123,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
             return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
         } else if(this.isCoolingDown ||
                 ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak)) && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
-            // the listened killstreak will be red because the color from COOLDOWN_SIGN isn't reset
+            // the listened killstreak will be RED because the color from COOLDOWN_SIGN isn't reset
             return COOLDOWN_SIGN + " " + this.listenedKillstreak;
         } else  {
             return "";
@@ -132,13 +132,13 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
 
     private String getColorForTime(long time) {
         if(time >= 10) {
-            // green
+            // GREEN
             return String.valueOf(EnumChatFormatting.GREEN);
         } else if( time >= 5){
             // orange
             return String.valueOf(EnumChatFormatting.GOLD);
         } else {
-            // red and bold
+            // RED and bold
             return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
         }
     }

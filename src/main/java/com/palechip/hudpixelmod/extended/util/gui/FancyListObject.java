@@ -26,7 +26,7 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.extended.util.gui;
 
-import com.palechip.hudpixelmod.extended.util.RenderUtils;
+import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
