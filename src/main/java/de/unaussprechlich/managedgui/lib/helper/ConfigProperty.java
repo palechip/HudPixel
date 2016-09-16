@@ -13,11 +13,5 @@ public class ConfigProperty<T> {
         this.property = property;
     }
 
-    public T getProperty(){
-        if( property.getClass().equals(boolean.class)){
 
-
-        }
-        return 
-    }
 }

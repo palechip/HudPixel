@@ -66,9 +66,9 @@ public class StaffManager implements IEventHandler, McColorHelper{
     public static void onPlayerName(PlayerEvent.NameFormat e){
         if(!HudPixelMod.instance().gameDetector.doesGameTypeMatchWithCurrent(GameType.ALL_GAMES)) return;
         if(adminList.contains(e.username)){
-            e.displayname = hudAdminTag() + e.displayname;
+            e.displayname = hudAdminTag() + e.entityPlayer.getDisplayNameString();
         } else if(helperList.contains(e.username)){
-            e.displayname =  hudHelperTag() + e.displayname;
+            e.displayname =  hudHelperTag() + e.entityPlayer.getDisplayNameString();
         }
     }
 
