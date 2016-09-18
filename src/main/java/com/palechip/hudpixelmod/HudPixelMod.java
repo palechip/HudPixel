@@ -25,6 +25,7 @@ package com.palechip.hudpixelmod;
 import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
+import com.palechip.hudpixelmod.command.BookVerboseInfoCommand;
 import com.palechip.hudpixelmod.command.GameCommand;
 import com.palechip.hudpixelmod.command.GameDetectorCommand;
 import com.palechip.hudpixelmod.command.ScoreboardCommand;
@@ -36,6 +37,7 @@ import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.games.LoadGameConfigThread;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
+import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
 import eladkay.modulargui.lib.Renderer;
@@ -145,6 +147,8 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(new GameCommand());
             ClientCommandHandler.instance.registerCommand(new ScoreboardCommand());
             ClientCommandHandler.instance.registerCommand(new GameDetectorCommand());
+            ClientCommandHandler.instance.registerCommand(new BookVerboseInfoCommand());
+            new HudPixelMethodHandles();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 

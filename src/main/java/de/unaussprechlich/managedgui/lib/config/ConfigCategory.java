@@ -16,7 +16,6 @@ public class ConfigCategory {
     }
 
     public void registerProperty(String name, ConfigProperty property, String description){
-
     }
 
 }

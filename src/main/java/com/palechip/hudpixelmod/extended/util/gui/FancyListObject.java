@@ -138,7 +138,7 @@ public abstract class FancyListObject {
         FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         float xStart = this.xStart;
-        System.out.print(renderRight);
+        //System.out.print(renderRight);
         if (renderRight) {
             xStart = xStart + 10;
         }
