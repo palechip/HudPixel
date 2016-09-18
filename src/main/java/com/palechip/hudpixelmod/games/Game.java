@@ -64,9 +64,9 @@ public class Game {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Game) {
+        if (obj instanceof Game)
             return ((Game) obj).configuration.getModID() == this.configuration.getModID();
-        } else
+         else
             return obj instanceof GameType && ((GameType) obj).getModID() == this.configuration.getModID();
     }
 

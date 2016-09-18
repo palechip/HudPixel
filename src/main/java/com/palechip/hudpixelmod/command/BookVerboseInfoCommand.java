@@ -47,7 +47,7 @@ public class BookVerboseInfoCommand extends CommandBase {
             if(event.gui instanceof GuiScreenBook) {
                 GuiScreenBook book = (GuiScreenBook) event.gui;
                 NBTTagList tags = HudPixelMethodHandles.getBookPages(book);
-                if(tags == null) return;
+                if(tags == null || !showVerboseBookInfo) return;
                 for(int i = 0; i < tags.tagCount(); i++)
                     Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(tags.getStringTagAt(i)));
 
