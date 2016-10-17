@@ -1,30 +1,30 @@
-[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtendedl)
+##[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
-The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and it's dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
-Parts of the code are based upon the [Hypixel Public API](https://github.com/HypixelDev/PublicAPI). These parts are all in src/main/java/net/hypixel/api and subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously intended for usage in this kind of application.
-The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license.
-The ported version to Minecraft 1.8.9/1.9 [HudPixel Reloaded](https://github.com/PixelModders/HudPixel) is made by PixelModders/Eladkay and also published under the MIT license.
+The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and its dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
 
-For the rest of the code and for the build the following license applyies:
+This project contains a unofficial copy of pictures from the official [Hypixel website](https://hypixel.net/forums/). All copyright is held by the creator!
 
-The MIT License (MIT)
+Parts of the code are based upon the [Hypixel Public API](https://github.com/HypixelDev/PublicAPI). These parts are all in src/main/java/net/hypixel/api and subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously intended for usage in this kind of application. By default, all rights are reserved.
 
-Copyright (c) 2016 unaussprechlich, Eladkay, palechip, skyerzz 
+The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license. The majority of code left from palechip's creations is the component implementation.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+The ported version to Minecraft 1.8.9 and up [HudPixel Reloaded](https://github.com/PixelModders/HudPixel) is made by PixelModders/Eladkay and also published under the MIT license (to be changed to the new license as detailed below in the next minor update).
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+###For the rest of the code and for the build the following license applies:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
+
+[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
+Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixelExtended) &  [HudPixel](https://github.com/PixelModders/HudPixel).
+
+####Restrictions:
+The authors are allowed to change the license at their desire. 
+This license is void for members of PixelModders and to unaussprechlich, except for clause 3.
+The licensor cannot revoke these freedoms in most cases, as long as you follow the following license terms and the license terms given by the listed above Creative Commons License, however in extreme cases the authors reserve the right to revoke all rights for usage of the codebase.
+
+1. [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material. GitHub contributors are NOT considered authors, neither are members of the HudHelper program. GitHub contributers still hold the rights for their code, but only when it is used separately from HudPixel and any license header must indicate that. 
+1. You shall not claim ownership over this project and repost it in any case, without written permission from at least two of the authors.
+2. You shall not make money with the provided material. This project is 100% non commercial and will always stay that way. This clause is the only one remaining, should the rest of the license be revoked. The only exception to this clause is completely cosmetic features. Only the authors may sell cosmetic features for the mod.
+3. Every single contibutor owns copyright over his contributed code when separated from HudPixel. When it's part of HudPixel, it is only governed by this license, and any copyright header must indicate that. After the contributed code is merged to the release branch you cannot revoke the given freedoms by this license. 
+4. If your own project contains a part of the licensed material you have to give the authors full access to all project related files.
+5. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors reserve the right to take down any infringing project.
