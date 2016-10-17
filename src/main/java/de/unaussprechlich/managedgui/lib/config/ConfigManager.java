@@ -1,5 +1,6 @@
 package de.unaussprechlich.managedgui.lib.config;
 
+import de.unaussprechlich.managedgui.lib.exceptions.NameInUseException;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.Configuration;
 
@@ -40,8 +41,49 @@ public class ConfigManager {
 
     public ConfigManager(String modid){
         config = new Configuration(new File(Minecraft.getMinecraft().mcDataDir.toString() + "/" + modid + "/ManagedGuiLibConfig.txt"));
-
+        config.load();
+        loadCategories();
+        config.save();
     }
+
+    public static Configuration getConfig() {
+        return config;
+    }
+
+    static <T> void registerProperty(String name, T defaultValue, String category){
+        config.load();
+        if(defaultValue.getClass() == boolean.class){
+            ConfigManager.getConfig().get(category, name, (Boolean)defaultValue);
+        } else if(defaultValue.getClass() == int.class){
+            ConfigManager.getConfig().get(category, name, (Integer)defaultValue);
+        } else if(defaultValue.getClass() == double.class){
+            ConfigManager.getConfig().get(category, name, (Double)defaultValue);
+        }
+        config.save();
+    }
+
+    private static void loadCategories(){
+        categories.clear();
+        for (String key : config.getCategoryNames()){
+            categories.put(key, new ConfigCategory(key));
+        }
+    }
+
+    public static ConfigCategory getCategoryByName(String name){
+        return categories.get(name);
+    }
+
+    public static void registerCategory(String name) throws NameInUseException{
+        if(categories.containsKey(name)){
+            throw new NameInUseException(name, "ConfigCategories");
+        } else {
+            config.load();
+            config.getCategory(name);
+            config.save();
+        }
+    }
+
+
 
 
 

@@ -15,8 +15,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  *******************************************************************************/
 public abstract class Container implements Child {
 
-    public String name;
-
     public StorageFourSide padding = new StorageFourSide();
     public StorageFourSide margin = new StorageFourSide();
     public StorageFourSide border = new StorageFourSide();
@@ -45,7 +43,7 @@ public abstract class Container implements Child {
     abstract boolean onMouseMoveLocal(int mX, int mY);
 
     //CONSTRUCTOR
-    public Container(String name) {
+    public Container() {
 
     }
 
