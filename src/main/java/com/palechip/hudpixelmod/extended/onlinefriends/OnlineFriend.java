@@ -33,10 +33,13 @@ import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
 import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraft.util.ResourceLocation;
 
 
 public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, SessionResponseCallback, McColorHelper {
+    @ConfigPropertyBoolean(catagory = "general", id = "onlineFriends", comment = "The Online Friends Tracker", def = true)
+    public static boolean enabled = false;
 
     private String username;
     private String gamemode;
@@ -86,6 +89,7 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
 
     @Override
     public void onTick() {
+        if(!enabled) return;
         if (isOnline && this.fancyListObjectButtons.isEmpty()) {
             this.addButton(new OnlineFriendsMessageButton(username));
             this.addButton(new OnlineFriendsPartyButton(username));

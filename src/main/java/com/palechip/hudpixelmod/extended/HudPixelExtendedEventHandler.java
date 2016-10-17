@@ -28,7 +28,6 @@
 package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.staff.StaffManager;
@@ -86,9 +85,7 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
                 //just triggeres the statsrenderer if the player is waiting for the game to start
-                if (!(HudPixelMod.instance().gameDetector.isLobby())
-                        && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted())
-                        && Config.isStats)
+                if (!HudPixelMod.instance().gameDetector.isLobby() && StatsViewerManager.enabled)
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
@@ -144,7 +141,7 @@ public class HudPixelExtendedEventHandler {
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
-                if (!(HudPixelMod.instance().gameDetector.isLobby()) && !(HudPixelMod.instance().gameDetector.getCurrentGame().hasGameStarted()))
+                if (!HudPixelMod.instance().gameDetector.isLobby())
                     StatsViewerManager.onClientTick();
 
                 if (lastSystemTime + delay < System.currentTimeMillis()) {
@@ -152,7 +149,7 @@ public class HudPixelExtendedEventHandler {
                 }
 
 
-            } else if (Config.isDebuging) {
+            } else if (HudPixelMod.IS_DEBUGGING) {
                 FancyChat.getInstance().onClientTick();
             }
         } catch (Exception ex) {
@@ -167,7 +164,7 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 getIeventBuffer().forEach(IEventHandler::onRender);
-                if (Config.isFancyChat) FancyChat.getInstance().onRenderTick();
+                if (FancyChat.enabled) FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");

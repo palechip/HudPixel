@@ -2,12 +2,15 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.OldServerPinger;
 
 import java.net.UnknownHostException;
 
 public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
+    @ConfigPropertyBoolean(catagory = "general", id = "pingFps", comment = "The Ping/FPS Display", def = true)
+    public static boolean enabled = false;
     @Override
     public boolean doesMatchForGame() {
         return true;
@@ -40,7 +43,7 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return Minecraft.getMinecraft().getCurrentServerData() != null;
+        return Minecraft.getMinecraft().getCurrentServerData() != null && enabled;
     }
 
     @Override

@@ -30,13 +30,14 @@ package com.palechip.hudpixelmod.extended.boosterdisplay;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
-import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.ConfigPropertyInt;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -49,6 +50,18 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 //######################################################################################################################
 
     private static final int REQUEST_COOLDOWN = 10 * 60 * 1000; // = 10min
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetBoosterDisplay", comment = "X offset of Booster display", def = 2)
+    public static int xOffsetBoosterDisplay = 2;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "yOffsetBoosterDisplay", comment = "Y offset of Booster display", def = 2)
+    public static int yOffsetBoosterDisplay = 2;
+
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownBooosterDisplayRight", comment = "Show booster display on right", def = true)
+    public static boolean shownBooosterDisplayRight = true;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
+    public static int boostersShownAtOnce = 5;
 
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!
@@ -86,7 +99,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     public BoosterManager() {
         //TODO render right side
-        super(5, Config.xOffsetBoosterDisplay, Config.yOffsetBoosterDisplay, Config.shownBooosterDisplayRight); //this sets how many boosters are displayed at once you can change that
+        super(5, xOffsetBoosterDisplay, yOffsetBoosterDisplay, shownBooosterDisplayRight); //this sets how many boosters are displayed at once you can change that
         this.isButtons = true;
         for (GameType g : gamesWithBooster) {
             this.fancyListObjects.add(new BoosterExtended(g));
@@ -100,7 +113,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender() {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && Config.isBoosterDisplay) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && BoosterExtended.enabled) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
@@ -117,16 +130,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     @Override
     public void onClientTick() {
 
-        this.shownObjects = Config.boostersShownAtOnce;
-        this.yStart = Config.yOffsetBoosterDisplay;
-        this.xStart = Config.xOffsetBoosterDisplay;
-        this.renderRightSide = Config.shownBooosterDisplayRight;
+        this.shownObjects = boostersShownAtOnce;
+        this.yStart = yOffsetBoosterDisplay;
+        this.xStart = xOffsetBoosterDisplay;
+        this.renderRightSide = shownBooosterDisplayRight;
 
 
         requestBoosters(false);
-        for (FancyListObject b : fancyListObjects) {
-            b.onClientTick();
-        }
+        fancyListObjects.forEach(FancyListObject::onClientTick);
     }
 
     /**
@@ -161,7 +172,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * @param forceRequest Set this to true if you want to force the request
      */
     void requestBoosters(Boolean forceRequest) {
-        if (HudPixelConfig.useAPI && Config.isBoosterDisplay) {
+        if (GeneralConfigSettings.getUseAPI() && BoosterExtended.enabled) {
             // isHypixelNetwork if enough time has past
             if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request

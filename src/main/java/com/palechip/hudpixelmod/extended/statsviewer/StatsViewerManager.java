@@ -1,8 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer;
 
-import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
-import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -10,6 +10,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -39,6 +40,8 @@ import java.util.Map;
  *******************************************************************************/
 public class StatsViewerManager {
 
+    @ConfigPropertyBoolean(catagory = "general", id = "statviewer", comment = "The Stats Viewer", def = true)
+    public static boolean enabled = false;
     private static HashMap<String, StatsViewerRender> statsViewerRenderMap = new HashMap<String, StatsViewerRender>();
 
     /**
@@ -64,10 +67,7 @@ public class StatsViewerManager {
         ArrayList<String> removeFromMap = new ArrayList<String>();
 
         //deletes the entry if the showduration has expired
-        for (Map.Entry<String, StatsViewerRender> entry : statsViewerRenderMap.entrySet()) {
-            if (entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
-                removeFromMap.add(entry.getKey());
-        }
+        removeFromMap.addAll(statsViewerRenderMap.entrySet().stream().filter(entry -> entry.getValue().getExpireTimestamp() <= System.currentTimeMillis()).map(Map.Entry::getKey).collect(Collectors.toList()));
 
         for (String s : removeFromMap) {
             statsViewerRenderMap.remove(s);
@@ -79,11 +79,12 @@ public class StatsViewerManager {
         if (mc.thePlayer == null || !mc.thePlayer.isSneaking()) return;
 
         //checks if there is a new stats viewer to add
+        if(!enabled) return;
         if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
             if (mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP) {
                 if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
                     statsViewerRenderMap.put(mc.objectMouseOver.entityHit.getName(), new StatsViewerRender(
-                            GameType.getTypeByID(HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID()),
+                            GameDetector.getCurrentGameType(),
                             mc.objectMouseOver.entityHit.getName()));
                 }
             }

@@ -1,7 +1,5 @@
 package com.palechip.hudpixelmod;
 
-import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
@@ -23,7 +21,6 @@ public class GameDetector {
     public static final char COLOR_CHAR = '\u00A7';
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
     private static GameType currentGameType = GameType.UNKNOWN;
-    private static Game currentGame;
 
     public static boolean doesGameTypeMatchWithCurrent(GameType type) {
         switch (type) {
@@ -113,9 +110,6 @@ public class GameDetector {
         return currentGameType;
     }
 
-    public static Game getCurrentGame() {
-        return currentGame = currentGameType == GameType.UNKNOWN ? Game.NO_GAME : GameManager.getGameManager().createGame(currentGameType);
-    }
 
     int cooldown = 0;
     private boolean schedule = false;

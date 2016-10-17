@@ -9,6 +9,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import java.util.HashMap;
 
 public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.PAINTBALL);

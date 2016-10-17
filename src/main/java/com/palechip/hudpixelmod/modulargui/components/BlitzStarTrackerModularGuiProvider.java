@@ -3,10 +3,14 @@ package com.palechip.hudpixelmod.modulargui.components;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvider {
+
+    @ConfigPropertyBoolean(catagory = "blitz survival games", id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
+    public static boolean enabled = false;
 
     @Override
     public boolean doesMatchForGame() {
@@ -56,7 +60,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat tag
-        textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getChatTag() + "]: ", "");
+        textMessage = textMessage.replace("[" + HudPixelMod.instance().gameDetector.getCurrentGameType().getName() + "]: ", "");
         // hide message
         if (textMessage.contains("The Blitz Star has been hidden in a random chest!")) {
             this.currentPhase = Phase.HIDDEN;
@@ -110,7 +114,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override

@@ -3,11 +3,14 @@ package com.palechip.hudpixelmod.modulargui.components;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
+    @ConfigPropertyBoolean(catagory = "mega walls", id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
+    public static boolean enabled = false;
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
@@ -101,7 +104,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override

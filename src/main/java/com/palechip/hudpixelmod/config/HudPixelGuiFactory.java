@@ -22,15 +22,9 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.config;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.client.IModGuiFactory;
+public class HudPixelGuiFactory/* implements IModGuiFactory */{
 
-import java.util.Set;
-
-public class HudPixelGuiFactory implements IModGuiFactory {
-
-    @Override
+   /* @Override
     public void initialize(Minecraft minecraftInstance) {
     }
 
@@ -48,6 +42,6 @@ public class HudPixelGuiFactory implements IModGuiFactory {
     public RuntimeOptionGuiHandler getHandlerFor(
             RuntimeOptionCategoryElement element) {
         return null;
-    }
+    }*/
 
 }

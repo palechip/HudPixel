@@ -27,19 +27,22 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback {
 
+    @ConfigPropertyBoolean(catagory = "general", id = "statviewer", comment = "The Stats Viewer", def = true)
+    public static boolean enabled = false;
     protected String playerName;
     protected JsonObject statistics;
     protected boolean shouldPrint;
 
     protected StatsDisplayer(String playerName) {
         this.playerName = playerName;
-        if (HudPixelConfig.useAPI && HudPixelConfig.enableAfterStats) {
+        if (GeneralConfigSettings.getUseAPI() && enabled) {
             Queue.getInstance().getPlayer(this, playerName);
         }
     }

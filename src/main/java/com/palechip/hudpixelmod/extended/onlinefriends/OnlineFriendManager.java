@@ -27,10 +27,11 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
-import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.ConfigPropertyInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumChatFormatting;
@@ -38,7 +39,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class OnlineFriendManager extends FancyListManager implements IUpdater {
@@ -54,12 +54,26 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     private static ArrayList<FancyListObject> localStorageFCO = new ArrayList<FancyListObject>();
 
     public static OnlineFriendManager getInstance() {
-        if (instance == null) instance = new OnlineFriendManager();
-        return instance;
+        return instance == null ? instance = new OnlineFriendManager() : instance;
     }
 
+    @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetFriendsDisplay", comment = "X offset for friends display", def = 2)
+    public static int xOffsetFriendsDisplay = 2;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "yOffsetFriendsDisplay", comment = "Y offset for friends display", def = 2)
+    public static int yOffsetFriendsDisplay = 2;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
+    public static int friendsShownAtOnce = 2;
+
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = true)
+    public static boolean shownFriendsDisplayRight = true;
+
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
+    public static boolean hideOfflineFriends = true;
+
     private OnlineFriendManager() {
-        super(5, Config.xOffsetFriendsDisplay, Config.yOffsetFriendsDisplay, Config.shownFriendsDisplayRight);
+        super(5, xOffsetFriendsDisplay, yOffsetFriendsDisplay, shownFriendsDisplayRight);
         this.isButtons = true;
         new OnlineFriendsLoader();
     }
@@ -76,16 +90,13 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
                 for (FancyListObject fco : localStorageFCO)
                     fco.onClientTick();
             //sort the list to display only friends first
-            Collections.sort(localStorageFCO, new Comparator<FancyListObject>() {
-                @Override
-                public int compare(FancyListObject f1, FancyListObject f2) {
-                    OnlineFriend o1 = (OnlineFriend) f1;
-                    OnlineFriend o2 = (OnlineFriend) f2;
-                    return Boolean.valueOf(o2.isOnline()).compareTo(o1.isOnline());
-                }
+            Collections.sort(localStorageFCO, (f1, f2) -> {
+                OnlineFriend o1 = (OnlineFriend) f1;
+                OnlineFriend o2 = (OnlineFriend) f2;
+                return Boolean.valueOf(o2.isOnline()).compareTo(o1.isOnline());
             });
 
-            if (Config.isHideOfflineFriends) {
+            if (hideOfflineFriends) {
                 ArrayList<FancyListObject> buff = new ArrayList<FancyListObject>();
                 for (FancyListObject fco : localStorageFCO) {
                     OnlineFriend of = (OnlineFriend) fco;
@@ -102,8 +113,8 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     public void onClientTick() {
         // this.yStart = Config.yOffsetFriendsDisplay;
         // this.xStart = Config.xOffsetFriendsDisplay;
-        this.renderRightSide = Config.shownFriendsDisplayRight;
-        this.shownObjects = Config.friendsShownAtOnce;
+        this.renderRightSide = shownFriendsDisplayRight;
+        this.shownObjects = friendsShownAtOnce;
         if ((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
             lastUpdateOnline = System.currentTimeMillis();
             new OnlineFriendsUpdater(this);
@@ -135,7 +146,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onRender() {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Config.isFriendsDisplay) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && OnlineFriendsLoader.enabled) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {

@@ -50,7 +50,7 @@ public class WarlordsCTFCrashPrevention {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onRenderTick(RenderTickEvent event) {
         // only when the event starts
-        if (event.phase == Phase.START && HudPixelMod.instance().gameDetector.getCurrentGame().getConfiguration().getModID() == GameType.WARLORDS.getModID()) {
+        if (event.phase == Phase.START && GameDetector.getCurrentGameType() == GameType.WARLORDS) {
             try {
                 Minecraft mc = Minecraft.getMinecraft();
                 // isHypixelNetwork if the world exists

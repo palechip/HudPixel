@@ -3,11 +3,11 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -47,6 +47,8 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     private static long lastRequest;
     private static ArrayList<String> allreadyStored = new ArrayList<String>();
     private static boolean isApiLoaded = false;
+    @ConfigPropertyBoolean(catagory = "general", id = "onlineFriends", comment = "The Online Friends HUD", def = true)
+    public static boolean enabled;
 
     public static ArrayList<String> getAllreadyStored() {
         return allreadyStored;
@@ -67,7 +69,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     private void requestFriends(Boolean forceRequest) {
-        if (HudPixelConfig.useAPI && Config.isFriendsDisplay) {
+        if (GeneralConfigSettings.getUseAPI() && enabled) {
             // isHypixelNetwork if enough time has past
             if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) || forceRequest) {
                 // save the time of the request

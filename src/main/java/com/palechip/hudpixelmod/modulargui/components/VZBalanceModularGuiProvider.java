@@ -2,10 +2,13 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
+    @ConfigPropertyBoolean(catagory = "vampirez", id = "vampireZBalance", comment = "The VZ Time Tracker", def = true)
+    public static boolean enabled = false;
     public static enum Type {Negative, Total}
 
     ;
@@ -25,6 +28,10 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
         return getRenderingString();
     }
 
+    @Override
+    public boolean showElement() {
+        return super.showElement() && enabled;
+    }
 
     @Override
     public void setupNewGame() {

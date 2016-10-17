@@ -2,10 +2,13 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
+    @ConfigPropertyBoolean(catagory = "general", id = "timer", comment = "The Game Timer", def = true)
+    public static boolean enabled = false;
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.getCurrentGameType() != GameType.UNKNOWN;
@@ -67,7 +70,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean showElement() {
         //return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
-        return doesMatchForGame() && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override

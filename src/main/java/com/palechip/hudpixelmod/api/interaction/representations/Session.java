@@ -24,8 +24,6 @@ package com.palechip.hudpixelmod.api.interaction.representations;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.palechip.hudpixelmod.games.GameConfiguration;
-import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
@@ -57,12 +55,11 @@ public class Session implements UuidCallback {
     public int getGameID() {
         if (this.gameID == 0) {
             // go through all configurations
-            for (GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+            for (GameType config : GameType.values()) {
                 // if we find one with a matching database id
-                if (config.getDatabaseName().equals(gameType)) {
+                if (config.getModID() == this.gameID) {
                     // save it
                     this.gameID = config.getModID();
-
                 }
             }
         }

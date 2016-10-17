@@ -29,14 +29,11 @@ import com.palechip.hudpixelmod.command.BookVerboseInfoCommand;
 import com.palechip.hudpixelmod.command.GameCommand;
 import com.palechip.hudpixelmod.command.GameDetectorCommand;
 import com.palechip.hudpixelmod.command.ScoreboardCommand;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
-import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.LoadGameConfigThread;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
+import com.palechip.hudpixelmod.util.EasyConfigHandler;
 import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
@@ -48,7 +45,6 @@ import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -73,7 +69,7 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         modid = HudPixelMod.MODID,
         version = SHORT_VERSION,
         name = HudPixelMod.NAME,
-        guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
+        //guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         clientSideOnly = true,
         acceptedMinecraftVersions = "1.8.9"
 )
@@ -92,7 +88,6 @@ public class HudPixelMod {
     private static HudPixelMod instance;
 
     private Logger LOGGER;
-    public HudPixelConfig CONFIG;
     private Queue apiQueue;
 
     public GameDetector gameDetector;
@@ -152,10 +147,10 @@ public class HudPixelMod {
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
-            new LoadGameConfigThread(event.getModConfigurationDirectory());
+            //new LoadGameConfigThread(event.getModConfigurationDirectory());
 
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
-            this.CONFIG = new HudPixelConfig(event.getSuggestedConfigurationFile());
+            EasyConfigHandler.INSTANCE.init(event.getSuggestedConfigurationFile(), event.getAsmData());
             this.apiQueue = new Queue();
         } catch (Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
@@ -220,9 +215,9 @@ public class HudPixelMod {
 
 
                     // pass the chat messages to the current game
-                    if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.getCurrentGame().hasGameStarted()) {
+                  /*  if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.isLobby()) {
                         this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-                    }
+                    }*/
 
 
                     // pass the message to the api connection
@@ -268,7 +263,7 @@ public class HudPixelMod {
                 }
 
 
-                if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
+               /* if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
                     // tick the current game
                     if (this.gameDetector.getCurrentGame().hasGameStarted()) {
                         this.gameDetector.getCurrentGame().onTickUpdate();
@@ -277,7 +272,7 @@ public class HudPixelMod {
                     // update render strings
                     this.gameDetector.getCurrentGame().updateRenderStrings();
                 }
-
+*/
                 this.apiQueue.onClientTick();
 
             }
@@ -296,10 +291,10 @@ public class HudPixelMod {
                 // isHypixelNetwork all listened keys
                 if (this.hideHUDKey.isPressed()) {
                 }
-                if (this.openConfigGui.isPressed()) {
+               /* if (this.openConfigGui.isPressed()) {
                     // open the config screen
-                    FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
-                }
+                    FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui());
+                }*/
                 if (this.pressToPlay.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
@@ -316,7 +311,7 @@ public class HudPixelMod {
         }
     }
 
-    @SubscribeEvent
+   /* @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         try {
             // This event isn't bound to the Hypixel Network
@@ -327,7 +322,7 @@ public class HudPixelMod {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     public static HudPixelMod instance() {

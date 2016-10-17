@@ -4,6 +4,7 @@ import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import java.util.ArrayList;
 
 public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
+    @ConfigPropertyBoolean(catagory = "turbo kart racers", id = "kartRacersAccurateTimeDisplay", comment = "The TKR Time Tracker", def = true)
+    public static boolean enabled = false;
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.TURBO_KART_RACERS);
@@ -25,7 +28,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     private String officialTime = "";
 
-    private static long startDelay = 0l;
+    private static long startDelay = 0L;
 
 
     @Override
@@ -133,7 +136,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override

@@ -22,29 +22,9 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.config;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.extended.configuration.Config;
-import com.palechip.hudpixelmod.games.Game;
-import com.palechip.hudpixelmod.games.GameConfiguration;
-import com.palechip.hudpixelmod.games.GameManager;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import org.apache.commons.lang3.text.WordUtils;
+public class HudPixelConfigGui/* extends GuiConfig */{
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-public class HudPixelConfigGui extends GuiConfig {
-
-    private static List<IConfigElement> getDisplayElements(Configuration configFile) {
+   /* private static List<IConfigElement> getDisplayElements(Configuration configFile) {
 
         List<IConfigElement> displaySettings = new ArrayList<IConfigElement>();
 
@@ -64,9 +44,6 @@ public class HudPixelConfigGui extends GuiConfig {
         return displaySettings;
     }
 
-    /**
-     * Get a list of all Elements in the config
-     */
     private static List<IConfigElement> getConfigElements() {
 
         List<IConfigElement> list = new ArrayList<IConfigElement>();
@@ -107,5 +84,5 @@ public class HudPixelConfigGui extends GuiConfig {
 
     public HudPixelConfigGui(GuiScreen parent) {
         super(parent, getConfigElements(), HudPixelMod.MODID, false, false, "HudPixel Config");
-    }
+    }*/
 }

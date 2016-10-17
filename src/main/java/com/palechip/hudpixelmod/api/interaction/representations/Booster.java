@@ -22,8 +22,7 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
-import com.palechip.hudpixelmod.games.GameConfiguration;
-import com.palechip.hudpixelmod.games.GameManager;
+import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
@@ -60,7 +59,7 @@ public class Booster implements UuidCallback {
         // neither can we know the activation time
         this.dateActivated = System.currentTimeMillis();
         // get the db id
-        this.gameType = GameManager.getGameManager().getGameConfiguration(gameID).getDatabaseID();
+        this.gameType = GameType.getTypeByID(gameID).getModID();
     }
 
     public int getCoinAmount() {
@@ -78,9 +77,9 @@ public class Booster implements UuidCallback {
     public int getGameID() {
         if (this.gameID == 0) {
             // go through all configurations
-            for (GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+            for (GameType config : GameType.values()) {
                 // if we find one with a matching database id
-                if (config.getDatabaseID() == this.gameType) {
+                if (config.getModID() == this.gameType) {
                     // save it
                     this.gameID = config.getModID();
                 }

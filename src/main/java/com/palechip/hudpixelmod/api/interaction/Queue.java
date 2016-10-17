@@ -25,7 +25,7 @@ package com.palechip.hudpixelmod.api.interaction;
 import com.google.gson.Gson;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.*;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.hypixel.api.HypixelAPI;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     public void onClientTick() {
         // request the key if necessary
-        if (HudPixelConfig.useAPI && !this.apiEnabled && !this.queue.isEmpty()) {
+        if (GeneralConfigSettings.getUseAPI() && !this.apiEnabled && !this.queue.isEmpty()) {
             // if the api is disabled, the requests will expire
             if (this.queue.get(0).getCreationTime() + API_DISABLED_TIMEOUT < System.currentTimeMillis()) {
                 this.queue.get(0).cancel();
@@ -87,7 +87,7 @@ public class Queue implements ApiKeyLoadedCallback {
         }
 
         // run the queue
-        if (HudPixelConfig.useAPI && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
+        if (GeneralConfigSettings.getUseAPI() && this.apiEnabled && !this.queue.isEmpty() && !this.isLocked && this.heat < HEAT_MAXIMUM + HEAT_PER_REQUEST) {
             QueueEntry entry = this.queue.get(0);
             entry.run();
             this.queue.remove(0);
@@ -124,7 +124,7 @@ public class Queue implements ApiKeyLoadedCallback {
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
-        if (HudPixelConfig.useAPI) {
+        if (GeneralConfigSettings.getUseAPI()) {
             this.queue.add(new QueueEntry(callback));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -137,7 +137,7 @@ public class Queue implements ApiKeyLoadedCallback {
      * @param callback
      */
     public void getSession(SessionResponseCallback callback, String player, Boolean viaUUID) {
-        if (HudPixelConfig.useAPI) {
+        if (GeneralConfigSettings.getUseAPI()) {
             this.queue.add(new QueueEntry(callback, player, viaUUID));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -151,7 +151,7 @@ public class Queue implements ApiKeyLoadedCallback {
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, String player) {
-        if (HudPixelConfig.useAPI) {
+        if (GeneralConfigSettings.getUseAPI()) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -164,7 +164,7 @@ public class Queue implements ApiKeyLoadedCallback {
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, UUID player) {
-        if (HudPixelConfig.useAPI) {
+        if (GeneralConfigSettings.getUseAPI()) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();
@@ -178,7 +178,7 @@ public class Queue implements ApiKeyLoadedCallback {
      * @param player
      */
     public void getPlayer(PlayerResponseCallback callback, String player) {
-        if (HudPixelConfig.useAPI) {
+        if (GeneralConfigSettings.getUseAPI()) {
             this.queue.add(new QueueEntry(callback, player));
         } else {
             ApiKeyHandler.requestApiKey();

@@ -24,7 +24,8 @@ package com.palechip.hudpixelmod.chat;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.ConfigPropertyInt;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
@@ -47,25 +48,25 @@ public class WarlordsDamageChatFilter {
         // only if we are in a Warlords game
         if (GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
             // isHypixelNetwork if the filter is enabled
-            if (HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
+            if (warlordsFilterDamageDone > 0 || warlordsFilterDamageTaken > 0 || warlordsFilterHealingDone > 0 || warlordsFilterHealingReceived > 0 || warlordsFilterAbsorbtion || warlordsFilterWounded) {
                 String message = e.message.getUnformattedText();
                 // incoming
                 if (message.startsWith(take)) {
                     // healing
                     if (message.contains(healing)) {
-                        if (HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
+                        if (warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                     // absorption
                     else if (message.contains(absorption)) {
-                        if (HudPixelConfig.warlordsFilterAbsorbtion) {
+                        if (warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
                     }
                     // damage
                     else {
-                        if (HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
+                        if (warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
@@ -74,25 +75,25 @@ public class WarlordsDamageChatFilter {
                 else if (message.startsWith(give)) {
                     // healing
                     if (message.contains(healing)) {
-                        if (HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
+                        if (warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                     // absorption
                     else if (message.contains(absorption)) {
-                        if (HudPixelConfig.warlordsFilterAbsorbtion) {
+                        if (warlordsFilterAbsorbtion) {
                             e.setCanceled(true);
                         }
                     }
                     // damage
                     else {
-                        if (HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
+                        if (warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
                             e.setCanceled(true);
                         }
                     }
                 }
                 //Filter wounded messages
-                if (HudPixelConfig.warlordsFilterWounded) {
+                if (warlordsFilterWounded) {
                     if (message.equals(wounded1) || message.equals(wounded2) || message.equals(noLongerWounded)) {
                         e.setCanceled(true);
                     }
@@ -100,6 +101,24 @@ public class WarlordsDamageChatFilter {
             }
         }
     }
+
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
+    public static boolean warlordsFilterWounded = false;
+
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
+    public static boolean warlordsFilterAbsorbtion = false;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
+    public static int warlordsFilterDamageDone = 0;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
+    public static int warlordsFilterHealingDone = 0;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
+    public static int warlordsFilterDamageTaken = 0;
+
+    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
+    public static int warlordsFilterHealingReceived = 0;
 
     /**
      * @return The damage or health. Int.MAX_VALUE in case of failure.

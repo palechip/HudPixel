@@ -27,9 +27,11 @@
 
 package com.palechip.hudpixelmod.extended.fancychat;
 
-import com.palechip.hudpixelmod.extended.configuration.Config;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.ConfigPropertyInt;
 import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -47,11 +49,19 @@ import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.*;
 
 public class FancyChat {
 
+    @ConfigPropertyBoolean(catagory = "general", id = "fancychat", comment = "The Fancy Chat", def = true)
+    public static boolean enabled = false;
+
+    @ConfigPropertyInt(catagory = "general", id = "storedMessages", comment = "Stored Messages", def = 1000)
+    public static int storedMessages;
+
+    @ConfigPropertyInt(catagory = "general", id = "displayMessages", comment = "Displayed Messages", def = 8)
+    public static int displayMessages;
 
 //######################################################################################################################
 
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
-    private static long displayTimeMs = Config.displayMessages * 1000;
+    private static long displayTimeMs = displayMessages * 1000;
     // [SETTING] the offset between each chatline (in ms)
     public static final short RENDERING_HEIGHT_OFFSET = 9;
     // [SETTING] the with of the fancy chat overlay
@@ -59,7 +69,7 @@ public class FancyChat {
     // [SETTING] the with of the fancy chat overlay
     private static final short BOTTOM_Y_OFFSET = 28;
     // [SETTING] the with of the fancy chat overlay
-    private static int MAX_STORED_FANCYCHATMESSAGES = Config.storedMessages;
+    private static int MAX_STORED_FANCYCHATMESSAGES = storedMessages;
     // [SETTING] the with of the fancy chat overlay
     private static final short MAX_SCROLLIST_LINES = 20;
     // [SETTING] the with of the fancy chat overlay
@@ -101,6 +111,7 @@ public class FancyChat {
 
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
+        if(!enabled) return;
         ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
         if (Minecraft.getMinecraft().displayWidth < 1300) {
             return;
@@ -198,7 +209,7 @@ public class FancyChat {
             // [IF] the message is a FancyChatMessage
         } else if (message.startsWith("To ")) {
             addFancyChatEntry(e.message.getFormattedText());
-        } else if (Config.isDebuging) {
+        } else if (HudPixelMod.IS_DEBUGGING) {
             if (message.startsWith("<aussprechlich2> messagebuffer.clear")) {
                 fancyChatMessages.messageBuffer.clear();
             }
