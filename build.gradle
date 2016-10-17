@@ -22,7 +22,7 @@ plugins {
 }
 */
 
-version = "3.2"
+version = "3.2.1"
 group = "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HudPixelReloaded-1.8.9-v3"
 
@@ -39,9 +39,14 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
+configurations {
+
+    required
+    compile.extendsFrom(required)
+}
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    //required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 apply plugin: 'java'
 sourceCompatibility = targetCompatibility = '1.8'
@@ -49,6 +54,21 @@ compileJava {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
 }
+
+
+jar {
+    // We need to make sure we package kotlin runtimes.
+
+    dependsOn configurations.compile
+    from {
+        configurations.required.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
 
 processResources
 {
