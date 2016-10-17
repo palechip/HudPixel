@@ -1,16 +1,15 @@
 package com.palechip.hudpixelmod.extended.statsviewer;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.util.GameType;
-
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -59,14 +58,18 @@ public class StatsViewerManager {
     /**
      * Function to create and delete the current shown stats
      */
-    public static void onClientTick() {
+    public static void onClientTick(){
+
+        ArrayList<String> removeFromMap = new ArrayList<String>();
 
         //deletes the entry if the showduration has expired
-        for (Iterator<Map.Entry<String, StatsViewerRender>> it = statsViewerRenderMap.entrySet().iterator(); it.hasNext(); ) {
-             Map.Entry<String, StatsViewerRender> entry = it.next();
-        	 if (entry.getValue().getExpireTimestamp() <= System.currentTimeMillis()) {
-        		 it.remove();
-        	}
+        for(Map.Entry<String, StatsViewerRender> entry : statsViewerRenderMap.entrySet()){
+            if(entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
+                removeFromMap.add(entry.getKey());
+        }
+
+        for(String s : removeFromMap){
+            statsViewerRenderMap.remove(s);
         }
 
         Minecraft mc = Minecraft.getMinecraft();
