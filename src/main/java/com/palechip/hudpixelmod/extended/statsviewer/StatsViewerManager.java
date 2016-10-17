@@ -7,10 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -63,7 +62,7 @@ public class StatsViewerManager {
      * Function to create and delete the current shown stats
      */
     public static void onClientTick() {
-
+/*
         ArrayList<String> removeFromMap = new ArrayList<String>();
 
         //deletes the entry if the showduration has expired
@@ -71,6 +70,12 @@ public class StatsViewerManager {
 
         for (String s : removeFromMap) {
             statsViewerRenderMap.remove(s);
+        }*/
+        for (Iterator<Map.Entry<String, StatsViewerRender>> it = statsViewerRenderMap.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, StatsViewerRender> entry = it.next();
+            if (entry.getValue().getExpireTimestamp() <= System.currentTimeMillis())
+                it.remove();
+
         }
 
         Minecraft mc = Minecraft.getMinecraft();
@@ -79,7 +84,7 @@ public class StatsViewerManager {
         if (mc.thePlayer == null || !mc.thePlayer.isSneaking()) return;
 
         //checks if there is a new stats viewer to add
-        if(!enabled) return;
+        if (!enabled) return;
         if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
             if (mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP) {
                 if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
