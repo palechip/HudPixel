@@ -33,28 +33,46 @@ import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
 import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraft.util.ResourceLocation;
 
 
-public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, SessionResponseCallback, McColorHelper{
+public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, SessionResponseCallback, McColorHelper {
+    @ConfigPropertyBoolean(catagory = "general", id = "onlineFriends", comment = "The Online Friends Tracker", def = true)
+    public static boolean enabled = false;
 
     private String username;
     private String gamemode;
     private boolean isOnline;
     private String friendUUID;
 
-    String getUsername() {return username;}
-    String getGamemode() {return gamemode;}
-    void setGamemode(String gamemode) {this.gamemode = gamemode;}
-    void setOnline(Boolean isOnline) {this.isOnline = isOnline;}
-    public boolean isOnline() {return isOnline;}
+    String getUsername() {
+        return username;
+    }
+
+    String getGamemode() {
+        return gamemode;
+    }
+
+    void setGamemode(String gamemode) {
+        this.gamemode = gamemode;
+    }
+
+    void setOnline(Boolean isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
 
     /**
      * Constructor ... also loads the playerhead
+     *
      * @param username Username
      * @param gamemode current string to render
      */
-    OnlineFriend(String username, String gamemode, String uuid){
+    OnlineFriend(String username, String gamemode, String uuid) {
         this.gamemode = gamemode;
         this.username = username;
         this.friendUUID = uuid;
@@ -70,23 +88,24 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
     }
 
     @Override
-    public void onTick(){
-        if(isOnline && this.fancyListObjectButtons.isEmpty()){
+    public void onTick() {
+        if(!enabled) return;
+        if (isOnline && this.fancyListObjectButtons.isEmpty()) {
             this.addButton(new OnlineFriendsMessageButton(username));
             this.addButton(new OnlineFriendsPartyButton(username));
-        } else if(!isOnline){
+        } else if (!isOnline) {
             this.fancyListObjectButtons.clear();
         }
-        if(isOnline) this.renderLine1 = GOLD + username + GREEN + "  ";
-        else         this.renderLine1 = GOLD + username + D_RED + "  ";
+        if (isOnline) this.renderLine1 = GOLD + username + GREEN + "  ";
+        else this.renderLine1 = GOLD + username + D_RED + "  ";
         this.renderLine2 = gamemode;
-        if(isOnline) this.renderLineSmall =  YELLOW + username + GREEN + "  ";
-        else         this.renderLineSmall =  YELLOW + username + D_RED + " ";
+        if (isOnline) this.renderLineSmall = YELLOW + username + GREEN + "  ";
+        else this.renderLineSmall = YELLOW + username + D_RED + " ";
     }
 
     @Override
     public void onLoadPlayerHeadResponse(ResourceLocation resourceLocation) {
-        if(resourceLocation != null){
+        if (resourceLocation != null) {
             this.resourceLocation = resourceLocation;
         }
     }

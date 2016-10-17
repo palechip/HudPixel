@@ -1,6 +1,8 @@
 package com.palechip.hudpixelmod.modulargui;
 
-public abstract class HudPixelModularGuiProvider implements IHudPixelModularGuiProviderBase {
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
+
+public abstract class HudPixelModularGuiProvider implements IHudPixelModularGuiProviderBase, McColorHelper {
 
 
 }

@@ -10,18 +10,18 @@ public enum RequestParam {
 
     KEY(RequestType.KEY, RequestVar.KEY),
 
-    PLAYER_BY_NAME      (RequestType.PLAYER,     RequestVar.NAME),
-    PLAYER_BY_UUID      (RequestType.PLAYER,     RequestVar.UUID),
+    PLAYER_BY_NAME(RequestType.PLAYER, RequestVar.NAME),
+    PLAYER_BY_UUID(RequestType.PLAYER, RequestVar.UUID),
 
-    GUILD_BY_NAME       (RequestType.FIND_GUILD, RequestVar.BY_NAME),
+    GUILD_BY_NAME(RequestType.FIND_GUILD, RequestVar.BY_NAME),
     GUILD_BY_PLAYER_UUID(RequestType.FIND_GUILD, RequestVar.BY_UUID),
-    GUILD_BY_ID         (RequestType.GUILD,      RequestVar.ID),
+    GUILD_BY_ID(RequestType.GUILD, RequestVar.ID),
 
-    FRIENDS_BY_NAME     (RequestType.FRIENDS,    RequestVar.PLAYER),
-    FRIENDS_BY_UUID     (RequestType.FRIENDS,    RequestVar.UUID),
+    FRIENDS_BY_NAME(RequestType.FRIENDS, RequestVar.PLAYER),
+    FRIENDS_BY_UUID(RequestType.FRIENDS, RequestVar.UUID),
 
-    SESSION_BY_NAME     (RequestType.SESSION,    RequestVar.PLAYER),
-    SESSION_BY_UUID     (RequestType.SESSION,    RequestVar.UUID);
+    SESSION_BY_NAME(RequestType.SESSION, RequestVar.PLAYER),
+    SESSION_BY_UUID(RequestType.SESSION, RequestVar.UUID);
 
     private static final RequestParam[] v = values();
 
@@ -41,7 +41,7 @@ public enum RequestParam {
         return requestVar;
     }
 
-    public Class getValueClass(){
+    public Class getValueClass() {
         return requestVar == RequestVar.UUID ? UUID.class : String.class;
     }
 

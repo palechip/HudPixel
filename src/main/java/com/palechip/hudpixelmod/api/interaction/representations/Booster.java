@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -22,48 +22,52 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
-import com.palechip.hudpixelmod.games.GameConfiguration;
-import com.palechip.hudpixelmod.games.GameManager;
 import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 
-public class Booster {
+
+public class Booster implements UuidCallback {
 
     // these values are filled by the API
-    // purchaser is only filled for old boosters
+    // purchaser is onl filled for old boosters
+    public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
+
+    private int amount;
     private long dateActivated;
     private int gameType;
     private long length;
     private long originalLength;
     private String purchaserUuid;
-    private boolean isTipped = false;
-    
+
     // properties used by the mod
+    private long tippingTime;
     private String owner;
     private int gameID; // saves the ID the mod uses for the game and not the database ID.
-    
-    public Booster(){}
-    
+
+    public Booster() {
+    }
+
     // allows boosters to be created from the /booster queue command
     public Booster(String name, int gameID) {
         this.purchaserUuid = ""; // the UUID isn't necessary
         this.owner = name;
         this.gameID = gameID;
-        this.originalLength = 60*60; // one hour
+        this.originalLength = 60 * 60; // one hour
         // we can't know the length but the booster must be active
         this.length = this.originalLength - 1;
         // neither can we know the activation time
         this.dateActivated = System.currentTimeMillis();
         // get the db id
-        this.gameType = GameManager.getGameManager().getGameConfiguration(gameID).getDatabaseID();
+        this.gameType = GameType.getTypeByID(gameID).getModID();
     }
 
-    public int getGameType() {
-        return gameType;
+    public int getCoinAmount() {
+        return amount;
     }
 
-    public GameType getModGameType(){
-        return GameType.getTypeByID(gameID);
+    public long getActivationDateAndTime() {
+        return dateActivated;
     }
 
     /**
@@ -71,11 +75,11 @@ public class Booster {
      * @return
      */
     public int getGameID() {
-        if(this.gameID == 0) {
+        if (this.gameID == 0) {
             // go through all configurations
-            for(GameConfiguration config : GameManager.getGameManager().getConfigurations()) {
+            for (GameType config : GameType.values()) {
                 // if we find one with a matching database id
-                if(config.getDatabaseID() == this.gameType) {
+                if (config.getModID() == this.gameType) {
                     // save it
                     this.gameID = config.getModID();
                 }
@@ -84,43 +88,57 @@ public class Booster {
         return this.gameID;
     }
 
-    public long getDateActivated() {
-        return dateActivated;
-    }
-
     public long getRemainingTime() {
         return length;
     }
-    
+
     public long getTotalLength() {
         return originalLength;
     }
-    
+
     public String getOwner() {
-        if(this.owner == null || this.owner.equals("!ERROR!")) {
-            this.owner = UuidHelper.getUsernameFormUUID(purchaserUuid);
+        if (this.owner == null || this.owner.equals("!ERROR!")) {
+            new UuidHelper(purchaserUuid, this);
         }
         // did getting the name fail?
-        if(this.owner == null) {
+        if (this.owner == null) {
             this.owner = "!ERROR!";
         }
         return owner;
     }
 
+    /**
+     * This saves the time when the booster was tipped.
+     */
     public void tip() {
-        this.isTipped = true;
+        this.tippingTime = System.currentTimeMillis();
     }
-    
+
     public boolean isTipped() {
-        return isTipped;
+        // only if the booster is already active
+        if (this.getRemainingTime() < this.getTotalLength()) {
+            // this expression is true if there is a tipping time and it's less than half an hour ago
+            return ((this.tippingTime != 0l && System.currentTimeMillis() < this.tippingTime + TIPPING_COOLDOWN));
+        } else {
+            return false;
+        }
     }
-    
+
+    public void setTippingTime(long time) {
+        this.tippingTime = time;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Booster) {
-            Booster b = (Booster)obj;
+        if (obj instanceof Booster) {
+            Booster b = (Booster) obj;
             return this.owner.equals(b.owner) && this.gameType == b.gameType;
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public void onUuidCallback(String playerName) {
+        this.owner = playerName;
     }
 }

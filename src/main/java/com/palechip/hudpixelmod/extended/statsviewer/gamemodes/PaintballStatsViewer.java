@@ -17,7 +17,7 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
     private int deaths;
     private int wins;
     private int shots;
-    private int endurance,godfather,fortune,headstart,superluck;
+    private int endurance, godfather, fortune, headstart, superluck;
 
     private double kd;
 
@@ -36,7 +36,6 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
     private static final String SUPERLUCK = D_GRAY + " [" + GRAY + "L" + D_GRAY + "] ";
 
 
-
     public PaintballStatsViewer(String playerName) {
         super(playerName);
         renderList = new ArrayList<String>();
@@ -52,7 +51,7 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
         composeStats();
     }
 
-    private void generateRenderList(){
+    private void generateRenderList() {
         renderList.add(ENDURANCE + GOLD + endurance + FORTUNE + GOLD + fortune + HEADSTART + GOLD + headstart + SUPERLUCK + GOLD + superluck + GODFATHER + GOLD + godfather);
         renderList.add(KILLS + GOLD + kills + DEATHS + GOLD + deaths + KD + GOLD + kd);
         renderList.add(WINS + GOLD + wins + SHOTS + GOLD + shots);
@@ -70,10 +69,9 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
         this.superluck = getInt("superluck");
         this.headstart = getInt("headstart");
 
-        if(deaths>0){
-            this.kd = Math.floor((kills/deaths) * 1000) / 1000;
-        }
-        else{
+        if (deaths > 0) {
+            this.kd = Math.floor((kills / deaths) * 1000) / 1000;
+        } else {
             this.kd = 1;
         }
 
@@ -81,10 +79,10 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
 
     }
 
-    private int getInt(String s){
-        try{
+    private int getInt(String s) {
+        try {
             return this.statistics.get("Paintball").getAsJsonObject().get(s).getAsInt();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LoggerHelper.logInfo("[Stats.Paintball.Int]: No entry for " + s + " returning 0!");
             return 0;
         }

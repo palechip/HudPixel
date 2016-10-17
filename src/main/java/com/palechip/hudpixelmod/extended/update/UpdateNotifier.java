@@ -45,21 +45,21 @@ import java.net.URL;
  *******************************************************************************/
 public class UpdateNotifier implements McColorHelper {
 
-//######################################################################################################################
+    //######################################################################################################################
     private static String KEY_VERSION = "Version";
     private static String KEY_UPDATEMESSAGE = "UpdateMessage";
     private static String KEY_DOWNLOADLINK = "DownloadLink";
     private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
-    private static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+    public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
 //######################################################################################################################
 
     //pauses the thread to
-    public UpdateNotifier(boolean wait){
-        new Thread(){
+    public UpdateNotifier(boolean wait) {
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
@@ -68,10 +68,9 @@ public class UpdateNotifier implements McColorHelper {
                 getHttpRequest();
             }
         }.start();
-
     }
 
-    private void getHttpRequest(){
+    private void getHttpRequest() {
 
         try {
 
@@ -82,13 +81,13 @@ public class UpdateNotifier implements McColorHelper {
 
             StringBuilder sBuilder = new StringBuilder();
             String buff = "";
-            while(( buff = br.readLine()) != null){
+            while ((buff = br.readLine()) != null) {
                 sBuilder.append(buff);
             }
             String data = sBuilder.toString();
             System.out.println(data);
-            JsonObject jsonObject= jsonParser(data);
-            if(!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(HudPixelMod.DEFAULT_VERSION))
+            JsonObject jsonObject = jsonParser(data);
+            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(HudPixelMod.DEFAULT_VERSION))
                 printUpdateMessage(jsonObject);
         } catch (MalformedURLException e) {
             LoggerHelper.logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");
@@ -100,28 +99,28 @@ public class UpdateNotifier implements McColorHelper {
 
     }
 
-    private String getStringFromJson(String key, JsonObject jsonObject){
-        try{
-            if(jsonObject.get(key) != null){
+    private String getStringFromJson(String key, JsonObject jsonObject) {
+        try {
+            if (jsonObject.get(key) != null) {
                 return removeQuotes(jsonObject.get(key).toString());
             } else {
                 LoggerHelper.logWarn("[UpdateNotifier]: Key '" + key + "' not Found in Json!");
                 return "";
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             LoggerHelper.logError("[UpdateNotifier]: Something went wrong while extracting Key '" + key + "' from Json!");
             e.printStackTrace();
-            return D_RED +"Something went wrong while extracting Key '" + key + "' from Json!";
+            return D_RED + "Something went wrong while extracting Key '" + key + "' from Json!";
         }
 
     }
 
-    private JsonObject jsonParser(String data){
+    private JsonObject jsonParser(String data) {
         JsonParser jsonParser = new JsonParser();
         return jsonParser.parse(data).getAsJsonObject();
     }
 
-    private String removeQuotes(String s){
+    private String removeQuotes(String s) {
         return s.replace("\"", "");
     }
 
@@ -129,17 +128,18 @@ public class UpdateNotifier implements McColorHelper {
     /**
      * Yeah, best code-style EU .... it's messy but it's just for generating a update message,
      * so no need for being nice code :P
+     *
      * @param jsonObject updateJson Array
      */
-    private void printUpdateMessage(JsonObject jsonObject){
+    private void printUpdateMessage(JsonObject jsonObject) {
 
         printMessage(GOLD + SEPARATION_MESSAGE);
 
         printMessage("");
 
         //GOING TO PRINT THE DOWLOADLINK
-        printMessage(GOLD + "------" + GREEN +" A new version of " + WHITE + "[" + GOLD + "Hud"
-                + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" +  GOLD + " ------");
+        printMessage(GOLD + "------" + GREEN + " A new version of " + WHITE + "[" + GOLD + "Hud"
+                + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" + GOLD + " ------");
         new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), EnumChatFormatting.YELLOW).appendMessage
                 (new ChatMessageComposer(" > click here to download the newest version < ", EnumChatFormatting.ITALIC)
                         .makeLink(getStringFromJson(KEY_DOWNLOADLINK, jsonObject))).send();
@@ -147,8 +147,8 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE UPDATE NOE OR DIE TEXT
-        printMessage(GRAY + "Your currently running v" + HudPixelMod.DEFAULT_VERSION + "! This version will now no longer be supported " +
-                "by the HudPixelTeam! So make sure to update to the newest version befor sending any bug-reports or feature requests!" +
+        printMessage(GRAY + "You are currently running v" + HudPixelMod.DEFAULT_VERSION + "! This version will now no longer be supported " +
+                "by the HudPixelTeam! Make sure to update to the newest version befor sending any bug-reports or feature requests!" +
                 " HudPixel Reloaded v3 is still in development state, so expect bugs and new features at any time!");
 
         printMessage("");
@@ -156,17 +156,17 @@ public class UpdateNotifier implements McColorHelper {
         //GOING TO PRINT THE CURRENT BUGREPORTMESSAGE
         printMessage(GOLD + "------" + GREEN + " You can enter a bugreport directly on GitHub " + GOLD + "------");
         new ChatMessageComposer(" press this link to report a bug on GitHub", RED)
-                        .makeLink("https://github.com/HudPixel/HudPixelExtended/issues").send();
+                .makeLink("https://github.com/unaussprechlich/HudPixelExtended/issues").send();
 
         //GOING TO PRINT THE CHANGELOG
         printMessage("");
-        printMessage(GOLD  + "----------------- " + GREEN + "Changelog for "
-                    + EnumChatFormatting.YELLOW + "v" + getStringFromJson(KEY_VERSION, jsonObject)
-                    + GOLD + " -----------------");
+        printMessage(GOLD + "----------------- " + GREEN + "Changelog for "
+                + EnumChatFormatting.YELLOW + "v" + getStringFromJson(KEY_VERSION, jsonObject)
+                + GOLD + " -----------------");
         JsonObject jsonObject2 = jsonObject.get("UpdateMessages").getAsJsonObject();
-        for(int i = 1; true; i++){
+        for (int i = 1; true; i++) {
             String buff;
-            if((!(buff = getStringFromJson(i + "", jsonObject2)).equals(""))){
+            if ((!(buff = getStringFromJson(i + "", jsonObject2)).equals(""))) {
                 printChangelogStyle(buff);
             } else {
                 break;
@@ -178,14 +178,15 @@ public class UpdateNotifier implements McColorHelper {
 
     /**
      * colors the brackets in the right color
+     *
      * @param s text to print
      */
-    private void printChangelogStyle(String s){
-        if (s.startsWith("[+]")){
+    private void printChangelogStyle(String s) {
+        if (s.startsWith("[+]")) {
             printMessage(GREEN + "[+]"
                     + printChangelogText(s.substring(3))
             );
-        } else if (s.startsWith("[-]")){
+        } else if (s.startsWith("[-]")) {
             printMessage(D_RED + "[-]"
                     + printChangelogText(s.substring(3))
             );
@@ -197,15 +198,16 @@ public class UpdateNotifier implements McColorHelper {
 
     /**
      * makes everything between ' those quotes white
+     *
      * @param s text to process
      * @return the processed text
      */
-    private String printChangelogText(String s){
+    private String printChangelogText(String s) {
         String[] singleWords = s.split(" ");
         StringBuilder sBuilder = new StringBuilder();
-        for(String i : singleWords){
-            if(i.startsWith("'") && i.endsWith("'")){
-                 i = i.replace("'", "");
+        for (String i : singleWords) {
+            if (i.startsWith("'") && i.endsWith("'")) {
+                i = i.replace("'", "");
                 sBuilder.append(WHITE + " ").append(i);
             } else {
                 sBuilder.append(GRAY + " ").append(i);
@@ -216,6 +218,7 @@ public class UpdateNotifier implements McColorHelper {
 
     /**
      * prints the message to the clientchat
+     *
      * @param message the message
      **/
     private void printMessage(String message) {

@@ -1,14 +1,17 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
+    @ConfigPropertyBoolean(catagory = "general", id = "timer", comment = "The Game Timer", def = true)
+    public static boolean enabled = false;
     @Override
-    public boolean doesMatchForGame(Game game) {
-        return game != Game.NO_GAME;
+    public boolean doesMatchForGame() {
+        return GameDetector.getCurrentGameType() != GameType.UNKNOWN;
     }
 
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time";
@@ -18,6 +21,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     private boolean gameStarted;
     private int minutes = 0;
     private int seconds = 0;
+
     public String getRenderingString() {
         return TIME_DISPLAY_MESSAGE + runningTime;
     }
@@ -31,17 +35,19 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onTickUpdate() {
-        if(gameStarted){
+        if (gameStarted && !GameDetector.isLobby()) {
             long timeBuff = System.currentTimeMillis() - gameStartedTime;
             String sMin;
-            long min = (timeBuff/1000/60);
-            if(min < 10) sMin = "0" + min;
-            else         sMin = ""  + min;
+            long min = (timeBuff / 1000 / 60);
+            if (min < 10) sMin = "0" + min;
+            else sMin = "" + min;
             String sSec;
-            long sec = (timeBuff/1000) - (min*60);
-            if(sec < 10) sSec = "0" + sec;
-            else         sSec = ""  + sec;
+            long sec = (timeBuff / 1000) - (min * 60);
+            if (sec < 10) sSec = "0" + sec;
+            else sSec = "" + sec;
             runningTime = sMin + ":" + sSec;
+        } else {
+            setupNewGame();
         }
     }
 
@@ -64,7 +70,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean showElement() {
         //return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
-        return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override
@@ -75,5 +81,10 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean ignoreEmptyCheck() {
         return false;
+    }
+
+    @Override
+    public String getAfterstats() {
+        return YELLOW + "Time passed: " + GREEN + runningTime;
     }
 }

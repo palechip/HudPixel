@@ -38,7 +38,7 @@ public class NullStatViewer implements IGameStatsViewer {
 
     private ArrayList<String> renderList = new ArrayList<String>();
 
-    public NullStatViewer(){
+    public NullStatViewer() {
         renderList.add("Gamemode not supported yet!");
     }
 

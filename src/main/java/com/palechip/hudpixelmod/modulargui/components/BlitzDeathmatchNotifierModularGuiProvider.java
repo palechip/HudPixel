@@ -1,14 +1,17 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelModularGuiProvider {
+    @ConfigPropertyBoolean(catagory = "blitz survival games", id = "blitzDeathmatchNotifier", comment = "The Blitz Deathmatch Notifier", def = true)
+    public static boolean enabled = false;
     @Override
-    public boolean doesMatchForGame(Game game) {
-        return game.getConfiguration().getDatabaseName().equals("HungerGames");
+    public boolean doesMatchForGame() {
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ);
     }
 
     private static final String DISPLAY_STRING = EnumChatFormatting.GOLD + "DEATHMATCH STARTING SOON!";
@@ -38,7 +41,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public void onTickUpdate() {
-        if(this.isDisplaying) {
+        if (this.isDisplaying) {
           /*  // count down the ticks
             this.ticksLeft--;
             if(this.ticksLeft <= 0) {
@@ -67,16 +70,16 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        if(textMessage.contains("Deathmatch in 45 seconds!") || textMessage.contains("Deathmatch begins in 1 minute!")) {
+        if (textMessage.contains("Deathmatch in 45 seconds!") || textMessage.contains("Deathmatch begins in 1 minute!")) {
             this.isDisplaying = true;
-           // this.ticksLeft = DISPLAY_TIME;
+            // this.ticksLeft = DISPLAY_TIME;
         } else if (textMessage.contains("Reward Summary") || textMessage.contains("lobby")) {
             isDisplaying = false;
         }
     }
 
     public String getRenderingString() {
-        if(this.isDisplaying) {
+        if (this.isDisplaying) {
             return this.renderingString;
         } else {
             return "";
@@ -85,7 +88,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public boolean showElement() {
-        return isDisplaying && doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
+        return isDisplaying && doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override
@@ -96,5 +99,10 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
     @Override
     public boolean ignoreEmptyCheck() {
         return false;
+    }
+
+    @Override
+    public String getAfterstats() {
+        return null;
     }
 }

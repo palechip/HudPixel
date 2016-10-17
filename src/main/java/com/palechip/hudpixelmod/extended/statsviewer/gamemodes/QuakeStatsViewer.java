@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * <p>
  * Class made by skyerzz (so you know who to blame)
  *******************************************************************************/
 public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer {
@@ -71,7 +71,7 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
 
     @Override
     public ArrayList<String> getRenderList() {
-        if(renderList.isEmpty()){
+        if (renderList.isEmpty()) {
             return null;
         }
         return renderList;
@@ -82,7 +82,7 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
         composeStats();
     }
 
-    private void generateRenderList(){
+    private void generateRenderList() {
         renderList.add(SOLO_WINS + GOLD + this.solo_wins + TEAM_WINS + GOLD + this.team_wins);
         renderList.add(TEAM_KILLS + GOLD + this.team_kills + TEAM_DEATHS + GOLD + this.team_deaths + TEAM_KD + GOLD + this.team_kd);
         renderList.add(SOLO_KILLS + GOLD + this.solo_kills + SOLO_DEATHS + GOLD + this.solo_deaths + SOLO_KD + GOLD + this.solo_kd);
@@ -98,16 +98,14 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
         this.solo_wins = getInt("wins");
         this.team_wins = getInt("wins_teams");
 
-        if(solo_deaths > 0) {
+        if (solo_deaths > 0) {
             this.solo_kd = Math.floor((solo_kills / solo_deaths) * 1000) / 1000;
-        }
-        else{
+        } else {
             this.solo_kd = 1;
         }
-        if(this.team_deaths>0) {
+        if (this.team_deaths > 0) {
             this.team_kd = Math.floor((team_kills / team_deaths) * 1000) / 1000;
-        }
-        else{
+        } else {
             this.team_kd = 1;
         }
 
@@ -117,25 +115,25 @@ public class QuakeStatsViewer extends StatsDisplayer implements IGameStatsViewer
 
     }
 
-    private int getInt(String s){
-        try{
+    private int getInt(String s) {
+        try {
             return this.statistics.get("Quake").getAsJsonObject().get(s).getAsInt();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LoggerHelper.logInfo("[Stats.Quake.Int]: No entry for " + s + "returning 0!");
             return 0;
         }
     }
 
     private String getString(String s) {
-        try{
+        try {
             return this.statistics.get("Quake").getAsJsonObject().get(s).getAsString();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LoggerHelper.logInfo("[Stats.Quake.String]: No entry for " + s + "returning Err!");
             return "Err";
         }
     }
 
-    private float getTrigger(String trigger){
+    private float getTrigger(String trigger) {
 
         /**
          * Welcome to language Level 6 .... switching strings is not working here

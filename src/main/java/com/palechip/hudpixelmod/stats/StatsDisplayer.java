@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -27,19 +27,22 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
-public abstract class StatsDisplayer implements PlayerResponseCallback{
+public abstract class StatsDisplayer implements PlayerResponseCallback {
 
+    @ConfigPropertyBoolean(catagory = "general", id = "statviewer", comment = "The Stats Viewer", def = true)
+    public static boolean enabled = false;
     protected String playerName;
     protected JsonObject statistics;
     protected boolean shouldPrint;
 
     protected StatsDisplayer(String playerName) {
         this.playerName = playerName;
-        if(HudPixelConfig.useAPI && HudPixelConfig.enableAfterStats) {
+        if (GeneralConfigSettings.getUseAPI() && enabled) {
             Queue.getInstance().getPlayer(this, playerName);
         }
     }
@@ -49,11 +52,11 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
      * The will be printed once they are ready.
      */
     public void display() {
-        if(statistics != null) {
+        if (statistics != null) {
             // here we go
             try {
                 this.displayStats();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 HudPixelMod.instance().logError("Failed to display stats.");
                 e.printStackTrace();
             }
@@ -62,10 +65,10 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
             this.shouldPrint = true;
         }
     }
-    
+
     public void onPlayerResponse(Player player) {
-        if(player != null){
-            if(player.getStats() != null) {
+        if (player != null) {
+            if (player.getStats() != null) {
                 this.statistics = player.getStats();
                 this.display();
                 if (this.shouldPrint) {
@@ -80,11 +83,11 @@ public abstract class StatsDisplayer implements PlayerResponseCallback{
             return;
         }
     }
-    
+
     private void failed() {
         new ChatMessageComposer("Failed to load stats for: " + this.playerName + "!", EnumChatFormatting.RED).send();
     }
-    
+
     /**
      * Prints relevant statistics of a game to the chat.
      * Gets called when statistics are not null.

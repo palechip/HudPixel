@@ -37,34 +37,61 @@ public class ImageLoader {
 
     /**
      * Add a new icon for a gametype here ;)
+     *
      * @param gameType GameType the icon should be loaded for
      * @return resourcelocation of the game type.
      */
-    public static ResourceLocation gameIconLocation(GameType gameType){
-        switch(gameType){
-            case QUAKECRAFT:     return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Quakecraft" + EXTENSION);
-            case THE_WALLS:      return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Walls"      + EXTENSION);
-            case PAINTBALL:      return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Paintball"  + EXTENSION);
-            case BLITZ:          return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SG"         + EXTENSION);
-            case TNT_GAMES:      return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "TNT"        + EXTENSION);
-            case VAMPIREZ:       return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "VampireZ"   + EXTENSION);
-            case MEGA_WALLS:     return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "MegaWalls"  + EXTENSION);
-            case ARENA:          return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Arena"      + EXTENSION);
-            case UHC:            return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "UHC"        + EXTENSION);
-            case COPS_AND_CRIMS: return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "CVC"        + EXTENSION);
-            case WARLORDS:       return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Warlords"   + EXTENSION);
-            case ARCADE_GAMES:   return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Arcade"     + EXTENSION);
-            case SPEED_UHC:      return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SpeedUHC"   + EXTENSION);
-            case SMASH_HEROES:   return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SmashHeroes"+ EXTENSION);
-            case CRAZY_WALLS:    return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "CrazyWalls" + EXTENSION);
-            case SKYWARS:        return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Skywars"    + EXTENSION);
-            case TURBO_KART_RACERS: return new ResourceLocation(HudPixelMod.MODID,BASE_PATH+ "TurboKartRacers" + EXTENSION);
-            default: return null;
+    public static ResourceLocation gameIconLocation(GameType gameType) {
+        switch (gameType) {
+            case QUAKECRAFT:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Quakecraft" + EXTENSION);
+            case THE_WALLS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Walls" + EXTENSION);
+            case PAINTBALL:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Paintball" + EXTENSION);
+            case BLITZ:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SG" + EXTENSION);
+            case TNT_GAMES:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "TNT" + EXTENSION);
+            case VAMPIREZ:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "VampireZ" + EXTENSION);
+            case MEGA_WALLS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "MegaWalls" + EXTENSION);
+            case ARENA:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Arena" + EXTENSION);
+            case UHC:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "UHC" + EXTENSION);
+            case COPS_AND_CRIMS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "CVC" + EXTENSION);
+            case WARLORDS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Warlords" + EXTENSION);
+            case ARCADE_GAMES:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Arcade" + EXTENSION);
+            case SPEED_UHC:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SpeedUHC" + EXTENSION);
+            case SMASH_HEROES:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "SmashHeroes" + EXTENSION);
+            case CRAZY_WALLS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "CrazyWalls" + EXTENSION);
+            case SKYWARS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "Skywars" + EXTENSION);
+            case TURBO_KART_RACERS:
+                return new ResourceLocation(HudPixelMod.MODID, BASE_PATH + "TurboKartRacers" + EXTENSION);
+            default:
+                return null;
         }
     }
 
     //TODO: make this work with enums for better futureproof
-    public static ResourceLocation partyLocation(){ return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Party.png");}
-    public static ResourceLocation boosterTip(){    return new ResourceLocation(HudPixelMod.MODID, "textures/msc/BoosterTip.png");}
-    public static ResourceLocation chatLocation(){  return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Chat.png");}
+    public static ResourceLocation partyLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Party.png");
+    }
+
+    public static ResourceLocation boosterTip() {
+        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/BoosterTip.png");
+    }
+
+    public static ResourceLocation chatLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Chat.png");
+    }
 }

@@ -27,7 +27,7 @@ public class GameCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        if(args.length != 1) {
+        if (args.length != 1) {
             sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
         } else {
             PlayGameModularGuiProvider.content = args[0];

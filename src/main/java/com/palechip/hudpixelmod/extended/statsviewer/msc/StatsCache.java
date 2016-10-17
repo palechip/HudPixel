@@ -39,13 +39,13 @@ public class StatsCache {
     private static HashMap<String, HashMap<GameType, IGameStatsViewer>> statsCacheMap
             = new HashMap<String, HashMap<GameType, IGameStatsViewer>>();
 
-    public static boolean containsPlayer(String playerName){
+    public static boolean containsPlayer(String playerName) {
         return statsCacheMap.containsKey(playerName);
     }
 
-    public static IGameStatsViewer getPlayerByName(String playerName, GameType gameType){
-        if(statsCacheMap.containsKey(playerName)){
-            if(statsCacheMap.get(playerName).containsKey(gameType)){
+    public static IGameStatsViewer getPlayerByName(String playerName, GameType gameType) {
+        if (statsCacheMap.containsKey(playerName)) {
+            if (statsCacheMap.get(playerName).containsKey(gameType)) {
                 return statsCacheMap.get(playerName).get(gameType);
             }
         }

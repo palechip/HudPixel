@@ -2,6 +2,7 @@ package net.hypixel.api;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import com.palechip.hudpixelmod.api.interaction.ApiKeyHandler;
 import net.hypixel.api.exceptions.APIThrottleException;
 import net.hypixel.api.exceptions.HypixelAPIException;
 import net.hypixel.api.reply.AbstractReply;
@@ -101,7 +102,7 @@ public class HypixelAPI {
             }
         } catch (InterruptedException e) {
             callback.callback(e, null);
-        } catch (ExecutionException e){
+        } catch (ExecutionException e) {
             callback.callback(e, null);
         } finally {
             lock.readLock().unlock();
@@ -140,6 +141,7 @@ public class HypixelAPI {
     private boolean doKeyCheck(Callback<?> callback) {
         if (apiKey == null) {
             callback.callback(new HypixelAPIException("API key hasn't been set yet!"), null);
+            ApiKeyHandler.requestApiKey();
             return false;
         } else {
             return true;

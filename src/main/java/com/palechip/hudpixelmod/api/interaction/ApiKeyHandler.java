@@ -1,18 +1,18 @@
 /*******************************************************************************
  * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
+ * <p>
  * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -22,22 +22,14 @@
  *******************************************************************************/
 package com.palechip.hudpixelmod.api.interaction;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import net.minecraft.event.ClickEvent.Action;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
-
+import net.minecraft.event.ClickEvent.Action;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
+
+import java.io.*;
 
 public class ApiKeyHandler {
     private static ApiKeyHandler instance;
@@ -60,7 +52,7 @@ public class ApiKeyHandler {
     static {
         try {
             // in the config folder
-            API_KEY_STORAGE_PATH = FMLClientHandler.instance().getClient().mcDataDir.getCanonicalPath() + File.separatorChar + "config" +File.separatorChar;
+            API_KEY_STORAGE_PATH = FMLClientHandler.instance().getClient().mcDataDir.getCanonicalPath() + File.separatorChar + "config" + File.separatorChar;
             // a file called hypixel_api_key.txt
             API_KEY_STORAGE_FILE = API_KEY_STORAGE_PATH + "hypixel_api_key.txt";
         } catch (IOException e) {
@@ -86,7 +78,7 @@ public class ApiKeyHandler {
     }
 
     public void onChatMessage(String textMessage) {
-        if(textMessage.startsWith("Your new API key is ")) {
+        if (textMessage.startsWith("Your new API key is ")) {
             // extract the key
             this.apiKey = textMessage.substring(textMessage.indexOf("is ") + 3);
             // let the callback know
@@ -96,7 +88,9 @@ public class ApiKeyHandler {
                 @Override
                 public void run() {
                     ApiKeyHandler.getInstance().saveAPIKey();
-                };
+                }
+
+                ;
             }.start();
             // tell the user
             new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
@@ -106,7 +100,7 @@ public class ApiKeyHandler {
     /**
      * Asks the user to do /api
      */
-    public void requestApiKey() {
+    public static void requestApiKey() {
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();
@@ -121,12 +115,12 @@ public class ApiKeyHandler {
             // make sure the path exists
             File path = new File(API_KEY_STORAGE_PATH);
             File file = new File(API_KEY_STORAGE_FILE);
-            if(!path.exists()) {
+            if (!path.exists()) {
                 path.mkdirs();
             }
 
-            // check if the file exists
-            if(!file.exists()) {
+            // isHypixelNetwork if the file exists
+            if (!file.exists()) {
                 // there is no file so there can't be an api key
                 // create it
                 file.createNewFile();
@@ -140,7 +134,7 @@ public class ApiKeyHandler {
             String key = reader.readLine();
             reader.close();
             // make sure the content can be a valid key
-            if(key == null || key.equals(EMPTY_FILE_CONTENT) || !this.isCorrectKeyFormat(key.replace(" ", ""))) {
+            if (key == null || key.equals(EMPTY_FILE_CONTENT) || !this.isCorrectKeyFormat(key.replace(" ", ""))) {
                 this.resetApiFile(file);
                 this.loadingFailed = true;
                 this.callback.ApiKeyLoaded(true, null);
@@ -160,7 +154,7 @@ public class ApiKeyHandler {
      */
     private void saveAPIKey() {
         try {
-            // we don't check whether the file exists since we already do it on startup
+            // we don't isHypixelNetwork whether the file exists since we already do it on startup
             // there is no way the user deletes the file after startup unintentionally
             PrintWriter writer = new PrintWriter(new File(API_KEY_STORAGE_FILE));
             writer.write(this.apiKey);
@@ -174,7 +168,7 @@ public class ApiKeyHandler {
     /**
      * Empties the api key file and adds a message how to use it.
      */
-    private void resetApiFile(File file) throws FileNotFoundException{
+    private void resetApiFile(File file) throws FileNotFoundException {
         // empty the file
         PrintWriter writer = new PrintWriter(file);
         // fill the file with the empty content

@@ -33,15 +33,18 @@ import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
-public class BoosterExtended extends FancyListObject implements McColorHelper{
+public class BoosterExtended extends FancyListObject implements McColorHelper {
+    @ConfigPropertyBoolean(catagory = "general", id = "booster", comment = "The Booster Tracker", def = true)
+    public static boolean enabled = false;
 
 //######################################################################################################################
 
     private static final long tipDelay = 60 * 60 * 1000; //the tipdelay time for a gamemode
-    private static final long boosterLenght =  60 * 60 * 1000; //the time a booster gets activated
+    private static final long boosterLenght = 60 * 60 * 1000; //the time a booster gets activated
 
 //######################################################################################################################
 
@@ -50,8 +53,11 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
     private Booster booster;
     private long lastBoosterAdded;
 
-    Booster getBooster() {return booster;}
-    void setCurrentBooster(Booster booster){
+    Booster getBooster() {
+        return booster;
+    }
+
+    void setCurrentBooster(Booster booster) {
         lastBoosterAdded = System.currentTimeMillis();
         this.booster = booster;
         this.fancyListObjectButtons.clear();
@@ -72,12 +78,13 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     /**
      * sets a this gamemode tipped also sets the current booster to tipped if there is any
+     *
      * @param player the player you have tipped to
      */
-    void setGameModeTipped(String player){
+    void setGameModeTipped(String player) {
         LoggerHelper.logInfo("[BoosterDisplay]: You tipped " + player + " in " + gameType.getName());
         timeNextTip = System.currentTimeMillis() + tipDelay;
-        if(booster != null && booster.getOwner().equalsIgnoreCase(player)){
+        if (booster != null && booster.getOwner().equalsIgnoreCase(player)) {
             LoggerHelper.logInfo("[BoosterDisplay]: Also found a booster for " + player);
             booster.tip();
         }
@@ -89,9 +96,9 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
      * RenderStrings
      */
     @Override
-    public void onTick(){
-        if(booster != null )
-            if(System.currentTimeMillis() - (booster.getRemainingTime() * 1000) > lastBoosterAdded){
+    public void onTick() {
+        if (booster != null)
+            if (System.currentTimeMillis() - (booster.getRemainingTime() * 1000) > lastBoosterAdded) {
                 this.booster = null;
                 HudPixelExtended.boosterManager.requestBoosters(true);
             }
@@ -99,15 +106,15 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
         this.renderPicture = EnumChatFormatting.WHITE + countDown();
         this.renderLineSmall = YELLOW + gameType.getName();
         this.renderLine1 = GOLD + gameType.getName();
-        if(booster == null){
+        if (booster == null) {
             this.renderLine2 = GRAY + "No Booster online!";
             this.fancyListObjectButtons.clear();
         } else {
-            if(booster.isTipped()){
+            if (booster.isTipped()) {
                 this.renderLine2 = RED + booster.getOwner();
                 this.fancyListObjectButtons.clear();
-            } else{
-                if(fancyListObjectButtons.isEmpty()) addButton(new BoosterTipButton(booster));
+            } else {
+                if (fancyListObjectButtons.isEmpty()) addButton(new BoosterTipButton(booster));
                 this.renderLine2 = GREEN + booster.getOwner();
             }
 
@@ -116,22 +123,23 @@ public class BoosterExtended extends FancyListObject implements McColorHelper{
 
     /**
      * Generates the countdown displayed over the game icon
+     *
      * @return the current countdown string
      */
-    private String countDown(){
-        if(timeNextTip < System.currentTimeMillis()){
+    private String countDown() {
+        if (timeNextTip < System.currentTimeMillis()) {
             timeNextTip = 0;
             return "";
         }
         long timeBuff = timeNextTip - System.currentTimeMillis();
         String sMin;
-        long min = (timeBuff/1000/60);
-        if(min < 10) sMin = "0" + min;
-        else         sMin = ""  + min;
+        long min = (timeBuff / 1000 / 60);
+        if (min < 10) sMin = "0" + min;
+        else sMin = "" + min;
         String sSec;
-        long sec = (timeBuff/1000) - (min*60);
-        if(sec < 10) sSec = "0" + sec;
-        else         sSec = ""  + sec;
+        long sec = (timeBuff / 1000) - (min * 60);
+        if (sec < 10) sSec = "0" + sec;
+        else sSec = "" + sec;
         return sMin + ":" + sSec;
     }
 

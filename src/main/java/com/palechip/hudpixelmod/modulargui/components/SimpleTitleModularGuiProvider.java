@@ -1,13 +1,12 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.Game;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 
 public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvider {
     @Override
-    public boolean doesMatchForGame(Game game) {
+    public boolean doesMatchForGame() {
         return true;
     }
 
@@ -44,5 +43,10 @@ public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvi
     @Override
     public String content() {
         return EnumChatFormatting.AQUA + "HudPixel Reloaded " + HudPixelMod.DEFAULT_VERSION;
+    }
+
+    @Override
+    public String getAfterstats() {
+        return null;
     }
 }

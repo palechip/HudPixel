@@ -3,12 +3,13 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
-import com.palechip.hudpixelmod.config.HudPixelConfig;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.configuration.Config;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
@@ -39,13 +40,15 @@ import java.util.ArrayList;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler{
+public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler {
 
     private static final int REQUEST_COOLDOWN = 20 * 60 * 1000; // = 30min
 
     private static long lastRequest;
     private static ArrayList<String> allreadyStored = new ArrayList<String>();
     private static boolean isApiLoaded = false;
+    @ConfigPropertyBoolean(catagory = "general", id = "onlineFriends", comment = "The Online Friends HUD", def = true)
+    public static boolean enabled;
 
     public static ArrayList<String> getAllreadyStored() {
         return allreadyStored;
@@ -56,19 +59,19 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
 
-    public void setupLoader(){
+    public void setupLoader() {
         HudPixelExtendedEventHandler.registerIEvent(this);
         requestFriends(true);
     }
 
-    public OnlineFriendsLoader(){
+    public OnlineFriendsLoader() {
         setupLoader();
     }
 
-    private void requestFriends(Boolean forceRequest){
-        if(HudPixelConfig.useAPI && Config.isFriendsDisplay) {
-            // check if enough time has past
-            if((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)  || forceRequest) {
+    private void requestFriends(Boolean forceRequest) {
+        if (GeneralConfigSettings.getUseAPI() && enabled) {
+            // isHypixelNetwork if enough time has past
+            if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) || forceRequest) {
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
@@ -79,9 +82,13 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
 
     @Override
     public void onFriendResponse(ArrayList<Friend> friends) {
-        for(Friend f : friends){
-            if(!allreadyStored.contains(f.getFriendName())){
-                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), "not loaded yet!", f.getFriendUUID()));
+        if (friends == null) {
+            LoggerHelper.logWarn("[OnlineFriends][APIloader]: The api answered the request with NULL!");
+            return;
+        }
+        for (Friend f : friends) {
+            if (!allreadyStored.contains(f.getFriendName())) {
+                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), EnumChatFormatting.DARK_GRAY + "not loaded yet!", f.getFriendUUID()));
                 allreadyStored.add(f.getFriendName());
             }
         }
@@ -96,16 +103,20 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {}
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+    }
 
     @Override
-    public void onRender() {}
+    public void onRender() {
+    }
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY) {}
+    public void handleMouseInput(int i, int mX, int mY) {
+    }
 
     @Override
-    public void onMouseClick(int mX, int mY) {}
+    public void onMouseClick(int mX, int mY) {
+    }
 
 
 }

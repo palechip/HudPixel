@@ -28,26 +28,33 @@ package com.palechip.hudpixelmod.extended.util.gui;
 
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.util.DisplayUtil;
 
 import java.util.ArrayList;
 
 import static com.palechip.hudpixelmod.extended.util.gui.FancyListObject.loadingBar;
 
-public abstract class FancyListManager implements IEventHandler{
+public abstract class FancyListManager implements IEventHandler {
 
     private int indexScroll = 0;
     protected int shownObjects;
     protected boolean isButtons = false;
     protected boolean isMouseHander = false;
+    protected float xStart = 2;
+    protected float yStart = 2;
+    protected boolean renderRightSide = false;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
 
-    public int size(){
+    public int size() {
         return fancyListObjects.size();
     }
 
-    public FancyListManager(int shownObjects){
+    public FancyListManager(int shownObjects, float xStart, float yStart, boolean renderRightSide) {
         this.shownObjects = shownObjects;
+        this.xStart = xStart;
+        this.yStart = yStart;
+        this.renderRightSide = renderRightSide;
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
 
@@ -56,88 +63,98 @@ public abstract class FancyListManager implements IEventHandler{
      * process the current loadingbar value
      */
     private static int tickCounter = 0;
-    public static void processLoadingBar(){
-        if(tickCounter >= 2){
+
+    public static void processLoadingBar() {
+        if (tickCounter >= 2) {
             if (loadingBar >= 15) loadingBar = 0;
-            else loadingBar ++;
+            else loadingBar++;
             tickCounter = 0;
-        } else tickCounter ++;
+        } else tickCounter++;
     }
 
     /**
      * this really renders nothing it just sets rge right offset for each element
      */
-    protected void renderDisplay(){
+    protected void renderDisplay() {
 
-        if(fancyListObjects.isEmpty())return;
-        float xStart = 2;
-        float yStart = 2;
+        if (fancyListObjects.isEmpty()) return;
 
-        if(fancyListObjects.size() <= shownObjects){
+        float xStart = this.xStart;
+        float yStart = this.yStart;
+
+        if (renderRightSide) {
+            xStart = DisplayUtil.getScaledMcWidth() - xStart - 140;
+        }
+
+        if (fancyListObjects.size() <= shownObjects) {
             yStart += 13;
-            for(FancyListObject fco : fancyListObjects){
-                fco.onRenderTick(false, xStart, yStart);
+            for (FancyListObject fco : fancyListObjects) {
+                fco.onRenderTick(false, xStart, yStart, renderRightSide);
                 yStart += 25;
             }
             return;
         }
 
-        if(indexScroll > 0)
-        fancyListObjects.get(indexScroll -1).onRenderTick(true,xStart, yStart);
+        if (indexScroll > 0)
+            fancyListObjects.get(indexScroll - 1).onRenderTick(true, xStart, yStart, renderRightSide);
         yStart += 13;
 
-        for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
-            fancyListObjects.get(i).onRenderTick(false, xStart, yStart);
+        for (int i = indexScroll; i <= indexScroll + shownObjects - 1; i++) {
+            fancyListObjects.get(i).onRenderTick(false, xStart, yStart, renderRightSide);
             yStart += 25;
         }
 
-        if(indexScroll + shownObjects <= size() -1)
-            fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true,xStart, yStart);
+        if (indexScroll + shownObjects <= size() - 1)
+            fancyListObjects.get(indexScroll + shownObjects).onRenderTick(true, xStart, yStart, renderRightSide);
     }
 
 
     @Override
-    public void onMouseClick(int mX, int mY){
-        if(!isMouseHander)return;
-        if(fancyListObjects.isEmpty())return;
-        if(fancyListObjects.size() <= shownObjects)
-            for(FancyListObject fco : fancyListObjects)
+    public void onMouseClick(int mX, int mY) {
+        if (!isMouseHander) return;
+        if (fancyListObjects.isEmpty()) return;
+        if (fancyListObjects.size() <= shownObjects)
+            for (FancyListObject fco : fancyListObjects)
                 fco.onMouseClick(mX, mY);
-        else for(int i = indexScroll; i <= indexScroll + shownObjects -1; i++) {
-            if(isButtons)
+        else for (int i = indexScroll; i <= indexScroll + shownObjects - 1; i++) {
+            if (isButtons)
                 fancyListObjects.get(i).onMouseClick(mX, mY);
         }
     }
 
     /**
      * handels the scrollinput and processes the right index for the list
+     *
      * @param i scroll input
      */
 
     @Override
-    public void handleMouseInput(int i, int mX, int mY){
-        if(!isMouseHander)return;
-        if(fancyListObjects.isEmpty())return;
-        if(fancyListObjects.size() <= shownObjects)
-            for(FancyListObject fco : fancyListObjects)
+    public void handleMouseInput(int i, int mX, int mY) {
+        if (!isMouseHander) return;
+        if (fancyListObjects.isEmpty()) return;
+        if (fancyListObjects.size() <= shownObjects)
+            for (FancyListObject fco : fancyListObjects)
                 fco.onMouseInput(mX, mY);
-        else for(int fco = indexScroll; fco <= indexScroll + shownObjects -1; fco++) {
-            if(isButtons)
+        else for (int fco = indexScroll; fco <= indexScroll + shownObjects - 1; fco++) {
+            if (isButtons)
                 fancyListObjects.get(fco).onMouseInput(mX, mY);
         }
 
-        if(mY > (26 * shownObjects + 28)) return;
-        if(mX > 152) return;
+        if (mY > (26 * shownObjects + 28)) return;
+        if (renderRightSide) {
+            float xStart = DisplayUtil.getScaledMcWidth() - this.xStart - 140;
+            if (mX < xStart || mX > xStart + 140) return;
+        } else if (mX > 140 + xStart) return;
 
         if (i != 0) {
             if (i < 0) {
-                if(indexScroll >= (size() - shownObjects)){
+                if (indexScroll >= (size() - shownObjects)) {
                     indexScroll = size() - shownObjects;
                 } else {
                     indexScroll++;
                 }
             } else if (i > 0) {
-                if(indexScroll - 1 <= 0){
+                if (indexScroll - 1 <= 0) {
                     indexScroll = 0;
                 } else {
                     indexScroll--;

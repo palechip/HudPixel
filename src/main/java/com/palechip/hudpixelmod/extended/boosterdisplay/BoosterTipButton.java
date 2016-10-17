@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod.extended.boosterdisplay;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.client.Minecraft;
 
 /******************************************************************************
@@ -31,7 +32,7 @@ import net.minecraft.client.Minecraft;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-class BoosterTipButton extends FancyListButton{
+class BoosterTipButton extends FancyListButton {
 
     private Booster booster;
 
@@ -43,6 +44,6 @@ class BoosterTipButton extends FancyListButton{
 
     @Override
     protected void onClick() {
-        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + booster.getModGameType().getTipName());
+        Minecraft.getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + GameType.getTypeByID(booster.getGameID()).getTipName());
     }
 }

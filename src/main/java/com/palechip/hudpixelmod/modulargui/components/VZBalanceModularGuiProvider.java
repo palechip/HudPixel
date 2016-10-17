@@ -1,11 +1,17 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.games.Game;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
-    public static enum Type {Negative, Total};
+    @ConfigPropertyBoolean(catagory = "vampirez", id = "vampireZBalance", comment = "The VZ Time Tracker", def = true)
+    public static boolean enabled = false;
+    public static enum Type {Negative, Total}
+
+    ;
     public static final String NEGATIVE_COINS_DISPLAY_TEXT = EnumChatFormatting.RED + "Coins Spent";
     public static final String TOTAL_COINS_DISPLAY_TEXT = "Balance";
 
@@ -13,8 +19,8 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
     private boolean shouldDisplay = false;
 
     @Override
-    public boolean doesMatchForGame(Game game) {
-        return game.getConfiguration().getDatabaseName().equals("VampireZ");
+    public boolean doesMatchForGame() {
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.VAMPIREZ) && !GameDetector.isLobby();
     }
 
     @Override
@@ -22,6 +28,10 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
         return getRenderingString();
     }
 
+    @Override
+    public boolean showElement() {
+        return super.showElement() && enabled;
+    }
 
     @Override
     public void setupNewGame() {
@@ -30,13 +40,13 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
     }
 
     public String getRenderingString() {
-        if(this.shouldDisplay) {
-            switch(this.type) {
+        if (this.shouldDisplay) {
+            switch (this.type) {
                 case Negative:
                     // the coins are tracked negative but are displayed positive
                     return NEGATIVE_COINS_DISPLAY_TEXT + (-this.coins);
                 case Total:
-                    if(this.coins < 0) {
+                    if (this.coins < 0) {
                         return EnumChatFormatting.RED + "" + this.coins;
                     } else {
                         return EnumChatFormatting.GREEN + "" + this.coins;
@@ -49,7 +59,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // Was something purchased ingame?
-        if(textMessage.startsWith("[VampireZ]: Purchased ")  && (textMessage.toLowerCase().contains("blood") || textMessage.toLowerCase().contains("gold"))) {
+        if (textMessage.startsWith("[VampireZ]: Purchased ") && (textMessage.toLowerCase().contains("blood") || textMessage.toLowerCase().contains("gold"))) {
 
             // get the amount
             String amountStr = textMessage.replace("[VampireZ]: Purchased ", "");
@@ -65,8 +75,8 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
             // I know it's ugly that it's hard-coded but
             int price = 0;
             // blood
-            if(textMessage.toLowerCase().contains("blood")) {
-                switch(amount) {
+            if (textMessage.toLowerCase().contains("blood")) {
+                switch (amount) {
                     case 50:
                         price = 45;
                         break;
@@ -77,7 +87,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
             }
             // gold
             else {
-                switch(amount) {
+                switch (amount) {
                     case 1000:
                         price = 800;
                         break;
@@ -95,7 +105,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
             this.shouldDisplay = true;
         }
         // Let the parent track the positive coins. The second part prevents synchronisation with the total coins.
-        if(this.type == Type.Total && !textMessage.contains("You earned a total of")) {
+        if (this.type == Type.Total && !textMessage.contains("You earned a total of")) {
             super.onChatMessage(textMessage, formattedMessage);
         }
     }

@@ -31,9 +31,13 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 public interface IEventHandler {
 
     void onClientTick();
+
     void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
+
     void onRender();
+
     void handleMouseInput(int i, int mX, int mY);
+
     void onMouseClick(int mX, int mY);
 
 

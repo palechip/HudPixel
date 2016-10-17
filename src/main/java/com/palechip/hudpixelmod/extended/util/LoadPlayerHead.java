@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.*;
 
 /******************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
@@ -44,28 +45,27 @@ public class LoadPlayerHead implements IEventHandler {
     private ResourceLocation resourceLocation;
     private boolean imageLoaded = false;
     private boolean imageSetup = false;
-    private boolean failed = false;
     private String username;
     private ILoadPlayerHeadCallback callback;
 
-    public LoadPlayerHead(String username, ILoadPlayerHeadCallback callback){
+    public LoadPlayerHead(String username, ILoadPlayerHeadCallback callback) {
         HudPixelExtendedEventHandler.registerIEvent(this);
         this.callback = callback;
         this.username = username;
         loadSkinFromURL();
     }
 
-    private void setupImage(){
+    private void setupImage() {
         imageSetup = true;
-        if(image == null || failed) {
+        if (image == null) {
             callback.onLoadPlayerHeadResponse(null);
             HudPixelExtendedEventHandler.unregisterIEvent(this);
             return;
         }
-        image = image.getSubimage(8,8,8,8);
+        image = image.getSubimage(8, 8, 8, 8);
         DynamicTexture texture = new DynamicTexture(image);
         resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(username, texture);
-        LoggerHelper.logInfo("[LoadPlayer]: Loaded skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+        LoggerHelper.logInfo("[LoadPlayer]: Loaded skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/" + username + ".png");
         callback.onLoadPlayerHeadResponse(this.resourceLocation);
         HudPixelExtendedEventHandler.unregisterIEvent(this);
     }
@@ -76,28 +76,49 @@ public class LoadPlayerHead implements IEventHandler {
      * had to move to waiting code into a external thread ... so the mainthread is mot stopped
      * while waiting
      */
-    private void loadSkinFromURL(){
+    private void loadSkinFromURL() {
 
         new Thread() {
             @Override
             public void run() {
+
+                final ExecutorService service;
+                final Future<BufferedImage> task;
+
+                service = Executors.newSingleThreadExecutor();
+                task = service.submit(new LoadPlayerHead.callURL());
+                boolean failed;
                 try {
-                    image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/"+ username +".png"));
-                    imageLoaded = true;
-                } catch (MalformedURLException e) {
-                    failed = true;
-                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
-                } catch (IOException e) {
-                    failed = true;
-                    LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/"+ username +".png");
+                    image = task.get();
+                    LoggerHelper.logInfo("[LoadPlayer]: Skin loaded for " + username);
+                } catch (final InterruptedException ex) {
+                    LoggerHelper.logWarn("[LoadPlayer]:Something went wrong while loading the skin for" + username);
+                    ex.printStackTrace();
+                } catch (final ExecutionException ex) {
+                    LoggerHelper.logWarn("[LoadPlayer]:Something went wrong while loading the skin for" + username);
+                    ex.printStackTrace();
+                    try {
+                        image = ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/" + username + ".png"));
+                        imageLoaded = true;
+                    } catch (MalformedURLException e) {
+                        failed = true;
+                        LoggerHelper.logWarn("[LoadPlayer]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/" + username + ".png");
+                    } catch (IOException e) {
+                        failed = true;
+                        LoggerHelper.logWarn("[LoadPlayer]: Couldn't read skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/" + username + ".png");
+                    }
                 }
+
+                imageLoaded = true;
+
+                service.shutdownNow();
             }
         }.start();
     }
 
     @Override
     public void onClientTick() {
-        if(imageLoaded && !imageSetup) setupImage();
+        if (imageLoaded && !imageSetup) setupImage();
     }
 
     @Override
@@ -115,11 +136,20 @@ public class LoadPlayerHead implements IEventHandler {
 
     }
 
+    /**
+     * Helper class to get the image via url request and filereader
+     */
+    class callURL implements Callable<BufferedImage> {
+
+        public BufferedImage call() throws Exception {
+            return ImageIO.read(new URL("http://skins.minecraft.net/MinecraftSkins/" + username + ".png"));
+        }
+    }
+
     @Override
     public void onMouseClick(int mX, int mY) {
 
     }
-
 
 
 }
