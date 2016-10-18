@@ -78,7 +78,7 @@ public class HudPixelMod {
     public static final String MODID = "hudpixel";
     static final String NAME = "HudPixel Reloaded";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2";
+    public static final String DEFAULT_VERSION = "3.2.3";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     public static boolean isUpdateNotifierDone = false;
     private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a

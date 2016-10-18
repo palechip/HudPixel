@@ -28,12 +28,10 @@ package com.palechip.hudpixelmod.extended.staff;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -51,7 +49,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
 
     private static ArrayList<String> adminList = new ArrayList<String>();
     private static ArrayList<String> helperList = new ArrayList<String>();
-    private static String LINK_TO_STAFFJSON = "http://unaussprechlich.net/HudPixel/files/staffjson.php";
+    private static String LINK_TO_STAFFJSON = "http://hudpixel.unaussprechlich.net/HudPixel/files/staffjson.php";
 
     public StaffManager(){
         HudPixelExtendedEventHandler.registerIEvent(this);
@@ -64,7 +62,6 @@ public class StaffManager implements IEventHandler, McColorHelper{
      * @param e
      */
     public static void onPlayerName(PlayerEvent.NameFormat e){
-        if(!GameDetector.doesGameTypeMatchWithCurrent(GameType.ALL_GAMES)) return;
         if(adminList.contains(e.username)){
             e.displayname = hudAdminTag() + e.displayname;
         } else if(helperList.contains(e.username)){
@@ -98,6 +95,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
             String data = sBuilder.toString();
             JsonObject jsonObject= jsonParser(data);
             adminList = getArrayFromJsonEntry(getStringFromJson("admins", jsonObject));
+            adminList.add("PixelPlus");
             helperList = getArrayFromJsonEntry(getStringFromJson("helper", jsonObject));
         } catch (MalformedURLException e) {
             LoggerHelper.logError("[StaffLoader]: Something went wrong while loading the URL for the staff file");

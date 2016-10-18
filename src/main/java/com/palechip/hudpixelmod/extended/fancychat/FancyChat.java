@@ -50,7 +50,7 @@ import static com.palechip.hudpixelmod.extended.fancychat.FancyChatFilter.*;
 public class FancyChat {
 
     @ConfigPropertyBoolean(catagory = "general", id = "fancychat", comment = "The Fancy Chat", def = true)
-    public static boolean enabled = false;
+    public static boolean enabled = true;
 
     @ConfigPropertyInt(catagory = "general", id = "storedMessages", comment = "Stored Messages", def = 1000)
     public static int storedMessages;
@@ -69,7 +69,7 @@ public class FancyChat {
     // [SETTING] the with of the fancy chat overlay
     private static final short BOTTOM_Y_OFFSET = 28;
     // [SETTING] the with of the fancy chat overlay
-    private static int MAX_STORED_FANCYCHATMESSAGES = storedMessages;
+    private static int MAX_STORED_FANCYCHATMESSAGES = 1000;
     // [SETTING] the with of the fancy chat overlay
     private static final short MAX_SCROLLIST_LINES = 20;
     // [SETTING] the with of the fancy chat overlay
@@ -108,7 +108,6 @@ public class FancyChat {
      * Fired by the onRenderTick event @ HudPixelMod.class
      */
     public void onRenderTick() {
-
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
         if(!enabled) return;
@@ -183,8 +182,8 @@ public class FancyChat {
      * @param e The chat event
      */
     public void onChat(ClientChatReceivedEvent e) {
-        String message = e.message.getUnformattedText();
-
+        String message = e.message.getUnformattedText().replace("§6[Hud§4Admin§6]§4", ""); //ffs
+        //System.out.println(message);
         // [IF] it is a partyinventation
         if (message.contains(partyInvite1) || message.contains(partyInvite2)) {
             partyChecker(message, e);
