@@ -1,5 +1,6 @@
 package com.palechip.hudpixelmod.extended.util;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 /******************************************************************************
@@ -39,6 +40,10 @@ public interface IEventHandler {
     void handleMouseInput(int i, int mX, int mY);
 
     void onMouseClick(int mX, int mY);
+
+    default void openGUI(GuiScreen guiScreen){
+        return;
+    }
 
 
 }

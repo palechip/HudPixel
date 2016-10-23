@@ -29,6 +29,7 @@ package com.palechip.hudpixelmod.extended.util.gui;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.util.DisplayUtil;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.util.ArrayList;
 
@@ -64,6 +65,11 @@ public abstract class FancyListManager implements IEventHandler {
      */
     private static int tickCounter = 0;
 
+    @Override
+    public void openGUI(GuiScreen guiScreen){
+        indexScroll = 0;
+    }
+
     public static void processLoadingBar() {
         if (tickCounter >= 2) {
             if (loadingBar >= 15) loadingBar = 0;
@@ -82,9 +88,7 @@ public abstract class FancyListManager implements IEventHandler {
         float xStart = this.xStart;
         float yStart = this.yStart;
 
-        if (renderRightSide) {
-            xStart = DisplayUtil.getScaledMcWidth() - xStart - 140;
-        }
+        if (renderRightSide) xStart = DisplayUtil.getScaledMcWidth() - xStart - 140;
 
         if (fancyListObjects.size() <= shownObjects) {
             yStart += 13;
@@ -95,8 +99,7 @@ public abstract class FancyListManager implements IEventHandler {
             return;
         }
 
-        if (indexScroll > 0)
-            fancyListObjects.get(indexScroll - 1).onRenderTick(true, xStart, yStart, renderRightSide);
+        if (indexScroll > 0) fancyListObjects.get(indexScroll - 1).onRenderTick(true, xStart, yStart, renderRightSide);
         yStart += 13;
 
         for (int i = indexScroll; i <= indexScroll + shownObjects - 1; i++) {

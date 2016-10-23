@@ -100,9 +100,12 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
+                for (IEventHandler i : getIeventBuffer())
+                    i.openGUI(Minecraft.getMinecraft().currentScreen);
                 if (Minecraft.getMinecraft().thePlayer != null)
                     OnlineFriendManager.getInstance();
                 FancyChat.getInstance().openGui();
+
             }
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onOpenGui(). Stacktrace below.");
@@ -115,6 +118,7 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
+
                 for (IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);
                 FancyChat.getInstance().onChat(e);
