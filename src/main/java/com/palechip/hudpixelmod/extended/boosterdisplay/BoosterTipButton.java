@@ -4,7 +4,6 @@ import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
 
 import static com.palechip.hudpixelmod.extended.util.ImageLoader.boosterTip;
-import static com.palechip.hudpixelmod.util.GameType.getTypeByID;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
 /***********************************************************************************************************************
@@ -64,6 +63,6 @@ class BoosterTipButton extends FancyListButton {
 
     @Override
     protected void onClick() {
-        getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + getTypeByID(booster.getGameID()).getTipName());
+        getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + booster.getTipName());
     }
 }

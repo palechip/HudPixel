@@ -71,6 +71,10 @@ public class Booster implements UuidCallback {
     public Booster() {
     }
 
+    public String getTipName() {
+        return GameType.getTypeByDatabaseID(gameType).getTipName();
+    }
+
     // allows boosters to be created from the /booster queue command
     public Booster(String name, int gameID) {
         this.purchaserUuid = ""; // the UUID isn't necessary
