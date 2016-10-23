@@ -27,6 +27,7 @@
 
 package com.palechip.hudpixelmod.extended;
 
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
@@ -85,7 +86,7 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
                 //just triggeres the statsrenderer if the player is waiting for the game to start
-                if (!HudPixelMod.instance().gameDetector.isLobby() && StatsViewerManager.enabled)
+                if (GameDetector.isLobby() && StatsViewerManager.enabled)
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
@@ -126,28 +127,30 @@ public class HudPixelExtendedEventHandler {
         }
     }
 
-    long lastSystemTime = System.currentTimeMillis();
-    int delay = 20 * 1000; //20s
+    private long lastSystemTime = System.currentTimeMillis();
+    private int delay = 20 * 1000; //20s
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
-                for (IEventHandler i : getIeventBuffer())
-                    i.onClientTick();
+                getIeventBuffer().forEach(IEventHandler::onClientTick);
+
                 FancyListManager.processLoadingBar();
                 handleMouseScroll();
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
-                if (!HudPixelMod.instance().gameDetector.isLobby())
+                if (GameDetector.isLobby()){
+                    //System.out.print(GameDetector.getCurrentGameType().getName());
                     StatsViewerManager.onClientTick();
+                }
+
 
                 if (lastSystemTime + delay < System.currentTimeMillis()) {
                     lastSystemTime = System.currentTimeMillis();
                 }
-
 
             } else if (HudPixelMod.IS_DEBUGGING) {
                 FancyChat.getInstance().onClientTick();
@@ -176,7 +179,7 @@ public class HudPixelExtendedEventHandler {
     private static long lastTimeClicked;
     private static boolean doubleClick = false;
 
-    public static void mouseClickEvent() {
+    private static void mouseClickEvent() {
         Minecraft mc = Minecraft.getMinecraft();
         if (!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat)) return;
 

@@ -111,7 +111,7 @@ public class GameDetector {
     }
 
 
-    int cooldown = 0;
+    private int cooldown = 0;
     private boolean schedule = false;
 
     static {
@@ -126,7 +126,7 @@ public class GameDetector {
         cooldown = 5;
     }
 
-    int scheduleWhereami = -1;
+    private int scheduleWhereami = -1;
 
     @SubscribeEvent
     public void onLogin(FMLNetworkEvent.ClientConnectedToServerEvent event) {
