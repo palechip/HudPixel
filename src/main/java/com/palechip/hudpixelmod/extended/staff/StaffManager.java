@@ -168,6 +168,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+        if(e.message.getUnformattedText().contains("http")) return;
         for(String s : adminList){
             if(e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")){
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s ));
