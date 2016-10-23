@@ -169,16 +169,13 @@ public class StaffManager implements IEventHandler, McColorHelper{
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         for(String s : adminList){
-            System.out.print(s);
             if(e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")){
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s ));
                 return;
             }
         }
 
-
         for(String s : helperList){
-            System.out.print(s);
             if(e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")){
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudHelperTag() + s));
                 return;
