@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
+import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
@@ -172,6 +173,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
         for(String s : adminList){
             if(e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")){
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s ));
+                FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
         }
@@ -179,6 +181,7 @@ public class StaffManager implements IEventHandler, McColorHelper{
         for(String s : helperList){
             if(e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")){
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudHelperTag() + s));
+                FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
         }
