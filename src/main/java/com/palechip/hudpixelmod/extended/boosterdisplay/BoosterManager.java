@@ -104,7 +104,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
             GameType.ARENA,
             GameType.PAINTBALL,
             GameType.TNT_GAMES,
-            GameType.VAMPIREZ
+            GameType.VAMPIREZ,
+            GameType.QUAKECRAFT
     };
 
 //######################################################################################################################
@@ -212,7 +213,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         // we aren't loading anymore
         if (boosters != null) {
             for (Booster b : boosters) {
-                GameType gameType = GameType.getTypeByID(b.getGameID());
+                GameType gameType = GameType.getTypeByDatabaseID(b.getGameID());
                 Boolean found = false;
                 if (b.getRemainingTime() < b.getTotalLength()) {
                     for (FancyListObject fco : fancyListObjects) {
@@ -223,7 +224,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                                 break;
                             } else {
                                 be.setCurrentBooster(b);
-                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameID()
+                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + gameType.getName() +"[" + b.getGameID() +"]"
                                         + " and owner " + b.getOwner() + " in the boosterdisplay!");
                             }
                             found = true;
