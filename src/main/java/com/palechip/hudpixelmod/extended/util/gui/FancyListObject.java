@@ -112,12 +112,22 @@ public abstract class FancyListObject {
     }
 
     void onMouseInput(int mX, int mY) {
+        float buttonOffsetX1;
+        float buttonOffsetX2;
+        if(!renderRight){
+            buttonOffsetX1 = xStart;
+            buttonOffsetX2 = xStart + 140 + fancyListObjectButtons.size() * 24;
+        }
+        else{
+            buttonOffsetX1 = xStart - fancyListObjectButtons.size() * 24;
+            buttonOffsetX2 = xStart + 140;
+        }
 
         if (mX > xStart && mX < (xStart + 140) && mY > yStart && mY < yStart + 24) {
             isHover = true;
             for (FancyListButton fcob : fancyListObjectButtons)
                 fcob.isHover = false;
-        } else if (isHover && mX > xStart + 140 && mX < (xStart + 140 + fancyListObjectButtons.size() * 24) && mY > yStart && mY < yStart + 24) {
+        } else if (isHover && mX > buttonOffsetX1 && mX < buttonOffsetX2 && mY > yStart && mY < yStart + 24) {
             isHover = true;
             for (FancyListButton fcob : fancyListObjectButtons)
                 fcob.onMouseInput(mX, mY);
@@ -164,11 +174,16 @@ public abstract class FancyListObject {
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0f, 0f, 0f, 0.3f); //draws the background
         else {
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 1f, 1f, 1f, 0.2f);
-            float xStartB = xStart + 140;
+            float xStartB;
+            if(!renderRight)xStartB = xStart + 140;
+            else xStartB = xStart - 24;
+
+
             float yStartB = yStart;
             for (FancyListButton fcob : fancyListObjectButtons) {
                 fcob.onRender(xStartB, yStartB);
-                xStartB += 24;
+                if(!renderRight)xStartB += 24;
+                else xStartB -= 24;;
             }
 
         }

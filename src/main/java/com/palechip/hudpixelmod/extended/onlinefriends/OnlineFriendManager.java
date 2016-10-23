@@ -47,7 +47,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     private static final String LEFT_MESSAGE = " left.";
     private static final int UPDATE_COOLDOWN_RENDERING = 10 * 1000; // = 10sec
     private static long lastUpdateRendering = 0;
-    private static final int UPDATE_COOLDOWN_ONLINE = 2 * 60 * 1000; // = 10sec
+    private static final int UPDATE_COOLDOWN_ONLINE = 2 * 60 * 1000; // = 2min
     private static long lastUpdateOnline = 0;
     private static OnlineFriendManager instance;
 
@@ -66,8 +66,8 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     @ConfigPropertyInt(catagory = "hudpixel", id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
     public static int friendsShownAtOnce = 2;
 
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = true)
-    public static boolean shownFriendsDisplayRight = true;
+    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = false)
+    public static boolean shownFriendsDisplayRight = false;
 
     @ConfigPropertyBoolean(catagory = "hudpixel", id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
     public static boolean hideOfflineFriends = true;
@@ -87,8 +87,9 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
             lastUpdateRendering = System.currentTimeMillis();
 
             if (!localStorageFCO.isEmpty())
-                for (FancyListObject fco : localStorageFCO)
-                    fco.onClientTick();
+
+                localStorageFCO.forEach(FancyListObject::onClientTick);
+
             //sort the list to display only friends first
             Collections.sort(localStorageFCO, (f1, f2) -> {
                 OnlineFriend o1 = (OnlineFriend) f1;
@@ -111,8 +112,6 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onClientTick() {
-        // this.yStart = Config.yOffsetFriendsDisplay;
-        // this.xStart = Config.xOffsetFriendsDisplay;
         this.renderRightSide = shownFriendsDisplayRight;
         this.shownObjects = friendsShownAtOnce;
         if ((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
@@ -152,7 +151,6 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
         } else {
             this.isMouseHander = false;
         }
-
     }
 
     @Override
