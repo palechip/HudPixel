@@ -7,8 +7,10 @@
     "3": "[fixed] '[HudAdmin]' & '[HudHelper]' tag",
     "4": "[fixed] DatabaseIDs (boosters will now display in the right gametype)",
     "5": "[fixed] tip button",
-    "6": "[updated] license header",
-    "6": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
+    "6": "[fixed] backgroundcolor of the hud",
+    "7": "[fixed] disable friends/booster dispaly",
+    "8": "[updated] license header",
+    "9": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
   }
 }
 
