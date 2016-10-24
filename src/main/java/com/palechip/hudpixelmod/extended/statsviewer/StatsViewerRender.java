@@ -83,7 +83,6 @@ public class StatsViewerRender {
      * @param y        y-cord
      * @param z        z-cord
      */
-
     private static void renderName(RendererLivingEntity renderer, String str, EntityPlayer entityIn, double x, double y, double z) {
         FontRenderer fontrenderer = renderer.getFontRendererFromRenderManager();
         float f = 1.6F;

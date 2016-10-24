@@ -71,7 +71,7 @@ public enum GameType {
     COPS_AND_CRIMS(14, -1, "Cops and Crims", "cops", "COPS AND CRIMS"),
     WARLORDS(15, 23, "Warlords", "warlords", "WARLORDS"),
 
-    ARCADE_GAMES(16, 14, "Arcade Games", "arcade", "ARCADE GAMES"),
+    ARCADE_GAMES(16, 14, "Arcade Games", "Arcade", "ARCADE GAMES"),
     BLOCKING_DEAD(17, -1, "Blocking Dead", "", ARCADE_GAMES.scoreboardName),
     BOUNTY_HUNTERS(18, -1, "Bounty Hunters", "", ARCADE_GAMES.scoreboardName),
     BUILD_BATTLE(19, -1, "Build Battle", "", ARCADE_GAMES.scoreboardName),
@@ -91,7 +91,7 @@ public enum GameType {
     SMASH_HEROES(32, 24, "Smash Heroes", "smash", " SMASH HEROES"),
 
     SMASH_HEROES_WOSPACE(32, -1, "Smash Heroes", "smash", "SMASH HEROES"),
-    SKYWARS(30, 51, "SkyWars", "skywars", "SKYWARS"),
+    SKYWARS(30, 0, "SkyWars", "skywars", "SKYWARS"),
     HOUSING(34, 26, "Housing", "Housing", "HOUSING"),
     SKYCLASH(35, 55, "SkyClash", "SkyClash", "SKYCLASH"),
 

@@ -66,6 +66,7 @@ public class CooldownDisplayManager implements IEventHandler {
     public static int yOffsetCooldownDisplay = 25;
     @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetCooldownDisplay", comment = "X offset of cooldown display", def = 0)
     public static int xOffsetCooldownDisplay = 0;
+
     static ArrayList<CooldownDisplayModule> cdModules = new ArrayList<CooldownDisplayModule>();
     private static CooldownDisplayManager instance;
     int count = 0;

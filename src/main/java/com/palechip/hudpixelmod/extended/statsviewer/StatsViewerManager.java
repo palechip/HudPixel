@@ -84,15 +84,7 @@ public class StatsViewerManager {
      * Function to create and delete the current shown stats
      */
     public static void onClientTick() {
-/*
-        ArrayList<String> removeFromMap = new ArrayList<String>();
 
-        //deletes the entry if the showduration has expired
-        removeFromMap.addAll(statsViewerRenderMap.entrySet().stream().filter(entry -> entry.getValue().getExpireTimestamp() <= System.currentTimeMillis()).map(Map.Entry::getKey).collect(Collectors.toList()));
-
-        for (String s : removeFromMap) {
-            statsViewerRenderMap.remove(s);
-        }*/
         for (Iterator<Map.Entry<String, StatsViewerRender>> it = statsViewerRenderMap.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, StatsViewerRender> entry = it.next();
             if (entry.getValue().getExpireTimestamp() <= currentTimeMillis())

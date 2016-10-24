@@ -106,6 +106,7 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
         this.isOnline = isOnline;
     }
 
+
     @Override
     public void onTick() {
         if (!enabled) return;

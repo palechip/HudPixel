@@ -158,7 +158,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onRender() {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && OnlineFriendsLoader.enabled) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && OnlineFriendsLoader.enabled && Minecraft.getMinecraft().displayHeight > 600) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
