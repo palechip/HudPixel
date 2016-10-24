@@ -66,12 +66,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A small "ego"-class to display the the HudPixel staff with a nice color and tag #abgehoben
+ */
 public class StaffManager implements IEventHandler, McColorHelper {
 
     private static ArrayList<String> adminList = new ArrayList<String>();
     private static ArrayList<String> helperList = new ArrayList<String>();
     private static String LINK_TO_STAFFJSON = "http://hudpixel.unaussprechlich.net/HudPixel/files/staffjson.php";
 
+    /**
+     * constructor -> requests the file
+     */
     public StaffManager() {
         HudPixelExtendedEventHandler.registerIEvent(this);
         //loades the staff
@@ -179,7 +185,6 @@ public class StaffManager implements IEventHandler, McColorHelper {
         return s.replace(r, "");
     }
 
-
     /**
      * buts the admin/helper tag infront of a message a admin/helper has written
      * @param e chat event
@@ -187,8 +192,10 @@ public class StaffManager implements IEventHandler, McColorHelper {
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        if (e.message.getUnformattedText().contains("http")) return;
-        for (String s : adminList) {
+        if(e.type != 0) return; //return if it isn't a normal chat message
+        if (e.message.getUnformattedText().contains("http")) return; //return if the message contains a link .... so you can still click it :)
+
+        for (String s : adminList) { //for admins
             if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
@@ -196,28 +203,12 @@ public class StaffManager implements IEventHandler, McColorHelper {
             }
         }
 
-        for (String s : helperList) {
+        for (String s : helperList) { //for helpers
             if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudHelperTag() + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
         }
-    }
-
-    @Override
-    public void onClientTick() {
-    }
-
-    @Override
-    public void onRender() {
-    }
-
-    @Override
-    public void handleMouseInput(int i, int mX, int mY) {
-    }
-
-    @Override
-    public void onMouseClick(int mX, int mY) {
     }
 }

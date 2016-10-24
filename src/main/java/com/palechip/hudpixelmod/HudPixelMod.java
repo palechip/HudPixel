@@ -92,7 +92,6 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         modid = HudPixelMod.MODID,
         version = SHORT_VERSION,
         name = HudPixelMod.NAME,
-        //guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         clientSideOnly = true,
         acceptedMinecraftVersions = "1.8.9"
 )
@@ -100,12 +99,12 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
 public class HudPixelMod {
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.4 dev";
+    public static final String DEFAULT_VERSION = "3.2.4";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
-    private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //i moved the database ;)
+    private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //moved the database ;)
     public static boolean isUpdateNotifierDone = false;
     private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a
     //dev environment
@@ -116,8 +115,6 @@ public class HudPixelMod {
     public GameDetector gameDetector;
     private Logger LOGGER;
     private Queue apiQueue;
-    private KeyBinding hideHUDKey;
-    private KeyBinding openConfigGui;
     private KeyBinding debugKey; // A key used to bind some debugging functionality.
     private KeyBinding pressToPlay;
     private WarlordsDamageChatFilter warlordsChatFilter;
@@ -181,8 +178,6 @@ public class HudPixelMod {
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
-            //new LoadGameConfigThread(event.getModConfigurationDirectory());
-
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
             EasyConfigHandler.INSTANCE.init(event.getSuggestedConfigurationFile(), event.getAsmData());
             this.apiQueue = new Queue();
@@ -195,10 +190,9 @@ public class HudPixelMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         // register this class as an event handler (but fn not because modular gui :3)
-        // if(!IS_DEBUGGING) {
+
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
-        // }
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
@@ -211,46 +205,21 @@ public class HudPixelMod {
         this.warlordsChatFilter = new WarlordsDamageChatFilter();
 
         // Initialize key bindings
-        this.hideHUDKey = new KeyBinding("Hide HUD", Keyboard.KEY_F9, KEY_CATEGORY);
-        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_M, KEY_CATEGORY);
         this.pressToPlay = new KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY);
-        ClientRegistry.registerKeyBinding(this.hideHUDKey);
-        ClientRegistry.registerKeyBinding(this.openConfigGui);
         ClientRegistry.registerKeyBinding(this.pressToPlay);
         if (IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
             ClientRegistry.registerKeyBinding(this.debugKey);
         }
-
-        new WarlordsCTFCrashPrevention();
     }
 
     @SubscribeEvent(receiveCanceled = true)
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
-            //Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
-
-                // this one reads the normal chat messages
-                if (event.type == 0) {
-
-
-                    // pass the chat messages to the current game
-                  /*  if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME) && this.gameDetector.isLobby()) {
-                        this.gameDetector.getCurrentGame().onChatMessage(event.message.getUnformattedText(), event.message.getFormattedText());
-                    }*/
-
-
-                    // pass the message to the api connection
+                if (event.type == 0) { // this one reads the normal chat messages
                     this.apiQueue.onChatMessage(event.message.getUnformattedText());
-
-
-                    //send event to Warlords damage chat disabler
                     this.warlordsChatFilter.onChat(event);
-
-                    // this one are the messages on the status bar
-                } else {
-                    // not used right now
                 }
             }
         } catch (Exception e) {
@@ -276,24 +245,10 @@ public class HudPixelMod {
                     for (String st : modlist) s += st.replace(" ", "-") + ",";
                     WebUtil.sendGet("HudPixelMod", IP + "?username=" + Minecraft.getMinecraft().thePlayer.getName() +
                             "&modlist=" + s + "&timestamp=" + new Date().toString().replace(" ", "") + "&uuid=" +
-                            Minecraft.getMinecraft().thePlayer.getGameProfile().getId());
+                            Minecraft.getMinecraft().thePlayer.getGameProfile().getId() + "&version=" + DEFAULT_VERSION.replace(" ", ""));
                     didTheThings = true;
-
                 }
-
-
-               /* if (!this.gameDetector.getCurrentGame().equals(Game.NO_GAME)) {
-                    // tick the current game
-                    if (this.gameDetector.getCurrentGame().hasGameStarted()) {
-                        this.gameDetector.getCurrentGame().onTickUpdate();
-                    }
-
-                    // update render strings
-                    this.gameDetector.getCurrentGame().updateRenderStrings();
-                }
-*/
                 this.apiQueue.onClientTick();
-
             }
         } catch (Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -301,31 +256,12 @@ public class HudPixelMod {
         }
     }
 
-   /* @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        try {
-            // This event isn't bound to the Hypixel Network
-            if (eventArgs.modID.equals(MODID)) {
-                this.CONFIG.syncConfig();
-            }
-        } catch (Exception e) {
-            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }*/
-
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
         try {
             // Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
-                // isHypixelNetwork all listened keys
-                if (this.hideHUDKey.isPressed()) {
-                }
-               /* if (this.openConfigGui.isPressed()) {
-                    // open the config screen
-                    FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui());
-                }*/
+
                 if (this.pressToPlay.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);

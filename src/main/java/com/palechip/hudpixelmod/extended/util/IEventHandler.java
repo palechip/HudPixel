@@ -50,18 +50,22 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  **********************************************************************************************************************/
 public interface IEventHandler {
 
-    void onClientTick();
+    default void onClientTick() {
+    }
 
-    void onChatReceived(ClientChatReceivedEvent e) throws Throwable;
+    default void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+    }
 
-    void onRender();
+    default void onRender() {
+    }
 
-    void handleMouseInput(int i, int mX, int mY);
+    default void handleMouseInput(int i, int mX, int mY) {
+    }
 
-    void onMouseClick(int mX, int mY);
+    default void onMouseClick(int mX, int mY) {
+    }
 
     default void openGUI(GuiScreen guiScreen) {
-        return;
     }
 
 

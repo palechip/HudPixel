@@ -135,7 +135,6 @@ public class HudPixelExtendedEventHandler {
 
     /**
      * prints the message to the clientchat
-     *
      * @param message the message
      **/
     private static void printMessage(String message) {
@@ -225,7 +224,6 @@ public class HudPixelExtendedEventHandler {
                     //System.out.print(GameDetector.getCurrentGameType().getName());
                     StatsViewerManager.onClientTick();
                 }
-
 
                 if (lastSystemTime + delay < System.currentTimeMillis()) {
                     lastSystemTime = System.currentTimeMillis();
