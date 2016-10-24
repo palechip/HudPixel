@@ -100,7 +100,7 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
 public class HudPixelMod {
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.3";
+    public static final String DEFAULT_VERSION = "3.2.4 dev";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     // key related vars

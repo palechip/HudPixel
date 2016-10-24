@@ -117,7 +117,6 @@ public class StaffManager implements IEventHandler, McColorHelper {
             String data = sBuilder.toString();
             JsonObject jsonObject = jsonParser(data);
             adminList = getArrayFromJsonEntry(getStringFromJson("admins", jsonObject));
-            adminList.add("PixelPlus");
             helperList = getArrayFromJsonEntry(getStringFromJson("helper", jsonObject));
         } catch (MalformedURLException e) {
             LoggerHelper.logError("[StaffLoader]: Something went wrong while loading the URL for the staff file");
