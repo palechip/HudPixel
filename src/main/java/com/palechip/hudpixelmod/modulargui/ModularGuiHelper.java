@@ -68,7 +68,8 @@ public class ModularGuiHelper implements McColorHelper {
     //ik i have these backwards
     public static final ModularGuiRegistry.Element FPS = new ModularGuiRegistry.Element("Ping", new PingAndFpsModularGuiProvider(PingAndFpsModularGuiProvider.PingOrFps.FPS));
     public static final ModularGuiRegistry.Element PING = new ModularGuiRegistry.Element("FPS", new PingAndFpsModularGuiProvider(PingAndFpsModularGuiProvider.PingOrFps.PING));
-    public static final ModularGuiRegistry.Element AVGPROTECTION = new ModularGuiRegistry.Element("Average Protection", new ArmorProtectionModularGuiProvider());
+    public static final ModularGuiRegistry.Element AVGPROTECTION = new ModularGuiRegistry.Element("Average Protection", ArmorProtectionModularGuiProvider.INSTANCE);
+    public static final ModularGuiRegistry.Element COORDS = new ModularGuiRegistry.Element("possimp", CoordsDisplayModularGuiProvider.INSTANCE);
     public static final ModularGuiRegistry.Element COIN_COUNTER = new ModularGuiRegistry.Element(CoinCounterModularGuiProvider.COINS_DISPLAY_TEXT, new CoinCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element TIMER = new ModularGuiRegistry.Element(TimerModularGuiProvider.TIME_DISPLAY_MESSAGE, new TimerModularGuiProvider());
     public static final ModularGuiRegistry.Element BLITZ_STAR_TRACKER = new ModularGuiRegistry.Element(BlitzStarTrackerModularGuiProvider.DISPLAY_MESSAGE, new BlitzStarTrackerModularGuiProvider());
@@ -94,7 +95,8 @@ public class ModularGuiHelper implements McColorHelper {
         providers.add((IHudPixelModularGuiProviderBase) PING.provider);
         ModularGuiRegistry.registerElement(AVGPROTECTION);
         providers.add((IHudPixelModularGuiProviderBase) AVGPROTECTION.provider);
-
+        ModularGuiRegistry.registerElement(COORDS);
+        providers.add((IHudPixelModularGuiProviderBase) COORDS.provider);
         //order no longer matters
         ModularGuiRegistry.registerElement(COIN_COUNTER);
         providers.add((IHudPixelModularGuiProviderBase) COIN_COUNTER.provider);

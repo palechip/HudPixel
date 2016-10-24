@@ -54,11 +54,9 @@ import net.minecraft.client.Minecraft
 /**
  * Created by Elad on 10/18/2016.
  */
-class ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
-    companion object {
-        @ConfigPropertyBoolean("hudpixel", "armorprotectiongui", "Enable the armor protection gui?", true)
-        @JvmStatic var enabled: Boolean = true
-    }
+object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
+    @ConfigPropertyBoolean("hudpixel", "armorprotectiongui", "Enable the armor protection gui?", true)
+    @JvmStatic var enabled: Boolean = true
 
     override fun setupNewGame() {
 
