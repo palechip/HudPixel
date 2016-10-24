@@ -78,7 +78,7 @@ class ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
 
 
     override fun onTickUpdate() {
-        if(Minecraft.getMinecraft().thePlayer != null)
+        if (Minecraft.getMinecraft().thePlayer != null)
             content = DamageReductionCalc.getReduction()[2]
     }
 

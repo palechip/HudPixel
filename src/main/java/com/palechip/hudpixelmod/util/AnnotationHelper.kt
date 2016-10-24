@@ -95,7 +95,7 @@ object AnnotationHelper {
      * Find all annotated fields of super-type [objClass] with annotation [annotationClass] from data table [table]
      * and send them to the callback [callback].
      */
-    fun <T> findAnnotatedObjects(table: ASMDataTable, objClass: Class<T>, annotationClass: Class<*>, callback: (Field, AnnotationInfo)->Unit) {
+    fun <T> findAnnotatedObjects(table: ASMDataTable, objClass: Class<T>, annotationClass: Class<*>, callback: (Field, AnnotationInfo) -> Unit) {
         for (data in table.getAll(annotationClass.name)) {
             try {
                 val index = data.objectName.indexOf('(')
@@ -123,8 +123,8 @@ object AnnotationHelper {
      * Find all annotated classes of super-type [superClass] with annotation [annotationClass] from data table [table]
      * and send them to the callback [callback].
      */
-    fun <T> findAnnotatedClasses(table: ASMDataTable?, superClass: Class<T>, annotationClass: Class<*>, callback: (Class<T>, AnnotationInfo)->Unit) {
-        if(table == null) return
+    fun <T> findAnnotatedClasses(table: ASMDataTable?, superClass: Class<T>, annotationClass: Class<*>, callback: (Class<T>, AnnotationInfo) -> Unit) {
+        if (table == null) return
         for (data in table.getAll(annotationClass.name)) {
             try {
                 callback(Class.forName(data.className).asSubclass(superClass) as Class<T>, AnnotationInfo(data.annotationInfo))
@@ -140,7 +140,7 @@ object AnnotationHelper {
      * Find all annotated methods with annotation [annotationClass] from data table [table]
      * and send them to the callback [callback].
      */
-    fun findAnnotatedMethods(table: ASMDataTable, annotationClass: Class<*>, callback: (Method, Array<Class<*>>, AnnotationInfo)->Unit) {
+    fun findAnnotatedMethods(table: ASMDataTable, annotationClass: Class<*>, callback: (Method, Array<Class<*>>, AnnotationInfo) -> Unit) {
         for (data in table.getAll(annotationClass.name)) {
             try {
                 val index = data.objectName.indexOf('(')

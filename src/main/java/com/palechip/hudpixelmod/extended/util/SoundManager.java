@@ -33,6 +33,10 @@ import net.minecraft.client.Minecraft;
 
 public class SoundManager {
 
+    public static void playSound(Sounds name) {
+        Minecraft.getMinecraft().thePlayer.playSound(HudPixelMod.MODID + ":" + name, 5, 1);
+    }
+
     public enum Sounds {
         NOTIFICATION_LONG("NOTIFICATION_LONG"),
         NOTIFICATION_LONG2("NOTIFICATION_LONG2"),
@@ -46,10 +50,6 @@ public class SoundManager {
         Sounds(String name) {
             this.name = name;
         }
-    }
-
-    public static void playSound(Sounds name) {
-        Minecraft.getMinecraft().thePlayer.playSound(HudPixelMod.MODID + ":" + name, 5, 1);
     }
 }
 

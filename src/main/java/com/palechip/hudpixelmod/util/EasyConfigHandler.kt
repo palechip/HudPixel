@@ -46,7 +46,6 @@ reserve the right to take down any infringing project.
 package com.palechip.hudpixelmod.util
 
 import com.palechip.hudpixelmod.HudPixelMod
-import com.palechip.hudpixelmod.util.EasyConfigHandler.init
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import java.io.File
@@ -64,7 +63,7 @@ object EasyConfigHandler {
     val fieldMapBoolean: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
 
     fun init(configf: File, asm: ASMDataTable?) {
-        if(asm == null) return
+        if (asm == null) return
         config = configf
         val config = Configuration(configf)
         findByClass(Any::class.java, asm)
@@ -83,22 +82,23 @@ object EasyConfigHandler {
         config.load()
         fieldMapStr.forEach {
             it.key.isAccessible = true
-            if(!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
                 it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
         }
         fieldMapInt.forEach {
             it.key.isAccessible = true
-            if(!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
                 it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
         }
         fieldMapBoolean.forEach {
             it.key.isAccessible = true
-            if(!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
                 it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
         }
         config.save()
 
     }
+
     private fun findByClass(clazz: Class<*>, asm: ASMDataTable) {
         AnnotationHelper.findAnnotatedObjects(asm, clazz, ConfigPropertyString::class.java, { field: Field, info: AnnotationHelper.AnnotationInfo ->
             fieldMapStr.put(field, info)
@@ -120,6 +120,7 @@ object EasyConfigHandler {
  * development environment.
  */
 @Target(AnnotationTarget.FIELD) annotation class ConfigPropertyString(val catagory: String, val id: String, val comment: String, val def: String, val devOnly: Boolean = false)
+
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Int] (or in Kotlin Int?]
  * that you wish to use as a config property. Use [catagory] to indicate the config catagory in the config file,
@@ -128,6 +129,7 @@ object EasyConfigHandler {
  * development environment.
  */
 @Target(AnnotationTarget.FIELD) annotation class ConfigPropertyInt(val catagory: String, val id: String, val comment: String, val def: Int, val devOnly: Boolean = false)
+
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Boolean] (or in Kotlin Boolean?]
  * that you wish to use as a config property. Use [catagory] to indicate the config catagory in the config file,
