@@ -102,6 +102,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     public static boolean shownBooosterDisplayRight = true;
     @ConfigPropertyInt(catagory = "hudpixel", id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
     public static int boostersShownAtOnce = 5;
+    @ConfigPropertyBoolean(catagory = "general", id = "isBoosterDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
+    public static boolean enabled = false;
 
 //######################################################################################################################
     /**
@@ -121,6 +123,10 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         for (GameType g : gamesWithBooster) {
             this.fancyListObjects.add(new BoosterExtended(g));
         }
+        this.shownObjects = boostersShownAtOnce;
+        this.yStart = yOffsetBoosterDisplay;
+        this.xStart = xOffsetBoosterDisplay;
+        this.renderRightSide = shownBooosterDisplayRight;
     }
 
     /**
@@ -130,7 +136,8 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender() {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600 && BoosterExtended.enabled) {
+        if(!enabled) return;
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {
@@ -140,13 +147,6 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
     @Override
     public void onClientTick() {
-
-        this.shownObjects = boostersShownAtOnce;
-        this.yStart = yOffsetBoosterDisplay;
-        this.xStart = xOffsetBoosterDisplay;
-        this.renderRightSide = shownBooosterDisplayRight;
-
-
         requestBoosters(false);
         fancyListObjects.forEach(FancyListObject::onClientTick);
     }
@@ -183,7 +183,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * @param forceRequest Set this to true if you want to force the request
      */
     void requestBoosters(Boolean forceRequest) {
-        if (GeneralConfigSettings.getUseAPI() && BoosterExtended.enabled) {
+        if (GeneralConfigSettings.getUseAPI() && enabled) {
             // isHypixelNetwork if enough time has past
             if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
                 // save the time of the request
