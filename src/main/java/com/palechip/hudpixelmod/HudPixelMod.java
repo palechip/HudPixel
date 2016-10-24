@@ -105,7 +105,7 @@ public class HudPixelMod {
     static final String NAME = "HudPixel Reloaded";
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
-    private static final String IP = "http://unaussprechlich.net/HudPixel/files/hudpixelcallback.php";
+    private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //i moved the database ;)
     public static boolean isUpdateNotifierDone = false;
     private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a
     //dev environment
