@@ -47,7 +47,7 @@ public class Renderer {
                 if (element.provider.content() == null) return;
                 if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this isHypixelNetwork...
                     if (GeneralConfigSettings.getHudBackground())
-                        RenderUtils.renderBoxWithColor(w - 2, h - 1, fontRendererObj.getStringWidth(aDisplay) + 4, 10, GeneralConfigSettings.getHudRed() / 255, GeneralConfigSettings.getHudGreen() / 255, GeneralConfigSettings.getHudBlue() / 255, GeneralConfigSettings.getHudAlpha() / 255);
+                        RenderUtils.renderBoxWithColor(w - 2, h - 1, fontRendererObj.getStringWidth(aDisplay) + 4, 10, (float)(GeneralConfigSettings.getHudRed()) / 255, (float)(GeneralConfigSettings.getHudGreen()) / 255, (float)(GeneralConfigSettings.getHudBlue()) / 255, (float)(GeneralConfigSettings.getHudAlpha()) / 255);
                     fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
                     h += 10; //increment height
                 }
