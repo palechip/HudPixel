@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
@@ -56,7 +57,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
-    @ConfigPropertyBoolean(catagory = "the walls", id = "wallsKillCounter", comment = "The Walls Kill Tracker", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "wallsKillCounter", comment = "The Walls Kill Tracker", def = true)
     public static boolean enabled = false;
     private KillType trackedType = KillType.Normal;
     private int kills;

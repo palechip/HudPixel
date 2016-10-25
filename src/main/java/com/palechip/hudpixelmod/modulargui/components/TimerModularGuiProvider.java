@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
@@ -53,7 +54,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time";
-    @ConfigPropertyBoolean(catagory = "general", id = "timer", comment = "The Game Timer", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "timer", comment = "The Game Timer", def = true)
     public static boolean enabled = false;
     private long tickTime = 0;
     private String runningTime = "00:00";

@@ -52,6 +52,7 @@ import com.palechip.hudpixelmod.command.BookVerboseInfoCommand;
 import com.palechip.hudpixelmod.command.GameCommand;
 import com.palechip.hudpixelmod.command.GameDetectorCommand;
 import com.palechip.hudpixelmod.command.ScoreboardCommand;
+import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
@@ -93,6 +94,7 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         version = SHORT_VERSION,
         name = HudPixelMod.NAME,
         clientSideOnly = true,
+        guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         acceptedMinecraftVersions = "1.8.9"
 )
 
@@ -117,6 +119,7 @@ public class HudPixelMod {
     private Queue apiQueue;
     private KeyBinding debugKey; // A key used to bind some debugging functionality.
     private KeyBinding pressToPlay;
+    private KeyBinding openConfigGui;
     private WarlordsDamageChatFilter warlordsChatFilter;
 
     /**
@@ -206,9 +209,11 @@ public class HudPixelMod {
 
         // Initialize key bindings
         this.pressToPlay = new KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY);
+        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_M, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.pressToPlay);
         if (IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
+
             ClientRegistry.registerKeyBinding(this.debugKey);
         }
     }
@@ -261,12 +266,13 @@ public class HudPixelMod {
         try {
             // Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
-
-                if (this.pressToPlay.isPressed()) {
+                if(this.openConfigGui.isPressed()) {
+                    // open the config screen
+                    FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
+                }else if (this.pressToPlay.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
-                }
-                if (IS_DEBUGGING) {
+                }else if (IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {
                         // Add debug code here
                     }

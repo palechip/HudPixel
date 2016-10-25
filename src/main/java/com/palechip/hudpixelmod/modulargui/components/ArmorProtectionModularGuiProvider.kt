@@ -46,6 +46,7 @@ reserve the right to take down any infringing project.
 package com.palechip.hudpixelmod.modulargui.components
 
 import com.palechip.hudpixelmod.GameDetector
+import com.palechip.hudpixelmod.config.CCategory
 import com.palechip.hudpixelmod.extended.util.DamageReductionCalc
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean
@@ -55,7 +56,7 @@ import net.minecraft.client.Minecraft
  * Created by Elad on 10/18/2016.
  */
 object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
-    @ConfigPropertyBoolean("hudpixel", "armorprotectiongui", "Enable the armor protection gui?", true)
+    @ConfigPropertyBoolean(CCategory.HUDPIXEL, "armorprotectiongui", "Enable the armor protection gui?", true)
     @JvmStatic var enabled: Boolean = true
 
     override fun setupNewGame() {

@@ -47,6 +47,7 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
@@ -58,7 +59,7 @@ import java.util.ArrayList;
 
 public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     public static final String LAP_COMPLETION_MESSAGE_REGEX = "(Lap \\d Completed!).*";
-    @ConfigPropertyBoolean(catagory = "turbo kart racers", id = "kartRacersAccurateTimeDisplay", comment = "The TKR Time Tracker", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "kartRacersAccurateTimeDisplay", comment = "The TKR Time Tracker", def = true)
     public static boolean enabled = false;
     private static long startDelay = 0L;
     private int lap = 0;

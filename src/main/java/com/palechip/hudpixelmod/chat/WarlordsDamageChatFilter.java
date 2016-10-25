@@ -47,6 +47,7 @@ package com.palechip.hudpixelmod.chat;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.ConfigPropertyInt;
 import com.palechip.hudpixelmod.util.GameType;
@@ -63,17 +64,17 @@ public class WarlordsDamageChatFilter {
     public static final String wounded1 = "You are now wounded.";
     public static final String wounded2 = "You are wounded.";
     public static final String noLongerWounded = "You are no longer wounded.";
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
     public static boolean warlordsFilterWounded = false;
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
     public static boolean warlordsFilterAbsorbtion = false;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
+    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
     public static int warlordsFilterDamageDone = 0;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
+    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
     public static int warlordsFilterHealingDone = 0;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
+    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
     public static int warlordsFilterDamageTaken = 0;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
+    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
     public static int warlordsFilterHealingReceived = 0;
 
     public WarlordsDamageChatFilter() {

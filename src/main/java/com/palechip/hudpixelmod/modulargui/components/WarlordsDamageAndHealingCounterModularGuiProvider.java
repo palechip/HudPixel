@@ -48,6 +48,7 @@ package com.palechip.hudpixelmod.modulargui.components;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
@@ -56,7 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelModularGuiProvider {
-    @ConfigPropertyBoolean(catagory = "warlords", id = "warlordsDamageAndHealthCounter", comment = "The Warlords Damage And Health Tracker", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsDamageAndHealthCounter", comment = "The Warlords Damage And Health Tracker", def = true)
     public static boolean enabled = false;
     private Type type;
     private int count;

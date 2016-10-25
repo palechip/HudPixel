@@ -46,6 +46,9 @@ reserve the right to take down any infringing project.
 package com.palechip.hudpixelmod.util
 
 import com.palechip.hudpixelmod.HudPixelMod
+import com.palechip.hudpixelmod.config.CCategory
+import com.palechip.hudpixelmod.config.HudPixelConfigGui
+import com.palechip.hudpixelmod.util.EasyConfigHandler.init
 import net.minecraftforge.common.config.Configuration
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import java.io.File
@@ -58,6 +61,8 @@ import java.lang.reflect.Field
  */
 object EasyConfigHandler {
     var config: File? = null
+    var configuration: Configuration? = null
+
     val fieldMapStr: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
     val fieldMapInt: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
     val fieldMapBoolean: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
@@ -65,7 +70,7 @@ object EasyConfigHandler {
     fun init(configf: File, asm: ASMDataTable?) {
         if (asm == null) return
         config = configf
-        val config = Configuration(configf)
+        configuration = Configuration(configf)
         findByClass(Any::class.java, asm)
         findByClass(Boolean::class.javaPrimitiveType!!, asm)
         findByClass(Char::class.javaPrimitiveType!!, asm)
@@ -74,29 +79,53 @@ object EasyConfigHandler {
         findByClass(Int::class.javaPrimitiveType!!, asm)
         findByClass(Float::class.javaPrimitiveType!!, asm)
         findByClass(Long::class.javaPrimitiveType!!, asm)
+
         if (HudPixelMod.IS_DEBUGGING) {
-            fieldMapStr.keys.forEach { println("Found string config property field ${it.declaringClass.name}.${it.name}") }
-            if (fieldMapStr.keys.size == 0) println("No string config property fields found!")
+            fieldMapStr.keys.forEach { println("Found string configuration property field ${it.declaringClass.name}.${it.name}") }
+            if (fieldMapStr.keys.size == 0) println("No string configuration property fields found!")
         }
 
-        config.load()
+        (configuration as Configuration).load()
         fieldMapStr.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, (configuration as Configuration).get(it.value.getCCategory("catagory", CCategory.UNKNOWN).getName(), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
+                HudPixelConfigGui.addElement(
+                        it.value.getCCategory("catagory", CCategory.UNKNOWN),
+                        it.value.getString("id", ""),
+                        it.value.getString("def", ""),
+                        it.value.getString("comment", ""),
+                        configuration
+                )
+            }
         }
         fieldMapInt.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, (configuration as Configuration).get(it.value.getCCategory("catagory", CCategory.UNKNOWN).getName(), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
+                HudPixelConfigGui.addElement(
+                        it.value.getCCategory("catagory", CCategory.UNKNOWN),
+                        it.value.getString("id", ""),
+                        it.value.getInt("def", 0),
+                        it.value.getString("comment", ""),
+                        configuration
+                )
+            }
         }
         fieldMapBoolean.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, (configuration as Configuration).get(it.value.getCCategory("catagory", CCategory.UNKNOWN).getName(), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
+                HudPixelConfigGui.addElement(
+                        it.value.getCCategory("catagory", CCategory.UNKNOWN),
+                        it.value.getString("id", ""),
+                        it.value.getBoolean("def", false),
+                        it.value.getString("comment", ""),
+                        configuration
+                )
+            }
         }
-        config.save()
-
+        (configuration as Configuration).save()
     }
 
     private fun findByClass(clazz: Class<*>, asm: ASMDataTable) {
@@ -119,7 +148,7 @@ object EasyConfigHandler {
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyString(val catagory: String, val id: String, val comment: String, val def: String, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyString(val catagory: CCategory, val id: String, val comment: String, val def: String, val devOnly: Boolean = false)
 
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Int] (or in Kotlin Int?]
@@ -128,7 +157,7 @@ object EasyConfigHandler {
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyInt(val catagory: String, val id: String, val comment: String, val def: Int, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyInt(val catagory: CCategory, val id: String, val comment: String, val def: Int, val devOnly: Boolean = false)
 
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Boolean] (or in Kotlin Boolean?]
@@ -137,17 +166,18 @@ object EasyConfigHandler {
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyBoolean(val catagory: String, val id: String, val comment: String, val def: Boolean, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyBoolean(val catagory: CCategory, val id: String, val comment: String, val def: Boolean, val devOnly: Boolean = false)
+
 
 object GeneralConfigSettings {
-    @ConfigPropertyBoolean("hudpixel", "useAPI", "Should use the API?", true) @JvmStatic var useAPI: Boolean = true
-    @ConfigPropertyBoolean("hudpixel", "hudBackground", "Should the HUD have a background?", true) @JvmStatic var hudBackground: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUDPIXEL, "useAPI", "Should use the API?", true) @JvmStatic var useAPI: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUDPIXEL, "hudBackground", "Should the HUD have a background?", true) @JvmStatic var hudBackground: Boolean = true
 
-    @ConfigPropertyInt("hudpixel", "displayXOffset", "HUD offset (X)", 5) @JvmStatic var displayXOffset: Int = 5
-    @ConfigPropertyInt("hudpixel", "displayYOffset", "HUD offset (Y)", 5) @JvmStatic var displayYOffset: Int = 5
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "displayXOffset", "HUD offset (X)", 5) @JvmStatic var displayXOffset: Int = 5
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "displayYOffset", "HUD offset (Y)", 5) @JvmStatic var displayYOffset: Int = 5
 
-    @ConfigPropertyInt("hudpixel", "hudRed", "HUD Red", 0) @JvmStatic var hudRed: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudGreen", "HUD green", 0) @JvmStatic var hudGreen: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudBlue", "HUD blue", 0) @JvmStatic var hudBlue: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudAlpha", "HUD alpha", 255) @JvmStatic var hudAlpha: Int = 255
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "hudRed", "HUD Red", 0) @JvmStatic var hudRed: Int = 0
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "hudGreen", "HUD green", 0) @JvmStatic var hudGreen: Int = 0
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "hudBlue", "HUD blue", 0) @JvmStatic var hudBlue: Int = 0
+    @ConfigPropertyInt(CCategory.HUDPIXEL, "hudAlpha", "HUD alpha", 255) @JvmStatic var hudAlpha: Int = 255
 }

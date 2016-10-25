@@ -48,6 +48,7 @@ package com.palechip.hudpixelmod.extended.boosterdisplay;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
@@ -94,15 +95,15 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
             GameType.VAMPIREZ,
             GameType.QUAKECRAFT
     };
-    @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetBoosterDisplay", comment = "X offset of Booster display", def = 2)
+    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "xOffsetBoosterDisplay", comment = "X offset of Booster display", def = 2)
     public static int xOffsetBoosterDisplay = 2;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "yOffsetBoosterDisplay", comment = "Y offset of Booster display", def = 2)
+    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "yOffsetBoosterDisplay", comment = "Y offset of Booster display", def = 2)
     public static int yOffsetBoosterDisplay = 2;
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownBooosterDisplayRight", comment = "Show booster display on right", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.BOOSTER_DISPLAY, id = "shownBooosterDisplayRight", comment = "Show booster display on right", def = true)
     public static boolean shownBooosterDisplayRight = true;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
+    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
     public static int boostersShownAtOnce = 5;
-    @ConfigPropertyBoolean(catagory = "general", id = "isBoosterDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.BOOSTER_DISPLAY, id = "isBoosterDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
     public static boolean enabled = false;
 
 //######################################################################################################################

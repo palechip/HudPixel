@@ -50,6 +50,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GeneralConfigSettings;
@@ -57,7 +58,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback {
 
-    @ConfigPropertyBoolean(catagory = "general", id = "statviewer", comment = "The Stats Viewer", def = true)
+    @ConfigPropertyBoolean(catagory = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
     public static boolean enabled = false;
     protected String playerName;
     protected JsonObject statistics;
