@@ -98,6 +98,13 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
         return instance == null ? instance = new OnlineFriendManager() : instance;
     }
 
+    @Override
+    public int getConfigxStart() {return xOffsetFriendsDisplay;}
+    @Override
+    public boolean getConfigRenderRight() {return shownFriendsDisplayRight;}
+    @Override
+    public int getConfigyStart() {return yOffsetFriendsDisplay;}
+
     void addFriend(FancyListObject fco) {
         localStorageFCO.add(fco);
     }

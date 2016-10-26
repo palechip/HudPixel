@@ -82,6 +82,8 @@ object EasyConfigHandler {
     }
 
     fun synchronize(){
+        HudPixelConfigGui.deleteBeforReload()//clears the list
+
         LoggerHelper.logInfo("[Configuration] going to load the Configuration!")
 
         fieldMapStr.forEach {
@@ -126,7 +128,7 @@ object EasyConfigHandler {
             fieldMapStr.forEach {
                 LoggerHelper.logDebug("[CONFIGURATION][STRING]" +
                         " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
-                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 20)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
                         " [VALUE]:${fancy(it.key.get(String).toString(), 15)}" +
                         " [DEF]:${fancy(it.value.getString("def", "").toString(), 15)}"
                 )
@@ -135,7 +137,7 @@ object EasyConfigHandler {
             fieldMapInt.forEach {
                 LoggerHelper.logDebug("[CONFIGURATION][INTEGER]" +
                         " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
-                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 20)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
                         " [VALUE]:${fancy(it.key.get(String).toString(), 10)}" +
                         " [DEF]:${fancy(it.value.getInt("def", 0).toString(), 10)}"
                 )
@@ -144,7 +146,7 @@ object EasyConfigHandler {
             fieldMapBoolean.forEach {
                 LoggerHelper.logDebug("[CONFIGURATION][BOOLEAN]" +
                         " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
-                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 20)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
                         " [VALUE]:${fancy(it.key.get(String).toString(), 5)}" +
                         " [DEF]:${fancy(it.value.getBoolean("def", false).toString(), 5)}"
                 )

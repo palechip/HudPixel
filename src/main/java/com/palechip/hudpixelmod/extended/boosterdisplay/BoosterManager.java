@@ -130,6 +130,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         this.renderRightSide = shownBooosterDisplayRight;
     }
 
+
+    @Override
+    public int getConfigxStart() {return xOffsetBoosterDisplay;}
+    @Override
+    public boolean getConfigRenderRight() {return shownBooosterDisplayRight;}
+    @Override
+    public int getConfigyStart() {return yOffsetBoosterDisplay;}
+
     /**
      * Well you can do some stuff here befor rendering the display
      * You still have to call the renderDisplay() method ... otherwise there

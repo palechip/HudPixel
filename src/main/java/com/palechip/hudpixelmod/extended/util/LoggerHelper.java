@@ -66,7 +66,7 @@ public class LoggerHelper {
     }
 
     public static void logDebug(String s) {
-        LOGGER.error("[Debug]" + s);
+        LOGGER.debug("[Debug]" + s);
     }
 
 }

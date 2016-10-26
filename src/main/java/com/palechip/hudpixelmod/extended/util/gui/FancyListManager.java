@@ -95,6 +95,17 @@ public abstract class FancyListManager implements IEventHandler {
         indexScroll = 0;
     }
 
+    @Override
+    public void onConfigChanged(){
+        this.renderRightSide = getConfigRenderRight();
+        this.xStart = getConfigxStart();
+        this.yStart = getConfigyStart();
+    }
+
+    public abstract int getConfigxStart();
+    public abstract int getConfigyStart();
+    public abstract boolean getConfigRenderRight();
+
     /**
      * this really renders nothing it just sets rge right offset for each element
      */

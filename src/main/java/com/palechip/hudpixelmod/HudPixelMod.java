@@ -271,18 +271,7 @@ public class HudPixelMod {
         }
     }
 
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        try {
-            // This event isn't bound to the Hypixel Network
-            if(eventArgs.modID.equals(MODID)){
-                EasyConfigHandler.INSTANCE.synchronize();
-            }
-        } catch(Exception e) {
-            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
-            e.printStackTrace();
-        }
-    }
+
 
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {

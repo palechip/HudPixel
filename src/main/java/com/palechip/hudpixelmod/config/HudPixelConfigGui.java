@@ -77,6 +77,10 @@ public class HudPixelConfigGui extends GuiConfig {
                 .collect(Collectors.toList());
     }
 
+    public static void deleteBeforReload(){
+        configCategoryMap.clear();
+    }
+
     public static<T> void addElement(CCategory category, String id, T defEntry, String comment){
 
         if(!configCategoryMap.containsKey(category)){
