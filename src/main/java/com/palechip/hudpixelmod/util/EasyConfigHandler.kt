@@ -77,10 +77,6 @@ object EasyConfigHandler {
         synchronize()
     }
 
-    private fun fancy(text: String, length: Int):String{
-        return (text + "                                                                       ").substring(0, length -1)
-    }
-
     fun synchronize(){
         HudPixelConfigGui.deleteBeforReload()//clears the list
 
@@ -168,6 +164,10 @@ object EasyConfigHandler {
             fieldMapBoolean.put(field, info)
         })
     }
+
+    private fun fancy(text: String, length: Int):String{
+        return (text + "                                                                       ").substring(0, length -1)
+    }
 }
 
 /**
@@ -201,6 +201,9 @@ object EasyConfigHandler {
 object GeneralConfigSettings {
     @ConfigPropertyBoolean(CCategory.HUDPIXEL, "useAPI", "Should use the API?", true) @JvmStatic var useAPI: Boolean = true
     @ConfigPropertyBoolean(CCategory.HUD, "hudBackground", "Should the HUD have a background?", true) @JvmStatic var hudBackground: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUD, "hudDisabled", "HUD Disabled", false) @JvmStatic var hudDisabled: Boolean = false
+    @ConfigPropertyBoolean(CCategory.HUD, "hudDisplayVersion", "HUD DisplayVersion", true) @JvmStatic var hudDisplayVersion: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUD, "hudRenderRight", "HUD RenderRight", false) @JvmStatic var hudRenderRight: Boolean = false
 
     @ConfigPropertyInt(CCategory.HUD, "displayXOffset", "HUD offset (X)", 5) @JvmStatic var displayXOffset: Int = 5
     @ConfigPropertyInt(CCategory.HUD, "displayYOffset", "HUD offset (Y)", 5) @JvmStatic var displayYOffset: Int = 5
@@ -209,4 +212,5 @@ object GeneralConfigSettings {
     @ConfigPropertyInt(CCategory.HUD, "hudGreen", "HUD green", 0) @JvmStatic var hudGreen: Int = 0
     @ConfigPropertyInt(CCategory.HUD, "hudBlue", "HUD blue", 0) @JvmStatic var hudBlue: Int = 0
     @ConfigPropertyInt(CCategory.HUD, "hudAlpha", "HUD alpha", 150) @JvmStatic var hudAlpha: Int = 150
+
 }

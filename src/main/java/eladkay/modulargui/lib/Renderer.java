@@ -1,6 +1,7 @@
 package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.util.DisplayUtil;
 import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
@@ -25,11 +26,10 @@ public class Renderer {
 
     /**
      * Event: When the game renders its overlay.
-     *
-     * @author MinecraftForge
      */
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
+        if(GeneralConfigSettings.getHudDisabled()) return;
         if (!HudPixelMod.isHypixelNetwork() && !HudPixelMod.IS_DEBUGGING) return;
         if (!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
@@ -46,9 +46,12 @@ public class Renderer {
                     aDisplay = element.provider.content();
                 if (element.provider.content() == null) return;
                 if (element.provider instanceof SimpleModularGuiProvider || !(element.provider.content().isEmpty() && element.name.isEmpty()) || element.provider.ignoreEmptyCheck()) { //if it's not empty or it's allowed to override this isHypixelNetwork...
+                    int xOffset = 0;
+                    if(GeneralConfigSettings.getHudRenderRight())
+                        xOffset = DisplayUtil.getScaledMcWidth() - fontRendererObj.getStringWidth(aDisplay) - 4;
                     if (GeneralConfigSettings.getHudBackground())
-                        RenderUtils.renderBoxWithColor(w - 2, h - 1, fontRendererObj.getStringWidth(aDisplay) + 4, 10, (float)(GeneralConfigSettings.getHudRed()) / 255, (float)(GeneralConfigSettings.getHudGreen()) / 255, (float)(GeneralConfigSettings.getHudBlue()) / 255, (float)(GeneralConfigSettings.getHudAlpha()) / 255);
-                    fontRendererObj.drawString(aDisplay, w, h, 0xffffff); //draw it
+                        RenderUtils.renderBoxWithColor(w - 2 + xOffset, h - 1, fontRendererObj.getStringWidth(aDisplay) + 3, 10, (float)(GeneralConfigSettings.getHudRed()) / 255, (float)(GeneralConfigSettings.getHudGreen()) / 255, (float)(GeneralConfigSettings.getHudBlue()) / 255, (float)(GeneralConfigSettings.getHudAlpha()) / 255);
+                    fontRendererObj.drawString(aDisplay, w + xOffset, h, 0xffffff); //draw it
                     h += 10; //increment height
                 }
             }

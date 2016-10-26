@@ -47,6 +47,7 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
+import com.palechip.hudpixelmod.util.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvider {
@@ -82,7 +83,7 @@ public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvi
 
     @Override
     public boolean showElement() {
-        return true;
+        return GeneralConfigSettings.getHudDisplayVersion();
     }
 
     @Override
