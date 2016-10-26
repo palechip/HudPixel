@@ -68,7 +68,9 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -99,18 +101,23 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
 )
 
 public class HudPixelMod {
+
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
     public static final String DEFAULT_VERSION = "3.2.4";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
+    public static Configuration CONFIG;
+
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
     private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //moved the database ;)
     public static boolean isUpdateNotifierDone = false;
-    private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a
+    private static boolean devEnvOverride = false; //if this is true, the environment will launch as normal, even in a
+
     //dev environment
     public static final boolean IS_DEBUGGING = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment") && !devEnvOverride;
+
     private static HudPixelMod instance;
     private static List<String> modlist = Lists.newArrayList();
     private static boolean didTheThings = false;
@@ -172,6 +179,8 @@ public class HudPixelMod {
     public void preInit(FMLPreInitializationEvent event) {
         try {
             instance = this;
+            CONFIG = new Configuration(event.getSuggestedConfigurationFile());
+            HudPixelMod.CONFIG.load();
 
             ClientCommandHandler.instance.registerCommand(new GameCommand());
             ClientCommandHandler.instance.registerCommand(new ScoreboardCommand());
@@ -182,8 +191,9 @@ public class HudPixelMod {
             this.LOGGER = LogManager.getLogger("HudPixel");
 
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
-            EasyConfigHandler.INSTANCE.init(event.getSuggestedConfigurationFile(), event.getAsmData());
+            EasyConfigHandler.INSTANCE.init(event.getAsmData());
             this.apiQueue = new Queue();
+
         } catch (Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -213,7 +223,6 @@ public class HudPixelMod {
         ClientRegistry.registerKeyBinding(this.pressToPlay);
         if (IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
-
             ClientRegistry.registerKeyBinding(this.debugKey);
         }
     }
@@ -253,9 +262,23 @@ public class HudPixelMod {
                             Minecraft.getMinecraft().thePlayer.getGameProfile().getId() + "&version=" + DEFAULT_VERSION.replace(" ", ""));
                     didTheThings = true;
                 }
+                if(apiQueue != null)
                 this.apiQueue.onClientTick();
             }
         } catch (Exception e) {
+            this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
+            e.printStackTrace();
+        }
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+        try {
+            // This event isn't bound to the Hypixel Network
+            if(eventArgs.modID.equals(MODID)){
+                EasyConfigHandler.INSTANCE.synchronize();
+            }
+        } catch(Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
             e.printStackTrace();
         }

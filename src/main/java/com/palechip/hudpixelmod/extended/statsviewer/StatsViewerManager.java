@@ -62,7 +62,7 @@ import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
  **********************************************************************************************************************/
 public class StatsViewerManager {
 
-    @ConfigPropertyBoolean(catagory = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
     public static boolean enabled = false;
     private static HashMap<String, StatsViewerRender> statsViewerRenderMap = new HashMap<String, StatsViewerRender>();
 

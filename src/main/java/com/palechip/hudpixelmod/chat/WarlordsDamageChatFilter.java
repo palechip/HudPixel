@@ -64,17 +64,17 @@ public class WarlordsDamageChatFilter {
     public static final String wounded1 = "You are now wounded.";
     public static final String wounded2 = "You are wounded.";
     public static final String noLongerWounded = "You are no longer wounded.";
-    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
+    @ConfigPropertyBoolean(category = CCategory.WARLORDS, id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
     public static boolean warlordsFilterWounded = false;
-    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
+    @ConfigPropertyBoolean(category = CCategory.WARLORDS, id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
     public static boolean warlordsFilterAbsorbtion = false;
-    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
     public static int warlordsFilterDamageDone = 0;
-    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
     public static int warlordsFilterHealingDone = 0;
-    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
     public static int warlordsFilterDamageTaken = 0;
-    @ConfigPropertyInt(catagory = CCategory.WARLORDS, id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
     public static int warlordsFilterHealingReceived = 0;
 
     public WarlordsDamageChatFilter() {

@@ -57,7 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelModularGuiProvider {
-    @ConfigPropertyBoolean(catagory = CCategory.WARLORDS, id = "warlordsDamageAndHealthCounter", comment = "The Warlords Damage And Health Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.WARLORDS, id = "warlordsDamageAndHealthCounter", comment = "The Warlords Damage And Health Tracker", def = true)
     public static boolean enabled = false;
     private Type type;
     private int count;

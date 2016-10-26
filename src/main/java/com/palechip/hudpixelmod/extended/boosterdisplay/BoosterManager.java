@@ -95,15 +95,15 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
             GameType.VAMPIREZ,
             GameType.QUAKECRAFT
     };
-    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "xOffsetBoosterDisplay", comment = "X offset of Booster display", def = 2)
+    @ConfigPropertyInt(category = CCategory.BOOSTER_DISPLAY, id = "xOffsetBoosterDisplay", comment = "X offset of Booster display", def = 2)
     public static int xOffsetBoosterDisplay = 2;
-    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "yOffsetBoosterDisplay", comment = "Y offset of Booster display", def = 2)
+    @ConfigPropertyInt(category = CCategory.BOOSTER_DISPLAY, id = "yOffsetBoosterDisplay", comment = "Y offset of Booster display", def = 2)
     public static int yOffsetBoosterDisplay = 2;
-    @ConfigPropertyBoolean(catagory = CCategory.BOOSTER_DISPLAY, id = "shownBooosterDisplayRight", comment = "Show booster display on right", def = true)
+    @ConfigPropertyBoolean(category = CCategory.BOOSTER_DISPLAY, id = "shownBooosterDisplayRight", comment = "Show booster display on right", def = true)
     public static boolean shownBooosterDisplayRight = true;
-    @ConfigPropertyInt(catagory = CCategory.BOOSTER_DISPLAY, id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
+    @ConfigPropertyInt(category = CCategory.BOOSTER_DISPLAY, id = "boostersShownAtOnce", comment = "Boosters Shown at Once", def = 5)
     public static int boostersShownAtOnce = 5;
-    @ConfigPropertyBoolean(catagory = CCategory.BOOSTER_DISPLAY, id = "isBoosterDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
+    @ConfigPropertyBoolean(category = CCategory.BOOSTER_DISPLAY, id = "isBoosterDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
     public static boolean enabled = false;
 
 //######################################################################################################################

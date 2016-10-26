@@ -56,7 +56,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
     public static final String NEGATIVE_COINS_DISPLAY_TEXT = EnumChatFormatting.RED + "Coins Spent";
     public static final String TOTAL_COINS_DISPLAY_TEXT = "Balance";
 
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "vampireZBalance", comment = "The VZ Time Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "vampireZBalance", comment = "The VZ Time Tracker", def = true)
     public static boolean enabled = false;
     private Type type = Type.Total;
     private boolean shouldDisplay = false;

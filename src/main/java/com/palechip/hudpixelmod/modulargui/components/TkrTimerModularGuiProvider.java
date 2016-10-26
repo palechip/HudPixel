@@ -59,7 +59,7 @@ import java.util.ArrayList;
 
 public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     public static final String LAP_COMPLETION_MESSAGE_REGEX = "(Lap \\d Completed!).*";
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "kartRacersAccurateTimeDisplay", comment = "The TKR Time Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "kartRacersAccurateTimeDisplay", comment = "The TKR Time Tracker", def = true)
     public static boolean enabled = false;
     private static long startDelay = 0L;
     private int lap = 0;

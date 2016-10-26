@@ -61,11 +61,11 @@ import static com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownManagerF
 
 public class CooldownDisplayManager implements IEventHandler {
 
-    @ConfigPropertyBoolean(catagory = CCategory.COOLDOWN_DISPLAY, id = "cooldownDisplay", comment = "The Cooldown Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.COOLDOWN_DISPLAY, id = "cooldownDisplay", comment = "The Cooldown Tracker", def = true)
     public static boolean enabled = true;
-    @ConfigPropertyInt(catagory = CCategory.COOLDOWN_DISPLAY, id = "yOffsetCooldownDisplay", comment = "Y offset of cooldown display", def = 25)
+    @ConfigPropertyInt(category = CCategory.COOLDOWN_DISPLAY, id = "yOffsetCooldownDisplay", comment = "Y offset of cooldown display", def = 25)
     public static int yOffsetCooldownDisplay = 25;
-    @ConfigPropertyInt(catagory = CCategory.COOLDOWN_DISPLAY, id = "xOffsetCooldownDisplay", comment = "X offset of cooldown display", def = 0)
+    @ConfigPropertyInt(category = CCategory.COOLDOWN_DISPLAY, id = "xOffsetCooldownDisplay", comment = "X offset of cooldown display", def = 0)
     public static int xOffsetCooldownDisplay = 0;
 
     static ArrayList<CooldownDisplayModule> cdModules = new ArrayList<CooldownDisplayModule>();

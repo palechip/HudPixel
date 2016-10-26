@@ -56,7 +56,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     public static final String CURRENT_KILLSTREAK_DISPLAY_TEXT = EnumChatFormatting.DARK_PURPLE + "Killstreak: ";
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "killstreakTracker", comment = "The Killstreak Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "killstreakTracker", comment = "The Killstreak Tracker", def = true)
     public static boolean enabled = false;
     private final String GREATEST_KILLSTREAK_DISPLAY_TEXT = EnumChatFormatting.LIGHT_PURPLE + "Best Killstreak: ";
     private int currentKillstreak;

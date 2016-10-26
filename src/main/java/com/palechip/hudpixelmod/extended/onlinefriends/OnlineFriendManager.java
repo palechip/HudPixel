@@ -68,17 +68,17 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     private static final int UPDATE_COOLDOWN_RENDERING = 10 * 1000; // = 10sec
     private static final int UPDATE_COOLDOWN_ONLINE = 2 * 60 * 1000; // = 2min
 
-    @ConfigPropertyInt(catagory = CCategory.FRIENDS_DISPLAY, id = "xOffsetFriendsDisplay", comment = "X offset for friends display", def = 2)
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "xOffsetFriendsDisplay", comment = "X offset for friends display", def = 2)
     public static int xOffsetFriendsDisplay = 2;
-    @ConfigPropertyInt(catagory = CCategory.FRIENDS_DISPLAY, id = "yOffsetFriendsDisplay", comment = "Y offset for friends display", def = 2)
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "yOffsetFriendsDisplay", comment = "Y offset for friends display", def = 2)
     public static int yOffsetFriendsDisplay = 2;
-    @ConfigPropertyInt(catagory = CCategory.FRIENDS_DISPLAY, id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
     public static int friendsShownAtOnce = 2;
-    @ConfigPropertyBoolean(catagory = CCategory.FRIENDS_DISPLAY, id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = false)
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = false)
     public static boolean shownFriendsDisplayRight = false;
-    @ConfigPropertyBoolean(catagory = CCategory.FRIENDS_DISPLAY, id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
     public static boolean hideOfflineFriends = true;
-    @ConfigPropertyBoolean(catagory = CCategory.FRIENDS_DISPLAY, id = "isOnlineFriendsDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "isOnlineFriendsDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
     public static boolean enabled = false;
 
     private static long lastUpdateRendering = 0;

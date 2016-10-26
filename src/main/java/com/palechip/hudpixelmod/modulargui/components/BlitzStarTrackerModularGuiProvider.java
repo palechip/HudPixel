@@ -55,7 +55,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvider {
 
     public static final String DISPLAY_MESSAGE = EnumChatFormatting.DARK_GREEN + "Blitz Star";
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
     public static boolean enabled = false;
     private final long DURATION = 60000; // = 60s The blitz star ability only lasts 30s. It's intentionally inaccurate.
 

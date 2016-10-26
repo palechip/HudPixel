@@ -65,4 +65,8 @@ public class LoggerHelper {
         LOGGER.error("[Extended]" + s);
     }
 
+    public static void logDebug(String s) {
+        LOGGER.error("[Debug]" + s);
+    }
+
 }

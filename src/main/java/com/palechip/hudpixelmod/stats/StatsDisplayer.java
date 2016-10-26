@@ -58,7 +58,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback {
 
-    @ConfigPropertyBoolean(catagory = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
     public static boolean enabled = false;
     protected String playerName;
     protected JsonObject statistics;

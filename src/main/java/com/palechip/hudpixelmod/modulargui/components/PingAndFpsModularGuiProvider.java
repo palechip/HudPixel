@@ -56,7 +56,7 @@ import java.net.UnknownHostException;
 
 public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
     private static final int pingCooldwonMs = 2000;
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "pingFps", comment = "The Ping/FPS Display", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "pingFps", comment = "The Ping/FPS Display", def = true)
     public static boolean enabled = false;
     private static long nextTimeStamp;
     private static long lastValidPing;

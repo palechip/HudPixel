@@ -45,7 +45,6 @@ reserve the right to take down any infringing project.
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.util
 
-import com.palechip.hudpixelmod.config.CCategory
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -78,23 +77,6 @@ object AnnotationHelper {
             return if (`val` == null) def else `val` as Boolean
         }
 
-        //TODO: NEED HELP WITH CASTING :D
-        fun getCCategory(id: String, def: CCategory): CCategory{
-            val `val` = map[id]
-            return if (`val` == null) def else `val` as CCategory
-        }
-
-        fun getStringList(id: String): List<String> {
-            val `val` = map[id]
-
-            if (`val` is String) {
-                return listOf(`val`.toString())
-            } else if (`val` is List<*>) {
-                return `val` as List<String>
-            }
-
-            return emptyList()
-        }
     }
 
 

@@ -60,7 +60,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
     public static boolean enabled = false;
     private KillType trackedType = KillType.Normal;
     private int kills;

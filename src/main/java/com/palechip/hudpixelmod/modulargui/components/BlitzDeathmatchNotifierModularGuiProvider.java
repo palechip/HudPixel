@@ -56,7 +56,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
     private static final String DISPLAY_STRING = EnumChatFormatting.GOLD + "DEATHMATCH STARTING SOON!";
     private static final int ANIMATION_TIME = 5; // in MC-Ticks
     private static final int DISPLAY_TIME = 140; // = 7s
-    @ConfigPropertyBoolean(catagory = CCategory.HUD, id = "blitzDeathmatchNotifier", comment = "The Blitz Deathmatch Notifier", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "blitzDeathmatchNotifier", comment = "The Blitz Deathmatch Notifier", def = true)
     public static boolean enabled = false;
     private boolean isDisplaying;
     private int ticksLeft;

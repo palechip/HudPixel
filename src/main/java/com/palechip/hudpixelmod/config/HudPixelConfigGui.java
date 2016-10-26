@@ -49,7 +49,6 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.exceptions.IllegalParameterTypeException;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -78,26 +77,26 @@ public class HudPixelConfigGui extends GuiConfig {
                 .collect(Collectors.toList());
     }
 
-    public static<T> void addElement(CCategory category, String id, T defEntry, String comment, Configuration configFile){
+    public static<T> void addElement(CCategory category, String id, T defEntry, String comment){
 
         if(!configCategoryMap.containsKey(category)){
             configCategoryMap.put(category, new ArrayList<>());
         }
         if(defEntry.getClass() == String.class){
             configCategoryMap.get(category).add((
-                    new ConfigElement(configFile.get(category.getName(), id ,(String) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(String) defEntry, comment))));
         } else if (defEntry.getClass() == Boolean.class){
             configCategoryMap.get(category).add((
-                    new ConfigElement(configFile.get(category.getName(), id ,(Boolean) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Boolean) defEntry, comment))));
         } else if (defEntry.getClass() == Integer.class){
             configCategoryMap.get(category).add((
-                    new ConfigElement(configFile.get(category.getName(), id ,(Integer) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Integer) defEntry, comment))));
         } else if (defEntry.getClass() == Double.class){
             configCategoryMap.get(category).add((
-                    new ConfigElement(configFile.get(category.getName(), id ,(Double) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Double) defEntry, comment))));
         } else if (defEntry.getClass() == Float.class){
             configCategoryMap.get(category).add((
-                    new ConfigElement(configFile.get(category.getName(), id ,(Float) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Float) defEntry, comment))));
         } else {
             throw new IllegalParameterTypeException(defEntry);
         }
