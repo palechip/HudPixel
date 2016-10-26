@@ -1,16 +1,11 @@
 {
-  "Version": "3.2.4",
+  "Version": "3.2.5",
   "DownloadLink": "http://hudpixel.unaussprechlich.net/",
   "UpdateMessages":{
-    "1": "[fixed] booster & friend display",
-    "2": "[fixed] display stats in the lobby",
-    "3": "[fixed] '[HudAdmin]' & '[HudHelper]' tag",
-    "4": "[fixed] DatabaseIDs (boosters will now display in the right gametype)",
-    "5": "[fixed] tip button",
-    "6": "[fixed] backgroundcolor of the hud",
-    "7": "[fixed] disable friends/booster dispaly",
-    "8": "[updated] license header",
-    "9": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
+    "1": "[+] The ConfigGUI is back in town :D most settings will apply on runtime",
+    "2": "[+] AfterGameStats",
+    "3": "[fixed] bugfixes ... as usual",
+    "4": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
   }
 }
 
