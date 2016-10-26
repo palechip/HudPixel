@@ -54,6 +54,7 @@ import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.EasyConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -134,6 +135,14 @@ public class HudPixelExtendedEventHandler {
             iE.handleMouseInput(i, mX, mY);
         }
         FancyChat.getInstance().handleMouseInput(i);
+    }
+
+    public static void onGameStart(){
+
+    }
+
+    public static void onGameEnd(){
+        ModularGuiHelper.onGameEnd();
     }
 
     /**

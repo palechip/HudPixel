@@ -45,6 +45,7 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod;
 
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.util.GameType;
@@ -241,6 +242,10 @@ public class GameDetector {
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
+        if(message.equalsIgnoreCase("The game starts in 1 second!"))
+            HudPixelExtendedEventHandler.onGameStart();
+        if(message.equalsIgnoreCase("                            Reward Summary"))
+            HudPixelExtendedEventHandler.onGameEnd();
         if (message.toLowerCase().contains("currently on server".toLowerCase())) {
             if (LOBBY_MATCHER.asPredicate().test(message)) { //lobby
                 isLobby = true;

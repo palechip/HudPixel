@@ -70,7 +70,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
@@ -104,7 +103,7 @@ public class HudPixelMod {
 
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.4";
+    public static final String DEFAULT_VERSION = "3.2.5dev";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     public static Configuration CONFIG;
