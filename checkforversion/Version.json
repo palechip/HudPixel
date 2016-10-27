@@ -1,16 +1,11 @@
 {
-  "Version": "3.1.3",
-  "DownloadLink": "http://www.mediafire.com/download/i2g5uzn0exnxwky/HudPixelReloaded-1.8.9-v3-3.1.3.jar",
+  "Version": "3.2.5",
+  "DownloadLink": "http://hudpixel.unaussprechlich.net/",
   "UpdateMessages":{
-    "1": "[+] new layout for your online friends '-' click the red button to start a conversation (double click) '-' click the blue button to send a party invite (double click)",
-    "2": "[+] a direct 'tip' option to the booster display '-' click the white button to tip the current online booster in that gamemode (double click)",
-    "3": "[+] background color support for the hud ... you can set the color under display settings",
-    "4": "[+] added support for scale resolution",
-    "5": "[fixed] hud offset",
-    "6": "[fixed] reduced lag while loading the playername via fallback api (uuid to playername)",
-    "7": "[fixed] hide friends/booster display",
-    "8": "[fixed] crash while joining paintball - removed the killstreak until it is fixed",
-    "9": "[-]  removed some of the currently not implemented settings"
+    "1": "[+] The ConfigGUI is back in town :D most settings will apply on runtime",
+    "2": "[+] AfterGameStats",
+    "3": "[fixed] bugfixes ... as usual",
+    "4": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
   }
 }
 
