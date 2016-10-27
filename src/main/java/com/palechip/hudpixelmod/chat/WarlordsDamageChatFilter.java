@@ -1,35 +1,60 @@
-/*******************************************************************************
- * HudPixel Reloaded (github.com/palechip/HudPixel), an unofficial Minecraft Mod for the Hypixel Network
- *
- * Copyright (c) 2014-2015 palechip (twitter.com/palechip) and contributors
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *******************************************************************************/
+/***********************************************************************************************************************
+ * HudPixelReloaded - License
+ * <p>
+ * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
+ * under forge-docs/. These parts can be downloaded at files.minecraftforge.net.This project contains a
+ * unofficial copy of pictures from the official Hypixel website. All copyright is held by the creator!
+ * Parts of the code are based upon the Hypixel Public API. These parts are all in src/main/java/net/hypixel/api and
+ * subdirectories and have a special copyright header. Unfortunately they are missing a license but they are obviously
+ * intended for usage in this kind of application. By default, all rights are reserved.
+ * The original version of the HudPixel Mod is made by palechip and published under the MIT license.
+ * The majority of code left from palechip's creations is the component implementation.The ported version to
+ * Minecraft 1.8.9 and up HudPixel Reloaded is made by PixelModders/Eladkay and also published under the MIT license
+ * (to be changed to the new license as detailed below in the next minor update).
+ * <p>
+ * For the rest of the code and for the build the following license applies:
+ * <p>
+ * # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ * #  HudPixel by PixelModders, Eladkay & unaussprechlich is licensed under a Creative Commons         #
+ * #  Attribution-NonCommercial-ShareAlike 4.0 International License with the following restrictions.  #
+ * #  Based on a work at HudPixelExtended & HudPixel.                                                  #
+ * # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ * <p>
+ * Restrictions:
+ * <p>
+ * The authors are allowed to change the license at their desire. This license is void for members of PixelModders and
+ * to unaussprechlich, except for clause 3. The licensor cannot revoke these freedoms in most cases, as long as you follow
+ * the following license terms and the license terms given by the listed above Creative Commons License, however in extreme
+ * cases the authors reserve the right to revoke all rights for usage of the codebase.
+ * <p>
+ * 1. PixelModders, Eladkay & unaussprechlich are the authors of this licensed material. GitHub contributors are NOT
+ * considered authors, neither are members of the HudHelper program. GitHub contributers still hold the rights for their
+ * code, but only when it is used separately from HudPixel and any license header must indicate that.
+ * 2. You shall not claim ownership over this project and repost it in any case, without written permission from at least
+ * two of the authors.
+ * 3. You shall not make money with the provided material. This project is 100% non commercial and will always stay that
+ * way. This clause is the only one remaining, should the rest of the license be revoked. The only exception to this
+ * clause is completely cosmetic features. Only the authors may sell cosmetic features for the mod.
+ * 4. Every single contibutor owns copyright over his contributed code when separated from HudPixel. When it's part of
+ * HudPixel, it is only governed by this license, and any copyright header must indicate that. After the contributed
+ * code is merged to the release branch you cannot revoke the given freedoms by this license.
+ * 5. If your own project contains a part of the licensed material you have to give the authors full access to all project
+ * related files.
+ * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
+ * reserve the right to take down any infringing project.
+ **********************************************************************************************************************/
 package com.palechip.hudpixelmod.chat;
+
+import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.util.ConfigPropertyInt;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.palechip.hudpixelmod.config.HudPixelConfig;
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.util.GameType;
-
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class WarlordsDamageChatFilter {
     public static final String take = "\u00AB";
@@ -39,66 +64,20 @@ public class WarlordsDamageChatFilter {
     public static final String wounded1 = "You are now wounded.";
     public static final String wounded2 = "You are wounded.";
     public static final String noLongerWounded = "You are no longer wounded.";
+    @ConfigPropertyBoolean(category = CCategory.WARLORDS, id = "warlordsFilterWounded", comment = "Warlords Filter Wounded", def = true)
+    public static boolean warlordsFilterWounded = false;
+    @ConfigPropertyBoolean(category = CCategory.WARLORDS, id = "warlordsFilterAbsorbtion", comment = "Warlords Filter Absorbtion", def = true)
+    public static boolean warlordsFilterAbsorbtion = false;
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterDamageDone", comment = "Warlords Filter Damage Done", def = 0)
+    public static int warlordsFilterDamageDone = 0;
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterHealingDone", comment = "Warlords Filter Healing Done", def = 0)
+    public static int warlordsFilterHealingDone = 0;
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterDamageTaken", comment = "Warlords Filter Damage Taken", def = 0)
+    public static int warlordsFilterDamageTaken = 0;
+    @ConfigPropertyInt(category = CCategory.WARLORDS, id = "warlordsFilterHealingReceived", comment = "Warlords Filter Healing Received", def = 0)
+    public static int warlordsFilterHealingReceived = 0;
 
     public WarlordsDamageChatFilter() {
-    }
-
-    public void onChat(ClientChatReceivedEvent e) {
-        // only if we are in a Warlords game
-        if(HudPixelMod.instance().gameDetector.getCurrentGame().equals(GameType.WARLORDS)) {
-            // check if the filter is enabled
-            if(HudPixelConfig.warlordsFilterDamageDone > 0 || HudPixelConfig.warlordsFilterDamageTaken > 0 || HudPixelConfig.warlordsFilterHealingDone > 0 || HudPixelConfig.warlordsFilterHealingReceived > 0 || HudPixelConfig.warlordsFilterAbsorbtion || HudPixelConfig.warlordsFilterWounded) {
-                String message = e.message.getUnformattedText();
-                // incoming
-                if(message.startsWith(take)) {
-                    // healing
-                    if(message.contains(healing)) {
-                        if(HudPixelConfig.warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
-                            e.setCanceled(true);
-                        }
-                    }
-                    // absorption
-                    else if(message.contains(absorption)) {
-                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
-                            e.setCanceled(true);
-                        }
-                    }
-                    // damage
-                    else  {
-                        if(HudPixelConfig.warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
-                            e.setCanceled(true);
-                        }
-                    }
-                }
-                // outgoing
-                else if(message.startsWith(give)) {
-                    // healing
-                    if(message.contains(healing)) {
-                        if(HudPixelConfig.warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
-                            e.setCanceled(true);
-                        }
-                    }
-                    // absorption
-                    else if(message.contains(absorption)) {
-                        if(HudPixelConfig.warlordsFilterAbsorbtion) {
-                            e.setCanceled(true);
-                        }
-                    }
-                    // damage
-                    else  {
-                        if(HudPixelConfig.warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
-                            e.setCanceled(true);
-                        }
-                    }
-                }
-                //Filter wounded messages
-                if (HudPixelConfig.warlordsFilterWounded) {
-                    if (message.equals(wounded1) || message.equals(wounded2) || message.equals(noLongerWounded)) {
-                        e.setCanceled(true);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -112,7 +91,7 @@ public class WarlordsDamageChatFilter {
             // do some regex magic
             Pattern p = Pattern.compile("\\s[0-9]+\\s");
             Matcher m = p.matcher(message);
-            if(!m.find()) {
+            if (!m.find()) {
                 // We failed :(
                 return Integer.MAX_VALUE;
             }
@@ -120,11 +99,69 @@ public class WarlordsDamageChatFilter {
             String result = m.group(m.groupCount());
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
-        } catch(Exception e) {
+        } catch (Exception e) {
             HudPixelMod.instance().logDebug("Failed to extract damage from this message: " + message);
         }
         // We failed :(
         return Integer.MAX_VALUE;
+    }
+
+    public void onChat(ClientChatReceivedEvent e) {
+        // only if we are in a Warlords game
+        if (GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
+            // isHypixelNetwork if the filter is enabled
+            if (warlordsFilterDamageDone > 0 || warlordsFilterDamageTaken > 0 || warlordsFilterHealingDone > 0 || warlordsFilterHealingReceived > 0 || warlordsFilterAbsorbtion || warlordsFilterWounded) {
+                String message = e.message.getUnformattedText();
+                // incoming
+                if (message.startsWith(take)) {
+                    // healing
+                    if (message.contains(healing)) {
+                        if (warlordsFilterHealingReceived > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // absorption
+                    else if (message.contains(absorption)) {
+                        if (warlordsFilterAbsorbtion) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // damage
+                    else {
+                        if (warlordsFilterDamageTaken > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                }
+                // outgoing
+                else if (message.startsWith(give)) {
+                    // healing
+                    if (message.contains(healing)) {
+                        if (warlordsFilterHealingDone > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // absorption
+                    else if (message.contains(absorption)) {
+                        if (warlordsFilterAbsorbtion) {
+                            e.setCanceled(true);
+                        }
+                    }
+                    // damage
+                    else {
+                        if (warlordsFilterDamageDone > getDamageOrHealthValue(message)) {
+                            e.setCanceled(true);
+                        }
+                    }
+                }
+                //Filter wounded messages
+                if (warlordsFilterWounded) {
+                    if (message.equals(wounded1) || message.equals(wounded2) || message.equals(noLongerWounded)) {
+                        e.setCanceled(true);
+                    }
+                }
+            }
+        }
     }
 
 }
