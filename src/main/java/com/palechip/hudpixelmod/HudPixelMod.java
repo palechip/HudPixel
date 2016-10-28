@@ -48,10 +48,7 @@ package com.palechip.hudpixelmod;
 import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.command.BookVerboseInfoCommand;
-import com.palechip.hudpixelmod.command.GameCommand;
-import com.palechip.hudpixelmod.command.GameDetectorCommand;
-import com.palechip.hudpixelmod.command.ScoreboardCommand;
+import com.palechip.hudpixelmod.command.*;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
@@ -106,11 +103,10 @@ public class HudPixelMod {
     public static final String DEFAULT_VERSION = "3.2.5";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
-    public static Configuration CONFIG;
-
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
     private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //moved the database ;)
+    public static Configuration CONFIG;
     public static boolean isUpdateNotifierDone = false;
     private static boolean devEnvOverride = false; //if this is true, the environment will launch as normal, even in a
 
@@ -185,6 +181,7 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(new ScoreboardCommand());
             ClientCommandHandler.instance.registerCommand(new GameDetectorCommand());
             ClientCommandHandler.instance.registerCommand(new BookVerboseInfoCommand());
+            ClientCommandHandler.instance.registerCommand(DiscordCommand.INSTANCE);
             new HudPixelMethodHandles();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
