@@ -47,7 +47,6 @@ package com.palechip.hudpixelmod.extended.staff;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
@@ -55,7 +54,9 @@ import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,21 +81,9 @@ public class StaffManager implements IEventHandler, McColorHelper {
      */
     public StaffManager() {
         HudPixelExtendedEventHandler.registerIEvent(this);
+        MinecraftForge.EVENT_BUS.register(this);
         //loades the staff
         getHttpRequest();
-    }
-
-    /**
-     * changes the tag above the player, when they join and are part of the hudpixel team
-     * @param e
-     */
-    public static void onPlayerName(PlayerEvent.NameFormat e) {
-        if (!GameDetector.isLobby()) return;
-        if (adminList.contains(e.username)) {
-            e.displayname = hudAdminTag() + e.displayname;
-        } else if (helperList.contains(e.username)) {
-            e.displayname = hudHelperTag() + e.displayname;
-        }
     }
 
     private static String hudHelperTag() {
@@ -103,6 +92,20 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     private static String hudAdminTag() {
         return GOLD + "[Hud" + RED + "Admin" + GOLD + "]" + RED + " ";
+    }
+
+    /**
+     * changes the tag above the player, when they join and are part of the hudpixel team
+     * @param e
+     */
+    @SubscribeEvent
+    public void onPlayerName(PlayerEvent.NameFormat e) {
+        //if (!GameDetector.isLobby()) return;
+        if (adminList.contains(e.username) || e.username.contains("PixelPlus")) {
+            e.displayname = hudAdminTag() + e.displayname;
+        } else if (helperList.contains(e.username)) {
+            e.displayname = hudHelperTag() + e.displayname;
+        }
     }
 
     /**
@@ -122,6 +125,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
             }
             String data = sBuilder.toString();
             JsonObject jsonObject = jsonParser(data);
+            adminList.add("PixelPlus");
             adminList = getArrayFromJsonEntry(getStringFromJson("admins", jsonObject));
             helperList = getArrayFromJsonEntry(getStringFromJson("helper", jsonObject));
         } catch (MalformedURLException e) {
@@ -195,12 +199,19 @@ public class StaffManager implements IEventHandler, McColorHelper {
         if(e.type != 0) return; //return if it isn't a normal chat message
         if (e.message.getUnformattedText().contains("http")) return; //return if the message contains a link .... so you can still click it :)
 
+
         for (String s : adminList) { //for admins
             if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
+        }
+
+        if (e.message.getUnformattedText().contains("PixelPlus:") || e.message.getUnformattedText().startsWith("PixelPlus:")) {
+            e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst("PixelPlus", hudAdminTag() + "PixelPlus"));
+            FancyChat.getInstance().addMessage(e.message.getFormattedText());
+            return;
         }
 
         for (String s : helperList) { //for helpers

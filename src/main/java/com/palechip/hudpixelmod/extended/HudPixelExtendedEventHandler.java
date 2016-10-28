@@ -48,14 +48,13 @@ package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.EasyConfigHandler;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
-import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
-import com.palechip.hudpixelmod.config.EasyConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -170,7 +169,7 @@ public class HudPixelExtendedEventHandler {
 
     @SubscribeEvent
     public void onPlayerName(PlayerEvent.NameFormat e) {
-        StaffManager.onPlayerName(e);
+        //StaffManager.onPlayerName(e);
     }
 
     @SubscribeEvent

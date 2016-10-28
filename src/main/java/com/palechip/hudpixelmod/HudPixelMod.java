@@ -49,12 +49,12 @@ import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.command.*;
+import com.palechip.hudpixelmod.config.EasyConfigHandler;
 import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
-import com.palechip.hudpixelmod.config.EasyConfigHandler;
 import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
@@ -100,7 +100,7 @@ public class HudPixelMod {
 
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.5";
+    public static final String DEFAULT_VERSION = "3.2.6";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     // key related vars
