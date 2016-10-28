@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
@@ -55,7 +56,7 @@ import java.net.UnknownHostException;
 
 public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
     private static final int pingCooldwonMs = 2000;
-    @ConfigPropertyBoolean(catagory = "general", id = "pingFps", comment = "The Ping/FPS Display", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "pingFps", comment = "The Ping/FPS Display", def = true)
     public static boolean enabled = false;
     private static long nextTimeStamp;
     private static long lastValidPing;

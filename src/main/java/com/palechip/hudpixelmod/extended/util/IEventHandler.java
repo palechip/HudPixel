@@ -68,5 +68,7 @@ public interface IEventHandler {
     default void openGUI(GuiScreen guiScreen) {
     }
 
+    default void onConfigChanged(){}
+
 
 }

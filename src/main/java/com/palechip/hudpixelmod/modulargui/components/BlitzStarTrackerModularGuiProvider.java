@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
@@ -54,7 +55,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvider {
 
     public static final String DISPLAY_MESSAGE = EnumChatFormatting.DARK_GREEN + "Blitz Star";
-    @ConfigPropertyBoolean(catagory = "blitz survival games", id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
     public static boolean enabled = false;
     private final long DURATION = 60000; // = 60s The blitz star ability only lasts 30s. It's intentionally inaccurate.
 

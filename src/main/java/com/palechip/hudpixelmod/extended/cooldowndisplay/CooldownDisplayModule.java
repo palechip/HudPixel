@@ -47,7 +47,6 @@ package com.palechip.hudpixelmod.extended.cooldowndisplay;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.util.GameType;
-import de.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import de.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -76,7 +75,7 @@ public class CooldownDisplayModule {
     public void renderModule(float xStart, float yStart) {
         if (isHidden) return;
         if (!Objects.equals(coolDown, "")) {
-            RenderUtils.renderBoxWithColor((short) (xStart - 2), (short) (yStart - 2), size, size, new ColorRGBA(0, 1f, 0f, 0f));
+            RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, 1f, 0f, 0f, 0.5f);
         } else {
             RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, 0f, 1f, 0f, 0.5f);
         }

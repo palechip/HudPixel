@@ -3,7 +3,6 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Friend;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
@@ -65,8 +64,6 @@ import static net.minecraft.util.EnumChatFormatting.DARK_GRAY;
 public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler {
 
     private static final int REQUEST_COOLDOWN = 20 * 60 * 1000; // = 30min
-    @ConfigPropertyBoolean(catagory = "general", id = "onlineFriends", comment = "The Online Friends HUD", def = true)
-    public static boolean enabled;
     private static long lastRequest;
     private static ArrayList<String> allreadyStored = new ArrayList<String>();
     private static boolean isApiLoaded = false;
@@ -89,7 +86,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     private void requestFriends(Boolean forceRequest) {
-        if (getUseAPI() && enabled) {
+        if (getUseAPI() && OnlineFriendManager.enabled) {
             // isHypixelNetwork if enough time has past
             if ((currentTimeMillis() > lastRequest + REQUEST_COOLDOWN) || forceRequest) {
                 // save the time of the request

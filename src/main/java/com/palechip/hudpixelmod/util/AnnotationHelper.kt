@@ -77,17 +77,6 @@ object AnnotationHelper {
             return if (`val` == null) def else `val` as Boolean
         }
 
-        fun getStringList(id: String): List<String> {
-            val `val` = map[id]
-
-            if (`val` is String) {
-                return listOf(`val`.toString())
-            } else if (`val` is List<*>) {
-                return `val` as List<String>
-            }
-
-            return emptyList()
-        }
     }
 
 

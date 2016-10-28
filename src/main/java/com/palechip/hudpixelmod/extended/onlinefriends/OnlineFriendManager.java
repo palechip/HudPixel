@@ -46,6 +46,7 @@
 
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
@@ -66,16 +67,20 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     private static final String LEFT_MESSAGE = " left.";
     private static final int UPDATE_COOLDOWN_RENDERING = 10 * 1000; // = 10sec
     private static final int UPDATE_COOLDOWN_ONLINE = 2 * 60 * 1000; // = 2min
-    @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetFriendsDisplay", comment = "X offset for friends display", def = 2)
+
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "xOffsetFriendsDisplay", comment = "X offset for friends display", def = 2)
     public static int xOffsetFriendsDisplay = 2;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "yOffsetFriendsDisplay", comment = "Y offset for friends display", def = 2)
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "yOffsetFriendsDisplay", comment = "Y offset for friends display", def = 2)
     public static int yOffsetFriendsDisplay = 2;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
+    @ConfigPropertyInt(category = CCategory.FRIENDS_DISPLAY, id = "friendsShownAtOnce", comment = "Friends shown at once", def = 10)
     public static int friendsShownAtOnce = 2;
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = false)
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "shownFriendsDisplayRight", comment = "Show friends display on the right", def = false)
     public static boolean shownFriendsDisplayRight = false;
-    @ConfigPropertyBoolean(catagory = "hudpixel", id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "hideOfflineFriends", comment = "Hide offline friends?", def = true)
     public static boolean hideOfflineFriends = true;
+    @ConfigPropertyBoolean(category = CCategory.FRIENDS_DISPLAY, id = "isOnlineFriendsDisplay", comment = "Enable or disable the BoosterDisplay", def = true)
+    public static boolean enabled = false;
+
     private static long lastUpdateRendering = 0;
     private static long lastUpdateOnline = 0;
     private static OnlineFriendManager instance;
@@ -85,11 +90,20 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
         super(5, xOffsetFriendsDisplay, yOffsetFriendsDisplay, shownFriendsDisplayRight);
         this.isButtons = true;
         new OnlineFriendsLoader();
+        this.renderRightSide = shownFriendsDisplayRight;
+        this.shownObjects = friendsShownAtOnce;
     }
 
     public static OnlineFriendManager getInstance() {
         return instance == null ? instance = new OnlineFriendManager() : instance;
     }
+
+    @Override
+    public int getConfigxStart() {return xOffsetFriendsDisplay;}
+    @Override
+    public boolean getConfigRenderRight() {return shownFriendsDisplayRight;}
+    @Override
+    public int getConfigyStart() {return yOffsetFriendsDisplay;}
 
     void addFriend(FancyListObject fco) {
         localStorageFCO.add(fco);
@@ -125,8 +139,6 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onClientTick() {
-        this.renderRightSide = shownFriendsDisplayRight;
-        this.shownObjects = friendsShownAtOnce;
         if ((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
             lastUpdateOnline = System.currentTimeMillis();
             new OnlineFriendsUpdater(this);
@@ -158,7 +170,8 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onRender() {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && OnlineFriendsLoader.enabled && Minecraft.getMinecraft().displayHeight > 600) {
+        if(!enabled) return;
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Minecraft.getMinecraft().displayHeight > 600) {
             this.renderDisplay();
             this.isMouseHander = true;
         } else {

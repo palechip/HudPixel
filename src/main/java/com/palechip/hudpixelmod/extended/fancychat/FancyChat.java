@@ -47,6 +47,7 @@
 package com.palechip.hudpixelmod.extended.fancychat;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
@@ -84,13 +85,13 @@ public class FancyChat {
     private static final String partyInvite2 = "Click here to join! You have 60 seconds to accept.";
     private static final String spacer = "-----------------------------------------------------";
     private static final String nothing = " ";
-    @ConfigPropertyBoolean(catagory = "general", id = "fancychat", comment = "The Fancy Chat", def = true)
+    @ConfigPropertyBoolean(category = CCategory.FANCY_CHAT, id = "fancychat", comment = "The Fancy Chat", def = true)
     public static boolean enabled = true;
 
     //######################################################################################################################
-    @ConfigPropertyInt(catagory = "general", id = "storedMessages", comment = "Stored Messages", def = 1000)
+    @ConfigPropertyInt(category = CCategory.FANCY_CHAT, id = "storedMessages", comment = "Stored Messages", def = 1000)
     public static int storedMessages;
-    @ConfigPropertyInt(catagory = "general", id = "displayMessages", comment = "Displayed Messages", def = 8)
+    @ConfigPropertyInt(category = CCategory.FANCY_CHAT, id = "displayMessages", comment = "Displayed Messages", def = 8)
     public static int displayMessages;
     // [SETTING] the time a FancyChatMessage will be displayed (in ms)
     private static long displayTimeMs = displayMessages * 1000;

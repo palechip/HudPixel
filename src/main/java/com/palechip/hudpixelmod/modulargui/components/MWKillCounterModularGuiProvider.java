@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
@@ -59,7 +60,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
-    @ConfigPropertyBoolean(catagory = "mega walls", id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
     public static boolean enabled = false;
     private KillType trackedType = KillType.Normal;
     private int kills;

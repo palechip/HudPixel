@@ -46,6 +46,7 @@ package com.palechip.hudpixelmod.extended.cooldowndisplay;
  **********************************************************************************************************************/
 
 import com.palechip.hudpixelmod.GameDetector;
+import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
@@ -60,11 +61,11 @@ import static com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownManagerF
 
 public class CooldownDisplayManager implements IEventHandler {
 
-    @ConfigPropertyBoolean(catagory = "general", id = "cooldownDisplay", comment = "The Cooldown Tracker", def = false)
-    public static boolean enabled = false;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "yOffsetCooldownDisplay", comment = "Y offset of cooldown display", def = 25)
+    @ConfigPropertyBoolean(category = CCategory.COOLDOWN_DISPLAY, id = "cooldownDisplay", comment = "The Cooldown Tracker", def = true)
+    public static boolean enabled = true;
+    @ConfigPropertyInt(category = CCategory.COOLDOWN_DISPLAY, id = "yOffsetCooldownDisplay", comment = "Y offset of cooldown display", def = 25)
     public static int yOffsetCooldownDisplay = 25;
-    @ConfigPropertyInt(catagory = "hudpixel", id = "xOffsetCooldownDisplay", comment = "X offset of cooldown display", def = 0)
+    @ConfigPropertyInt(category = CCategory.COOLDOWN_DISPLAY, id = "xOffsetCooldownDisplay", comment = "X offset of cooldown display", def = 0)
     public static int xOffsetCooldownDisplay = 0;
 
     static ArrayList<CooldownDisplayModule> cdModules = new ArrayList<CooldownDisplayModule>();
@@ -95,7 +96,7 @@ public class CooldownDisplayManager implements IEventHandler {
     @Override
     public void onRender() {
 
-        if (cdModules.isEmpty() || !enabled) return;
+        if (cdModules.isEmpty() || !enabled || GameDetector.isLobby()) return;
 
         Minecraft mc = Minecraft.getMinecraft();
         int scale;

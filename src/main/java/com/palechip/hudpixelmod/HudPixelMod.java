@@ -48,7 +48,11 @@ package com.palechip.hudpixelmod;
 import com.google.common.collect.Lists;
 import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
-import com.palechip.hudpixelmod.command.*;
+import com.palechip.hudpixelmod.command.BookVerboseInfoCommand;
+import com.palechip.hudpixelmod.command.GameCommand;
+import com.palechip.hudpixelmod.command.GameDetectorCommand;
+import com.palechip.hudpixelmod.command.ScoreboardCommand;
+import com.palechip.hudpixelmod.config.HudPixelConfigGui;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
@@ -64,6 +68,7 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -90,22 +95,28 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         version = SHORT_VERSION,
         name = HudPixelMod.NAME,
         clientSideOnly = true,
+        guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         acceptedMinecraftVersions = "1.8.9"
 )
 
 public class HudPixelMod {
+
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.4";
+    public static final String DEFAULT_VERSION = "3.2.5";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
+    public static Configuration CONFIG;
+
     // key related vars
     private static final String KEY_CATEGORY = "HudPixel Mod";
     private static final String IP = "http://hudpixel.unaussprechlich.net/HudPixel/files/hudpixelcallback.php"; //moved the database ;)
     public static boolean isUpdateNotifierDone = false;
-    private static boolean devEnvOverride = true; //if this is true, the environment will launch as normal, even in a
+    private static boolean devEnvOverride = false; //if this is true, the environment will launch as normal, even in a
+
     //dev environment
     public static final boolean IS_DEBUGGING = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment") && !devEnvOverride;
+
     private static HudPixelMod instance;
     private static List<String> modlist = Lists.newArrayList();
     private static boolean didTheThings = false;
@@ -114,6 +125,7 @@ public class HudPixelMod {
     private Queue apiQueue;
     private KeyBinding debugKey; // A key used to bind some debugging functionality.
     private KeyBinding pressToPlay;
+    private KeyBinding openConfigGui;
     private WarlordsDamageChatFilter warlordsChatFilter;
 
     /**
@@ -166,19 +178,21 @@ public class HudPixelMod {
     public void preInit(FMLPreInitializationEvent event) {
         try {
             instance = this;
+            CONFIG = new Configuration(event.getSuggestedConfigurationFile());
+            HudPixelMod.CONFIG.load();
 
             ClientCommandHandler.instance.registerCommand(new GameCommand());
             ClientCommandHandler.instance.registerCommand(new ScoreboardCommand());
             ClientCommandHandler.instance.registerCommand(new GameDetectorCommand());
             ClientCommandHandler.instance.registerCommand(new BookVerboseInfoCommand());
-            ClientCommandHandler.instance.registerCommand(DiscordCommand.INSTANCE);
             new HudPixelMethodHandles();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
             // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
-            EasyConfigHandler.INSTANCE.init(event.getSuggestedConfigurationFile(), event.getAsmData());
+            EasyConfigHandler.INSTANCE.init(event.getAsmData());
             this.apiQueue = new Queue();
+
         } catch (Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -204,6 +218,7 @@ public class HudPixelMod {
 
         // Initialize key bindings
         this.pressToPlay = new KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY);
+        this.openConfigGui = new KeyBinding("Open Config", Keyboard.KEY_M, KEY_CATEGORY);
         ClientRegistry.registerKeyBinding(this.pressToPlay);
         if (IS_DEBUGGING) {
             this.debugKey = new KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY);
@@ -246,6 +261,7 @@ public class HudPixelMod {
                             Minecraft.getMinecraft().thePlayer.getGameProfile().getId() + "&version=" + DEFAULT_VERSION.replace(" ", ""));
                     didTheThings = true;
                 }
+                if(apiQueue != null)
                 this.apiQueue.onClientTick();
             }
         } catch (Exception e) {
@@ -254,17 +270,20 @@ public class HudPixelMod {
         }
     }
 
+
+
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
         try {
             // Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
-
-                if (this.pressToPlay.isPressed()) {
+                if(this.openConfigGui.isPressed()) {
+                    // open the config screen
+                    FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
+                }else if (this.pressToPlay.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
-                }
-                if (IS_DEBUGGING) {
+                }else if (IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {
                         // Add debug code here
                     }

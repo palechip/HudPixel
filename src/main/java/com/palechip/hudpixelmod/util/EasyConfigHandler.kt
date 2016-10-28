@@ -46,9 +46,11 @@ reserve the right to take down any infringing project.
 package com.palechip.hudpixelmod.util
 
 import com.palechip.hudpixelmod.HudPixelMod
-import net.minecraftforge.common.config.Configuration
+import com.palechip.hudpixelmod.config.CCategory
+import com.palechip.hudpixelmod.config.HudPixelConfigGui
+import com.palechip.hudpixelmod.extended.util.LoggerHelper
+import com.palechip.hudpixelmod.util.EasyConfigHandler.init
 import net.minecraftforge.fml.common.discovery.ASMDataTable
-import java.io.File
 import java.lang.reflect.Field
 
 /**
@@ -57,15 +59,12 @@ import java.lang.reflect.Field
  * pre-initialization time.
  */
 object EasyConfigHandler {
-    var config: File? = null
     val fieldMapStr: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
     val fieldMapInt: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
     val fieldMapBoolean: MutableMap<Field, AnnotationHelper.AnnotationInfo> = mutableMapOf()
 
-    fun init(configf: File, asm: ASMDataTable?) {
+    fun init(asm: ASMDataTable?) {
         if (asm == null) return
-        config = configf
-        val config = Configuration(configf)
         findByClass(Any::class.java, asm)
         findByClass(Boolean::class.javaPrimitiveType!!, asm)
         findByClass(Char::class.javaPrimitiveType!!, asm)
@@ -74,29 +73,84 @@ object EasyConfigHandler {
         findByClass(Int::class.javaPrimitiveType!!, asm)
         findByClass(Float::class.javaPrimitiveType!!, asm)
         findByClass(Long::class.javaPrimitiveType!!, asm)
-        if (HudPixelMod.IS_DEBUGGING) {
-            fieldMapStr.keys.forEach { println("Found string config property field ${it.declaringClass.name}.${it.name}") }
-            if (fieldMapStr.keys.size == 0) println("No string config property fields found!")
-        }
 
-        config.load()
+        synchronize()
+    }
+
+    fun synchronize(){
+        HudPixelConfigGui.deleteBeforReload()//clears the list
+
+        LoggerHelper.logInfo("[Configuration] going to load the Configuration!")
+
         fieldMapStr.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
+                HudPixelConfigGui.addElement(
+                        CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
+                        it.value.getString("id", ""),
+                        it.value.getString("def", ""),
+                        it.value.getString("comment", "")
+                )
+            }
         }
+
         fieldMapInt.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
+                HudPixelConfigGui.addElement(
+                        CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
+                        it.value.getString("id", ""),
+                        it.value.getInt("def", 0),
+                        it.value.getString("comment", "")
+                )
+            }
         }
         fieldMapBoolean.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING)
-                it.key.set(null, config.get(it.value.getString("catagory", ""), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+                it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
+                HudPixelConfigGui.addElement(
+                        CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
+                        it.value.getString("id", ""),
+                        it.value.getBoolean("def", false),
+                        it.value.getString("comment", "")
+                )
+            }
         }
-        config.save()
 
+        if (HudPixelMod.IS_DEBUGGING) {
+            fieldMapStr.forEach {
+                LoggerHelper.logDebug("[CONFIGURATION][STRING]" +
+                        " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
+                        " [VALUE]:${fancy(it.key.get(String).toString(), 15)}" +
+                        " [DEF]:${fancy(it.value.getString("def", "").toString(), 15)}"
+                )
+            }
+            if (fieldMapStr.keys.size == 0) println("No string configuration property fields found!")
+            fieldMapInt.forEach {
+                LoggerHelper.logDebug("[CONFIGURATION][INTEGER]" +
+                        " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
+                        " [VALUE]:${fancy(it.key.get(String).toString(), 10)}" +
+                        " [DEF]:${fancy(it.value.getInt("def", 0).toString(), 10)}"
+                )
+            }
+            if (fieldMapInt.keys.size == 0) println("No int configuration property fields found!")
+            fieldMapBoolean.forEach {
+                LoggerHelper.logDebug("[CONFIGURATION][BOOLEAN]" +
+                        " [CAT]:${fancy(it.value.getString("category", CCategory.UNKNOWN).toString(), 15)}" +
+                        " [ID]: ${fancy(it.value.getString("id", "").toString(), 25)}" +
+                        " [VALUE]:${fancy(it.key.get(String).toString(), 5)}" +
+                        " [DEF]:${fancy(it.value.getBoolean("def", false).toString(), 5)}"
+                )
+            }
+            if (fieldMapBoolean.keys.size == 0) println("No boolean configuration property fields found!")
+        }
+
+        HudPixelMod.CONFIG.save()
     }
 
     private fun findByClass(clazz: Class<*>, asm: ASMDataTable) {
@@ -110,44 +164,53 @@ object EasyConfigHandler {
             fieldMapBoolean.put(field, info)
         })
     }
+
+    private fun fancy(text: String, length: Int):String{
+        return (text + "                                                                       ").substring(0, length -1)
+    }
 }
 
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [String] (or in Kotlin String?]
- * that you wish to use as a config property. Use [catagory] to indicate the config catagory in the config file,
+ * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
  * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyString(val catagory: String, val id: String, val comment: String, val def: String, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyString(val category: String, val id: String, val comment: String, val def: String, val devOnly: Boolean = false)
 
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Int] (or in Kotlin Int?]
- * that you wish to use as a config property. Use [catagory] to indicate the config catagory in the config file,
+ * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
  * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyInt(val catagory: String, val id: String, val comment: String, val def: Int, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyInt(val category: String, val id: String, val comment: String, val def: Int, val devOnly: Boolean = false)
 
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Boolean] (or in Kotlin Boolean?]
- * that you wish to use as a config property. Use [catagory] to indicate the config catagory in the config file,
+ * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
  * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
-@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyBoolean(val catagory: String, val id: String, val comment: String, val def: Boolean, val devOnly: Boolean = false)
+@Target(AnnotationTarget.FIELD) annotation class ConfigPropertyBoolean(val category: String, val id: String, val comment: String, val def: Boolean, val devOnly: Boolean = false)
+
 
 object GeneralConfigSettings {
-    @ConfigPropertyBoolean("hudpixel", "useAPI", "Should use the API?", true) @JvmStatic var useAPI: Boolean = true
-    @ConfigPropertyBoolean("hudpixel", "hudBackground", "Should the HUD have a background?", true) @JvmStatic var hudBackground: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUDPIXEL, "useAPI", "Should use the API?", true) @JvmStatic var useAPI: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUD, "hudBackground", "Should the HUD have a background?", true) @JvmStatic var hudBackground: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUD, "hudDisabled", "HUD Disabled", false) @JvmStatic var hudDisabled: Boolean = false
+    @ConfigPropertyBoolean(CCategory.HUD, "hudDisplayVersion", "HUD DisplayVersion", true) @JvmStatic var hudDisplayVersion: Boolean = true
+    @ConfigPropertyBoolean(CCategory.HUD, "hudRenderRight", "HUD RenderRight", false) @JvmStatic var hudRenderRight: Boolean = false
 
-    @ConfigPropertyInt("hudpixel", "displayXOffset", "HUD offset (X)", 5) @JvmStatic var displayXOffset: Int = 5
-    @ConfigPropertyInt("hudpixel", "displayYOffset", "HUD offset (Y)", 5) @JvmStatic var displayYOffset: Int = 5
+    @ConfigPropertyInt(CCategory.HUD, "displayXOffset", "HUD offset (X)", 5) @JvmStatic var displayXOffset: Int = 5
+    @ConfigPropertyInt(CCategory.HUD, "displayYOffset", "HUD offset (Y)", 5) @JvmStatic var displayYOffset: Int = 5
 
-    @ConfigPropertyInt("hudpixel", "hudRed", "HUD Red", 0) @JvmStatic var hudRed: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudGreen", "HUD green", 0) @JvmStatic var hudGreen: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudBlue", "HUD blue", 0) @JvmStatic var hudBlue: Int = 0
-    @ConfigPropertyInt("hudpixel", "hudAlpha", "HUD alpha", 255) @JvmStatic var hudAlpha: Int = 255
+    @ConfigPropertyInt(CCategory.HUD, "hudRed", "HUD Red", 0) @JvmStatic var hudRed: Int = 0
+    @ConfigPropertyInt(CCategory.HUD, "hudGreen", "HUD green", 0) @JvmStatic var hudGreen: Int = 0
+    @ConfigPropertyInt(CCategory.HUD, "hudBlue", "HUD blue", 0) @JvmStatic var hudBlue: Int = 0
+    @ConfigPropertyInt(CCategory.HUD, "hudAlpha", "HUD alpha", 150) @JvmStatic var hudAlpha: Int = 150
+
 }

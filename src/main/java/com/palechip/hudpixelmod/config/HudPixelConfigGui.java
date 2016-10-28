@@ -45,68 +45,68 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.config;
 
-@Deprecated
-public class HudPixelConfigGui/* extends GuiConfig */ {
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.exceptions.IllegalParameterTypeException;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
-   /* private static List<IConfigElement> getDisplayElements(Configuration configFile) {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-        List<IConfigElement> displaySettings = new ArrayList<IConfigElement>();
+public class HudPixelConfigGui extends GuiConfig {
 
-        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayMode"            , "lefttop" , "Choose where to render everything the mod displays."), new String[] {"lefttop", "righttop","leftbottom", "rightbottom"}));
-        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayNetworkBoosters" , true      , "Show active Network Boosters in the Chat Gui. This feature requires the Public API.")));
-        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayQuickLoadButton" , false     , "Show a button that runs /booster queue in order to quickly load the network boosters.")));
-        //displaySettings.add(new ConfigElement     (configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "displayVersion"         , true      , "Show the mod version and name when there is nothing else to show.")));
-        //displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "showResultTime"         , 20        , "How long (in seconds) the results will be shown after a game. Use -1 so it stays until the next game starts."), -1, 600, NumberSliderEntry.class));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "xOffset", 5, "This value will be added to the X (horizontal) position before rendering."), 0, 4000));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "yOffset", 5, "This value will be added to the Y (vertical) position before rendering."), 0, 2000));
-
-        displaySettings.add(new ConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "enableBackground", false, "Toggle the background of the hud.")));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudRed", 0, "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudGreen", 0, "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudBlue", 0, "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
-        displaySettings.add(new FancyConfigElement(configFile.get(HudPixelConfig.DISPLAY_CATEGORY, "hudAlpha", 0, "Set the background color of the Hud."), 0, 255, GuiConfigEntries.NumberSliderEntry.class));
-        return displaySettings;
-    }
-
-    private static List<IConfigElement> getConfigElements() {
-
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
-
-        List<IConfigElement> gameSettings = new ArrayList<IConfigElement>();
-        Configuration configFile = HudPixelMod.instance().CONFIG.getConfigFile();
-
-        // add the list to the main list
-        list.add(new DummyCategoryElement(EnumChatFormatting.GOLD + "Extended Settings", "", Config.getExtendedElements(configFile)));
-        list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "General Settings", "", new ConfigElement(configFile.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements()));
-        list.add(new DummyCategoryElement(EnumChatFormatting.YELLOW + "Display Settings", "", getDisplayElements(configFile)));
-
-        // Add a button for the current game if there is one
-        Game currentGame = HudPixelMod.instance().gameDetector.getCurrentGame();
-        if (!currentGame.equals(Game.NO_GAME))
-            list.add(new DummyCategoryElement(WordUtils.capitalize(currentGame.getConfiguration().getConfigCategory()), "", new ConfigElement(configFile.getCategory(currentGame.getConfiguration().getConfigCategory())).getChildElements()));
-
-
-        // Collect all categories
-        Set<String> categories = new HashSet<String>();
-        for (GameConfiguration gameConfig : GameManager.getGameManager().getConfigurations()) {
-            // add the category, the set prevents that one category is added multiple times
-            if (!gameConfig.getConfigCategory().isEmpty())
-                categories.add(gameConfig.getConfigCategory());
-        }
-
-        // create entries in the gameSettings list
-        for (String category : categories)
-            // and make add an entry to the game settings list
-            gameSettings.add(new DummyCategoryElement(EnumChatFormatting.GREEN + WordUtils.capitalize(category), "", new ConfigElement(configFile.getCategory(category)).getChildElements()));
-
-
-        // add the gameSettings list
-        list.add(new DummyCategoryElement(EnumChatFormatting.GREEN + "Game Settings", "", gameSettings));
-
-        return list;
-    }
+    private static HashMap<CCategory, ArrayList<IConfigElement>> configCategoryMap = new HashMap<>();
 
     public HudPixelConfigGui(GuiScreen parent) {
         super(parent, getConfigElements(), HudPixelMod.MODID, false, false, "HudPixel Config");
-    }*/
+    }
+
+
+    private static List<IConfigElement> getConfigElements(){
+        return configCategoryMap.keySet()
+                .stream()
+                .map(cCategory -> new DummyConfigElement.DummyCategoryElement(
+                        cCategory.getEnumChatFormatting() + cCategory.getName(),
+                        "",
+                        configCategoryMap.get(cCategory)))
+                .collect(Collectors.toList());
+    }
+
+    public static void deleteBeforReload(){
+        configCategoryMap.clear();
+    }
+
+    public static<T> void addElement(CCategory category, String id, T defEntry, String comment){
+
+        if(!configCategoryMap.containsKey(category)){
+            configCategoryMap.put(category, new ArrayList<>());
+        }
+        if(defEntry.getClass() == String.class){
+            configCategoryMap.get(category).add((
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(String) defEntry, comment))));
+        } else if (defEntry.getClass() == Boolean.class){
+            configCategoryMap.get(category).add((
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Boolean) defEntry, comment))));
+        } else if (defEntry.getClass() == Integer.class){
+            configCategoryMap.get(category).add((
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Integer) defEntry, comment))));
+        } else if (defEntry.getClass() == Double.class){
+            configCategoryMap.get(category).add((
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Double) defEntry, comment))));
+        } else if (defEntry.getClass() == Float.class){
+            configCategoryMap.get(category).add((
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Float) defEntry, comment))));
+        } else {
+            throw new IllegalParameterTypeException(defEntry);
+        }
+
+    }
+
+
 }
+

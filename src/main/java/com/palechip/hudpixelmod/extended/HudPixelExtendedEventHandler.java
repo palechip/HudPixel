@@ -54,18 +54,22 @@ import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
+import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
+import com.palechip.hudpixelmod.util.EasyConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
+import static com.palechip.hudpixelmod.HudPixelMod.MODID;
 import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 
 public class HudPixelExtendedEventHandler {
@@ -133,6 +137,14 @@ public class HudPixelExtendedEventHandler {
         FancyChat.getInstance().handleMouseInput(i);
     }
 
+    public static void onGameStart(){
+
+    }
+
+    public static void onGameEnd(){
+        ModularGuiHelper.onGameEnd();
+    }
+
     /**
      * prints the message to the clientchat
      * @param message the message
@@ -140,6 +152,20 @@ public class HudPixelExtendedEventHandler {
     private static void printMessage(String message) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
                 new ChatComponentText(message));
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+        try {
+            // This event isn't bound to the Hypixel Network
+            if(eventArgs.modID.equals(MODID)){
+                EasyConfigHandler.INSTANCE.synchronize();
+                getIeventBuffer().forEach(IEventHandler::onConfigChanged);
+            }
+        } catch(Exception e) {
+            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onConfigChanged(). Stacktrace below.");
+            e.printStackTrace();
+        }
     }
 
     @SubscribeEvent

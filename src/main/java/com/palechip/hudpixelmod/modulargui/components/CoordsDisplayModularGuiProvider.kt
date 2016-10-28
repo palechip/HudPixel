@@ -1,6 +1,7 @@
 package com.palechip.hudpixelmod.modulargui.components
 
 import com.palechip.hudpixelmod.GameDetector
+import com.palechip.hudpixelmod.config.CCategory
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider
 import com.palechip.hudpixelmod.util.ConfigPropertyBoolean
 import net.minecraft.client.Minecraft
@@ -13,7 +14,7 @@ object CoordsDisplayModularGuiProvider : SimpleHudPixelModularGuiProvider() {
         return false
     }
 
-    @ConfigPropertyBoolean("hudpixel", "coordsdisplayhud", "Enable the coords display gui?", true)
+    @ConfigPropertyBoolean(CCategory.HUD, "coordsdisplayhud", "Enable the coords display gui?", true)
     @JvmStatic var enabled: Boolean = true
 
     override fun onGameEnd() {

@@ -52,7 +52,6 @@ import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -61,8 +60,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper {
 
 //######################################################################################################################
     private static final long boosterLenght = 60 * 60 * 1000; //the time a booster gets activated
-    @ConfigPropertyBoolean(catagory = "general", id = "booster", comment = "The Booster Tracker", def = true)
-    public static boolean enabled = false;
+
 
 //######################################################################################################################
     private GameType gameType;
