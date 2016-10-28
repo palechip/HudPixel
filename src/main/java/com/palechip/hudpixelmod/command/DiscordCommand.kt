@@ -13,6 +13,7 @@ import net.minecraft.util.EnumChatFormatting
 object DiscordCommand : CommandBase() {
     val array = arrayOf("e", "c", "a", "9", "D", "X", "8")
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
+        sender?.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Please please please read #announcements before asking any questions about anything related to the server itself"))
         sender?.addChatMessage(ChatComponentText("${EnumChatFormatting.BLUE}https://discord.gg/${array.reversedArray().joinToString("")}").setChatStyle(ChatStyle().setChatClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/${array.reversedArray().joinToString("")}"))))
     }
 

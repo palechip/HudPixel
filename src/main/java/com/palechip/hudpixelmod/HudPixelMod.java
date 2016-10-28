@@ -186,7 +186,7 @@ public class HudPixelMod {
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 
-            // load the configuration file (this doesn't read it, it will only be read after the UpToDateThread finished processing games.json
+            // load the configuration file
             EasyConfigHandler.INSTANCE.init(event.getAsmData());
             this.apiQueue = new Queue();
 

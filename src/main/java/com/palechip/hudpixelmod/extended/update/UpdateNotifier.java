@@ -70,12 +70,13 @@ public class UpdateNotifier implements McColorHelper {
     public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
             "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
+    static boolean done = false;
     //######################################################################################################################
     private static String KEY_VERSION = "Version";
     private static String KEY_UPDATEMESSAGE = "UpdateMessage";
     private static String KEY_DOWNLOADLINK = "DownloadLink";
-    private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
 //######################################################################################################################
+private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
 
     //pauses the thread to
     public UpdateNotifier(boolean wait) {
@@ -146,7 +147,6 @@ public class UpdateNotifier implements McColorHelper {
         return s.replace("\"", "");
     }
 
-
     /**
      * Yeah, best code-style EU .... it's messy but it's just for generating a update message,
      * so no need for being nice code :P
@@ -154,9 +154,9 @@ public class UpdateNotifier implements McColorHelper {
      * @param jsonObject updateJson Array
      */
     private void printUpdateMessage(JsonObject jsonObject) {
-
+        if (done) return;
+        done = true;
         printMessage(GOLD + SEPARATION_MESSAGE);
-
         printMessage("");
 
         //GOING TO PRINT THE DOWLOADLINK

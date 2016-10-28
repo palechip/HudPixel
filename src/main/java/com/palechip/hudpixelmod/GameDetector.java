@@ -48,6 +48,7 @@ package com.palechip.hudpixelmod;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
+import com.palechip.hudpixelmod.modulargui.components.TimerModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import net.minecraft.client.Minecraft;
@@ -68,6 +69,7 @@ public class GameDetector {
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
     private static GameType currentGameType = GameType.UNKNOWN;
     private static boolean isLobby = false;
+    private static boolean gameHasntBegan = true;
 
     static {
         MinecraftForge.EVENT_BUS.register(new GameDetector());
@@ -158,6 +160,10 @@ public class GameDetector {
     }
 
     public static boolean isLobby() {
+        return isLobby || gameHasntBegan;
+    }
+
+    public static boolean shouldProcessAfterstats() {
         return isLobby;
     }
 
@@ -178,6 +184,7 @@ public class GameDetector {
         player.sendChatMessage("/whereami");
         cooldown = 5;
     }
+
 
     @SubscribeEvent
     public void onLogin(FMLNetworkEvent.ClientConnectedToServerEvent event) {
@@ -242,13 +249,19 @@ public class GameDetector {
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         String message = event.message.getUnformattedText();
-        if(message.equalsIgnoreCase("The game starts in 1 second!"))
+        if (message.equalsIgnoreCase("The game starts in 1 second!")) {
             HudPixelExtendedEventHandler.onGameStart();
-        if(message.equalsIgnoreCase("                            Reward Summary"))
+            gameHasntBegan = false;
+            TimerModularGuiProvider.instance.onGameStart();
+        }
+        if (message.equalsIgnoreCase("                            Reward Summary")) {
+            gameHasntBegan = true;
             HudPixelExtendedEventHandler.onGameEnd();
+        }
         if (message.toLowerCase().contains("currently on server".toLowerCase())) {
             if (LOBBY_MATCHER.asPredicate().test(message)) { //lobby
                 isLobby = true;
+                gameHasntBegan = true;
                 ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameEnd);
             }
             event.setCanceled(true);

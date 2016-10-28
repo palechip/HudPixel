@@ -92,6 +92,7 @@ public class OnlineFriendsUpdater implements IEventHandler {
     private void requestPage(int page) {
         requestNextPage = false;
         lastRequest = System.currentTimeMillis();
+        if (Minecraft.getMinecraft().thePlayer == null) return;
         friendListExpected = true;
         Minecraft.getMinecraft().thePlayer.sendChatMessage("/f list " + page);
     }

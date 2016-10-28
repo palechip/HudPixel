@@ -53,6 +53,7 @@ import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
+    public static final TimerModularGuiProvider instance = new TimerModularGuiProvider();
     public static final String TIME_DISPLAY_MESSAGE = EnumChatFormatting.YELLOW + "Time";
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "timer", comment = "The Game Timer", def = true)
     public static boolean enabled = false;
@@ -133,4 +134,5 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     public String getAfterstats() {
         return YELLOW + "Time passed: " + GREEN + runningTime;
     }
+
 }

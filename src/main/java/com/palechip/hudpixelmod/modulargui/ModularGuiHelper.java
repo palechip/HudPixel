@@ -46,6 +46,7 @@
 package com.palechip.hudpixelmod.modulargui;
 
 import com.google.common.collect.Lists;
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
@@ -71,7 +72,7 @@ public class ModularGuiHelper implements McColorHelper {
     public static final ModularGuiRegistry.Element AVGPROTECTION = new ModularGuiRegistry.Element("Average Protection", ArmorProtectionModularGuiProvider.INSTANCE);
     public static final ModularGuiRegistry.Element COORDS = new ModularGuiRegistry.Element("possimp", CoordsDisplayModularGuiProvider.INSTANCE);
     public static final ModularGuiRegistry.Element COIN_COUNTER = new ModularGuiRegistry.Element(CoinCounterModularGuiProvider.COINS_DISPLAY_TEXT, new CoinCounterModularGuiProvider());
-    public static final ModularGuiRegistry.Element TIMER = new ModularGuiRegistry.Element(TimerModularGuiProvider.TIME_DISPLAY_MESSAGE, new TimerModularGuiProvider());
+    public static final ModularGuiRegistry.Element TIMER = new ModularGuiRegistry.Element(TimerModularGuiProvider.TIME_DISPLAY_MESSAGE, TimerModularGuiProvider.instance);
     public static final ModularGuiRegistry.Element BLITZ_STAR_TRACKER = new ModularGuiRegistry.Element(BlitzStarTrackerModularGuiProvider.DISPLAY_MESSAGE, new BlitzStarTrackerModularGuiProvider());
     public static final ModularGuiRegistry.Element DEATHMATCH_TRACKER = new ModularGuiRegistry.Element("simp1", new BlitzDeathmatchNotifierModularGuiProvider());
     public static final ModularGuiRegistry.Element KILLSTREAK_TRACKER = new ModularGuiRegistry.Element("simp2", new KillstreakTrackerModularGuiProvider());
@@ -130,6 +131,8 @@ public class ModularGuiHelper implements McColorHelper {
     private static ArrayList<String> processAfterstats() {
         ArrayList<String> renderList = new ArrayList<String>();
 
+        if (!GameDetector.shouldProcessAfterstats()) return renderList;
+        System.out.println("Afterstats!");
         /**
          * bitte was schönes hinmachen :D
          */
@@ -156,6 +159,7 @@ public class ModularGuiHelper implements McColorHelper {
     }
 
     public static void onGameEnd() {
+        if (!GameDetector.isLobby()) return;
         ArrayList<String> renderList = processAfterstats();
         Collections.reverse(renderList);
         for (String s : renderList) {
