@@ -2,7 +2,7 @@ package de.unaussprechlich.managedgui.lib.elements;
 
 import de.unaussprechlich.managedgui.lib.config.ConfigManager;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.fancychat;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -49,7 +49,7 @@ class FancyChatFilter {
 
     //------------------------------------------------------------------------------------------------------------------
     /**
-     * @TRIGGER: Every time the client receives a message STARTING with one
+     * Every time the client receives a message STARTING with one
      * of the strings, given by this triggerlist, the fancy chat will be triggered.
      */
     static final String[] fancyChatTriggers = {
@@ -62,7 +62,7 @@ class FancyChatFilter {
     };
     //------------------------------------------------------------------------------------------------------------------
     /**
-     * @BLACKLIST: Every string in this blacklist will be filtered out if the
+     * Every string in this blacklist will be filtered out if the
      * message received by the client STARTS with the blacklisted string.
      */
     static final String[] blacklistStart = {
@@ -76,7 +76,7 @@ class FancyChatFilter {
     };
     //------------------------------------------------------------------------------------------------------------------
     /**
-     * @BLACKLIST: Every string in this blacklist will be filtered out if the
+     * Every string in this blacklist will be filtered out if the
      * message received by the client CONTAINS with the blacklisted string.
      */
     static final String[] blacklistContains = {
@@ -84,7 +84,7 @@ class FancyChatFilter {
     };
     //------------------------------------------------------------------------------------------------------------------
     /**
-     * @BLACKLIST: Every string in this blacklist will be filtered out if the
+     * Every string in this blacklist will be filtered out if the
      * message received by the client ENDS with the blacklisted string.
      */
     static final String[] blacklistEnds = {

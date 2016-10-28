@@ -16,7 +16,7 @@ import static net.minecraft.client.renderer.vertex.DefaultVertexFormats.POSITION
 import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
 import static org.lwjgl.opengl.GL11.glNormal3f;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

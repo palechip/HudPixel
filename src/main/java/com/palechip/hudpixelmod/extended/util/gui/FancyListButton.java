@@ -6,7 +6,7 @@ import static de.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWi
 import static de.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
 import static java.lang.Math.round;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
 HudPixelReloaded - License
 
 The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -43,13 +43,12 @@ related files.
 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
 reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-package com.palechip.hudpixelmod.util
+package com.palechip.hudpixelmod.config
 
 import com.palechip.hudpixelmod.HudPixelMod
-import com.palechip.hudpixelmod.config.CCategory
-import com.palechip.hudpixelmod.config.HudPixelConfigGui
+import com.palechip.hudpixelmod.config.EasyConfigHandler.init
 import com.palechip.hudpixelmod.extended.util.LoggerHelper
-import com.palechip.hudpixelmod.util.EasyConfigHandler.init
+import com.palechip.hudpixelmod.util.AnnotationHelper
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import java.lang.reflect.Field
 

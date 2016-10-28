@@ -6,7 +6,7 @@ import com.palechip.hudpixelmod.stats.StatsDisplayer;
 
 import java.util.ArrayList;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

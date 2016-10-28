@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -52,8 +52,8 @@ import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.util.GeneralConfigSettings;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback {

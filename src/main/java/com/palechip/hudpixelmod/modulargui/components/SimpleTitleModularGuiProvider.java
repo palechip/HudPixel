@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -47,7 +47,7 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
-import com.palechip.hudpixelmod.util.GeneralConfigSettings;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvider {

@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.config;
 
 import net.minecraft.util.EnumChatFormatting;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  HudPixelReloaded - License
 
  The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses 
@@ -47,8 +47,15 @@ import net.minecraft.util.EnumChatFormatting;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+
+
+/**
+ * Little HelperEnum to avoid spelling mistakes :P
+ * Please add a new category as enum and as static final (const) :)
+ */
 public enum CCategory{
 
+    //ADD A NEW CATEGORY HERE >>
     ENUM_UNKNOWN("Unknown", EnumChatFormatting.BLACK),
     ENUM_BOOSTER_DISPLAY("BoosterDisplay", EnumChatFormatting.GOLD),
     ENUM_COOLDOWN_DISPLAY("CooldownDisplay", EnumChatFormatting.GOLD),
@@ -59,6 +66,8 @@ public enum CCategory{
     ENUM_GENERAL("General", EnumChatFormatting.GOLD),
     ENUM_HUD("Hud", EnumChatFormatting.GOLD);
 
+    //CAN'T CAST ENUMS IN @ConfigProperty<T> SO HERE ARE SOME STATIC FINALS, WE ALL LOVE STATIC FINALS!!!
+    //ALSO ADD HERE >>
     public static final String UNKNOWN ="Unknown";
     public static final String BOOSTER_DISPLAY ="BoosterDisplay";
     public static final String COOLDOWN_DISPLAY ="CooldownDisplay";

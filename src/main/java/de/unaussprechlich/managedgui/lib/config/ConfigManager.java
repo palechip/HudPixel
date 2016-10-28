@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 import java.io.File;
 import java.util.HashMap;
 
-/******************************************************************************
+/* *****************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended), 
  * an unofficial Minecraft Mod for the Hypixel Network.
  *

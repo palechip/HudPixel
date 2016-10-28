@@ -1,6 +1,6 @@
 package de.unaussprechlich.managedgui.lib.enums;
 
-/******************************************************************************
+/* *****************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended), 
  * an unofficial Minecraft Mod for the Hypixel Network.
  *
@@ -28,11 +28,11 @@ package de.unaussprechlich.managedgui.lib.enums;
  *******************************************************************************/
 public enum EnumCategories{
 
-    //************************  ADD HERE  ***************************
+    //* ***********************  ADD HERE  ***************************
 
     TEST("test");
 
-    //***************************************************************
+    //* **************************************************************
     final String  name;
     EnumCategories(String name){this.name = name;}
 }

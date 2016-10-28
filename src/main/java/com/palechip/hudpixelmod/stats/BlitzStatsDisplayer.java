@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -47,7 +47,7 @@ package com.palechip.hudpixelmod.stats;
 
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.util.GeneralConfigSettings;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BlitzStatsDisplayer extends StatsDisplayer {

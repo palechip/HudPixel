@@ -1,6 +1,6 @@
 package com.palechip.hudpixelmod.extended.exceptions;
 
-/******************************************************************************
+/* *****************************************************************************
  * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended), 
  * an unofficial Minecraft Mod for the Hypixel Network.
  *

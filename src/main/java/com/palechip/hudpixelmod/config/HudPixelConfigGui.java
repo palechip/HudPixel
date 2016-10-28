@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -58,15 +58,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * HudPixel ConfigGUI
+ */
 public class HudPixelConfigGui extends GuiConfig {
 
+    /**
+     * static HasMap to store the element lists with key categiry
+     */
     private static HashMap<CCategory, ArrayList<IConfigElement>> configCategoryMap = new HashMap<>();
 
+    /**
+     * Constructor calls super() for the parent GUI
+     *
+     * @param parent ParentGUI
+     */
     public HudPixelConfigGui(GuiScreen parent) {
         super(parent, getConfigElements(), HudPixelMod.MODID, false, false, "HudPixel Config");
     }
 
-
+    /**
+     * a single list for the ConfigGUI
+     *
+     * @return all ConfigElements in a list
+     */
     private static List<IConfigElement> getConfigElements(){
         return configCategoryMap.keySet()
                 .stream()
@@ -77,15 +92,33 @@ public class HudPixelConfigGui extends GuiConfig {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Call the method before reloading the  config, so the GUI gets cleared.
+     */
     public static void deleteBeforReload(){
         configCategoryMap.clear();
     }
 
+
+    /**
+     * Adds a Element to the ConfigGUI element HasMap. Made it use generics, because generics are cool :)
+     * Will throw a IllegalParameterTypeException if the Type is not supported.
+     *
+     * @param category The category the element will be pushed
+     * @param id The ID the element has in the config
+     * @param defEntry The default value of the element
+     * @param comment We all like comments, so we know what option we are really changing.
+     *
+     * @param <T> used generics for defEntry, will throw a exception if type is not supported
+     */
     public static<T> void addElement(CCategory category, String id, T defEntry, String comment){
 
+        //adds the category if it doesn't exists
         if(!configCategoryMap.containsKey(category)){
             configCategoryMap.put(category, new ArrayList<>());
         }
+
+        //generates & puts the element in the right list
         if(defEntry.getClass() == String.class){
             configCategoryMap.get(category).add((
                     new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(String) defEntry, comment))));
@@ -104,7 +137,6 @@ public class HudPixelConfigGui extends GuiConfig {
         } else {
             throw new IllegalParameterTypeException(defEntry);
         }
-
     }
 
 

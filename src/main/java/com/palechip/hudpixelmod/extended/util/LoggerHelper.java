@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Logger;
 
 import static com.palechip.hudpixelmod.HudPixelMod.instance;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

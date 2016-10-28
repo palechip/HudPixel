@@ -7,7 +7,7 @@ import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import de.unaussprechlich.managedgui.lib.util.storage.StorageTwoSame;
 import net.minecraft.util.ResourceLocation;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

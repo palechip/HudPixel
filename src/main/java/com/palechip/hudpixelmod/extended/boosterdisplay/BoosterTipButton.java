@@ -6,7 +6,7 @@ import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
 import static com.palechip.hudpixelmod.extended.util.ImageLoader.boosterTip;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
