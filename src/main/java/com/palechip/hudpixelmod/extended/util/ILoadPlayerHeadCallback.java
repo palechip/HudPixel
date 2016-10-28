@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.extended.util;
 
 import net.minecraft.util.ResourceLocation;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

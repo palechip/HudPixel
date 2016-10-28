@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -53,8 +53,9 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
  * A class for producing fancy config entries like DummyConfigElement but this one saves it's values.
  * Works pretty similarly but extends ConfigElement and doesn't just implement IConfigElement
  * @author palechip
+ *
+ * Will be added back later ... DummyConfigELements are cool and i also miss those sliders
  */
-@Deprecated
 public class FancyConfigElement extends ConfigElement {
     protected String[] validValues;
     protected Object minValue;

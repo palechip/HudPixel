@@ -2,7 +2,7 @@ package de.unaussprechlich.managedgui.lib.helper;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

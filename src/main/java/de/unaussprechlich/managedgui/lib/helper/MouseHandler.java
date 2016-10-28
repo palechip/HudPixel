@@ -8,7 +8,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import org.lwjgl.input.Mouse;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

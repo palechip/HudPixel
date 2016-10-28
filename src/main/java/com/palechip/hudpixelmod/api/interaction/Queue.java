@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -48,7 +48,7 @@ package com.palechip.hudpixelmod.api.interaction;
 import com.google.gson.Gson;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.*;
-import com.palechip.hudpixelmod.util.GeneralConfigSettings;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.hypixel.api.HypixelAPI;
 
 import java.util.ArrayList;

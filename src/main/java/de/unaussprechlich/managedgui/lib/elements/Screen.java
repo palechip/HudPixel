@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

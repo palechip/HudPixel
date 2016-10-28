@@ -1,7 +1,7 @@
 package com.palechip.hudpixelmod.extended.statsviewer;
 
 import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 
@@ -15,7 +15,7 @@ import static java.lang.System.currentTimeMillis;
 import static net.minecraft.client.Minecraft.getMinecraft;
 import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

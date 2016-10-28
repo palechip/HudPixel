@@ -4,7 +4,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.ArrayList;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

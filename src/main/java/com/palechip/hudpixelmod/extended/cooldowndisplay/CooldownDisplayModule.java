@@ -1,5 +1,5 @@
 package com.palechip.hudpixelmod.extended.cooldowndisplay;
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

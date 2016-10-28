@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Property;
 
 import java.util.HashMap;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

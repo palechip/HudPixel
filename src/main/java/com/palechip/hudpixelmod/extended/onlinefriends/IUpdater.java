@@ -2,7 +2,7 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 
 import java.util.HashMap;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

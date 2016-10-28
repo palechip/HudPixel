@@ -8,7 +8,7 @@ import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
-/******************************************************************************
+/* *****************************************************************************
 
  * Copyright (c) 2016 unaussprechlich
 

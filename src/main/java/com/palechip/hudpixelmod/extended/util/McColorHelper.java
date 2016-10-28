@@ -4,7 +4,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 import static net.minecraft.util.EnumChatFormatting.*;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

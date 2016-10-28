@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsViewerFactory.getStatsViewerClass;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

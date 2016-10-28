@@ -21,7 +21,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static javax.imageio.ImageIO.read;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

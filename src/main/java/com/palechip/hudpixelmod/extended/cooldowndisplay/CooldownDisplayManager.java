@@ -1,5 +1,5 @@
 package com.palechip.hudpixelmod.extended.cooldowndisplay;
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -49,8 +49,8 @@ import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.util.ConfigPropertyInt;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;

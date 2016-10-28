@@ -20,7 +20,7 @@ import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
 import static java.lang.System.out;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses

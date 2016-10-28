@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+/* **********************************************************************************************************************
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -53,10 +53,10 @@ import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
-import com.palechip.hudpixelmod.util.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.util.ConfigPropertyInt;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.util.GeneralConfigSettings;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
