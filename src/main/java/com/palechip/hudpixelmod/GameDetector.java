@@ -45,6 +45,8 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod;
 
+import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
@@ -67,6 +69,8 @@ public class GameDetector {
     public static final Pattern LOBBY_MATCHER = Pattern.compile("\\w*lobby\\d+");
     public static final char COLOR_CHAR = '\u00A7';
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
+    @ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "gameDetector", def = true, comment = "Disable game detector (Risky!)")
+    public static boolean enabled = true;
     private static GameType currentGameType = GameType.UNKNOWN;
     private static boolean isLobby = false;
     private static boolean gameHasntBegan = true;
@@ -179,7 +183,7 @@ public class GameDetector {
 
     @SubscribeEvent
     public void onServerChange(EntityJoinWorldEvent event) {
-        if (!(event.entity instanceof EntityPlayerSP)) return;
+        if (!(event.entity instanceof EntityPlayerSP) || !enabled) return;
         EntityPlayerSP player = (EntityPlayerSP) event.entity;
         player.sendChatMessage("/whereami");
         cooldown = 5;
@@ -235,6 +239,7 @@ public class GameDetector {
 
     @SubscribeEvent
     public void tickly(TickEvent.ClientTickEvent event) {
+        if (!enabled) return;
         String title = ScoreboardReader.getScoreboardTitle();
         title = stripColor(title).toLowerCase();
         cooldown--;
@@ -248,6 +253,7 @@ public class GameDetector {
 
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
+        if (!enabled) return;
         String message = event.message.getUnformattedText();
         if (message.equalsIgnoreCase("The game starts in 1 second!")) {
             HudPixelExtendedEventHandler.onGameStart();
