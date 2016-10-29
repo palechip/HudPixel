@@ -61,7 +61,6 @@ import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
 import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -86,7 +85,6 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
 
@@ -208,14 +206,7 @@ public class HudPixelMod {
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
-
-
-        Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
-        RenderPlayer render;
-        render = skinMap.get("default");
-        render.addLayer(new ContributorFancinessHandler());
-        render = skinMap.get("slim");
-        render.addLayer(new ContributorFancinessHandler());
+        ContributorFancinessHandler.init();
 
 
         // setup HudPixelExtended
