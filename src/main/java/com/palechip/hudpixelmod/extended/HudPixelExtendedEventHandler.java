@@ -136,16 +136,17 @@ public class HudPixelExtendedEventHandler {
         FancyChat.getInstance().handleMouseInput(i);
     }
 
-    public static void onGameStart(){
+    public static void onGameStart() {
 
     }
 
-    public static void onGameEnd(){
+    public static void onGameEnd() {
         ModularGuiHelper.onGameEnd();
     }
 
     /**
      * prints the message to the clientchat
+     *
      * @param message the message
      **/
     private static void printMessage(String message) {
@@ -157,11 +158,11 @@ public class HudPixelExtendedEventHandler {
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         try {
             // This event isn't bound to the Hypixel Network
-            if(eventArgs.modID.equals(MODID)){
+            if (eventArgs.modID.equals(MODID)) {
                 EasyConfigHandler.INSTANCE.synchronize();
                 getIeventBuffer().forEach(IEventHandler::onConfigChanged);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onConfigChanged(). Stacktrace below.");
             e.printStackTrace();
         }

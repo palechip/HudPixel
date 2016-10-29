@@ -52,9 +52,9 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 import java.util.Set;
 
 
-public class HudPixelGuiFactory implements IModGuiFactory  {
+public class HudPixelGuiFactory implements IModGuiFactory {
 
-   @Override
+    @Override
     public void initialize(Minecraft minecraftInstance) {
     }
 

@@ -58,11 +58,11 @@ import net.minecraft.util.EnumChatFormatting;
 public class BoosterExtended extends FancyListObject implements McColorHelper {
     private static final long tipDelay = 60 * 60 * 1000; //the tipdelay time for a gamemode
 
-//######################################################################################################################
+    //######################################################################################################################
     private static final long boosterLenght = 60 * 60 * 1000; //the time a booster gets activated
 
 
-//######################################################################################################################
+    //######################################################################################################################
     private GameType gameType;
     private long timeNextTip;
     private Booster booster;

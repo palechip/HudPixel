@@ -96,14 +96,16 @@ public abstract class FancyListManager implements IEventHandler {
     }
 
     @Override
-    public void onConfigChanged(){
+    public void onConfigChanged() {
         this.renderRightSide = getConfigRenderRight();
         this.xStart = getConfigxStart();
         this.yStart = getConfigyStart();
     }
 
     public abstract int getConfigxStart();
+
     public abstract int getConfigyStart();
+
     public abstract boolean getConfigRenderRight();
 
     /**

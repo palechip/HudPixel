@@ -47,7 +47,6 @@ package com.palechip.hudpixelmod.util;
 
 /**
  * Replaces GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
-
  */
 public enum GameType {
     UNKNOWN(-1, -1, "UNKNOWN", "", "none"),

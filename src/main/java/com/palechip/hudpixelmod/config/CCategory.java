@@ -53,7 +53,7 @@ import net.minecraft.util.EnumChatFormatting;
  * Little HelperEnum to avoid spelling mistakes :P
  * Please add a new category as enum and as static final (const) :)
  */
-public enum CCategory{
+public enum CCategory {
 
     //ADD A NEW CATEGORY HERE >>
     ENUM_UNKNOWN("Unknown", EnumChatFormatting.BLACK),
@@ -68,32 +68,37 @@ public enum CCategory{
 
     //CAN'T CAST ENUMS IN @ConfigProperty<T> SO HERE ARE SOME STATIC FINALS, WE ALL LOVE STATIC FINALS!!!
     //ALSO ADD HERE >>
-    public static final String UNKNOWN ="Unknown";
-    public static final String BOOSTER_DISPLAY ="BoosterDisplay";
-    public static final String COOLDOWN_DISPLAY ="CooldownDisplay";
-    public static final String FRIENDS_DISPLAY ="FriendsDisplay";
-    public static final String FANCY_CHAT ="FancyChat";
-    public static final String HUDPIXEL ="HudPixel";
-    public static final String WARLORDS ="Warlords";
-    public static final String GENERAL ="General";
-    public static final String HUD ="Hud";
+    public static final String UNKNOWN = "Unknown";
+    public static final String BOOSTER_DISPLAY = "BoosterDisplay";
+    public static final String COOLDOWN_DISPLAY = "CooldownDisplay";
+    public static final String FRIENDS_DISPLAY = "FriendsDisplay";
+    public static final String FANCY_CHAT = "FancyChat";
+    public static final String HUDPIXEL = "HudPixel";
+    public static final String WARLORDS = "Warlords";
+    public static final String GENERAL = "General";
+    public static final String HUD = "Hud";
 
 
     private final String name;
     private final EnumChatFormatting enumChatFormatting;
 
-    public String getName(){return name;}
-    public EnumChatFormatting getEnumChatFormatting(){return  enumChatFormatting;}
+    CCategory(String name, EnumChatFormatting enumChatFormatting) {
+        this.name = name;
+        this.enumChatFormatting = enumChatFormatting;
+    }
 
-    public static CCategory getCategoryByName(String name){
+    public static CCategory getCategoryByName(String name) {
         for (CCategory cCategory : CCategory.values())
             if (cCategory.name.equalsIgnoreCase(name))
                 return cCategory;
         return CCategory.ENUM_UNKNOWN;
     }
 
-    CCategory(String name, EnumChatFormatting enumChatFormatting){
-        this.name = name;
-        this.enumChatFormatting = enumChatFormatting;
+    public String getName() {
+        return name;
+    }
+
+    public EnumChatFormatting getEnumChatFormatting() {
+        return enumChatFormatting;
     }
 }

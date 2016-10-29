@@ -45,9 +45,9 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.stats;
 
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.util.EnumChatFormatting;
 
 public class BlitzStatsDisplayer extends StatsDisplayer {

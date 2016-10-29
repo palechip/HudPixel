@@ -83,6 +83,7 @@ public class QueueEntry {
 
     /**
      * This queue entry will perform a getBoosters request
+     *
      * @param callback
      */
     public QueueEntry(BoosterResponseCallback callback) {
@@ -92,6 +93,7 @@ public class QueueEntry {
 
     /**
      * This queue entry will perform a getSession request
+     *
      * @param callback
      */
     public QueueEntry(SessionResponseCallback callback, String player, Boolean viaUUID) {
@@ -103,6 +105,7 @@ public class QueueEntry {
 
     /**
      * This queue entry will perform a getFriends request
+     *
      * @param callback
      */
     public QueueEntry(FriendResponseCallback callback, String player) {
@@ -114,6 +117,7 @@ public class QueueEntry {
 
     /**
      * This queue entry will perform a getFriends request
+     *
      * @param callback
      */
     public QueueEntry(FriendResponseCallback callback, UUID player) {

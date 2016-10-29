@@ -50,6 +50,7 @@ import java.util.regex.Pattern;
 
 /**
  * Provides basic functionality in order to parse complex command outputs like /booster queue and /friend list
+ *
  * @author palechip
  */
 public abstract class MultiLineCommandParser {
@@ -59,7 +60,8 @@ public abstract class MultiLineCommandParser {
 
     /**
      * Creates a new MultiLineCommandParser.
-     * @param startMessage The message which starts the command output. i.e. the command title.
+     *
+     * @param startMessage   The message which starts the command output. i.e. the command title.
      * @param messagePattern A regex which matches all messages which belong to the command.
      */
     public MultiLineCommandParser(String startMessage, String messagePattern) {
@@ -69,6 +71,7 @@ public abstract class MultiLineCommandParser {
 
     /**
      * Has to be called with every chat message.
+     *
      * @param message The chat message without formatting.
      */
     public void onChat(String message) {
@@ -98,6 +101,7 @@ public abstract class MultiLineCommandParser {
 
     /**
      * Gets called when a chat message arrives which belongs to the the listened command.
+     *
      * @param commandMessage The message which matches the messagePattern.
      */
     protected abstract void onCommandReceived(String commandMessage);

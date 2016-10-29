@@ -56,8 +56,8 @@ import java.util.Collection;
 
 /**
  * A helper which reads the scoreboard.
- * @author palechip
  *
+ * @author palechip
  */
 public class ScoreboardReader {
     private static boolean needsUpdate = true;

@@ -26,9 +26,9 @@ package com.palechip.hudpixelmod.extended.exceptions;
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-public class IllegalParameterTypeException extends HudPixelException{
+public class IllegalParameterTypeException extends HudPixelException {
 
-    public IllegalParameterTypeException(Object parameter){
+    public IllegalParameterTypeException(Object parameter) {
         super("The parameter is of type " + parameter.getClass().toString() + " and can't be used here!");
     }
 

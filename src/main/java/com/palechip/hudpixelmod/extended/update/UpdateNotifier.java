@@ -75,8 +75,8 @@ public class UpdateNotifier implements McColorHelper {
     private static String KEY_VERSION = "Version";
     private static String KEY_UPDATEMESSAGE = "UpdateMessage";
     private static String KEY_DOWNLOADLINK = "DownloadLink";
-//######################################################################################################################
-private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
+    //######################################################################################################################
+    private static String LINK_TO_UPDATEFILE = "https://raw.githubusercontent.com/unaussprechlich/HudPixelExtended/1.8.9-release/checkforversion/Version.json";
 
     //pauses the thread to
     public UpdateNotifier(boolean wait) {

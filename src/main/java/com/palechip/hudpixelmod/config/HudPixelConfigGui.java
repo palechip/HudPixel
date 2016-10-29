@@ -82,7 +82,7 @@ public class HudPixelConfigGui extends GuiConfig {
      *
      * @return all ConfigElements in a list
      */
-    private static List<IConfigElement> getConfigElements(){
+    private static List<IConfigElement> getConfigElements() {
         return configCategoryMap.keySet()
                 .stream()
                 .map(cCategory -> new DummyConfigElement.DummyCategoryElement(
@@ -95,7 +95,7 @@ public class HudPixelConfigGui extends GuiConfig {
     /**
      * Call the method before reloading the  config, so the GUI gets cleared.
      */
-    public static void deleteBeforReload(){
+    public static void deleteBeforReload() {
         configCategoryMap.clear();
     }
 
@@ -105,35 +105,34 @@ public class HudPixelConfigGui extends GuiConfig {
      * Will throw a IllegalParameterTypeException if the Type is not supported.
      *
      * @param category The category the element will be pushed
-     * @param id The ID the element has in the config
+     * @param id       The ID the element has in the config
      * @param defEntry The default value of the element
-     * @param comment We all like comments, so we know what option we are really changing.
-     *
-     * @param <T> used generics for defEntry, will throw a exception if type is not supported
+     * @param comment  We all like comments, so we know what option we are really changing.
+     * @param <T>      used generics for defEntry, will throw a exception if type is not supported
      */
-    public static<T> void addElement(CCategory category, String id, T defEntry, String comment){
+    public static <T> void addElement(CCategory category, String id, T defEntry, String comment) {
 
         //adds the category if it doesn't exists
-        if(!configCategoryMap.containsKey(category)){
+        if (!configCategoryMap.containsKey(category)) {
             configCategoryMap.put(category, new ArrayList<>());
         }
 
         //generates & puts the element in the right list
-        if(defEntry.getClass() == String.class){
+        if (defEntry.getClass() == String.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(String) defEntry, comment))));
-        } else if (defEntry.getClass() == Boolean.class){
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (String) defEntry, comment))));
+        } else if (defEntry.getClass() == Boolean.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Boolean) defEntry, comment))));
-        } else if (defEntry.getClass() == Integer.class){
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Boolean) defEntry, comment))));
+        } else if (defEntry.getClass() == Integer.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Integer) defEntry, comment))));
-        } else if (defEntry.getClass() == Double.class){
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Integer) defEntry, comment))));
+        } else if (defEntry.getClass() == Double.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Double) defEntry, comment))));
-        } else if (defEntry.getClass() == Float.class){
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Double) defEntry, comment))));
+        } else if (defEntry.getClass() == Float.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id ,(Float) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Float) defEntry, comment))));
         } else {
             throw new IllegalParameterTypeException(defEntry);
         }

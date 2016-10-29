@@ -143,6 +143,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     /**
      * Queues a BoosterExtended request.
+     *
      * @param callback
      */
     public void getBoosters(BoosterResponseCallback callback) {
@@ -156,6 +157,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     /**
      * Queues a Session request.
+     *
      * @param callback
      */
     public void getSession(SessionResponseCallback callback, String player, Boolean viaUUID) {
@@ -169,6 +171,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     /**
      * Queues a Friends request.
+     *
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, String player) {
@@ -182,6 +185,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     /**
      * Queues a Friends request.
+     *
      * @param callback
      */
     public void getFriends(FriendResponseCallback callback, UUID player) {
@@ -195,6 +199,7 @@ public class Queue implements ApiKeyLoadedCallback {
 
     /**
      * Queues a Player request.
+     *
      * @param callback
      * @param player
      */

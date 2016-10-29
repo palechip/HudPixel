@@ -96,6 +96,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * changes the tag above the player, when they join and are part of the hudpixel team
+     *
      * @param e
      */
     @SubscribeEvent
@@ -127,6 +128,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
             JsonObject jsonObject = jsonParser(data);
             adminList.add("PixelPlus");
             adminList = getArrayFromJsonEntry(getStringFromJson("admins", jsonObject));
+            helperList.add("Pietro_");
             helperList = getArrayFromJsonEntry(getStringFromJson("helper", jsonObject));
         } catch (MalformedURLException e) {
             LoggerHelper.logError("[StaffLoader]: Something went wrong while loading the URL for the staff file");
@@ -139,6 +141,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * Get's the data from the website and generates a JsonObjrect
+     *
      * @param data website data
      * @return the data as JsonObject
      */
@@ -149,6 +152,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * get's all usernames i put into the category
+     *
      * @param s JsonEntry
      * @return usernames in a ArrayList
      */
@@ -160,7 +164,8 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * Get's one json entry via key and returns everything inside as a string
-     * @param key the key
+     *
+     * @param key        the key
      * @param jsonObject the JsonObject
      * @return entry
      */
@@ -181,6 +186,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * removes a char-type from a string
+     *
      * @param s the string
      * @param r this char will get replaced by noting
      * @return s without r
@@ -191,13 +197,15 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
     /**
      * buts the admin/helper tag infront of a message a admin/helper has written
+     *
      * @param e chat event
      * @throws Throwable
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        if(e.type != 0) return; //return if it isn't a normal chat message
-        if (e.message.getUnformattedText().contains("http")) return; //return if the message contains a link .... so you can still click it :)
+        if (e.type != 0) return; //return if it isn't a normal chat message
+        if (e.message.getUnformattedText().contains("http"))
+            return; //return if the message contains a link .... so you can still click it :)
 
 
         for (String s : adminList) { //for admins
@@ -220,6 +228,11 @@ public class StaffManager implements IEventHandler, McColorHelper {
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
+        }
+        if (e.message.getUnformattedText().contains("Pietro_:") || e.message.getUnformattedText().startsWith("Pietro_:")) {
+            e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst("Pietro_", hudHelperTag() + "Pietro_"));
+            FancyChat.getInstance().addMessage(e.message.getFormattedText());
+            return;
         }
     }
 }

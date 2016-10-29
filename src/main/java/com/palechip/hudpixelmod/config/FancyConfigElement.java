@@ -52,9 +52,10 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 /**
  * A class for producing fancy config entries like DummyConfigElement but this one saves it's values.
  * Works pretty similarly but extends ConfigElement and doesn't just implement IConfigElement
- * @author palechip
  *
- * Will be added back later ... DummyConfigELements are cool and i also miss those sliders
+ * @author palechip
+ *         <p>
+ *         Will be added back later ... DummyConfigELements are cool and i also miss those sliders
  */
 public class FancyConfigElement extends ConfigElement {
     protected String[] validValues;

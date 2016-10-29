@@ -59,6 +59,7 @@ import java.util.HashMap;
 
 /**
  * A little helper to get the username of a given UUID.
+ *
  * @author palechip
  */
 public class UuidHelper extends Thread {
@@ -66,9 +67,11 @@ public class UuidHelper extends Thread {
     private static Gson gson = new Gson();
     private static HashMap<String, String> cache = new HashMap<String, String>();
     UuidCallback callback;
+
     /**
      * generates a "uuid to name" request
-     * @param uuid the payers uuid
+     *
+     * @param uuid     the payers uuid
      * @param callback the callback class
      */
     public UuidHelper(String uuid, UuidCallback callback) {
@@ -78,6 +81,7 @@ public class UuidHelper extends Thread {
 
     /**
      * This should only be called asynchronously since it takes about 150ms to complete on my computer.
+     *
      * @param uuid the UUID to lookup
      * @return the username or null if it failed
      */

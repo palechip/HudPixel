@@ -28,7 +28,8 @@ package com.palechip.hudpixelmod.extended.exceptions;
  *******************************************************************************/
 public class HudPixelException extends RuntimeException {
 
-    public HudPixelException() {}
+    public HudPixelException() {
+    }
 
     public HudPixelException(String message) {
         super(message);

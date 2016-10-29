@@ -99,6 +99,7 @@ public class Booster implements UuidCallback {
 
     /**
      * Returns the mod ID for the game which will can be used to get the game configuration
+     *
      * @return
      */
     public int getGameID() {

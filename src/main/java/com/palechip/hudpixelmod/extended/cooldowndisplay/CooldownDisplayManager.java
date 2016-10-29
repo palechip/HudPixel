@@ -47,10 +47,10 @@ package com.palechip.hudpixelmod.extended.cooldowndisplay;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.ConfigPropertyInt;
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;

@@ -8,10 +8,10 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import java.util.ArrayList;
 
 import static com.palechip.hudpixelmod.api.interaction.Queue.getInstance;
+import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
 import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
 import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
 import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
-import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
 import static java.lang.System.currentTimeMillis;
 import static net.minecraft.client.Minecraft.getMinecraft;
 import static net.minecraft.util.EnumChatFormatting.DARK_GRAY;

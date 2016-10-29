@@ -47,8 +47,8 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.OldServerPinger;
 

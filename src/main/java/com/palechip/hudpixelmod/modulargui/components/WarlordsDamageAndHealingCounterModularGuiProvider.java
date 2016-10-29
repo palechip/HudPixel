@@ -49,8 +49,8 @@ import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import com.palechip.hudpixelmod.util.GameType;
 
 import java.util.regex.Matcher;

@@ -47,9 +47,9 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
-import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;

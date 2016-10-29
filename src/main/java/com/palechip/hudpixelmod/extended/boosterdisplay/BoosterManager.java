@@ -49,14 +49,14 @@ import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.ConfigPropertyInt;
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
-import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.util.GameType;
-import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -132,11 +132,19 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
 
 
     @Override
-    public int getConfigxStart() {return xOffsetBoosterDisplay;}
+    public int getConfigxStart() {
+        return xOffsetBoosterDisplay;
+    }
+
     @Override
-    public boolean getConfigRenderRight() {return shownBooosterDisplayRight;}
+    public boolean getConfigRenderRight() {
+        return shownBooosterDisplayRight;
+    }
+
     @Override
-    public int getConfigyStart() {return yOffsetBoosterDisplay;}
+    public int getConfigyStart() {
+        return yOffsetBoosterDisplay;
+    }
 
     /**
      * Well you can do some stuff here befor rendering the display
@@ -145,7 +153,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onRender() {
-        if(!enabled) return;
+        if (!enabled) return;
         if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && Minecraft.getMinecraft().displayHeight > 600) {
             this.renderDisplay();
             this.isMouseHander = true;

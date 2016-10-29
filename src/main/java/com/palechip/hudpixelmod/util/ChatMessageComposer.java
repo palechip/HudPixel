@@ -59,8 +59,8 @@ import java.util.ArrayList;
 
 /**
  * A mighty chat message manager. His nickname is Skype. ;)
- * @author palechip
  *
+ * @author palechip
  */
 public class ChatMessageComposer {
     public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
@@ -81,6 +81,7 @@ public class ChatMessageComposer {
 
     /**
      * Creates a new ChatMessageComposer.
+     *
      * @param text Text of the chat message.
      */
     public ChatMessageComposer(String text) {
@@ -89,7 +90,8 @@ public class ChatMessageComposer {
 
     /**
      * Creates a new ChatMessageComposer.
-     * @param text Text of the chat message.
+     *
+     * @param text  Text of the chat message.
      * @param color Color of the chat message.
      */
     public ChatMessageComposer(String text, EnumChatFormatting color) {
@@ -106,6 +108,7 @@ public class ChatMessageComposer {
 
     /**
      * Adds a formatting to the text message. The ChatMessageComposer used is modified.
+     *
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
     public ChatMessageComposer addFormatting(EnumChatFormatting formatting) {
@@ -137,6 +140,7 @@ public class ChatMessageComposer {
 
     /**
      * Append a message to the an existing message. This is used to achieve multiple colors in one line.
+     *
      * @param message message to append
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
@@ -157,8 +161,9 @@ public class ChatMessageComposer {
 
     /**
      * Makes the chat message clickable.
-     * @param action Action performed by clicking
-     * @param execute URL or command to execute
+     *
+     * @param action      Action performed by clicking
+     * @param execute     URL or command to execute
      * @param description Shown message when hovering over the clickable chat.
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
@@ -175,6 +180,7 @@ public class ChatMessageComposer {
 
     /**
      * Makes the chat message link to a given url.
+     *
      * @param url The linked URL. MAKE SURE IT STARTS WITH HTTP:// or HTTPS://!
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
@@ -190,6 +196,7 @@ public class ChatMessageComposer {
 
     /**
      * Creates a tooltip like hover text.
+     *
      * @param text the message shown then hovering
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
@@ -212,6 +219,7 @@ public class ChatMessageComposer {
 
     /**
      * Send this message to the player.
+     *
      * @param prefix Send the [HudPixel] prefix?
      */
     public void send(boolean prefix) {
@@ -226,6 +234,7 @@ public class ChatMessageComposer {
 
     /**
      * Builds an IChatComponent including all appended messages.
+     *
      * @param prefix should [HudPixel] be added as chat prefix?
      * @return the IChatComponent containing all appended messages
      */

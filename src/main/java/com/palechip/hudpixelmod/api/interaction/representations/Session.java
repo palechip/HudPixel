@@ -116,12 +116,12 @@ public class Session implements UuidCallback {
         return this.sessionOwner;
     }
 
-    public void setSessionOwner(String owner) {
-        this.sessionOwner = owner;
-    }
-
     public void setSessionOwner(UUID owner) {
         new UuidHelper(owner.toString(), this);
+    }
+
+    public void setSessionOwner(String owner) {
+        this.sessionOwner = owner;
     }
 
     @Override

@@ -183,6 +183,7 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(new GameDetectorCommand());
             ClientCommandHandler.instance.registerCommand(new BookVerboseInfoCommand());
             ClientCommandHandler.instance.registerCommand(DiscordCommand.INSTANCE);
+            ClientCommandHandler.instance.registerCommand(NameCommand.INSTANCE);
             new HudPixelMethodHandles();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
@@ -260,8 +261,8 @@ public class HudPixelMod {
                             Minecraft.getMinecraft().thePlayer.getGameProfile().getId() + "&version=" + DEFAULT_VERSION.replace(" ", ""));
                     didTheThings = true;
                 }
-                if(apiQueue != null)
-                this.apiQueue.onClientTick();
+                if (apiQueue != null)
+                    this.apiQueue.onClientTick();
             }
         } catch (Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");
@@ -270,19 +271,18 @@ public class HudPixelMod {
     }
 
 
-
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
         try {
             // Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
-                if(this.openConfigGui.isPressed()) {
+                if (this.openConfigGui.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().displayGuiScreen(new HudPixelConfigGui(null));
-                }else if (this.pressToPlay.isPressed()) {
+                } else if (this.pressToPlay.isPressed()) {
                     // open the config screen
                     FMLClientHandler.instance().getClient().thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content);
-                }else if (IS_DEBUGGING) {
+                } else if (IS_DEBUGGING) {
                     if (this.debugKey.isPressed()) {
                         // Add debug code here
                     }

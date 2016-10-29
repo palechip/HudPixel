@@ -46,7 +46,6 @@ reserve the right to take down any infringing project.
 package com.palechip.hudpixelmod.config
 
 import com.palechip.hudpixelmod.HudPixelMod
-import com.palechip.hudpixelmod.config.EasyConfigHandler.init
 import com.palechip.hudpixelmod.extended.util.LoggerHelper
 import com.palechip.hudpixelmod.util.AnnotationHelper
 import net.minecraftforge.fml.common.discovery.ASMDataTable
@@ -76,14 +75,14 @@ object EasyConfigHandler {
         synchronize()
     }
 
-    fun synchronize(){
+    fun synchronize() {
         HudPixelConfigGui.deleteBeforReload()//clears the list
 
         LoggerHelper.logInfo("[Configuration] going to load the Configuration!")
 
         fieldMapStr.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING) {
                 it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getString("def", ""), it.value.getString("comment", "")).string)
                 HudPixelConfigGui.addElement(
                         CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
@@ -96,7 +95,7 @@ object EasyConfigHandler {
 
         fieldMapInt.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING) {
                 it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getInt("def", 0), it.value.getString("comment", "")).int)
                 HudPixelConfigGui.addElement(
                         CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
@@ -108,7 +107,7 @@ object EasyConfigHandler {
         }
         fieldMapBoolean.forEach {
             it.key.isAccessible = true
-            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING){
+            if (!it.value.getBoolean("devOnly", false) || HudPixelMod.IS_DEBUGGING) {
                 it.key.set(null, HudPixelMod.CONFIG.get(it.value.getString("category", CCategory.UNKNOWN), it.value.getString("id", ""), it.value.getBoolean("def", false), it.value.getString("comment", "")).boolean)
                 HudPixelConfigGui.addElement(
                         CCategory.getCategoryByName(it.value.getString("category", CCategory.UNKNOWN)),
@@ -164,8 +163,8 @@ object EasyConfigHandler {
         })
     }
 
-    private fun fancy(text: String, length: Int):String{
-        return (text + "                                                                       ").substring(0, length -1)
+    private fun fancy(text: String, length: Int): String {
+        return (text + "                                                                       ").substring(0, length - 1)
     }
 }
 

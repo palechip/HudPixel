@@ -46,11 +46,11 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
  */
 
 import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
-import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumChatFormatting;
@@ -98,11 +98,19 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
     }
 
     @Override
-    public int getConfigxStart() {return xOffsetFriendsDisplay;}
+    public int getConfigxStart() {
+        return xOffsetFriendsDisplay;
+    }
+
     @Override
-    public boolean getConfigRenderRight() {return shownFriendsDisplayRight;}
+    public boolean getConfigRenderRight() {
+        return shownFriendsDisplayRight;
+    }
+
     @Override
-    public int getConfigyStart() {return yOffsetFriendsDisplay;}
+    public int getConfigyStart() {
+        return yOffsetFriendsDisplay;
+    }
 
     void addFriend(FancyListObject fco) {
         localStorageFCO.add(fco);
@@ -169,7 +177,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onRender() {
-        if(!enabled) return;
+        if (!enabled) return;
         if (Minecraft.getMinecraft().currentScreen instanceof GuiChat && lastUpdateRendering != 0 && OnlineFriendsLoader.isApiLoaded() && Minecraft.getMinecraft().displayHeight > 600) {
             this.renderDisplay();
             this.isMouseHander = true;

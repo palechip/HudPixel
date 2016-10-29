@@ -85,6 +85,7 @@ public class ApiKeyHandler {
 
     /**
      * Loads the api key.
+     *
      * @param callback The class which gets notified upon completion
      */
     public ApiKeyHandler(ApiKeyLoadedCallback callback) {

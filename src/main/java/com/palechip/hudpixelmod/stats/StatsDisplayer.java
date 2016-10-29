@@ -51,9 +51,9 @@ import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
+import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import net.minecraft.util.EnumChatFormatting;
 
 public abstract class StatsDisplayer implements PlayerResponseCallback {
