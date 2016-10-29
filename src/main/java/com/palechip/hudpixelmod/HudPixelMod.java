@@ -199,7 +199,6 @@ public class HudPixelMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        // register this class as an event handler (but fn not because modular gui :3)
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
