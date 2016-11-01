@@ -47,8 +47,12 @@ import static javax.imageio.ImageIO.read;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
 public final class ContributorFancinessHandler implements LayerRenderer<EntityPlayer> {
-    private volatile static Map<String, Option<ItemStack, LoadImgur>> stacks = null;
+    private volatile static Map<String, Option<ItemStack, LoadImgur>> stacks = new HashMap<>();;
     private volatile static boolean startedLoading = false;
+
+    //https://www.youtube.com/watch?v=41aGCrXM20E
+    //@ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "displayYourOwn", comment = "Should display your own Contributor Render? (If you don't know what that is, ignore it)", def = true)
+    public static boolean displayYourOwn = true;
 
     public ContributorFancinessHandler() {
         Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
@@ -80,7 +84,6 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
                 int i = Integer.parseInt(value);
                 stacks.put(key.toLowerCase(), new Option<>(new ItemStack(Item.getItemById(i)), null));
             } catch (NumberFormatException e) {
-                System.out.println("Ok, so it's not a number...");
                 if (Item.getByNameOrId("minecraft:" + value) != null) {
                     stacks.put(key.toLowerCase(), new Option<>(new ItemStack(Item.getByNameOrId("minecraft:" + value)), null));
                 } else if (Block.getBlockFromName("minecraft:" + value) != null) {
@@ -97,9 +100,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
     private static void renderStack(EntityPlayer player, Object object) {
         if (object instanceof ItemStack) {
             ItemStack item = (ItemStack) object;
-
             GlStateManager.pushMatrix();
-
             translateToHeadLevel(player);
             getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
             GlStateManager.rotate(180, 0, 0, 1);
@@ -109,14 +110,10 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
                 GlStateManager.scale(1, 1, 1);
             else GlStateManager.scale(0.5, 0.5, 0.5);
             getMinecraft().getRenderItem().renderItem(item, ItemCameraTransforms.TransformType.NONE);
-
             GlStateManager.popMatrix();
-
         } else if (object instanceof LoadImgur) {
             LoadImgur lmi = (LoadImgur) object;
-
             GlStateManager.pushMatrix();
-
             translateToHeadLevel(player);
             GlStateManager.rotate(180, 0, 0, 1);
             GlStateManager.translate(0, -0.85, 0);
@@ -125,11 +122,9 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             GlStateManager.scale(1, 1, 1);
             if (lmi.resourceLocation == null) return;
             getMinecraft().renderEngine.bindTexture(lmi.resourceLocation);
-
             GlStateManager.enableTexture2D();
-
-            double width = 2;
-            double height = 2;
+            double width = 1;
+            double height = 1;
             double left = width / 2;
             double bottom = height / 4;
 
@@ -142,9 +137,8 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             vb.pos(-bottom, width - left, 0).tex(1, 1).endVertex();
             vb.pos(-bottom, -left, 0).tex(0, 1).endVertex();
             tessellator.draw();
-
-            GlStateManager.popMatrix();
             GlStateManager.disableTexture2D();
+            GlStateManager.popMatrix();
         }
     }
 
@@ -165,9 +159,11 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
         GlStateManager.rotate(yaw - 270, 0, 1, 0);
         GlStateManager.rotate(pitch, 0, 0, 1);
         firstStart();
-        //TODO: throws null pointer
+        if (!displayYourOwn) {
+            stacks.remove(Minecraft.getMinecraft().thePlayer.getName());
+        }
         if (stacks.keySet().stream().map((s) -> {
-            if (s == null) return s;
+            if (s == null) return null;
             else return s.toLowerCase();
         }).collect(Collectors.toList()).contains(name.toLowerCase()))
             renderStack(player, stacks.get(name.toLowerCase()).invoke());

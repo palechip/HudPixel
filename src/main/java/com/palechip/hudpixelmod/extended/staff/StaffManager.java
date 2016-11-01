@@ -45,12 +45,10 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.extended.staff;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -58,23 +56,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * A small "ego"-class to display the the HudPixel staff with a nice color and tag #abgehoben
  */
 public class StaffManager implements IEventHandler, McColorHelper {
 
-    private static ArrayList<String> adminList = new ArrayList<String>();
-    private static ArrayList<String> helperList = new ArrayList<String>();
-    private static String LINK_TO_STAFFJSON = "http://hudpixel.unaussprechlich.net/HudPixel/files/staffjson.php";
 
     /**
      * constructor -> requests the file
@@ -83,7 +76,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
         HudPixelExtendedEventHandler.registerIEvent(this);
         MinecraftForge.EVENT_BUS.register(this);
         //loades the staff
-        getHttpRequest();
+        new AdminHandler();
     }
 
     private static String hudHelperTag() {
@@ -101,99 +94,45 @@ public class StaffManager implements IEventHandler, McColorHelper {
      */
     @SubscribeEvent
     public void onPlayerName(PlayerEvent.NameFormat e) {
-        //if (!GameDetector.isLobby()) return;
-        if (adminList.contains(e.username) || e.username.contains("PixelPlus")) {
-            e.displayname = hudAdminTag() + e.displayname;
-        } else if (helperList.contains(e.username)) {
-            e.displayname = hudHelperTag() + e.displayname;
+        if (tags.keySet().contains(e.username) || e.username.contains("PixelPlus")) {
+            e.displayname = tags.get(e.username) + e.displayname;
         }
     }
 
-    /**
-     * Does a http request to my server and get's the current staff members
-     */
-    private void getHttpRequest() {
-        try {
-            URL u = new URL(LINK_TO_STAFFJSON);
-            HttpURLConnection con = (HttpURLConnection) u.openConnection();
-            con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    private volatile static Map<String, String> tags = null;
+    private static void load(Properties props) {
+        tags = new HashMap<>();
+        System.out.println("Fanciness time!");
+        for (String key : props.stringPropertyNames()) {
+            String value = props.getProperty(key);
+            System.out.println("Loading fanciness for " + key + ": " + value);
+            tags.put(key, value.contains("admin") ? hudAdminTag() : value.contains("helper") ? hudHelperTag() : value);
+        }
+    }
 
-            StringBuilder sBuilder = new StringBuilder();
-            String buff = "";
-            while ((buff = br.readLine()) != null) {
-                sBuilder.append(buff);
+    private static class AdminHandler extends Thread {
+        public AdminHandler() {
+            setName("Admin Fanciness Thread");
+            setDaemon(true);
+            start();
+        }
+
+        @Override
+        public void run() {
+            try {
+                URL url = new URL("https://raw.githubusercontent.com/Eladkay/static/master/HudPixelAdmins");
+                Properties props = new Properties();
+                try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
+                    props.load(reader);
+                    load(props);
+                }
+            } catch (IOException e) {
+                HudPixelMod.instance().getLOGGER().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
             }
-            String data = sBuilder.toString();
-            JsonObject jsonObject = jsonParser(data);
-            adminList.add("PixelPlus");
-            adminList = getArrayFromJsonEntry(getStringFromJson("admins", jsonObject));
-            helperList.add("Pietro_");
-            helperList = getArrayFromJsonEntry(getStringFromJson("helper", jsonObject));
-        } catch (MalformedURLException e) {
-            LoggerHelper.logError("[StaffLoader]: Something went wrong while loading the URL for the staff file");
-            e.printStackTrace();
-        } catch (IOException e) {
-            LoggerHelper.logError("[StaffLoader]: Something went wrong while reading the update file!");
-            e.printStackTrace();
         }
     }
 
-    /**
-     * Get's the data from the website and generates a JsonObjrect
-     *
-     * @param data website data
-     * @return the data as JsonObject
-     */
-    private JsonObject jsonParser(String data) {
-        JsonParser jsonParser = new JsonParser();
-        return jsonParser.parse(data).getAsJsonObject();
-    }
 
-    /**
-     * get's all usernames i put into the category
-     *
-     * @param s JsonEntry
-     * @return usernames in a ArrayList
-     */
-    private ArrayList<String> getArrayFromJsonEntry(String s) {
-        s = removeChars(s, "\"");
-        s = removeChars(s, "[");
-        return new ArrayList<String>(Arrays.asList(s.split(",")));
-    }
-
-    /**
-     * Get's one json entry via key and returns everything inside as a string
-     *
-     * @param key        the key
-     * @param jsonObject the JsonObject
-     * @return entry
-     */
-    private String getStringFromJson(String key, JsonObject jsonObject) {
-        try {
-            if (jsonObject.get(key) != null) {
-                return jsonObject.get(key).toString();
-            } else {
-                LoggerHelper.logWarn("[StaffLoader]: Key '" + key + "' not Found in Json!");
-                return "";
-            }
-        } catch (Exception e) {
-            LoggerHelper.logError("[UpdateNotifier]: Something went wrong while extracting Key '" + key + "' from Json!");
-            e.printStackTrace();
-            return D_RED + "Something went wrong while extracting Key '" + key + "' from Json!";
-        }
-    }
-
-    /**
-     * removes a char-type from a string
-     *
-     * @param s the string
-     * @param r this char will get replaced by noting
-     * @return s without r
-     */
-    private String removeChars(String s, String r) {
-        return s.replace(r, "");
-    }
 
     /**
      * buts the admin/helper tag infront of a message a admin/helper has written
@@ -208,31 +147,12 @@ public class StaffManager implements IEventHandler, McColorHelper {
             return; //return if the message contains a link .... so you can still click it :)
 
 
-        for (String s : adminList) { //for admins
+        for (String s : tags.keySet()) { //for admins
             if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
-                e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudAdminTag() + s));
+                e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
-        }
-
-        if (e.message.getUnformattedText().contains("PixelPlus:") || e.message.getUnformattedText().startsWith("PixelPlus:")) {
-            e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst("PixelPlus", hudAdminTag() + "PixelPlus"));
-            FancyChat.getInstance().addMessage(e.message.getFormattedText());
-            return;
-        }
-
-        for (String s : helperList) { //for helpers
-            if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
-                e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, hudHelperTag() + s));
-                FancyChat.getInstance().addMessage(e.message.getFormattedText());
-                return;
-            }
-        }
-        if (e.message.getUnformattedText().contains("Pietro_:") || e.message.getUnformattedText().startsWith("Pietro_:")) {
-            e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst("Pietro_", hudHelperTag() + "Pietro_"));
-            FancyChat.getInstance().addMessage(e.message.getFormattedText());
-            return;
         }
     }
 }
