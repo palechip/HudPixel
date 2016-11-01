@@ -48,6 +48,7 @@ package com.palechip.hudpixelmod.extended;
 
 import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
 import com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownDisplayManager;
+import com.palechip.hudpixelmod.extended.gui.ArmorHud;
 import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -78,6 +79,6 @@ public class HudPixelExtended {
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 
         CooldownDisplayManager.getInstance();
-
+        ArmorHud.INSTANCE.init();
     }
 }

@@ -97,7 +97,9 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
     private static void renderStack(EntityPlayer player, Object object) {
         if (object instanceof ItemStack) {
             ItemStack item = (ItemStack) object;
+
             GlStateManager.pushMatrix();
+
             translateToHeadLevel(player);
             getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
             GlStateManager.rotate(180, 0, 0, 1);
@@ -107,10 +109,14 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
                 GlStateManager.scale(1, 1, 1);
             else GlStateManager.scale(0.5, 0.5, 0.5);
             getMinecraft().getRenderItem().renderItem(item, ItemCameraTransforms.TransformType.NONE);
+
             GlStateManager.popMatrix();
+
         } else if (object instanceof LoadImgur) {
             LoadImgur lmi = (LoadImgur) object;
+
             GlStateManager.pushMatrix();
+
             translateToHeadLevel(player);
             GlStateManager.rotate(180, 0, 0, 1);
             GlStateManager.translate(0, -0.85, 0);
@@ -119,7 +125,9 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             GlStateManager.scale(1, 1, 1);
             if (lmi.resourceLocation == null) return;
             getMinecraft().renderEngine.bindTexture(lmi.resourceLocation);
+
             GlStateManager.enableTexture2D();
+
             double width = 2;
             double height = 2;
             double left = width / 2;
@@ -134,6 +142,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             vb.pos(-bottom, width - left, 0).tex(1, 1).endVertex();
             vb.pos(-bottom, -left, 0).tex(0, 1).endVertex();
             tessellator.draw();
+
             GlStateManager.popMatrix();
             GlStateManager.disableTexture2D();
         }
@@ -156,6 +165,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
         GlStateManager.rotate(yaw - 270, 0, 1, 0);
         GlStateManager.rotate(pitch, 0, 0, 1);
         firstStart();
+        //TODO: throws null pointer
         if (stacks.keySet().stream().map((s) -> {
             if (s == null) return s;
             else return s.toLowerCase();

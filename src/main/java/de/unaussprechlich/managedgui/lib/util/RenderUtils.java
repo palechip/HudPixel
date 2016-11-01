@@ -26,6 +26,7 @@
  *******************************************************************************/
 package de.unaussprechlich.managedgui.lib.util;
 
+import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import de.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -56,11 +57,45 @@ public class RenderUtils {
         GL11.glPopMatrix();
     }
 
+    public static void renderItemStack(ItemStack iStack, int xStart, int yStart){
+        GL11.glPushMatrix();
+        RenderHelper.enableStandardItemLighting();
+
+        GlStateManager.color(0.0F, 0.0F, 32.0F);
+        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        renderItem.renderItemAndEffectIntoGUI(iStack , (short)(xStart + 1), (short)(yStart + 1));
+
+        RenderHelper.disableStandardItemLighting();
+
+        double dur = 1 - iStack.getItem().getDurabilityForDisplay(iStack);
+
+        if(iStack.getItem().showDurabilityBar(iStack))
+            renderBoxWithColor(xStart + 1, yStart + 16, 16 * dur, 1, (float)(1 -dur), (float)dur, 0, 1);
+
+        GlStateManager.disableBlend();
+        GL11.glPopMatrix();
+    }
+
+    public static void renderItemStackHudBackground(ItemStack iStack, int xStart, int yStart){
+        renderBoxWithHudBackground(xStart + 1, yStart + 1, 16, 16);
+        renderItemStack(iStack, xStart, yStart);
+    }
+
     public static void renderBorder(short xStart, short yStart, short innerHight, short innerWidth, StorageFourSide border, ColorRGBA color) {
         renderBoxWithColor(xStart, yStart, (short) (innerWidth + border.LEFT + border.RIGHT), border.TOP, color);
         renderBoxWithColor(xStart, (short) (yStart + border.TOP + innerHight), (short) (innerWidth + border.LEFT + border.RIGHT), border.BOTTOM, color);
         renderBoxWithColor(xStart, (short) (yStart + border.TOP), border.LEFT, innerHight, color);
         renderBoxWithColor((short) (xStart + border.LEFT + innerWidth), (short) (yStart + border.TOP), border.RIGHT, innerHight, color);
+    }
+
+    public static void renderBoxWithHudBackground(int xStart, int yStart, int width, int height){
+        renderBoxWithColor(
+                xStart, yStart, width, height,
+                (float)(GeneralConfigSettings.getHudRed())   / 255,
+                (float)(GeneralConfigSettings.getHudGreen()) / 255,
+                (float)(GeneralConfigSettings.getHudBlue())  / 255,
+                (float)(GeneralConfigSettings.getHudAlpha()) / 255
+        );
     }
 
 
@@ -82,7 +117,6 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.popMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
 
@@ -97,7 +131,6 @@ public class RenderUtils {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.pushMatrix();
 
     }
 
@@ -106,9 +139,12 @@ public class RenderUtils {
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        GlStateManager.popMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
         GlStateManager.color(red, green, blue, alpha);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
@@ -116,8 +152,10 @@ public class RenderUtils {
         worldrenderer.pos(xStart + width, yStart, 0.0D).endVertex();
         worldrenderer.pos(xStart, yStart, 0.0D).endVertex();
         tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+        GlStateManager.pushMatrix();
 
     }
 
