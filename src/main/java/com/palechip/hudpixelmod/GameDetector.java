@@ -261,8 +261,8 @@ public class GameDetector {
             TimerModularGuiProvider.instance.onGameStart();
         }
         if (message.equalsIgnoreCase("                            Reward Summary")) {
-            gameHasntBegan = true;
             HudPixelExtendedEventHandler.onGameEnd();
+            gameHasntBegan = true;
         }
         if (message.toLowerCase().contains("currently on server".toLowerCase())) {
             if (LOBBY_MATCHER.asPredicate().test(message)) { //lobby

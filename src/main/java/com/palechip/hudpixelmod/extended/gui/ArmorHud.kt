@@ -77,7 +77,7 @@ object ArmorHud : IEventHandler{
 
     override fun onRender(){
         if(Minecraft.getMinecraft().thePlayer == null) return
-        if(disable_ArmorHud) return
+        if(disable_ArmorHud || !Minecraft.getMinecraft().inGameHasFocus) return
 
         for(i in 0..3) {
             val iStack: ItemStack = Minecraft.getMinecraft().thePlayer.getCurrentArmor(3-i) ?: continue

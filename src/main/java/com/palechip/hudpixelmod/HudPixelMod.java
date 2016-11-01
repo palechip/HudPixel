@@ -55,7 +55,6 @@ import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
-import com.palechip.hudpixelmod.util.ContributorFancinessHandler;
 import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
@@ -101,7 +100,7 @@ public class HudPixelMod {
 
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.6";
+    public static final String DEFAULT_VERSION = "3.2.7dev";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     // key related vars
@@ -206,7 +205,7 @@ public class HudPixelMod {
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
-        ContributorFancinessHandler.init();
+        //ContributorFancinessHandler.init();
 
 
         // setup HudPixelExtended
