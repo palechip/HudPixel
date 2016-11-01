@@ -96,7 +96,6 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
         }
     }
 
-    @SuppressWarnings("deprecation")
     private static void renderStack(EntityPlayer player, Object object) {
         if (object instanceof ItemStack) {
             ItemStack item = (ItemStack) object;
