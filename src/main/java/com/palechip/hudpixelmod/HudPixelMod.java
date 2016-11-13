@@ -55,6 +55,7 @@ import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
+import com.palechip.hudpixelmod.util.ContributorFancinessHandler;
 import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
 import com.palechip.hudpixelmod.util.WebUtil;
@@ -205,7 +206,7 @@ public class HudPixelMod {
         MinecraftForge.EVENT_BUS.register(new Renderer());
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
-        //ContributorFancinessHandler.init();
+        ContributorFancinessHandler.init();
 
 
         // setup HudPixelExtended
