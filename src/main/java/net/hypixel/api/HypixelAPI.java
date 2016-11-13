@@ -2,23 +2,28 @@ package net.hypixel.api;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
-import com.palechip.hudpixelmod.api.interaction.ApiKeyHandler;
+import com.google.gson.GsonBuilder;
+import net.hypixel.api.adapters.*;
 import net.hypixel.api.exceptions.APIThrottleException;
 import net.hypixel.api.exceptions.HypixelAPIException;
 import net.hypixel.api.reply.AbstractReply;
+import net.hypixel.api.reply.GuildReply;
 import net.hypixel.api.request.Request;
 import net.hypixel.api.util.Callback;
+import net.hypixel.api.util.GameType;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @SuppressWarnings("unused")
@@ -32,7 +37,17 @@ public class HypixelAPI {
     private UUID apiKey;
 
     private HypixelAPI() {
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(UUID.class, new UUIDTypeAdapter())
+                .registerTypeAdapter(GameType.class, new GameTypeTypeAdapter())
+                .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+
+                // guilds
+                .registerTypeAdapter(GuildReply.Guild.GuildCoinHistory.class, new GuildCoinHistoryAdapter())
+                .registerTypeAdapterFactory(new GuildCoinHistoryHoldingTypeAdapterFactory<>(GuildReply.Guild.class))
+                .registerTypeAdapterFactory(new GuildCoinHistoryHoldingTypeAdapterFactory<>(GuildReply.Guild.Member.class))
+
+                .create();
         lock = new ReentrantReadWriteLock();
         httpClient = HttpClientBuilder.create().build();
     }
@@ -94,15 +109,13 @@ public class HypixelAPI {
      */
     public <R extends AbstractReply> R getSync(Request request) throws HypixelAPIException {
         lock.readLock().lock();
-        SyncCallback<R> callback = new SyncCallback<R>(request.getRequestType().getReplyClass());
+        SyncCallback<R> callback = new SyncCallback<>(request.getRequestType().getReplyClass());
         try {
             if (doKeyCheck(callback)) {
                 Future<HttpResponse> future = get(request, callback);
                 future.get();
             }
-        } catch (InterruptedException e) {
-            callback.callback(e, null);
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             callback.callback(e, null);
         } finally {
             lock.readLock().unlock();
@@ -141,7 +154,6 @@ public class HypixelAPI {
     private boolean doKeyCheck(Callback<?> callback) {
         if (apiKey == null) {
             callback.callback(new HypixelAPIException("API key hasn't been set yet!"), null);
-            ApiKeyHandler.requestApiKey();
             return false;
         } else {
             return true;
@@ -155,22 +167,20 @@ public class HypixelAPI {
      * @param <T>      The class of the callback
      * @return The ResponseHandler that wraps the callback
      */
-    private <T extends AbstractReply> ResponseHandler<HttpResponse> buildResponseHandler(final Callback<T> callback) {
-        return new ResponseHandler<HttpResponse>() {
-            @Override
-            public HttpResponse handleResponse(HttpResponse obj) throws ClientProtocolException, IOException {
-                T value;
-                try {
-                    value = gson.fromJson(EntityUtils.toString(obj.getEntity(), "UTF-8"), callback.getClazz());
+    private <T extends AbstractReply> ResponseHandler<HttpResponse> buildResponseHandler(Callback<T> callback) {
+        return obj -> {
+            T value;
+            try {
+                String content = EntityUtils.toString(obj.getEntity(), "UTF-8");
+                value = gson.fromJson(content, callback.getClazz());
 
-                    HypixelAPI.this.checkReply(value);
-                } catch (Throwable t) {
-                    callback.callback(t, null);
-                    return obj;
-                }
-                callback.callback(null, value);
+                checkReply(value);
+            } catch (Throwable t) {
+                callback.callback(t, null);
                 return obj;
             }
+            callback.callback(null, value);
+            return obj;
         };
     }
 
@@ -204,13 +214,8 @@ public class HypixelAPI {
      * @param url      The URL to send the request to
      * @param callback The callback to execute
      */
-    private Future<HttpResponse> get(final String url, final Callback<?> callback) {
-        return exService.submit(new Callable<HttpResponse>() {
-            @Override
-            public HttpResponse call() throws Exception {
-                return httpClient.execute(new HttpGet(url), HypixelAPI.this.buildResponseHandler(callback));
-            }
-        });
+    private Future<HttpResponse> get(String url, Callback<?> callback) {
+        return exService.submit(() -> httpClient.execute(new HttpGet(url), buildResponseHandler(callback)));
     }
 
     private class SyncCallback<T extends AbstractReply> extends Callback<T> {
@@ -228,4 +233,5 @@ public class HypixelAPI {
             this.result = result;
         }
     }
+
 }

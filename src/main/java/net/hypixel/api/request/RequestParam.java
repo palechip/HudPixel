@@ -3,50 +3,55 @@ package net.hypixel.api.request;
 import net.hypixel.api.util.APIUtil;
 
 import java.util.UUID;
-
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 public enum RequestParam {
 
-    KEY(RequestType.KEY, RequestVar.KEY),
+    KEY(RequestType.KEY, "key", String.class),
 
-    PLAYER_BY_NAME(RequestType.PLAYER, RequestVar.NAME),
-    PLAYER_BY_UUID(RequestType.PLAYER, RequestVar.UUID),
+    PLAYER_BY_NAME(RequestType.PLAYER, "name", String.class),
+    PLAYER_BY_UUID(RequestType.PLAYER, "uuid", UUID.class, APIUtil.UUID_STRIPPER),
 
-    GUILD_BY_NAME(RequestType.FIND_GUILD, RequestVar.BY_NAME),
-    GUILD_BY_PLAYER_UUID(RequestType.FIND_GUILD, RequestVar.BY_UUID),
-    GUILD_BY_ID(RequestType.GUILD, RequestVar.ID),
+    GUILD_BY_NAME(RequestType.FIND_GUILD, "byName", String.class),
+    GUILD_BY_PLAYER_UUID(RequestType.FIND_GUILD, "byUuid", UUID.class, APIUtil.UUID_STRIPPER),
+    GUILD_BY_ID(RequestType.GUILD, "id", String.class),
 
-    FRIENDS_BY_NAME(RequestType.FRIENDS, RequestVar.PLAYER),
-    FRIENDS_BY_UUID(RequestType.FRIENDS, RequestVar.UUID),
+    FRIENDS_BY_UUID(RequestType.FRIENDS, "uuid", UUID.class, APIUtil.UUID_STRIPPER),
 
-    SESSION_BY_NAME(RequestType.SESSION, RequestVar.PLAYER),
-    SESSION_BY_UUID(RequestType.SESSION, RequestVar.UUID);
+    SESSION_BY_UUID(RequestType.SESSION, "uuid", UUID.class, APIUtil.UUID_STRIPPER);
 
     private static final RequestParam[] v = values();
 
     private final RequestType requestType;
-    private final RequestVar requestVar;
+    private final String queryField;
+    private final Class valueClass;
+    private final Function<Object, String> valueSerializer;
 
-    RequestParam(RequestType requestType, RequestVar requestVar) {
+    RequestParam(RequestType requestType, String queryField, Class<?> valueClass) {
+        this(requestType, queryField, valueClass, null);
+    }
+
+    RequestParam(RequestType requestType, String queryField, Class<?> valueClass, Function<Object, String> valueSerializer) {
         this.requestType = requestType;
-        this.requestVar = requestVar;
+        this.queryField = queryField;
+        this.valueClass = valueClass;
+        this.valueSerializer = valueSerializer;
     }
 
     public RequestType getRequestType() {
         return requestType;
     }
 
-    public RequestVar getRequestVar() {
-        return requestVar;
+    public String getQueryField() {
+        return queryField;
     }
 
     public Class getValueClass() {
-        return requestVar == RequestVar.UUID ? UUID.class : String.class;
+        return valueClass;
     }
 
     public String serialize(Object value) {
-        return requestVar == RequestVar.UUID ? APIUtil.stripDashes((UUID) value) : (String) value;
+        return valueSerializer == null ? (String) value : valueSerializer.apply(value);
     }
-
 }

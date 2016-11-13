@@ -1,6 +1,5 @@
 package net.hypixel.api.request;
 
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import net.hypixel.api.HypixelAPI;
 
 import java.util.Map;
@@ -29,13 +28,11 @@ public class Request {
         String url = BASE_URL;
 
         url += requestType.getKey();
-        url += "?" + RequestParam.KEY.getRequestVar().getValue() + "=" + hypixelAPI.getApiKey();
+        url += "?" + RequestParam.KEY.getQueryField() + "=" + hypixelAPI.getApiKey();
 
         for (Map.Entry<RequestParam, Object> entry : params.entrySet()) {
-            url += "&" + entry.getKey().getRequestVar().getValue() + "=" + entry.getKey().serialize(entry.getValue());
+            url += "&" + entry.getKey().getQueryField() + "=" + entry.getKey().serialize(entry.getValue());
         }
-
-        LoggerHelper.logInfo("[APIrequest]: " + url);
 
         return url;
     }

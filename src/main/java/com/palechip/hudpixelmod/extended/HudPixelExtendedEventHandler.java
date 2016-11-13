@@ -74,23 +74,27 @@ import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 public class HudPixelExtendedEventHandler {
 
     private static final long clickDelay = 1000;
-    private static ArrayList<IEventHandler> ieventArrayList = new ArrayList<IEventHandler>();
+
     private static long lastTimeClicked;
     private static boolean doubleClick = false;
     private long lastSystemTime = System.currentTimeMillis();
     private int delay = 20 * 1000; //20s
 
+    private static final ArrayList<IEventHandler> iEventArrayList = new ArrayList<>();
+
     public static void registerIEvent(IEventHandler iEventHandler) {
-        ieventArrayList.add(iEventHandler);
+        iEventArrayList.add(iEventHandler);
     }
 
     public static void unregisterIEvent(IEventHandler iEventHandler) {
-        ieventArrayList.remove(iEventHandler);
+        iEventArrayList.remove(iEventHandler);
     }
 
-    private static ArrayList<IEventHandler> getIeventBuffer() {
-        return new ArrayList<IEventHandler>(ieventArrayList);
+    public static ArrayList<IEventHandler> getIeventBuffer(){
+        return new ArrayList<IEventHandler>(iEventArrayList);
     }
+
+
 
     private static void mouseClickEvent() {
         Minecraft mc = Minecraft.getMinecraft();

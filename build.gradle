@@ -45,6 +45,7 @@ configurations {
     compile.extendsFrom(required)
 }
 dependencies {
+    compile 'joda-time:joda-time:2.9.4'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
@@ -58,7 +59,6 @@ compileJava {
 
 jar {
     // We need to make sure we package kotlin runtimes.
-
     dependsOn configurations.compile
     from {
         configurations.required.collect {
@@ -69,9 +69,7 @@ jar {
 
 sourceSets { main.java.srcDirs += 'src/main/kotlin' }
 
-
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
