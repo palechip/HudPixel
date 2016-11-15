@@ -52,7 +52,7 @@ import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
-import de.unaussprechlich.managedgui.lib.util.RenderUtils;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;

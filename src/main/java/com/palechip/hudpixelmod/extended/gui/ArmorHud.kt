@@ -7,7 +7,7 @@ import com.palechip.hudpixelmod.config.GeneralConfigSettings
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler
 import com.palechip.hudpixelmod.extended.util.IEventHandler
 import com.palechip.hudpixelmod.util.DisplayUtil
-import de.unaussprechlich.managedgui.lib.util.RenderUtils
+import net.unaussprechlich.managedgui.lib.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
 
@@ -94,6 +94,7 @@ object ArmorHud : IEventHandler{
                     RenderUtils.renderItemStack(iStack, xStart , yStart + (i* size))
         }
     }
+
 
     override fun onClientTick() {
         val dHeight = DisplayUtil.getScaledMcHeight()

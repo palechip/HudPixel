@@ -47,7 +47,7 @@ package com.palechip.hudpixelmod.extended.cooldowndisplay;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.util.GameType;
-import de.unaussprechlich.managedgui.lib.util.RenderUtils;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

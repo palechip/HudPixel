@@ -2,8 +2,8 @@ package com.palechip.hudpixelmod.extended.util.gui;
 
 import net.minecraft.util.ResourceLocation;
 
-import static de.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
-import static de.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
+import static net.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
+import static net.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
 import static java.lang.Math.round;
 
 /* **********************************************************************************************************************
