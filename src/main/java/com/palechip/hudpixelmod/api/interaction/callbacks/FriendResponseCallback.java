@@ -45,10 +45,10 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.callbacks;
 
-import com.palechip.hudpixelmod.api.interaction.representations.Friend;
+import net.hypixel.api.reply.FriendsReply;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface FriendResponseCallback {
-    void onFriendResponse(ArrayList<Friend> friends);
+public interface FriendResponseCallback extends ApiCallback{
+    void onFriendResponse(List<FriendsReply.FriendShip> friendShips);
 }

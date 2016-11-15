@@ -11,6 +11,7 @@ import net.hypixel.api.reply.GuildReply;
 import net.hypixel.api.request.Request;
 import net.hypixel.api.util.Callback;
 import net.hypixel.api.util.GameType;
+import net.hypixel.api.util.ICallback;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -131,11 +132,12 @@ public class HypixelAPI {
      * Execute Request asynchronously, executes Callback when finished
      *
      * @param request  Request to get
-     * @param callback Callback to execute
+     * @param iCallback Callback to execute
      * @param <R>      Class of the reply
      */
-    public <R extends AbstractReply> void getAsync(Request request, Callback<R> callback) {
+    public <R extends AbstractReply> void getAsync(Request request, ICallback<R> iCallback) {
         lock.readLock().lock();
+        Callback callback = (Callback)iCallback;
         try {
             if (doKeyCheck(callback)) {
                 get(request, callback);

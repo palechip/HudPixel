@@ -47,14 +47,16 @@ package com.palechip.hudpixelmod.api.interaction;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.io.*;
 
-public class ApiKeyHandler {
+public class ApiKeyHandler implements IEventHandler{
     private static ApiKeyHandler instance;
     private static String API_KEY_STORAGE_PATH;
     private static String API_KEY_STORAGE_FILE;
@@ -79,25 +81,47 @@ public class ApiKeyHandler {
     }
 
     // this gets set to true when the loading fails but is finished
-    public boolean loadingFailed = false;
-    private String apiKey;
-    private ApiKeyLoadedCallback callback;
+    private static boolean loadingFailed = false;
+    private static String apiKey;
+    private static ApiKeyLoadedCallback callback;
 
-    /**
-     * Loads the api key.
-     *
-     * @param callback The class which gets notified upon completion
-     */
-    public ApiKeyHandler(ApiKeyLoadedCallback callback) {
-        instance = this;
-        this.callback = callback;
+    private static ApiKeyHandler INSTANCE;
+
+    public static ApiKeyHandler getINSTANCE() {
+        if (INSTANCE == null)
+            INSTANCE = new ApiKeyHandler();
+        return INSTANCE;
+    }
+
+    private ApiKeyHandler() {}
+
+    public void loadKey(ApiKeyLoadedCallback callback){
+        ApiKeyHandler.callback = callback;
         // load the api in a separate thread
-        new Thread() {
-            @Override
-            public void run() {
-                ApiKeyHandler.instance.loadAPIKey();
-            }
-        }.start();
+        new Thread(ApiKeyHandler.getINSTANCE()::loadAPIKey).start();
+    }
+
+    public static boolean isLoadingFailed() {
+        return loadingFailed;
+    }
+
+    @Override
+    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+        String message = e.message.getUnformattedText();
+        if (!message.startsWith("Your new API key is ")) return;
+
+        // extract the key
+        apiKey = message.substring(message.indexOf("is ") + 3);
+
+        // let the callback know
+        callback.ApiKeyLoaded(false, apiKey);
+
+        // and save it
+        new Thread( ApiKeyHandler.getINSTANCE()::saveAPIKey).start();
+
+        // tell the user
+        new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
+
     }
 
     /**
@@ -105,32 +129,9 @@ public class ApiKeyHandler {
      */
     public static void requestApiKey() {
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
-        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api new", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api new", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api new", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_4).send();
-    }
-
-    public static ApiKeyHandler getInstance() {
-        return instance;
-    }
-
-    public void onChatMessage(String textMessage) {
-        if (textMessage.startsWith("Your new API key is ")) {
-            // extract the key
-            this.apiKey = textMessage.substring(textMessage.indexOf("is ") + 3);
-            // let the callback know
-            this.callback.ApiKeyLoaded(false, this.apiKey);
-            // and save it
-            new Thread() {
-                @Override
-                public void run() {
-                    ApiKeyHandler.getInstance().saveAPIKey();
-                }
-
-            }.start();
-            // tell the user
-            new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
-        }
     }
 
     /**
@@ -151,8 +152,8 @@ public class ApiKeyHandler {
                 // create it
                 file.createNewFile();
                 this.resetApiFile(file);
-                this.loadingFailed = true;
-                this.callback.ApiKeyLoaded(true, null);
+                loadingFailed = true;
+                callback.ApiKeyLoaded(true, null);
                 return;
             }
             // read the key
@@ -162,13 +163,13 @@ public class ApiKeyHandler {
             // make sure the content can be a valid key
             if (key == null || key.equals(EMPTY_FILE_CONTENT) || !this.isCorrectKeyFormat(key.replace(" ", ""))) {
                 this.resetApiFile(file);
-                this.loadingFailed = true;
-                this.callback.ApiKeyLoaded(true, null);
+                loadingFailed = true;
+                callback.ApiKeyLoaded(true, null);
                 return;
             }
-            this.apiKey = key.replace(" ", "");
-            this.loadingFailed = false;
-            this.callback.ApiKeyLoaded(false, this.apiKey);
+            apiKey = key.replace(" ", "");
+            loadingFailed = false;
+            callback.ApiKeyLoaded(false, apiKey);
         } catch (Exception e) {
             HudPixelMod.instance().logError("Critical error when reading the api key file: ");
             e.printStackTrace();

@@ -45,6 +45,7 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.representations;
 
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.util.GameType;
 import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
@@ -52,68 +53,31 @@ import com.palechip.hudpixelmod.util.UuidHelper;
 
 public class Booster implements UuidCallback {
 
-    // these values are filled by the API
-    // purchaser is onl filled for old boosters
-    public static final int TIPPING_COOLDOWN = 1800000; // = 30 min
+    private static final int TIPPING_COOLDOWN = 1800000; // = 30 min
 
-    private int amount;
-    private long dateActivated;
-    private int gameType;
+    private GameType gameType;
+
     private long length;
-    private long originalLength;
-    private String purchaserUuid;
+    private static final long originalLength = 60 * 60;;
+
 
     // properties used by the mod
     private long tippingTime;
     private String owner;
-    private int gameID; // saves the ID the mod uses for the game and not the database ID.
-
-    public Booster() {
-    }
 
     // allows boosters to be created from the /booster queue command
-    public Booster(String name, int gameID) {
-        this.purchaserUuid = ""; // the UUID isn't necessary
-        this.owner = name;
-        this.gameID = gameID;
-        this.originalLength = 60 * 60; // one hour
-        // we can't know the length but the booster must be active
-        this.length = this.originalLength - 1;
-        // neither can we know the activation time
-        this.dateActivated = System.currentTimeMillis();
-        // get the db id
-        this.gameType = GameType.getTypeByID(gameID).getModID();
+    public Booster(String uuid, GameType gameType) {
+        this.gameType = gameType;
+        this.length = originalLength - 1;
+        new UuidHelper(uuid, this);
+    }
+
+    public GameType getGameType() {
+        return gameType;
     }
 
     public String getTipName() {
-        return GameType.getTypeByDatabaseID(gameType).getTipName();
-    }
-
-    public int getCoinAmount() {
-        return amount;
-    }
-
-    public long getActivationDateAndTime() {
-        return dateActivated;
-    }
-
-    /**
-     * Returns the mod ID for the game which will can be used to get the game configuration
-     *
-     * @return
-     */
-    public int getGameID() {
-        if (this.gameID == 0) {
-            // go through all configurations
-            for (GameType config : GameType.values()) {
-                // if we find one with a matching database id
-                if (config.getModID() == this.gameType) {
-                    // save it
-                    this.gameID = config.getModID();
-                }
-            }
-        }
-        return this.gameID;
+        return gameType.getTipName();
     }
 
     public long getRemainingTime() {
@@ -125,35 +89,20 @@ public class Booster implements UuidCallback {
     }
 
     public String getOwner() {
-        if (this.owner == null || this.owner.equals("!ERROR!")) {
-            new UuidHelper(purchaserUuid, this);
-        }
-        // did getting the name fail?
-        if (this.owner == null) {
-            this.owner = "!ERROR!";
-        }
+        if (this.owner == null) return  "!ERROR!";
         return owner;
     }
 
-    /**
-     * This saves the time when the booster was tipped.
-     */
     public void tip() {
         this.tippingTime = System.currentTimeMillis();
     }
 
     public boolean isTipped() {
         // only if the booster is already active
-        if (this.getRemainingTime() < this.getTotalLength()) {
-            // this expression is true if there is a tipping time and it's less than half an hour ago
-            return ((this.tippingTime != 0l && System.currentTimeMillis() < this.tippingTime + TIPPING_COOLDOWN));
-        } else {
-            return false;
-        }
-    }
-
-    public void setTippingTime(long time) {
-        this.tippingTime = time;
+        // this expression is true if there is a tipping time and it's less than half an hour ago
+        return this.getRemainingTime() < this.getTotalLength()
+                && ((this.tippingTime != 0L
+                && System.currentTimeMillis() < this.tippingTime + TIPPING_COOLDOWN));
     }
 
     @Override
@@ -168,5 +117,6 @@ public class Booster implements UuidCallback {
     @Override
     public void onUuidCallback(String playerName) {
         this.owner = playerName;
+        HudPixelExtended.boosterManager.checkBooster(this);
     }
 }

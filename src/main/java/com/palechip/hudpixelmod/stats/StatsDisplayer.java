@@ -47,7 +47,6 @@ package com.palechip.hudpixelmod.stats;
 
 import com.google.gson.JsonObject;
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 import com.palechip.hudpixelmod.config.CCategory;
@@ -67,7 +66,7 @@ public abstract class StatsDisplayer implements PlayerResponseCallback {
     protected StatsDisplayer(String playerName) {
         this.playerName = playerName;
         if (GeneralConfigSettings.getUseAPI() && enabled) {
-            Queue.getInstance().getPlayer(this, playerName);
+            //TODO get the playerdata
         }
     }
 

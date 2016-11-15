@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.extended.codename.connect;
+package com.palechip.hudpixelmod.extended.exceptions;
 
 /***********************************************************************************************************************
  HudPixelReloaded - License
@@ -45,13 +45,10 @@ package com.palechip.hudpixelmod.extended.codename.connect;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class Connect {
-    private Data blabla;
-/**
- *
- * Connect Created} by Alexander on 13.11.2016.
- *
- * Description: 
- *
- **/
+public class ApiQueueException extends HudPixelException {
+
+    public ApiQueueException(Object parameter) {
+        super("Something went while requesting a ApiQueueEntry! More information below: \n" + parameter );
+    }
+
 }

@@ -55,6 +55,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import java.util.HashMap;
 
+
 public class OnlineFriendsUpdater implements IEventHandler {
 
     //######################################################################################################################

@@ -45,10 +45,10 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.callbacks;
 
-import com.palechip.hudpixelmod.api.interaction.representations.Booster;
+import net.hypixel.api.reply.BoostersReply;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface BoosterResponseCallback {
-    void onBoosterResponse(ArrayList<Booster> boosters);
+public interface BoosterResponseCallback extends ApiCallback{
+    void onBoosterResponse(List<BoostersReply.Booster> boosters);
 }

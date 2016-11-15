@@ -46,7 +46,6 @@
 package com.palechip.hudpixelmod;
 
 import com.google.common.collect.Lists;
-import com.palechip.hudpixelmod.api.interaction.Queue;
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter;
 import com.palechip.hudpixelmod.command.*;
 import com.palechip.hudpixelmod.config.EasyConfigHandler;
@@ -79,6 +78,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -96,7 +97,7 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         acceptedMinecraftVersions = "1.8.9"
 )
-
+@SideOnly(Side.CLIENT)
 public class HudPixelMod {
 
     public static final String MODID = "hudpixel";
@@ -119,7 +120,6 @@ public class HudPixelMod {
     private static boolean didTheThings = false;
     public GameDetector gameDetector;
     private Logger LOGGER;
-    private Queue apiQueue;
     private KeyBinding debugKey; // A key used to bind some debugging functionality.
     private KeyBinding pressToPlay;
     private KeyBinding openConfigGui;
@@ -190,7 +190,6 @@ public class HudPixelMod {
 
             // load the configuration file
             EasyConfigHandler.INSTANCE.init(event.getAsmData());
-            this.apiQueue = new Queue();
 
         } catch (Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
@@ -231,7 +230,6 @@ public class HudPixelMod {
         try {
             if (isHypixelNetwork()) {
                 if (event.type == 0) { // this one reads the normal chat messages
-                    this.apiQueue.onChatMessage(event.message.getUnformattedText());
                     this.warlordsChatFilter.onChat(event);
                 }
             }
@@ -261,8 +259,6 @@ public class HudPixelMod {
                             Minecraft.getMinecraft().thePlayer.getGameProfile().getId() + "&version=" + DEFAULT_VERSION.replace(" ", ""));
                     didTheThings = true;
                 }
-                if (apiQueue != null)
-                    this.apiQueue.onClientTick();
             }
         } catch (Exception e) {
             this.logWarn("An exception occured in onClientTick(). Stacktrace below.");

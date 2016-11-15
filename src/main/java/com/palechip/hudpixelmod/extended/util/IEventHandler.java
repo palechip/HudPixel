@@ -53,6 +53,22 @@ public interface IEventHandler {
     default void onClientTick() {
     }
 
+    default void everyTenTICKS(){
+
+    }
+
+    default void everySEC(){
+
+    }
+
+    default void everyFiveSEC(){
+
+    }
+
+    default void everyMIN(){
+
+    }
+
     default void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
     }
 

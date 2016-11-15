@@ -1,4 +1,8 @@
-package com.palechip.hudpixelmod.extended.codename.connect;
+package com.palechip.hudpixelmod.extended.data.player;
+
+import net.minecraft.util.ResourceLocation;
+
+import java.util.UUID;
 
 /***********************************************************************************************************************
  HudPixelReloaded - License
@@ -45,12 +49,33 @@ package com.palechip.hudpixelmod.extended.codename.connect;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class MessageBuffer {
-/**
- *
- * MessageBuffer Created} by Alexander on 13.11.2016.
- *
- * Description: 
- *
- **/
+public class Player {
+
+    private final java.util.UUID UUID;
+    private final String name;
+    private final ResourceLocation resourceLocation;
+
+    public Player(UUID UUID, String name, ResourceLocation resourceLocation){
+        this.UUID = UUID;
+        this.name = name;
+        this.resourceLocation = resourceLocation;
+    }
+
+    public java.util.UUID getUUID() {
+        return UUID;
+    }
+
+    public String getUUIDasString() {
+        return UUID.toString().replace("-", "");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ResourceLocation getResourceLocation() {
+        return resourceLocation;
+    }
+
+
 }

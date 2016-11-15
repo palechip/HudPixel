@@ -45,25 +45,28 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.extended.boosterdisplay;
 
-import com.palechip.hudpixelmod.api.interaction.Queue;
+import com.palechip.hudpixelmod.api.interaction.ApiQueueEntryBuilder;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Booster;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
-import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListManager;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import com.palechip.hudpixelmod.util.GameType;
+import net.hypixel.api.reply.BoostersReply;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@SideOnly(Side.CLIENT)
 public class BoosterManager extends FancyListManager implements BoosterResponseCallback {
 
 //######################################################################################################################
@@ -206,9 +209,28 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                 // save the time of the request
                 lastRequest = System.currentTimeMillis();
                 // tell the queue that we need boosters
-                Queue.getInstance().getBoosters(HudPixelExtended.boosterManager);
+                ApiQueueEntryBuilder.newInstance().boosterRequest().setCallback(this).create();
             }
         }
+    }
+
+    public void checkBooster(Booster b){
+        for (FancyListObject fco : fancyListObjects) {
+            BoosterExtended be = (BoosterExtended) fco;
+            if (be.getGameType() == b.getGameType()) {
+                if (be.getBooster() != null && Objects.equals(be.getBooster().getOwner(), b.getOwner())) {
+                    return;
+                } else {
+                    be.setCurrentBooster(b);
+                    LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameType().getName() + "[" + b.getGameType().getDatabaseID() + "]"
+                            + " and owner " + b.getOwner() + " in the boosterdisplay!");
+                    return;
+                }
+            }
+        }
+
+        LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID "
+                + b.getGameType().getDatabaseID() + " and owner " + b.getOwner() + "!");
     }
 
     /**
@@ -218,32 +240,14 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      * @param boosters the boosters parsed by the callback
      */
     @Override
-    public void onBoosterResponse(ArrayList<Booster> boosters) {
-
+    public void onBoosterResponse(List<BoostersReply.Booster> boosters) {
         // we aren't loading anymore
         if (boosters != null) {
-            for (Booster b : boosters) {
-                GameType gameType = GameType.getTypeByDatabaseID(b.getGameID());
+            for (BoostersReply.Booster b : boosters) {
+                GameType gameType = GameType.getTypeByDatabaseID(b.getGameType().getId());
                 Boolean found = false;
-                if (b.getRemainingTime() < b.getTotalLength()) {
-                    for (FancyListObject fco : fancyListObjects) {
-                        BoosterExtended be = (BoosterExtended) fco;
-                        if (be.getGameType() == gameType) {
-                            if (be.getBooster() != null && Objects.equals(be.getBooster().getOwner(), b.getOwner())) {
-                                found = true;
-                                break;
-                            } else {
-                                be.setCurrentBooster(b);
-                                LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + gameType.getName() + "[" + b.getGameID() + "]"
-                                        + " and owner " + b.getOwner() + " in the boosterdisplay!");
-                            }
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                        LoggerHelper.logWarn("[BoosterDisplay]: No display found for booster with ID " + b.getGameID()
-                                + " and owner " + b.getOwner() + "!");
+                if (b.getLength() < b.getOriginalLength()) {
+                    new Booster(b.getPurchaserUuid().toString(), GameType.getTypeByDatabaseID(b.getGameType().getId()));
                 }
             }
         } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");

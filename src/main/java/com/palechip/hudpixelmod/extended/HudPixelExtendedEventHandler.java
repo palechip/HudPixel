@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import static com.palechip.hudpixelmod.HudPixelMod.MODID;
 import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 
+
 public class HudPixelExtendedEventHandler {
 
     private static final long clickDelay = 1000;
@@ -238,11 +239,39 @@ public class HudPixelExtendedEventHandler {
         }
     }
 
+    private static short tick;
+    private static short sec;
+    private static short min;
+
+    private static void processTickTimes(){
+        tick ++;
+        if(tick >= 20){
+            tick = 0;
+            sec ++;
+            getIeventBuffer().forEach(IEventHandler::everySEC);
+            if(sec >= 60){
+                sec = 0;
+                min ++;
+                getIeventBuffer().forEach(IEventHandler::everyMIN);
+                if(min >= 60)
+                    min = 0;
+            } else if(sec == 5){
+                getIeventBuffer().forEach(IEventHandler::everyFiveSEC);
+            }
+        } else if(tick == 10){
+            getIeventBuffer().forEach(IEventHandler::everyTenTICKS);
+        }
+
+    }
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
+
+                processTickTimes();
+
                 getIeventBuffer().forEach(IEventHandler::onClientTick);
 
                 FancyListManager.processLoadingBar();

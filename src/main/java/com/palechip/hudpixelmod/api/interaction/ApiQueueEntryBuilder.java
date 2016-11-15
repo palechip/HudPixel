@@ -1,7 +1,12 @@
-package com.palechip.hudpixelmod.extended.codename.connect;
+package com.palechip.hudpixelmod.api.interaction;
 
-import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import com.palechip.hudpixelmod.api.interaction.callbacks.ApiCallback;
+import net.hypixel.api.request.Request;
+import net.hypixel.api.request.RequestBuilder;
+import net.hypixel.api.request.RequestParam;
+import net.hypixel.api.request.RequestType;
+
+import java.util.UUID;
 
 /***********************************************************************************************************************
  HudPixelReloaded - License
@@ -48,11 +53,61 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class ChatDetector implements IEventHandler{
+public class ApiQueueEntryBuilder{
 
+    private ApiCallback apiCallback;
+    private Request request;
 
-    @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+    private ApiQueueEntryBuilder(){}
 
+    public static ApiQueueEntryBuilder newInstance() {
+        return new ApiQueueEntryBuilder();
+    }
+
+    public ApiQueueEntryBuilder setCallback(ApiCallback apiCallback){
+        this.apiCallback = apiCallback;
+        return this;
+    }
+
+    public void create(){
+        ApiQueue.add(new ApiQueueEntry(request, apiCallback));
+    }
+
+    public ApiQueueEntryBuilder friendsRequestByUUID(String uuid){
+        request = RequestBuilder
+                .newBuilder(RequestType.FRIENDS)
+                .addParam(RequestParam.FRIENDS_BY_UUID, uuid)
+                .createRequest();
+        return this;
+    }
+
+    public ApiQueueEntryBuilder boosterRequest(){
+        request = RequestBuilder
+                .newBuilder(RequestType.BOOSTERS)
+                .createRequest();
+        return this;
+    }
+
+    public ApiQueueEntryBuilder playerRequestByUUID(String uuid){
+        request = RequestBuilder
+                .newBuilder(RequestType.PLAYER)
+                .addParam(RequestParam.PLAYER_BY_UUID, uuid)
+                .createRequest();
+        return this;
+    }
+
+    public ApiQueueEntryBuilder playerRequestByName(String name){
+        request = RequestBuilder
+                .newBuilder(RequestType.PLAYER)
+                .addParam(RequestParam.PLAYER_BY_NAME, name)
+                .createRequest();
+        return this;
+    }
+
+    private UUID stringToUUID(String s) {
+        String uuidS = s.substring(0, 8) + "-" + s.substring(8, 12) + "-"
+                + s.substring(12, 16) + "-" + s.substring(16, 20) + "-"
+                + s.substring(20);
+        return UUID.fromString(uuidS);
     }
 }

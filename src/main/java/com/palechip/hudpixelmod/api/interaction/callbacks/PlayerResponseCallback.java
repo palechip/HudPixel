@@ -47,6 +47,6 @@ package com.palechip.hudpixelmod.api.interaction.callbacks;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Player;
 
-public interface PlayerResponseCallback {
+public interface PlayerResponseCallback extends ApiCallback{
     void onPlayerResponse(Player player);
 }

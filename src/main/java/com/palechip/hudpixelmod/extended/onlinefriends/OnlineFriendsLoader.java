@@ -1,20 +1,26 @@
 package com.palechip.hudpixelmod.extended.onlinefriends;
 
+import com.palechip.hudpixelmod.api.interaction.ApiQueueEntryBuilder;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
-import com.palechip.hudpixelmod.api.interaction.representations.Friend;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.data.player.IPlayerLoadedCallback;
+import com.palechip.hudpixelmod.extended.data.player.PlayerDatabase;
+import com.palechip.hudpixelmod.extended.data.player.PlayerFactory;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
+import net.hypixel.api.reply.FriendsReply;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-import static com.palechip.hudpixelmod.api.interaction.Queue.getInstance;
 import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
 import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
 import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
 import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
 import static java.lang.System.currentTimeMillis;
-import static net.minecraft.client.Minecraft.getMinecraft;
-import static net.minecraft.util.EnumChatFormatting.DARK_GRAY;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -61,11 +67,14 @@ import static net.minecraft.util.EnumChatFormatting.DARK_GRAY;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler {
+
+@SideOnly(Side.CLIENT)
+public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler, IPlayerLoadedCallback {
 
     private static final int REQUEST_COOLDOWN = 20 * 60 * 1000; // = 30min
     private static long lastRequest;
     private static ArrayList<String> allreadyStored = new ArrayList<String>();
+    private static ArrayList<UUID> allreadyStoredUUID = new ArrayList<UUID>();
     private static boolean isApiLoaded = false;
 
     public OnlineFriendsLoader() {
@@ -92,48 +101,36 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
                 // save the time of the request
                 lastRequest = currentTimeMillis();
                 // tell the queue that we need boosters
-                getInstance().getFriends(this, getMinecraft().thePlayer.getUniqueID());
+                ApiQueueEntryBuilder.newInstance().friendsRequestByUUID(HudPixelExtended.UUID.toString()).setCallback(this).create();
             }
         }
     }
 
     @Override
-    public void onFriendResponse(ArrayList<Friend> friends) {
-        if (friends == null) {
+    public void onFriendResponse(List<FriendsReply.FriendShip> friendShips) {
+        if (friendShips == null) {
             logWarn("[OnlineFriends][APIloader]: The api answered the request with NULL!");
             return;
         }
-        for (Friend f : friends) {
-            if (!allreadyStored.contains(f.getFriendName())) {
-                OnlineFriendManager.getInstance().addFriend(new OnlineFriend(f.getFriendName(), DARK_GRAY + "not loaded yet!", f.getFriendUUID()));
-                allreadyStored.add(f.getFriendName());
-            }
-        }
+        logInfo("[OnlineFriends][APIloader]: The API answered with a total of " + friendShips.size() + " friends! I will request all the Names now.");
+        friendShips.forEach(this::checkFriend);
         isApiLoaded = true;
-        logInfo("[OnlineFriends][APIloader]: Loaded a total of " + friends.size() + " friends!");
     }
 
-
-    @Override
-    public void onClientTick() {
-        requestFriends(false);
-    }
-
-    @Override
-    public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
+    public void checkFriend(FriendsReply.FriendShip f){
+        if (f.getUuidSender() == HudPixelExtended.UUID)
+            new PlayerFactory(f.getUuidReceiver(), this);
+        else
+            new PlayerFactory(f.getUuidSender(), this);
     }
 
     @Override
-    public void onRender() {
+    public void onPlayerLoadedCallback(UUID uuid) {
+        for (UUID s : allreadyStoredUUID)
+            if(s == uuid)
+                return;
+        allreadyStoredUUID.add(uuid);
+        allreadyStored.add(PlayerDatabase.getPlayerByUUID(uuid).getName());
+        OnlineFriendManager.getInstance().addFriend(new OnlineFriend(uuid, McColorHelper.GRAY + "Not loaded yet!"));
     }
-
-    @Override
-    public void handleMouseInput(int i, int mX, int mY) {
-    }
-
-    @Override
-    public void onMouseClick(int mX, int mY) {
-    }
-
-
 }

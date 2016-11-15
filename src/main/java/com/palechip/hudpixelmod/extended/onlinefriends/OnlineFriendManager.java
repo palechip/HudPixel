@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+
 public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     private static final String JOINED_MESSAGE = " joined.";

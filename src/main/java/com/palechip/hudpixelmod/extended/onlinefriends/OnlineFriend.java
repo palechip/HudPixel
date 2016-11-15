@@ -48,31 +48,33 @@ package com.palechip.hudpixelmod.extended.onlinefriends;
 
 import com.palechip.hudpixelmod.api.interaction.callbacks.SessionResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
+import com.palechip.hudpixelmod.extended.data.player.PlayerDatabase;
 import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
 import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.extended.util.gui.FancyListObject;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.UUID;
+
 
 public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCallback, SessionResponseCallback, McColorHelper {
 
 
-    private String username;
     private String gamemode;
     private boolean isOnline;
-    private String friendUUID;
+    private UUID playerUUID;
+    private String username;
 
     /**
      * Constructor ... also loads the playerhead
-     *
-     * @param username Username
      * @param gamemode current string to render
      */
-    OnlineFriend(String username, String gamemode, String uuid) {
+    OnlineFriend(UUID playerUUID, String gamemode) {
         this.gamemode = gamemode;
-        this.username = username;
-        this.friendUUID = uuid;
+        this.playerUUID = playerUUID;
+        this.username = PlayerDatabase.getPlayerByUUID(playerUUID).getName();
+
 
         this.resourceLocation = null;
 

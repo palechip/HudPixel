@@ -45,6 +45,6 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.callbacks;
 
-public interface ApiKeyLoadedCallback {
+public interface ApiKeyLoadedCallback extends ApiCallback{
     void ApiKeyLoaded(boolean failed, String key);
 }
