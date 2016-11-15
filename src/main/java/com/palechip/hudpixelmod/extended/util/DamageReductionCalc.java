@@ -53,7 +53,6 @@ import net.minecraft.potion.PotionEffect;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 public class DamageReductionCalc {
@@ -238,10 +237,8 @@ public class DamageReductionCalc {
 
         private static void getResistance() {
             if (mc.thePlayer.isPotionActive(Potion.resistance)) {
-                Collection potionEffects = mc.thePlayer.getActivePotionEffects();
-                Iterator it = potionEffects.iterator();
-                while (it.hasNext()) {
-                    PotionEffect potionEffect = (PotionEffect) it.next();
+                Collection<PotionEffect> potionEffects = mc.thePlayer.getActivePotionEffects();
+                for (PotionEffect potionEffect : potionEffects) {
                     Potion potion = Potion.potionTypes[potionEffect.getPotionID()];
                     if (potion.getName().equalsIgnoreCase(Potion.resistance.getName())) {
                         resistance = potionEffect.getAmplifier() + 1;
