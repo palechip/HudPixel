@@ -73,7 +73,7 @@ public class ApiQueueEntryBuilder{
         ApiQueue.add(new ApiQueueEntry(request, apiCallback));
     }
 
-    public ApiQueueEntryBuilder friendsRequestByUUID(String uuid){
+    public ApiQueueEntryBuilder friendsRequestByUUID(UUID uuid){
         request = RequestBuilder
                 .newBuilder(RequestType.FRIENDS)
                 .addParam(RequestParam.FRIENDS_BY_UUID, uuid)

@@ -47,17 +47,21 @@ package com.palechip.hudpixelmod.api.interaction;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.*;
 
+@SideOnly(Side.CLIENT)
 public class ApiKeyHandler implements IEventHandler{
-    private static ApiKeyHandler instance;
     private static String API_KEY_STORAGE_PATH;
     private static String API_KEY_STORAGE_FILE;
     private static String API_KEY_REQUEST_MESSAGE_1 = "No API key found. This key is necessary for some cool features.";
@@ -93,7 +97,9 @@ public class ApiKeyHandler implements IEventHandler{
         return INSTANCE;
     }
 
-    private ApiKeyHandler() {}
+    private ApiKeyHandler() {
+        HudPixelExtendedEventHandler.registerIEvent(this);
+    }
 
     public void loadKey(ApiKeyLoadedCallback callback){
         ApiKeyHandler.callback = callback;
@@ -139,6 +145,7 @@ public class ApiKeyHandler implements IEventHandler{
      */
     private void loadAPIKey() {
         try {
+            LoggerHelper.logInfo("[API][Key] loading key!");
             // make sure the path exists
             File path = new File(API_KEY_STORAGE_PATH);
             File file = new File(API_KEY_STORAGE_FILE);
@@ -154,6 +161,7 @@ public class ApiKeyHandler implements IEventHandler{
                 this.resetApiFile(file);
                 loadingFailed = true;
                 callback.ApiKeyLoaded(true, null);
+                requestApiKey();
                 return;
             }
             // read the key
@@ -165,6 +173,7 @@ public class ApiKeyHandler implements IEventHandler{
                 this.resetApiFile(file);
                 loadingFailed = true;
                 callback.ApiKeyLoaded(true, null);
+                requestApiKey();
                 return;
             }
             apiKey = key.replace(" ", "");

@@ -47,9 +47,13 @@ package com.palechip.hudpixelmod.api.interaction;
  **********************************************************************************************************************/
 
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import net.hypixel.api.HypixelAPI;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.UUID;
 
@@ -57,7 +61,7 @@ import java.util.UUID;
  * @author unaussprechlich
  * @since 13.11.2016
  */
-
+@SideOnly(Side.CLIENT)
 public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
 
     private int heat = 0;
@@ -71,13 +75,25 @@ public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
     }
 
     private ApiManager() {
+
+    }
+
+    public void setup(){
         HudPixelExtendedEventHandler.registerIEvent(this);
+        ApiKeyHandler.getINSTANCE().loadKey(this);
     }
 
     @Override
     public void everyTenTICKS() {
         if(heat >= 100 || ApiQueue.isLocked() || ApiKeyHandler.isLoadingFailed()) return;
-        ApiQueue.getNextEntry().execute();
+        if(ApiQueue.hasNext())
+            ApiQueue.getNextEntry().execute();
+        heat++;
+    }
+
+    @Override
+    public void everyFiveSEC() {
+        ApiQueueEntryBuilder.newInstance().boosterRequest().setCallback(HudPixelExtended.boosterManager).create();
     }
 
     @Override
@@ -87,6 +103,7 @@ public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
 
     @Override
     public void ApiKeyLoaded(boolean failed, String key) {
+        LoggerHelper.logInfo("[API][key] failed=" + failed + " key=" + key);
         if (failed) return;
         HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
     }

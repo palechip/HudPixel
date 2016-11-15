@@ -70,6 +70,10 @@ public class ApiQueue{
         return queue.element();
     }
 
+    public static boolean  hasNext(){
+        return !queue.isEmpty();
+    }
+
     public static void removeCurrentEntry(){
         isLocked = false;
         queue.remove();

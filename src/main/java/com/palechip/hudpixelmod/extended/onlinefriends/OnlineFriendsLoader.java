@@ -101,7 +101,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
                 // save the time of the request
                 lastRequest = currentTimeMillis();
                 // tell the queue that we need boosters
-                ApiQueueEntryBuilder.newInstance().friendsRequestByUUID(HudPixelExtended.UUID.toString()).setCallback(this).create();
+                ApiQueueEntryBuilder.newInstance().friendsRequestByUUID(HudPixelExtended.UUID).setCallback(this).create();
             }
         }
     }

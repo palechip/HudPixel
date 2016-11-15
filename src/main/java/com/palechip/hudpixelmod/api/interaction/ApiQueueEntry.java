@@ -3,10 +3,12 @@ package com.palechip.hudpixelmod.api.interaction;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.reply.FriendsReply;
 import net.hypixel.api.request.Request;
+import net.hypixel.api.util.Callback;
 
 /***********************************************************************************************************************
  HudPixelReloaded - License
@@ -55,6 +57,8 @@ import net.hypixel.api.request.Request;
  **********************************************************************************************************************/
 public class ApiQueueEntry{
 
+    private static final String debugInfo = "[API][QueueEntry]";
+
     private long creationTime;
 
     private ApiCallback apiCallback;
@@ -67,29 +71,37 @@ public class ApiQueueEntry{
     }
 
     public void execute(){
-        try {
-            switch (request.getRequestType()){
-                case BOOSTERS: executeBoosterRequest(); break;
-                case FRIENDS:  executeFriendRequest();  break;
-            }
-        } finally {
-            ApiQueue.removeCurrentEntry();
+        LoggerHelper.logInfo(debugInfo + "Making a request: " + request.getURL(HypixelAPI.getInstance()));
+
+        switch (request.getRequestType()){
+            case BOOSTERS: executeBoosterRequest(); break;
+            case FRIENDS:  executeFriendRequest();  break;
         }
+
+        ApiQueue.removeCurrentEntry();
     }
 
     private void executeFriendRequest(){
-        HypixelAPI.getInstance().getAsync(request, (Throwable failCause, FriendsReply result) -> {
-            if (failCause != null) failCause.printStackTrace();
-            else ((FriendResponseCallback)apiCallback).onFriendResponse(result.getFriendShips());
-            HypixelAPI.getInstance().finish();
+        HypixelAPI.getInstance().getAsync(request, new Callback<FriendsReply>(FriendsReply.class) {
+            @Override
+            public void callback(Throwable failCause, FriendsReply result) {
+                if (failCause != null) failCause.printStackTrace();
+                else ((FriendResponseCallback)apiCallback).onFriendResponse(result.getFriendShips());
+                //HypixelAPI.getInstance().finish();
+            }
         });
     }
 
     private void executeBoosterRequest(){
-        HypixelAPI.getInstance().getAsync(request, (Throwable failCause, BoostersReply result) -> {
-            if (failCause != null) failCause.printStackTrace();
-            else ((BoosterResponseCallback)apiCallback).onBoosterResponse(result.getBoosters());
-            HypixelAPI.getInstance().finish();
+        HypixelAPI.getInstance().getAsync(request, new Callback<BoostersReply>(BoostersReply.class) {
+            @Override
+            public void callback(Throwable failCause, BoostersReply result) {
+                System.out.println("Got a callback!");
+                if (failCause != null) failCause.printStackTrace();
+                else ((BoosterResponseCallback)apiCallback).onBoosterResponse(result.getBoosters());
+                System.out.println(result);
+                //HypixelAPI.getInstance().finish();
+            }
         });
     }
 

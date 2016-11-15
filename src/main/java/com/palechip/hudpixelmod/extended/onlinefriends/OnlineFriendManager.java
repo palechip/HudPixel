@@ -55,12 +55,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-
+@SideOnly(Side.CLIENT)
 public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     private static final String JOINED_MESSAGE = " joined.";

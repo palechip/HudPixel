@@ -202,7 +202,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      *
      * @param forceRequest Set this to true if you want to force the request
      */
-    void requestBoosters(Boolean forceRequest) {
+    public void requestBoosters(Boolean forceRequest) {
         if (GeneralConfigSettings.getUseAPI() && enabled) {
             // isHypixelNetwork if enough time has past
             if ((System.currentTimeMillis() > lastRequest + REQUEST_COOLDOWN)) {
@@ -241,6 +241,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onBoosterResponse(List<BoostersReply.Booster> boosters) {
+        System.out.print("GOT IT!");
         // we aren't loading anymore
         if (boosters != null) {
             for (BoostersReply.Booster b : boosters) {

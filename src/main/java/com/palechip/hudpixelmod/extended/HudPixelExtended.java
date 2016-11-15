@@ -46,16 +46,19 @@
 
 package com.palechip.hudpixelmod.extended;
 
+import com.palechip.hudpixelmod.api.interaction.ApiManager;
 import com.palechip.hudpixelmod.extended.boosterdisplay.BoosterManager;
 import com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownDisplayManager;
 import com.palechip.hudpixelmod.extended.gui.ArmorHud;
 import com.palechip.hudpixelmod.extended.staff.StaffManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.UUID;
 
-
+@SideOnly(Side.CLIENT)
 public class HudPixelExtended {
 
     public static UUID UUID;
@@ -72,12 +75,14 @@ public class HudPixelExtended {
     }
 
     public void setup() {
+        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         boosterManager = new BoosterManager();
         staffManager = new StaffManager();
+        ApiManager.getINSTANCE().setup();
 
-        MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
+
 
         CooldownDisplayManager.getInstance();
         ArmorHud.INSTANCE.init();
