@@ -6,6 +6,8 @@ import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -65,6 +67,7 @@ import static net.minecraft.client.Minecraft.getMinecraft;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+@SideOnly(Side.CLIENT)
 public class UpdateNotifier implements McColorHelper {
 
     public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
@@ -110,7 +113,7 @@ public class UpdateNotifier implements McColorHelper {
             String data = sBuilder.toString();
             out.println(data);
             JsonObject jsonObject = jsonParser(data);
-            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION))
+            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION) && !DEFAULT_VERSION.contains("dev"))
                 printUpdateMessage(jsonObject);
         } catch (MalformedURLException e) {
             logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");

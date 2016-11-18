@@ -2,6 +2,7 @@
 buildscript {
     ext.kotlin_version = '1.0.2'
     repositories {
+        mavenCentral()
         jcenter()
         maven {
             name = "forge"
@@ -40,15 +41,16 @@ minecraft {
 }
 
 configurations {
-
     required
     compile.extendsFrom(required)
 }
 dependencies {
-    compile 'joda-time:joda-time:2.9.4'
+    compile 'joda-time:joda-time:2.9.6'
+    required 'joda-time:joda-time:2.9.6'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
+
 apply plugin: 'java'
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
