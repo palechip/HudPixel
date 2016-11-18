@@ -3,6 +3,8 @@ package com.palechip.hudpixelmod.extended.util;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -66,6 +68,7 @@ import static net.minecraft.client.Minecraft.getMinecraft;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+@SideOnly(Side.CLIENT)
 public class LoadPlayerHead implements IEventHandler {
 
     private BufferedImage image;

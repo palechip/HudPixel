@@ -88,7 +88,7 @@ public class ApiQueueEntryBuilder{
         return this;
     }
 
-    public ApiQueueEntryBuilder playerRequestByUUID(String uuid){
+    public ApiQueueEntryBuilder playerRequestByUUID(UUID uuid){
         request = RequestBuilder
                 .newBuilder(RequestType.PLAYER)
                 .addParam(RequestParam.PLAYER_BY_UUID, uuid)

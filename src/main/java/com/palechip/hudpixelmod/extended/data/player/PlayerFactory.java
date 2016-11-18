@@ -2,12 +2,15 @@ package com.palechip.hudpixelmod.extended.data.player;
 
 import com.palechip.hudpixelmod.extended.util.ILoadPlayerHeadCallback;
 import com.palechip.hudpixelmod.extended.util.LoadPlayerHead;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.util.UuidCallback;
 import com.palechip.hudpixelmod.util.UuidHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.UUID;
-
+@SideOnly(Side.CLIENT)
 public class PlayerFactory implements UuidCallback, ILoadPlayerHeadCallback {
 
     private java.util.UUID uuid;
@@ -26,10 +29,10 @@ public class PlayerFactory implements UuidCallback, ILoadPlayerHeadCallback {
         new UuidHelper(getUUIDasString(), this);
     }
 
+
     private String getUUIDasString() {
         return uuid.toString().replace("-", "");
     }
-
 
     private void createPlayer() {
         PlayerDatabase.add(new Player(uuid, name, resourceLocation), iPlayerLoadedCallback);
@@ -37,6 +40,7 @@ public class PlayerFactory implements UuidCallback, ILoadPlayerHeadCallback {
 
     @Override
     public void onUuidCallback(String playerName) {
+        LoggerHelper.logInfo("[PlayerBuilder]" + uuid + "=" + playerName);
         this.name = playerName;
         new LoadPlayerHead(name, this);
     }

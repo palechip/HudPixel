@@ -45,13 +45,11 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
-public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class WallsStatsViewer extends AbstractStatsViewer {
 
 
     /*
@@ -63,7 +61,7 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
     private static final String LOSSES = D_GRAY + " [" + GRAY + "Losses" + D_GRAY + "] ";
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
     private static final String WL = D_GRAY + " [" + GRAY + "W/L" + D_GRAY + "] ";
-    private ArrayList<String> renderList;
+
     private int kills;
     private int deaths;
     private int wins;
@@ -71,20 +69,8 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
     private double kd;
     private double wl;
 
-
-    public WallsStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
-    }
-
-    @Override
-    public ArrayList<String> getRenderList() {
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
+    public WallsStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
     private void generateRenderList() {
@@ -92,35 +78,18 @@ public class WallsStatsViewer extends StatsDisplayer implements IGameStatsViewer
         renderList.add(KILLS + GOLD + kills + DEATHS + GOLD + deaths + KD + GOLD + kd);
     }
 
-    public void composeStats() {
+    @Override
+    protected void composeStats() {
 
         this.kills = getInt("kills");
         this.deaths = getInt("deaths");
         this.wins = getInt("wins");
         this.losses = getInt("losses");
 
-        if (deaths > 0) {
-            this.kd = Math.floor((kills / deaths) * 1000) / 1000;
-        } else {
-            this.kd = 1;
-        }
-
-        if (losses > 0) {
-            this.wl = Math.floor((kills / deaths) * 1000) / 1000;
-        } else {
-            this.wl = 1;
-        }
+        kd = calculateKD(kills, deaths);
+        wl = calculateWL(wins, losses);
 
         generateRenderList();
 
-    }
-
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("Walls").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.Walls.Int]: No entry for " + s + " returning 0!");
-            return 0;
-        }
     }
 }

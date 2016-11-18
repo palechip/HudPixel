@@ -3,10 +3,12 @@ package com.palechip.hudpixelmod.api.interaction;
 import com.palechip.hudpixelmod.api.interaction.callbacks.ApiCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.BoosterResponseCallback;
 import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
+import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.BoostersReply;
 import net.hypixel.api.reply.FriendsReply;
+import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.request.Request;
 import net.hypixel.api.util.Callback;
 
@@ -76,9 +78,21 @@ public class ApiQueueEntry{
         switch (request.getRequestType()){
             case BOOSTERS: executeBoosterRequest(); break;
             case FRIENDS:  executeFriendRequest();  break;
+            case PLAYER:  executePlayerRequest();  break;
         }
 
         ApiQueue.removeCurrentEntry();
+    }
+
+    private void executePlayerRequest(){
+        HypixelAPI.getInstance().getAsync(request, new Callback<PlayerReply>(PlayerReply.class) {
+            @Override
+            public void callback(Throwable failCause, PlayerReply result) {
+                if (failCause != null) failCause.printStackTrace();
+                else ((PlayerResponseCallback)apiCallback).onPlayerResponse(result);
+                //HypixelAPI.getInstance().finish();
+            }
+        });
     }
 
     private void executeFriendRequest(){
@@ -99,8 +113,6 @@ public class ApiQueueEntry{
                 System.out.println("Got a callback!");
                 if (failCause != null) failCause.printStackTrace();
                 else ((BoosterResponseCallback)apiCallback).onBoosterResponse(result.getBoosters());
-                System.out.println(result);
-                //HypixelAPI.getInstance().finish();
             }
         });
     }

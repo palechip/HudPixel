@@ -19,6 +19,11 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -62,6 +67,40 @@ public class HypixelAPI {
             instance = new HypixelAPI();
         }
         return instance;
+    }
+
+
+
+    private <T extends AbstractReply> void getResponse(Callback<T> callback, Request request) {
+        new Thread( () -> {
+            try {
+                URL u = new URL(request.getURL(HypixelAPI.getInstance()));
+                HttpsURLConnection con = (HttpsURLConnection) u.openConnection();
+                con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                StringBuilder sBuilder = new StringBuilder();
+                String buff = "";
+
+                while ((buff = br.readLine()) != null) {
+                    sBuilder.append(buff);
+                }
+
+                T value = gson.fromJson(sBuilder.toString(), callback.getClazz());
+                checkReply(value);
+                callback.callback(null, value);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+        T value;
+        try {
+
+        } catch (Throwable t) {
+            callback.callback(t, null);
+        }
     }
 
     /**
@@ -138,7 +177,8 @@ public class HypixelAPI {
         lock.readLock().lock();
         try {
             if (doKeyCheck(callback)) {
-                get(request, callback);
+                getResponse(callback, request);
+                //get(request, callback); hey jo @Plancke fix your stuff :3
             }
         } finally {
             lock.readLock().unlock();
@@ -215,7 +255,9 @@ public class HypixelAPI {
      * @param callback The callback to execute
      */
     private Future<HttpResponse> get(String url, Callback<?> callback) {
-        return exService.submit(() -> httpClient.execute(new HttpGet(url), buildResponseHandler(callback)));
+        return exService.submit(() ->
+                httpClient.execute(new HttpGet(url), buildResponseHandler(callback))
+        );
     }
 
     private class SyncCallback<T extends AbstractReply> extends Callback<T> {

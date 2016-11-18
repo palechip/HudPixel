@@ -3,7 +3,7 @@ package com.palechip.hudpixelmod.extended.statsviewer.msc;
 import com.palechip.hudpixelmod.extended.statsviewer.gamemodes.*;
 import com.palechip.hudpixelmod.util.GameType;
 
-import static com.palechip.hudpixelmod.util.GameType.*;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -52,59 +52,41 @@ import static com.palechip.hudpixelmod.util.GameType.*;
  **********************************************************************************************************************/
 public class StatsViewerFactory {
 
-    public StatsViewerFactory() {
-    }
-
     /**
      * Not really a factory ... but at least it generates and returns teh right class
      * for the given gametype ... i will maybe switch to a real design pattern
      *
-     * @param playerName the playername
      * @param gameType   the gametype
      * @return the right statsViewer for the given player and gametype
      */
-
-    public static IGameStatsViewer getStatsViewerClass(String playerName, GameType gameType) {
-
-        if (gameType == WARLORDS) {
-            return new WarlordsStatsViewer(playerName);
+    public static IGameStatsViewer getStatsViewerClass(UUID uuid, GameType gameType){
+        switch (gameType){
+            case WARLORDS:
+                return new WarlordsStatsViewer(uuid, gameType.getStatsName());
+            case QUAKECRAFT:
+                return new QuakeStatsViewer(uuid, gameType.getStatsName());
+            case PAINTBALL:
+                return new PaintballStatsViewer(uuid, gameType.getStatsName());
+            case THE_WALLS:
+                return new WallsStatsViewer(uuid, gameType.getStatsName());
+            case VAMPIREZ:
+                return new VampireStatsViewer(uuid, gameType.getStatsName());
+            case COPS_AND_CRIMS:
+                return new CvCStatsViewer(uuid, gameType.getStatsName());
+            case UHC:
+                return new UHCStatsViewer(uuid, gameType.getStatsName());
+            case TNT_GAMES: case TNT_RUN: case TNT_TAG: case TNT_WIZARDS:
+                return new TNTStatsViewer(uuid, gameType.getStatsName());
+            case BLITZ:
+                return new BlitzStatsViewer(uuid, gameType.getStatsName());
+            case ARCADE_GAMES:
+                return new ArcadeStatsViewer(uuid, gameType.getStatsName());
+            case ARENA:
+                return new ArenaStatsViewer(uuid, gameType.getStatsName());
+            case MEGA_WALLS:
+                return new MegaWallsStatsViewer(uuid, gameType.getStatsName());
+            default:
+                return new NullStatViewer();
         }
-        if (gameType == QUAKECRAFT) {
-            return new QuakeStatsViewer(playerName);
-        }
-        if (gameType == PAINTBALL) {
-            return new PaintballStatsViewer(playerName);
-        }
-        if (gameType == THE_WALLS) {
-            return new WallsStatsViewer(playerName);
-        }
-        if (gameType == VAMPIREZ) {
-            return new VampireStatsViewer(playerName);
-        }
-        if (gameType == COPS_AND_CRIMS) {
-            return new CvCStatsViewer(playerName);
-        }
-        if (gameType == UHC) {
-            return new UHCStatsViewer(playerName);
-        }
-        if (gameType == TNT_GAMES || gameType == TNT_RUN || gameType == TNT_TAG || gameType == TNT_WIZARDS) {
-            return new TNTStatsViewer(playerName);
-        }
-        if (gameType == BLITZ) { //HungerGames
-            return new BlitzStatsViewer(playerName);
-        }
-        if (gameType == ARCADE_GAMES) {
-            return new ArcadeStatsViewer(playerName);
-        }
-        if (gameType == ARENA) {
-            return new ArenaStatsViewer(playerName);
-        }
-        if (gameType == MEGA_WALLS) {
-            return new MegaWallsStatsViewer(playerName);
-        }
-
-        return new NullStatViewer();
     }
-
-
 }

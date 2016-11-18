@@ -39,7 +39,6 @@ public enum RequestParam {
         this.valueSerializer = valueSerializer;
     }
 
-
     public RequestType getRequestType() {
         return requestType;
     }

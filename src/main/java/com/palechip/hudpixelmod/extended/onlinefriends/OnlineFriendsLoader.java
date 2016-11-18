@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
@@ -118,7 +119,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     }
 
     public void checkFriend(FriendsReply.FriendShip f){
-        if (f.getUuidSender() == HudPixelExtended.UUID)
+        if (Objects.equals(f.getUuidSender().toString(), HudPixelExtended.UUID.toString()))
             new PlayerFactory(f.getUuidReceiver(), this);
         else
             new PlayerFactory(f.getUuidSender(), this);

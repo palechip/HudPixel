@@ -1,11 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
-
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -52,7 +49,7 @@ import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class VampireStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class VampireStatsViewer extends AbstractStatsViewer {
 
 
     /*
@@ -64,7 +61,6 @@ public class VampireStatsViewer extends StatsDisplayer implements IGameStatsView
     private static final String VAMPIRE_KILLS = D_GRAY + " [" + GRAY + "Vampire Kills" + D_GRAY + "] ";
     private static final String HUMAN_DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
     private static final String HUMAN_KILLS = D_GRAY + " [" + GRAY + "Human Kills" + D_GRAY + "] ";
-    private ArrayList<String> renderList;
     private int coins;
     private int zombie_kills;
     private int vampire_deaths;
@@ -73,32 +69,19 @@ public class VampireStatsViewer extends StatsDisplayer implements IGameStatsView
     private int human_kills;
 
 
-    public VampireStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
+    public VampireStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
-    @Override
-    public ArrayList<String> getRenderList() {
-        if (renderList.isEmpty()) {
-            return null;
-        }
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
-    }
 
     private void generateRenderList() {
-
         renderList.add(COINS + GOLD + this.coins + ZOMBIE_KILLS + GOLD + this.zombie_kills);
         renderList.add(VAMPIRE_KILLS + GOLD + this.vampire_kills + VAMPIRE_DEATHS + GOLD + this.vampire_deaths);
         renderList.add(HUMAN_KILLS + GOLD + this.human_kills + HUMAN_DEATHS + GOLD + this.human_deaths);
     }
 
-    public void composeStats() {
+    @Override
+    protected void composeStats() {
 
         this.coins = getInt("coins");
         this.zombie_kills = getInt("zombie_kills");
@@ -108,15 +91,5 @@ public class VampireStatsViewer extends StatsDisplayer implements IGameStatsView
         this.human_kills = getInt("human_kills");
 
         generateRenderList();
-
-    }
-
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("VampireZ").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            logInfo("[Stats.VampireZ.Int]: No entry for " + s + "returning 0!");
-            return 0;
-        }
     }
 }

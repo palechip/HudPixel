@@ -45,13 +45,11 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
-public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class PaintballStatsViewer extends AbstractStatsViewer {
 
     /*
      *Lets add some static finals. Players love static finals.
@@ -67,7 +65,6 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
     private static final String HEADSTART = D_GRAY + " [" + GRAY + "H" + D_GRAY + "] ";
     private static final String SUPERLUCK = D_GRAY + " [" + GRAY + "L" + D_GRAY + "] ";
     //lets get some variables in here
-    private ArrayList<String> renderList;
     private int kills;
     private int deaths;
     private int wins;
@@ -76,19 +73,8 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
     private double kd;
 
 
-    public PaintballStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
-    }
-
-    @Override
-    public ArrayList<String> getRenderList() {
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
+    public PaintballStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
     private void generateRenderList() {
@@ -97,8 +83,8 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
         renderList.add(WINS + GOLD + wins + SHOTS + GOLD + shots);
     }
 
-    public void composeStats() {
-
+    @Override
+    protected void composeStats() {
         this.kills = getInt("kills");
         this.deaths = getInt("deaths");
         this.shots = getInt("shots_fired");
@@ -109,22 +95,9 @@ public class PaintballStatsViewer extends StatsDisplayer implements IGameStatsVi
         this.superluck = getInt("superluck");
         this.headstart = getInt("headstart");
 
-        if (deaths > 0) {
-            this.kd = Math.floor((kills / deaths) * 1000) / 1000;
-        } else {
-            this.kd = 1;
-        }
+        kd = calculateKD(kills, deaths);
 
         generateRenderList();
 
-    }
-
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("Paintball").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.Paintball.Int]: No entry for " + s + " returning 0!");
-            return 0;
-        }
     }
 }

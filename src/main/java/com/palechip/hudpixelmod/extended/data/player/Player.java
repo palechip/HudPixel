@@ -49,7 +49,7 @@ import java.util.UUID;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class Player {
+public class Player{
 
     private final java.util.UUID UUID;
     private final String name;
@@ -60,6 +60,7 @@ public class Player {
         this.name = name;
         this.resourceLocation = resourceLocation;
     }
+
 
     public java.util.UUID getUUID() {
         return UUID;

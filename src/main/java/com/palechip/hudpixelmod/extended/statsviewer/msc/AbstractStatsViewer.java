@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.api.interaction;
+package com.palechip.hudpixelmod.extended.statsviewer.msc;
 
 /* **********************************************************************************************************************
  HudPixelReloaded - License
@@ -46,64 +46,96 @@ package com.palechip.hudpixelmod.api.interaction;
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
 
-import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.google.gson.JsonObject;
+import com.palechip.hudpixelmod.api.interaction.ApiQueueEntryBuilder;
+import com.palechip.hudpixelmod.api.interaction.callbacks.PlayerResponseCallback;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import net.hypixel.api.HypixelAPI;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import net.hypixel.api.reply.PlayerReply;
+import net.minecraft.util.EnumChatFormatting;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-/**
- * @author unaussprechlich
- * @since 13.11.2016
- */
-@SideOnly(Side.CLIENT)
-public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
 
-    private int heat = 0;
+public abstract class AbstractStatsViewer implements IGameStatsViewer, PlayerResponseCallback{
 
-    private static ApiManager INSTANCE;
+    protected ArrayList<String> renderList;
+    protected final UUID playerUUID;
+    protected final String databaseName;
+    protected JsonObject statistics;
 
-    public static ApiManager getINSTANCE() {
-        if (INSTANCE == null)
-            INSTANCE = new ApiManager();
-        return INSTANCE;
+    protected AbstractStatsViewer(UUID uuid, String databaseName) {
+        this.playerUUID = uuid;
+        this.databaseName = databaseName;
+        renderList = new ArrayList<>();
+        ApiQueueEntryBuilder.newInstance().playerRequestByUUID(uuid).setCallback(this).create();
     }
 
-    private ApiManager() {
 
+    /**
+     * Implements the IGameStatsViewer interface
+     *
+     * @return the renderList
+     */
+    @Override
+    public ArrayList<String> getRenderList() {
+        if (renderList.isEmpty()) {
+            return null;
+        }
+        return renderList;
     }
 
-    public void setup(){
-        HudPixelExtendedEventHandler.registerIEvent(this);
-        ApiKeyHandler.getINSTANCE().loadKey(this);
+    protected abstract void composeStats();
+
+    protected double calculateKD(int kills, int deaths){
+        if (deaths > 0)
+            return  (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
+        else
+            return  kills;
+    }
+
+    protected int calculateWL(int wins, int losses){
+        if (losses > 0)
+            return  (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
+        else
+            return  100;
+    }
+
+    /**
+     * little helper function that gets the Json entry
+     *
+     * @param s entry in the "Warlords" object
+     * @return 0 if the entry is null
+     */
+    protected int getInt(String s) {
+        try {
+            return this.statistics.get(s).getAsInt();
+        } catch (Exception ex) {
+            logInfo("[Stats| + " + databaseName + "]: No entry for " + s + "returning 0!");
+            return 0;
+        }
+    }
+
+    protected String getString(String s) {
+        try {
+            return this.statistics.get(s).getAsString();
+        } catch (Exception ex) {
+            logInfo("[Stats| + " + databaseName + "]: No entry for " + s + "returning Err!");
+            return "Err";
+        }
     }
 
     @Override
-    public void everyTenTICKS() {
-        if(heat >= 100 || ApiQueue.isLocked() || ApiKeyHandler.isLoadingFailed()) return;
-        if(ApiQueue.hasNext())
-            ApiQueue.getNextEntry().execute();
-        heat++;
-    }
-
-    @Override
-    public void everyFiveSEC() {
-
-    }
-
-    @Override
-    public void everyMIN() {
-        heat = 0;
-    }
-
-    @Override
-    public void ApiKeyLoaded(boolean failed, String key) {
-        LoggerHelper.logInfo("[API][key] failed=" + failed + " key=" + key);
-        if (failed) return;
-        HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
+    public void onPlayerResponse(PlayerReply player) {
+        if (player != null && player.getPlayer() != null) {
+            LoggerHelper.logInfo("[Stats]loaded stats for uuid=" + playerUUID);
+            this.statistics = player.getPlayer().get("stats").getAsJsonObject().get(databaseName).getAsJsonObject();
+            composeStats();
+            return;
+        }
+        new ChatMessageComposer("Failed to load stats for: " + playerUUID + "!", EnumChatFormatting.RED).send();
+        renderList.add(RED + "FAILED!");
     }
 }

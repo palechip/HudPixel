@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod.extended.statsviewer.msc;
 import com.palechip.hudpixelmod.util.GameType;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsViewerFactory.getStatsViewerClass;
 
@@ -57,24 +58,24 @@ public class StatsCache {
      * small class to save the loaded stats for future rendering
      */
 
-    private static HashMap<String, HashMap<GameType, IGameStatsViewer>> statsCacheMap
-            = new HashMap<String, HashMap<GameType, IGameStatsViewer>>();
+    private static HashMap<UUID, HashMap<GameType, IGameStatsViewer>> statsCacheMap
+            = new HashMap<>();
 
-    public static boolean containsPlayer(String playerName) {
-        return statsCacheMap.containsKey(playerName);
+    public static boolean containsPlayer(UUID playerUUID) {
+        return statsCacheMap.containsKey(playerUUID);
     }
 
-    public static IGameStatsViewer getPlayerByName(String playerName, GameType gameType) {
-        if (statsCacheMap.containsKey(playerName)) {
-            if (statsCacheMap.get(playerName).containsKey(gameType)) {
-                return statsCacheMap.get(playerName).get(gameType);
+    public static IGameStatsViewer getPlayerByName(UUID playerUUID, GameType gameType) {
+        if (statsCacheMap.containsKey(playerUUID)) {
+            if (statsCacheMap.get(playerUUID).containsKey(gameType)) {
+                return statsCacheMap.get(playerUUID).get(gameType);
             }
         }
 
         //when the stats for the given player are not stored create them with the statsfactory
-        statsCacheMap.put(playerName, new HashMap<GameType, IGameStatsViewer>());
-        statsCacheMap.get(playerName).put(gameType, getStatsViewerClass(playerName, gameType));
+        statsCacheMap.put(playerUUID, new HashMap<GameType, IGameStatsViewer>());
+        statsCacheMap.get(playerUUID).put(gameType, getStatsViewerClass(playerUUID, gameType));
 
-        return statsCacheMap.get(playerName).get(gameType);
+        return statsCacheMap.get(playerUUID).get(gameType);
     }
 }

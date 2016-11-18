@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.api.interaction;
+package com.palechip.hudpixelmod.extended.statsviewer.msc;
 
 /* **********************************************************************************************************************
  HudPixelReloaded - License
@@ -46,64 +46,9 @@ package com.palechip.hudpixelmod.api.interaction;
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
 
-import com.palechip.hudpixelmod.api.interaction.callbacks.ApiKeyLoadedCallback;
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import net.hypixel.api.HypixelAPI;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.google.gson.JsonObject;
 
-import java.util.UUID;
+public interface IStatsLoadedCallback {
 
-/**
- * @author unaussprechlich
- * @since 13.11.2016
- */
-@SideOnly(Side.CLIENT)
-public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
-
-    private int heat = 0;
-
-    private static ApiManager INSTANCE;
-
-    public static ApiManager getINSTANCE() {
-        if (INSTANCE == null)
-            INSTANCE = new ApiManager();
-        return INSTANCE;
-    }
-
-    private ApiManager() {
-
-    }
-
-    public void setup(){
-        HudPixelExtendedEventHandler.registerIEvent(this);
-        ApiKeyHandler.getINSTANCE().loadKey(this);
-    }
-
-    @Override
-    public void everyTenTICKS() {
-        if(heat >= 100 || ApiQueue.isLocked() || ApiKeyHandler.isLoadingFailed()) return;
-        if(ApiQueue.hasNext())
-            ApiQueue.getNextEntry().execute();
-        heat++;
-    }
-
-    @Override
-    public void everyFiveSEC() {
-
-    }
-
-    @Override
-    public void everyMIN() {
-        heat = 0;
-    }
-
-    @Override
-    public void ApiKeyLoaded(boolean failed, String key) {
-        LoggerHelper.logInfo("[API][key] failed=" + failed + " key=" + key);
-        if (failed) return;
-        HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
-    }
+    void onStatsLoadedResponse(JsonObject statistics);
 }

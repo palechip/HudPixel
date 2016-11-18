@@ -1,12 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
-
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
-import static java.lang.Math.round;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -53,7 +49,7 @@ import static java.lang.Math.round;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class UHCStatsViewer extends AbstractStatsViewer {
 
 
     /*
@@ -64,7 +60,7 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private static final String DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
     private static final String SCORE = D_GRAY + " [" + GRAY + "Score" + D_GRAY + "] ";
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
-    private ArrayList<String> renderList;
+
     private int coins;
     private int kills;
     private int deaths;
@@ -72,23 +68,10 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private double kd;
 
 
-    public UHCStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
+    public UHCStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
-    @Override
-    public ArrayList<String> getRenderList() {
-        if (renderList.isEmpty()) {
-            return null;
-        }
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
-    }
 
     private void generateRenderList() {
         renderList.add(" "/*This is a placeholder*/);
@@ -97,30 +80,17 @@ public class UHCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
     }
 
-    public void composeStats() {
+    @Override
+    protected void composeStats() {
 
         this.coins = getInt("coins");
         this.kills = getInt("kills");
         this.deaths = getInt("deaths");
         this.score = getInt("score");
 
-
-        if (deaths > 0) {
-            kd = (double) round(((double) kills / (double) deaths) * 1000) / 1000;
-        } else {
-            kd = 1;
-        }
+        kd = calculateKD(kills, deaths);
 
         generateRenderList();
 
-    }
-
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("UHC").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            logInfo("[Stats.UHC.Int]: No entry for " + s + "returning 0!");
-            return 0;
-        }
     }
 }

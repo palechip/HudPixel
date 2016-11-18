@@ -241,12 +241,10 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onBoosterResponse(List<BoostersReply.Booster> boosters) {
-        System.out.print("GOT IT!");
+
         // we aren't loading anymore
         if (boosters != null) {
             for (BoostersReply.Booster b : boosters) {
-                GameType gameType = GameType.getTypeByDatabaseID(b.getGameType().getId());
-                Boolean found = false;
                 if (b.getLength() < b.getOriginalLength()) {
                     new Booster(b.getPurchaserUuid().toString(), GameType.getTypeByDatabaseID(b.getGameType().getId()));
                 }

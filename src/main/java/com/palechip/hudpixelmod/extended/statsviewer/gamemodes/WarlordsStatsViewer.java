@@ -1,12 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
-
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
-import static java.lang.Math.round;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -53,7 +49,7 @@ import static java.lang.Math.round;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class WarlordsStatsViewer extends AbstractStatsViewer {
 
     /**
      * Some static-final stuff to make the code cleaner ....
@@ -79,29 +75,13 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
     private int warriorLevel;
     private int mageLevel;
     private int paladinLevel;
-    private ArrayList<String> renderList;
+
 
     /**
      * constructor for the StatsViewerFactory
-     *
-     * @param playerName name of the Player
      */
-    public WarlordsStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
-    }
-
-    /**
-     * Implements the IGameStatsViewer interface
-     *
-     * @return the renderList
-     */
-    @Override
-    public ArrayList<String> getRenderList() {
-        if (renderList.isEmpty()) {
-            return null;
-        }
-        return renderList;
+    public WarlordsStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
     /**
@@ -117,24 +97,16 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
     /**
      * Function to compose the Jason object into teh right variables
      */
-    private void composeStats() {
-
+    @Override
+    protected void composeStats() {
         kills = getInt("kills");
         assists = getInt("assists");
         deaths = getInt("deaths");
         wins = getInt("wins");
         losses = getInt("losses");
 
-        if (deaths > 0) {
-            kd = (double) round(((double) kills / (double) deaths) * 1000) / 1000;
-        } else {
-            kd = 1;
-        }
-        if (losses > 0) {
-            wl = (int) round(((double) wins / (double) (wins + losses)) * 100);
-        } else {
-            wl = 1;
-        }
+        kd = calculateKD(kills, deaths);
+        wl = calculateWL(wins, losses);
 
         shamanLevel = getInt("shaman_health") + getInt("shaman_energy") + getInt("shaman_cooldown")
                 + getInt("shaman_critchance") + getInt("shaman_critmultiplier") + getInt("shaman_skill1")
@@ -159,26 +131,4 @@ public class WarlordsStatsViewer extends StatsDisplayer implements IGameStatsVie
         generateRenderList();
     }
 
-    /**
-     * little helper function that gets the Json entry
-     *
-     * @param s entry in the "Warlords" object
-     * @return 0 if the entry is null
-     */
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("Battleground").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            logInfo("[Stats]: No entry for " + s + "returning 0!");
-            return 0;
-        }
-    }
-
-    /**
-     * given by the abstract superclass
-     */
-    @Override
-    protected void displayStats() {
-        composeStats();
-    }
 }

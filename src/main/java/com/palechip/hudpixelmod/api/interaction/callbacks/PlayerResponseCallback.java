@@ -45,8 +45,8 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.api.interaction.callbacks;
 
-import com.palechip.hudpixelmod.api.interaction.representations.Player;
+import net.hypixel.api.reply.PlayerReply;
 
 public interface PlayerResponseCallback extends ApiCallback{
-    void onPlayerResponse(Player player);
+    void onPlayerResponse(PlayerReply player);
 }

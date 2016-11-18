@@ -16,8 +16,6 @@ public class Request {
         this.params = params;
     }
 
-
-
     public RequestType getRequestType() {
         return requestType;
     }

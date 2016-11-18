@@ -49,64 +49,70 @@ package com.palechip.hudpixelmod.util;
  * Replaces GameType and only holds the modID. It can be used to statically reference a certain game without storing any information which may be changed.
  */
 public enum GameType {
-    UNKNOWN(-1, -1, "UNKNOWN", "", "none"),
-    ALL_GAMES(0, -1, "ALL GAMES", "", "any"),
-    QUAKECRAFT(1, 2, "Quakecraft", "quakecraft", "QUAKECRAFT"),
-    THE_WALLS(2, 3, "Walls", "walls", "THE WALLS"),
-    PAINTBALL(3, 4, "Paintball", "paintball", "PAINTBALL"),
-    BLITZ(4, 5, "Blitz Survival Games", "blitz", "BLITZ SG"),
+    UNKNOWN(-1, -1, "UNKNOWN", "", "none", ""),
+    ALL_GAMES(0, -1, "ALL GAMES", "", "any", ""),
+    QUAKECRAFT(1, 2, "Quakecraft", "quakecraft", "QUAKECRAFT", "Quake"),
+    THE_WALLS(2, 3, "Walls", "walls", "THE WALLS", "Walls"),
+    PAINTBALL(3, 4, "Paintball", "paintball", "PAINTBALL", "Paintball"),
+    BLITZ(4, 5, "Blitz Survival Games", "blitz", "BLITZ SG", "HungerGames"),
 
-    TNT_GAMES(5, 6, "TNT Games", "tnt", "THE TNT GAMES"),
-    BOW_SPLEEF(6, -1, "Bow Spleef", "", TNT_GAMES.scoreboardName),
-    TNT_RUN(7, -1, "TNT Run", "", TNT_GAMES.scoreboardName),
-    TNT_WIZARDS(8, -1, "TNT Wizards", "", TNT_GAMES.scoreboardName),
-    TNT_TAG(9, -1, "TNT Tag", "", TNT_GAMES.scoreboardName),
-    ANY_TNT(5, -1, TNT_GAMES.name, TNT_GAMES.tipName, TNT_GAMES.scoreboardName),
+    TNT_GAMES(5, 6, "TNT Games", "tnt", "THE TNT GAMES", "TNTGames"),
+    BOW_SPLEEF(6, -1, "Bow Spleef", "", TNT_GAMES.scoreboardName, ""),
+    TNT_RUN(7, -1, "TNT Run", "", TNT_GAMES.scoreboardName, "TNTGames"),
+    TNT_WIZARDS(8, -1, "TNT Wizards", "", TNT_GAMES.scoreboardName, "TNTGames"),
+    TNT_TAG(9, -1, "TNT Tag", "", TNT_GAMES.scoreboardName, "TNTGames"),
+    ANY_TNT(5, -1, TNT_GAMES.name, TNT_GAMES.tipName, TNT_GAMES.scoreboardName, "TNTGames"),
 
-    VAMPIREZ(10, 7, "VampireZ", "vampirez", "VAMPIREZ"),
-    MEGA_WALLS(11, 13, "Mega Walls", "mega", "MEGA WALLS"),
-    ARENA(12, 17, "Arena Brawl", "arena", "ARENA BRAWL"),
-    UHC(13, 20, "UHC Champions", "uhc", "UHC CHAMPIONS"),
-    COPS_AND_CRIMS(14, -1, "Cops and Crims", "cops", "COPS AND CRIMS"),
-    WARLORDS(15, 23, "Warlords", "warlords", "WARLORDS"),
+    VAMPIREZ(10, 7, "VampireZ", "vampirez", "VAMPIREZ", "VampireZ"),
+    MEGA_WALLS(11, 13, "Mega Walls", "mega", "MEGA WALLS", "Walls3"),
+    ARENA(12, 17, "Arena Brawl", "arena", "ARENA BRAWL", "Arena"),
+    UHC(13, 20, "UHC Champions", "uhc", "UHC CHAMPIONS", "UHC"),
+    COPS_AND_CRIMS(14, -1, "Cops and Crims", "cops", "COPS AND CRIMS", "MCGO"),
+    WARLORDS(15, 23, "Warlords", "warlords", "WARLORDS", "Battleground"),
 
-    ARCADE_GAMES(16, 14, "Arcade Games", "Arcade", "ARCADE GAMES"),
-    BLOCKING_DEAD(17, -1, "Blocking Dead", "", ARCADE_GAMES.scoreboardName),
-    BOUNTY_HUNTERS(18, -1, "Bounty Hunters", "", ARCADE_GAMES.scoreboardName),
-    BUILD_BATTLE(19, -1, "Build Battle", "", ARCADE_GAMES.scoreboardName),
-    CREEPER_ATTACK(20, -1, "Creeper Attack", "", ARCADE_GAMES.scoreboardName),
-    DRAGON_WARS(21, -1, "Dragon Wars", "", ARCADE_GAMES.scoreboardName),
-    ENDER_SPLEEF(22, -1, "Ender Spleef", "", ARCADE_GAMES.scoreboardName),
-    FARM_HUNT(23, -1, "Farm Hunters", "", ARCADE_GAMES.scoreboardName),
-    GALAXY_WARS(24, -1, "Galaxy Wars", "", ARCADE_GAMES.scoreboardName),
-    PARTY_GAMES_1(25, -1, "Party Games", "", ARCADE_GAMES.scoreboardName),
-    PARTY_GAMES_2(26, -1, "Party Games", "", ARCADE_GAMES.scoreboardName),
-    TRHOW_OUT(27, -1, "Throw Out", "", ARCADE_GAMES.scoreboardName),
-    FOOTBALL(33, -1, "Football", "", ARCADE_GAMES.scoreboardName),
+    ARCADE_GAMES(16, 14, "Arcade Games", "Arcade", "ARCADE GAMES", "Arcade"),
+    BLOCKING_DEAD(17, -1, "Blocking Dead", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    BOUNTY_HUNTERS(18, -1, "Bounty Hunters", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    BUILD_BATTLE(19, -1, "Build Battle", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    CREEPER_ATTACK(20, -1, "Creeper Attack", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    DRAGON_WARS(21, -1, "Dragon Wars", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    ENDER_SPLEEF(22, -1, "Ender Spleef", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    FARM_HUNT(23, -1, "Farm Hunters", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    GALAXY_WARS(24, -1, "Galaxy Wars", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    PARTY_GAMES_1(25, -1, "Party Games", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    PARTY_GAMES_2(26, -1, "Party Games", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    TRHOW_OUT(27, -1, "Throw Out", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    FOOTBALL(33, -1, "Football", "", ARCADE_GAMES.scoreboardName, "Arcade"),
 
-    TURBO_KART_RACERS(28, 25, "Turbo Kart Racers", "turbo", "TURBO KART RACERS"),
-    SPEED_UHC(29, 54, "Speed UHC", "speed", "SPEED UHC"),
-    CRAZY_WALLS(31, 52, "Crazy Walls", "crazy", "CRAZY WALLS"),
-    SMASH_HEROES(32, 24, "Smash Heroes", "smash", " SMASH HEROES"),
+    TURBO_KART_RACERS(28, 25, "Turbo Kart Racers", "turbo", "TURBO KART RACERS", "GingerBread"),
+    SPEED_UHC(29, 54, "Speed UHC", "speed", "SPEED UHC", "SpeedUHC"),
+    CRAZY_WALLS(31, 52, "Crazy Walls", "crazy", "CRAZY WALLS", "TrueCombat"),
+    SMASH_HEROES(32, 24, "Smash Heroes", "smash", " SMASH HEROES", "SuperSmash"),
 
-    SMASH_HEROES_WOSPACE(32, -1, "Smash Heroes", "smash", "SMASH HEROES"),
-    SKYWARS(30, 0, "SkyWars", "skywars", "SKYWARS"),
-    HOUSING(34, 26, "Housing", "Housing", "HOUSING"),
-    SKYCLASH(35, 55, "SkyClash", "SkyClash", "SKYCLASH"),
+    SMASH_HEROES_WOSPACE(32, -1, "Smash Heroes", "smash", "SMASH HEROES", "SuperSmash"),
+    SKYWARS(30, 0, "SkyWars", "skywars", "SKYWARS", "SkyWars"),
+    HOUSING(34, 26, "Housing", "Housing", "HOUSING", "Housing"),
+    SKYCLASH(35, 55, "SkyClash", "SkyClash", "SKYCLASH", "SkyClash"),
 
-    ANY_ARCADE(16, -1, ARCADE_GAMES.name, ARCADE_GAMES.tipName, ARCADE_GAMES.scoreboardName);
+    ANY_ARCADE(16, -1, ARCADE_GAMES.name, ARCADE_GAMES.tipName, ARCADE_GAMES.scoreboardName, "Arcade");
     public final String scoreboardName;
     public final int databaseID;
     private final int modID;
     private final String name;
     private final String tipName;
+    private final String statsName;
 
-    GameType(int modID, int databaseID, String name, String tipName, String scoreboardName) {
+    GameType(int modID, int databaseID, String name, String tipName, String scoreboardName, String statsName) {
         this.tipName = tipName;
         this.modID = modID;
         this.name = name;
         this.scoreboardName = scoreboardName;
         this.databaseID = databaseID;
+        this.statsName = statsName;
+    }
+
+    public String getStatsName() {
+        return statsName;
     }
 
     public static GameType getTypeByDatabaseID(int ID) {

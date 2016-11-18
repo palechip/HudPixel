@@ -1,10 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -51,7 +49,7 @@ import java.util.ArrayList;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class CvCStatsViewer extends AbstractStatsViewer {
 
 
     /*
@@ -65,7 +63,6 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private static final String COINS = D_GRAY + " [" + GRAY + "Coins" + D_GRAY + "] ";
     private static final String KD = D_GRAY + " [" + GRAY + "K/D" + D_GRAY + "] ";
     private static final String DEATHS = D_GRAY + " [" + GRAY + "Deaths" + D_GRAY + "] ";
-    private ArrayList<String> renderList;
     private int headshot_kills;
     private int kills;
     private int round_wins;
@@ -75,22 +72,8 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
     private int deaths;
     private double kd;
 
-    public CvCStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
-    }
-
-    @Override
-    public ArrayList<String> getRenderList() {
-        if (renderList.isEmpty()) {
-            return null;
-        }
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
+    public CvCStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
     private void generateRenderList() {
@@ -101,8 +84,8 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
 
     }
 
-    public void composeStats() {
-
+    @Override
+    protected void composeStats() {
         this.headshot_kills = getInt("headshot_kills");
         this.kills = getInt("kills");
         this.round_wins = getInt("round_wins");
@@ -111,31 +94,9 @@ public class CvCStatsViewer extends StatsDisplayer implements IGameStatsViewer {
         this.coins = getInt("coins");
         this.deaths = getInt("deaths");
 
-        if (deaths > 0) {
-            kd = (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
-        } else {
-            kd = 1;
-        }
+        kd = calculateKD(kills, deaths);
 
         generateRenderList();
 
-    }
-
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("MCGO").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.MCGO.Int]: No entry for " + s + "returning 0!");
-            return 0;
-        }
-    }
-
-    private String getString(String s) {
-        try {
-            return this.statistics.get("MCGO").getAsJsonObject().get(s).getAsString();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.MCGO.String]: No entry for " + s + "returning Err!");
-            return "Err";
-        }
     }
 }

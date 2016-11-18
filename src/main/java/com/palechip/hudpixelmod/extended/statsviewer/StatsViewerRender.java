@@ -7,6 +7,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.UUID;
 
 import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsCache.getPlayerByName;
 import static java.lang.System.currentTimeMillis;
@@ -61,6 +65,7 @@ import static org.lwjgl.opengl.GL11.glNormal3f;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+@SideOnly(Side.CLIENT)
 public class StatsViewerRender {
 
     private static final int DURATION = 10000;
@@ -68,8 +73,8 @@ public class StatsViewerRender {
     private IGameStatsViewer iGameStatsViewer;
     private long expireTimestamp;
 
-    StatsViewerRender(GameType gameType, String playerName) {
-        this.iGameStatsViewer = getPlayerByName(playerName, gameType);
+    StatsViewerRender(GameType gameType, UUID playerUUID) {
+        this.iGameStatsViewer = getPlayerByName(playerUUID, gameType);
         this.expireTimestamp = currentTimeMillis() + DURATION;
     }
 

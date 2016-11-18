@@ -1,10 +1,8 @@
 package com.palechip.hudpixelmod.extended.statsviewer.gamemodes;
 
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.extended.util.LoggerHelper;
-import com.palechip.hudpixelmod.stats.StatsDisplayer;
+import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 /* **********************************************************************************************************************
  * HudPixelReloaded - License
@@ -51,53 +49,26 @@ import java.util.ArrayList;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
-public class ArcadeStatsViewer extends StatsDisplayer implements IGameStatsViewer {
+public class ArcadeStatsViewer extends AbstractStatsViewer {
 
     /*
     *Lets add some static finals. Players love static finals.
     */
     private static final String COINS = D_GRAY + " [" + GRAY + "Coins" + D_GRAY + "] ";
-    private ArrayList<String> renderList;
     private int coins;
 
-
-    public ArcadeStatsViewer(String playerName) {
-        super(playerName);
-        renderList = new ArrayList<String>();
-    }
-
-    @Override
-    public ArrayList<String> getRenderList() {
-        if (renderList.isEmpty()) {
-            return null;
-        }
-        return renderList;
-    }
-
-    @Override
-    protected void displayStats() {
-        composeStats();
+    public ArcadeStatsViewer(UUID uuid, String statsName) {
+        super(uuid, statsName);
     }
 
     private void generateRenderList() {
-
         renderList.add(COINS + GOLD + this.coins);
     }
 
-    public void composeStats() {
-
+    @Override
+    protected void composeStats() {
         this.coins = getInt("coins");
-
         generateRenderList();
-
     }
 
-    private int getInt(String s) {
-        try {
-            return this.statistics.get("Arcade").getAsJsonObject().get(s).getAsInt();
-        } catch (Exception ex) {
-            LoggerHelper.logInfo("[Stats.Arcade.Int]: No entry for " + s + "returning 0!");
-            return 0;
-        }
-    }
 }

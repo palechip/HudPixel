@@ -4,6 +4,8 @@ import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,6 +62,7 @@ import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+@SideOnly(Side.CLIENT)
 public class StatsViewerManager {
 
     @ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "statviewer", comment = "The Stats Viewer", def = true)
@@ -105,7 +108,7 @@ public class StatsViewerManager {
                 if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
                     statsViewerRenderMap.put(mc.objectMouseOver.entityHit.getName(), new StatsViewerRender(
                             getCurrentGameType(),
-                            mc.objectMouseOver.entityHit.getName()));
+                            mc.objectMouseOver.entityHit.getUniqueID()));
                 }
             }
         }
