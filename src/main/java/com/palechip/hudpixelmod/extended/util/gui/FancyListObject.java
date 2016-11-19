@@ -161,7 +161,7 @@ public abstract class FancyListObject {
      * the string!
      */
     private void renderBoosterSMALL() {
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         float xStart = this.xStart;
         //System.out.print(renderRight);
@@ -184,7 +184,7 @@ public abstract class FancyListObject {
      * This method draws the display with all it's components
      */
     private void renderBoosterSHOWN() {
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         if (!isHover)
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0f, 0f, 0f, 0.3f); //draws the background

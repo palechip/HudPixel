@@ -7,9 +7,9 @@ import com.palechip.hudpixelmod.config.GeneralConfigSettings
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler
 import com.palechip.hudpixelmod.extended.util.IEventHandler
 import com.palechip.hudpixelmod.util.DisplayUtil
-import net.unaussprechlich.managedgui.lib.util.RenderUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
+import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
 /***********************************************************************************************************************
 HudPixelReloaded - License
@@ -60,16 +60,16 @@ reserve the right to take down any infringing project.
 object ArmorHud : IEventHandler{
 
     @ConfigPropertyBoolean(CCategory.ARMOR_HUD, "disableArmorHud", "Disables the ArmorHud", false) @JvmStatic var disable_ArmorHud: Boolean = false
-    @ConfigPropertyBoolean(CCategory.ARMOR_HUD, "renderRightArmorHud", "Renders the ArmorHud on the right side", false) @JvmStatic var renderRight_ArmorHud: Boolean = false
+    @ConfigPropertyBoolean(CCategory.ARMOR_HUD, "renderRightArmorHud", "Renders the ArmorHud on the right side", true) @JvmStatic var renderRight_ArmorHud: Boolean = true
     @ConfigPropertyBoolean(CCategory.ARMOR_HUD, "renderBottomArmorHud", "Renders the ArmorHud on the bottom side", true) @JvmStatic var renderBottom_ArmorHud: Boolean = true
     @ConfigPropertyBoolean(CCategory.ARMOR_HUD, "renderVerticalArmorHud", "Renders the ArmorHud Vertical", true) @JvmStatic var renderVertical_ArmorHud: Boolean = true
-    @ConfigPropertyInt(CCategory.ARMOR_HUD, "xOffsetArmorHud", "x-offset", 5) @JvmStatic var xOffset_ArmorHud: Int = 5
-    @ConfigPropertyInt(CCategory.ARMOR_HUD, "yOffsetArmorHud", "y-offset", 5) @JvmStatic var yOffset_ArmorHud: Int = 5
+    @ConfigPropertyInt(CCategory.ARMOR_HUD, "xOffsetArmorHud", "x-offset", -2) @JvmStatic var xOffset_ArmorHud: Int = -2
+    @ConfigPropertyInt(CCategory.ARMOR_HUD, "yOffsetArmorHud", "y-offset", -2) @JvmStatic var yOffset_ArmorHud: Int = -2
 
     private var xStart:Int = 0
     private var yStart:Int = 0
 
-    private val size:Int = 18
+    private val size:Int = 19
 
     fun init(){
         HudPixelExtendedEventHandler.registerIEvent(this)
@@ -84,14 +84,14 @@ object ArmorHud : IEventHandler{
 
             if(renderVertical_ArmorHud)
                 if(GeneralConfigSettings.hudBackground)
-                    RenderUtils.renderItemStackHudBackground(iStack, xStart + (i* size), yStart)
-                else
-                    RenderUtils.renderItemStack(iStack, xStart + (i* size), yStart)
-            else
-                if(GeneralConfigSettings.hudBackground)
-                    RenderUtils.renderItemStackHudBackground(iStack, xStart, yStart + (i* size))
+                    RenderUtils.renderItemStackHudBackground(iStack, xStart , yStart + (i* size))
                 else
                     RenderUtils.renderItemStack(iStack, xStart , yStart + (i* size))
+            else
+                if(GeneralConfigSettings.hudBackground)
+                    RenderUtils.renderItemStackHudBackground(iStack, xStart + (i* size), yStart)
+                else
+                    RenderUtils.renderItemStack(iStack, xStart + (i* size) , yStart )
         }
     }
 
@@ -101,7 +101,7 @@ object ArmorHud : IEventHandler{
         val dWidth = DisplayUtil.getScaledMcWidth()
 
 
-        if(renderBottom_ArmorHud && !renderVertical_ArmorHud)
+        if(renderBottom_ArmorHud && renderVertical_ArmorHud)
             yStart = dHeight - (size*4) + yOffset_ArmorHud
         else if(renderBottom_ArmorHud )
             yStart = dHeight - size + yOffset_ArmorHud
@@ -109,7 +109,7 @@ object ArmorHud : IEventHandler{
             yStart = yOffset_ArmorHud
 
 
-        if(renderRight_ArmorHud && renderVertical_ArmorHud)
+        if(renderRight_ArmorHud && !renderVertical_ArmorHud)
             xStart = dWidth - (size*4) + xOffset_ArmorHud
         else if(renderRight_ArmorHud )
             xStart = dWidth - size + xOffset_ArmorHud

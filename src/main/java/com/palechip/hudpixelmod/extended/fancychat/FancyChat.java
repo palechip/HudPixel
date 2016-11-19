@@ -125,7 +125,7 @@ public class FancyChat {
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
         if (!enabled) return;
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
         if (Minecraft.getMinecraft().displayWidth < 1300) {
             return;
         }
@@ -254,7 +254,7 @@ public class FancyChat {
      */
     private void renderOverlayGui(List<String> renderList, ScaledResolution res) {
 
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         int yStart = res.getScaledHeight() - BOTTOM_Y_OFFSET - RENDERING_HEIGHT_OFFSET;
         int xStart = res.getScaledWidth() - FIELD_WIDTH - 2;
         int size = renderList.size();
@@ -319,7 +319,7 @@ public class FancyChat {
      */
     private void renderOverlay(ArrayList<FancyChatObject> renderFco, ScaledResolution res) {
 
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         int lines = 0;
 
         //gets the number of lines

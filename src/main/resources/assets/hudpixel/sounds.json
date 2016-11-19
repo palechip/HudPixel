@@ -7,5 +7,6 @@
   "NOTIFICATION_LONG": {"category": "master", "sounds": [{"name":"NOTIFICATION_LONG", "stream": false}]},
   "NOTIFICATION_LONG2": {"category": "master", "sounds": [{"name":"NOTIFICATION_LONG2", "stream": false}]},
   "NOTIFICATION_OLDSCHOOLMESSAGE": {"category": "master", "sounds": [{"name":"NOTIFICATION_OLDSCHOOLMESSAGE", "stream": false}]},
+  "STAR_SOMETHING": {"category": "master", "sounds": [{"name":"STAR_SOMETHING", "stream": false}]},
   "NOTIFICATION_SHORT_WOOD": {"category": "master", "sounds": [{"name":"NOTIFICATION_SHORT_WOOD", "stream": false}]}
 }

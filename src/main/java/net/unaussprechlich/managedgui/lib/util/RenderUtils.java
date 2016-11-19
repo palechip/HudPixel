@@ -27,6 +27,7 @@
 package net.unaussprechlich.managedgui.lib.util;
 
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
+import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -36,6 +37,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import org.lwjgl.opengl.GL11;
@@ -46,10 +48,10 @@ public class RenderUtils {
         GL11.glPushMatrix();
         RenderHelper.enableStandardItemLighting();
         GlStateManager.color(0.0F, 0.0F, 32.0F);
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
         ItemStack iStack = new ItemStack(Item.getItemById(id));
         if(meta > 0) iStack.setItemDamage(meta);
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") RenderItem renderItem = mc.getRenderItem();
+        RenderItem renderItem = mc.getRenderItem();
         renderItem.renderItemAndEffectIntoGUI(iStack, xStart, yStart);
         renderItem.renderItemOverlayIntoGUI(mc.fontRendererObj,iStack, xStart, yStart, overlay);
         RenderHelper.disableStandardItemLighting();
@@ -62,22 +64,22 @@ public class RenderUtils {
         RenderHelper.enableStandardItemLighting();
 
         GlStateManager.color(0.0F, 0.0F, 32.0F);
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        renderItem.renderItemAndEffectIntoGUI(iStack , (short)(xStart + 1), (short)(yStart + 1));
+         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        renderItem.renderItemAndEffectIntoGUI(iStack , (short)(xStart + 2), (short)(yStart + 2));
 
         RenderHelper.disableStandardItemLighting();
 
         double dur = 1 - iStack.getItem().getDurabilityForDisplay(iStack);
 
         if(iStack.getItem().showDurabilityBar(iStack))
-            renderBoxWithColor(xStart + 1, yStart + 16, 16 * dur, 1, (float)(1 -dur), (float)dur, 0, 1);
+            renderBoxWithColor(xStart + 1, yStart + 18, 18 * dur, 1, (float)(1 - dur), (float)dur, 0, 1);
 
         GlStateManager.disableBlend();
         GL11.glPopMatrix();
     }
 
     public static void renderItemStackHudBackground(ItemStack iStack, int xStart, int yStart){
-        renderBoxWithHudBackground(xStart + 1, yStart + 1, 16, 16);
+        renderBoxWithHudBackground(xStart + 1, yStart + 1, 18, 18);
         renderItemStack(iStack, xStart, yStart);
     }
 
@@ -114,9 +116,10 @@ public class RenderUtils {
 
     public static void renderBoxWithColor(float xStart, float yStart, int width, int height, ColorRGBA color) {
 
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
+        GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
 
@@ -131,18 +134,20 @@ public class RenderUtils {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
 
     }
 
     public static void renderBoxWithColor(double xStart, double yStart, double width, double height,
                                           float red, float green, float blue, float alpha){
 
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.popMatrix();
+        GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
+
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
         GlStateManager.color(red, green, blue, alpha);
@@ -155,7 +160,7 @@ public class RenderUtils {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.pushMatrix();
+        GlStateManager.popMatrix();
 
     }
 
@@ -164,23 +169,26 @@ public class RenderUtils {
     /**
      * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(short x, short y, short width, short height, ResourceLocation resourceLocation, Float alpha) {
+    public static void drawModalRectWithCustomSizedTexture(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
 
         GlStateManager.popMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+        if(resourceLocation != null)
+            Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 
         //this line took me like 3 hours to fine out the color wasn't resetting :D
         GlStateManager.color(1f, 1f, 1f, alpha);
 
-        float f = 1.0F / height;
-        float f1 = 1.0F / width;
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        float f = (float)(1.0F / height);
+        float f1 = (float)(1.0F / width);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (width * f), (double) ((height + height) * f1)).endVertex();
-        worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((width + width) * f), (double) ((height + height) * f1)).endVertex();
-        worldrenderer.pos((double) (x + width), (double) y, 0.0D).tex((double) ((width + width) * f), (double) (height * f1)).endVertex();
-        worldrenderer.pos((double) x, (double) y, 0.0D).tex((double) (width * f), (double) (height * f1)).endVertex();
+        worldrenderer.pos( x, (y + height), 0.0D).tex(width * f, height + height * f1).endVertex();
+        worldrenderer.pos( (x + width),  (y + height), 0.0D).tex((width + width) * f, (height + height) * f1).endVertex();
+        worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
+        worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
         tessellator.draw();
 
         GlStateManager.pushMatrix();
@@ -188,8 +196,75 @@ public class RenderUtils {
     }
 
 
-    public static void drawModalRectWithCustomSizedTexture(int round, int round1, int i, int i1, int i2, int i3, int i4, int i5, ResourceLocation resourceLocation, float v) {
-        drawModalRectWithCustomSizedTexture((short) round, (short) round1, (short) i4, (short) i5, resourceLocation, v);
+    public static void drawModalRectWithCustomSizedTexture(int x, int y, int uX, int uY, int vX, int vY, int width, int height, ResourceLocation resourceLocation, float alpha) {
+
+        GlStateManager.popMatrix();
+
+
+        if(resourceLocation != null)
+            Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+
+        //this line took me like 3 hours to fine out the color wasn't resetting :D
+        GlStateManager.color(1f, 1f, 1f, alpha);
+
+        float f = 1.0F / height;
+        float f1 = 1.0F / width;
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+
+        worldrenderer.pos( x        , y + height, 0.0D).tex(uX * f1, vY * f).endVertex();
+        worldrenderer.pos( x + width, y + height, 0.0D).tex(vX * f1, vY * f).endVertex();
+        worldrenderer.pos( x + width, y         , 0.0D).tex(vX * f1, uY * f).endVertex();
+        worldrenderer.pos( x        , y         , 0.0D).tex(uX * f1, uY * f).endVertex();
+
+        tessellator.draw();
+
+        GlStateManager.pushMatrix();
+    }
+
+    public static void renderPotionIcon(int x, int y, Potion potion) {
+        if(potion.hasStatusIcon()) {
+            int iconIndex = potion.getStatusIconIndex();
+
+            double uX = iconIndex % 8 * 18;
+            double uY = 198 + iconIndex / 8 * 18;
+            double vX = uX + 18;
+            double vY = uY + 18;
+
+            drawPotionIcon(x, y, 18, 18, uX, uY, vX, vY, 256, 256, ImageLoader.INVENTORY_RES, 1f );
+        }
+    }
+
+
+    public static void drawPotionIcon(double x, double y, double width, double height, double uX, double uY, double vX, double vY, int tWidth, int tHeight, ResourceLocation resourceLocation, float alpha) {
+
+        GlStateManager.popMatrix();
+        GlStateManager.enableBlend();
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+
+        GlStateManager.color(1f, 1f, 1f, alpha);
+
+        float f =  1.0F / tWidth;
+        float f1 = 1.0F / tHeight ;
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+
+        worldrenderer.pos( x        , y + height, 0.0D).tex(uX * f, vY * f1 ).endVertex();
+        worldrenderer.pos( x + width, y + height, 0.0D).tex(vX * f, vY * f1).endVertex();
+        worldrenderer.pos( x + width, y         , 0.0D).tex(vX * f, uY * f1).endVertex();
+        worldrenderer.pos( x        , y         , 0.0D).tex(uX * f, uY * f1).endVertex();
+
+        tessellator.draw();
+
+        GlStateManager.disableBlend();
+        GlStateManager.pushMatrix();
     }
 
     public static void renderBox(int xStart, int yStart, int fieldWidth, int i) {

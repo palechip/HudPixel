@@ -53,6 +53,7 @@ public class ImageLoader {
 
     private final static String BASE_PATH = "textures/gameicons/";
     private final static String EXTENSION = "-64.png";
+    public static final ResourceLocation INVENTORY_RES = new ResourceLocation("textures/gui/container/inventory.png");
 
     /**
      * Add a new icon for a gametype here ;)
