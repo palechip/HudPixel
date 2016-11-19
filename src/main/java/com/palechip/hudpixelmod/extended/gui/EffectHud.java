@@ -56,6 +56,8 @@ public class EffectHud implements IEventHandler{
                 .collect(Collectors.toCollection(ArrayList::new))
         );
 
+        effects.removeAll(effects.stream().filter(effect-> !(mc.thePlayer.getActivePotionEffects().contains(effect.getPotionEffect()))).collect(Collectors.toCollection(ArrayList::new)));
+
         if(mc.thePlayer == null || mc.thePlayer.getActivePotionEffects() == null || disable_PotionHud) return;
 
         effects.addAll(mc.thePlayer.getActivePotionEffects()
@@ -87,6 +89,9 @@ public class EffectHud implements IEventHandler{
 
 
     private boolean isPotionEffectInEffects(PotionEffect potionEffect){
+        if(potionEffect.getIsPotionDurationMax() || potionEffect.getIsAmbient()){
+            return true;
+        }
         for (Effect effect: effects) {
             if(potionEffect == effect.getPotionEffect())
                 return true;
