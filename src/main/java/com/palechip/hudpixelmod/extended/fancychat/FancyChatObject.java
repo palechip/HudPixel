@@ -57,7 +57,7 @@ class FancyChatObject {
     private int size = 1;
 
     FancyChatObject(String message) {
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         this.message = fontRenderer.listFormattedStringToWidth(message, FancyChat.FIELD_WIDTH);
         this.size = this.message.size();

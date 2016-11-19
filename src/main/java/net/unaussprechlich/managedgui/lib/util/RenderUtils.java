@@ -27,7 +27,6 @@
 package net.unaussprechlich.managedgui.lib.util;
 
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
-import net.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -38,6 +37,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
 import org.lwjgl.opengl.GL11;
 
 public class RenderUtils {
@@ -46,10 +46,10 @@ public class RenderUtils {
         GL11.glPushMatrix();
         RenderHelper.enableStandardItemLighting();
         GlStateManager.color(0.0F, 0.0F, 32.0F);
-        Minecraft mc = Minecraft.getMinecraft();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
         ItemStack iStack = new ItemStack(Item.getItemById(id));
         if(meta > 0) iStack.setItemDamage(meta);
-        RenderItem renderItem = mc.getRenderItem();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") RenderItem renderItem = mc.getRenderItem();
         renderItem.renderItemAndEffectIntoGUI(iStack, xStart, yStart);
         renderItem.renderItemOverlayIntoGUI(mc.fontRendererObj,iStack, xStart, yStart, overlay);
         RenderHelper.disableStandardItemLighting();
@@ -62,7 +62,7 @@ public class RenderUtils {
         RenderHelper.enableStandardItemLighting();
 
         GlStateManager.color(0.0F, 0.0F, 32.0F);
-        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         renderItem.renderItemAndEffectIntoGUI(iStack , (short)(xStart + 1), (short)(yStart + 1));
 
         RenderHelper.disableStandardItemLighting();
@@ -114,8 +114,8 @@ public class RenderUtils {
 
     public static void renderBoxWithColor(float xStart, float yStart, int width, int height, ColorRGBA color) {
 
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
@@ -137,8 +137,8 @@ public class RenderUtils {
     public static void renderBoxWithColor(double xStart, double yStart, double width, double height,
                                           float red, float green, float blue, float alpha){
 
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
         GlStateManager.popMatrix();
         GlStateManager.enableBlend();
@@ -174,8 +174,8 @@ public class RenderUtils {
 
         float f = 1.0F / height;
         float f1 = 1.0F / width;
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         worldrenderer.pos((double) x, (double) (y + height), 0.0D).tex((double) (width * f), (double) ((height + height) * f1)).endVertex();
         worldrenderer.pos((double) (x + width), (double) (y + height), 0.0D).tex((double) ((width + width) * f), (double) ((height + height) * f1)).endVertex();

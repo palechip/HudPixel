@@ -56,7 +56,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
 
     public ContributorFancinessHandler() {
         Map<String, RenderPlayer> skinMap = Minecraft.getMinecraft().getRenderManager().getSkinMap();
-        RenderPlayer render;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") RenderPlayer render;
         render = skinMap.get("default");
         render.addLayer(this);
         render = skinMap.get("slim");
@@ -127,8 +127,8 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             double left = width / 2;
             double bottom = height / 4;
 
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer vb = tessellator.getWorldRenderer();
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer vb = tessellator.getWorldRenderer();
 
             vb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
             vb.pos(height - bottom, -left, 0).tex(0, 0).endVertex();
@@ -220,7 +220,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
                 unregisterIEvent(this);
                 return;
             }
-            DynamicTexture texture = new DynamicTexture(image);
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") DynamicTexture texture = new DynamicTexture(image);
             resourceLocation = getMinecraft().getTextureManager().getDynamicTextureLocation(thing, texture);
             logInfo("[LoadContributors]: Loaded info for " + thing + " @ " + "http://i.imgur.com/" + thing + ".png");
             callback.onImgurCallback(this.resourceLocation);

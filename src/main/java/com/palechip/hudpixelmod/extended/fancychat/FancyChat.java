@@ -52,7 +52,6 @@ import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.ConfigPropertyInt;
 import com.palechip.hudpixelmod.extended.util.MessageBuffer;
 import com.palechip.hudpixelmod.extended.util.SoundManager;
-import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -61,6 +60,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +125,7 @@ public class FancyChat {
         //returns if there is nothing to render
         if (fancyChatObjects.isEmpty() && fancyChatMessages.messageBuffer.isEmpty()) return;
         if (!enabled) return;
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
         if (Minecraft.getMinecraft().displayWidth < 1300) {
             return;
         }
@@ -254,7 +254,7 @@ public class FancyChat {
      */
     private void renderOverlayGui(List<String> renderList, ScaledResolution res) {
 
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         int yStart = res.getScaledHeight() - BOTTOM_Y_OFFSET - RENDERING_HEIGHT_OFFSET;
         int xStart = res.getScaledWidth() - FIELD_WIDTH - 2;
         int size = renderList.size();
@@ -319,7 +319,7 @@ public class FancyChat {
      */
     private void renderOverlay(ArrayList<FancyChatObject> renderFco, ScaledResolution res) {
 
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         int lines = 0;
 
         //gets the number of lines

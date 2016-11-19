@@ -92,7 +92,7 @@ public class BookVerboseInfoCommand extends CommandBase {
         @SubscribeEvent
         public void onGuiOpen(GuiOpenEvent event) {
             if (event.gui instanceof GuiScreenBook) {
-                GuiScreenBook book = (GuiScreenBook) event.gui;
+                @SuppressWarnings("LocalVariableDeclarationSideOnly") GuiScreenBook book = (GuiScreenBook) event.gui;
                 NBTTagList tags = HudPixelMethodHandles.getBookPages(book);
                 if (tags == null || !showVerboseBookInfo) return;
                 for (int i = 0; i < tags.tagCount(); i++)

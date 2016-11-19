@@ -98,10 +98,10 @@ public class CooldownDisplayManager implements IEventHandler {
 
         if (cdModules.isEmpty() || !enabled || GameDetector.isLobby()) return;
 
-        Minecraft mc = Minecraft.getMinecraft();
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
         int scale;
         if (mc.gameSettings.guiScale == 0) {
-            ScaledResolution res = new ScaledResolution(mc);
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") ScaledResolution res = new ScaledResolution(mc);
             scale = res.getScaleFactor();
         } else {
             scale = mc.gameSettings.guiScale;

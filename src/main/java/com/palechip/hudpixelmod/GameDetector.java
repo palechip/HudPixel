@@ -48,6 +48,7 @@ package com.palechip.hudpixelmod;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
+import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.modulargui.IHudPixelModularGuiProviderBase;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.components.TimerModularGuiProvider;
@@ -256,11 +257,13 @@ public class GameDetector {
         if (!enabled) return;
         String message = event.message.getUnformattedText();
         if (message.equalsIgnoreCase("The game starts in 1 second!")) {
+            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getName() + " has started!");
             HudPixelExtendedEventHandler.onGameStart();
             gameHasntBegan = false;
             TimerModularGuiProvider.instance.onGameStart();
         }
         if (message.equalsIgnoreCase("                            Reward Summary")) {
+            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getName() + " has ended!");
             HudPixelExtendedEventHandler.onGameEnd();
             gameHasntBegan = true;
         }

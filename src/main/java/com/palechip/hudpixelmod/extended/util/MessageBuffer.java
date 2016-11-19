@@ -64,7 +64,7 @@ public class MessageBuffer {
 
 
     public void addMinecraftEntry(String message) {
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
         List messageList = fontRenderer.listFormattedStringToWidth(message, FancyChat.FIELD_WIDTH);
 
         for (Object o : messageList) {

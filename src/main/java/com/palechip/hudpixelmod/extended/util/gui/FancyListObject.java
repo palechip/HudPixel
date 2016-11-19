@@ -45,11 +45,11 @@
  **********************************************************************************************************************/
 package com.palechip.hudpixelmod.extended.util.gui;
 
-import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import java.util.ArrayList;
 
@@ -161,7 +161,7 @@ public abstract class FancyListObject {
      * the string!
      */
     private void renderBoosterSMALL() {
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         float xStart = this.xStart;
         //System.out.print(renderRight);
@@ -184,7 +184,7 @@ public abstract class FancyListObject {
      * This method draws the display with all it's components
      */
     private void renderBoosterSHOWN() {
-        FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
+        @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
 
         if (!isHover)
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0f, 0f, 0f, 0.3f); //draws the background

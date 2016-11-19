@@ -1,15 +1,15 @@
 package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.util.DisplayUtil;
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
-import net.unaussprechlich.managedgui.lib.util.RenderUtils;
+import com.palechip.hudpixelmod.util.DisplayUtil;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class Renderer {
         int w = GeneralConfigSettings.getDisplayXOffset(); //width, change this if needed
         int h = GeneralConfigSettings.getDisplayYOffset(); //height, you shouldn't touch this usually
         if (isEnabled) { //if enabled...
-            FontRenderer fontRendererObj = FMLClientHandler.instance().getClient().fontRendererObj; //get the font renderer
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRendererObj = FMLClientHandler.instance().getClient().fontRendererObj; //get the font renderer
             for (ModularGuiRegistry.Element element : display) { //for each element...
                 if (!element.provider.showElement()) continue; //if you shouldn't show it, skip it.
                 String aDisplay;

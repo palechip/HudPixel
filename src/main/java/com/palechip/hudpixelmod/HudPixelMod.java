@@ -78,8 +78,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -93,16 +91,14 @@ import static com.palechip.hudpixelmod.HudPixelMod.SHORT_VERSION;
         modid = HudPixelMod.MODID,
         version = SHORT_VERSION,
         name = HudPixelMod.NAME,
-        clientSideOnly = true,
         guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory",
         acceptedMinecraftVersions = "1.8.9"
 )
-@SideOnly(Side.CLIENT)
 public class HudPixelMod {
 
     public static final String MODID = "hudpixel";
     public static final String SHORT_VERSION = "3.0"; // only to be used for the annotation which requires such a constant.
-    public static final String DEFAULT_VERSION = "3.2.7dev";
+    public static final String DEFAULT_VERSION = "3.2.7";
     public static final String HYPIXEL_DOMAIN = "hypixel.net";
     static final String NAME = "HudPixel Reloaded";
     // key related vars

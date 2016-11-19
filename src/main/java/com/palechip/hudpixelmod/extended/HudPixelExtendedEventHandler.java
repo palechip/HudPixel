@@ -92,7 +92,7 @@ public class HudPixelExtendedEventHandler {
     }
 
     public static ArrayList<IEventHandler> getIeventBuffer(){
-        return new ArrayList<IEventHandler>(iEventArrayList);
+        return new ArrayList<>(iEventArrayList);
     }
 
 
