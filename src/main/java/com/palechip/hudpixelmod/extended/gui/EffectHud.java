@@ -23,10 +23,10 @@ public class EffectHud implements IEventHandler{
     private static boolean renderBottom_PotionHud = true;
     @ConfigPropertyBoolean(category = CCategory.POTION_HUD, id = "renderVerticalPotionHud", comment = "Renders the PotionHud Vertical", def = true)
     private static boolean renderVertical_PotionHud = true;
-    @ConfigPropertyInt(category = CCategory.POTION_HUD, id = "xOffsetPotionHud", comment = "x-offset", def = -22)
+    @ConfigPropertyInt(category = CCategory.POTION_HUD, id = "xOffsetPotionHud", comment = "x-offset", def = -21)
     private static int xOffset_PotionHud = 22;
-    @ConfigPropertyInt(category = CCategory.POTION_HUD, id ="yOffsetPotionHud", comment = "y-offset", def = -2)
-    private static int yOffset_PotionHud = -2;
+    @ConfigPropertyInt(category = CCategory.POTION_HUD, id ="yOffsetPotionHud", comment = "y-offset", def = -1)
+    private static int yOffset_PotionHud = -1;
 
     private static final int size = 19;
     private static EffectHud INSTANCE;
@@ -56,7 +56,11 @@ public class EffectHud implements IEventHandler{
                 .collect(Collectors.toCollection(ArrayList::new))
         );
 
-        effects.removeAll(effects.stream().filter(effect-> !(mc.thePlayer.getActivePotionEffects().contains(effect.getPotionEffect()))).collect(Collectors.toCollection(ArrayList::new)));
+        effects.removeAll(effects
+                .stream()
+                .filter(effect-> !(mc.thePlayer.getActivePotionEffects().contains(effect.getPotionEffect())))
+                .collect(Collectors.toCollection(ArrayList::new))
+        );
 
         if(mc.thePlayer == null || mc.thePlayer.getActivePotionEffects() == null || disable_PotionHud) return;
 

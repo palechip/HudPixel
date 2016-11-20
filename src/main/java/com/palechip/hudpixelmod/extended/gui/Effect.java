@@ -101,24 +101,24 @@ public class Effect {
         float g = (float) percent;
 
         if(t >= 63 && t < 72) {
-            RenderUtils.renderBoxWithColor(xS + 9 + 72 - t, yS, 9 - 72 + t, 1,   r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS + 17, yS , 1, 18,                  r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS + 17 , 18, 1,                 r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                 r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                 r,g, 0, 1f);
-        }else if(t >= 45){
+            RenderUtils.renderBoxWithColor(xS + 9 + 72 - t, yS, 9 - 72 + t, 1, r,g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS + 17, yS , 1, 18,                r,g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS , yS + 17 , 18, 1,               r,g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                    r,g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                     r,g, 0, 1f);
+        }else if(t >= 45 && t < 63){
             RenderUtils.renderBoxWithColor(xS + 17, yS + 63 - t, 1, 18 - 63 + t, r, g, 0, 1f );
             RenderUtils.renderBoxWithColor(xS , yS + 17 , 18, 1,                 r,g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                 r,g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                 r,g, 0, 1f);
-        }else if(t >= 27){
+        }else if(t >= 27 && t < 45){
             RenderUtils.renderBoxWithColor(xS , yS + 17 , 18 - 45 + t, 1, r,g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                 r,g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                 r,g, 0, 1f);
-        }else if(t >= 9) {
+        }else if(t >= 9 && t < 27) {
             RenderUtils.renderBoxWithColor(xS, yS, 1, 18 - 27 + t, r, g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS, yS, 9, 1, r, g, 0, 1f);
-        }else if(t > 0) {
+        }else if(t > 0 && t < 9) {
             RenderUtils.renderBoxWithColor(xS  + 9 - t, yS, t, 1, r, g, 0, 1f);
         }
     }
