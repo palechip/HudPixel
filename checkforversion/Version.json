@@ -1,11 +1,12 @@
 {
-  "Version": "3.2.5",
+  "Version": "3.2.7",
   "DownloadLink": "http://hudpixel.unaussprechlich.net/",
   "UpdateMessages":{
-    "1": "[+] The ConfigGUI is back in town :D most settings will apply on runtime",
-    "2": "[+] AfterGameStats",
-    "3": "[fixed] bugfixes ... as usual",
-    "4": "[IMPORTANT] if you are using Optifine -> disable 'fast' 'renderer' in the Optifine settings"
+    "1": "[+] potionHUD & armorHUD + config settings",
+    "2": "[+] Contributor Fanciness",
+    "3": "[fixed] Afterstats (again)",
+    "4": "[fixed] API & rewrite of the HudPixel backend - run the '/api' 'new' command",
+    "5": "[IMPORTANT] if you are using Optifine -> disable 'Fast' 'Render' in the Optifine settings"
   }
 }
 
