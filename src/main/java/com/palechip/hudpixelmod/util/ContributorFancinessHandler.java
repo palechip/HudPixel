@@ -97,6 +97,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
     }
 
     private static void renderStack(EntityPlayer player, Object object) {
+        if (player.isInvisible()) return;
         if (object instanceof ItemStack) {
             ItemStack item = (ItemStack) object;
             GlStateManager.pushMatrix();
