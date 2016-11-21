@@ -60,7 +60,7 @@ public class Effect {
     private static Minecraft mc = Minecraft.getMinecraft();
 
 
-    public Effect(PotionEffect potionEffect){
+    public Effect(PotionEffect potionEffect) {
         this.potionEffect = potionEffect;
         this.startDuration = potionEffect.getDuration();
 
@@ -75,66 +75,77 @@ public class Effect {
     }
 
     private static String getAmpifireString(PotionEffect potionEffect) {
-        switch (potionEffect.getAmplifier()){
-            case 0: return "I";
-            case 1: return "II";
-            case 2: return "III";
-            case 3: return "IV";
-            case 4: return "V";
-            case 5: return "VI";
-            case 6: return "VII";
-            case 7: return "VIII";
-            case 8: return "IX";
-            case 9: return "X";
-            default: return " "+ (potionEffect.getAmplifier() + 1);
+        switch (potionEffect.getAmplifier()) {
+            case 0:
+                return "I";
+            case 1:
+                return "II";
+            case 2:
+                return "III";
+            case 3:
+                return "IV";
+            case 4:
+                return "V";
+            case 5:
+                return "VI";
+            case 6:
+                return "VII";
+            case 7:
+                return "VIII";
+            case 8:
+                return "IX";
+            case 9:
+                return "X";
+            default:
+                return " " + (potionEffect.getAmplifier() + 1);
         }
     }
 
-    private void renderCooldown(int xStart, int yStart){
-        if(potionEffect.getDuration() <= 5) return;
+    private void renderCooldown(int xStart, int yStart) {
+        if (potionEffect.getDuration() <= 5) return;
         double percent = (double) (potionEffect.getDuration()) / (double) (startDuration);
         double t = Math.round(percent * 72);
-               double xS = xStart;
+        double xS = xStart;
         double yS = yStart;
 
         float r = (float) (1f - percent);
         float g = (float) percent;
 
-        if(t >= 63 && t < 72) {
-            RenderUtils.renderBoxWithColor(xS + 9 + 72 - t, yS, 9 - 72 + t, 1, r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS + 17, yS , 1, 18,                r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS + 17 , 18, 1,               r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                    r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                     r,g, 0, 1f);
-        }else if(t >= 45 && t < 63){
-            RenderUtils.renderBoxWithColor(xS + 17, yS + 63 - t, 1, 18 - 63 + t, r, g, 0, 1f );
-            RenderUtils.renderBoxWithColor(xS , yS + 17 , 18, 1,                 r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                 r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                 r,g, 0, 1f);
-        }else if(t >= 27 && t < 45){
-            RenderUtils.renderBoxWithColor(xS , yS + 17 , 18 - 45 + t, 1, r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 1, 18,                 r,g, 0, 1f);
-            RenderUtils.renderBoxWithColor(xS , yS , 9, 1,                 r,g, 0, 1f);
-        }else if(t >= 9 && t < 27) {
+        if (t >= 63 && t < 72) {
+            RenderUtils.renderBoxWithColor(xS + 9 + 72 - t, yS, 9 - 72 + t, 1, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS + 17, yS, 1, 18, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS + 17, 18, 1, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 1, 18, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 9, 1, r, g, 0, 1f);
+        } else if (t >= 45 && t < 63) {
+            RenderUtils.renderBoxWithColor(xS + 17, yS + 63 - t, 1, 18 - 63 + t, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS + 17, 18, 1, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 1, 18, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 9, 1, r, g, 0, 1f);
+        } else if (t >= 27 && t < 45) {
+            RenderUtils.renderBoxWithColor(xS, yS + 17, 18 - 45 + t, 1, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 1, 18, r, g, 0, 1f);
+            RenderUtils.renderBoxWithColor(xS, yS, 9, 1, r, g, 0, 1f);
+        } else if (t >= 9 && t < 27) {
             RenderUtils.renderBoxWithColor(xS, yS, 1, 18 - 27 + t, r, g, 0, 1f);
             RenderUtils.renderBoxWithColor(xS, yS, 9, 1, r, g, 0, 1f);
-        }else if(t > 0 && t < 9) {
-            RenderUtils.renderBoxWithColor(xS  + 9 - t, yS, t, 1, r, g, 0, 1f);
+        } else if (t > 0 && t < 9) {
+            RenderUtils.renderBoxWithColor(xS + 9 - t, yS, t, 1, r, g, 0, 1f);
         }
     }
 
-    public void onRender(int xStart, int yStart){
-        if(potionEffect.getDuration() > startDuration){
+    public void onRender(int xStart, int yStart) {
+        if (potionEffect.getDuration() > startDuration) {
             startDuration = potionEffect.getDuration() + 5;
         }
         RenderUtils.renderBox(xStart, yStart, 18, 18);
         RenderUtils.renderPotionIcon(xStart, yStart, Potion.potionTypes[potionEffect.getPotionID()]);
         mc.fontRendererObj.drawStringWithShadow(getAmpifireString(potionEffect),
-                xStart + + 9 - (mc.fontRendererObj.getStringWidth(getAmpifireString(potionEffect))/2),
+                xStart + +9 - (mc.fontRendererObj.getStringWidth(getAmpifireString(potionEffect)) / 2),
                 yStart + 6,
                 0xffffff);
         renderCooldown(xStart, yStart);
-        if(potionEffect.getDuration() == 12 && !soundPlayed){
+        if (potionEffect.getDuration() == 12 && !soundPlayed && EffectHud.isPlaySound_PotionHud()) {
             soundPlayed = true;
             SoundManager.playSound(SoundManager.Sounds.STAR_SOMETHING);
         }
