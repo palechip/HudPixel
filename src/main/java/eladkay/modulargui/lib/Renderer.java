@@ -2,6 +2,7 @@ package eladkay.modulargui.lib;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
+import com.palechip.hudpixelmod.util.BansHandler;
 import com.palechip.hudpixelmod.util.DisplayUtil;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,7 @@ public class Renderer {
      */
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
+        BansHandler.checkForBan();
         if(GeneralConfigSettings.getHudDisabled()) return;
         if (!HudPixelMod.isHypixelNetwork() && !HudPixelMod.IS_DEBUGGING) return;
         if (!(Minecraft.getMinecraft().inGameHasFocus)) return;

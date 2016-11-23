@@ -54,12 +54,10 @@ import com.palechip.hudpixelmod.extended.HudPixelExtended;
 import com.palechip.hudpixelmod.extended.update.UpdateNotifier;
 import com.palechip.hudpixelmod.modulargui.ModularGuiHelper;
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
-import com.palechip.hudpixelmod.util.ContributorFancinessHandler;
-import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
-import com.palechip.hudpixelmod.util.ScoreboardReader;
-import com.palechip.hudpixelmod.util.WebUtil;
+import com.palechip.hudpixelmod.util.*;
 import eladkay.modulargui.lib.Renderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -82,6 +80,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 
@@ -187,6 +186,19 @@ public class HudPixelMod {
             // load the configuration file
             EasyConfigHandler.INSTANCE.init(event.getAsmData());
 
+            try {
+                Class config = Class.forName("Config");
+                Field field = config.getDeclaredField("gameSettings");
+                GameSettings gameSettings = (GameSettings) field.get(null);
+                Field fastRenderField = GameSettings.class.getDeclaredField("ofFastRender");
+                fastRenderField.setAccessible(true);
+                fastRenderField.set(gameSettings, false);
+            } catch(Throwable throwable) {
+                //NO-OP
+            }
+
+            //public static boolean isFastRender() { return gameSettings.ofFastRender; }
+
         } catch (Exception e) {
             this.logWarn("An exception occured in preInit(). Stacktrace below.");
             e.printStackTrace();
@@ -202,6 +214,7 @@ public class HudPixelMod {
         MinecraftForge.EVENT_BUS.register(new ModularGuiHelper());
         ModularGuiHelper.init();
         ContributorFancinessHandler.init();
+        BansHandler.init();
 
 
         // setup HudPixelExtended
@@ -239,7 +252,7 @@ public class HudPixelMod {
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event) {
         try {
-
+            BansHandler.checkForBan();
             // Don't do anything unless we are on Hypixel
             if (isHypixelNetwork()) {
                 // make sure the Scoreboard reader updates when necessary

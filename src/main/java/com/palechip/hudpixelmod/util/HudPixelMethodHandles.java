@@ -63,6 +63,7 @@ public class HudPixelMethodHandles {
     @Nonnull
     private static final MethodHandle bookPages;
 
+
     static {
         try {
             Field bookP = ReflectionHelper.findField(GuiScreenBook.class, "field_146483_y", "bookPages", "y");
@@ -76,6 +77,7 @@ public class HudPixelMethodHandles {
 
     public static NBTTagList getBookPages(GuiScreenBook book) {
         try {
+
             return (NBTTagList) bookPages.invokeExact(book);
         } catch (Throwable t) {
             throw propagate(t);
