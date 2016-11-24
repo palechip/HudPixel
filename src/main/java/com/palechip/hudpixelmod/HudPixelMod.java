@@ -180,6 +180,7 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(DiscordCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(NameCommand.INSTANCE);
             new HudPixelMethodHandles();
+            new FireAntiRenderer();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 

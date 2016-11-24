@@ -47,6 +47,7 @@ package com.palechip.hudpixelmod.util;
 
 import com.google.common.base.Throwables;
 import net.minecraft.client.gui.GuiScreenBook;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -63,11 +64,19 @@ public class HudPixelMethodHandles {
     @Nonnull
     private static final MethodHandle bookPages;
 
+    @Nonnull
+    private static final MethodHandle entityImmuneToFireGetter;
+
+    @Nonnull
+    private static final MethodHandle entityImmuneToFireSetter;
 
     static {
         try {
             Field bookP = ReflectionHelper.findField(GuiScreenBook.class, "field_146483_y", "bookPages", "y");
             bookPages = publicLookup().unreflectGetter(bookP);
+            Field entityF = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire", "ab");
+            entityImmuneToFireGetter = publicLookup().unreflectGetter(entityF);
+            entityImmuneToFireSetter = publicLookup().unreflectSetter(entityF);
         } catch (Throwable t) {
             Logger.getLogger("HudPixel").log(Level.SEVERE, "Couldn't initialize methodhandles! Things will be broken!");
             t.printStackTrace();
@@ -77,8 +86,23 @@ public class HudPixelMethodHandles {
 
     public static NBTTagList getBookPages(GuiScreenBook book) {
         try {
-
             return (NBTTagList) bookPages.invokeExact(book);
+        } catch (Throwable t) {
+            throw propagate(t);
+        }
+    }
+
+    public static boolean getEntityImmuneToFire(Entity entity) {
+        try {
+            return (boolean) entityImmuneToFireGetter.invokeExact(entity);
+        } catch (Throwable t) {
+            throw propagate(t);
+        }
+    }
+
+    public static void setEntityImmuneToFire(Entity entity, boolean value) {
+        try {
+            entityImmuneToFireSetter.invokeExact(entity, value);
         } catch (Throwable t) {
             throw propagate(t);
         }
