@@ -141,7 +141,6 @@ public class GameDetector {
             case PARTY_GAMES_1:
             case PARTY_GAMES_2:
             case TRHOW_OUT:
-            case TURBO_KART_RACERS:
             case ANY_ARCADE:
             case FOOTBALL:
                 return currentGameType == GameType.ANY_ARCADE;

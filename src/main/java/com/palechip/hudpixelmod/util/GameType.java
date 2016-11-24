@@ -77,7 +77,7 @@ public enum GameType {
     CREEPER_ATTACK(20, -1, "Creeper Attack", "", ARCADE_GAMES.scoreboardName, "Arcade"),
     DRAGON_WARS(21, -1, "Dragon Wars", "", ARCADE_GAMES.scoreboardName, "Arcade"),
     ENDER_SPLEEF(22, -1, "Ender Spleef", "", ARCADE_GAMES.scoreboardName, "Arcade"),
-    FARM_HUNT(23, -1, "Farm Hunters", "", ARCADE_GAMES.scoreboardName, "Arcade"),
+    FARM_HUNT(23, -1, "Farm Hunters", "", "Farm Hunt", "Arcade"),
     GALAXY_WARS(24, -1, "Galaxy Wars", "", ARCADE_GAMES.scoreboardName, "Arcade"),
     PARTY_GAMES_1(25, -1, "Party Games", "", ARCADE_GAMES.scoreboardName, "Arcade"),
     PARTY_GAMES_2(26, -1, "Party Games", "", ARCADE_GAMES.scoreboardName, "Arcade"),
