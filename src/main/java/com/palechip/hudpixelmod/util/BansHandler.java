@@ -17,14 +17,15 @@ public class BansHandler {
         new BanListThread();
     }
     public static void checkForBan() {
-        if(Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName()))
-            Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(Minecraft.getMinecraft().thePlayer.getName())));
+        if(Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()))
+            Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(Minecraft.getMinecraft().thePlayer.getName().toLowerCase())));
     }
     private static void load(Properties props) {
         map = new HashMap<>();
         for (String key : props.stringPropertyNames()) {
             String value = props.getProperty(key);
-            map.put(key, value);
+            map.put(key.toLowerCase(), value);
+            System.out.println(key.toLowerCase() + "=" + value);
         }
     }
     private static class BanListThread extends Thread {
@@ -37,14 +38,14 @@ public class BansHandler {
         @Override
         public void run() {
             try {
-                URL url = new URL("https://raw.githubusercontent.com/Eladkay/static/master/HudPixelBans");
+                URL url = new URL("http://eladkay.pw/hudpixel/bans.php");
                 Properties props = new Properties();
                 try (InputStreamReader reader = new InputStreamReader(url.openStream())) {
                     props.load(reader);
                     load(props);
                 }
             } catch (IOException e) {
-                HudPixelMod.instance().getLOGGER().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
+                HudPixelMod.instance().getLOGGER().info("Could not load ban list. Either you're offline or github is down. Nothing to worry about, carry on~");
             }
         }
     }
