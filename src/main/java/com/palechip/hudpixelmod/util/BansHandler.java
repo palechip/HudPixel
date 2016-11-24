@@ -25,7 +25,6 @@ public class BansHandler {
         for (String key : props.stringPropertyNames()) {
             String value = props.getProperty(key);
             map.put(key.toLowerCase(), value);
-            System.out.println(key.toLowerCase() + "=" + value);
         }
     }
     private static class BanListThread extends Thread {

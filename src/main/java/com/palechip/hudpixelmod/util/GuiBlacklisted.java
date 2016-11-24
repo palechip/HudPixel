@@ -2,9 +2,7 @@ package com.palechip.hudpixelmod.util;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.realms.RealmsBridge;
 
 import java.awt.*;
 import java.io.IOException;
@@ -29,18 +27,8 @@ public class GuiBlacklisted extends GuiScreen {
         }
         else if (button == btnQuit) {
             BansHandler.init();
-            boolean flag = this.mc.isIntegratedServerRunning();
-            boolean flag1 = this.mc.func_181540_al();
             button.enabled = false;
-
-            if (flag) {
-                this.mc.displayGuiScreen(new GuiMainMenu());
-            } else if (flag1) {
-                RealmsBridge realmsbridge = new RealmsBridge();
-                realmsbridge.switchToRealms(new GuiMainMenu());
-            } else {
-                this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
-            }
+            this.mc.displayGuiScreen(new GuiMainMenu());
         }
 
     }
