@@ -226,6 +226,10 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
+                final String message = e.message.getUnformattedText();
+
+                for (IEventHandler i : getIeventBuffer())
+                    i.onChatReceivedMessage(e, message);
 
                 for (IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);

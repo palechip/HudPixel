@@ -72,6 +72,9 @@ public interface IEventHandler {
     default void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
     }
 
+    default void onChatReceivedMessage(ClientChatReceivedEvent e, final String message) throws Throwable {
+    }
+
     default void onRender() {
     }
 

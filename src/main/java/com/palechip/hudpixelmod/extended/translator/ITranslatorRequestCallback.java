@@ -1,6 +1,4 @@
-package com.palechip.hudpixelmod.config;
-
-import net.minecraft.util.EnumChatFormatting;
+package com.palechip.hudpixelmod.extended.translator;
 
 /* **********************************************************************************************************************
  HudPixelReloaded - License
@@ -48,63 +46,6 @@ import net.minecraft.util.EnumChatFormatting;
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
 
-
-/**
- * Little HelperEnum to avoid spelling mistakes :P
- * Please add a new category as enum and as static final (const) :)
- */
-public enum CCategory {
-
-    //ADD A NEW CATEGORY HERE >>
-    ENUM_UNKNOWN("Unknown", EnumChatFormatting.BLACK),
-    ENUM_BOOSTER_DISPLAY("BoosterDisplay", EnumChatFormatting.GOLD),
-    ENUM_COOLDOWN_DISPLAY("CooldownDisplay", EnumChatFormatting.GOLD),
-    ENUM_FRIENDS_DISPLAY("FriendsDisplay", EnumChatFormatting.GOLD),
-    ENUM_FANCY_CHAT("FancyChat", EnumChatFormatting.GOLD),
-    ENUM_HUDPIXEL("HudPixel", EnumChatFormatting.GOLD),
-    ENUM_WARLORDS("Warlords", EnumChatFormatting.GOLD),
-    ENUM_GENERAL("General", EnumChatFormatting.GOLD),
-    ENUM_HUD("Hud", EnumChatFormatting.GOLD),
-    ENUM_POTION_HUD("PotionHUD", EnumChatFormatting.GOLD),
-    ENUM_TRANSLATOR("Translator", EnumChatFormatting.GOLD),
-    ENUM_ARMOR_HUD("ArmorHud", EnumChatFormatting.GOLD);
-
-    //CAN'T CAST ENUMS IN @ConfigProperty<T> SO HERE ARE SOME STATIC FINALS, WE ALL LOVE STATIC FINALS!!!
-    //ALSO ADD HERE >>
-    public static final String UNKNOWN = "Unknown";
-    public static final String BOOSTER_DISPLAY = "BoosterDisplay";
-    public static final String COOLDOWN_DISPLAY = "CooldownDisplay";
-    public static final String FRIENDS_DISPLAY = "FriendsDisplay";
-    public static final String FANCY_CHAT = "FancyChat";
-    public static final String HUDPIXEL = "HudPixel";
-    public static final String WARLORDS = "Warlords";
-    public static final String GENERAL = "General";
-    public static final String HUD = "Hud";
-    public static final String ARMOR_HUD = "ArmorHud";
-    public static final String POTION_HUD = "PotionHud";
-    public static final String TRANSLATOR = "Translator";
-
-
-    private final String name;
-    private final EnumChatFormatting enumChatFormatting;
-
-    CCategory(String name, EnumChatFormatting enumChatFormatting) {
-        this.name = name;
-        this.enumChatFormatting = enumChatFormatting;
-    }
-
-    public static CCategory getCategoryByName(String name) {
-        for (CCategory cCategory : CCategory.values())
-            if (cCategory.name.equalsIgnoreCase(name))
-                return cCategory;
-        return CCategory.ENUM_UNKNOWN;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public EnumChatFormatting getEnumChatFormatting() {
-        return enumChatFormatting;
-    }
+public interface ITranslatorRequestCallback {
+    void translatorCallback(TranslatorRequest translatorRequest);
 }

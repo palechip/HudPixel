@@ -52,6 +52,7 @@ import com.palechip.hudpixelmod.extended.cooldowndisplay.CooldownDisplayManager;
 import com.palechip.hudpixelmod.extended.gui.ArmorHud;
 import com.palechip.hudpixelmod.extended.gui.EffectHud;
 import com.palechip.hudpixelmod.extended.staff.StaffManager;
+import com.palechip.hudpixelmod.extended.translator.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
@@ -79,12 +80,10 @@ public class HudPixelExtended {
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
+        Translator.getINSTANCE().init();
         boosterManager = new BoosterManager();
         staffManager = new StaffManager();
         ApiManager.getINSTANCE().setup();
-
-
-
         CooldownDisplayManager.getInstance();
         ArmorHud.INSTANCE.init();
         EffectHud.getINSTANCE().init();

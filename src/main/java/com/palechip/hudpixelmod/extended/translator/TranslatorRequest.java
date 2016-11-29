@@ -1,8 +1,17 @@
-package com.palechip.hudpixelmod.config;
+package com.palechip.hudpixelmod.extended.translator;
 
-import net.minecraft.util.EnumChatFormatting;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
 
-/* **********************************************************************************************************************
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+/***********************************************************************************************************************
  HudPixelReloaded - License
 
  The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses 
@@ -47,64 +56,74 @@ import net.minecraft.util.EnumChatFormatting;
  6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors 
  reserve the right to take down any infringing project.
  **********************************************************************************************************************/
+public class TranslatorRequest {
 
 
-/**
- * Little HelperEnum to avoid spelling mistakes :P
- * Please add a new category as enum and as static final (const) :)
- */
-public enum CCategory {
+    private final String message;
+    private final ITranslatorRequestCallback callback;
+    private final String username;
+    private JsonObject response;
+    private boolean failed;
 
-    //ADD A NEW CATEGORY HERE >>
-    ENUM_UNKNOWN("Unknown", EnumChatFormatting.BLACK),
-    ENUM_BOOSTER_DISPLAY("BoosterDisplay", EnumChatFormatting.GOLD),
-    ENUM_COOLDOWN_DISPLAY("CooldownDisplay", EnumChatFormatting.GOLD),
-    ENUM_FRIENDS_DISPLAY("FriendsDisplay", EnumChatFormatting.GOLD),
-    ENUM_FANCY_CHAT("FancyChat", EnumChatFormatting.GOLD),
-    ENUM_HUDPIXEL("HudPixel", EnumChatFormatting.GOLD),
-    ENUM_WARLORDS("Warlords", EnumChatFormatting.GOLD),
-    ENUM_GENERAL("General", EnumChatFormatting.GOLD),
-    ENUM_HUD("Hud", EnumChatFormatting.GOLD),
-    ENUM_POTION_HUD("PotionHUD", EnumChatFormatting.GOLD),
-    ENUM_TRANSLATOR("Translator", EnumChatFormatting.GOLD),
-    ENUM_ARMOR_HUD("ArmorHud", EnumChatFormatting.GOLD);
-
-    //CAN'T CAST ENUMS IN @ConfigProperty<T> SO HERE ARE SOME STATIC FINALS, WE ALL LOVE STATIC FINALS!!!
-    //ALSO ADD HERE >>
-    public static final String UNKNOWN = "Unknown";
-    public static final String BOOSTER_DISPLAY = "BoosterDisplay";
-    public static final String COOLDOWN_DISPLAY = "CooldownDisplay";
-    public static final String FRIENDS_DISPLAY = "FriendsDisplay";
-    public static final String FANCY_CHAT = "FancyChat";
-    public static final String HUDPIXEL = "HudPixel";
-    public static final String WARLORDS = "Warlords";
-    public static final String GENERAL = "General";
-    public static final String HUD = "Hud";
-    public static final String ARMOR_HUD = "ArmorHud";
-    public static final String POTION_HUD = "PotionHud";
-    public static final String TRANSLATOR = "Translator";
-
-
-    private final String name;
-    private final EnumChatFormatting enumChatFormatting;
-
-    CCategory(String name, EnumChatFormatting enumChatFormatting) {
-        this.name = name;
-        this.enumChatFormatting = enumChatFormatting;
+    public TranslatorRequest(String message, ITranslatorRequestCallback callback, String username){
+        this.message = message;
+        this.callback = callback;
+        this.username = username;
+        request();
     }
 
-    public static CCategory getCategoryByName(String name) {
-        for (CCategory cCategory : CCategory.values())
-            if (cCategory.name.equalsIgnoreCase(name))
-                return cCategory;
-        return CCategory.ENUM_UNKNOWN;
+
+    public JsonObject getResponse() {
+        return response;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public EnumChatFormatting getEnumChatFormatting() {
-        return enumChatFormatting;
+    public String getMessage() {
+        return message;
     }
+
+    public boolean isFailed() {
+        return failed;
+    }
+
+    private void request(){
+
+        new Thread( () -> {
+            try {
+                String translate = message.replace(" ", "%20").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue");
+                URL u = new URL("https://translate.unaussprechlich.net/?text=" + translate
+                        + "&lang=" + Translator.getLanguage() + "&uuid=" + HudPixelExtended.UUID);
+                HttpsURLConnection con = (HttpsURLConnection) u.openConnection();
+                con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                StringBuilder sBuilder = new StringBuilder();
+                String buff = "";
+                while ((buff = br.readLine()) != null) {
+                    sBuilder.append(buff);
+                }
+                String data = sBuilder.toString();
+                response = jsonParser(data);
+                failed = false;
+                callback.translatorCallback(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+                failed = true;
+                HudPixelMod.instance().getLOGGER().info("Couldn't translate message->"
+                        + message + " username->" + username + " response->" +  response);
+                callback.translatorCallback(this);
+            }
+        }).start();
+    }
+
+
+    private JsonObject jsonParser(String data) {
+        JsonParser jsonParser = new JsonParser();
+        return jsonParser.parse(data).getAsJsonObject();
+    }
+
+
 }

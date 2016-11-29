@@ -345,7 +345,7 @@ public class FancyChat {
     /**
      * @return -> [true] -> if the blacklist contains the message
      **/
-    private Boolean fancyChatChecker(String m) {
+    public static Boolean fancyChatChecker(String m) {
         for (String a : fancyChatTriggers) {
             if (m.startsWith(a)) {
                 return true;
