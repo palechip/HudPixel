@@ -1,26 +1,4 @@
-package com.palechip.hudpixelmod.extended.statsviewer;
-
-import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
-import com.palechip.hudpixelmod.util.GameType;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.UUID;
-
-import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsCache.getPlayerByName;
-import static java.lang.System.currentTimeMillis;
-import static net.minecraft.client.renderer.GlStateManager.*;
-import static net.minecraft.client.renderer.Tessellator.getInstance;
-import static net.minecraft.client.renderer.vertex.DefaultVertexFormats.POSITION_COLOR;
-import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
-import static org.lwjgl.opengl.GL11.glNormal3f;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -64,7 +42,30 @@ import static org.lwjgl.opengl.GL11.glNormal3f;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.statsviewer;
+
+import com.palechip.hudpixelmod.extended.statsviewer.msc.IGameStatsViewer;
+import com.palechip.hudpixelmod.util.GameType;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.UUID;
+
+import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsCache.getPlayerByName;
+import static java.lang.System.currentTimeMillis;
+import static net.minecraft.client.renderer.GlStateManager.*;
+import static net.minecraft.client.renderer.Tessellator.getInstance;
+import static net.minecraft.client.renderer.vertex.DefaultVertexFormats.POSITION_COLOR;
+import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
+import static org.lwjgl.opengl.GL11.glNormal3f;
+
 @SideOnly(Side.CLIENT)
 public class StatsViewerRender {
 

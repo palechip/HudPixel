@@ -1,21 +1,44 @@
+/*
+ * ***************************************************************************
+ *
+ *         Copyright © 2016 unaussprechlich - ALL RIGHTS RESERVED
+ *
+ * ***************************************************************************
+ */
 package net.unaussprechlich.managedgui.lib.util;
 
-/**
- * Created by kecka on 31.08.2016.
- */
+
 public class ColorRGBA {
 
-    public float RED = 0;
-    public float GREEN = 0;
-    public float BLUE = 0;
-    public float ALPHA = 0;
+    private final int RED;
+    private final int GREEN;
+    private final int BLUE;
+    private final int ALPHA;
 
-    public ColorRGBA() {}
+    private final float REDf;
+    private final float GREENf;
+    private final float BLUEf;
+    private final float ALPHAf;
 
-    public ColorRGBA(float RED, float GREEN, float BLUE, float ALPHA) {
-        this.RED = RED;
+    public ColorRGBA(int RED, int GREEN, int BLUE, int ALPHA) {
+        this.RED   = RED;
         this.GREEN = GREEN;
-        this.BLUE = BLUE;
+        this.BLUE  = BLUE;
         this.ALPHA = ALPHA;
+
+        this.REDf   = RED / 255;
+        this.GREENf = GREEN / 255;
+        this.BLUEf  = BLUE / 255;
+        this.ALPHAf = ALPHA / 255;
     }
+
+    public float getALPHAf() {return ALPHAf;}
+    public float getBLUEf()  {return BLUEf;}
+    public float getGREENf() {return GREENf;}
+    public float getREDf()   {return REDf;}
+
+    public int getALPHA()  {return ALPHA;}
+    public int getBLUE()   {return BLUE;}
+    public int getGREEN()  {return GREEN;}
+    public int getRED()    {return RED;}
 }

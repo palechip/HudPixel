@@ -1,18 +1,21 @@
-package net.unaussprechlich.managedgui.lib.helper;
+/*
+ * ***************************************************************************
+ *
+ *         Copyright © 2016 unaussprechlich - ALL RIGHTS RESERVED
+ *
+ * ***************************************************************************
+ */
+
+package net.unaussprechlich.managedgui.lib.handler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.unaussprechlich.managedgui.lib.ManagedGui;
+import net.unaussprechlich.managedgui.lib.GuiManagerMG;
 import org.lwjgl.input.Mouse;
 
-/* *****************************************************************************
-
- * Copyright (c) 2016 unaussprechlich
-
- *******************************************************************************/
 public class MouseHandler {
 
     private static int scale;
@@ -48,7 +51,7 @@ public class MouseHandler {
         if (newmX != mX || newmY != mY) {
             mX = newmX;
             mY = newmY;
-            ManagedGui.getChildRegistry().onMouseMove(mX, mY);
+            GuiManagerMG.onMouseMove(mX, mY);
         }
 
         if (!(mc.currentScreen instanceof GuiIngameMenu || mc.currentScreen instanceof GuiChat || mc.currentScreen instanceof GuiInventory))
@@ -66,7 +69,7 @@ public class MouseHandler {
 
         if (System.currentTimeMillis() > (lastTimeClicked + clickDelay)) {
             if (doubleClick) {
-                ManagedGui.getChildRegistry().onClick(ClickType.SINGLE);
+                GuiManagerMG.onClick(ClickType.SINGLE);
             }
             if (Mouse.isButtonDown(0))
                 lastTimeClicked = System.currentTimeMillis();
@@ -81,13 +84,13 @@ public class MouseHandler {
 
             if (Mouse.isButtonDown(0) && doubleClick) {
                 doubleClick = false;
-                ManagedGui.getChildRegistry().onClick(ClickType.DOUBLE);
+                GuiManagerMG.onClick(ClickType.DOUBLE);
             }
         }
     }
 
     private static void handleMouseScroll() {
 
-        ManagedGui.getChildRegistry().onScroll(Mouse.getDWheel());
+        GuiManagerMG.onScroll(Mouse.getDWheel());
     }
 }

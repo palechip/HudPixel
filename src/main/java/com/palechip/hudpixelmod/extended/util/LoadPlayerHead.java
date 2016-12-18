@@ -1,29 +1,4 @@
-package com.palechip.hudpixelmod.extended.util;
-
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-
-import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
-import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.unregisterIEvent;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
-import static javax.imageio.ImageIO.read;
-import static net.minecraft.client.Minecraft.getMinecraft;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -67,7 +42,33 @@ import static net.minecraft.client.Minecraft.getMinecraft;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.util;
+
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
+import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
+import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.unregisterIEvent;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
+import static javax.imageio.ImageIO.read;
+import static net.minecraft.client.Minecraft.getMinecraft;
+
 @SideOnly(Side.CLIENT)
 public class LoadPlayerHead implements IEventHandler {
 

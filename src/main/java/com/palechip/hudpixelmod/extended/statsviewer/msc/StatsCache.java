@@ -1,13 +1,4 @@
-package com.palechip.hudpixelmod.extended.statsviewer.msc;
-
-import com.palechip.hudpixelmod.util.GameType;
-
-import java.util.HashMap;
-import java.util.UUID;
-
-import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsViewerFactory.getStatsViewerClass;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -51,7 +42,17 @@ import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsViewerFacto
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.statsviewer.msc;
+
+import com.palechip.hudpixelmod.util.GameType;
+
+import java.util.HashMap;
+import java.util.UUID;
+
+import static com.palechip.hudpixelmod.extended.statsviewer.msc.StatsViewerFactory.getStatsViewerClass;
+
 public class StatsCache {
 
     /**

@@ -1,29 +1,4 @@
-package com.palechip.hudpixelmod.extended.onlinefriends;
-
-import com.palechip.hudpixelmod.api.interaction.ApiQueueEntryBuilder;
-import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
-import com.palechip.hudpixelmod.extended.HudPixelExtended;
-import com.palechip.hudpixelmod.extended.data.player.IPlayerLoadedCallback;
-import com.palechip.hudpixelmod.extended.data.player.PlayerDatabase;
-import com.palechip.hudpixelmod.extended.data.player.PlayerFactory;
-import com.palechip.hudpixelmod.extended.util.IEventHandler;
-import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import net.hypixel.api.reply.FriendsReply;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
-import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
-import static java.lang.System.currentTimeMillis;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -67,7 +42,32 @@ import static java.lang.System.currentTimeMillis;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import com.palechip.hudpixelmod.api.interaction.ApiQueueEntryBuilder;
+import com.palechip.hudpixelmod.api.interaction.callbacks.FriendResponseCallback;
+import com.palechip.hudpixelmod.extended.HudPixelExtended;
+import com.palechip.hudpixelmod.extended.data.player.IPlayerLoadedCallback;
+import com.palechip.hudpixelmod.extended.data.player.PlayerDatabase;
+import com.palechip.hudpixelmod.extended.data.player.PlayerFactory;
+import com.palechip.hudpixelmod.extended.util.IEventHandler;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
+import net.hypixel.api.reply.FriendsReply;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import static com.palechip.hudpixelmod.config.GeneralConfigSettings.getUseAPI;
+import static com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler.registerIEvent;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
+import static java.lang.System.currentTimeMillis;
 
 @SideOnly(Side.CLIENT)
 public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandler, IPlayerLoadedCallback {

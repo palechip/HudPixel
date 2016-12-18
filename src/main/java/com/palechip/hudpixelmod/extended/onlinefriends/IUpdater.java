@@ -1,8 +1,4 @@
-package com.palechip.hudpixelmod.extended.onlinefriends;
-
-import java.util.HashMap;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -46,7 +42,12 @@ import java.util.HashMap;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import java.util.HashMap;
+
 public interface IUpdater {
 
     void onUpdaterResponse(HashMap<String, String> onlineFriends);

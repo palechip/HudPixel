@@ -1,11 +1,4 @@
-package com.palechip.hudpixelmod.extended.onlinefriends;
-
-import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
-
-import static com.palechip.hudpixelmod.extended.util.ImageLoader.partyLocation;
-import static net.minecraft.client.Minecraft.getMinecraft;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -49,7 +42,15 @@ import static net.minecraft.client.Minecraft.getMinecraft;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.onlinefriends;
+
+import com.palechip.hudpixelmod.extended.util.gui.FancyListButton;
+
+import static com.palechip.hudpixelmod.extended.util.ImageLoader.partyLocation;
+import static net.minecraft.client.Minecraft.getMinecraft;
+
 public class OnlineFriendsPartyButton extends FancyListButton {
 
     private String playerName;

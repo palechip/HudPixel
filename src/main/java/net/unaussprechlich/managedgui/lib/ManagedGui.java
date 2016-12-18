@@ -1,83 +1,42 @@
+/*
+ * ***************************************************************************
+ *
+ *         Copyright © 2016 unaussprechlich - ALL RIGHTS RESERVED
+ *
+ * ***************************************************************************
+ */
+
 package net.unaussprechlich.managedgui.lib;
 
-import net.unaussprechlich.managedgui.lib.helper.ChildRegistry;
-import net.unaussprechlich.managedgui.lib.helper.MouseHandler;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.unaussprechlich.managedgui.lib.helper.ISetupHelper;
 
-/* *****************************************************************************
 
- * Copyright (c) 2016 unaussprechlich
-
- *******************************************************************************/
 public class ManagedGui {
 
-    private static ManagedGui instance;
-    private static ChildRegistry childRegistry = new ChildRegistry();
+    private static ManagedGui INSTANCE;
+    private static boolean isDisabled = true;
+    private static ISetupHelper ISetupHelper;
 
-    public static ChildRegistry getChildRegistry() {
-        return childRegistry;
+    public static ManagedGui getINSTANCE() {
+        if (INSTANCE == null) INSTANCE = new ManagedGui();
+        return INSTANCE;
     }
 
-    public static ManagedGui Instance() {
-        if (instance == null) instance = new ManagedGui();
-        return instance;
+    private ManagedGui(){}
+
+    public static boolean isIsDisabled() {return isDisabled;}
+    public static void setIsDisabled(boolean isDisabled) {ManagedGui.isDisabled = isDisabled;}
+
+    public static ISetupHelper getISetupHelper() {return ISetupHelper;}
+
+    private void setup(ISetupHelper ISetupHelper) {
+        ManagedGui.ISetupHelper = ISetupHelper;
+        GuiManagerMG.setup();
+        MinecraftForge.EVENT_BUS.register(GuiManagerMG.getINSTANCE());
+
     }
 
-    private ManagedGui() {
-        setup();
-    }
-
-    private void setup() {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent e) {
-        try {
-            MouseHandler.onClientTick();
-            childRegistry.onClientTick();
-        } catch (Exception ex) {
-            //TODO print some nice debuging
-            ex.printStackTrace();
-        }
-    }
-
-    @SubscribeEvent
-    public void onRender(RenderGameOverlayEvent.Post e) {
-        try {
-            childRegistry.onRender();
-        } catch (Exception ex) {
-            //TODO print some nice debuging
-            ex.printStackTrace();
-        }
-    }
-
-    @SubscribeEvent
-    public void onOpenGui(GuiOpenEvent e) {
-        try {
 
 
-        } catch (Exception ex) {
-            //TODO print some nice debuging
-            ex.printStackTrace();
-        }
-    }
-
-    @SubscribeEvent(receiveCanceled = true)
-    public void onChatMessage(ClientChatReceivedEvent e) {
-        try {
-            childRegistry.onChatMessage(e);
-
-        } catch (Exception ex) {
-            //TODO print some nice debuging
-            ex.printStackTrace();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }
 }

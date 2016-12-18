@@ -1,12 +1,4 @@
-package com.palechip.hudpixelmod.extended.util.gui;
-
-import net.minecraft.util.ResourceLocation;
-
-import static net.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
-import static net.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
-import static java.lang.Math.round;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -50,7 +42,16 @@ import static java.lang.Math.round;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.util.gui;
+
+import net.minecraft.util.ResourceLocation;
+
+import static java.lang.Math.round;
+import static net.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
+import static net.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
+
 public abstract class FancyListButton {
 
     public boolean isHover;

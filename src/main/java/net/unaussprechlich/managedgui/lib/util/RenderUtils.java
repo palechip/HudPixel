@@ -1,29 +1,10 @@
-/* *****************************************************************************
- * HudPixelExtended by unaussprechlich(github.com/unaussprechlich/HudPixelExtended),
- * an unofficial Minecraft Mod for the Hypixel Network.
- * <p>
- * Original version by palechip (github.com/palechip/HudPixel)
- * "Reloaded" version by PixelModders -> Eladkay (github.com/PixelModders/HudPixel)
- * <p>
- * Copyright (c) 2016 unaussprechlich and contributors
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *******************************************************************************/
+/*
+ * ***************************************************************************
+ *
+ *         Copyright © 2016 unaussprechlich - ALL RIGHTS RESERVED
+ *
+ * ***************************************************************************
+ */
 package net.unaussprechlich.managedgui.lib.util;
 
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
@@ -39,14 +20,41 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.unaussprechlich.managedgui.lib.util.storage.StorageFourSide;
-import org.lwjgl.opengl.GL11;
+import net.unaussprechlich.managedgui.lib.util.storage.Matrix4Side;
 
 public class RenderUtils {
 
+    private static void glPop(){
+        GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
+    }
+
+    private static void glPush(){
+        GlStateManager.pushMatrix();
+        GlStateManager.pushAttrib();
+    }
+
+    /**
+     * Draw a 1 pixel wide vertical line.
+     */
+    protected void drawVerticalLine(int xStart, int yStart, int width, ColorRGBA color) {
+            renderBoxWithColor(xStart, yStart, width, 1, color);
+    }
+
+    /**
+     * Draw a 1 pixel wide horizontal line.
+     */
+    protected void drawHorizontalLine(int xStart, int yStart, int height, ColorRGBA color) {
+        renderBoxWithColor(xStart, yStart, 1, height, color);
+    }
+
+
     public static void renderItemStackWithText(int id, int meta, int xStart, int yStart, String overlay){
-        GL11.glPushMatrix();
+
+        glPop();
+        GlStateManager.enableBlend();
         RenderHelper.enableStandardItemLighting();
+
         GlStateManager.color(0.0F, 0.0F, 32.0F);
         Minecraft mc = Minecraft.getMinecraft();
         ItemStack iStack = new ItemStack(Item.getItemById(id));
@@ -54,13 +62,16 @@ public class RenderUtils {
         RenderItem renderItem = mc.getRenderItem();
         renderItem.renderItemAndEffectIntoGUI(iStack, xStart, yStart);
         renderItem.renderItemOverlayIntoGUI(mc.fontRendererObj,iStack, xStart, yStart, overlay);
+
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableBlend();
-        GL11.glPopMatrix();
+        glPush();
     }
 
     public static void renderItemStack(ItemStack iStack, int xStart, int yStart){
-        GL11.glPushMatrix();
+
+        glPop();
+        GlStateManager.enableBlend();
         RenderHelper.enableStandardItemLighting();
 
         GlStateManager.color(0.0F, 0.0F, 32.0F);
@@ -74,8 +85,9 @@ public class RenderUtils {
         if(iStack.getItem().showDurabilityBar(iStack))
             renderBoxWithColor(xStart + 1, yStart + 18, 18 * dur, 1, (float)(1 - dur), (float)dur, 0, 1);
 
+        RenderHelper.disableStandardItemLighting();
         GlStateManager.disableBlend();
-        GL11.glPopMatrix();
+        glPush();
     }
 
     public static void renderItemStackHudBackground(ItemStack iStack, int xStart, int yStart){
@@ -83,11 +95,11 @@ public class RenderUtils {
         renderItemStack(iStack, xStart, yStart);
     }
 
-    public static void renderBorder(short xStart, short yStart, short innerHight, short innerWidth, StorageFourSide border, ColorRGBA color) {
-        renderBoxWithColor(xStart, yStart, (short) (innerWidth + border.LEFT + border.RIGHT), border.TOP, color);
-        renderBoxWithColor(xStart, (short) (yStart + border.TOP + innerHight), (short) (innerWidth + border.LEFT + border.RIGHT), border.BOTTOM, color);
-        renderBoxWithColor(xStart, (short) (yStart + border.TOP), border.LEFT, innerHight, color);
-        renderBoxWithColor((short) (xStart + border.LEFT + innerWidth), (short) (yStart + border.TOP), border.RIGHT, innerHight, color);
+    public static void renderBorder(int xStart, int yStart, int innerHight, int innerWidth, Matrix4Side border, ColorRGBA color) {
+        renderBoxWithColor(xStart, yStart, innerWidth + border.LEFT + border.RIGHT, border.TOP, color);
+        renderBoxWithColor(xStart, yStart + border.TOP + innerHight, innerWidth + border.LEFT + border.RIGHT, border.BOTTOM, color);
+        renderBoxWithColor(xStart, yStart + border.TOP, border.LEFT, innerHight, color);
+        renderBoxWithColor(xStart + border.LEFT + innerWidth, yStart + border.TOP, border.RIGHT, innerHight, color);
     }
 
     public static void renderBoxWithHudBackground(int xStart, int yStart, int width, int height){
@@ -100,31 +112,17 @@ public class RenderUtils {
         );
     }
 
-
-    /**
-     * helper-method, that draws a box wth semitransparent background. Should be with the onRender
-     * event.
-     *
-     * @param xStart left upper x-cord
-     * @param yStart left upper y-cord
-     * @param width  with of the box
-     * @param height height of the box
-     */
-    public static void renderBox(short xStart, short yStart, short width, short height) {
-        renderBoxWithColor(xStart, yStart, width, height, new ColorRGBA(0, 0, 0, 0.5f));
-    }
-
     public static void renderBoxWithColor(float xStart, float yStart, int width, int height, ColorRGBA color) {
+
+        glPop();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(color.RED, color.GREEN, color.BLUE, color.ALPHA);
+        GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
         worldrenderer.pos(xStart + width, yStart + height, 0.0D).endVertex();
@@ -134,19 +132,19 @@ public class RenderUtils {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        glPush();
 
     }
 
     public static void renderBoxWithColor(double xStart, double yStart, double width, double height,
                                           float red, float green, float blue, float alpha){
 
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-
-        GlStateManager.pushMatrix();
+        glPop();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
@@ -160,8 +158,7 @@ public class RenderUtils {
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-
+        glPush();
     }
 
 
@@ -171,7 +168,8 @@ public class RenderUtils {
      */
     public static void drawModalRectWithCustomSizedTexture(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
 
-        GlStateManager.popMatrix();
+        glPop();
+
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 
@@ -191,15 +189,14 @@ public class RenderUtils {
         worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
         tessellator.draw();
 
-        GlStateManager.pushMatrix();
+        glPush();
 
     }
 
 
     public static void drawModalRectWithCustomSizedTexture(int x, int y, int uX, int uY, int vX, int vY, int width, int height, ResourceLocation resourceLocation, float alpha) {
 
-        GlStateManager.popMatrix();
-
+        glPop();
 
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -222,7 +219,7 @@ public class RenderUtils {
 
         tessellator.draw();
 
-        GlStateManager.pushMatrix();
+        glPush();
     }
 
     public static void renderPotionIcon(int x, int y, Potion potion) {
@@ -241,7 +238,7 @@ public class RenderUtils {
 
     public static void drawPotionIcon(double x, double y, double width, double height, double uX, double uY, double vX, double vY, int tWidth, int tHeight, ResourceLocation resourceLocation, float alpha) {
 
-        GlStateManager.popMatrix();
+        glPop();
         GlStateManager.enableBlend();
 
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -264,7 +261,7 @@ public class RenderUtils {
         tessellator.draw();
 
         GlStateManager.disableBlend();
-        GlStateManager.pushMatrix();
+        glPush();
     }
 
     public static void renderBox(int xStart, int yStart, int fieldWidth, int i) {

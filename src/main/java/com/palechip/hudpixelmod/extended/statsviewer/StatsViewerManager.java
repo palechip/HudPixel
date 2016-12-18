@@ -1,23 +1,4 @@
-package com.palechip.hudpixelmod.extended.statsviewer;
-
-import com.palechip.hudpixelmod.config.CCategory;
-import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import static com.palechip.hudpixelmod.GameDetector.getCurrentGameType;
-import static com.palechip.hudpixelmod.extended.HudPixelExtended.UUID;
-import static java.lang.System.currentTimeMillis;
-import static net.minecraft.client.Minecraft.getMinecraft;
-import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -61,7 +42,27 @@ import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.statsviewer;
+
+import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import static com.palechip.hudpixelmod.GameDetector.getCurrentGameType;
+import static com.palechip.hudpixelmod.extended.HudPixelExtended.UUID;
+import static java.lang.System.currentTimeMillis;
+import static net.minecraft.client.Minecraft.getMinecraft;
+import static net.minecraftforge.client.event.RenderPlayerEvent.Pre;
+
 @SideOnly(Side.CLIENT)
 public class StatsViewerManager {
 

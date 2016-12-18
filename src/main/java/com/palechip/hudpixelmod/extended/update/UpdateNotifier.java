@@ -1,28 +1,4 @@
-package com.palechip.hudpixelmod.extended.update;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import com.palechip.hudpixelmod.util.ChatMessageComposer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static com.palechip.hudpixelmod.HudPixelMod.DEFAULT_VERSION;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logError;
-import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
-import static java.lang.System.out;
-import static net.minecraft.client.Minecraft.getMinecraft;
-
-/* **********************************************************************************************************************
+/*
  * HudPixelReloaded - License
  * <p>
  * The repository contains parts of Minecraft Forge and its dependencies. These parts have their licenses
@@ -66,7 +42,32 @@ import static net.minecraft.client.Minecraft.getMinecraft;
  * related files.
  * 6. You shall not act against the will of the authors regarding anything related to the mod or its codebase. The authors
  * reserve the right to take down any infringing project.
- **********************************************************************************************************************/
+ */
+
+package com.palechip.hudpixelmod.extended.update;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.palechip.hudpixelmod.extended.util.McColorHelper;
+import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static com.palechip.hudpixelmod.HudPixelMod.DEFAULT_VERSION;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logError;
+import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logWarn;
+import static java.lang.System.out;
+import static net.minecraft.client.Minecraft.getMinecraft;
+
 @SideOnly(Side.CLIENT)
 public class UpdateNotifier implements McColorHelper {
 

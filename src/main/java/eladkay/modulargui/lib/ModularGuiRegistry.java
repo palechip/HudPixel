@@ -26,7 +26,7 @@ public class ModularGuiRegistry {
      * Example elements.
      * You should keep a constant of your elements in some sort of registry class.
      */
-    public static final Element TITLE = new Element("", new StringAbstractModularGuiProvider(EnumChatFormatting.AQUA + "Modular" + EnumChatFormatting.GOLD + "Gui"));
+    public static final Element TITLE = new Element("", new StringAbstractModularGuiProvider(EnumChatFormatting.AQUA + "Modular" + EnumChatFormatting.GOLD + "GUI"));
     public static final Element NAME = new Element("IGN", new NameModularGuiProvider());
     public static final Element GROUPER = new Element("", new EmptyModularGuiProvider(), true);
 
