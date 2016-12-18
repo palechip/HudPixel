@@ -26,12 +26,12 @@ public class RenderUtils {
 
     private static void glPop(){
         GlStateManager.popMatrix();
-        GlStateManager.popAttrib();
+        //GlStateManager.popAttrib();
     }
 
     private static void glPush(){
         GlStateManager.pushMatrix();
-        GlStateManager.pushAttrib();
+        //GlStateManager.pushAttrib();
     }
 
     /**
