@@ -106,8 +106,7 @@ public class Translator implements IEventHandler, ITranslatorRequestCallback {
 
     @Override
     public void translatorCallback(TranslatorRequest tR) {
-        try{
-
+        try {
             if(tR.isFailed())
                 new ChatMessageComposer(TAG + EnumChatFormatting.DARK_RED + "[FAILED]" + tR.getMessage()).send(false);
 

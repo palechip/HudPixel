@@ -221,11 +221,11 @@ public class GameDetector {
                     if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))) {
                         currentGameType = type;
                         isLobby = false;
-                        ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame);
-                        ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart);
                     }
                 if (game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
                     //success!
+                    ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame);
+                    ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart);
                     if (HudPixelMod.IS_DEBUGGING)
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
                 } else {
