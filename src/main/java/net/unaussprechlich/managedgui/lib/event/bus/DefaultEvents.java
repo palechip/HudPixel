@@ -9,10 +9,19 @@
 package net.unaussprechlich.managedgui.lib.event.bus;
 
 /**
- * IEvent Created by unaussprechlich on 18.12.2016.
+ * DefaultEvents Created by unaussprechlich on 20.12.2016.
  * Description:
  **/
-public interface IEvent {
+public enum DefaultEvents {
+    TIME(0);
 
-    int getID();
+    private int ID;
+
+    DefaultEvents(int ID) {
+        this.ID = ID;
+    }
+
+    public int get() {
+        return ID;
+    }
 }

@@ -20,17 +20,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.unaussprechlich.managedgui.lib.util.storage.Matrix4Side;
+import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 
 public class RenderUtils {
 
     private static void glPop(){
-        GlStateManager.popMatrix();
+        //GlStateManager.popMatrix();
         //GlStateManager.popAttrib();
     }
 
     private static void glPush(){
-        GlStateManager.pushMatrix();
+        //GlStateManager.pushMatrix();
         //GlStateManager.pushAttrib();
     }
 
@@ -95,11 +95,35 @@ public class RenderUtils {
         renderItemStack(iStack, xStart, yStart);
     }
 
-    public static void renderBorder(int xStart, int yStart, int innerHight, int innerWidth, Matrix4Side border, ColorRGBA color) {
-        renderBoxWithColor(xStart, yStart, innerWidth + border.LEFT + border.RIGHT, border.TOP, color);
-        renderBoxWithColor(xStart, yStart + border.TOP + innerHight, innerWidth + border.LEFT + border.RIGHT, border.BOTTOM, color);
-        renderBoxWithColor(xStart, yStart + border.TOP, border.LEFT, innerHight, color);
-        renderBoxWithColor(xStart + border.LEFT + innerWidth, yStart + border.TOP, border.RIGHT, innerHight, color);
+    public static void renderBorder(int xStart, int yStart, int width, int height, ContainerSide border, ColorRGBA color) {
+        //TOP//
+        renderBoxWithColor(
+                xStart, yStart,
+                width,
+                border.TOP(),
+                color
+        );
+        //BOTTOM//
+        renderBoxWithColor(
+                xStart, yStart + height - border.BOTTOM(),
+                width,
+                border.BOTTOM(),
+                color
+        );
+        //LEFT//
+        renderBoxWithColor(
+                xStart, yStart + border.TOP(),
+                border.LEFT(),
+                height - border.TOP() - border.BOTTOM(),
+                color
+        );
+        //RIGHT//
+        renderBoxWithColor(
+                xStart + width - border.RIGHT(), yStart + border.TOP(),
+                border.RIGHT(),
+                height - border.TOP() - border.BOTTOM(),
+                color
+        );
     }
 
     public static void renderBoxWithHudBackground(int xStart, int yStart, int width, int height){
@@ -264,7 +288,7 @@ public class RenderUtils {
         glPush();
     }
 
-    public static void renderBox(int xStart, int yStart, int fieldWidth, int i) {
-        renderBox((short) xStart, (short) yStart, (short) fieldWidth, (short) i);
+    public static void renderBox(int xStart, int yStart, int width, int height) {
+        renderBoxWithColor(xStart, yStart, width, height, EnumRGBA.GREY_T.get());
     }
 }
