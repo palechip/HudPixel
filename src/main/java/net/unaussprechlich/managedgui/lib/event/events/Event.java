@@ -6,13 +6,13 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.event.bus;
+package net.unaussprechlich.managedgui.lib.event.events;
 
 /**
  * Event Created by unaussprechlich on 18.12.2016.
  * Description:
  **/
-public class Event<T> implements IEvent{
+public class Event<T>{
 
     private final int ID;
     private final T data;
@@ -22,7 +22,6 @@ public class Event<T> implements IEvent{
         this.data = data;
     }
 
-    @Override
     public int getID() {
         return ID;
     }

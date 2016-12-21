@@ -10,7 +10,7 @@ package net.unaussprechlich.managedgui.lib.event;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.event.bus.IEvent;
+import net.unaussprechlich.managedgui.lib.event.events.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 
 /**
@@ -19,13 +19,15 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
  **/
 public interface IDoEventMethods {
 
-    default boolean doClientTick(){return true;}
-    default boolean doRender(){return true;}
-    default boolean doChatMessage(ClientChatReceivedEvent e){return true;}
-    default boolean doMouseMove(int mX, int mY){return true;}
-    default boolean doScroll(int i){return true;}
-    default boolean doClick(MouseHandler.ClickType clickType){return true;}
-    default boolean doEventBus(IEvent event){return true;}
-    default boolean doOpenGUI(GuiOpenEvent e){return true;}
+    boolean doClientTick();
+    boolean doRender(int xStart, int yStart);
+    boolean doChatMessage(ClientChatReceivedEvent e);
+    boolean doMouseMove(int mX, int mY);
+    boolean doScroll(int i);
+    boolean doClick(MouseHandler.ClickType clickType);
+    <T extends Event> boolean doEventBus(T event);
+    boolean doOpenGUI(GuiOpenEvent e);
+    int getXStart();
+    int getYStart();
 
 }
