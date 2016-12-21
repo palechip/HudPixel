@@ -69,7 +69,7 @@ public class ModularGuiRegistry {
                     "name='" + name + '\'' +
                     ", provider=" + provider +
                     '}';
-        }
+          }
 
         /**
          * Default constructor.

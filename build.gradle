@@ -23,7 +23,7 @@ plugins {
 }
 */
 
-version = "3.3dev"
+version = "3.3-19583dc"
 group = "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HudPixelReloaded-1.8.9-v3"
 

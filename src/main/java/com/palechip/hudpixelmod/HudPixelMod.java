@@ -180,6 +180,8 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(new BookVerboseInfoCommand());
             ClientCommandHandler.instance.registerCommand(DiscordCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(NameCommand.INSTANCE);
+            ClientCommandHandler.instance.registerCommand(VerboseChatOutputCommand.INSTANCE);
+            ClientCommandHandler.instance.registerCommand(ClickEventCommand.INSTANCE);
             new HudPixelMethodHandles();
             new FireAntiRenderer();
             // Initialize the logger

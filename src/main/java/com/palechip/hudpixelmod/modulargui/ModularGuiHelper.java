@@ -185,8 +185,7 @@ public class ModularGuiHelper implements McColorHelper {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.RenderTickEvent e) {
-        for (IHudPixelModularGuiProviderBase provider : ModularGuiHelper.providers)
-            provider.onTickUpdate();
+        ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onTickUpdate);
     }
 
 }

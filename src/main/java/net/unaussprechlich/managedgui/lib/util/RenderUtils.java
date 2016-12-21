@@ -265,6 +265,6 @@ public class RenderUtils {
     }
 
     public static void renderBox(int xStart, int yStart, int fieldWidth, int i) {
-        renderBox((short) xStart, (short) yStart, (short) fieldWidth, (short) i);
+        //renderBox((short) xStart, (short) yStart, (short) fieldWidth, (short) i);
     }
 }
