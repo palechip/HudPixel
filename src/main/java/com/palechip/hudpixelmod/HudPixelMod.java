@@ -182,6 +182,7 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(NameCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(VerboseChatOutputCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(ClickEventCommand.INSTANCE);
+            ClientCommandHandler.instance.registerCommand(AfkCommand.INSTANCE);
             new HudPixelMethodHandles();
             new FireAntiRenderer();
             // Initialize the logger
