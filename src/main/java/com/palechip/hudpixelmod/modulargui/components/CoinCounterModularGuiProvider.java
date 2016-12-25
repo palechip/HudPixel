@@ -48,12 +48,16 @@ package com.palechip.hudpixelmod.modulargui.components;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import com.palechip.hudpixelmod.config.CCategory;
+import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins";
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "coinsCounter", comment = "The Coin Counter", def = true)
+    public static boolean enabled = false;
     protected int coins;
 
     public static int getCoinsFromMessage(String message) {
@@ -89,7 +93,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby();
+        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
     }
 
     @Override

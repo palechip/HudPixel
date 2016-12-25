@@ -65,12 +65,12 @@ object AnnotationHelper {
 
         fun getString(id: String, def: String?): String? {
             val `val` = map[id]
-            return if (`val` == null) def else `val`.toString()
+            return `val`?.toString() ?: def
         }
 
         fun getInt(id: String, def: Int): Int {
             val `val` = map[id]
-            return if (`val` == null) def else `val`.hashCode()
+            return `val`?.hashCode() ?: def
         }
 
         fun getBoolean(id: String, def: Boolean): Boolean {

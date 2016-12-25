@@ -84,6 +84,11 @@ public class ModularGuiHelper implements McColorHelper {
     public static final ModularGuiRegistry.Element WARLORDS_DAMAGE_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.RED + "Damage", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Damage));
     public static final ModularGuiRegistry.Element WARLORDS_HEALING_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.GREEN + "Healing", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Healing));
     public static final ModularGuiRegistry.Element PLAY_GAME_MODULE = new ModularGuiRegistry.Element(EnumChatFormatting.DARK_RED + "Game", new PlayGameModularGuiProvider());
+
+    public static final ModularGuiRegistry.Element WALLS3_AKILLCOUNTER = new ModularGuiRegistry.Element("simp7", new MWAssistCounterModularGuiProvider());
+    public static final ModularGuiRegistry.Element WALLS3_AFKILLCOUNTER = new ModularGuiRegistry.Element("simp8", new MWFinalAssistCounterModularGuiProvider());
+    public static final ModularGuiRegistry.Element WALLS3_FKILLCOUNTER = new ModularGuiRegistry.Element("simp9", new MWFinalKillCounterModularGuiProvider());
+    public static final ModularGuiRegistry.Element DEATH = new ModularGuiRegistry.Element(DeathCounterModularGuiProvider.DEATH_TEXT, new DeathCounterModularGuiProvider());
     public static List<IHudPixelModularGuiProviderBase> providers = Lists.newArrayList();
 
     public static void init() {
@@ -123,6 +128,14 @@ public class ModularGuiHelper implements McColorHelper {
         providers.add((IHudPixelModularGuiProviderBase) WARLORDS_DAMAGE_TRACKER.provider);
         ModularGuiRegistry.registerElement(WARLORDS_HEALING_TRACKER);
         providers.add((IHudPixelModularGuiProviderBase) WARLORDS_HEALING_TRACKER.provider);
+        ModularGuiRegistry.registerElement(WALLS3_AKILLCOUNTER);
+        providers.add((IHudPixelModularGuiProviderBase) WALLS3_AKILLCOUNTER.provider);
+        ModularGuiRegistry.registerElement(WALLS3_AFKILLCOUNTER);
+        providers.add((IHudPixelModularGuiProviderBase) WALLS3_AFKILLCOUNTER.provider);
+        ModularGuiRegistry.registerElement(WALLS3_FKILLCOUNTER);
+        providers.add((IHudPixelModularGuiProviderBase) WALLS3_FKILLCOUNTER.provider);
+        ModularGuiRegistry.registerElement(DEATH);
+        providers.add((IHudPixelModularGuiProviderBase) DEATH.provider);
 
         ModularGuiRegistry.registerElement(PLAY_GAME_MODULE);
         providers.add((IHudPixelModularGuiProviderBase) PLAY_GAME_MODULE.provider);

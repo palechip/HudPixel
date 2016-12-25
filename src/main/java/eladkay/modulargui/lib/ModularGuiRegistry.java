@@ -5,6 +5,7 @@ import eladkay.modulargui.lib.base.EmptyModularGuiProvider;
 import eladkay.modulargui.lib.base.NameModularGuiProvider;
 import eladkay.modulargui.lib.base.StringAbstractModularGuiProvider;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -36,9 +37,10 @@ public class ModularGuiRegistry {
      * @param element The element to register
      */
     public static void registerElement(Element element) {
-        if (!allElements.contains(element) || element.shouldAllowDuplicates())
+        if (!allElements.contains(element) || element.shouldAllowDuplicates()) {
             allElements.add(element);
-        else Logger.getLogger("modulargui").warning("Tried to register element " + element.name +
+            MinecraftForge.EVENT_BUS.register(element.provider);
+        } else Logger.getLogger("modulargui").warning("Tried to register element " + element.name +
                 " and it was already registered!");
     }
 

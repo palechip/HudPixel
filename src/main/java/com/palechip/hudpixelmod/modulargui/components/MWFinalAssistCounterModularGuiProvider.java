@@ -56,16 +56,16 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.util.regex.Pattern;
 
-public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
+public class MWFinalAssistCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
     private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
     private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;
     private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
     private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
-    @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsFinalAssistCounter", comment = "The MW Final Assist Tracker", def = true)
     public static boolean enabled = false;
     private int kills;
-    private static Pattern KILL_PTRN = Pattern.compile("\\w*(\\d+/\\d+ Kills)");
+    private static Pattern KILL_PTRN = Pattern.compile("\\w*FINAL KILL ASSIST");
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
@@ -94,7 +94,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     }
 
     public String getRenderingString() {
-        return KILL_DISPLAY + kills;
+        return FINAL_ASSISTS_DISPLAY + kills;
     }
 
     @Override
@@ -114,7 +114,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
 
     @Override
     public String getAfterstats() {
-        return YELLOW + "You got a total of " + GREEN + kills + YELLOW + " Kills.";
+        return YELLOW + "You got a total of " + GREEN + kills + YELLOW + " Final Assists.";
     }
 
 }

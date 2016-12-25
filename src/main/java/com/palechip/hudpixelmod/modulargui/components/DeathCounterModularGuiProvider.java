@@ -49,62 +49,48 @@ package com.palechip.hudpixelmod.modulargui.components;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
-import com.palechip.hudpixelmod.extended.util.McColorHelper;
-import com.palechip.hudpixelmod.modulargui.SimpleHudPixelModularGuiProvider;
-import com.palechip.hudpixelmod.util.GameType;
+import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.regex.Pattern;
+public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
-public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
-    private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
-    private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;
-    private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
-    private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
-    private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
-    @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
+    public static final String DEATH_TEXT = EnumChatFormatting.RED + "Deaths";
+    @ConfigPropertyBoolean(category = CCategory.HUD, id = "deathsCounter", comment = "The Deaths Counter", def = true)
     public static boolean enabled = false;
-    private int kills;
-    private static Pattern KILL_PTRN = Pattern.compile("\\w*(\\d+/\\d+ Kills)");
+    protected int deaths;
+
+
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
-    }
-
-    @Override
-    public void setupNewGame() {
-        this.kills = 0;
+        return !GameDetector.isLobby();
     }
 
     @Override
     public void onGameStart() {
+
     }
 
     @Override
     public void onGameEnd() {
+
     }
 
     @Override
     public void onTickUpdate() {
-    }
 
-    @Override
-    public void onChatMessage(String textMessage, String formattedMessage) {
-        if(KILL_PTRN.matcher(textMessage).find()) kills++;
-    }
-
-    public String getRenderingString() {
-        return KILL_DISPLAY + kills;
     }
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return !GameDetector.isLobby() && enabled;
     }
 
     @Override
     public String content() {
-        return getRenderingString();
+        return deaths + "";
     }
 
     @Override
@@ -114,7 +100,23 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
 
     @Override
     public String getAfterstats() {
-        return YELLOW + "You got a total of " + GREEN + kills + YELLOW + " Kills.";
+        return null;
+    }
+
+    @Override
+    public void setupNewGame() {
+        // reset
+        this.deaths = 0;
+    }
+
+    @SubscribeEvent
+    public void onDeath(LivingDeathEvent event) {
+        if(event.entityLiving.getName().equals(Minecraft.getMinecraft().thePlayer.getName())) deaths++;
+    }
+
+    @Override
+    public void onChatMessage(String textMessage, String formattedMessage) {
+
     }
 
 }
