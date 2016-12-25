@@ -13,41 +13,20 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.elements.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
 
 /**
- * DefTextContainer Created by unaussprechlich on 20.12.2016.
+ * DefBackgroundContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class DefTextContainer extends Container{
+public class DefBackgroundContainer extends Container {
 
-    private String text = "";
+    public DefBackgroundContainer(ColorRGBA color, int width, int height) {
+        setBackgroundRGBA(color);
+        setWidth(width);
+        setHeight(height);
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-        setWidth(FontHelper.widthOfString(text));
-        setHeight(9);
-    }
-
-    public DefTextContainer(String text) {
-        setText(text);
-    }
-
-
-
-    @Override
-    public void setWidth(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setWidth() is handled automatically use setPadding() instead!");
-    }
-
-    @Override
-    public void setHeight(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setHeight() is handled automatically use setPadding() instead!");
     }
 
     @Override
@@ -57,9 +36,6 @@ public class DefTextContainer extends Container{
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
-        if(ees == EnumEventState.POST){
-            FontHelper.drawWithShadow(text, xStart, yStart);
-        }
         return true;
     }
 
@@ -84,7 +60,7 @@ public class DefTextContainer extends Container{
     }
 
     @Override
-    protected <T extends Event> boolean doEventBusLocal(T e) {
+    protected <T extends Event> boolean doEventBusLocal(T iEvent) {
         return true;
     }
 

@@ -57,7 +57,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.unaussprechlich.connect.Connect;
+import net.unaussprechlich.project.connect.Connect;
 
 import java.util.UUID;
 

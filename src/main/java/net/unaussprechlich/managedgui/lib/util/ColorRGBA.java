@@ -26,10 +26,10 @@ public class ColorRGBA {
         this.BLUE  = BLUE;
         this.ALPHA = ALPHA;
 
-        this.REDf   = (float)RED / 255;
-        this.GREENf = (float)GREEN / 255;
-        this.BLUEf  = (float)BLUE / 255;
-        this.ALPHAf = (float)ALPHA / 255;
+        this.REDf   = ((float)RED) / 255;
+        this.GREENf = ((float)GREEN) / 255;
+        this.BLUEf  = ((float)BLUE) / 255;
+        this.ALPHAf = ((float)ALPHA) / 255;
     }
 
     public float getALPHAf() {return ALPHAf;}

@@ -1,4 +1,4 @@
-package net.unaussprechlich.connect;
+package net.unaussprechlich.project.connect;
 
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 

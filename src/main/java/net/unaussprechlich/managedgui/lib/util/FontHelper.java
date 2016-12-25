@@ -35,6 +35,10 @@ public class FontHelper {
         return Minecraft.getMinecraft().fontRendererObj;
     }
 
+    public static int widthOfString(String s){
+        return getFrontRenderer().getStringWidth(s);
+    }
+
 
     public static void draw(String text, int xStart, int yStart){
         getFrontRenderer().drawString(text, xStart, yStart, 0xffffff);

@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.event.events;
+package net.unaussprechlich.managedgui.lib.event.util;
 
 /**
  * EnumTime Created by unaussprechlich on 20.12.2016.

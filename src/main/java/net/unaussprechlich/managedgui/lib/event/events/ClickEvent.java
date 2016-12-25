@@ -8,25 +8,16 @@
 
 package net.unaussprechlich.managedgui.lib.event.events;
 
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
+import net.unaussprechlich.managedgui.lib.event.util.Event;
+
 /**
- * Event Created by unaussprechlich on 18.12.2016.
+ * ClickEvent Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class Event<T>{
+public class ClickEvent extends Event{
 
-    private final int ID;
-    private final T data;
-
-    public Event(int ID, T data) {
-        this.ID = ID;
-        this.data = data;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public T getData(){
-        return data;
+    public ClickEvent(String clickID) {
+         super(EnumDefaultEvents.CLICK.get(), clickID);
     }
 }

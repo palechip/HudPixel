@@ -8,15 +8,17 @@
 
 package net.unaussprechlich.managedgui.lib.event.events;
 
-import net.unaussprechlich.managedgui.lib.event.bus.DefaultEvents;
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
+import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
+import net.unaussprechlich.managedgui.lib.event.util.Event;
 
 /**
  * TimeEvent Created by unaussprechlich on 20.12.2016.
  * Description:
  **/
-public class TimeEvent extends Event{
+public class TimeEvent extends Event {
 
     public TimeEvent(EnumTime data) {
-        super(DefaultEvents.TIME.get(), data);
+        super(EnumDefaultEvents.TIME.get(), data);
     }
 }

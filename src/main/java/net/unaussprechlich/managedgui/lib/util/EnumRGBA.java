@@ -11,7 +11,7 @@ package net.unaussprechlich.managedgui.lib.util;
 public enum EnumRGBA {
     TRANSPARENT   (new ColorRGBA(0, 0  , 0  , 0)),
     RED   (new ColorRGBA(255, 0  , 0  , 255)),
-    GREY_T(new ColorRGBA(0  , 0  , 0  , 255 )),
+    GREY_T(new ColorRGBA(0  , 0  , 0  , 125 )),
     GREEN (new ColorRGBA(0  , 255, 0  , 255)),
     BLUE  (new ColorRGBA(0  , 0  , 255, 255 ));
 

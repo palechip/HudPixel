@@ -6,18 +6,18 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.event.bus;
+package net.unaussprechlich.managedgui.lib.event;
 
 /**
- * DefaultEvents Created by unaussprechlich on 20.12.2016.
+ * EnumDefaultEvents Created by unaussprechlich on 20.12.2016.
  * Description:
  **/
-public enum DefaultEvents {
-    TIME(0);
+public enum EnumDefaultEvents {
+    TIME(0), CLICK(1);
 
     private int ID;
 
-    DefaultEvents(int ID) {
+    EnumDefaultEvents(int ID) {
         this.ID = ID;
     }
 

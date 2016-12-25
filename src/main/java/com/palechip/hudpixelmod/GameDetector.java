@@ -168,10 +168,6 @@ public class GameDetector {
         return isLobby || gameHasntBegan;
     }
 
-    public static boolean shouldProcessAfterstats() {
-        return isLobby;
-    }
-
     public static GameType getCurrentGameType() {
         return currentGameType;
     }
@@ -197,50 +193,57 @@ public class GameDetector {
     }
 
     public void update(String s) {
+        System.out.println("UPDATE!" + "message:" + s);
         s = s.toLowerCase();
-        switch (s) {
-            case "hypixel":
-                currentGameType = GameType.UNKNOWN; //main lobby
-                break;
-            case "hypixel.net":
-                ScoreboardReader.resetCache();
-                schedule = true;
-                break;
-            case "":
-            case " ":
-                schedule = true;
-                break;
-            case " smash heroes":
-            case "smash heroes":
-                currentGameType = GameType.SMASH_HEROES;
-            default:
-                schedule = false;
+        if(s.equalsIgnoreCase("hypixel")){
+            currentGameType = GameType.UNKNOWN; //main lobby
+        } else if(s.equalsIgnoreCase("hypixel.net")){
+            ScoreboardReader.resetCache();
+            schedule = true;
+        } else if(s.equalsIgnoreCase("") || s.equalsIgnoreCase(" ")){
+            schedule = true;
+        } else if(s.equalsIgnoreCase(" smash heroes") || s.equalsIgnoreCase("smash heroes")){
+            currentGameType = GameType.SMASH_HEROES;
+        } else {
+            schedule = false;
 
-                GameType game = currentGameType;
-                for (GameType type : GameType.values())
-                    if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))) {
-                        currentGameType = type;
-                        isLobby = false;
-                    }
-                if (game != currentGameType && Minecraft.getMinecraft().thePlayer != null) {
+            for (GameType type : GameType.values()) {
+                if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))){
+                    if(Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().thePlayer.isDead || type == currentGameType) return;
+                    currentGameType = type;
                     //success!
                     ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame);
                     ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart);
                     if (HudPixelMod.IS_DEBUGGING)
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Changed server! Game is now " + currentGameType));
-                } else {
-                    currentGameType = GameType.UNKNOWN;
-                    schedule = true;
+                    isLobby = false;
+                    return;
                 }
+            }
 
-                cooldown = -1;
-                break;
+            if(Minecraft.getMinecraft().thePlayer != null && !Minecraft.getMinecraft().thePlayer.isDead){
+                currentGameType = GameType.UNKNOWN;
+                schedule = true;
+            }
+            cooldown = -1;
         }
     }
 
+    private void notifyModularGuiLib(){
+
+    }
+
+    int tick = 0;
+
     @SubscribeEvent
     public void tickly(TickEvent.ClientTickEvent event) {
+        tick++;
+        if(tick < 19) return;
+        tick = 0;
+
         if (!enabled) return;
+        if(Minecraft.getMinecraft().thePlayer == null) return;
+        if(Minecraft.getMinecraft().thePlayer.isDead) return;
         String title = ScoreboardReader.getScoreboardTitle();
         title = stripColor(title).toLowerCase();
         cooldown--;

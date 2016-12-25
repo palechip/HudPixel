@@ -60,6 +60,9 @@ public interface IContainer {
     void setBorderRGBA(ColorRGBA borderRGBA);
     void setBackgroundRGBA(ColorRGBA backgroundRGBA);
     void setBackgroundImage(ResourceLocation backgroundImage);
+    void setPadding(int value);
+    void setMargin(int value);
+    void setBorder(int value);
     void setPadding(ContainerSide padding);
     void setMargin(ContainerSide margin);
     void setBorder(ContainerSide border);

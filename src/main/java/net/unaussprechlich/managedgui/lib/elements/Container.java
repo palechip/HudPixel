@@ -12,7 +12,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.child.ChildRegistry;
 import net.unaussprechlich.managedgui.lib.child.IChild;
-import net.unaussprechlich.managedgui.lib.event.events.Event;
+import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
@@ -310,6 +310,21 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     @Override
     public void setBackgroundImage(ResourceLocation backgroundImage) {
         this.backgroundImage = backgroundImage;
+    }
+
+    @Override
+    public void setPadding(int value) {
+        this.padding.RIGHT(value).LEFT(value).TOP(value).BOTTOM(value);
+    }
+
+    @Override
+    public void setMargin(int value) {
+        this.margin.RIGHT(value).LEFT(value).TOP(value).BOTTOM(value);
+    }
+
+    @Override
+    public void setBorder(int value) {
+        this.border.RIGHT(value).LEFT(value).TOP(value).BOTTOM(value);;
     }
 
     @Override

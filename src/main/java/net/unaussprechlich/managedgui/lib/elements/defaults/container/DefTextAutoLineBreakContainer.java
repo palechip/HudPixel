@@ -10,19 +10,25 @@ package net.unaussprechlich.managedgui.lib.elements.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.unaussprechlich.managedgui.lib.CONSTANTS;
 import net.unaussprechlich.managedgui.lib.elements.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 import net.unaussprechlich.managedgui.lib.util.FontHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * DefTextContainer Created by unaussprechlich on 20.12.2016.
+ * DefTextAutoLineBreakContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class DefTextContainer extends Container{
+public class DefTextAutoLineBreakContainer extends Container{
 
-    private String text = "";
+
+    private String text       = "";
+    private List<String>  renderList = new ArrayList<>();
 
     public String getText() {
         return text;
@@ -30,24 +36,30 @@ public class DefTextContainer extends Container{
 
     public void setText(String text) {
         this.text = text;
-        setWidth(FontHelper.widthOfString(text));
-        setHeight(9);
+        renderList = FontHelper.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
+        setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
     }
 
-    public DefTextContainer(String text) {
+    public DefTextAutoLineBreakContainer(String text, int width) {
         setText(text);
+        setWidth(width);
     }
 
-
+    private void render(int xStart, int yStart){
+        for(String s : renderList){
+            FontHelper.drawWithShadow(s, xStart, yStart);
+            yStart += CONSTANTS.TEXT_Y_OFFSET;
+        }
+    }
 
     @Override
     public void setWidth(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setWidth() is handled automatically use setPadding() instead!");
+        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextAutoLineBreakContainer] setWidth() is handled automatically use setPadding() instead!");
     }
 
     @Override
     public void setHeight(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setHeight() is handled automatically use setPadding() instead!");
+        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextAutoLineBreakContainer] setHeight() is handled automatically use setPadding() instead!");
     }
 
     @Override
@@ -58,7 +70,7 @@ public class DefTextContainer extends Container{
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
         if(ees == EnumEventState.POST){
-            FontHelper.drawWithShadow(text, xStart, yStart);
+            render(xStart, yStart);
         }
         return true;
     }
@@ -84,7 +96,7 @@ public class DefTextContainer extends Container{
     }
 
     @Override
-    protected <T extends Event> boolean doEventBusLocal(T e) {
+    protected <T extends Event> boolean doEventBusLocal(T iEvent) {
         return true;
     }
 
@@ -92,4 +104,6 @@ public class DefTextContainer extends Container{
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
         return true;
     }
+
+
 }
