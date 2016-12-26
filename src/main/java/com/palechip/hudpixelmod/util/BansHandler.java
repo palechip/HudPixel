@@ -46,6 +46,7 @@
 
 package com.palechip.hudpixelmod.util;
 
+import com.google.common.collect.Maps;
 import com.palechip.hudpixelmod.HudPixelMod;
 import net.minecraft.client.Minecraft;
 
@@ -58,7 +59,7 @@ import java.util.Properties;
 
 
 public class BansHandler {
-    public static volatile Map<String, String> map;
+    public static volatile Map<String, String> map = Maps.newHashMap();
     public static void init() {
         new BanListThread();
     }
