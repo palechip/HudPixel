@@ -149,7 +149,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
 
 
         for (String s : tags.keySet()) { //for admins
-            if (e.message.getUnformattedText().contains(s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
+            if (e.message.getUnformattedText().contains(" " + s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
