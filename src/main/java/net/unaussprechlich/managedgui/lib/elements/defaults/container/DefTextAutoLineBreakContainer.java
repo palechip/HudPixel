@@ -26,28 +26,41 @@ import java.util.List;
  **/
 public class DefTextAutoLineBreakContainer extends Container{
 
-
     private String text       = "";
     private List<String>  renderList = new ArrayList<>();
+    private boolean isShadow = false;
 
     public String getText() {
         return text;
     }
 
     public void setText(String text) {
+        renderList.clear();
         this.text = text;
-        renderList = FontHelper.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
-        setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
+        if(FontHelper.widthOfString(this.text) <= this.getWidth())
+            renderList.add(text);
+        else
+            renderList = FontHelper.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
+        super.setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
+    }
+
+    public void setShadow(boolean shadow) {
+        isShadow = shadow;
+    }
+
+    public boolean isShadow() {
+        return isShadow;
     }
 
     public DefTextAutoLineBreakContainer(String text, int width) {
+        super.setWidth(width);
         setText(text);
-        setWidth(width);
     }
 
     private void render(int xStart, int yStart){
         for(String s : renderList){
-            FontHelper.drawWithShadow(s, xStart, yStart);
+            if(isShadow) FontHelper.drawWithShadow(s, xStart, yStart);
+            else         FontHelper.draw(s, xStart, yStart);
             yStart += CONSTANTS.TEXT_Y_OFFSET;
         }
     }

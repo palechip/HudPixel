@@ -48,6 +48,8 @@ package com.palechip.hudpixelmod.extended.util;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 public interface IEventHandler {
 
@@ -92,4 +94,12 @@ public interface IEventHandler {
     }
 
 
+    default void onRenderPlayer(RenderPlayerEvent.Pre e){
+
+    }
+
+    default void onRenderWorld(RenderWorldLastEvent e){
+
+    }
 }
+

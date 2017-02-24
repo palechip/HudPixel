@@ -73,10 +73,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.unaussprechlich.project.connect.Connect;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
@@ -240,6 +242,11 @@ public class HudPixelMod {
         }
     }
 
+    @EventHandler
+    public void onPostInit(FMLPostInitializationEvent event){
+        HudPixelExtended.getInstance().setupPOST();
+    }
+
     @SubscribeEvent(receiveCanceled = true)
     public void onChatMessage(ClientChatReceivedEvent event) {
         try {
@@ -266,6 +273,9 @@ public class HudPixelMod {
                 //Send info to remote server
                 //NOTE: THIS DOES NOT SEND ANY SESSION KEYS OR PERSONALLY IDENTIFIER INFORMATION!
                 if (!didTheThings && Minecraft.getMinecraft().thePlayer != null) {
+
+                    Connect.getINSTANCE().setup();
+
                     createModList();
                     String s = "";
                     for (String st : modlist) s += st.replace(" ", "-") + ",";

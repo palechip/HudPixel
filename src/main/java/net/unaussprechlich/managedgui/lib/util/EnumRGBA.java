@@ -12,7 +12,9 @@ public enum EnumRGBA {
     TRANSPARENT   (new ColorRGBA(0, 0  , 0  , 0)),
     RED   (new ColorRGBA(255, 0  , 0  , 255)),
     GREY_T(new ColorRGBA(0  , 0  , 0  , 125 )),
+    GREY_COOL(new ColorRGBA(36  , 44  , 53  , 255 )),
     GREEN (new ColorRGBA(0  , 255, 0  , 255)),
+    WHITE (new ColorRGBA(255  , 255, 255  , 255)),
     BLUE  (new ColorRGBA(0  , 0  , 255, 255 ));
 
     private final ColorRGBA RGBA;

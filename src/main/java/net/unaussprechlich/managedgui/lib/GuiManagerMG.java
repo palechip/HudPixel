@@ -14,11 +14,13 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.unaussprechlich.managedgui.lib.elements.GUI;
+import net.unaussprechlich.managedgui.lib.event.events.ScreenResizeEvent;
 import net.unaussprechlich.managedgui.lib.event.events.TimeEvent;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.exceptions.NameInUseException;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
 import net.unaussprechlich.managedgui.lib.util.LoggerHelperMG;
 
 import java.util.HashMap;
@@ -141,10 +143,14 @@ public class GuiManagerMG {
     }
 
     //EVENT_HANDLING ---------------------------------------------------------------------------------------------------
-
+    private int prevWidth = DisplayUtil.getScaledMcWidth();
+    private int prevHeight = DisplayUtil.getScaledMcHeight();
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         if(ManagedGui.isIsDisabled()) return;
+        if(prevWidth != DisplayUtil.getScaledMcWidth() || prevHeight != DisplayUtil.getScaledMcHeight()){
+            postEvent(new ScreenResizeEvent());
+        }
         processTimeEvents();
         try {
             MouseHandler.onClientTick();

@@ -49,6 +49,8 @@ dependencies {
     required 'joda-time:joda-time:2.9.6'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile ('io.socket:socket.io-client:0.8.3')
+    required ('io.socket:socket.io-client:0.8.3')
 }
 
 apply plugin: 'java'

@@ -298,6 +298,12 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     }
 
     @Override
+    public void setXYOffset(int xOffset, int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
+
+    @Override
     public void setBorderRGBA(ColorRGBA borderRGBA) {
         this.borderRGBA = borderRGBA;
     }

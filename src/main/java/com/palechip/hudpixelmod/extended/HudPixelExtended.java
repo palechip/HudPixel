@@ -57,7 +57,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.unaussprechlich.project.connect.Connect;
 
 import java.util.UUID;
 
@@ -80,8 +79,6 @@ public class HudPixelExtended {
     public void setup() {
         MinecraftForge.EVENT_BUS.register(hudPixelExtendedEventHandler);
 
-        Connect.setup();
-
         UUID = Minecraft.getMinecraft().getSession().getProfile().getId();
         Translator.getINSTANCE().init();
         boosterManager = new BoosterManager();
@@ -90,5 +87,14 @@ public class HudPixelExtended {
         CooldownDisplayManager.getInstance();
         ArmorHud.INSTANCE.init();
         EffectHud.getINSTANCE().init();
+
+        //nothing to see here :P
+        //TODO: remove!
+        //SecretFeatures.getINSTANCE().setup();
     }
+
+    public void setupPOST() {
+
+    }
+
 }

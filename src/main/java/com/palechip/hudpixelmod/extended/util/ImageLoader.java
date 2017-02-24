@@ -115,4 +115,8 @@ public class ImageLoader {
     public static ResourceLocation chatLocation() {
         return new ResourceLocation(HudPixelMod.MODID, "textures/msc/Chat.png");
     }
+
+    public static ResourceLocation shadowLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "textures/msc/SHADOW_TEST.png");
+    }
 }

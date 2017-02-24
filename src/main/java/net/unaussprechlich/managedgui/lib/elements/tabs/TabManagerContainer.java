@@ -6,55 +6,53 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.defaults.container;
+package net.unaussprechlich.managedgui.lib.elements.tabs;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.elements.Container;
+import net.unaussprechlich.managedgui.lib.elements.tabs.containers.TabContainer;
+import net.unaussprechlich.managedgui.lib.elements.tabs.containers.TabListManager;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
+
+import java.util.ArrayList;
 
 /**
- * DefTextContainer Created by unaussprechlich on 20.12.2016.
+ * TabManagerContainer Created by Alexander on 24.02.2017.
  * Description:
  **/
-public class DefTextContainer extends Container{
+public class TabManagerContainer extends Container{
 
-    private String text = "";
-    private boolean isShadow = false;
+    private ArrayList<TabContainer> tabs = new ArrayList<>();
 
-    public String getText() {
-        return text;
+    private TabListManager tabListManager;
+
+    private TabContainer activeTab;
+
+    public TabManagerContainer(TabListManager tabListManager){
+        this.tabListManager = tabListManager;
+        registerChild(tabListManager);
     }
 
-    public void setText(String text) {
-        this.text = text;
-        super.setWidth(FontHelper.widthOfString(text));
-        super.setHeight(9);
+    public void setTabActive(TabContainer tab){
+        if(activeTab != null) activeTab.setClosed();
+        activeTab = tab;
+        activeTab.setOpen();
     }
 
-    public DefTextContainer(String text) {
-        setText(text);
+    public void addTab(TabContainer tab){
+        if(activeTab == null) setTabActive(tab);
+        tabListManager.registerTab(tab);
+        tabs.add(tab);
+        registerChild(tab);
     }
 
-    public boolean isShadow() {
-        return isShadow;
-    }
-
-    public void setShadow(boolean shadow) {
-        isShadow = shadow;
-    }
-
-    @Override
-    public void setWidth(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setWidth() is handled automatically use setPadding() instead!");
-    }
-
-    @Override
-    public void setHeight(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setHeight() is handled automatically use setPadding() instead!");
+    public void removeTab(TabContainer tab){
+        tabListManager.unregisterTab(tab);
+        tabs.remove(tab);
+        unregisterChild(tab);
     }
 
     @Override
@@ -64,10 +62,6 @@ public class DefTextContainer extends Container{
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
-        if(ees == EnumEventState.POST){
-            if(isShadow) FontHelper.drawWithShadow(text, xStart, yStart);
-            else         FontHelper.draw(text, xStart, yStart);
-        }
         return true;
     }
 
@@ -92,12 +86,18 @@ public class DefTextContainer extends Container{
     }
 
     @Override
-    protected <T extends Event> boolean doEventBusLocal(T e) {
-        return true;
+    protected <T extends Event> boolean doEventBusLocal(T iEvent) {
+        return false;
     }
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
-        return true;
+        return false;
     }
+
+
+
+
+
+
 }

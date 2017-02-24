@@ -57,6 +57,7 @@ public interface IContainer {
     void setWidth(int width);
     void setYOffset(int yOffset);
     void setXOffset(int xOffset);
+    void setXYOffset(int xOffset, int yOffset);
     void setBorderRGBA(ColorRGBA borderRGBA);
     void setBackgroundRGBA(ColorRGBA backgroundRGBA);
     void setBackgroundImage(ResourceLocation backgroundImage);

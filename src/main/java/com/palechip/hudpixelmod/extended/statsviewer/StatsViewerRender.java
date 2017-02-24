@@ -103,6 +103,7 @@ public class StatsViewerRender {
         depthMask(false);
         disableDepth();
         enableBlend();
+
         tryBlendFuncSeparate(770, 771, 1, 0);
         Tessellator tessellator = getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();

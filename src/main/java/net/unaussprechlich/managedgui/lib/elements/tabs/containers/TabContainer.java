@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.defaults.container;
+package net.unaussprechlich.managedgui.lib.elements.tabs.containers;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -14,47 +14,43 @@ import net.unaussprechlich.managedgui.lib.elements.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
 
 /**
- * DefTextContainer Created by unaussprechlich on 20.12.2016.
+ * TabContainer Created by Alexander on 24.02.2017.
  * Description:
  **/
-public class DefTextContainer extends Container{
+public class TabContainer extends Container{
 
-    private String text = "";
-    private boolean isShadow = false;
+    private TabElementContainer     tabElement;
+    private TabListElementContainer tabListElement;
 
-    public String getText() {
-        return text;
+    public TabContainer(TabListElementContainer tabListElement, TabElementContainer tabElement){
+        this.tabListElement = tabListElement;
+        this.tabElement = tabElement;
+        setup();
     }
 
-    public void setText(String text) {
-        this.text = text;
-        super.setWidth(FontHelper.widthOfString(text));
-        super.setHeight(9);
+    private void setup(){
+        registerChild(this.tabElement);
+        tabElement.setYOffset(TabListElementContainer.ELEMENT_HEIGHT);
     }
 
-    public DefTextContainer(String text) {
-        setText(text);
+    public TabElementContainer getTabElement() {
+        return tabElement;
     }
 
-    public boolean isShadow() {
-        return isShadow;
+    public TabListElementContainer getTabListElement() {
+        return tabListElement;
     }
 
-    public void setShadow(boolean shadow) {
-        isShadow = shadow;
+    public void setClosed(){
+        tabListElement.setOpen(false);
+        setVisible(false);
     }
 
-    @Override
-    public void setWidth(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setWidth() is handled automatically use setPadding() instead!");
-    }
-
-    @Override
-    public void setHeight(int width) {
-        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setHeight() is handled automatically use setPadding() instead!");
+    public void setOpen(){
+        tabListElement.setOpen(true);
+        setVisible(true);
     }
 
     @Override
@@ -64,10 +60,6 @@ public class DefTextContainer extends Container{
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
-        if(ees == EnumEventState.POST){
-            if(isShadow) FontHelper.drawWithShadow(text, xStart, yStart);
-            else         FontHelper.draw(text, xStart, yStart);
-        }
         return true;
     }
 
@@ -92,7 +84,7 @@ public class DefTextContainer extends Container{
     }
 
     @Override
-    protected <T extends Event> boolean doEventBusLocal(T e) {
+    protected <T extends Event> boolean doEventBusLocal(T iEvent) {
         return true;
     }
 

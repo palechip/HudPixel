@@ -2,33 +2,38 @@ package net.unaussprechlich.project.connect.gui;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.GuiManagerMG;
 import net.unaussprechlich.managedgui.lib.elements.GUI;
+import net.unaussprechlich.managedgui.lib.elements.defaults.container.DefNotificationContainer;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 /**
- * ConnectGUI Created by unaussprechlich on 20.12.2016.
+ * NotificationGUI Created by Alexander on 23.02.2017.
  * Description:
  **/
-public class ConnectGUI extends GUI {
+public class NotificationGUI extends GUI{
 
-    private static NotificationGUI notificationGUI = new NotificationGUI();
-    private static ChatGUI chatGUI = new ChatGUI();
+    private static final int SPACING = 1;
 
-    public ConnectGUI() {
-        GuiManagerMG.addGUI("NotificationGUI", notificationGUI);
-        GuiManagerMG.addGUI("ConnectChatGui" , chatGUI);
+    private ArrayList<DefNotificationContainer> notifications = new ArrayList<>();
 
-        notificationGUI.setXStart(5);
-        notificationGUI.setYStart(5);
-
+    public void addNotification(DefNotificationContainer notify){
+        notifications.add(notify);
+        registerChild(notify);
+        updatePositions();
     }
 
-    public static NotificationGUI getNotificationGUI() {
-        return notificationGUI;
+    private void updatePositions(){
+        int yPos = 0;
+        for(DefNotificationContainer notify : notifications){
+            notify.setYOffset(yPos);
+            yPos += notify.getHeight() + SPACING;
+        }
     }
 
     @Override
@@ -43,27 +48,30 @@ public class ConnectGUI extends GUI {
 
     @Override
     public boolean doChatMessage(ClientChatReceivedEvent e) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean doMouseMove(int mX, int mY) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean doScroll(int i) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean doClick(MouseHandler.ClickType clickType) {
-        return true;
+        return false;
     }
 
     @Override
     public <T extends Event> boolean doEventBus(T event) {
-        if(!(event.getID() == EnumDefaultEvents.TIME.get() && event.getData() == EnumTime.SEC_15)) return true;
+        if(event.getID() == EnumDefaultEvents.TIME.get() && event.getData() == EnumTime.SEC_1){
+            notifications.removeAll(notifications.stream().filter(cont -> cont.getShowtime_sec() <= 0).collect(Collectors.toList()));
+            updatePositions();
+        }
         return true;
     }
 
@@ -71,6 +79,4 @@ public class ConnectGUI extends GUI {
     public boolean doOpenGUI(GuiOpenEvent e) {
         return true;
     }
-
-
 }

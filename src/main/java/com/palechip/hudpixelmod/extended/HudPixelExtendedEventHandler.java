@@ -182,6 +182,10 @@ public class HudPixelExtendedEventHandler {
     public void onRenderWorldLast(RenderWorldLastEvent e) {
         try {
             if (!HudPixelMod.isHypixelNetwork()) return;
+
+            for (IEventHandler i : getIeventBuffer())
+                i.onRenderWorld(e);
+
         } catch (Exception ex) {
             HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
             ex.printStackTrace();
@@ -193,6 +197,9 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.isHypixelNetwork()) {
+                for (IEventHandler i : getIeventBuffer())
+                    i.onRenderPlayer(e);
+
                 //just triggeres the statsrenderer if the player is waiting for the game to start
                 if (GameDetector.isLobby() && StatsViewerManager.enabled)
                     StatsViewerManager.onRenderPlayer(e);

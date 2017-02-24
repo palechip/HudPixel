@@ -52,7 +52,7 @@ public abstract class ChildRegistry implements IDoEventMethods {
         if(!doRender(xStart, yStart)) return;
         if(childs.isEmpty()) return;
         for(IChild child : childs){
-            child.onRender(xStart + this.getXStart(), yStart +  this.getYStart());
+            child.onRender(this.getXStart(), this.getYStart());
         }
     }
 

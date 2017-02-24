@@ -1,6 +1,11 @@
 package net.unaussprechlich.project.connect;
 
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
+import net.unaussprechlich.managedgui.lib.GuiManagerMG;
+import net.unaussprechlich.managedgui.lib.ManagedGui;
+import net.unaussprechlich.managedgui.lib.helper.SetupHelper;
+import net.unaussprechlich.project.connect.gui.ConnectGUI;
+import net.unaussprechlich.project.connect.socket.io.SocketConnection;
 
 /**
  * Connect Created by unaussprechlich on 20.12.2016.
@@ -22,9 +27,11 @@ public class Connect {
 
     public static void setup(){
         LoggerHelper.logInfo("Setting up Connect!");
-        //ManagedGui.setup(new SetupHelper());
-        //ManagedGui.setIsDisabled(false);
-        //GuiManagerMG.addGUI("Connect", new ConnectGUI());
+        ManagedGui.setup(new SetupHelper());
+        ManagedGui.setIsDisabled(false);
+
+        GuiManagerMG.addGUI("ConnectGUI", new ConnectGUI());
+        SocketConnection.getINSTANCE().setup();
 
     }
 

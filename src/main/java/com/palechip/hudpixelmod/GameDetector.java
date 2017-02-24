@@ -193,6 +193,7 @@ public class GameDetector {
     }
 
     public void update(String s) {
+        if(HudPixelMod.IS_DEBUGGING) return;
         System.out.println("UPDATE!" + "message:" + s);
         s = s.toLowerCase();
         if(s.equalsIgnoreCase("hypixel")){

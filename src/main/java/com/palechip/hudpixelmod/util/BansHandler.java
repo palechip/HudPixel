@@ -64,6 +64,7 @@ public class BansHandler {
         new BanListThread();
     }
     public static void checkForBan() {
+        if(HudPixelMod.IS_DEBUGGING) return;
         if(Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()))
             Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(Minecraft.getMinecraft().thePlayer.getName().toLowerCase())));
     }
