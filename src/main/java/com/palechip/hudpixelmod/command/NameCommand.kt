@@ -82,7 +82,7 @@ object NameCommand : CommandBase() {
     }
 
     /**
-     * Gets the name of the command
+     * Gets the nm of the command
      */
     override fun getCommandName(): String {
         return "names"
@@ -97,7 +97,7 @@ object NameCommand : CommandBase() {
         get() {
             val aliases = ArrayList<String>()
             aliases.add("names")
-            aliases.add("name")
+            aliases.add("nm")
             aliases.add("grab")
             return aliases
         }
@@ -133,7 +133,7 @@ object NameCommand : CommandBase() {
                                                 cSender.addChatMessage(ChatComponentText(""))
                                                 cSender.addChatMessage(ChatComponentText(StringUtils.center("" + EnumChatFormatting.LIGHT_PURPLE + EnumChatFormatting.BOLD + playername, 65)))
                                                 cSender.addChatMessage(ChatComponentText(""))
-                                                cSender.addChatMessage(ChatComponentText(StringUtils.center(EnumChatFormatting.YELLOW + "Player has never changed their name.", 65)))
+                                                cSender.addChatMessage(ChatComponentText(StringUtils.center(EnumChatFormatting.YELLOW + "Player has never changed their nm.", 65)))
                                                 cSender.addChatMessage(ChatComponentText(""))
                                             } else {
                                                 webnames = webnames.replace("{", "").replace("}", "").replace(",".toRegex(), ".").replace('"', ' ').replace(" ", "").replace("[", "").replace("]", "").replace(".c", "-c").replace(".", ",")
@@ -141,13 +141,13 @@ object NameCommand : CommandBase() {
 
                                                 cSender.addChatMessage(ChatComponentText(""))
                                                 for (s in split) {
-                                                    if (s.startsWith("name") && s.contains("changed")) {
+                                                    if (s.startsWith("nm") && s.contains("changed")) {
                                                         val names = s.split(Pattern.quote("-").toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                                                         var p1 = ""
                                                         var p2 = ""
                                                         for (d in names) {
-                                                            if (d.startsWith("name")) {
-                                                                p1 = "    " + EnumChatFormatting.GOLD + "- " + EnumChatFormatting.GREEN + d.replace("name:", "") + " "
+                                                            if (d.startsWith("nm")) {
+                                                                p1 = "    " + EnumChatFormatting.GOLD + "- " + EnumChatFormatting.GREEN + d.replace("nm:", "") + " "
                                                             }
                                                             if (d.startsWith("changedToAt")) {
                                                                 val unixSeconds = java.lang.Long.parseLong(d.replace("changedToAt:", ""))
@@ -159,8 +159,8 @@ object NameCommand : CommandBase() {
                                                             }
                                                         }
                                                         cSender.addChatMessage(ChatComponentText("" + p1 + p2))
-                                                    } else if (s.startsWith("name") && !s.contains("changed")) {
-                                                        cSender.addChatMessage(ChatComponentText(StringUtils.center("" + EnumChatFormatting.LIGHT_PURPLE + EnumChatFormatting.BOLD + s.replace("name:", ""), 65)))
+                                                    } else if (s.startsWith("nm") && !s.contains("changed")) {
+                                                        cSender.addChatMessage(ChatComponentText(StringUtils.center("" + EnumChatFormatting.LIGHT_PURPLE + EnumChatFormatting.BOLD + s.replace("nm:", ""), 65)))
                                                         cSender.addChatMessage(ChatComponentText(""))
                                                     }
                                                 }
@@ -168,12 +168,12 @@ object NameCommand : CommandBase() {
                                             }
                                         } else {
                                             cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}ERROR: Could not find player '" + playername + "'."))
-                                            cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}This person changed their name or never existed."))
+                                            cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}This person changed their nm or never existed."))
                                         }
                                         br2.close()
                                     } else {
                                         cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}ERROR: Could not find player '" + playername + "'."))
-                                        cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}This person changed their name or never existed."))
+                                        cSender.addChatMessage(ChatComponentText("${EnumChatFormatting.DARK_RED}This person changed their nm or never existed."))
                                     }
                                     br1.close()
                                 } catch (e: Throwable) {

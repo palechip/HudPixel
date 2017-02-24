@@ -100,7 +100,7 @@ public class WarlordsDamageAndHealingCounterModularGuiProvider extends HudPixelM
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS) && !GameDetector.isLobby() && enabled;
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.WARLORDS) && enabled;
     }
 
     @Override

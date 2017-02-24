@@ -10,7 +10,7 @@ public enum RequestParam {
 
     KEY(RequestType.KEY, "key", String.class),
 
-    PLAYER_BY_NAME(RequestType.PLAYER, "name", String.class),
+    PLAYER_BY_NAME(RequestType.PLAYER, "nm", String.class),
     PLAYER_BY_UUID(RequestType.PLAYER, "uuid", UUID.class, APIUtil.UUID_STRIPPER),
 
     GUILD_BY_NAME(RequestType.FIND_GUILD, "byName", String.class),

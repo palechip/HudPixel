@@ -68,7 +68,7 @@ public class ModularGuiRegistry {
         @Override
         public String toString() {
             return "Element{" +
-                    "name='" + name + '\'' +
+                    "nm='" + name + '\'' +
                     ", provider=" + provider +
                     '}';
           }
@@ -76,7 +76,7 @@ public class ModularGuiRegistry {
         /**
          * Default constructor.
          *
-         * @param name     The name to be displayed before the content of the element in the modular GUI HUD
+         * @param name     The nm to be displayed before the content of the element in the modular GUI HUD
          * @param provider The IModularGuiProvider that provides the content for the element
          */
         public Element(String name, IModularGuiProvider provider) {
@@ -87,7 +87,7 @@ public class ModularGuiRegistry {
         /**
          * Should allow duplicate elements of this type?
          *
-         * @param name           The name to be displayed before the content of the element in the modular GUI HUD
+         * @param name           The nm to be displayed before the content of the element in the modular GUI HUD
          * @param provider       The IModularGuiProvider that provides the content for the element
          * @param allowDuplicate should duplicate elements of this type be allowed?
          */
@@ -97,7 +97,7 @@ public class ModularGuiRegistry {
             this.allowDuplicate = allowDuplicate;
         }
 
-        //the name of the element
+        //the nm of the element
         public final String name;
         //the provider of the element
         public final IModularGuiProvider provider;

@@ -71,7 +71,7 @@ public class SkyClashClass implements INBTSerializable<NBTTagCompound>, Serializ
         for (Perk perk : perks)
             list.appendTag(perk.serializeNBT());
         tag.setTag("list", list);
-        tag.setString("name", name);
+        tag.setString("nm", name);
         return tag;
     }
 
@@ -85,7 +85,7 @@ public class SkyClashClass implements INBTSerializable<NBTTagCompound>, Serializ
             arrayList.add(perk);
         }
         perks = arrayList;
-        name = nbt.getString("name");
+        name = nbt.getString("nm");
 
 
     }

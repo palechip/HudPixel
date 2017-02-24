@@ -76,7 +76,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
     /**
      * Enter a  new gamemode with booster here, the system will add the booster then!
      * Also please upload the gameicon to the resource folder and link it in util.ImageLoader
-     * Also please add the new gamemode with the right ID and right name (put there the name it says
+     * Also please add the new gamemode with the right ID and right nm (put there the nm it says
      * when tipping somebody in this gamemode) to the GameType enum class. Also add the right tipname in the
      * GameType enum!
      **/
@@ -189,7 +189,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         for (int i = 5; i < split.length; i++)
             gamemode += (" " + split[i]);
 
-        GameType gameType = GameType.getTypeByName(gamemode);
+        GameType gameType = GameType.Companion.getTypeByName(gamemode);
 
         for (FancyListObject f : fancyListObjects) {
             BoosterExtended b = (BoosterExtended) f;
@@ -223,7 +223,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
                     return;
                 } else {
                     be.setCurrentBooster(b);
-                    LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameType().getName() + "[" + b.getGameType().getDatabaseID() + "]"
+                    LoggerHelper.logInfo("[BoosterDisplay]: stored booster with ID " + b.getGameType().getNm() + "[" + b.getGameType().getDatabaseID() + "]"
                             + " and owner " + b.getOwner() + " in the boosterdisplay!");
                     return;
                 }
@@ -247,7 +247,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         if (boosters != null) {
             for (BoostersReply.Booster b : boosters) {
                 if (b.getLength() < b.getOriginalLength()) {
-                    new Booster(b.getPurchaserUuid().toString(), GameType.getTypeByDatabaseID(b.getGameType().getId()));
+                    new Booster(b.getPurchaserUuid().toString(), GameType.Companion.getTypeByDatabaseID(b.getGameType().getId()));
                 }
             }
         } else LoggerHelper.logWarn("[BoosterDisplay]: The buuster response was NULL!");

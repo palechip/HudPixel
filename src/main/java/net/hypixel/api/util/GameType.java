@@ -60,7 +60,7 @@ public enum GameType {
     }
 
     /**
-     * @return The official name of the GameType
+     * @return The official nm of the GameType
      */
     public String getName() {
         return name;

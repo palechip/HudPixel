@@ -75,10 +75,11 @@ public class GameDetector {
     public static boolean enabled = true;
     private static GameType currentGameType = GameType.UNKNOWN;
     private static boolean isLobby = false;
-    private static boolean gameHasntBegan = true;
+    public static boolean gameHasntBegan = true;
 
+    private static GameDetector instance = new GameDetector();
     static {
-        MinecraftForge.EVENT_BUS.register(new GameDetector());
+        MinecraftForge.EVENT_BUS.register(instance);
     }
 
     private int cooldown = 0;
@@ -193,8 +194,7 @@ public class GameDetector {
     }
 
     public void update(String s) {
-        if(HudPixelMod.IS_DEBUGGING) return;
-        System.out.println("UPDATE!" + "message:" + s);
+      //  System.out.println("UPDATE!" + "message:" + s);
         s = s.toLowerCase();
         if(s.equalsIgnoreCase("hypixel")){
             currentGameType = GameType.UNKNOWN; //main lobby
@@ -209,7 +209,7 @@ public class GameDetector {
             schedule = false;
 
             for (GameType type : GameType.values()) {
-                if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))){
+                if (s.toLowerCase().replace(" ", "").contains(type.getScoreboardName().toLowerCase().replace(" ", ""))){
                     if(Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().thePlayer.isDead || type == currentGameType) return;
                     currentGameType = type;
                     //success!
@@ -232,6 +232,10 @@ public class GameDetector {
 
     private void notifyModularGuiLib(){
 
+    }
+
+    public static boolean shouldRenderStuff() {
+        return !gameHasntBegan && getCurrentGameType() != null;
     }
 
     int tick = 0;
@@ -261,13 +265,13 @@ public class GameDetector {
         if (!enabled) return;
         String message = event.message.getUnformattedText();
         if (message.equalsIgnoreCase("The game starts in 1 second!")) {
-            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getName() + " has started!");
+            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getNm() + " has started!");
             HudPixelExtendedEventHandler.onGameStart();
             gameHasntBegan = false;
             TimerModularGuiProvider.instance.onGameStart();
         }
         if (message.equalsIgnoreCase("                            Reward Summary")) {
-            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getName() + " has ended!");
+            LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType.getNm() + " has ended!");
             HudPixelExtendedEventHandler.onGameEnd();
             gameHasntBegan = true;
         }
@@ -279,5 +283,11 @@ public class GameDetector {
             }
             event.setCanceled(true);
         }
+    }
+
+    public static void reset() {
+        instance.scheduleWhereami = 10;
+        instance.schedule = true;
+        instance.cooldown = 10;
     }
 }

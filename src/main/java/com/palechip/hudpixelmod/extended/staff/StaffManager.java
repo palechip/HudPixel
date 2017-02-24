@@ -96,7 +96,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
     @SubscribeEvent
     public void onPlayerName(PlayerEvent.NameFormat e) {
         if (tags.keySet().contains(e.username) || e.username.contains("PixelPlus")) {
-            e.displayname = tags.get(e.username) + e.displayname;
+            e.displayname = tags.get(e.username) + e.displayname + "§r";
         }
     }
 

@@ -123,7 +123,7 @@ public class GuildReply extends AbstractReply {
         public String toString() {
             return "Guild{" +
                     "_id='" + _id + '\'' +
-                    ", name='" + name + '\'' +
+                    ", nm='" + name + '\'' +
                     ", tag='" + tag + '\'' +
                     ", publiclyListed=" + publiclyListed +
                     ", banner=" + banner +

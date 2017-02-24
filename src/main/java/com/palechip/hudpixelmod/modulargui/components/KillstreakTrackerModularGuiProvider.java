@@ -147,7 +147,7 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return doesMatchForGame() && enabled;
     }
 
     @Override

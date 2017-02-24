@@ -100,7 +100,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper {
      * @param player the player you have tipped to
      */
     void setGameModeTipped(String player) {
-        LoggerHelper.logInfo("[BoosterDisplay]: You tipped " + player + " in " + gameType.getName());
+        LoggerHelper.logInfo("[BoosterDisplay]: You tipped " + player + " in " + gameType.getNm());
         timeNextTip = System.currentTimeMillis() + tipDelay;
         if (booster != null && booster.getOwner().equalsIgnoreCase(player)) {
             LoggerHelper.logInfo("[BoosterDisplay]: Also found a booster for " + player);
@@ -122,8 +122,8 @@ public class BoosterExtended extends FancyListObject implements McColorHelper {
             }
 
         this.renderPicture = EnumChatFormatting.WHITE + countDown();
-        this.renderLineSmall = YELLOW + gameType.getName();
-        this.renderLine1 = GOLD + gameType.getName();
+        this.renderLineSmall = YELLOW + gameType.getNm();
+        this.renderLine1 = GOLD + gameType.getNm();
         if (booster == null) {
             this.renderLine2 = GRAY + "No Booster online!";
             this.fancyListObjectButtons.clear();

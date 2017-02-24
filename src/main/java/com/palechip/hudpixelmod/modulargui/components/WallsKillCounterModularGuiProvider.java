@@ -118,7 +118,7 @@ public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGui
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return doesMatchForGame() && enabled;
     }
 
     @Override

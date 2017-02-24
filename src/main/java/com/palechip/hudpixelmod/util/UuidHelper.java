@@ -70,7 +70,7 @@ public class UuidHelper extends Thread {
     UuidCallback callback;
 
     /**
-     * generates a "uuid to name" request
+     * generates a "uuid to nm" request
      *
      * @param uuid     the payers uuid
      * @param callback the callback class
@@ -105,7 +105,7 @@ public class UuidHelper extends Thread {
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 // convert the result to json
                 JsonObject content = gson.fromJson(new InputStreamReader(connection.getInputStream()), JsonObject.class);
-                // get the name
+                // get the nm
                 name = content.get("username").getAsString();
             } catch (Exception e) {
                 HudPixelMod.instance().logWarn("Failed to use the fallback API for " + uuid + " @ " + FALLBACK_API + uuid);

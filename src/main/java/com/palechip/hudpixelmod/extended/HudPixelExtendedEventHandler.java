@@ -291,7 +291,7 @@ public class HudPixelExtendedEventHandler {
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
                 if (GameDetector.isLobby()) {
-                    //System.out.print(GameDetector.getCurrentGameType().getName());
+                    //System.out.print(GameDetector.getCurrentGameType().getNm());
                     StatsViewerManager.onClientTick();
                 }
 

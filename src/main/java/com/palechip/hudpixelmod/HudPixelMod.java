@@ -187,6 +187,7 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(AfkCommand.INSTANCE);
             new HudPixelMethodHandles();
             new FireAntiRenderer();
+            BetterGgHandler.init();
             // Initialize the logger
             this.LOGGER = LogManager.getLogger("HudPixel");
 

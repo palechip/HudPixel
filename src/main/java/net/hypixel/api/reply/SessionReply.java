@@ -43,7 +43,7 @@ public class SessionReply extends AbstractReply {
          */
         private GameType gameType;
         /**
-         * Server name for session
+         * Server nm for session
          */
         private String server;
         /**

@@ -73,7 +73,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame() {
-        return !GameDetector.isLobby();
+        return GameDetector.shouldRenderStuff();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return doesMatchForGame() && enabled;
     }
 
     @Override

@@ -71,6 +71,21 @@ public class GameDetectorCommand extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        new ChatMessageComposer(GameDetector.getCurrentGameType().toString()).send();
+        if(args.length == 0)
+            new ChatMessageComposer(GameDetector.getCurrentGameType().toString()).send();
+        else if(args.length == 1 && args[0].equals("reset")) {
+            new ChatMessageComposer("Done").send();
+            GameDetector.reset();
+        } else if(args.length == 1 && args[0].equals("debug")) {
+            new ChatMessageComposer("Is lobby: " + GameDetector.isLobby()).send();
+            new ChatMessageComposer("Enabled: " + GameDetector.enabled).send();
+            new ChatMessageComposer("Current game type: " + GameDetector.getCurrentGameType()).send();
+            new ChatMessageComposer("Game hasn't begun: " + GameDetector.gameHasntBegan).send();
+            new ChatMessageComposer("Should render: " + GameDetector.shouldRenderStuff()).send();
+        } else if(args.length == 1 && args[0].equals("setbegun")) {
+            new ChatMessageComposer("Done").send();
+            GameDetector.gameHasntBegan = true;
+        }
+
     }
 }
