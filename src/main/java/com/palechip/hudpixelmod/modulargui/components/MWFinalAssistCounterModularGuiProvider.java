@@ -99,7 +99,7 @@ public class MWFinalAssistCounterModularGuiProvider extends SimpleHudPixelModula
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return doesMatchForGame() && enabled;
     }
 
     @Override

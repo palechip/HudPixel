@@ -67,7 +67,7 @@ class FancyChatFilter {
      * message received by the client STARTS with the blacklisted string.
      */
     static final String[] blacklistStart = {
-            "You can put your mouse cursor over a weapon's name ",
+            "You can put your mouse cursor over a weapon's nm ",
             "DON'T LEAVE! You'll receive rewards at the end of the",
             "You are wounded.",
             "You are no longer wounded.",

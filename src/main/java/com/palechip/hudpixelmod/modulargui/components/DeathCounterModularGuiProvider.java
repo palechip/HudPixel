@@ -50,7 +50,7 @@ import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
-import net.minecraft.client.Minecraft;
+import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -65,7 +65,7 @@ public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame() {
-        return !GameDetector.isLobby();
+        return GameDetector.shouldRenderStuff();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return !GameDetector.isLobby() && enabled;
+        return !GameDetector.shouldRenderStuff() && GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS) && enabled;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent event) {
-        if(event.entityLiving.getName().equals(Minecraft.getMinecraft().thePlayer.getName())) deaths++;
+        deaths++;
     }
 
     @Override

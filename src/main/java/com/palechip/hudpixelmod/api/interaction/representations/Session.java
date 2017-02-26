@@ -92,7 +92,7 @@ public class Session implements UuidCallback {
 
     public GameType getGameType() {
         getGameID();
-        this.gameTypeIntern = GameType.getTypeByID(gameID);
+        this.gameTypeIntern = GameType.Companion.getTypeByID(gameID);
         return gameTypeIntern;
     }
 

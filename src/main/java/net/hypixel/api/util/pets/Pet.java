@@ -25,8 +25,8 @@ public class Pet {
             if (stats.get("experience") != null) {
                 experience = ((Number) stats.get("experience")).intValue();
             }
-            if (stats.get("name") != null) {
-                name = (String) stats.get("name");
+            if (stats.get("nm") != null) {
+                name = (String) stats.get("nm");
             }
         }
 
@@ -108,7 +108,7 @@ public class Pet {
                 "stats=" + stats +
                 ", level=" + level +
                 ", experience=" + experience +
-                ", name='" + name + '\'' +
+                ", nm='" + name + '\'' +
                 '}';
     }
 }

@@ -90,7 +90,7 @@ object CoordsDisplayModularGuiProvider : SimpleHudPixelModularGuiProvider() {
     }
 
     override fun showElement(): Boolean {
-        return !GameDetector.isLobby() && enabled
+        return !GameDetector.shouldRenderStuff() && enabled
     }
 
     override fun setupNewGame() {

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 /**
  * We need this adapter because we note GameTypes
- * as both the id and as it's enum name
+ * as both the id and as it's enum nm
  */
 public class GameTypeTypeAdapter implements JsonDeserializer<GameType>, JsonSerializer<GameType> {
 

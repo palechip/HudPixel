@@ -173,7 +173,7 @@ object EasyConfigHandler {
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [String] (or in Kotlin String?]
  * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
- * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
+ * [id] will indicate the nm of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
@@ -182,7 +182,7 @@ object EasyConfigHandler {
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Int] (or in Kotlin Int?]
  * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
- * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
+ * [id] will indicate the nm of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */
@@ -191,7 +191,7 @@ object EasyConfigHandler {
 /**
  * This annotation should be applied to non-final, static (if in Kotlin, [JvmStatic]) fields of type [Boolean] (or in Kotlin Boolean?]
  * that you wish to use as a config property. Use [category] to indicate the config category in the config file,
- * [id] will indicate the name of the property, [comment] will be the comment above the entry in the config file,
+ * [id] will indicate the nm of the property, [comment] will be the comment above the entry in the config file,
  * [def] is the default value, and if [devOnly] (optional) is set to true, this config property will only be set in a
  * development environment.
  */

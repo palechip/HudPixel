@@ -50,7 +50,6 @@ import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.modulargui.HudPixelModularGuiProvider;
-import com.palechip.hudpixelmod.util.GameType;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
@@ -61,13 +60,12 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     private long tickTime = 0;
     private String runningTime = "00:00";
     private long gameStartedTime;
-    private boolean gameStarted;
     private int minutes = 0;
     private int seconds = 0;
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.getCurrentGameType() != GameType.UNKNOWN;
+        return GameDetector.shouldRenderStuff();
     }
 
     public String getRenderingString() {
@@ -83,7 +81,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onTickUpdate() {
-        if (gameStarted && !GameDetector.isLobby()) {
+        if (GameDetector.shouldRenderStuff()) {
             long timeBuff = System.currentTimeMillis() - gameStartedTime;
             String sMin;
             long min = (timeBuff / 1000 / 60);
@@ -101,7 +99,6 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onGameStart() {
-        gameStarted = true;
         gameStartedTime = System.currentTimeMillis();
         // save the current time
         this.tickTime = 0;
@@ -118,7 +115,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public boolean showElement() {
         //return doesMatchForGame(HudPixelMod.instance().gameDetector.getCurrentGame());
-        return doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return doesMatchForGame() && enabled;
     }
 
     @Override

@@ -73,7 +73,7 @@ object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
     }
 
     override fun doesMatchForGame(): Boolean {
-        return !GameDetector.isLobby()
+        return GameDetector.shouldRenderStuff()
     }
 
 
@@ -87,7 +87,7 @@ object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
     }
 
     override fun showElement(): Boolean {
-        return doesMatchForGame() && Minecraft.getMinecraft().thePlayer.inventory.armorInventory.size > 0 && enabled
+        return doesMatchForGame() && Minecraft.getMinecraft().thePlayer.inventory.armorInventory.isNotEmpty() && enabled
     }
 
     var content: String = ""

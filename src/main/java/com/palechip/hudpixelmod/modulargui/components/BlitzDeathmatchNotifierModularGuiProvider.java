@@ -65,7 +65,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ) && GameDetector.shouldRenderStuff();
     }
 
     @Override
@@ -133,7 +133,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public boolean showElement() {
-        return isDisplaying && doesMatchForGame() && !GameDetector.isLobby() && enabled;
+        return isDisplaying && doesMatchForGame() && enabled;
     }
 
     @Override

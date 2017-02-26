@@ -20,7 +20,7 @@ public class NameModularGuiProvider implements IModularGuiProvider {
     public String content() {
         if (Minecraft.getMinecraft().thePlayer == null)
             return ""; //if the player object is null (in the title screen etc) don't show anything
-        return Minecraft.getMinecraft().thePlayer.getName(); //else just return the player's name
+        return Minecraft.getMinecraft().thePlayer.getName(); //else just return the player's nm
     }
 
     @Override

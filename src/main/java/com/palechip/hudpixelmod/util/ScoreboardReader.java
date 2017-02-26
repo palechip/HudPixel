@@ -130,7 +130,7 @@ public class ScoreboardReader {
                 if (score instanceof Score) {
                     // Get the team for the fake player
                     ScorePlayerTeam team = scoreboard.getPlayersTeam(((Score) score).getPlayerName());
-                    // Add the name to the array. formatPlayerName() is used to add prefix and suffix which are used to circumvent the 16 char limit for the name.
+                    // Add the nm to the array. formatPlayerName() is used to add prefix and suffix which are used to circumvent the 16 char limit for the nm.
                     scoreboardNames.add(ScorePlayerTeam.formatPlayerName(team, ((Score) score).getPlayerName()));
                 }
             }

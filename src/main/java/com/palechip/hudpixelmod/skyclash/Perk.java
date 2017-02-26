@@ -59,14 +59,14 @@ public class Perk implements INBTSerializable<NBTTagCompound>, Serializable {
     @Override
     public NBTTagCompound serializeNBT() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("name", name);
+        tag.setString("nm", name);
         tag.setInteger("type", type.ordinal());
         return tag;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        name = nbt.getString("name");
+        name = nbt.getString("nm");
         type = EnumType.values()[nbt.getInteger("type")];
     }
 
