@@ -24,6 +24,16 @@ import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 
 public class RenderUtils {
 
+    private static float partialTicks = 0;
+
+    public static float getPartialTicks() {
+        return partialTicks;
+    }
+
+    public static  void setPartialTicks(float partialTicks) {
+        RenderUtils.partialTicks = partialTicks;
+    }
+
     private static void glPop(){
         //GlStateManager.popMatrix();
         //GlStateManager.popAttrib();
@@ -185,6 +195,44 @@ public class RenderUtils {
         glPush();
     }
 
+    public static void renderRectWithColorFade(int xStart, int yStart, int width, int height, ColorRGBA colorX0, ColorRGBA colorX1, ColorRGBA colorX2, ColorRGBA colorX3){
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.shadeModel(7425);
+
+        Tessellator   tessellator   = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+
+        worldrenderer.pos(xStart, yStart + height, 0.0D).color(colorX0.getRED(), colorX0.getGREEN(), colorX0.getBLUE(), colorX0.getALPHA()).endVertex();
+        worldrenderer.pos(xStart + width, yStart + height, 0.0D).color(colorX1.getRED(), colorX1.getGREEN(), colorX1.getBLUE(), colorX1.getALPHA()).endVertex();
+        worldrenderer.pos(xStart + width, yStart, 0.0D).color(colorX2.getRED(), colorX2.getGREEN(), colorX2.getBLUE(), colorX2.getALPHA()).endVertex();
+        worldrenderer.pos(xStart, yStart, 0.0D).color(colorX3.getRED(), colorX3.getGREEN(), colorX3.getBLUE(), colorX3.getALPHA()).endVertex();
+
+        tessellator.draw();
+
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
+    public static void renderRectWithColorFadeHorizontal(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
+        renderRectWithColorFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop);
+    }
+
+    public static void renderRectWithColorFadeVertical(int xStart, int yStart, int height, int width, ColorRGBA colorLeft, ColorRGBA colorRight){
+        renderRectWithColorFade(xStart, yStart, height, width, colorLeft, colorRight, colorRight, colorLeft);
+    }
+
+
+
 
 
     /**
@@ -212,6 +260,34 @@ public class RenderUtils {
         worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
         worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
         tessellator.draw();
+
+        glPush();
+
+    }
+
+    public static void drawRectWithTexture(double x, double y, double width, double height, int textureID, Float alpha) {
+
+        glPop();
+
+
+        //this line took me like 3 hours to fine out the color wasn't resetting :D
+        GlStateManager.color(1f, 1f, 1f, alpha);
+
+        float f = (float)(1.0F / height);
+        float f1 = (float)(1.0F / width);
+
+        GlStateManager.bindTexture(textureID);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos( x, (y + height), 0.0D).tex(width * f, height + height * f1).endVertex();
+        worldrenderer.pos( (x + width),  (y + height), 0.0D).tex((width + width) * f, (height + height) * f1).endVertex();
+        worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
+        worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
+        tessellator.draw();
+
 
         glPush();
 

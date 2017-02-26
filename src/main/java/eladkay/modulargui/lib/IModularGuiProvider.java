@@ -1,7 +1,7 @@
 package eladkay.modulargui.lib;
 
 /**
- * Classes implementing this interface will be able to serve as providers for elements of the Modular GUI
+ * Classes implementing this interface will be able to serve as providers for templates of the Modular GUI
  *
  * @author Eladkay
  * @since 1.6

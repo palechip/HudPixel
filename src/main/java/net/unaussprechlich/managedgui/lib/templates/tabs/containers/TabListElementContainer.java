@@ -6,15 +6,12 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.tabs.containers;
+package net.unaussprechlich.managedgui.lib.templates.tabs.containers;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import com.palechip.hudpixelmod.extended.util.ImageLoader;
-import net.minecraft.client.renderer.GlStateManager;
-import net.unaussprechlich.managedgui.lib.elements.defaults.container.DefBackgroundContainer;
+import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefBackgroundContainer;
 import net.unaussprechlich.managedgui.lib.util.*;
-
-import static net.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
 
 /**
  * TabListElementContainer Created by Alexander on 24.02.2017.
@@ -24,9 +21,7 @@ public class TabListElementContainer extends DefBackgroundContainer {
 
     public static final int ELEMENT_HEIGHT = 17;
 
-    public boolean isOpen() {
-        return isOpen;
-    }
+    private final TabManager tabManager;
 
     public void setOpen(boolean open) {
         isOpen = open;
@@ -36,35 +31,43 @@ public class TabListElementContainer extends DefBackgroundContainer {
     private ColorRGBA color;
     private String title;
 
-    public TabListElementContainer(String title, ColorRGBA color) {
+    public TabListElementContainer(String title, ColorRGBA color, TabManager tabManager) {
         super(EnumRGBA.GREY_COOL.get(), FontHelper.widthOfString(title) + 10, ELEMENT_HEIGHT);
         this.color = color;
         this.title = title;
+        this.tabManager = tabManager;
+    }
+
+    @Override
+    protected boolean doClickLocal(MouseHandler.ClickType clickType, boolean isThisContainer) {
+        return true;
+    }
+
+    @Override
+    protected boolean doMouseMoveLocal(int mX, int mY) {
+        return true;
     }
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
         if(ees.equals(EnumEventState.PRE)) return  true;
 
-        if(!isOpen){
-            GlStateManager.enableBlend();
+        if(isHover() && !isOpen){
+            ColorRGBA color = new ColorRGBA(60, 60, 70, 255);
+            RenderUtils.renderRectWithColorFade(xStart, yStart, getWidth(), ELEMENT_HEIGHT, EnumRGBA.GREY_COOL.get(), color, color,color);
 
-            drawModalRectWithCustomSizedTexture( //draws the image shown
-                                                 xStart + this.getWidth() - 10, yStart, 0, 0,
-                                                 5, 170, 10, 17, ImageLoader.shadowLocation(), 0.4f);
-
-            GlStateManager.disableBlend();
         }
 
+        if(!isOpen && !isHover()){
 
+            ColorRGBA color = new ColorRGBA(50, 50, 60, 255);
 
-
+            RenderUtils.renderRectWithColorFade(xStart + this.getWidth() - 8, yStart, 8, ELEMENT_HEIGHT, EnumRGBA.GREY_COOL.get(), color,color, EnumRGBA.GREY_COOL.get());
+        }
 
         if(isOpen)  RenderUtils.renderBoxWithColor(xStart, yStart, width, 2, color);
         else        RenderUtils.renderBoxWithColor(xStart, yStart + ELEMENT_HEIGHT -2, width, 2, color);
         FontHelper.draw(ChatFormatting.GRAY + title, xStart + 5, yStart + 4);
-
-
 
         return true;
     }

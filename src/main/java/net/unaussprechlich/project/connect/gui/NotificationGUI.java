@@ -2,12 +2,12 @@ package net.unaussprechlich.project.connect.gui;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.elements.GUI;
-import net.unaussprechlich.managedgui.lib.elements.defaults.container.DefNotificationContainer;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
+import net.unaussprechlich.managedgui.lib.gui.GUI;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefNotificationContainer;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

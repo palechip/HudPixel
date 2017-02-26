@@ -6,63 +6,69 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.tabs;
+package net.unaussprechlich.managedgui.lib.templates.tabs.containers;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.elements.Container;
-import net.unaussprechlich.managedgui.lib.elements.tabs.containers.TabContainer;
-import net.unaussprechlich.managedgui.lib.elements.tabs.containers.TabListManager;
+import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
- * TabManagerContainer Created by Alexander on 24.02.2017.
+ * TabManager Created by Alexander on 24.02.2017.
  * Description:
  **/
-public class TabManagerContainer extends Container{
+public class TabManager extends Container{
+
 
     private ArrayList<TabContainer> tabs = new ArrayList<>();
 
-    private TabListManager tabListManager;
-
     private TabContainer activeTab;
 
-    public TabManagerContainer(TabListManager tabListManager){
-        this.tabListManager = tabListManager;
-        registerChild(tabListManager);
+    public TabManager(){
     }
 
     public void setTabActive(TabContainer tab){
+        if(activeTab == tab) return;
         if(activeTab != null) activeTab.setClosed();
         activeTab = tab;
         activeTab.setOpen();
     }
 
-    public void addTab(TabContainer tab){
-        if(activeTab == null) setTabActive(tab);
-        tabListManager.registerTab(tab);
-        tabs.add(tab);
+
+    public void registerTab(TabContainer tab){
+        if(activeTab == null)setTabActive(tab);
         registerChild(tab);
+        tabs.add(tab);
+        updatePositions();
     }
 
-    public void removeTab(TabContainer tab){
-        tabListManager.unregisterTab(tab);
-        tabs.remove(tab);
+    public void unregisterTab(TabContainer tab){
         unregisterChild(tab);
+        tabs.remove(tab);
+        updatePositions();
+    }
+
+    private void updatePositions(){
+        int offset = 0;
+        for(TabListElementContainer element : tabs.stream().map(TabContainer::getTabListElement).collect(Collectors.toList())){
+            element.setXOffset(offset);
+            offset += element.getWidth();
+        }
     }
 
     @Override
-    protected boolean doClientTickLocal() {
+    protected boolean doClientTickLocal(){
         return true;
     }
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
-        return true;
+       return true;
     }
 
     @Override
@@ -87,17 +93,11 @@ public class TabManagerContainer extends Container{
 
     @Override
     protected <T extends Event> boolean doEventBusLocal(T iEvent) {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
-        return false;
+        return true;
     }
-
-
-
-
-
-
 }

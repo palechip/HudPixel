@@ -13,15 +13,16 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.unaussprechlich.managedgui.lib.elements.GUI;
 import net.unaussprechlich.managedgui.lib.event.events.ScreenResizeEvent;
 import net.unaussprechlich.managedgui.lib.event.events.TimeEvent;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.exceptions.NameInUseException;
+import net.unaussprechlich.managedgui.lib.gui.GUI;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
 import net.unaussprechlich.managedgui.lib.util.LoggerHelperMG;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import java.util.HashMap;
 
@@ -171,7 +172,7 @@ public class GuiManagerMG {
         if(ManagedGui.isIsDisabled()) return;
         if(e.type != RenderGameOverlayEvent.ElementType.ALL || e.isCanceled()) return;
         try {
-
+            RenderUtils.setPartialTicks(e.partialTicks);
             GUIs.values().forEach(gui -> gui.onRender(0, 0));
             GUIsDynamic.values().forEach(gui -> gui.onRender(0, 0));
 

@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  */
 public class ModularGuiRegistry {
 
-    //Should register example elements?
+    //Should register example templates?
     public static boolean shouldRegisterExampleElements = false;
 
-    //List of all elements in the Modular GUI
+    //List of all templates in the Modular GUI
     public static ArrayList<Element> allElements = Lists.newArrayList();
     /**
-     * Example elements.
-     * You should keep a constant of your elements in some sort of registry class.
+     * Example templates.
+     * You should keep a constant of your templates in some sort of registry class.
      */
     public static final Element TITLE = new Element("", new StringAbstractModularGuiProvider(EnumChatFormatting.AQUA + "Modular" + EnumChatFormatting.GOLD + "GUI"));
     public static final Element NAME = new Element("IGN", new NameModularGuiProvider());
@@ -46,8 +46,8 @@ public class ModularGuiRegistry {
 
     static {
 
-        if (shouldRegisterExampleElements) { //if it should register example elements...
-            //register the example elements
+        if (shouldRegisterExampleElements) { //if it should register example templates...
+            //register the example templates
             registerElement(TITLE);
             registerElement(GROUPER);
             registerElement(GROUPER);
@@ -85,11 +85,11 @@ public class ModularGuiRegistry {
         }
 
         /**
-         * Should allow duplicate elements of this type?
+         * Should allow duplicate templates of this type?
          *
          * @param name           The name to be displayed before the content of the element in the modular GUI HUD
          * @param provider       The IModularGuiProvider that provides the content for the element
-         * @param allowDuplicate should duplicate elements of this type be allowed?
+         * @param allowDuplicate should duplicate templates of this type be allowed?
          */
         public Element(String name, IModularGuiProvider provider, boolean allowDuplicate) {
             this.name = name;
@@ -101,7 +101,7 @@ public class ModularGuiRegistry {
         public final String name;
         //the provider of the element
         public final IModularGuiProvider provider;
-        //should this elements be allowed to be registered more than once?
+        //should this templates be allowed to be registered more than once?
         private boolean allowDuplicate = false;
 
         public boolean shouldAllowDuplicates() {

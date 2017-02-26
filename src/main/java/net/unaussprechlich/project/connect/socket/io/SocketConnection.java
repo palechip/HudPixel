@@ -5,7 +5,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import net.minecraft.client.Minecraft;
-import net.unaussprechlich.managedgui.lib.elements.defaults.container.DefNotificationContainer;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefNotificationContainer;
 import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
 import net.unaussprechlich.project.connect.gui.ConnectGUI;
 import org.json.JSONException;

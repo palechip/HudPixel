@@ -6,81 +6,73 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.defaults.container;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.CONSTANTS;
-import net.unaussprechlich.managedgui.lib.elements.Container;
+import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 import net.unaussprechlich.managedgui.lib.util.FontHelper;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 /**
- * DefTextListContainer Created by unaussprechlich on 21.12.2016.
+ * DefTextAutoLineBreakContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class DefTextListContainer extends Container{
+public class DefTextAutoLineBreakContainer extends Container{
 
-    private ArrayList<String> textList = new ArrayList<>();
+    private String text       = "";
+    private List<String>  renderList = new ArrayList<>();
+    private boolean isShadow = false;
 
-    public void addEntry(String s){
-        textList.add(s);
-        updateSize();
+    public String getText() {
+        return text;
     }
 
-    public void setTextList(ArrayList<String> textList){
-        this.textList = textList;
-        updateSize();
+    public void setText(String text) {
+        renderList.clear();
+        this.text = text;
+        if(FontHelper.widthOfString(this.text) <= this.getWidth())
+            renderList.add(text);
+        else
+            renderList = FontHelper.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
+        super.setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
     }
 
-    public int getListSize(){
-        if(textList.isEmpty()) return 0;
-        return textList.size();
+    public void setShadow(boolean shadow) {
+        isShadow = shadow;
     }
 
-    public void clearAll(){
-        textList.clear();
+    public boolean isShadow() {
+        return isShadow;
     }
 
-    public void removeEntry(String s){
-        textList.removeAll(textList.stream()
-                                   .filter(s1 -> s1.equalsIgnoreCase(s))
-                                   .collect(Collectors.toList())
-        );
-    }
-
-    protected void updateSize(){
-        super.setWidth(FontHelper.widthOfString(textList.stream()
-                                                        .sorted((e1, e2) -> e1.length() > e2.length() ? -1 : 1)
-                                                        .findFirst()
-                                                        .orElse(""))
-        );
-        super.setHeight(textList.size() * CONSTANTS.TEXT_Y_OFFSET);
-    }
-
-    public DefTextListContainer(ArrayList<String> textList) {
-        this.textList = textList;
-        updateSize();
+    public DefTextAutoLineBreakContainer(String text, int width) {
+        super.setWidth(width);
+        setText(text);
     }
 
     private void render(int xStart, int yStart){
-        for(String s : textList){
-            FontHelper.drawWithShadow(s, xStart, yStart);
+        for(String s : renderList){
+            if(isShadow) FontHelper.drawWithShadow(s, xStart, yStart);
+            else         FontHelper.draw(s, xStart, yStart);
             yStart += CONSTANTS.TEXT_Y_OFFSET;
         }
     }
 
-    protected void setWidthLocal(int width){
-        super.setWidth(width);
+    @Override
+    public void setWidth(int width) {
+        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextAutoLineBreakContainer] setWidth() is handled automatically use setPadding() instead!");
     }
 
-    protected void setHeightLocal(int height){
-        super.setHeight(height);
+    @Override
+    public void setHeight(int width) {
+        throw new UnsupportedOperationException("[ManagedGuiLib][DefTextAutoLineBreakContainer] setHeight() is handled automatically use setPadding() instead!");
     }
 
     @Override
@@ -125,4 +117,6 @@ public class DefTextListContainer extends Container{
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
         return true;
     }
+
+
 }

@@ -124,7 +124,7 @@ public class HudPixelExtendedEventHandler {
         }
     }
 
-    private static void handleMouseScroll() {
+    public static void handleMouseScroll(int i) {
         mouseClickEvent();
 
         Minecraft mc = Minecraft.getMinecraft();
@@ -134,7 +134,7 @@ public class HudPixelExtendedEventHandler {
 
         int mX = Mouse.getX() / scale;
         int mY = (mc.displayHeight - Mouse.getY()) / scale;
-        int i = Mouse.getDWheel();
+        //int i = Mouse.getDWheel();
         for (IEventHandler iE : getIeventBuffer()) {
             iE.handleMouseInput(i, mX, mY);
         }
@@ -286,7 +286,7 @@ public class HudPixelExtendedEventHandler {
                 getIeventBuffer().forEach(IEventHandler::onClientTick);
 
                 FancyListManager.processLoadingBar();
-                handleMouseScroll();
+                //handleMouseScroll();
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager

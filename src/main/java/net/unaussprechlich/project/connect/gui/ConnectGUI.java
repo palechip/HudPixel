@@ -3,10 +3,10 @@ package net.unaussprechlich.project.connect.gui;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.GuiManagerMG;
-import net.unaussprechlich.managedgui.lib.elements.GUI;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
+import net.unaussprechlich.managedgui.lib.gui.GUI;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 
 /**
@@ -38,6 +38,7 @@ public class ConnectGUI extends GUI {
 
     @Override
     public boolean doRender(int xStart, int yStart) {
+
         return true;
     }
 

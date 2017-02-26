@@ -5,7 +5,7 @@
  *
  * ***************************************************************************
  */
-package net.unaussprechlich.managedgui.lib.elements;
+package net.unaussprechlich.managedgui.lib.gui;
 
 import net.minecraft.client.Minecraft;
 import net.unaussprechlich.managedgui.lib.child.ChildRegistry;

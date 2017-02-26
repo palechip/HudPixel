@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 
 /**
  * This class is meant to show a correct implementation of IModularGuiProvider.
- * This is a static implementation: all elements using it will always have the same value.
+ * This is a static implementation: all templates using it will always have the same value.
  *
  * @author Eladkay
  * @since 1.6
@@ -14,7 +14,7 @@ public class NameModularGuiProvider implements IModularGuiProvider {
     @Override
     public boolean showElement() {
         return true;
-    } //elements using this provider will always be shown.
+    } //templates using this provider will always be shown.
 
     @Override
     public String content() {

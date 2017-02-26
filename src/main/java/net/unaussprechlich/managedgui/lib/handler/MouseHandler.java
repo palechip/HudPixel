@@ -8,6 +8,7 @@
 
 package net.unaussprechlich.managedgui.lib.handler;
 
+import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -39,7 +40,7 @@ public class MouseHandler {
     }
 
     public static void onClientTick() {
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
         if (mc.gameSettings.guiScale == 0) {
             scale = new ScaledResolution(mc).getScaleFactor();
         } else {
@@ -61,36 +62,47 @@ public class MouseHandler {
 
     }
 
-    private static final long clickDelay = 1000;
+    private static final long clickDelay = 150;
     private static long lastTimeClicked;
+    private static boolean mouseButtonDown = false;
     private static boolean doubleClick = false;
 
     private static void handleMouseClick() {
 
-        if (System.currentTimeMillis() > (lastTimeClicked + clickDelay)) {
-            if (doubleClick) {
-                GuiManagerMG.onClick(ClickType.SINGLE);
-            }
-            if (Mouse.isButtonDown(0))
-                lastTimeClicked = System.currentTimeMillis();
 
+
+        if(mouseButtonDown && !Mouse.isButtonDown(0)){
+            mouseButtonDown = false;
             doubleClick = false;
+        }
 
-        } else if (System.currentTimeMillis() < (lastTimeClicked + clickDelay)) {
-            if (!Mouse.isButtonDown(0) && !doubleClick) {
-                doubleClick = true;
-                return;
-            }
-
-            if (Mouse.isButtonDown(0) && doubleClick) {
-                doubleClick = false;
+        if((System.currentTimeMillis() + clickDelay) < lastTimeClicked){
+            if(!mouseButtonDown && Mouse.isButtonDown(0)){
+                mouseButtonDown = true;
                 GuiManagerMG.onClick(ClickType.DOUBLE);
             }
         }
+
+        if(!mouseButtonDown && Mouse.isButtonDown(0) && !doubleClick){
+            mouseButtonDown = true;
+            GuiManagerMG.onClick(ClickType.SINGLE);
+            lastTimeClicked = System.currentTimeMillis();
+        }
+
+
     }
 
     private static void handleMouseScroll() {
+        Mouse.poll();
+        int i = Mouse.getDWheel();
 
-        GuiManagerMG.onScroll(Mouse.getDWheel());
+        if(i != 0){
+            GuiManagerMG.onScroll(i);
+            System.out.println(i);
+
+            //TODO: FIX THAT
+            HudPixelExtendedEventHandler.handleMouseScroll(i);
+
+        }
     }
 }

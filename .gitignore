@@ -79,3 +79,5 @@ $RECYCLE.BIN/
 /.idea/
 /test/
 /src/main/java/net/unaussprechlich/hudpixel/secret/
+/src/main/java/net/unaussprechlich/managedgui/lib/diagram.png
+/src/main/java/net/unaussprechlich/managedgui/lib/ManagedGuiLib.uml

@@ -313,7 +313,7 @@ public class FancyChat {
     /**
      * renders the overlay when you are ingame
      *
-     * @param renderFco renderList with the fco elements
+     * @param renderFco renderList with the fco templates
      * @param res       resolution of the screen
      * @firedBY -> this.onRenderTick()
      */

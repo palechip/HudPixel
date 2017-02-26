@@ -5,13 +5,14 @@
  *
  * ***************************************************************************
  */
-package net.unaussprechlich.managedgui.lib.elements;
+package net.unaussprechlich.managedgui.lib.container;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.child.ChildRegistry;
 import net.unaussprechlich.managedgui.lib.child.IChild;
+import net.unaussprechlich.managedgui.lib.container.listeners.IContainerClickedListener;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
@@ -19,6 +20,8 @@ import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderHelper;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
+
+import java.util.ArrayList;
 
 public abstract class Container extends ChildRegistry implements IContainer, IChild {
 
@@ -30,7 +33,9 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private int xOffset = 0;
     private int yOffset = 0;
 
+    private boolean isHover = false;
     private boolean visible = true;
+    private boolean useViewport = false;
 
     private ContainerSide border = new ContainerSide();
     private ContainerSide margin = new ContainerSide();
@@ -38,6 +43,8 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     private ColorRGBA borderRGBA = EnumRGBA.TRANSPARENT.get();
     private ColorRGBA backgroundRGBA = EnumRGBA.TRANSPARENT.get();
+
+    private ArrayList<IContainerClickedListener> clickedListeners = new ArrayList<>();
 
     private ResourceLocation backgroundImage = null;
 
@@ -82,16 +89,40 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     //METHODS ----------------------------------------------------------------------------------------------------------
 
-    private boolean checkIfMouseOverContainer(int mX, int mY) {
+    public boolean checkIfMouseOverContainer(int mX, int mY) {
         return (mX > getXStartBorder() && mX < xStart + padding.RIGHT() + border.RIGHT() + width
                 && mY > getYStartBorder() && mY < yStart + padding.BOTTOM() + border.BOTTOM() + height);
+    }
+
+    public void registerClickedListener(IContainerClickedListener listener){
+        clickedListeners.add(listener);
+    }
+
+    public void unregisterClickedListener(IContainerClickedListener listener){
+        clickedListeners.remove(listener);
+    }
+
+    protected void updateXYStart(int xStart, int yStart){
+        this.xStart = xStart + xOffset + padding.LEFT() + margin.LEFT() + border.LEFT();
+        this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.LEFT();
+    }
+
+    public void enableViewport() {
+        this.useViewport = true;
+    }
+
+    public void disableViewport() {
+        this.useViewport = false;
+    }
+
+    public boolean isUseViewport() {
+        return useViewport;
     }
 
     //EVENT STUFF ------------------------------------------------------------------------------------------------------
 
     @Override
     public boolean doClientTick() {
-        //LoggerHelperMG.logInfo("Test: Container.doClientTick()");
         return doClientTickLocal();
     }
 
@@ -99,14 +130,15 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     @Override
     public boolean doRender(int xStart, int yStart){
-        this.xStart = xStart + xOffset + padding.LEFT() + margin.LEFT() + border.LEFT();
-        this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.LEFT();
-
+        updateXYStart(xStart, yStart);
         if(!visible) return false;
+
 
         if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.PRE)) return false;
         RenderHelper.renderContainer(this);
         if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.POST)) return false;
+
+
         return true;
     }
 
@@ -117,18 +149,22 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     @Override
     public boolean doClick(MouseHandler.ClickType clickType) {
-        boolean isThisContainer = checkIfMouseOverContainer(MouseHandler.getmX(), MouseHandler.getmY());
-        return doClickLocal(clickType, isThisContainer);
+
+        if(isHover()){
+            clickedListeners.forEach(listener -> listener.onContainerClicked(clickType, this));
+        }
+
+        return doClickLocal(clickType, this.isHover);
     }
 
     @Override
     public boolean doScroll(int i) {
-        boolean isThisContainer = checkIfMouseOverContainer(MouseHandler.getmX(), MouseHandler.getmY());
-        return doScrollLocal(i, isThisContainer);
+        return doScrollLocal(i, this.isHover);
     }
 
     @Override
     public boolean doMouseMove(int mX, int mY) {
+        this.isHover = checkIfMouseOverContainer(mX, mY);
         return doMouseMoveLocal(mX, mY);
     }
 
@@ -199,6 +235,9 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     public boolean isVisible() {
         return visible;
     }
+
+    @Override
+    public boolean isHover() {return isHover;}
 
     @Override
     public int getYStart() {
@@ -347,4 +386,6 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     public void setBorder(ContainerSide border) {
         this.border = border;
     }
+
+
 }

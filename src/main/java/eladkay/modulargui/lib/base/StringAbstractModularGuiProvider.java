@@ -27,7 +27,7 @@ public class StringAbstractModularGuiProvider implements IModularGuiProvider {
     @Override
     public boolean showElement() {
         return true;
-    } //elements using this provider will always be shown.
+    } //templates using this provider will always be shown.
 
     @Override
     public String content() {

@@ -8,7 +8,7 @@
 package net.unaussprechlich.managedgui.lib.util;
 
 import net.minecraft.util.ResourceLocation;
-import net.unaussprechlich.managedgui.lib.elements.Container;
+import net.unaussprechlich.managedgui.lib.container.Container;
 
 public class RenderHelper {
 

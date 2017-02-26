@@ -14,10 +14,10 @@ import net.minecraft.client.gui.ScaledResolution;
 public class DisplayUtil {
 
     public static int getMcScale() {
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
         int scale = 1;
         if (mc.gameSettings.guiScale == 0) {
-            @SuppressWarnings("LocalVariableDeclarationSideOnly") ScaledResolution res = new ScaledResolution(mc);
+            ScaledResolution res = new ScaledResolution(mc);
             scale = res.getScaleFactor();
         } else {
             scale = mc.gameSettings.guiScale;

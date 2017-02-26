@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements;
+package net.unaussprechlich.managedgui.lib.container;
 
 import net.minecraft.util.ResourceLocation;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
@@ -40,6 +40,7 @@ public interface IContainer {
     int getHeightPadding();
 
     boolean isVisible();
+    boolean isHover();
 
     ColorRGBA getBorderRGBA();
     ColorRGBA getBackgroundRGBA();

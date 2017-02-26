@@ -15,7 +15,7 @@ import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 import java.util.ArrayList;
 
 /**
- * This class is responsible for rendering the elements of the modular GUI.
+ * This class is responsible for rendering the templates of the modular GUI.
  *
  * @author Eladkay
  * @since 1.5
@@ -34,7 +34,7 @@ public class Renderer {
         if(GeneralConfigSettings.getHudDisabled()) return;
         if (!HudPixelMod.isHypixelNetwork() && !HudPixelMod.IS_DEBUGGING) return;
         if (!(Minecraft.getMinecraft().inGameHasFocus)) return;
-        ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the elements
+        ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the templates
         int w = GeneralConfigSettings.getDisplayXOffset(); //width, change this if needed
         int h = GeneralConfigSettings.getDisplayYOffset(); //height, you shouldn't touch this usually
         if (isEnabled) { //if enabled...

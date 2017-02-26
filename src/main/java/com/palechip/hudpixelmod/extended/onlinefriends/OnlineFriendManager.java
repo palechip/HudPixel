@@ -150,7 +150,7 @@ public class OnlineFriendManager extends FancyListManager implements IUpdater {
 
     @Override
     public void onClientTick() {
-        if ((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty()) {
+        if ((System.currentTimeMillis() > lastUpdateOnline + UPDATE_COOLDOWN_ONLINE) && !localStorageFCO.isEmpty() && enabled) {
             lastUpdateOnline = System.currentTimeMillis();
             new OnlineFriendsUpdater(this);
         }

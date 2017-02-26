@@ -6,51 +6,27 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.tabs.containers;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.elements.Container;
+import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 
 /**
- * TabContainer Created by Alexander on 24.02.2017.
+ * DefBackgroundContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class TabContainer extends Container{
+public class DefBackgroundContainer extends Container {
 
-    private TabElementContainer     tabElement;
-    private TabListElementContainer tabListElement;
+    public DefBackgroundContainer(ColorRGBA color, int width, int height) {
+        setBackgroundRGBA(color);
+        setWidth(width);
+        setHeight(height);
 
-    public TabContainer(TabListElementContainer tabListElement, TabElementContainer tabElement){
-        this.tabListElement = tabListElement;
-        this.tabElement = tabElement;
-        setup();
-    }
-
-    private void setup(){
-        registerChild(this.tabElement);
-        tabElement.setYOffset(TabListElementContainer.ELEMENT_HEIGHT);
-    }
-
-    public TabElementContainer getTabElement() {
-        return tabElement;
-    }
-
-    public TabListElementContainer getTabListElement() {
-        return tabListElement;
-    }
-
-    public void setClosed(){
-        tabListElement.setOpen(false);
-        setVisible(false);
-    }
-
-    public void setOpen(){
-        tabListElement.setOpen(true);
-        setVisible(true);
     }
 
     @Override

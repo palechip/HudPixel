@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.defaults.container;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;

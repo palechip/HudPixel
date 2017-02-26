@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.elements.defaults.container;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.unaussprechlich.managedgui.lib.CONSTANTS;
 import net.unaussprechlich.managedgui.lib.util.FontHelper;
