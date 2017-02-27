@@ -69,8 +69,6 @@ public class MouseHandler {
 
     private static void handleMouseClick() {
 
-
-
         if(mouseButtonDown && !Mouse.isButtonDown(0)){
             mouseButtonDown = false;
             doubleClick = false;
@@ -98,7 +96,6 @@ public class MouseHandler {
 
         if(i != 0){
             GuiManagerMG.onScroll(i);
-            System.out.println(i);
 
             //TODO: FIX THAT
             HudPixelExtendedEventHandler.handleMouseScroll(i);

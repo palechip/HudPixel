@@ -33,7 +33,7 @@ public abstract class ContainerFrame extends Container {
         setWidth(width);
         setHeight(height);
         setBackgroundRGBA(colorRGBA);
-        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
+        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
     }
 
     public void updateFrame(){
@@ -44,7 +44,7 @@ public abstract class ContainerFrame extends Container {
     public <T extends Event> boolean doEventBus(T event) {
 
         if(event.getID() == EnumDefaultEvents.SCALE_CHANGED.get()){
-            frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
+            frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
         }
 
         return super.doEventBus(event);
@@ -68,20 +68,21 @@ public abstract class ContainerFrame extends Container {
 
         GlStateManager.pushMatrix();
 
+
         frameBuffer.framebufferRenderTexture(x - 5, y, getWidth() , getHeight());
 
         GlStateManager.popMatrix();
 
+
         if(!requireFrameUpdate) return false;
 
         GlStateManager.pushMatrix();
-
-        //frameBuffer.framebufferClear();
+        GlStateManager.pushAttrib();
 
         frameBuffer.framebufferClear();
-        frameBuffer.deleteFramebuffer();
+        //frameBuffer.deleteFramebuffer();
 
-        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
+        //frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
 
         frameBuffer.bindFramebuffer(false);
 
@@ -100,6 +101,7 @@ public abstract class ContainerFrame extends Container {
         Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
 
         GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
 
         return false;
 

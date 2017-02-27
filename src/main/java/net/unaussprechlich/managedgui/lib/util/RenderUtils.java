@@ -150,12 +150,13 @@ public class RenderUtils {
 
         glPop();
         GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
         GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 1);
         GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
@@ -165,6 +166,7 @@ public class RenderUtils {
         tessellator.draw();
 
         GlStateManager.enableTexture2D();
+        GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
         glPush();
 
@@ -175,12 +177,15 @@ public class RenderUtils {
 
         glPop();
         GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
         GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
+        GlStateManager.tryBlendFuncSeparate(770, 770, 1, 0);
+
 
         GlStateManager.color(red, green, blue, alpha);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
@@ -191,6 +196,7 @@ public class RenderUtils {
         tessellator.draw();
 
         GlStateManager.enableTexture2D();
+        GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
         glPush();
     }
@@ -200,7 +206,7 @@ public class RenderUtils {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.enableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 1);
         GlStateManager.shadeModel(7425);
         GlStateManager.color(1f, 1f, 1f, 1f);
 
@@ -221,6 +227,8 @@ public class RenderUtils {
         GlStateManager.disableAlpha();
         GlStateManager.enableTexture2D();
     }
+
+
 
     public static void renderRectWithColorFadeHorizontal(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
         renderRectWithColorFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop);

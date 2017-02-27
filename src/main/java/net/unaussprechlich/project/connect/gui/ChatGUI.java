@@ -7,11 +7,15 @@ import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.gui.GUI;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefBackgroundContainerFrame;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefScrollableContainer;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefTextContainer;
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.IScrollSpacerRenderer;
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabContainer;
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabListElementContainer;
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabManager;
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
 import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 /**
  * ChatGUI Created by Alexander on 24.02.2017.
@@ -29,11 +33,25 @@ public class ChatGUI extends GUI{
 
         registerChild(tabManager);
 
+        DefScrollableContainer scrollALL = new DefScrollableContainer(EnumRGBA.GREY_COOL.get(), WIDTH, HEIGHT, new IScrollSpacerRenderer() {
+            @Override
+            public void render(int xStart, int yStart, int width) {
+                RenderUtils.renderBoxWithColor(xStart + 2, yStart, width -4, 1, EnumRGBA.GREY_T.get());
+            }
+
+            @Override
+            public int getSpacerHeight() {
+                return 3;
+            }
+        });
+
+        scrollALL.registerScrollElement(new DefTextContainer("Ich bin die Nummer 1 :)"));
+        scrollALL.registerScrollElement(new DefTextContainer("Ich bin die Nummer 2 :)"));
+        scrollALL.registerScrollElement(new DefTextContainer("Ich bin die Nummer 3 :)"));
+        scrollALL.registerScrollElement(new DefTextContainer("Ich bin die Nummer 4 :)"));
 
 
-
-
-        tabManager.registerTab(new TabContainer(new TabListElementContainer("ALL", EnumRGBA.WHITE.get(), tabManager),  new DefBackgroundContainerFrame(WIDTH, HEIGHT, EnumRGBA.WHITE.get()), tabManager));
+        tabManager.registerTab(new TabContainer(new TabListElementContainer("ALL", EnumRGBA.WHITE.get(), tabManager),  scrollALL, tabManager));
         tabManager.registerTab(new TabContainer(new TabListElementContainer("Party", EnumRGBA.BLUE.get(), tabManager), new DefBackgroundContainerFrame(WIDTH, HEIGHT, EnumRGBA.BLUE.get()), tabManager));
         tabManager.registerTab(new TabContainer(new TabListElementContainer("Guild", EnumRGBA.GREEN.get(), tabManager), new DefBackgroundContainerFrame(WIDTH, HEIGHT, EnumRGBA.GREEN.get()), tabManager));
         tabManager.registerTab(new TabContainer(new TabListElementContainer("Private", EnumRGBA.RED.get(), tabManager), new DefBackgroundContainerFrame(WIDTH, HEIGHT, EnumRGBA.RED.get()), tabManager));
