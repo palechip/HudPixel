@@ -21,10 +21,6 @@ public class ConnectGUI extends GUI {
     public ConnectGUI() {
         GuiManagerMG.addGUI("NotificationGUI", notificationGUI);
         GuiManagerMG.addGUI("ConnectChatGui" , chatGUI);
-
-        notificationGUI.setXStart(5);
-        notificationGUI.setYStart(5);
-
     }
 
     public static NotificationGUI getNotificationGUI() {
@@ -33,6 +29,7 @@ public class ConnectGUI extends GUI {
 
     @Override
     public boolean doClientTick() {
+
         return true;
     }
 

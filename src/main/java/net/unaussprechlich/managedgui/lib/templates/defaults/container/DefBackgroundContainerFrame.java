@@ -6,63 +6,25 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.templates.tabs.containers;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.container.Container;
+import net.unaussprechlich.managedgui.lib.container.ContainerFrame;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 /**
- * TabContainer Created by Alexander on 24.02.2017.
+ * DefBackgroundContainerFrame Created by Alexander on 26.02.2017.
  * Description:
  **/
-public class TabContainer extends Container{
+public class DefBackgroundContainerFrame extends ContainerFrame{
 
-    private Container               container;
-    private TabListElementContainer tabListElement;
-
-    private final TabManager tabManager;
-
-    public TabContainer(TabListElementContainer tabListElement, Container container, TabManager tabManager){
-        this.tabListElement = tabListElement;
-        this.container = container;
-        this.tabManager = tabManager;
-        setup();
-    }
-
-    private void setup(){
-        registerChild(this.container);
-        registerChild(this.tabListElement);
-        container.setYOffset(TabListElementContainer.ELEMENT_HEIGHT);
-        tabListElement.registerClickedListener((clickType, container) -> {
-            if(clickType.equals(MouseHandler.ClickType.SINGLE)) setActive();
-        });
-        setClosed();
-    }
-
-    public void setActive(){
-        tabManager.setTabActive(this);
-    }
-
-    public Container getContainer() {
-        return container;
-    }
-
-    public TabListElementContainer getTabListElement() {
-        return tabListElement;
-    }
-
-    public void setClosed(){
-        tabListElement.setOpen(false);
-        container.setVisible(false);
-    }
-
-    public void setOpen(){
-        tabListElement.setOpen(true);
-        container.setVisible(true);
+    public DefBackgroundContainerFrame(int width, int height, ColorRGBA colorRGBA) {
+        super(width, height, colorRGBA);
     }
 
     @Override
@@ -72,6 +34,10 @@ public class TabContainer extends Container{
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
+
+        if(ees.equals(EnumEventState.PRE)) {
+            RenderUtils.renderBoxWithColor(xStart, yStart, width, height, getBackgroundRGBA());
+        }
         return true;
     }
 

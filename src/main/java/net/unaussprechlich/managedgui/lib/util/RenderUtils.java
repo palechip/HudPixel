@@ -202,6 +202,7 @@ public class RenderUtils {
         GlStateManager.enableAlpha();
         GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
         GlStateManager.shadeModel(7425);
+        GlStateManager.color(1f, 1f, 1f, 1f);
 
         Tessellator   tessellator   = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
@@ -214,8 +215,6 @@ public class RenderUtils {
         worldrenderer.pos(xStart, yStart, 0.0D).color(colorX3.getRED(), colorX3.getGREEN(), colorX3.getBLUE(), colorX3.getALPHA()).endVertex();
 
         tessellator.draw();
-
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();

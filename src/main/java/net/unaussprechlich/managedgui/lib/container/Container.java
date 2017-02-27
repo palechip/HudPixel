@@ -35,7 +35,6 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     private boolean isHover = false;
     private boolean visible = true;
-    private boolean useViewport = false;
 
     private ContainerSide border = new ContainerSide();
     private ContainerSide margin = new ContainerSide();
@@ -107,17 +106,6 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.LEFT();
     }
 
-    public void enableViewport() {
-        this.useViewport = true;
-    }
-
-    public void disableViewport() {
-        this.useViewport = false;
-    }
-
-    public boolean isUseViewport() {
-        return useViewport;
-    }
 
     //EVENT STUFF ------------------------------------------------------------------------------------------------------
 
@@ -133,13 +121,11 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         updateXYStart(xStart, yStart);
         if(!visible) return false;
 
-
         if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.PRE)) return false;
+
         RenderHelper.renderContainer(this);
-        if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.POST)) return false;
 
-
-        return true;
+        return doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.POST);
     }
 
     @Override
@@ -369,7 +355,7 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     @Override
     public void setBorder(int value) {
-        this.border.RIGHT(value).LEFT(value).TOP(value).BOTTOM(value);;
+        this.border.RIGHT(value).LEFT(value).TOP(value).BOTTOM(value);
     }
 
     @Override

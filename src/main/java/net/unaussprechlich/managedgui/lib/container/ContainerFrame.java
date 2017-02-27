@@ -11,7 +11,12 @@ package net.unaussprechlich.managedgui.lib.container;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.unaussprechlich.managedgui.lib.child.IChild;
-import net.unaussprechlich.managedgui.lib.util.*;
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
+import net.unaussprechlich.managedgui.lib.event.util.Event;
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
+import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
+import net.unaussprechlich.managedgui.lib.util.EnumEventState;
+import net.unaussprechlich.managedgui.lib.util.FrameBufferObj;
 import org.lwjgl.opengl.Display;
 
 /**
@@ -28,13 +33,23 @@ public abstract class ContainerFrame extends Container {
         setWidth(width);
         setHeight(height);
         setBackgroundRGBA(colorRGBA);
-        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
+        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
     }
 
     public void updateFrame(){
         requireFrameUpdate = true;
     }
 
+    @Override
+    public <T extends Event> boolean doEventBus(T event) {
+
+        if(event.getID() == EnumDefaultEvents.SCALE_CHANGED.get()){
+            frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
+        }
+
+        return super.doEventBus(event);
+
+    }
 
     @Override
     public boolean doClientTick() {
@@ -51,39 +66,40 @@ public abstract class ContainerFrame extends Container {
         final int x = getXStart();
         final int y = getYStart();
 
-        int scale = DisplayUtil.getMcScale();
+        GlStateManager.pushMatrix();
 
-        frameBuffer.framebufferRenderTexture(x, y, getWidth() , getHeight());
+        frameBuffer.framebufferRenderTexture(x - 5, y, getWidth() , getHeight());
+
+        GlStateManager.popMatrix();
 
         if(!requireFrameUpdate) return false;
 
         GlStateManager.pushMatrix();
-        GlStateManager.pushAttrib();
 
+        //frameBuffer.framebufferClear();
+
+        frameBuffer.framebufferClear();
         frameBuffer.deleteFramebuffer();
 
-        frameBuffer = new FrameBufferObj(getWidth() * scale, getHeight() *scale, false);
+        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), true);
 
         frameBuffer.bindFramebuffer(false);
 
         GlStateManager.viewport(0, 0, Display.getWidth(), Display.getHeight() );
 
-        RenderUtils.renderBoxWithColor(x, y, getWidth(), getHeight(), getBackgroundRGBA());
-
-        if(doRenderTickLocal(x, y, getWidth(), getWidth(), EnumEventState.PRE)){
+        if(this.doRenderTickLocal(x, y, getWidth(), getHeight(), EnumEventState.PRE)){
             for(IChild child : getChilds()){
                 child.onRender(x, y);
             }
         }
 
-        doRenderTickLocal(x, y, getWidth(), getHeight(), EnumEventState.POST);
+        this.doRenderTickLocal(x, y, getWidth(), getHeight(), EnumEventState.POST);
 
         frameBuffer.unbindFramebuffer();
 
         Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
 
         GlStateManager.popMatrix();
-        GlStateManager.popAttrib();
 
         return false;
 
