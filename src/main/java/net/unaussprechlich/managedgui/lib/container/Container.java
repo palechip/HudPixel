@@ -17,7 +17,7 @@ import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
+import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderHelper;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 
@@ -40,8 +40,8 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private ContainerSide margin = new ContainerSide();
     private ContainerSide padding = new ContainerSide();
 
-    private ColorRGBA borderRGBA = EnumRGBA.TRANSPARENT.get();
-    private ColorRGBA backgroundRGBA = EnumRGBA.TRANSPARENT.get();
+    private ColorRGBA borderRGBA = RGBA.TRANSPARENT.get();
+    private ColorRGBA backgroundRGBA = RGBA.TRANSPARENT.get();
 
     private ArrayList<IContainerClickedListener> clickedListeners = new ArrayList<>();
 

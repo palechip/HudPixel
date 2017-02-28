@@ -73,7 +73,7 @@ public class CooldownDisplayModule {
         if (meta > 0) itemStack.setItemDamage(meta);
     }
 
-    public void renderModule(float xStart, float yStart) {
+    public void renderModule(int xStart, int yStart) {
         if (isHidden) return;
         if (!Objects.equals(coolDown, "")) {
             RenderUtils.renderBoxWithColor(xStart - 2, yStart - 2, size, size, 1f, 0f, 0f, 0.5f);

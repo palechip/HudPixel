@@ -99,19 +99,19 @@ public class CooldownDisplayManager implements IEventHandler {
 
         if (cdModules.isEmpty() || !enabled || GameDetector.isLobby()) return;
 
-        @SuppressWarnings("LocalVariableDeclarationSideOnly") Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getMinecraft();
         int scale;
         if (mc.gameSettings.guiScale == 0) {
-            @SuppressWarnings("LocalVariableDeclarationSideOnly") ScaledResolution res = new ScaledResolution(mc);
+            ScaledResolution res = new ScaledResolution(mc);
             scale = res.getScaleFactor();
         } else {
             scale = mc.gameSettings.guiScale;
         }
 
-        float xCenter = (Minecraft.getMinecraft().displayWidth / 2 / scale) - ((cdModules.size() / 2) * 25) + 4;
-        float yCenter = Minecraft.getMinecraft().displayHeight / 2 / scale;
+        int xCenter = (Minecraft.getMinecraft().displayWidth / 2 / scale) - ((cdModules.size() / 2) * 25) + 4;
+        int yCenter = Minecraft.getMinecraft().displayHeight / 2 / scale;
         for (int i = 0; i < cdModules.size(); i++)
-            cdModules.get(i).renderModule(xCenter + xOffsetCooldownDisplay + (i * 25), yCenter + yOffsetCooldownDisplay);
+            cdModules.get(i).renderModule(Math.round(xCenter + xOffsetCooldownDisplay + (i * 25)), yCenter + yOffsetCooldownDisplay);
     }
 
     @Override

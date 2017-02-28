@@ -16,7 +16,7 @@ import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
+import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 /**
@@ -36,7 +36,7 @@ public class DefNotificationContainer extends DefBackgroundContainer{
 
 
     public DefNotificationContainer(String message, String title, ColorRGBA color, int showtime_sec) {
-        super(EnumRGBA.GREY_COOL.get(), 400, 100);
+        super(RGBA.P1B1_DEF.get(), 400, 100);
         this.message = message;
         this.title = title;
         this.color = color;

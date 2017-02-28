@@ -10,10 +10,8 @@ package net.unaussprechlich.managedgui.lib.util;
 import com.palechip.hudpixelmod.config.GeneralConfigSettings;
 import com.palechip.hudpixelmod.extended.util.ImageLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
@@ -21,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
+import org.lwjgl.opengl.GL11;
 
 public class RenderUtils {
 
@@ -34,6 +33,12 @@ public class RenderUtils {
         RenderUtils.partialTicks = partialTicks;
     }
 
+    public static void onClientTick(){
+        processLoadingBar();
+    }
+
+    //##################################################################################################################
+
     private static void glPop(){
         //GlStateManager.popMatrix();
         //GlStateManager.popAttrib();
@@ -43,6 +48,8 @@ public class RenderUtils {
         //GlStateManager.pushMatrix();
         //GlStateManager.pushAttrib();
     }
+
+    //##################################################################################################################
 
     /**
      * Draw a 1 pixel wide vertical line.
@@ -60,8 +67,6 @@ public class RenderUtils {
 
 
     public static void renderItemStackWithText(int id, int meta, int xStart, int yStart, String overlay){
-
-        glPop();
         GlStateManager.enableBlend();
         RenderHelper.enableStandardItemLighting();
 
@@ -75,12 +80,10 @@ public class RenderUtils {
 
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableBlend();
-        glPush();
     }
 
     public static void renderItemStack(ItemStack iStack, int xStart, int yStart){
 
-        glPop();
         GlStateManager.enableBlend();
         RenderHelper.enableStandardItemLighting();
 
@@ -93,11 +96,10 @@ public class RenderUtils {
         double dur = 1 - iStack.getItem().getDurabilityForDisplay(iStack);
 
         if(iStack.getItem().showDurabilityBar(iStack))
-            renderBoxWithColor(xStart + 1, yStart + 18, 18 * dur, 1, (float)(1 - dur), (float)dur, 0, 1);
+            renderBoxWithColor(xStart + 1, yStart + 18, (int) Math.round(18 * dur), 1, (float)(1 - dur), (float)dur, 0, 1);
 
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableBlend();
-        glPush();
     }
 
     public static void renderItemStackHudBackground(ItemStack iStack, int xStart, int yStart){
@@ -136,6 +138,8 @@ public class RenderUtils {
         );
     }
 
+    //##################################################################################################################
+
     public static void renderBoxWithHudBackground(int xStart, int yStart, int width, int height){
         renderBoxWithColor(
                 xStart, yStart, width, height,
@@ -146,9 +150,7 @@ public class RenderUtils {
         );
     }
 
-    public static void renderBoxWithColor(float xStart, float yStart, int width, int height, ColorRGBA color) {
-
-        glPop();
+    public static void renderBoxWithColor(int xStart, int yStart, int width, int height, ColorRGBA color) {
         GlStateManager.enableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.disableTexture2D();
@@ -156,7 +158,8 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 1);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+
         GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
@@ -168,14 +171,9 @@ public class RenderUtils {
         GlStateManager.enableTexture2D();
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
-        glPush();
-
     }
 
-    public static void renderBoxWithColor(double xStart, double yStart, double width, double height,
-                                          float red, float green, float blue, float alpha){
-
-        glPop();
+    public static void renderBoxWithColorBlend(int xStart, int yStart, int width, int height, ColorRGBA color, int sfatorAlpha, int dfactorAlpha){
         GlStateManager.enableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.disableTexture2D();
@@ -183,30 +181,62 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, sfatorAlpha, dfactorAlpha);
 
-        GlStateManager.tryBlendFuncSeparate(770, 770, 1, 0);
+        GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
 
-
-        GlStateManager.color(red, green, blue, alpha);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
         worldrenderer.pos(xStart + width, yStart + height, 0.0D).endVertex();
         worldrenderer.pos(xStart + width, yStart, 0.0D).endVertex();
         worldrenderer.pos(xStart, yStart, 0.0D).endVertex();
+
         tessellator.draw();
+
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
-        glPush();
     }
 
-    public static void renderRectWithColorFade(int xStart, int yStart, int width, int height, ColorRGBA colorX0, ColorRGBA colorX1, ColorRGBA colorX2, ColorRGBA colorX3){
+
+    public static void renderBoxWithColorBlend_s1_d0(int xStart, int yStart, int width, int height, ColorRGBA color) {
+        renderBoxWithColorBlend(xStart, yStart, width, height, color, 1, 0);
+    }
+
+    public static void renderBoxWithColorBlend_s1_d1(int xStart, int yStart, int width, int height, ColorRGBA color) {
+        renderBoxWithColorBlend(xStart, yStart, width, height, color, 1, 1);
+    }
+
+    public static void renderBoxWithColor(int xStart, int yStart, int width, int height,
+                                          float red, float green, float blue, float alpha){
+        renderBoxWithColor(xStart, yStart, width, height, new ColorRGBA(red, green, blue, alpha));
+    }
+
+    public static void renderBoxWithColor(float xStart, float yStart, float width, float height,
+                                          float red, float green, float blue, float alpha){
+        renderBoxWithColor(Math.round(xStart), Math.round(yStart), Math.round(width), Math.round(height), new ColorRGBA(red, green, blue, alpha));
+    }
+
+    public static void renderBoxWithColor(double xStart, double yStart, double width, double height,
+                                          float red, float green, float blue, float alpha){
+        renderBoxWithColor((int)Math.round(xStart),(int) Math.round(yStart),(int) Math.round(width),(int) Math.round(height), new ColorRGBA(red, green, blue, alpha));
+    }
+
+    //##################################################################################################################
+
+    public static void renderRectWithColorBlendFade(int xStart, int yStart, int width, int height,
+                                                    ColorRGBA colorX0, ColorRGBA colorX1, ColorRGBA colorX2, ColorRGBA colorX3,
+                                                    int sfactorAlpha, int dfactorAlpha){
 
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.enableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 1);
+
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, sfactorAlpha, dfactorAlpha);
+
         GlStateManager.shadeModel(7425);
         GlStateManager.color(1f, 1f, 1f, 1f);
 
@@ -222,20 +252,61 @@ public class RenderUtils {
 
         tessellator.draw();
 
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.enableTexture2D();
     }
 
-
-
-    public static void renderRectWithColorFadeHorizontal(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
-        renderRectWithColorFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop);
+    public static void renderRectWithColorBlendFade_s1_d0(int xStart, int yStart, int width, int height,
+                                                           ColorRGBA colorX0, ColorRGBA colorX1, ColorRGBA colorX2, ColorRGBA colorX3){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorX0, colorX1, colorX2, colorX3, 1, 0);
     }
 
-    public static void renderRectWithColorFadeVertical(int xStart, int yStart, int height, int width, ColorRGBA colorLeft, ColorRGBA colorRight){
-        renderRectWithColorFade(xStart, yStart, height, width, colorLeft, colorRight, colorRight, colorLeft);
+    public static void renderRectWithColorBlendFade_s1_d1(int xStart, int yStart, int width, int height,
+                                                          ColorRGBA colorX0, ColorRGBA colorX1, ColorRGBA colorX2, ColorRGBA colorX3){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorX0, colorX1, colorX2, colorX3, 1, 1);
+    }
+
+    public static void renderRectWithColorFadeHorizontal_s1_d0(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop, 1, 0);
+    }
+
+    public static void renderRectWithColorFadeVertical_s1_d0(int xStart, int yStart, int width, int height, ColorRGBA colorLeft, ColorRGBA colorRight){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorLeft, colorRight, colorRight, colorLeft, 1, 0);
+    }
+
+    public static void renderRectWithColorFadeHorizontal_s1_d1(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop, 1, 1);
+    }
+
+    public static void renderRectWithColorFadeVertical_s1_d1(int xStart, int yStart, int width, int height, ColorRGBA colorLeft, ColorRGBA colorRight){
+        renderRectWithColorBlendFade(xStart, yStart, width, height, colorLeft, colorRight, colorRight, colorLeft, 1, 1);
+    }
+
+    public static void renderRectWithInlineShadow_s1_d1(int xStart, int yStart, int height, int width, ColorRGBA shadowColor, ColorRGBA fillColor, int fade){
+
+        int fade2 = fade * 2;
+
+        if(height > fade2){
+            RenderUtils.renderRectWithColorFadeVertical_s1_d1(xStart, yStart + fade, fade, height - fade2, shadowColor , fillColor);
+            RenderUtils.renderRectWithColorFadeVertical_s1_d1(xStart + width - fade, yStart + fade, fade , height - fade2, fillColor , shadowColor);
+        }
+
+        if(width > fade2){
+            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart + fade , yStart, width - fade2, fade, shadowColor , fillColor);
+            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart + fade, yStart + height - fade,  width - fade2, fade, fillColor , shadowColor);
+        }
+
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + fade, yStart + fade, width - fade2 , height - fade2, fillColor );
+
+        RenderUtils.renderRectWithColorBlendFade_s1_d1(xStart , yStart , fade, fade, shadowColor , fillColor, shadowColor, shadowColor);
+        RenderUtils.renderRectWithColorBlendFade_s1_d1(xStart + width - fade, yStart, fade, fade, fillColor , shadowColor, shadowColor, shadowColor);
+
+        RenderUtils.renderRectWithColorBlendFade_s1_d1(xStart, yStart + height - fade, fade, fade, shadowColor , shadowColor, fillColor, shadowColor);
+        RenderUtils.renderRectWithColorBlendFade_s1_d1(xStart + width - fade,  yStart + height - fade, fade, fade, shadowColor , shadowColor, shadowColor, fillColor);
     }
 
 
@@ -246,8 +317,6 @@ public class RenderUtils {
      * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
     public static void drawModalRectWithCustomSizedTexture(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
-
-        glPop();
 
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -268,15 +337,9 @@ public class RenderUtils {
         worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
         tessellator.draw();
 
-        glPush();
-
     }
 
     public static void drawRectWithTexture(double x, double y, double width, double height, int textureID, Float alpha) {
-
-        glPop();
-
-
         //this line took me like 3 hours to fine out the color wasn't resetting :D
         GlStateManager.color(1f, 1f, 1f, alpha);
 
@@ -294,17 +357,10 @@ public class RenderUtils {
         worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
         worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
         tessellator.draw();
-
-
-        glPush();
-
     }
 
 
     public static void drawModalRectWithCustomSizedTexture(int x, int y, int uX, int uY, int vX, int vY, int width, int height, ResourceLocation resourceLocation, float alpha) {
-
-        glPop();
-
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 
@@ -325,8 +381,6 @@ public class RenderUtils {
         worldrenderer.pos( x        , y         , 0.0D).tex(uX * f1, uY * f).endVertex();
 
         tessellator.draw();
-
-        glPush();
     }
 
     public static void renderPotionIcon(int x, int y, Potion potion) {
@@ -345,11 +399,8 @@ public class RenderUtils {
 
     public static void drawPotionIcon(double x, double y, double width, double height, double uX, double uY, double vX, double vY, int tWidth, int tHeight, ResourceLocation resourceLocation, float alpha) {
 
-        glPop();
         GlStateManager.enableBlend();
-
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
-
         GlStateManager.color(1f, 1f, 1f, alpha);
 
         float f =  1.0F / tWidth;
@@ -368,10 +419,64 @@ public class RenderUtils {
         tessellator.draw();
 
         GlStateManager.disableBlend();
-        glPush();
     }
 
     public static void renderBox(int xStart, int yStart, int width, int height) {
-        renderBoxWithColor(xStart, yStart, width, height, EnumRGBA.GREY_T.get());
+        renderBoxWithColor(xStart, yStart, width, height, RGBA.GRAY_T.get());
+    }
+
+    /**
+     * renders the loading animation
+     *
+     * @param xStart startposition of the friendsdisplay
+     * @param yStart startposition of the friendsdisplay
+     */
+
+    public static void renderLoadingBar(int xStart, int yStart) {
+
+        final int a = 2;
+        final int b = 1;
+        final float alpha = 0.8f;
+        int f0 = xStart;
+        int f1 = xStart + 4;
+        int f2 = xStart + 8;
+
+        switch (loadingBar) {
+            case 0:
+                RenderUtils.renderBoxWithColor(f0, yStart, 2, 6 + a, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f1, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f2, yStart ,2, 6, 1f, 1f, 1f, alpha);
+                break;
+            case 1:
+                RenderUtils.renderBoxWithColor(f0, yStart, 2, 6 + b, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f1, yStart, 2, 6 + a, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f2, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                break;
+            case 2:
+                RenderUtils.renderBoxWithColor(f0, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f1, yStart, 2, 6 + b, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f2, yStart, 2, 6 + a, 1f, 1f, 1f, alpha);
+                break;
+            case 3:
+                RenderUtils.renderBoxWithColor(f0, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f1, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f2, yStart, 2, 6 + b, 1f, 1f, 1f, alpha);
+                break;
+            default:
+                RenderUtils.renderBoxWithColor(f0, yStart, 2, 6, 1f, 1f, 1f, 0.8f);
+                RenderUtils.renderBoxWithColor(f1, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                RenderUtils.renderBoxWithColor(f2, yStart, 2, 6, 1f, 1f, 1f, alpha);
+                break;
+        }
+    }
+
+    private static int loadingBar = 0;
+    private static int tickCounter = 0;
+    private static void processLoadingBar() {
+        if (tickCounter >= 2) {
+            if (loadingBar >= 15) loadingBar = 0;
+            else loadingBar++;
+            tickCounter = 0;
+        } else tickCounter++;
     }
 }

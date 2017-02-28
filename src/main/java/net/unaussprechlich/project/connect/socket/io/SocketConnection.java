@@ -6,7 +6,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import net.minecraft.client.Minecraft;
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefNotificationContainer;
-import net.unaussprechlich.managedgui.lib.util.EnumRGBA;
+import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.project.connect.gui.ConnectGUI;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,7 +70,7 @@ public class SocketConnection {
                 String message = null;
                 try {
                     message = obj.getString("msg");
-                    ConnectGUI.getNotificationGUI().addNotification(new DefNotificationContainer(message,  "[Hud" + ChatFormatting.GOLD + "Pixel" +  ChatFormatting.WHITE + "]", EnumRGBA.RED.get(), 20));
+                    ConnectGUI.getNotificationGUI().addNotification(new DefNotificationContainer(message, "[Hud" + ChatFormatting.GOLD + "Pixel" +  ChatFormatting.WHITE + "]", RGBA.RED.get(), 20));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

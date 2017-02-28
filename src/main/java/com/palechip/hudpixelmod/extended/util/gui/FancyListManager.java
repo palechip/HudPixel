@@ -64,14 +64,14 @@ public abstract class FancyListManager implements IEventHandler {
     protected int shownObjects;
     protected boolean isButtons = false;
     protected boolean isMouseHander = false;
-    protected float xStart = 2;
-    protected float yStart = 2;
+    protected int xStart = 2;
+    protected int yStart = 2;
     protected boolean renderRightSide = false;
 
     protected ArrayList<FancyListObject> fancyListObjects = new ArrayList<FancyListObject>();
     private int indexScroll = 0;
 
-    public FancyListManager(int shownObjects, float xStart, float yStart, boolean renderRightSide) {
+    public FancyListManager(int shownObjects, int xStart, int yStart, boolean renderRightSide) {
         this.shownObjects = shownObjects;
         this.xStart = xStart;
         this.yStart = yStart;
@@ -116,8 +116,8 @@ public abstract class FancyListManager implements IEventHandler {
 
         if (fancyListObjects.isEmpty()) return;
 
-        float xStart = this.xStart;
-        float yStart = this.yStart;
+        int xStart = this.xStart;
+        int yStart = this.yStart;
 
         if (renderRightSide) xStart = DisplayUtil.getScaledMcWidth() - xStart - 140;
 

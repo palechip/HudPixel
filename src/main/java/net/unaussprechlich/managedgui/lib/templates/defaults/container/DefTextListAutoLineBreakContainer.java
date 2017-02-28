@@ -13,6 +13,7 @@ import net.unaussprechlich.managedgui.lib.util.FontHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
@@ -62,6 +63,13 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
     public DefTextListAutoLineBreakContainer(ArrayList<String> textList, int width) {
         super(new ArrayList<>());
         this.textList = textList;
+        super.setWidthLocal(width);
+        updateRenderList();
+    }
+
+    public DefTextListAutoLineBreakContainer(String text, int width) {
+        super(new ArrayList<>());
+        this.textList = new ArrayList<>(Collections.singletonList(text));
         super.setWidthLocal(width);
         updateRenderList();
     }

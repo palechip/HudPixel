@@ -82,7 +82,7 @@ public abstract class FancyListButton {
         isHover = mX > xStart && mX < xStart + 24 && mY > yStart && mY < yStart + 24;
     }
 
-    void onRender(float xStart, float yStart) {
+    void onRender(int xStart, int yStart) {
         this.xStart = xStart;
         this.yStart = yStart;
         if (!isHover) renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.5f); //draws the background

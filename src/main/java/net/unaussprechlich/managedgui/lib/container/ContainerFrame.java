@@ -42,13 +42,10 @@ public abstract class ContainerFrame extends Container {
 
     @Override
     public <T extends Event> boolean doEventBus(T event) {
-
         if(event.getID() == EnumDefaultEvents.SCALE_CHANGED.get()){
             frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
         }
-
         return super.doEventBus(event);
-
     }
 
     @Override
@@ -59,20 +56,17 @@ public abstract class ContainerFrame extends Container {
 
     @Override
     public boolean doRender(int xStart, int yStart) {
-
         updateXYStart(xStart, yStart);
         if(!isVisible()) return false;
 
-        final int x = getXStart();
-        final int y = getYStart();
+
 
         GlStateManager.pushMatrix();
-
-
-        frameBuffer.framebufferRenderTexture(x - 5, y, getWidth() , getHeight());
-
+        frameBuffer.framebufferRenderTexture(getXStart(), getYStart(), getWidth() , getHeight());
         GlStateManager.popMatrix();
 
+        final int x = getXStart();
+        final int y = getYStart();
 
         if(!requireFrameUpdate) return false;
 
@@ -80,8 +74,8 @@ public abstract class ContainerFrame extends Container {
         GlStateManager.pushAttrib();
 
         frameBuffer.framebufferClear();
-        //frameBuffer.deleteFramebuffer();
 
+        //frameBuffer.deleteFramebuffer();
         //frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
 
         frameBuffer.bindFramebuffer(false);
@@ -90,7 +84,7 @@ public abstract class ContainerFrame extends Container {
 
         if(this.doRenderTickLocal(x, y, getWidth(), getHeight(), EnumEventState.PRE)){
             for(IChild child : getChilds()){
-                child.onRender(x, y);
+                child.onRender(getXStart(), getYStart());
             }
         }
 
@@ -104,6 +98,5 @@ public abstract class ContainerFrame extends Container {
         GlStateManager.popAttrib();
 
         return false;
-
     }
 }

@@ -16,6 +16,7 @@ import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
+import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import java.util.ArrayList;
@@ -72,14 +73,25 @@ public class DefScrollableContainer extends ContainerFrame {
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
 
         if(ees.equals(EnumEventState.PRE)){
-            RenderUtils.renderBoxWithColor(xStart, yStart, width, height, getBackgroundRGBA());
+            RenderUtils.renderBoxWithColor(xStart- 5, yStart - 5, width + 100, height + 100, getBackgroundRGBA());
             spacerPositions.forEach(y -> spacer.render(xStart, yStart+y, width));
         }
 
         if(ees.equals(EnumEventState.POST)){
             RenderUtils.renderBoxWithColor(xStart, yStart, width, 7, getBackgroundRGBA());
-            RenderUtils.renderRectWithColorFadeHorizontal(xStart, yStart + 7, width, 30, getBackgroundRGBA() ,
+            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart, yStart + 7, width, 30, getBackgroundRGBA() ,
                                                           new ColorRGBA(getBackgroundRGBA().getRED(), getBackgroundRGBA().getGREEN(), getBackgroundRGBA().getBLUE(), 0));
+
+            int barHight = height - 20;
+            int scrollHeight = height - 45;
+            int scroll = barHight;
+            if(PIXEL_PER_INDEX != 0 && pixelSize / PIXEL_PER_INDEX != 0)
+                scroll =  (scrollHeight - Math.round((scrollHeight) * (((float)indexScroll)/((float)(pixelSize - getHeight()) / (float)PIXEL_PER_INDEX))));
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, barHight, 4, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2);
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 5, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
+
         }
 
         return true;
@@ -100,44 +112,50 @@ public class DefScrollableContainer extends ContainerFrame {
         if(!isThisContainer) return true;
 
         if (i != 0) {
-            if (i < 0) {
+            if (i > 0) {
+                if((indexScroll + 1) * PIXEL_PER_INDEX > pixelSize - getHeight())
+                    return true;
                 indexScroll++;
+                isScollUP = true;
             } else {
+                if(indexScroll - 1 < 0)
+                    return true;
                 indexScroll--;
+                isScollUP = false;
             }
             update();
         }
 
+        int barHight = getHeight() - 15;
+        System.out.println(indexScroll +  " " + (Math.round(barHight * (((float)indexScroll)/((float)pixelSize / (float)PIXEL_PER_INDEX)))));
         return true;
     }
 
 
 
     private void update(){
-        //scrollAnimated = PIXEL_PER_INDEX;
-        spacerPositions.clear();
-        pixelSize = 0;
-
-        for(Container con :  scrollElements){
-            con.setYOffset(pixelSize - (indexScroll * PIXEL_PER_INDEX));
-            spacerPositions.add(pixelSize - (indexScroll * PIXEL_PER_INDEX) + con.getHeight());
-            pixelSize += con.getHeight() + spacerHeight;
-        }
+        scrollAnimated = PIXEL_PER_INDEX;
     }
 
+    private boolean isScollUP = false;
     private int scrollAnimated = PIXEL_PER_INDEX;
     private void scrollAnimation(){
-        return;
-        /*
-        if(scrollAnimated == 0) return;
-        scrollAnimated--;
-        spacerPositions.clear();
 
-        for(Container con :  scrollElements){
-            con.setYOffset(pixelSize - (indexScroll * PIXEL_PER_INDEX) - scrollAnimated );
-            spacerPositions.add(pixelSize - (indexScroll * PIXEL_PER_INDEX) + con.getHeight() - scrollAnimated);
-            pixelSize += con.getHeight() + spacerHeight;
-        }*/
+        if(scrollAnimated <= 0) return;
+
+        scrollAnimated -= 2;
+        spacerPositions.clear();
+        pixelSize = scrollElements.stream().mapToInt(Container::getHeight).sum() + scrollElements.size() * spacerHeight;
+
+        int offset = 0;
+
+
+            for(Container con :  scrollElements){
+                con.setYOffset(indexScroll * PIXEL_PER_INDEX - offset + getHeight() - pixelSize);
+                spacerPositions.add(indexScroll * PIXEL_PER_INDEX - offset + con.getHeight() + getHeight() - pixelSize);
+                offset -= con.getHeight() + spacerHeight;
+            }
+
     }
 
 

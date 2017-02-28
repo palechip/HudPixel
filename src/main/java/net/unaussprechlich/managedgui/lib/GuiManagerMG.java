@@ -155,6 +155,7 @@ public class GuiManagerMG {
         processTimeEvents();
         try {
             MouseHandler.onClientTick();
+            RenderUtils.onClientTick();
 
             //LoggerHelperMG.logInfo("--------------------------------------------------------------------------------");
 

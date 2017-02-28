@@ -63,8 +63,8 @@ public abstract class FancyListObject {
     protected String renderPicture;
     protected ResourceLocation resourceLocation;
     protected ArrayList<FancyListButton> fancyListObjectButtons = new ArrayList<FancyListButton>();
-    private float xStart;
-    private float yStart;
+    private int xStart;
+    private int yStart;
     private boolean renderRight;
     private boolean isHover;
 
@@ -121,7 +121,7 @@ public abstract class FancyListObject {
      * @param xStart xStart
      * @param yStart yStart
      */
-    void onRenderTick(boolean small, float xStart, float yStart, boolean renderRightSide) {
+    void onRenderTick(boolean small, int xStart, int yStart, boolean renderRightSide) {
         this.xStart = xStart;
         this.yStart = yStart;
         this.renderRight = renderRightSide;
@@ -191,12 +191,12 @@ public abstract class FancyListObject {
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 0f, 0f, 0f, 0.3f); //draws the background
         else {
             RenderUtils.renderBoxWithColor(xStart, yStart, 140, 24, 1f, 1f, 1f, 0.2f);
-            float xStartB;
+            int xStartB;
             if (!renderRight) xStartB = xStart + 140;
             else xStartB = xStart - 24;
 
 
-            float yStartB = yStart;
+            int yStartB = yStart;
             for (FancyListButton fcob : fancyListObjectButtons) {
                 fcob.onRender(xStartB, yStartB);
                 if (!renderRight) xStartB += 24;

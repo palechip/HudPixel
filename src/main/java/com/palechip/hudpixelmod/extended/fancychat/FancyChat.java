@@ -297,15 +297,15 @@ public class FancyChat {
         double yPos = posRatio * (boxHeight);
 
         //start (x/y) of the scrollbar
-        double yStart = res.getScaledHeight() - BOTTOM_Y_OFFSET - RENDERING_HEIGHT_OFFSET * MAX_SCROLLIST_LINES;
-        double xStart = res.getScaledWidth() - FIELD_WIDTH - 2 - 5;
+        int yStart = res.getScaledHeight() - BOTTOM_Y_OFFSET - RENDERING_HEIGHT_OFFSET * MAX_SCROLLIST_LINES;
+        int xStart = res.getScaledWidth() - FIELD_WIDTH - 2 - 5;
 
         //renders the scrollbar background
-        RenderUtils.renderBoxWithColor((float) (xStart), (float) (yStart), 5, MAX_SCROLLIST_LINES * RENDERING_HEIGHT_OFFSET,
+        RenderUtils.renderBoxWithColor((xStart), (yStart), 5, MAX_SCROLLIST_LINES * RENDERING_HEIGHT_OFFSET,
                 0, 0, 0, 0.5F);
 
         //renders the scroller on the scrollbar
-        RenderUtils.renderBoxWithColor((float) (xStart), (float) ((yStart + boxHeight) - yPos), 3, (int) (height),
+        RenderUtils.renderBoxWithColor((int) (xStart), (int) ((yStart + boxHeight) - yPos), 3, (int) (height),
                 1, 1, 1, 1F);
 
     }
