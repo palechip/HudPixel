@@ -27,6 +27,7 @@ public interface IDoEventMethods {
     boolean doClick(MouseHandler.ClickType clickType);
     <T extends Event> boolean doEventBus(T event);
     boolean doOpenGUI(GuiOpenEvent e);
+    boolean doResize();
     int getXStart();
     int getYStart();
 

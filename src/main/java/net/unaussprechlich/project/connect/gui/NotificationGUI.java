@@ -79,4 +79,9 @@ public class NotificationGUI extends GUI{
     public boolean doOpenGUI(GuiOpenEvent e) {
         return true;
     }
+
+    @Override
+    public boolean doResize() {
+        return true;
+    }
 }

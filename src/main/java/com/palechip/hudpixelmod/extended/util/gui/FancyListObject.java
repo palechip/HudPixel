@@ -174,9 +174,9 @@ public abstract class FancyListObject {
 
         if (resourceLocation == null) renderLoadingBar(xStart, yStart);
         else
-            RenderUtils.drawModalRectWithCustomSizedTexture( //draws the texture
-                    Math.round(xStart), Math.round(yStart), 0, 0,
-                    12, 12, 12, 12, resourceLocation, 1f);
+            RenderUtils.texture_modularRect( //draws the texture
+                                             Math.round(xStart), Math.round(yStart), 0, 0,
+                                             12, 12, 12, 12, resourceLocation, 1f);
 
         fontRenderer.drawStringWithShadow(renderLineSmall, xStart + 14, yStart + 2, 0xffffff); //draws the first line string
     }
@@ -207,9 +207,9 @@ public abstract class FancyListObject {
 
         if (resourceLocation == null) renderLoadingBar(xStart, yStart);
         else
-            RenderUtils.drawModalRectWithCustomSizedTexture( //draws the image shown
-                    Math.round(xStart), Math.round(yStart), 0, 0,
-                    24, 24, 24, 24, resourceLocation, 1f);
+            RenderUtils.texture_modularRect( //draws the image shown
+                                             Math.round(xStart), Math.round(yStart), 0, 0,
+                                             24, 24, 24, 24, resourceLocation, 1f);
 
         if (!renderPicture.equals(EnumChatFormatting.WHITE + "")) { //draws a background over the image if there is a string to render
             RenderUtils.renderBoxWithColor(xStart, yStart + 12, 24, 9, 0f, 0f, 0f, 0.5f);

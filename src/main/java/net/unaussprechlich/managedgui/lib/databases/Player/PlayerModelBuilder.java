@@ -39,7 +39,8 @@ public class PlayerModelBuilder {
         return this;
     }
 
+    /*
     public PlayerModel create() {
         return new PlayerModel(name, uuid, headResource);
-    }
+    }*/
 }

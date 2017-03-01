@@ -21,6 +21,9 @@ import net.minecraft.util.ResourceLocation;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 import org.lwjgl.opengl.GL11;
 
+import static org.lwjgl.opengl.GL11.GL_FLAT;
+import static org.lwjgl.opengl.GL11.GL_SMOOTH;
+
 public class RenderUtils {
 
     private static float partialTicks = 0;
@@ -237,7 +240,7 @@ public class RenderUtils {
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, sfactorAlpha, dfactorAlpha);
 
-        GlStateManager.shadeModel(7425);
+        GlStateManager.shadeModel(GL_SMOOTH);
         GlStateManager.color(1f, 1f, 1f, 1f);
 
         Tessellator   tessellator   = Tessellator.getInstance();
@@ -254,7 +257,7 @@ public class RenderUtils {
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
-        GlStateManager.shadeModel(7424);
+        GlStateManager.shadeModel(GL_FLAT);
         GlStateManager.disableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.enableTexture2D();
@@ -278,7 +281,7 @@ public class RenderUtils {
         renderRectWithColorBlendFade(xStart, yStart, width, height, colorLeft, colorRight, colorRight, colorLeft, 1, 0);
     }
 
-    public static void renderRectWithColorFadeHorizontal_s1_d1(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
+    public static void rect_fade_horizontal_s1_d1(int xStart, int yStart, int width, int height, ColorRGBA colorTop, ColorRGBA colorBottom){
         renderRectWithColorBlendFade(xStart, yStart, width, height, colorBottom, colorBottom, colorTop, colorTop, 1, 1);
     }
 
@@ -296,8 +299,8 @@ public class RenderUtils {
         }
 
         if(width > fade2){
-            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart + fade , yStart, width - fade2, fade, shadowColor , fillColor);
-            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart + fade, yStart + height - fade,  width - fade2, fade, fillColor , shadowColor);
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + fade , yStart, width - fade2, fade, shadowColor , fillColor);
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + fade, yStart + height - fade, width - fade2, fade, fillColor , shadowColor);
         }
 
         RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + fade, yStart + fade, width - fade2 , height - fade2, fillColor );
@@ -316,7 +319,7 @@ public class RenderUtils {
     /**
      * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
-    public static void drawModalRectWithCustomSizedTexture(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
+    public static void texture_modularRect(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
 
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
@@ -360,7 +363,7 @@ public class RenderUtils {
     }
 
 
-    public static void drawModalRectWithCustomSizedTexture(int x, int y, int uX, int uY, int vX, int vY, int width, int height, ResourceLocation resourceLocation, float alpha) {
+    public static void texture_modularRect(int x, int y, int uX, int uY, int vX, int vY, int width, int height, ResourceLocation resourceLocation, float alpha) {
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 
@@ -425,14 +428,22 @@ public class RenderUtils {
         renderBoxWithColor(xStart, yStart, width, height, RGBA.GRAY_T.get());
     }
 
-    /**
-     * renders the loading animation
-     *
-     * @param xStart startposition of the friendsdisplay
-     * @param yStart startposition of the friendsdisplay
-     */
+    public static void iconRender_resize(int xStartRight, int yStartBot){
+        final int l = 1;
+        final int r = 10;
+        final int r2 = 4;
+        final int s2 = 3;
 
-    public static void renderLoadingBar(int xStart, int yStart) {
+        RenderUtils.renderRectWithColorBlendFade_s1_d1(xStartRight - r, yStartBot - r, r , r, RGBA.NULL.get(), RGBA.P1B1_596068.get(), RGBA.NULL.get(), RGBA.NULL.get());
+
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r, yStartBot - l, r, l, RGBA.P1B1_596068.get());
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - l, yStartBot - r, l, r, RGBA.P1B1_596068.get());
+
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r2 - s2, yStartBot - s2 - l, r2, l, RGBA.P1B1_596068.get());
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - s2 - l, yStartBot - s2 - r2, l, r2, RGBA.P1B1_596068.get());
+    }
+
+    public static void iconRender_loadingBar(int xStart, int yStart) {
 
         final int a = 2;
         final int b = 1;

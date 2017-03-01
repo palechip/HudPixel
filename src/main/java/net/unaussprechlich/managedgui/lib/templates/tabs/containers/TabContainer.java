@@ -104,4 +104,9 @@ public class TabContainer extends Container{
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
         return true;
     }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
+        return true;
+    }
 }

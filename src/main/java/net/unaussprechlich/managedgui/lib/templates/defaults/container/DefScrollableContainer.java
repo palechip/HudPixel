@@ -36,13 +36,14 @@ public class DefScrollableContainer extends ContainerFrame {
     private final int spacerHeight;
 
     private int pixelSize = 0;
+    private int pixelPos = 0;
 
     private ArrayList<Container> scrollElements  = new ArrayList<>();
     private ArrayList<Integer>   spacerPositions = new ArrayList<>();
 
 
     public DefScrollableContainer(ColorRGBA color, int width, int height, IScrollSpacerRenderer spacer) {
-        super(width, height, color);
+        super(width, height, 100, 50, color);
         this.spacer = spacer;
         this.spacerHeight = spacer.getSpacerHeight();
     }
@@ -53,19 +54,42 @@ public class DefScrollableContainer extends ContainerFrame {
         }
         registerChild(container);
         scrollElements.add(container);
-        update();
+        updateWithAnimation();
     }
 
     public void unregisterScrollElement(Container container){
         unregisterChild(container);
         scrollElements.remove(container);
-        update();
+        updateWithAnimation();
+    }
+
+    private int getMaxScrollIndex(){
+        if(PIXEL_PER_INDEX == 0) return 0;
+        return (pixelSize - getHeight()) / PIXEL_PER_INDEX;
+    }
+
+    private int getScrollBarPosY(){
+        int scrollHeight = getHeight() - 45;
+        if(getMaxScrollIndex() != 0)
+            return getYStart() + 5 + (scrollHeight - Math.round((scrollHeight) * (((float)indexScroll)/((float)(pixelSize - getHeight()) / (float)PIXEL_PER_INDEX))));
+        else return getYStart() + 5 + getHeight() - 20;
     }
 
 
     @Override
     protected boolean doClientTickLocal() {
         scrollAnimation();
+
+        if(isScrollByBar){
+            float i = getHeight() - 50;
+            int mY = MouseHandler.getmY()  - getYStart() - 25;
+            if(mY < 0) pixelPos = pixelSize - getHeight();
+            else if(mY > i) pixelPos = 0;
+            else pixelPos = (Math.round(Math.abs(mY - i ) * ((float)(pixelSize - getHeight()) / i)));
+            updateWithoutAnimation();
+        }
+
+
         return true;
     }
 
@@ -79,22 +103,30 @@ public class DefScrollableContainer extends ContainerFrame {
 
         if(ees.equals(EnumEventState.POST)){
             RenderUtils.renderBoxWithColor(xStart, yStart, width, 7, getBackgroundRGBA());
-            RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart, yStart + 7, width, 30, getBackgroundRGBA() ,
-                                                          new ColorRGBA(getBackgroundRGBA().getRED(), getBackgroundRGBA().getGREEN(), getBackgroundRGBA().getBLUE(), 0));
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart + 7, width, 30, getBackgroundRGBA() ,
+                                                   new ColorRGBA(getBackgroundRGBA().getRED(), getBackgroundRGBA().getGREEN(), getBackgroundRGBA().getBLUE(), 0));
 
-            int barHight = height - 20;
-            int scrollHeight = height - 45;
-            int scroll = barHight;
-            if(PIXEL_PER_INDEX != 0 && pixelSize / PIXEL_PER_INDEX != 0)
-                scroll =  (scrollHeight - Math.round((scrollHeight) * (((float)indexScroll)/((float)(pixelSize - getHeight()) / (float)PIXEL_PER_INDEX))));
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, barHight, 4, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2);
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 5, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
+            int scroll = Math.round(Math.abs(pixelPos -(pixelSize - height)) * ((float)(height - 50)/(float)(pixelSize-height)));
+
+            //System.out.println(Math.abs(pixelPos - (pixelSize - height)) + " | " + pixelPos + " | " + pixelSize + " | " + scroll +  " | " + indexScroll + " | " + height);
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2);
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 10, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
 
         }
 
         return true;
+    }
+
+    private int getPixelPosFromIndex(){
+        return PIXEL_PER_INDEX * indexScroll;
+    }
+
+    private int getIndexFromPixelPos(){
+        return pixelPos / PIXEL_PER_INDEX;
     }
 
     @Override
@@ -102,9 +134,22 @@ public class DefScrollableContainer extends ContainerFrame {
         return true;
     }
 
+    private boolean isScrollByBar = false;
     @Override
     protected boolean doClickLocal(MouseHandler.ClickType clickType, boolean isThisContainer) {
+        if(clickType.equals(MouseHandler.ClickType.DRAG)){
+            if(this.checkIfMouseOver(getXStart() + getWidth() - 11, getScrollBarPosY(), 6, 30)){
+                isScrollByBar = true;
+            }
+        }
+
+        if(clickType.equals(MouseHandler.ClickType.DROP)){
+            if(isScrollByBar){
+                isScrollByBar = false;
+            }
+        }
         return true;
+
     }
 
     @Override
@@ -123,18 +168,28 @@ public class DefScrollableContainer extends ContainerFrame {
                 indexScroll--;
                 isScollUP = false;
             }
-            update();
+            updateWithAnimation();
         }
-
-        int barHight = getHeight() - 15;
-        System.out.println(indexScroll +  " " + (Math.round(barHight * (((float)indexScroll)/((float)pixelSize / (float)PIXEL_PER_INDEX)))));
         return true;
     }
 
 
 
-    private void update(){
+    private void updateWithAnimation(){
         scrollAnimated = PIXEL_PER_INDEX;
+    }
+    private void updateWithoutAnimation(){
+        spacerPositions.clear();
+        pixelSize = scrollElements.stream().mapToInt(Container::getHeight).sum() + scrollElements.size() * spacerHeight;
+        indexScroll = getIndexFromPixelPos();
+
+        int offset = 0;
+
+        for(Container con :  scrollElements){
+            con.setYOffset(pixelPos - offset + getHeight() - pixelSize - scrollAnimated);
+            spacerPositions.add(pixelPos - offset + con.getHeight() + getHeight() - pixelSize - scrollAnimated);
+            offset -= con.getHeight() + spacerHeight;
+        }
     }
 
     private boolean isScollUP = false;
@@ -142,21 +197,27 @@ public class DefScrollableContainer extends ContainerFrame {
     private void scrollAnimation(){
 
         if(scrollAnimated <= 0) return;
-
-        scrollAnimated -= 2;
+        scrollAnimated -= 1;
         spacerPositions.clear();
         pixelSize = scrollElements.stream().mapToInt(Container::getHeight).sum() + scrollElements.size() * spacerHeight;
+        pixelPos = getPixelPosFromIndex();
 
         int offset = 0;
 
-
+        if(isScollUP)
             for(Container con :  scrollElements){
-                con.setYOffset(indexScroll * PIXEL_PER_INDEX - offset + getHeight() - pixelSize);
-                spacerPositions.add(indexScroll * PIXEL_PER_INDEX - offset + con.getHeight() + getHeight() - pixelSize);
+                con.setYOffset(getPixelPosFromIndex() - offset + getHeight() - pixelSize - scrollAnimated);
+                spacerPositions.add(indexScroll * PIXEL_PER_INDEX - offset + con.getHeight() + getHeight() - pixelSize - scrollAnimated);
                 offset -= con.getHeight() + spacerHeight;
             }
-
+        else
+            for(Container con :  scrollElements){
+                con.setYOffset(getPixelPosFromIndex() - offset + getHeight() - pixelSize + scrollAnimated);
+                spacerPositions.add(indexScroll * PIXEL_PER_INDEX - offset + con.getHeight() + getHeight() - pixelSize + scrollAnimated);
+                offset -= con.getHeight() + spacerHeight;
+            }
     }
+
 
 
     @Override
@@ -171,6 +232,14 @@ public class DefScrollableContainer extends ContainerFrame {
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
+        scrollElements.forEach(container -> container.setWidth(getWidth()));
+        indexScroll = 0;
+        updateWithAnimation();
         return true;
     }
 }

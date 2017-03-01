@@ -1,7 +1,11 @@
 package net.unaussprechlich.project.connect.gui;
 
+import com.palechip.hudpixelmod.HudPixelMod;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.unaussprechlich.hypixel.helper.HYPIXEL_RANK;
+import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.gui.GUI;
@@ -15,7 +19,7 @@ import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
 import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
-import static com.mojang.realmsclient.gui.ChatFormatting.*;
+import java.util.UUID;
 
 /**
  * ChatGUI Created by Alexander on 24.02.2017.
@@ -36,7 +40,7 @@ public class ChatGUI extends GUI{
         DefScrollableContainer scrollALL = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
             @Override
             public void render(int xStart, int yStart, int width) {
-                RenderUtils.renderRectWithColorFadeHorizontal_s1_d1(xStart + 25, yStart, width - 45, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+                RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
             }
 
             @Override
@@ -45,41 +49,44 @@ public class ChatGUI extends GUI{
             }
         });
 
+
         DefChatMessageContainer test1 = new DefChatMessageContainer(
-                AQUA + "[MVP" + GREEN + "+" + AQUA + "]" + "unaussprechlich",
+                new PlayerModel("unausspreclich", UUID.randomUUID(), HYPIXEL_RANK.ADMIN.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test2 = new DefChatMessageContainer(
-                WHITE + "aussprechlich",
+                new PlayerModel("hst", UUID.randomUUID(), HYPIXEL_RANK.YT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test3 = new DefChatMessageContainer(
-                WHITE + "betbetebntebn",
+                new PlayerModel("EpicNewb", UUID.randomUUID(), HYPIXEL_RANK.DEFAULT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test4 = new DefChatMessageContainer(
-                WHITE + "betbetebnteeerebn",
+                new PlayerModel("ciu22", UUID.randomUUID(), HYPIXEL_RANK.MOD.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test5 = new DefChatMessageContainer(
-                WHITE + "betbetebnteerbtbebebn",
+                new PlayerModel("ausspreclich", UUID.randomUUID(), HYPIXEL_RANK.MVP_PLUS.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
+
+
         test1.addMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
         test1.addMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
         test2.addMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
@@ -91,11 +98,13 @@ public class ChatGUI extends GUI{
         test5.addMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
         test5.addMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
 
+        scrollALL.registerScrollElement(new DefCenteredLoadingContainer(WIDTH, 50));
         scrollALL.registerScrollElement(test1);
         scrollALL.registerScrollElement(test2);
         scrollALL.registerScrollElement(test3);
         scrollALL.registerScrollElement(test4);
         scrollALL.registerScrollElement(test5);
+
 
         tabManager.registerTab(new TabContainer(new TabListElementContainer("ALL", RGBA.WHITE.get(), tabManager), scrollALL, tabManager));
         tabManager.registerTab(new TabContainer(new TabListElementContainer("Party", RGBA.BLUE.get(), tabManager), new DefBackgroundContainerFrame(WIDTH, HEIGHT, RGBA.BLUE.get()), tabManager));
@@ -114,8 +123,8 @@ public class ChatGUI extends GUI{
     @Override
     public boolean doClientTick() {
         //TODO OFFSET RENDERING IS BROKEN! MAYBE IN CONTAINER_FRAME
-        tabManager.setYOffset(DisplayUtil.getScaledMcHeight() - HEIGHT  );
-        tabManager.setXOffset(0);
+        tabManager.setYOffset(DisplayUtil.getScaledMcHeight() - HEIGHT - 100 );
+        tabManager.setXOffset(50);
         return true;
     }
 
@@ -154,6 +163,11 @@ public class ChatGUI extends GUI{
 
     @Override
     public boolean doOpenGUI(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    public boolean doResize() {
         return true;
     }
 }

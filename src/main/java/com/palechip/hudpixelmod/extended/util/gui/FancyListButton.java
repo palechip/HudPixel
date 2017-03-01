@@ -47,10 +47,9 @@
 package com.palechip.hudpixelmod.extended.util.gui;
 
 import net.minecraft.util.ResourceLocation;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 import static java.lang.Math.round;
-import static net.unaussprechlich.managedgui.lib.util.RenderUtils.drawModalRectWithCustomSizedTexture;
-import static net.unaussprechlich.managedgui.lib.util.RenderUtils.renderBoxWithColor;
 
 public abstract class FancyListButton {
 
@@ -85,11 +84,11 @@ public abstract class FancyListButton {
     void onRender(int xStart, int yStart) {
         this.xStart = xStart;
         this.yStart = yStart;
-        if (!isHover) renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.5f); //draws the background
-        else renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.8f);
-        drawModalRectWithCustomSizedTexture( //draws the image shown
-                round(xStart), round(yStart), 0, 0,
-                24, 24, 24, 24, resourceLocation, 1f);
+        if (!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.5f); //draws the background
+        else RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.8f);
+        RenderUtils.texture_modularRect( //draws the image shown
+                                         round(xStart), round(yStart), 0, 0,
+                                         24, 24, 24, 24, resourceLocation, 1f);
     }
 }
 

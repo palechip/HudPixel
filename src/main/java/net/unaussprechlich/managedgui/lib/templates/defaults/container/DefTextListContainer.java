@@ -15,7 +15,7 @@ import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
+import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -55,7 +55,7 @@ public class DefTextListContainer extends Container{
     }
 
     protected void updateSize(){
-        super.setWidth(FontHelper.widthOfString(textList.stream()
+        super.setWidth(FontUtil.widthOfString(textList.stream()
                                                         .sorted((e1, e2) -> e1.length() > e2.length() ? -1 : 1)
                                                         .findFirst()
                                                         .orElse(""))
@@ -70,7 +70,7 @@ public class DefTextListContainer extends Container{
 
     private void render(int xStart, int yStart){
         for(String s : textList){
-            FontHelper.drawWithShadow(s, xStart, yStart);
+            FontUtil.drawWithShadow(s, xStart, yStart);
             yStart += CONSTANTS.TEXT_Y_OFFSET;
         }
     }
@@ -123,6 +123,11 @@ public class DefTextListContainer extends Container{
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
         return true;
     }
 }

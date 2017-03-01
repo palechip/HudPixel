@@ -24,7 +24,7 @@ import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 public class DefBackgroundContainerFrame extends ContainerFrame{
 
     public DefBackgroundContainerFrame(int width, int height, ColorRGBA colorRGBA) {
-        super(width, height, colorRGBA);
+        super(width, height, 0, 0, colorRGBA);
     }
 
     @Override
@@ -68,6 +68,11 @@ public class DefBackgroundContainerFrame extends ContainerFrame{
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    public boolean doResizeLocal(int width, int height) {
         return true;
     }
 }

@@ -35,7 +35,7 @@ public class RenderHelper {
 
     private static void renderContainerBackground(int xStart, int yStart, ColorRGBA color, int width, int height, ResourceLocation image) {
         if (image == null) RenderUtils.renderBoxWithColor(xStart, yStart, width, height, color);
-        else RenderUtils.drawModalRectWithCustomSizedTexture(xStart, yStart, width, height, image, color.getALPHAf());
+        else RenderUtils.texture_modularRect(xStart, yStart, width, height, image, color.getALPHAf());
     }
 
 }

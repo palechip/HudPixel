@@ -59,4 +59,9 @@ public class DefInGameGUI extends GUI {
     public boolean doOpenGUI(GuiOpenEvent e) {
         return isInGameGUIShown();
     }
+
+    @Override
+    public boolean doResize() {
+        return true;
+    }
 }

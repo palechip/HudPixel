@@ -9,7 +9,8 @@
 package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.unaussprechlich.managedgui.lib.CONSTANTS;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
+import net.unaussprechlich.managedgui.lib.callback.ICallbackUpdateHeight;
+import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
 
     @Nonnull
     private ArrayList<String> textList = new ArrayList<>();
+
+    private ICallbackUpdateHeight callbackHeight;
 
     public int getListSize(){
         if(textList.isEmpty()) return 0;
@@ -44,8 +47,16 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
     }
 
     @Override
+    protected boolean doResizeLocal(int width, int height) {
+        updateRenderList();
+        return super.doResizeLocal(width, height);
+    }
+
+    @Override
     protected void updateSize(){
         super.setHeightLocal(super.getListSize() * CONSTANTS.TEXT_Y_OFFSET);
+        if(callbackHeight != null)
+            callbackHeight.call(getHeight());
     }
 
     @Override
@@ -56,7 +67,7 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
 
     private void updateRenderList(){
         ArrayList<String> renderList = new ArrayList<>();
-        textList.forEach(s -> renderList.addAll(FontHelper.getFrontRenderer().listFormattedStringToWidth(s, getWidth())));
+        textList.forEach(s -> renderList.addAll(FontUtil.getFrontRenderer().listFormattedStringToWidth(s, getWidth())));
         super.setTextList(renderList);
     }
 
@@ -74,9 +85,16 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
         updateRenderList();
     }
 
+    public DefTextListAutoLineBreakContainer(String text, int width, ICallbackUpdateHeight callback) {
+        super(new ArrayList<>());
+        this.textList = new ArrayList<>(Collections.singletonList(text));
+        super.setWidthLocal(width);
+        updateRenderList();
+        this.callbackHeight = callback;
+    }
+
     @Override
     public void setWidth(int width){
         super.setWidthLocal(width);
-        updateRenderList();
     }
 }

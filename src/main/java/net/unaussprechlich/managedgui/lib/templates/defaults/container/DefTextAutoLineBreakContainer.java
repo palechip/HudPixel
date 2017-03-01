@@ -15,7 +15,7 @@ import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
+import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +37,10 @@ public class DefTextAutoLineBreakContainer extends Container{
     public void setText(String text) {
         renderList.clear();
         this.text = text;
-        if(FontHelper.widthOfString(this.text) <= this.getWidth())
+        if(FontUtil.widthOfString(this.text) <= this.getWidth())
             renderList.add(text);
         else
-            renderList = FontHelper.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
+            renderList = FontUtil.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
         super.setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
     }
 
@@ -59,8 +59,8 @@ public class DefTextAutoLineBreakContainer extends Container{
 
     private void render(int xStart, int yStart){
         for(String s : renderList){
-            if(isShadow) FontHelper.drawWithShadow(s, xStart, yStart);
-            else         FontHelper.draw(s, xStart, yStart);
+            if(isShadow) FontUtil.drawWithShadow(s, xStart, yStart);
+            else         FontUtil.draw(s, xStart, yStart);
             yStart += CONSTANTS.TEXT_Y_OFFSET;
         }
     }
@@ -119,4 +119,8 @@ public class DefTextAutoLineBreakContainer extends Container{
     }
 
 
+    @Override
+    public boolean doResizeLocal(int width, int height) {
+        return true;
+    }
 }

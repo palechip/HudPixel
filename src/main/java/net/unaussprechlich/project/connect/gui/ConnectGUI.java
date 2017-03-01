@@ -72,5 +72,10 @@ public class ConnectGUI extends GUI {
         return true;
     }
 
+    @Override
+    public boolean doResize() {
+        return true;
+    }
+
 
 }

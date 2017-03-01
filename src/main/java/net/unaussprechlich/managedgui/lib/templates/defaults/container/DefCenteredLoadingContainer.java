@@ -6,7 +6,7 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.templates.tabs.containers;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -14,61 +14,30 @@ import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import net.unaussprechlich.managedgui.lib.util.RenderUtils;
 
 /**
- * TabManager Created by Alexander on 24.02.2017.
+ * DefCenteredLoadingContainer Created by Alexander on 01.03.2017.
  * Description:
  **/
-public class TabManager extends Container{
+public class DefCenteredLoadingContainer extends Container {
 
-
-    private ArrayList<TabContainer> tabs = new ArrayList<>();
-
-    private TabContainer activeTab;
-
-    public TabManager(){
-    }
-
-    public void setTabActive(TabContainer tab){
-        if(activeTab == tab) return;
-        if(activeTab != null) activeTab.setClosed();
-        activeTab = tab;
-        activeTab.setOpen();
-    }
-
-
-    public void registerTab(TabContainer tab){
-        if(activeTab == null)setTabActive(tab);
-        registerChild(tab);
-        tabs.add(tab);
-        updatePositions();
-    }
-
-    public void unregisterTab(TabContainer tab){
-        unregisterChild(tab);
-        tabs.remove(tab);
-        updatePositions();
-    }
-
-    private void updatePositions(){
-        int offset = 0;
-        for(TabListElementContainer element : tabs.stream().map(TabContainer::getTabListElement).collect(Collectors.toList())){
-            element.setXOffset(offset);
-            offset += element.getWidth();
-        }
+    public DefCenteredLoadingContainer(int width, int height) {
+        setWidth(width);
+        setHeight(height);
     }
 
     @Override
-    protected boolean doClientTickLocal(){
+    protected boolean doClientTickLocal() {
         return true;
     }
 
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
-       return true;
+        if(ees.equals(EnumEventState.POST)){
+            RenderUtils.iconRender_loadingBar(xStart + (width / 2) - 4, yStart + (height / 2) - 3);
+        }
+        return true;
     }
 
     @Override

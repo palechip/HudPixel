@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
-import org.lwjgl.opengl.GL11;
 
 /**
  * FrameBufferObj unaussprechlich on 26.02.2017.
@@ -27,17 +26,16 @@ public class FrameBufferObj extends Framebuffer {
         super(width, height, p_i45078_3_);
     }
 
-    @Override
-    public void setFramebufferFilter(int p_147607_1_) {
-        if (OpenGlHelper.isFramebufferEnabled())
-        {
-            this.framebufferFilter = p_147607_1_;
-            GlStateManager.bindTexture(this.framebufferTexture);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, (float)p_147607_1_);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, (float)p_147607_1_);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10496.0F);
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10496.0F);
-            GlStateManager.bindTexture(0);
+    public void createDeleteFramebuffer(int width, int height) {
+        if (!OpenGlHelper.isFramebufferEnabled()) {
+            this.framebufferWidth = width;
+            this.framebufferHeight = height;
+        } else {
+            if (this.framebufferObject >= 0)
+                this.deleteFramebuffer();
+
+            this.createFramebuffer(width, height);
+            this.checkFramebufferComplete();
         }
     }
 

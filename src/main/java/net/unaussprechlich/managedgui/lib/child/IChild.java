@@ -30,4 +30,6 @@ public interface IChild {
 
     void onOpenGui(GuiOpenEvent event);
 
+    void onResize();
+
 }

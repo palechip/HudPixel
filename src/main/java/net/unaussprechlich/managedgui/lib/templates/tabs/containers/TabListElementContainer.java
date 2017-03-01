@@ -32,7 +32,7 @@ public class TabListElementContainer extends DefBackgroundContainer {
     private String title;
 
     public TabListElementContainer(String title, ColorRGBA color, TabManager tabManager) {
-        super(RGBA.P1B1_DEF.get(), FontHelper.widthOfString(title) + 10, ELEMENT_HEIGHT);
+        super(RGBA.P1B1_DEF.get(), FontUtil.widthOfString(title) + 10, ELEMENT_HEIGHT);
         this.color = color;
         this.title = title;
         this.tabManager = tabManager;
@@ -67,7 +67,7 @@ public class TabListElementContainer extends DefBackgroundContainer {
 
         if(isOpen)  RenderUtils.renderBoxWithColor(xStart, yStart, width, 2, color);
         else        RenderUtils.renderBoxWithColor(xStart, yStart + ELEMENT_HEIGHT -2, width, 2, color);
-        FontHelper.draw(ChatFormatting.GRAY + title, xStart + 5, yStart + 4);
+        FontUtil.draw(ChatFormatting.GRAY + title, xStart + 5, yStart + 4);
 
         return true;
     }

@@ -30,6 +30,9 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private int xStart = 0;
     private int yStart = 0;
 
+    private int minWidth = 0;
+    private int minHeight = 0;
+
     private int xOffset = 0;
     private int yOffset = 0;
 
@@ -86,7 +89,19 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
             GuiOpenEvent e
     );
 
+    protected abstract boolean doResizeLocal(
+            int width,
+            int height
+    );
+
     //METHODS ----------------------------------------------------------------------------------------------------------
+
+    public boolean checkIfMouseOver(int xStart, int yStart, int width, int height) {
+        int mX = MouseHandler.getmX();
+        int mY = MouseHandler.getmY();
+        return (mX > xStart && mX < xStart + width
+                && mY > yStart && mY < yStart + height);
+    }
 
     public boolean checkIfMouseOverContainer(int mX, int mY) {
         return (mX > getXStartBorder() && mX < xStart + padding.RIGHT() + border.RIGHT() + width
@@ -103,7 +118,7 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     protected void updateXYStart(int xStart, int yStart){
         this.xStart = xStart + xOffset + padding.LEFT() + margin.LEFT() + border.LEFT();
-        this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.LEFT();
+        this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.TOP();
     }
 
 
@@ -113,8 +128,6 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     public boolean doClientTick() {
         return doClientTickLocal();
     }
-
-
 
     @Override
     public boolean doRender(int xStart, int yStart){
@@ -162,6 +175,11 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     @Override
     public boolean doOpenGUI(GuiOpenEvent e) {
         return doOpenGUILocal(e);
+    }
+
+    @Override
+    public boolean doResize() {
+        return doResizeLocal(width, height);
     }
 
 
@@ -295,6 +313,14 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         return border;
     }
 
+    public int getMinHeight() {
+        return minHeight;
+    }
+
+    public int getMinWidth() {
+        return minWidth;
+    }
+
     //SETTER -----------------------------------------------------------------------------------------------------------
 
     @Override
@@ -373,5 +399,11 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         this.border = border;
     }
 
+    public void setMinHeight(int minHeight) {
+        this.minHeight = minHeight;
+    }
 
+    public void setMinWidth(int minWidth) {
+        this.minWidth = minWidth;
+    }
 }

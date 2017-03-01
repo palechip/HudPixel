@@ -91,4 +91,12 @@ public abstract class ChildRegistry implements IDoEventMethods {
         if(childs.isEmpty()) return;
         childs.forEach(child -> child.onOpenGui(e));
     }
+
+    public void onResize(){
+        if(!doResize()) return;
+        if(childs.isEmpty()) return;
+        childs.forEach(IChild::onResize);
+    }
+
+
 }

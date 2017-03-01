@@ -60,4 +60,9 @@ public class DefGUI extends GUI {
     public boolean doOpenGUI(GuiOpenEvent e) {
         return true;
     }
+
+    @Override
+    public boolean doResize() {
+        return true;
+    }
 }

@@ -14,7 +14,7 @@ import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
-import net.unaussprechlich.managedgui.lib.util.FontHelper;
+import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
 /**
  * DefTextContainer Created by unaussprechlich on 20.12.2016.
@@ -31,7 +31,7 @@ public class DefTextContainer extends Container{
 
     public void setText(String text) {
         this.text = text;
-        super.setWidth(FontHelper.widthOfString(text));
+        super.setWidth(FontUtil.widthOfString(text));
         super.setHeight(9);
     }
 
@@ -65,8 +65,8 @@ public class DefTextContainer extends Container{
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
         if(ees == EnumEventState.PRE){
-            if(isShadow) FontHelper.drawWithShadow(text, xStart, yStart);
-            else         FontHelper.draw(text, xStart, yStart);
+            if(isShadow) FontUtil.drawWithShadow(text, xStart, yStart);
+            else         FontUtil.draw(text, xStart, yStart);
         }
         return true;
     }
@@ -98,6 +98,11 @@ public class DefTextContainer extends Container{
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
         return true;
     }
 }

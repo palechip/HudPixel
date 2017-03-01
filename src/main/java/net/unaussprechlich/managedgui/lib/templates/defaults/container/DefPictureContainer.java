@@ -51,9 +51,9 @@ public class DefPictureContainer extends Container {
                 if(ees.equals(EnumEventState.POST)) {
             if (resourceLocation == null) {
                 RenderUtils.renderBoxWithColor(xStart, yStart, width, height, RGBA.RED.get());
-                RenderUtils.renderLoadingBar(xStart + width / 2 - 5, yStart + height / 2 - 3);
+                RenderUtils.iconRender_loadingBar(xStart + width / 2 - 5, yStart + height / 2 - 3);
             } else {
-                RenderUtils.drawModalRectWithCustomSizedTexture(xStart, yStart, getWidth(), getHeight(), resourceLocation, 1f);
+                RenderUtils.texture_modularRect(xStart, yStart, getWidth(), getHeight(), resourceLocation, 1f);
             }
         }
         return true;
@@ -86,6 +86,11 @@ public class DefPictureContainer extends Container {
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
         return true;
     }
 }

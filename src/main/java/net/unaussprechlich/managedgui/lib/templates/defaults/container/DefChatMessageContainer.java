@@ -12,8 +12,12 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.container.Container;
+import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
+import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
+import net.unaussprechlich.managedgui.lib.helper.DateHelper;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 
@@ -31,12 +35,14 @@ public class DefChatMessageContainer extends Container {
     private DefTextContainer username_con;
     private DefPictureContainer avatar_con;
 
-    private final String username;
+    private final PlayerModel player;
+    private final DateHelper date;
 
-    public DefChatMessageContainer(String username, String message, DefPictureContainer avatar_con, int width) {
-        this.username = username;
+    public DefChatMessageContainer(PlayerModel player, String message, DefPictureContainer avatar_con, int width) {
+        this.date = new DateHelper();
+        this.player = player;
         this.avatar_con = avatar_con;
-        this.username_con = new DefTextContainer(username + getStyledTime());
+        this.username_con = new DefTextContainer(player.getRankName() + ChatFormatting.GRAY + ChatFormatting.ITALIC + "  " + date.getDateTimeTextPassed());
         setWidth(width);
         setup(message);
     }
@@ -47,7 +53,7 @@ public class DefChatMessageContainer extends Container {
         avatar_con.setHeight(18);
         username_con.setMargin(new ContainerSide().BOTTOM(4).TOP(4));
         username_con.setXOffset(avatar_con.getWidthMargin());
-        message_con = new DefTextListAutoLineBreakContainer(message, getWidth() - avatar_con.getWidthMargin() - SPACE);
+        message_con = new DefTextListAutoLineBreakContainer(message, getWidth() - avatar_con.getWidthMargin() - SPACE - 14, data -> update());
         message_con.setXYOffset(avatar_con.getWidthMargin(), username_con.getHeightMargin() + 2);
 
         registerChild(message_con);
@@ -64,6 +70,7 @@ public class DefChatMessageContainer extends Container {
 
     private void update(){
         super.setHeight(SPACE * 2  + username_con.getHeightMargin() + message_con.getHeightMargin());
+        message_con.setWidth(getWidth() - avatar_con.getWidthMargin() - SPACE - 14);
     }
 
     private static String getStyledTime(){
@@ -108,11 +115,21 @@ public class DefChatMessageContainer extends Container {
 
     @Override
     protected <T extends Event> boolean doEventBusLocal(T iEvent) {
+        if(iEvent.getID() != EnumDefaultEvents.TIME.get()) return true;
+        if(iEvent.getData().equals(EnumTime.SEC_5)){
+                username_con.setText(player.getRankName() + ChatFormatting.GRAY + ChatFormatting.ITALIC + "  " + date.getDateTimeTextPassed());
+        }
         return true;
     }
 
     @Override
     protected boolean doOpenGUILocal(GuiOpenEvent e) {
+        return true;
+    }
+
+    @Override
+    protected boolean doResizeLocal(int width, int height) {
+        update();
         return true;
     }
 }

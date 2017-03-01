@@ -62,6 +62,11 @@ public final class EventRegistry extends ChildRegistry{
     }
 
     @Override
+    public boolean doResize() {
+        return true;
+    }
+
+    @Override
     public int getXStart() {
         return 0;
     }

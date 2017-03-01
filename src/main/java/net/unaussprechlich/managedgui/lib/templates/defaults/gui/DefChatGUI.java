@@ -60,4 +60,9 @@ public class DefChatGUI extends GUI {
     public boolean doOpenGUI(GuiOpenEvent e) {
         return isChatGUIShown();
     }
+
+    @Override
+    public boolean doResize() {
+        return true;
+    }
 }

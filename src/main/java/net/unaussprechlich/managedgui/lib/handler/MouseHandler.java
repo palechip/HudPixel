@@ -36,7 +36,7 @@ public class MouseHandler {
     }
 
     public enum ClickType {
-        SINGLE, DOUBLE
+        SINGLE, DOUBLE, DRAG, DROP
     }
 
     public static void onClientTick() {
@@ -69,19 +69,27 @@ public class MouseHandler {
 
     private static void handleMouseClick() {
 
-        if(mouseButtonDown && !Mouse.isButtonDown(0)){
+        boolean isDown = Mouse.isButtonDown(0);
+
+        if(!mouseButtonDown && isDown){
+            GuiManagerMG.onClick(ClickType.DRAG);
+        }
+
+
+        if(mouseButtonDown && !isDown){
             mouseButtonDown = false;
             doubleClick = false;
+            GuiManagerMG.onClick(ClickType.DROP);
         }
 
         if((System.currentTimeMillis() + clickDelay) < lastTimeClicked){
-            if(!mouseButtonDown && Mouse.isButtonDown(0)){
+            if(!mouseButtonDown && isDown){
                 mouseButtonDown = true;
                 GuiManagerMG.onClick(ClickType.DOUBLE);
             }
         }
 
-        if(!mouseButtonDown && Mouse.isButtonDown(0) && !doubleClick){
+        if(!mouseButtonDown && isDown && !doubleClick){
             mouseButtonDown = true;
             GuiManagerMG.onClick(ClickType.SINGLE);
             lastTimeClicked = System.currentTimeMillis();
