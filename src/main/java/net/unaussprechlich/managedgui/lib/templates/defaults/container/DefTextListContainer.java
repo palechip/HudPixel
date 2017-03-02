@@ -10,7 +10,7 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.Constants;
+import net.unaussprechlich.managedgui.lib.ConstantsMG;
 import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
@@ -60,7 +60,7 @@ public class DefTextListContainer extends Container{
                                                         .findFirst()
                                                         .orElse(""))
         );
-        super.setHeight(textList.size() * Constants.TEXT_Y_OFFSET);
+        super.setHeight(textList.size() * ConstantsMG.TEXT_Y_OFFSET);
     }
 
     public DefTextListContainer(ArrayList<String> textList) {
@@ -71,7 +71,7 @@ public class DefTextListContainer extends Container{
     private void render(int xStart, int yStart){
         for(String s : textList){
             FontUtil.drawWithShadow(s, xStart, yStart);
-            yStart += Constants.TEXT_Y_OFFSET;
+            yStart += ConstantsMG.TEXT_Y_OFFSET;
         }
     }
 

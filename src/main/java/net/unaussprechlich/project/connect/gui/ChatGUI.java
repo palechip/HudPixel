@@ -1,6 +1,8 @@
 package net.unaussprechlich.project.connect.gui;
 
+import com.palechip.hudpixelmod.ChatDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
+import kotlin.Unit;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -33,22 +35,22 @@ public class ChatGUI extends GUI{
     private static final int WIDTH  = 500;
     private static final int HEIGHT = 200;
 
+    private static DefScrollableContainer scrollALL = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
+        @Override
+        public void render(int xStart, int yStart, int width) {
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+        }
+
+        @Override
+        public int getSpacerHeight() {
+            return 2;
+        }
+    });
+
 
     public ChatGUI(){
 
         registerChild(tabManager);
-
-        DefScrollableContainer scrollALL = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
-            @Override
-            public void render(int xStart, int yStart, int width) {
-                RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
-            }
-
-            @Override
-            public int getSpacerHeight() {
-                return 2;
-            }
-        });
 
 
         DefChatMessageContainer test1 = new DefChatMessageContainer(
@@ -113,6 +115,24 @@ public class ChatGUI extends GUI{
         tabManager.registerTab(new TabContainer(new TabListElementContainer("Private", RGBA.RED.get(), tabManager), new DefBackgroundContainerFrame(WIDTH, HEIGHT, RGBA.RED.get()), tabManager));
 
         updatePosition();
+
+        ChatDetector.INSTANCE.registerEventHandler(ChatDetector.PrivateMessage.INSTANCE, (chatDetector, eventInfo) -> {
+                   addChatMessage(eventInfo.getData().get("name"), eventInfo.getData().get("message"));
+                   return Unit.INSTANCE;
+            }
+        );
+
+    }
+
+    public static void addChatMessage(String name, String message){
+        scrollALL.registerScrollElement(
+                new DefChatMessageContainer(
+                        new PlayerModel(name, UUID.randomUUID(), HypixelRank.MVP_PLUS.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                        message,
+                        new DefPictureContainer(),
+                        WIDTH
+                )
+        );
     }
 
     private void updatePosition(){
