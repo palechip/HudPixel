@@ -68,7 +68,7 @@ public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiPro
     private static Pattern KILL_PTRN = Pattern.compile("\\w*(\\d+/\\d+ Kills)");
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
+        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
     }
 
     @Override

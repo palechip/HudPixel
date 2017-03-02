@@ -68,7 +68,7 @@ public class MWAssistCounterModularGuiProvider extends SimpleHudPixelModularGuiP
     private static Pattern KILL_PTRN = Pattern.compile("\\w*(\\d+/\\d+ Assists)");
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
+        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
     }
 
     @Override

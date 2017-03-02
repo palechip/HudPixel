@@ -4,7 +4,7 @@ import com.palechip.hudpixelmod.HudPixelMod;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.hypixel.helper.HYPIXEL_RANK;
+import net.unaussprechlich.hypixel.helper.HypixelRank;
 import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
@@ -52,35 +52,35 @@ public class ChatGUI extends GUI{
 
 
         DefChatMessageContainer test1 = new DefChatMessageContainer(
-                new PlayerModel("unausspreclich", UUID.randomUUID(), HYPIXEL_RANK.ADMIN.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                new PlayerModel("unausspreclich", UUID.randomUUID(), HypixelRank.ADMIN.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test2 = new DefChatMessageContainer(
-                new PlayerModel("hst", UUID.randomUUID(), HYPIXEL_RANK.YT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                new PlayerModel("hst", UUID.randomUUID(), HypixelRank.YT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test3 = new DefChatMessageContainer(
-                new PlayerModel("EpicNewb", UUID.randomUUID(), HYPIXEL_RANK.DEFAULT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                new PlayerModel("EpicNewb", UUID.randomUUID(), HypixelRank.DEFAULT.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test4 = new DefChatMessageContainer(
-                new PlayerModel("ciu22", UUID.randomUUID(), HYPIXEL_RANK.MOD.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                new PlayerModel("ciu22", UUID.randomUUID(), HypixelRank.MOD.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH
         );
 
         DefChatMessageContainer test5 = new DefChatMessageContainer(
-                new PlayerModel("ausspreclich", UUID.randomUUID(), HYPIXEL_RANK.MVP_PLUS.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                new PlayerModel("ausspreclich", UUID.randomUUID(), HypixelRank.MVP_PLUS.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                 "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
                 new DefPictureContainer(),
                 WIDTH

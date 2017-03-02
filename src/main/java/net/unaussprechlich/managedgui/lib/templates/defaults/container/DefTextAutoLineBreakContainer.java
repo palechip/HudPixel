@@ -10,7 +10,7 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.CONSTANTS;
+import net.unaussprechlich.managedgui.lib.Constants;
 import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
@@ -41,7 +41,7 @@ public class DefTextAutoLineBreakContainer extends Container{
             renderList.add(text);
         else
             renderList = FontUtil.getFrontRenderer().listFormattedStringToWidth(text, getWidth());
-        super.setHeight(CONSTANTS.TEXT_Y_OFFSET * renderList.size());
+        super.setHeight(Constants.TEXT_Y_OFFSET * renderList.size());
     }
 
     public void setShadow(boolean shadow) {
@@ -61,7 +61,7 @@ public class DefTextAutoLineBreakContainer extends Container{
         for(String s : renderList){
             if(isShadow) FontUtil.drawWithShadow(s, xStart, yStart);
             else         FontUtil.draw(s, xStart, yStart);
-            yStart += CONSTANTS.TEXT_Y_OFFSET;
+            yStart += Constants.TEXT_Y_OFFSET;
         }
     }
 

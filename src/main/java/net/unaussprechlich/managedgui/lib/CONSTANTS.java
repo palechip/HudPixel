@@ -9,10 +9,10 @@
 package net.unaussprechlich.managedgui.lib;
 
 /**
- * CONSTANTS Created by unaussprechlich on 21.12.2016.
+ * Constants Created by unaussprechlich on 21.12.2016.
  * Description:
  **/
-public class CONSTANTS {
+public class Constants {
 
     public final static int TEXT_Y_OFFSET = 9;
 

@@ -65,7 +65,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.shouldRenderStuff();
+        return GameDetector.Companion.shouldRenderStuff();
     }
 
     public String getRenderingString() {
@@ -81,7 +81,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public void onTickUpdate() {
-        if (GameDetector.shouldRenderStuff()) {
+        if (GameDetector.Companion.shouldRenderStuff()) {
             long timeBuff = System.currentTimeMillis() - gameStartedTime;
             String sMin;
             long min = (timeBuff / 1000 / 60);

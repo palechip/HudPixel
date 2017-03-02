@@ -46,6 +46,7 @@
 
 package com.palechip.hudpixelmod.extended.statsviewer;
 
+import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
@@ -54,10 +55,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import static com.palechip.hudpixelmod.GameDetector.getCurrentGameType;
 import static com.palechip.hudpixelmod.extended.HudPixelExtended.UUID;
 import static java.lang.System.currentTimeMillis;
 import static net.minecraft.client.Minecraft.getMinecraft;
@@ -90,12 +88,7 @@ public class StatsViewerManager {
      */
     public static void onClientTick() {
 
-        for (Iterator<Map.Entry<String, StatsViewerRender>> it = statsViewerRenderMap.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<String, StatsViewerRender> entry = it.next();
-            if (entry.getValue().getExpireTimestamp() <= currentTimeMillis())
-                it.remove();
-
-        }
+        statsViewerRenderMap.entrySet().removeIf(entry -> entry.getValue().getExpireTimestamp() <= currentTimeMillis());
 
         Minecraft mc = getMinecraft();
 
@@ -108,7 +101,7 @@ public class StatsViewerManager {
             if (mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP) {
                 if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
                     statsViewerRenderMap.put(mc.objectMouseOver.entityHit.getName(), new StatsViewerRender(
-                            getCurrentGameType(),
+                            GameDetector.Companion.getCurrentGameType(),
                             mc.objectMouseOver.entityHit.getUniqueID()));
                 }
             }

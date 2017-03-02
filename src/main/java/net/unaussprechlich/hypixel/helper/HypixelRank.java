@@ -6,10 +6,10 @@ import net.unaussprechlich.managedgui.lib.databases.Player.data.Rank;
 import static com.mojang.realmsclient.gui.ChatFormatting.*;
 
 /**
- * HYPIXEL_RANK Created by Alexander on 28.02.2017.
+ * HypixelRank Created by Alexander on 28.02.2017.
  * Description:
  **/
-public enum HYPIXEL_RANK {
+public enum HypixelRank {
 
     DEFAULT("" , "", GRAY),
     VIP("[VIP]" , GREEN + "[VIP]", GREEN),
@@ -23,7 +23,7 @@ public enum HYPIXEL_RANK {
 
     private final Rank rank;
 
-    HYPIXEL_RANK(String name, String nameFormatted, ChatFormatting color){
+    HypixelRank(String name, String nameFormatted, ChatFormatting color){
         this.rank = new Rank(name, nameFormatted, color);
     }
 

@@ -68,7 +68,7 @@ public class MWFinalAssistCounterModularGuiProvider extends SimpleHudPixelModula
     private static Pattern KILL_PTRN = Pattern.compile("\\w*FINAL KILL ASSIST");
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
+        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
     }
 
     @Override

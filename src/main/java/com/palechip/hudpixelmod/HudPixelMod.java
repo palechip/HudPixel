@@ -186,6 +186,8 @@ public class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(VerboseChatOutputCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(ClickEventCommand.INSTANCE);
             ClientCommandHandler.instance.registerCommand(AfkCommand.INSTANCE);
+            ClientCommandHandler.instance.registerCommand(ManagedGuiDisableCommand.INSTANCE);
+            ChatDetector.INSTANCE.init();
             new HudPixelMethodHandles();
             new FireAntiRenderer();
             BetterGgHandler.init();
