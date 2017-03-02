@@ -157,6 +157,7 @@ public class HudPixelMod {
     }
 
     private static void createModList() {
+        modlist.clear();
         List<ModContainer> b = Loader.instance().getActiveModList();
         for (ModContainer modContainer : b) {
             String l = modContainer.getName();

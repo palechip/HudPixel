@@ -1,6 +1,6 @@
 // For those who want the bleeding edge
 buildscript {
-    ext.kotlin_version = '1.0.2'
+    ext.kotlin_version = '1.1.0'
     repositories {
         mavenCentral()
         jcenter()
