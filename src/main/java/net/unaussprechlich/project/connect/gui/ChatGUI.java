@@ -1,6 +1,8 @@
 package net.unaussprechlich.project.connect.gui;
 
 import com.palechip.hudpixelmod.HudPixelMod;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -18,6 +20,7 @@ import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil;
 import net.unaussprechlich.managedgui.lib.util.RGBA;
 import net.unaussprechlich.managedgui.lib.util.RenderUtils;
+import org.lwjgl.opengl.GL11;
 
 import java.util.UUID;
 
@@ -130,6 +133,10 @@ public class ChatGUI extends GUI{
 
     @Override
     public boolean doRender(int xStart, int yStart) {
+        GL11.glColor3f(1f, 1f, 1f);
+        GuiInventory.drawEntityOnScreen(1000, 500, 100, MouseHandler.getmX(), MouseHandler.getmY(), Minecraft.getMinecraft().thePlayer);
+
+
         return true;
     }
 

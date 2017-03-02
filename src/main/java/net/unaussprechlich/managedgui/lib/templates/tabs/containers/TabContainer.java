@@ -15,10 +15,13 @@ import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.EnumEventState;
 
+import javax.annotation.Nonnull;
+
 /**
  * TabContainer Created by Alexander on 24.02.2017.
  * Description:
  **/
+@Nonnull
 public class TabContainer extends Container{
 
     private Container               container;
@@ -26,7 +29,7 @@ public class TabContainer extends Container{
 
     private final TabManager tabManager;
 
-    public TabContainer(TabListElementContainer tabListElement, Container container, TabManager tabManager){
+    public TabContainer(@Nonnull TabListElementContainer tabListElement, @Nonnull Container container, @Nonnull TabManager tabManager){
         this.tabListElement = tabListElement;
         this.container = container;
         this.tabManager = tabManager;

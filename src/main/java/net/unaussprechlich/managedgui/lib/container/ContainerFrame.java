@@ -17,6 +17,8 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.util.*;
 import org.lwjgl.opengl.Display;
 
+import javax.annotation.Nonnull;
+
 /**
  * ContainerFrame Created by unaussprechlich on 26.02.2017.
  * Description:
@@ -27,13 +29,13 @@ public abstract class ContainerFrame extends Container {
     private FrameBufferObj frameBuffer;
     private boolean requireFrameUpdate = true;
 
-    public ContainerFrame(int width, int height, int minWidth, int minHeight, ColorRGBA color){
+    public ContainerFrame(int width, int height, int minWidth, int minHeight, @Nonnull ColorRGBA color){
         this(width, height, color);
         setMinWidth(minWidth);
         setMinHeight(minHeight);
     }
 
-    public ContainerFrame(int width, int height, ColorRGBA color){
+    public ContainerFrame(int width, int height, @Nonnull ColorRGBA color){
         setWidth(width);
         setHeight(height);
         setBackgroundRGBA(color);

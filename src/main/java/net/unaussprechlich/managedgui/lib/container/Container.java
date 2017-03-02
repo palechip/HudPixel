@@ -30,14 +30,14 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private int xStart = 0;
     private int yStart = 0;
 
-    private int minWidth = 0;
+    private int minWidth  = 0;
     private int minHeight = 0;
 
     private int xOffset = 0;
     private int yOffset = 0;
 
     private boolean isHover = false;
-    private boolean visible = true;
+    private boolean visible = true; 
 
     private ContainerSide border = new ContainerSide();
     private ContainerSide margin = new ContainerSide();

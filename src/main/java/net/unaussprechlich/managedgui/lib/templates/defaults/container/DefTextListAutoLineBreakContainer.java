@@ -9,7 +9,7 @@
 package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.unaussprechlich.managedgui.lib.CONSTANTS;
-import net.unaussprechlich.managedgui.lib.callback.ICallbackUpdateHeight;
+import net.unaussprechlich.managedgui.lib.container.callback.ICallbackUpdateHeight;
 import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
 import javax.annotation.Nonnull;
