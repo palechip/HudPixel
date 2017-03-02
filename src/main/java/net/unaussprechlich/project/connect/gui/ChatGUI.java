@@ -1,8 +1,6 @@
 package net.unaussprechlich.project.connect.gui;
 
 import com.palechip.hudpixelmod.HudPixelMod;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -126,15 +124,13 @@ public class ChatGUI extends GUI{
     @Override
     public boolean doClientTick() {
         //TODO OFFSET RENDERING IS BROKEN! MAYBE IN CONTAINER_FRAME
-        tabManager.setYOffset(DisplayUtil.getScaledMcHeight() - HEIGHT - 100 );
-        tabManager.setXOffset(50);
         return true;
     }
 
     @Override
     public boolean doRender(int xStart, int yStart) {
         GL11.glColor3f(1f, 1f, 1f);
-        GuiInventory.drawEntityOnScreen(1000, 500, 100, MouseHandler.getmX(), MouseHandler.getmY(), Minecraft.getMinecraft().thePlayer);
+        //GuiInventory.drawEntityOnScreen(1000, 500, 100, MouseHandler.getmX(), MouseHandler.getmY(), Minecraft.getMinecraft().thePlayer);
 
 
         return true;
