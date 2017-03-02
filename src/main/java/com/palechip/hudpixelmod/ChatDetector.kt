@@ -3,6 +3,7 @@ package com.palechip.hudpixelmod
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.unaussprechlich.hypixel.helper.HypixelRank
 
 /**
  * Created by Elad on 3/2/2017.
@@ -40,11 +41,16 @@ object ChatDetector {
 
             val type = if(message.startsWith("To")) "To" else "From"
             val name = message.substring((if(type == "To") message.indexOf("To ") else message.indexOf("From "))..message.indexOf(":"))
+            var rank = HypixelRank.DEFAULT
+            enumValues<HypixelRank>().forEach {
+                if(it.get().rankName in message) rank = it
+            }
             val msg = message.substringAfter(": ")
             return EventInfo(PrivateMessage.javaClass, mapOf(
                     "name" to name,
                     "message" to msg,
-                    "type" to type
+                    "type" to type,
+                    "rank" to rank.name
             ))
         }
 
