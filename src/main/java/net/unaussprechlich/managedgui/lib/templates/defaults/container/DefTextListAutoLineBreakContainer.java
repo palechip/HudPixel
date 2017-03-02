@@ -8,7 +8,7 @@
 
 package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
-import net.unaussprechlich.managedgui.lib.Constants;
+import net.unaussprechlich.managedgui.lib.ConstantsMG;
 import net.unaussprechlich.managedgui.lib.container.callback.ICallbackUpdateHeight;
 import net.unaussprechlich.managedgui.lib.util.FontUtil;
 
@@ -54,7 +54,7 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
 
     @Override
     protected void updateSize(){
-        super.setHeightLocal(super.getListSize() * Constants.TEXT_Y_OFFSET);
+        super.setHeightLocal(super.getListSize() * ConstantsMG.TEXT_Y_OFFSET);
         if(callbackHeight != null)
             callbackHeight.call(getHeight());
     }
