@@ -35,8 +35,12 @@ public class DefScrollableContainer extends ContainerFrame {
     private final IScrollSpacerRenderer spacer;
     private final int spacerHeight;
 
+    public ArrayList<Container> getScrollElements() {
+        return scrollElements;
+    }
+
     private int pixelSize = 0;
-    private int pixelPos = 0;
+    private int pixelPos  = 0;
 
     private ArrayList<Container> scrollElements  = new ArrayList<>();
     private ArrayList<Integer>   spacerPositions = new ArrayList<>();
@@ -51,6 +55,9 @@ public class DefScrollableContainer extends ContainerFrame {
     public void registerScrollElement(Container container){
         if((scrollElements.size() + 1) > MAX_STORED){
             unregisterScrollElement(scrollElements.get(scrollElements.size()-1));
+        }
+        if(container instanceof DefChatMessageContainer){
+            ((DefChatMessageContainer) container).setHeightCallback(data -> updateWithAnimation());
         }
         registerChild(container);
         scrollElements.add(container);

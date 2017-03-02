@@ -12,6 +12,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.container.Container;
+import net.unaussprechlich.managedgui.lib.container.callback.ICallbackUpdateHeight;
 import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
@@ -35,6 +36,8 @@ public class DefChatMessageContainer extends Container {
     private DefTextContainer username_con;
     private DefPictureContainer avatar_con;
 
+    private ICallbackUpdateHeight callback;
+
     private final PlayerModel player;
     private final DateHelper date;
 
@@ -45,6 +48,14 @@ public class DefChatMessageContainer extends Container {
         this.username_con = new DefTextContainer(player.getRankName() + ChatFormatting.GRAY + ChatFormatting.ITALIC + "  " + date.getDateTimeTextPassed());
         setWidth(width);
         setup(message);
+    }
+
+    public void setHeightCallback(ICallbackUpdateHeight callback) {
+        this.callback = callback;
+    }
+
+    public String getPlayername(){
+        return player.getName();
     }
 
     private void setup(String message){
@@ -71,6 +82,9 @@ public class DefChatMessageContainer extends Container {
     private void update(){
         super.setHeight(SPACE * 2  + username_con.getHeightMargin() + message_con.getHeightMargin());
         message_con.setWidth(getWidth() - avatar_con.getWidthMargin() - SPACE - 14);
+        if(callback != null){
+            callback.call(getHeight());
+        }
     }
 
     private static String getStyledTime(){
