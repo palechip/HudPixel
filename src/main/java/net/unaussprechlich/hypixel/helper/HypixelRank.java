@@ -13,9 +13,9 @@ public enum HypixelRank {
 
     DEFAULT("" , "", GRAY),
     VIP("[VIP]" , GREEN + "[VIP]", GREEN),
-    VIP_PLUS("[VIP]" , GREEN + "[VIP" + GOLD + "+" + GREEN + "]", GREEN),
-    MVP("[MVP]" , AQUA + "[VIP]", AQUA),
-    MVP_PLUS("[MVP]" , AQUA + "[VIP" + GOLD + "+" + AQUA + "]", AQUA),
+    VIP_PLUS("[VIP+]" , GREEN + "[VIP" + GOLD + "+" + GREEN + "]", GREEN),
+    MVP("[MVP]" , AQUA + "[MVP]", AQUA),
+    MVP_PLUS("[MVP+]" , AQUA + "[MVP" + GOLD + "+" + AQUA + "]", AQUA),
     HELPER("[HELPER]" , BLUE + "[VIP]", BLUE),
     MOD("[MOD]" , DARK_GREEN + "[MOD]", DARK_GREEN),
     YT("[YT]" , GOLD + "[YT]", GOLD),
