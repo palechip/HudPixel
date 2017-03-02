@@ -40,11 +40,11 @@ object ChatDetector {
         override fun handle(message: String): EventInfo<PrivateMessage> {
 
             val type = if(message.startsWith("To")) "To" else "From"
-            val name = message.substring((if(type == "To") message.indexOf("To ") else message.indexOf("From "))..message.indexOf(":"))
             var rank = HypixelRank.DEFAULT
             enumValues<HypixelRank>().forEach {
                 if(it.get().rankName in message) rank = it
             }
+            val name = message.substring((if(type == "To") message.indexOf("To ") else message.indexOf("From "))..message.indexOf(":")).replace(rank.name, "")
             val msg = message.substringAfter(": ")
             return EventInfo(PrivateMessage.javaClass, mapOf(
                     "name" to name,
@@ -56,6 +56,50 @@ object ChatDetector {
 
         override val pattern: Regex
             get() = "To\\s+.*:\\s+.*|From\\s+.*:\\s+.*".toRegex()
+    }
+
+    /**
+     * Use to intercept guild messages
+     */
+    object GuildChat : ChatEventBase<GuildChat>() {
+        override fun handle(message: String): EventInfo<GuildChat> {
+            var rank = HypixelRank.DEFAULT
+            enumValues<HypixelRank>().forEach {
+                if(it.get().rankName in message) rank = it
+            }
+            val name = message.substring(message.indexOf(" > ")..message.indexOf(":")).replace(rank.name, "")
+            val msg = message.substringAfter(": ")
+            return EventInfo(GuildChat.javaClass, mapOf(
+                    "name" to name,
+                    "message" to msg,
+                    "rank" to rank.name
+            ))
+        }
+
+        override val pattern: Regex
+            get() = "Guild\\s+>\\s+.*:\\s.*".toRegex()
+    }
+
+    /**
+     * Use to intercept party chat messages
+     */
+    object PartyChat : ChatEventBase<PartyChat>() {
+        override fun handle(message: String): EventInfo<PartyChat> {
+            var rank = HypixelRank.DEFAULT
+            enumValues<HypixelRank>().forEach {
+                if(it.get().rankName in message) rank = it
+            }
+            val name = message.substring(message.indexOf(" > ")..message.indexOf(":")).replace(rank.name, "")
+            val msg = message.substringAfter(": ")
+            return EventInfo(PartyChat.javaClass, mapOf(
+                    "name" to name,
+                    "message" to msg,
+                    "rank" to rank.name
+            ))
+        }
+
+        override val pattern: Regex
+            get() = "Party\\s+>\\s+.*:\\s.*".toRegex()
     }
 
     class EventInfo<T>(val type: Class<T>, val data: Data)
