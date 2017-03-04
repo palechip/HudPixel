@@ -105,6 +105,7 @@ public enum RGBA {
         return RGBA;
     }
 
+
     public float getALPHAf() {return RGBA.getALPHAf();}
     public float getBLUEf()  {return RGBA.getBLUEf();}
     public float getGREENf() {return RGBA.getGREENf();}

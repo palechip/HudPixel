@@ -70,7 +70,7 @@ public class DefTextListContainer extends Container{
 
     private void render(int xStart, int yStart){
         for(String s : textList){
-            FontUtil.drawWithShadow(s, xStart, yStart);
+            FontUtil.getINSTANCE().drawFormatted(s, xStart, yStart);
             yStart += ConstantsMG.TEXT_Y_OFFSET;
         }
     }

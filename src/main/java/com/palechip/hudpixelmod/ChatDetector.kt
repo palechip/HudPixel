@@ -44,7 +44,7 @@ object ChatDetector {
             enumValues<HypixelRank>().forEach {
                 if(it.get().rankName in message) rank = it
             }
-            val name = message.substring((if(type == "To") message.indexOf("To ") else message.indexOf("From "))..message.indexOf(":")).replace(rank.name, "")
+            val name = message.substring((if(type == "To")(message.indexOf("To ") + 3 ) else (message.indexOf("From ") + 5))..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")
             return EventInfo(PrivateMessage.javaClass, mapOf(
                     "name" to name,
@@ -67,7 +67,7 @@ object ChatDetector {
             enumValues<HypixelRank>().forEach {
                 if(it.get().rankName in message) rank = it
             }
-            val name = message.substring(message.indexOf(" > ")..message.indexOf(":")).replace(rank.name, "")
+            val name = message.substring((message.indexOf(" > ") + 3)..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")
             return EventInfo(GuildChat.javaClass, mapOf(
                     "name" to name,
@@ -89,7 +89,7 @@ object ChatDetector {
             enumValues<HypixelRank>().forEach {
                 if(it.get().rankName in message) rank = it
             }
-            val name = message.substring(message.indexOf(" > ")..message.indexOf(":")).replace(rank.name, "")
+            val name = message.substring((message.indexOf(" > ") + 3)..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")
             return EventInfo(PartyChat.javaClass, mapOf(
                     "name" to name,

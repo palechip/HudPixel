@@ -65,8 +65,7 @@ public class DefTextContainer extends Container{
     @Override
     protected boolean doRenderTickLocal(int xStart, int yStart, int width, int height, EnumEventState ees) {
         if(ees == EnumEventState.PRE){
-            if(isShadow) FontUtil.drawWithShadow(text, xStart, yStart);
-            else         FontUtil.draw(text, xStart, yStart);
+            FontUtil.getINSTANCE().drawFormatted(text, xStart, yStart);
         }
         return true;
     }

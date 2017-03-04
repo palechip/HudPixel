@@ -7,7 +7,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.hypixel.helper.HypixelRank;
+import net.unaussprechlich.managedgui.lib.Constants;
 import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
+import net.unaussprechlich.managedgui.lib.databases.Player.data.Rank;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
 import net.unaussprechlich.managedgui.lib.gui.GUI;
@@ -38,10 +40,10 @@ public class ChatGUI extends GUI{
     private static final int WIDTH  = 500;
     private static final int HEIGHT = 200;
 
-    private static DefScrollableContainer scrollALL = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
+    private static DefScrollableContainer scrollALL = new DefScrollableContainer(Constants.DEF_BACKGROUND_RGBA, WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
         @Override
         public void render(int xStart, int yStart, int width) {
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, Constants.DEF_BACKGROUND_RGBA, new ColorRGBA(30, 30, 30, 255));
         }
 
         @Override
@@ -50,10 +52,10 @@ public class ChatGUI extends GUI{
         }
     });
 
-    private static DefScrollableContainer partyCon = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
+    private static DefScrollableContainer partyCon = new DefScrollableContainer(Constants.DEF_BACKGROUND_RGBA, WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
         @Override
         public void render(int xStart, int yStart, int width) {
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, Constants.DEF_BACKGROUND_RGBA, new ColorRGBA(30, 30, 30, 255));
         }
 
         @Override
@@ -62,10 +64,10 @@ public class ChatGUI extends GUI{
         }
     });
 
-    private static DefScrollableContainer guildCon = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
+    private static DefScrollableContainer guildCon = new DefScrollableContainer(Constants.DEF_BACKGROUND_RGBA, WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
         @Override
         public void render(int xStart, int yStart, int width) {
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, Constants.DEF_BACKGROUND_RGBA, new ColorRGBA(30, 30, 30, 255));
         }
 
         @Override
@@ -74,10 +76,10 @@ public class ChatGUI extends GUI{
         }
     });
 
-    private static DefScrollableContainer privateCon = new DefScrollableContainer(RGBA.P1B1_DEF.get(), WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
+    private static DefScrollableContainer privateCon = new DefScrollableContainer(Constants.DEF_BACKGROUND_RGBA, WIDTH , HEIGHT - 17, new IScrollSpacerRenderer() {
         @Override
         public void render(int xStart, int yStart, int width) {
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, RGBA.P1B1_DEF.get(), new ColorRGBA(30, 30, 30, 255));
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, Constants.DEF_BACKGROUND_RGBA, new ColorRGBA(30, 30, 30, 255));
         }
 
         @Override
@@ -98,28 +100,31 @@ public class ChatGUI extends GUI{
         updatePosition();
 
         ChatDetector.INSTANCE.registerEventHandler(ChatDetector.PrivateMessage.INSTANCE, (chatDetector, eventInfo) -> {
-                   addChatMessage(privateCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"));
+            System.out.println("FUCK THIS SHIT!" + eventInfo.getData().get("rank"));
+                   addChatMessage(privateCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"), HypixelRank.getRankByName(eventInfo.getData().get("rank")));
                    return Unit.INSTANCE;
             }
         );
 
         ChatDetector.INSTANCE.registerEventHandler(ChatDetector.GuildChat.INSTANCE, (chatDetector, eventInfo) -> {
-                                                       addChatMessage(guildCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"));
+            System.out.println("FUCK THIS SHIT!" + eventInfo.getData().get("rank"));
+                                                       addChatMessage(guildCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"), HypixelRank.getRankByName(eventInfo.getData().get("rank")));
                                                        return Unit.INSTANCE;
                                                    }
         );
 
         ChatDetector.INSTANCE.registerEventHandler(ChatDetector.PartyChat.INSTANCE, (chatDetector, eventInfo) -> {
-                                                       addChatMessage(partyCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"));
+            System.out.println("FUCK THIS SHIT!" + eventInfo.getData().get("rank"));
+                                                       addChatMessage(partyCon, eventInfo.getData().get("name"), eventInfo.getData().get("message"), HypixelRank.getRankByName(eventInfo.getData().get("rank")));
                                                        return Unit.INSTANCE;
                                                    }
         );
 
     }
 
-    public static void addChatMessage(DefScrollableContainer con, String name, String message){
-        if(!con.getScrollElements().isEmpty() && con.getScrollElements().get(0) instanceof DefChatMessageContainer){
-            DefChatMessageContainer conMes = (DefChatMessageContainer) con.getScrollElements().get(0);
+    public static void addChatMessage(DefScrollableContainer con, String name, String message, Rank rank){
+        if(!con.getScrollElements().isEmpty() && con.getScrollElements().get(con.getScrollElements().size() - 1) instanceof DefChatMessageContainer){
+            DefChatMessageContainer conMes = (DefChatMessageContainer) con.getScrollElements().get(con.getScrollElements().size() - 1);
             if(conMes.getPlayername().equalsIgnoreCase(name)){
                 conMes.addMessage(message);
                 return;
@@ -127,7 +132,7 @@ public class ChatGUI extends GUI{
         }
         con.registerScrollElement(
                 new DefChatMessageContainer(
-                        new PlayerModel(name, UUID.randomUUID(), HypixelRank.MVP_PLUS.get(), new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
+                        new PlayerModel(name, UUID.randomUUID(), rank, new ResourceLocation(HudPixelMod.MODID,"textures/skins/SteveHead.png")),
                         message,
                         new DefPictureContainer(),
                         WIDTH

@@ -51,6 +51,8 @@ dependencies {
     required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile ('io.socket:socket.io-client:0.8.3')
     required ('io.socket:socket.io-client:0.8.3')
+    compile group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+    required group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 }
 
 apply plugin: 'java'

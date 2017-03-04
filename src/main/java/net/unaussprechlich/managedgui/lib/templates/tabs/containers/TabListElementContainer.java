@@ -9,6 +9,7 @@
 package net.unaussprechlich.managedgui.lib.templates.tabs.containers;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.unaussprechlich.managedgui.lib.Constants;
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler;
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefBackgroundContainer;
 import net.unaussprechlich.managedgui.lib.util.*;
@@ -32,7 +33,7 @@ public class TabListElementContainer extends DefBackgroundContainer {
     private String title;
 
     public TabListElementContainer(String title, ColorRGBA color, TabManager tabManager) {
-        super(RGBA.P1B1_DEF.get(), FontUtil.widthOfString(title) + 10, ELEMENT_HEIGHT);
+        super(Constants.DEF_BACKGROUND_RGBA, FontUtil.widthOfString(title) + 10, ELEMENT_HEIGHT);
         this.color = color;
         this.title = title;
         this.tabManager = tabManager;
@@ -54,7 +55,7 @@ public class TabListElementContainer extends DefBackgroundContainer {
 
         if(isHover() && !isOpen){
             ColorRGBA color = new ColorRGBA(60, 60, 70, 255);
-            RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart, yStart, getWidth(), ELEMENT_HEIGHT, RGBA.P1B1_DEF.get(), color, color, color);
+            RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart, yStart, getWidth(), ELEMENT_HEIGHT, Constants.DEF_BACKGROUND_RGBA, color, color, color);
 
         }
 
@@ -62,12 +63,12 @@ public class TabListElementContainer extends DefBackgroundContainer {
 
             ColorRGBA color = new ColorRGBA(50, 50, 60, 255);
 
-            RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart + this.getWidth() - 8, yStart, 8, ELEMENT_HEIGHT, RGBA.P1B1_DEF.get(), color, color, RGBA.P1B1_DEF.get());
+            RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart + this.getWidth() - 8, yStart, 8, ELEMENT_HEIGHT, Constants.DEF_BACKGROUND_RGBA, color, color, RGBA.P1B1_DEF.get());
         }
 
         if(isOpen)  RenderUtils.renderBoxWithColor(xStart, yStart, width, 2, color);
         else        RenderUtils.renderBoxWithColor(xStart, yStart + ELEMENT_HEIGHT -2, width, 2, color);
-        FontUtil.draw(ChatFormatting.GRAY + title, xStart + 5, yStart + 4);
+        FontUtil.getINSTANCE().drawFormatted(ChatFormatting.GRAY + title, xStart + 5, yStart + 4);
 
         return true;
     }

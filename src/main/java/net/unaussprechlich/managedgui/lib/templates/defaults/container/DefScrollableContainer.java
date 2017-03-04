@@ -10,6 +10,7 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.unaussprechlich.managedgui.lib.Constants;
 import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.container.ContainerFrame;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
@@ -57,17 +58,17 @@ public class DefScrollableContainer extends ContainerFrame {
             unregisterScrollElement(scrollElements.get(scrollElements.size()-1));
         }
         if(container instanceof DefChatMessageContainer){
-            ((DefChatMessageContainer) container).setHeightCallback(data -> updateWithAnimation());
+            ((DefChatMessageContainer) container).setHeightCallback(data -> updateWithoutAnimation());
         }
         registerChild(container);
         scrollElements.add(container);
-        updateWithAnimation();
+        updateWithoutAnimation();
     }
 
     public void unregisterScrollElement(Container container){
         unregisterChild(container);
         scrollElements.remove(container);
-        updateWithAnimation();
+        updateWithoutAnimation();
     }
 
     private int getMaxScrollIndex(){
@@ -109,8 +110,8 @@ public class DefScrollableContainer extends ContainerFrame {
         }
 
         if(ees.equals(EnumEventState.POST)){
-            RenderUtils.renderBoxWithColor(xStart, yStart, width, 7, getBackgroundRGBA());
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart + 7, width, 30, getBackgroundRGBA() ,
+            RenderUtils.renderBoxWithColor(xStart, yStart - 1, width, 7, getBackgroundRGBA());
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart + 6, width, 30, getBackgroundRGBA() ,
                                                    new ColorRGBA(getBackgroundRGBA().getRED(), getBackgroundRGBA().getGREEN(), getBackgroundRGBA().getBLUE(), 0));
 
 
@@ -119,7 +120,7 @@ public class DefScrollableContainer extends ContainerFrame {
 
             //System.out.println(Math.abs(pixelPos - (pixelSize - height)) + " | " + pixelPos + " | " + pixelSize + " | " + scroll +  " | " + indexScroll + " | " + height);
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2);
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), Constants.DEF_BACKGROUND_RGBA, 2);
 
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 10, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
 
@@ -246,7 +247,7 @@ public class DefScrollableContainer extends ContainerFrame {
     protected boolean doResizeLocal(int width, int height) {
         scrollElements.forEach(container -> container.setWidth(getWidth()));
         indexScroll = 0;
-        updateWithAnimation();
+        updateWithoutAnimation();
         return true;
     }
 }
