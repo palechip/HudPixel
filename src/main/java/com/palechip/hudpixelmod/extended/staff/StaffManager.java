@@ -63,6 +63,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * A small "ego"-class to display the the HudPixel staff with a nice color and tag #abgehoben
@@ -145,18 +146,24 @@ public class StaffManager implements IEventHandler, McColorHelper {
     private final String vip_tag = "§r§a[VIP] ";
     private final String vipplus_tag = "§r§a[VIP§r§6+§r§a] ";
     private final String mvp_tag = "§r§b] ";
-    private final String mvpplus_tag = "§r§b[MVP§r§[0-9a-zA-Z]§r§b]";
+
+    private static final String MVPPLUS_TAG_REGEX = ".*§r§b\\[MVP§r§[0-9a-f]\\+§r§b].";
     
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         if (e.type != 0) return; //return if it isn't a normal chat message
-        if (e.message.getUnformattedText().contains("http"))
+        if (e.message.getUnformattedText().contains("http://") || e.message.getUnformattedText().contains("https://"))
             return; //return if the message contains a link .... so you can still click it :)
+
+        String text = e.message.getFormattedText();
+
+        System.out.println(text);
 
         for (String s : tags.keySet()) { //for admins
             String s1 = s + "§r§7: ";
-		    if (e.message.FormattedText().contains(default_tag + s1) || e.message.FormattedText().contains(vip_tag + s1) || e.message.FormattedText().contains(vipplus_tag + s1) || 
-			    e.message.FormattedText().contains(mvp_tag + s1) || e.message.getUnformattedText().contains(mvpplus_tag + s1)) {
+		    if (text.contains(default_tag + s1) || text.contains(vip_tag + s1) || text.contains(vipplus_tag + s1) ||
+                    text.contains(mvp_tag + s1) || Pattern.compile(MVPPLUS_TAG_REGEX + s1 + ".*").matcher(text).matches()) {
+
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
