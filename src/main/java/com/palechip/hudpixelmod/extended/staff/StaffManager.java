@@ -141,15 +141,22 @@ public class StaffManager implements IEventHandler, McColorHelper {
      * @param e chat event
      * @throws Throwable
      */
+    private final String default_tag = "§r§7";
+    private final String vip_tag = "§r§a[VIP] ";
+    private final String vipplus_tag = "§r§a[VIP§r§6+§r§a] ";
+    private final String mvp_tag = "§r§b] ";
+    private final String mvpplus_tag = "§r§b[MVP§r§[0-9a-zA-Z]§r§b]";
+    
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
         if (e.type != 0) return; //return if it isn't a normal chat message
         if (e.message.getUnformattedText().contains("http"))
             return; //return if the message contains a link .... so you can still click it :)
 
-
         for (String s : tags.keySet()) { //for admins
-            if (e.message.getUnformattedText().contains(" " + s + ":") || e.message.getUnformattedText().startsWith(s + ":")) {
+            String s1 = s + "§r§7: ";
+		    if (e.message.FormattedText().contains(default_tag + s1) || e.message.FormattedText().contains(vip_tag + s1) || e.message.FormattedText().contains(vipplus_tag + s1) || 
+			    e.message.FormattedText().contains(mvp_tag + s1) || e.message.getUnformattedText().contains(mvpplus_tag + s1)) {
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
