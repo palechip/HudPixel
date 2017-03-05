@@ -67,7 +67,7 @@ public class DefTextListAutoLineBreakContainer extends DefTextListContainer {
 
     private void updateRenderList(){
         ArrayList<String> renderList = new ArrayList<>();
-        textList.forEach(s -> renderList.addAll(FontUtil.getINSTANCE().listFormattedStringToWidth(s, getWidth())));
+        textList.forEach(s -> renderList.addAll(FontUtil.INSTANCE.getFontRenderer().listFormattedStringToWidth(s, getWidth())));
         super.setTextList(renderList);
     }
 

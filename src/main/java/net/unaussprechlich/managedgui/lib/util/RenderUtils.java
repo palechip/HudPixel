@@ -164,7 +164,7 @@ public class RenderUtils {
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 
-        GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
+        GlStateManager.color(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(xStart, yStart + height, 0.0D).endVertex();
         worldrenderer.pos(xStart + width, yStart + height, 0.0D).endVertex();
@@ -187,7 +187,7 @@ public class RenderUtils {
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, sfatorAlpha, dfactorAlpha);
 
-        GlStateManager.color(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
+        GlStateManager.color(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
 
@@ -249,10 +249,10 @@ public class RenderUtils {
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
-        worldrenderer.pos(xStart, yStart + height, 0.0D).color(colorX0.getRED(), colorX0.getGREEN(), colorX0.getBLUE(), colorX0.getALPHA()).endVertex();
-        worldrenderer.pos(xStart + width, yStart + height, 0.0D).color(colorX1.getRED(), colorX1.getGREEN(), colorX1.getBLUE(), colorX1.getALPHA()).endVertex();
-        worldrenderer.pos(xStart + width, yStart, 0.0D).color(colorX2.getRED(), colorX2.getGREEN(), colorX2.getBLUE(), colorX2.getALPHA()).endVertex();
-        worldrenderer.pos(xStart, yStart, 0.0D).color(colorX3.getRED(), colorX3.getGREEN(), colorX3.getBLUE(), colorX3.getALPHA()).endVertex();
+        worldrenderer.pos(xStart, yStart + height, 0.0D).color(colorX0.getRed(), colorX0.getGreen(), colorX0.getBlue(), colorX0.getAlpha()).endVertex();
+        worldrenderer.pos(xStart + width, yStart + height, 0.0D).color(colorX1.getRed(), colorX1.getGreen(), colorX1.getBlue(), colorX1.getAlpha()).endVertex();
+        worldrenderer.pos(xStart + width, yStart, 0.0D).color(colorX2.getRed(), colorX2.getGreen(), colorX2.getBlue(), colorX2.getAlpha()).endVertex();
+        worldrenderer.pos(xStart, yStart, 0.0D).color(colorX3.getRed(), colorX3.getGreen(), colorX3.getBlue(), colorX3.getAlpha()).endVertex();
 
         tessellator.draw();
 

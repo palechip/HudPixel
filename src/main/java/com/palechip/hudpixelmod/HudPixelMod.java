@@ -278,7 +278,7 @@ public class HudPixelMod {
                 //NOTE: THIS DOES NOT SEND ANY SESSION KEYS OR PERSONALLY IDENTIFIER INFORMATION!
                 if (!didTheThings && Minecraft.getMinecraft().thePlayer != null) {
 
-                    Connect.getINSTANCE().setup();
+                    Connect.INSTANCE.setup();
 
                     createModList();
                     String s = "";

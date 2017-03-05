@@ -97,8 +97,8 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     //METHODS ----------------------------------------------------------------------------------------------------------
 
     public boolean checkIfMouseOver(int xStart, int yStart, int width, int height) {
-        int mX = MouseHandler.getmX();
-        int mY = MouseHandler.getmY();
+        int mX = MouseHandler.INSTANCE.getMX();
+        int mY = MouseHandler.INSTANCE.getMY();
         return (mX > xStart && mX < xStart + width
                 && mY > yStart && mY < yStart + height);
     }
@@ -136,7 +136,7 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
         if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.PRE)) return false;
 
-        RenderHelper.renderContainer(this);
+        RenderHelper.INSTANCE.renderContainer(this);
 
         return doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.POST);
     }

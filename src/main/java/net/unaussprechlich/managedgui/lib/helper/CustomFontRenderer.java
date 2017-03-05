@@ -6,13 +6,15 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.util;
+package net.unaussprechlich.managedgui.lib.helper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA;
+import net.unaussprechlich.managedgui.lib.util.RGBA;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
@@ -24,23 +26,31 @@ import java.util.Locale;
 
 import static org.lwjgl.opengl.GL11.*;
 
-
 /**
- * FontUtil Created by unaussprechlich on 20.12.2016.
+ * CustomFontRenderer Created by Alexander on 05.03.2017.
  * Description:
  **/
-public class FontUtil extends FontRenderer{
+public class CustomFontRenderer  extends FontRenderer{
+
+    private static final String random = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000";
+
 
     private final UnicodeFont font;
     private final UnicodeFont fontItalic;
     private final UnicodeFont fontBold;
     private final UnicodeFont fontBoldItalic;
 
+    private boolean randomStyle = false;
+    private boolean boldStyle = false;
+    private boolean strikethroughStyle = false;
+    private boolean underlineStyle = false;
+    private boolean italicStyle = false;
+
     private static final int FONT_HEIGHT_FT = 18;
 
-    private static FontUtil INSTANCE;
+    private static CustomFontRenderer INSTANCE;
 
-    public FontUtil(Font awtFont) {
+    public CustomFontRenderer(Font awtFont) {
         super(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().getTextureManager(), false);
 
 
@@ -66,33 +76,23 @@ public class FontUtil extends FontRenderer{
         } catch(SlickException exception) {
             throw new RuntimeException(exception);
         }
+
         String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
         FONT_HEIGHT = font.getHeight(alphabet) / 2;
     }
 
-    public static FontUtil getINSTANCE() {
+    public static CustomFontRenderer getINSTANCE() {
         if (INSTANCE == null)
-            INSTANCE = new FontUtil(new Font("Trebuchet MS", Font.PLAIN, FONT_HEIGHT_FT));
+            INSTANCE = new CustomFontRenderer(new Font("Trebuchet MS", Font.PLAIN, FONT_HEIGHT_FT));
         return INSTANCE;
     }
 
-    public static void draw(String s, int x, int y){
-        getINSTANCE().drawString(s, x, y, 0xffffff);
-    }
 
-
-    private static final String random = "\u00c0\u00c1\u00c2\u00c8\u00ca\u00cb\u00cd\u00d3\u00d4\u00d5\u00da\u00df\u00e3\u00f5\u011f\u0130\u0131\u0152\u0153\u015e\u015f\u0174\u0175\u017e\u0207\u0000\u0000\u0000\u0000\u0000\u0000\u0000 !\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\u0000\u00c7\u00fc\u00e9\u00e2\u00e4\u00e0\u00e5\u00e7\u00ea\u00eb\u00e8\u00ef\u00ee\u00ec\u00c4\u00c5\u00c9\u00e6\u00c6\u00f4\u00f6\u00f2\u00fb\u00f9\u00ff\u00d6\u00dc\u00f8\u00a3\u00d8\u00d7\u0192\u00e1\u00ed\u00f3\u00fa\u00f1\u00d1\u00aa\u00ba\u00bf\u00ae\u00ac\u00bd\u00bc\u00a1\u00ab\u00bb\u2591\u2592\u2593\u2502\u2524\u2561\u2562\u2556\u2555\u2563\u2551\u2557\u255d\u255c\u255b\u2510\u2514\u2534\u252c\u251c\u2500\u253c\u255e\u255f\u255a\u2554\u2569\u2566\u2560\u2550\u256c\u2567\u2568\u2564\u2565\u2559\u2558\u2552\u2553\u256b\u256a\u2518\u250c\u2588\u2584\u258c\u2590\u2580\u03b1\u03b2\u0393\u03c0\u03a3\u03c3\u03bc\u03c4\u03a6\u0398\u03a9\u03b4\u221e\u2205\u2208\u2229\u2261\u00b1\u2265\u2264\u2320\u2321\u00f7\u2248\u00b0\u2219\u00b7\u221a\u207f\u00b2\u25a0\u0000";
-
-    private boolean randomStyle = false;
-    private boolean boldStyle = false;
-    private boolean strikethroughStyle = false;
-    private boolean underlineStyle = false;
-    private boolean italicStyle = false;
 
     public void drawFormatted(String s, int x, int y){
-        ColorRGBA color = RGBA.WHITE_MC.get();
-        int posX = 0;
-        StringBuilder sB = new StringBuilder();
+        ColorRGBA     color = RGBA.WHITE_MC.get();
+        int           posX  = 0;
+        StringBuilder sB    = new StringBuilder();
 
         randomStyle = false;
         boldStyle = false;
@@ -108,11 +108,11 @@ public class FontUtil extends FontRenderer{
                 //DRAW IT!
                 if(i1 != -1){
                     i++;
-                    drawString(sB.toString(), x + posX, y, color);
-                    posX += widthOfString(sB.toString());
+                    renderString(sB.toString(), x + posX, y, color);
+                    posX += getStringWidth(sB.toString());
                     sB = new StringBuilder();
 
-                    if (i1 < 16) color = ColorRGBA.getColorFromFormatting(c1);
+                    if (i1 < 16) color = ColorRGBA.Companion.getColorFromFormatting(c1);
                     else if (i1 == 16) this.randomStyle = true;
                     else if (i1 == 17) this.boldStyle = true;
                     else if (i1 == 18) this.strikethroughStyle = true;
@@ -144,16 +144,15 @@ public class FontUtil extends FontRenderer{
                 }
                 sB.append(c0);
             }
-            if(i == s.length() - 1) drawString(sB.toString(), x + posX, y, color);
-
+            if(i == s.length() - 1) renderString(sB.toString(), x + posX, y, color);
         }
     }
 
-    public void drawString(String string, int x, int y, ColorRGBA color) {
+
+    public void renderString(String string, int x, int y, ColorRGBA color) {
         if(string == null || string.equalsIgnoreCase("")) return;
 
         glPushMatrix();
-
         glScaled(0.5, 0.5, 0.5);
 
         GlStateManager.enableBlend();
@@ -164,13 +163,13 @@ public class FontUtil extends FontRenderer{
         y *= 2;
 
         if(italicStyle && boldStyle)
-            fontBoldItalic.drawString(x, y, string, new org.newdawn.slick.Color(color.getRED(), color.getGREEN(), color.getBLUE(), color.getALPHA()));
+            fontBoldItalic.drawString(x, y, string, new org.newdawn.slick.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
         else if(italicStyle)
-            fontItalic.drawString(x, y, string, new org.newdawn.slick.Color(color.getRED(), color.getGREEN(), color.getBLUE(), color.getALPHA()));
+            fontItalic.drawString(x, y, string, new org.newdawn.slick.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
         else if(boldStyle)
-            fontBold.drawString(x, y, string, new org.newdawn.slick.Color(color.getRED(), color.getGREEN(), color.getBLUE(), color.getALPHA()));
+            fontBold.drawString(x, y, string, new org.newdawn.slick.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
         else
-            font.drawString(x, y, string, new org.newdawn.slick.Color(color.getRED(), color.getGREEN(), color.getBLUE(), color.getALPHA()));
+            font.drawString(x, y, string, new org.newdawn.slick.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -227,7 +226,7 @@ public class FontUtil extends FontRenderer{
                         if (c1 != 108 && c1 != 76)
                             if (c1 == 114 || c1 == 82 || isFormatColor(c1))
                                 flag = false;
-                        else flag = true;
+                            else flag = true;
                     }
             }
 
@@ -279,7 +278,6 @@ public class FontUtil extends FontRenderer{
                 i += i1;
                 if (flag1) ++i;
             }
-
             if (i > width) break;
 
             stringbuilder.append(c0);
@@ -298,31 +296,4 @@ public class FontUtil extends FontRenderer{
     public int getStringWidth(String string) {
         return font.getWidth(string) / 2;
     }
-
-    public int getStringHeight(String string) {
-        return font.getHeight(string) / 2;
-    }
-
-    public static FontRenderer getFrontRenderer(){
-        return Minecraft.getMinecraft().fontRendererObj;
-    }
-
-    public static int widthOfString(String s){
-        return getINSTANCE().font.getWidth(s) / 2;
-    }
-
-    public static int getWidthOfchar(char c){
-        System.out.println(widthOfString(c + ""));
-        return widthOfString(c + "");
-    }
-
-
-    public static void drawMC(String text, int xStart, int yStart){
-        getFrontRenderer().drawString(text, xStart, yStart, 0xffffff);
-    }
-
-    public static void drawWithShadow(String text, int xStart, int yStart){
-        getFrontRenderer().drawStringWithShadow(text, xStart, yStart, 0xffffff);
-    }
-
 }

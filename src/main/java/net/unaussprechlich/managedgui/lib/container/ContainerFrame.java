@@ -39,8 +39,8 @@ public abstract class ContainerFrame extends Container {
         setWidth(width);
         setHeight(height);
         setBackgroundRGBA(color);
-        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale(), false);
-        frameBuffer.setFramebufferColor(color.getREDf(), color.getGREENf(), color.getBLUEf(), color.getALPHAf());
+        frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale(), false);
+        frameBuffer.setFramebufferColor(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
     }
 
 
@@ -62,7 +62,7 @@ public abstract class ContainerFrame extends Container {
         if(clickType.equals(MouseHandler.ClickType.DROP)){
             if(isResize){
                 isResize = false;
-                frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale());
+                frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
                 onResize();
             }
         }
@@ -72,7 +72,7 @@ public abstract class ContainerFrame extends Container {
     @Override
     public <T extends Event> boolean doEventBus(T event) {
         if(event.getID() == EnumDefaultEvents.SCALE_CHANGED.get()){
-            frameBuffer.createFramebuffer(getWidth() * DisplayUtil.getMcScale(), getHeight() * DisplayUtil.getMcScale());
+            frameBuffer.createFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
         }
         return super.doEventBus(event);
     }
@@ -80,10 +80,10 @@ public abstract class ContainerFrame extends Container {
     @Override
     public boolean doClientTick() {
         if(isResize){
-            if(MouseHandler.getmX() - getXStart() + 5 > getMinWidth())
-                setWidth(MouseHandler.getmX() - getXStart() + 5);
-            if(MouseHandler.getmY() - getYStart() + 5 > getMinHeight())
-                setHeight(MouseHandler.getmY() - getYStart() + 5);
+            if(MouseHandler.INSTANCE.getMX() - getXStart() + 5 > getMinWidth())
+                setWidth(MouseHandler.INSTANCE.getMX() - getXStart() + 5);
+            if(MouseHandler.INSTANCE.getMY() - getYStart() + 5 > getMinHeight())
+                setHeight(MouseHandler.INSTANCE.getMY() - getYStart() + 5);
         }
         updateFrame();
         return super.doClientTick();
@@ -107,7 +107,7 @@ public abstract class ContainerFrame extends Container {
         if(!requireFrameUpdate) return false;
 
         final int x = 0;
-        int y = DisplayUtil.getScaledMcHeight() - getHeight() + 1;
+        int y = DisplayUtil.INSTANCE.getScaledMcHeight() - getHeight() + 1;
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();

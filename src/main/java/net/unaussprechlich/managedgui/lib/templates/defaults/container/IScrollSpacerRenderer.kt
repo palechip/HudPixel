@@ -6,16 +6,13 @@
  * ***************************************************************************
  */
 
-package net.unaussprechlich.managedgui.lib.templates.defaults.container;
+package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
 /**
  * IScrollSpacerRenderer Created by Alexander on 26.02.2017.
  * Description:
- **/
-public interface IScrollSpacerRenderer {
-
-    void render(int xStart, int yStart, int width);
-
-    int getSpacerHeight();
-
+ */
+interface IScrollSpacerRenderer {
+    fun render(xStart: Int, yStart: Int, width: Int)
+    val spacerHeight: Int
 }

@@ -54,9 +54,9 @@ public class LoadPlayerHead{
 
             try {
                 callback.onLoaded(task.get(), username);
-                LoggerHelperMG.logInfo("[LoadPlayerSkin]: Skin loaded for " + username);
+                LoggerHelperMG.INSTANCE.logInfo("[LoadPlayerSkin]: Skin loaded for " + username);
             } catch (InterruptedException | ExecutionException e) {
-                LoggerHelperMG.logWarn("[LoadPlayerSkin]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/" + username + ".png");
+                LoggerHelperMG.INSTANCE.logWarn("[LoadPlayerSkin]: Couldn't load skin for " + username + " @ " + "http://skins.minecraft.net/MinecraftSkins/" + username + ".png");
                 e.printStackTrace();
             } finally {
                 service.shutdownNow();

@@ -93,7 +93,7 @@ import static javax.imageio.ImageIO.read;
 import static net.minecraft.client.Minecraft.getMinecraft;
 
 public final class ContributorFancinessHandler implements LayerRenderer<EntityPlayer> {
-    private volatile static Map<String, Option<ItemStack, LoadImgur>> stacks = new HashMap<>();;
+    private volatile static Map<String, Option<ItemStack, LoadImgur>> stacks = new HashMap<>();
     private volatile static boolean startedLoading = false;
 
     //https://www.youtube.com/watch?v=41aGCrXM20E

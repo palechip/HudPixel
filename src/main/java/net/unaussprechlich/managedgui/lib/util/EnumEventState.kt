@@ -5,8 +5,8 @@
  *
  * ***************************************************************************
  */
-package net.unaussprechlich.managedgui.lib.util;
+package net.unaussprechlich.managedgui.lib.util
 
-public enum EnumEventState{
+enum class EnumEventState {
     POST, PRE
 }

@@ -10,7 +10,7 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container;
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.unaussprechlich.managedgui.lib.Constants;
+import net.unaussprechlich.managedgui.lib.ConstantsMG;
 import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.container.ContainerFrame;
 import net.unaussprechlich.managedgui.lib.event.util.Event;
@@ -90,7 +90,7 @@ public class DefScrollableContainer extends ContainerFrame {
 
         if(isScrollByBar){
             float i = getHeight() - 50;
-            int mY = MouseHandler.getmY()  - getYStart() - 25;
+            int mY = MouseHandler.INSTANCE.getMY()  - getYStart() - 25;
             if(mY < 0) pixelPos = pixelSize - getHeight();
             else if(mY > i) pixelPos = 0;
             else pixelPos = (Math.round(Math.abs(mY - i ) * ((float)(pixelSize - getHeight()) / i)));
@@ -112,7 +112,7 @@ public class DefScrollableContainer extends ContainerFrame {
         if(ees.equals(EnumEventState.POST)){
             RenderUtils.renderBoxWithColor(xStart, yStart - 1, width, 7, getBackgroundRGBA());
             RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart + 6, width, 30, getBackgroundRGBA() ,
-                                                   new ColorRGBA(getBackgroundRGBA().getRED(), getBackgroundRGBA().getGREEN(), getBackgroundRGBA().getBLUE(), 0));
+                                                   new ColorRGBA(getBackgroundRGBA().getRed(), getBackgroundRGBA().getGreen(), getBackgroundRGBA().getBlue(), 0));
 
 
 
@@ -120,7 +120,7 @@ public class DefScrollableContainer extends ContainerFrame {
 
             //System.out.println(Math.abs(pixelPos - (pixelSize - height)) + " | " + pixelPos + " | " + pixelSize + " | " + scroll +  " | " + indexScroll + " | " + height);
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), Constants.DEF_BACKGROUND_RGBA, 2);
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2);
 
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 10, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
 
