@@ -101,6 +101,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
     }
 
     private volatile static Map<String, String> tags = null;
+
     private static void load(Properties props) {
         tags = new HashMap<>();
         System.out.println("Fanciness time!");
@@ -128,11 +129,10 @@ public class StaffManager implements IEventHandler, McColorHelper {
                     load(props);
                 }
             } catch (IOException e) {
-                HudPixelMod.instance().getLOGGER().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
+                HudPixelMod.Companion.instance().getLogger().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
             }
         }
     }
-
 
 
     /**

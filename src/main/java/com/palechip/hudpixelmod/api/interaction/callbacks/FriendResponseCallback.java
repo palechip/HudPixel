@@ -50,6 +50,6 @@ import net.hypixel.api.reply.FriendsReply;
 
 import java.util.List;
 
-public interface FriendResponseCallback extends ApiCallback{
+public interface FriendResponseCallback extends ApiCallback {
     void onFriendResponse(List<FriendsReply.FriendShip> friendShips);
 }

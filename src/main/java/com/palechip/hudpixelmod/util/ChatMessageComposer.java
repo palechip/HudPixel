@@ -228,7 +228,7 @@ public class ChatMessageComposer {
             // send the assebled message to the player
             FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(this.assembleMessage(prefix));
         } catch (Exception e) {
-            HudPixelMod.instance().logError("Failed to send chat message");
+            HudPixelMod.Companion.instance().logError("Failed to send chat message");
             if (!(e instanceof NullPointerException))
                 e.printStackTrace();
 

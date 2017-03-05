@@ -50,7 +50,7 @@ import com.palechip.hudpixelmod.extended.statsviewer.msc.AbstractStatsViewer;
 
 import java.util.UUID;
 
-public class QuakeStatsViewer extends AbstractStatsViewer{
+public class QuakeStatsViewer extends AbstractStatsViewer {
 
 
     /*

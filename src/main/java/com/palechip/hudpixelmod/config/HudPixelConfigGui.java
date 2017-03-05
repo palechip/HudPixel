@@ -121,19 +121,19 @@ public class HudPixelConfigGui extends GuiConfig {
         //generates & puts the element in the right list
         if (defEntry.getClass() == String.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (String) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.Companion.getCONFIG().get(category.getName(), id, (String) defEntry, comment))));
         } else if (defEntry.getClass() == Boolean.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Boolean) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.Companion.getCONFIG().get(category.getName(), id, (Boolean) defEntry, comment))));
         } else if (defEntry.getClass() == Integer.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Integer) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.Companion.getCONFIG().get(category.getName(), id, (Integer) defEntry, comment))));
         } else if (defEntry.getClass() == Double.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Double) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.Companion.getCONFIG().get(category.getName(), id, (Double) defEntry, comment))));
         } else if (defEntry.getClass() == Float.class) {
             configCategoryMap.get(category).add((
-                    new ConfigElement(HudPixelMod.CONFIG.get(category.getName(), id, (Float) defEntry, comment))));
+                    new ConfigElement(HudPixelMod.Companion.getCONFIG().get(category.getName(), id, (Float) defEntry, comment))));
         } else {
             throw new IllegalParameterTypeException(defEntry);
         }

@@ -46,13 +46,12 @@
 
 package com.palechip.hudpixelmod.extended.util;
 
+import com.palechip.hudpixelmod.HudPixelMod;
 import org.apache.logging.log4j.Logger;
-
-import static com.palechip.hudpixelmod.HudPixelMod.instance;
 
 public class LoggerHelper {
 
-    private static Logger LOGGER = instance().getLOGGER();
+    private static Logger LOGGER = HudPixelMod.Companion.instance().getLogger();
 
     public static void logInfo(String s) {
         LOGGER.info("[Extended]" + s);

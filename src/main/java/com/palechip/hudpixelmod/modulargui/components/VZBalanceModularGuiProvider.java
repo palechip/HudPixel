@@ -112,7 +112,7 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
             try {
                 amount = Integer.valueOf(amountStr);
             } catch (Exception e) {
-                HudPixelMod.instance().logInfo("Failed to parse amount out of VampireZ purchase message. Ignoring.");
+                HudPixelMod.Companion.instance().logInfo("Failed to parse amount out of VampireZ purchase message. Ignoring.");
             }
 
             // get the price

@@ -118,7 +118,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
         isApiLoaded = true;
     }
 
-    public void checkFriend(FriendsReply.FriendShip f){
+    public void checkFriend(FriendsReply.FriendShip f) {
         if (Objects.equals(f.getUuidSender().toString(), HudPixelExtended.UUID.toString()))
             new PlayerFactory(f.getUuidReceiver(), this);
         else
@@ -128,7 +128,7 @@ public class OnlineFriendsLoader implements FriendResponseCallback, IEventHandle
     @Override
     public void onPlayerLoadedCallback(UUID uuid) {
         for (UUID s : allreadyStoredUUID)
-            if(s == uuid)
+            if (s == uuid)
                 return;
         allreadyStoredUUID.add(uuid);
         allreadyStored.add(PlayerDatabase.getPlayerByUUID(uuid).getName());

@@ -19,7 +19,7 @@ object VerboseChatOutputCommand : CommandBase() {
     override fun getCommandUsage(sender: ICommandSender?) = "/verbosechatoutput"
 
     override fun processCommand(sender: ICommandSender, args: Array<out String>?) {
-        if(enabled) {
+        if (enabled) {
             enabled = false
             sender.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Disabled verbose chat output!"))
         } else {
@@ -39,12 +39,13 @@ object VerboseChatOutputCommand : CommandBase() {
     private object Handler {
         @SubscribeEvent
         fun onChatMessage(clientChatReceivedEvent: ClientChatReceivedEvent) {
-            if(!enabled) return
+            if (!enabled) return
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ChatComponentText(clientChatReceivedEvent.message.toString().replace("§", "&")))
             clientChatReceivedEvent.isCanceled = true
         }
     }
 }
+
 object ClickEventCommand : CommandBase() {
     var enabled = false
     override fun getCommandName() = "clickevent"
@@ -52,7 +53,7 @@ object ClickEventCommand : CommandBase() {
     override fun getCommandUsage(sender: ICommandSender?) = "/clickevent"
 
     override fun processCommand(sender: ICommandSender, args: Array<out String>?) {
-        if(enabled) {
+        if (enabled) {
             enabled = false
             sender.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Disabled click event chat output!"))
         } else {
@@ -72,7 +73,7 @@ object ClickEventCommand : CommandBase() {
     private object Handler {
         @SubscribeEvent
         fun onChatMessage(clientChatReceivedEvent: ClientChatReceivedEvent) {
-            if(!enabled || !clientChatReceivedEvent.message.toString().contains("play") || clientChatReceivedEvent.message.toString().contains("player")) return
+            if (!enabled || !clientChatReceivedEvent.message.toString().contains("play") || clientChatReceivedEvent.message.toString().contains("player")) return
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ChatComponentText(clientChatReceivedEvent.message.toString().replace("§", "&")))
             clientChatReceivedEvent.isCanceled = true
         }

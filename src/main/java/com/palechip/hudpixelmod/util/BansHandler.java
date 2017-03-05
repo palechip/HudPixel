@@ -60,14 +60,17 @@ import java.util.Properties;
 
 public class BansHandler {
     public static volatile Map<String, String> map = Maps.newHashMap();
+
     public static void init() {
         new BanListThread();
     }
+
     public static void checkForBan() {
-        if(HudPixelMod.IS_DEBUGGING) return;
-        if(Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()))
+        if (HudPixelMod.Companion.getIS_DEBUGGING()) return;
+        if (Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()))
             Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(Minecraft.getMinecraft().thePlayer.getName().toLowerCase())));
     }
+
     private static void load(Properties props) {
         map = new HashMap<>();
         for (String key : props.stringPropertyNames()) {
@@ -75,6 +78,7 @@ public class BansHandler {
             map.put(key.toLowerCase(), value);
         }
     }
+
     private static class BanListThread extends Thread {
         public BanListThread() {
             setName("Ban List Thread");
@@ -92,7 +96,7 @@ public class BansHandler {
                     load(props);
                 }
             } catch (IOException e) {
-                HudPixelMod.instance().getLOGGER().info("Could not load ban list. Either you're offline or github is down. Nothing to worry about, carry on~");
+                HudPixelMod.Companion.instance().getLogger().info("Could not load ban list. Either you're offline or github is down. Nothing to worry about, carry on~");
             }
         }
     }

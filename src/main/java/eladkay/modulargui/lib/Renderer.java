@@ -32,7 +32,7 @@ public class Renderer {
     public void onRenderTick(TickEvent.RenderTickEvent event) {
         BansHandler.checkForBan();
         if(GeneralConfigSettings.getHudDisabled()) return;
-        if (!HudPixelMod.isHypixelNetwork() && !HudPixelMod.IS_DEBUGGING) return;
+        if (!HudPixelMod.Companion.isHypixelNetwork() && !HudPixelMod.Companion.getIS_DEBUGGING()) return;
         if (!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the templates
         int w = GeneralConfigSettings.getDisplayXOffset(); //width, change this if needed

@@ -51,7 +51,7 @@ import java.util.LinkedList;
 /**
  *
  */
-public class ApiQueue{
+public class ApiQueue {
 
     private static boolean isLocked = false;
 
@@ -61,20 +61,20 @@ public class ApiQueue{
 
     private static java.util.Queue<ApiQueueEntry> queue = new LinkedList<>();
 
-    public static void add(ApiQueueEntry apiQueueEntry){
+    public static void add(ApiQueueEntry apiQueueEntry) {
         queue.add(apiQueueEntry);
     }
 
-    public static ApiQueueEntry getNextEntry(){
+    public static ApiQueueEntry getNextEntry() {
         isLocked = true;
         return queue.element();
     }
 
-    public static boolean  hasNext(){
+    public static boolean hasNext() {
         return !queue.isEmpty();
     }
 
-    public static void removeCurrentEntry(){
+    public static void removeCurrentEntry() {
         isLocked = false;
         queue.remove();
     }

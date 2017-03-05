@@ -101,7 +101,7 @@ public class WarlordsDamageChatFilter {
             // and cast it into an integer (without whitespace)
             return Integer.valueOf(result.replace(" ", ""));
         } catch (Exception e) {
-            HudPixelMod.instance().logDebug("Failed to extract damage from this message: " + message);
+            HudPixelMod.Companion.instance().logDebug("Failed to extract damage from this message: " + message);
         }
         // We failed :(
         return Integer.MAX_VALUE;

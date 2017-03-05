@@ -153,7 +153,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                HudPixelMod.instance().logWarn("Failed to parse the lap completion message. Ignoring");
+                HudPixelMod.Companion.instance().logWarn("Failed to parse the lap completion message. Ignoring");
             }
         }
         // stop the general timer when finishing

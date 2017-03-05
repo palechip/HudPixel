@@ -9,28 +9,27 @@ import net.unaussprechlich.hypixel.helper.HypixelRank
  * Created by Elad on 3/2/2017.
  */
 object ChatDetector {
-    fun <T : ChatEventBase<T>> registerEventHandler(event: ChatEventBase<T>, lambda: ChatDetector.(EventInfo<*>)->Unit) = eventHandlers.put(event, lambda)
+    fun <T : ChatEventBase<T>> registerEventHandler(event: ChatEventBase<T>, lambda: ChatDetector.(EventInfo<*>) -> Unit) = eventHandlers.put(event, lambda)
     inline fun <reified T> cast(any: Any) = any as T
 
-    abstract class ChatEventBase<T : ChatEventBase<T>>{
+    abstract class ChatEventBase<T : ChatEventBase<T>> {
         init {
             registerEventBase(this)
         }
+
         abstract val pattern: Regex
         abstract fun handle(message: String): EventInfo<T>
     }
 
-    fun init() {
+    init {
         MinecraftForge.EVENT_BUS.register(this)
     }
 
     @SubscribeEvent
-    fun chat(chat: ClientChatReceivedEvent) {
-        events.filter { it.pattern.matches(chat.message.unformattedText)}.map { it.handle(chat.message.unformattedText) }.forEach {eventHandlers.filter { a -> it.type == a.key.javaClass }.forEach { a -> val lambda = a.value; this.lambda(it) } }
-    }
+    fun chat(chat: ClientChatReceivedEvent) = events.filter { it.pattern.matches(chat.message.unformattedText) }.map { it.handle(chat.message.unformattedText) }.forEach { eventHandlers.filter { a -> it.type == a.key.javaClass }.forEach { a -> val lambda = a.value; this.lambda(it) } }
 
     val events = mutableListOf<ChatEventBase<*>>()
-    val eventHandlers = mutableMapOf<ChatEventBase<*>, ChatDetector.(EventInfo<*>)->Unit>()
+    val eventHandlers = mutableMapOf<ChatEventBase<*>, ChatDetector.(EventInfo<*>) -> Unit>()
     private fun registerEventBase(chatEventBase: ChatEventBase<*>) = events.add(chatEventBase)
 
     /**
@@ -39,12 +38,12 @@ object ChatDetector {
     object PrivateMessage : ChatEventBase<PrivateMessage>() {
         override fun handle(message: String): EventInfo<PrivateMessage> {
 
-            val type = if(message.startsWith("To")) "To" else "From"
+            val type = if (message.startsWith("To")) "To" else "From"
             var rank = HypixelRank.DEFAULT
             enumValues<HypixelRank>().forEach {
-                if(it.get().rankName in message) rank = it
+                if (it.get().rankName in message) rank = it
             }
-            val name = message.substring((if(type == "To")(message.indexOf("To ") + 3 ) else (message.indexOf("From ") + 5))..message.indexOf(":")).replace(rank.get().rankName, "")
+            val name = message.substring((if (type == "To") (message.indexOf("To ") + 3) else (message.indexOf("From ") + 5))..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")
             return EventInfo(PrivateMessage.javaClass, mapOf(
                     "name" to name,
@@ -65,7 +64,7 @@ object ChatDetector {
         override fun handle(message: String): EventInfo<GuildChat> {
             var rank = HypixelRank.DEFAULT
             enumValues<HypixelRank>().forEach {
-                if(it.get().rankName in message) rank = it
+                if (it.get().rankName in message) rank = it
             }
             val name = message.substring((message.indexOf(" > ") + 3)..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")
@@ -87,7 +86,7 @@ object ChatDetector {
         override fun handle(message: String): EventInfo<PartyChat> {
             var rank = HypixelRank.DEFAULT
             enumValues<HypixelRank>().forEach {
-                if(it.get().rankName in message) rank = it
+                if (it.get().rankName in message) rank = it
             }
             val name = message.substring((message.indexOf(" > ") + 3)..message.indexOf(":")).replace(rank.get().rankName, "")
             val msg = message.substringAfter(": ")

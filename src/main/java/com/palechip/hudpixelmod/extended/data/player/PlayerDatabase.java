@@ -53,23 +53,23 @@ public class PlayerDatabase {
 
     private static HashMap<UUID, Player> players = new HashMap<>();
 
-    public static Player getPlayerByID(String name){
-        for(Player p: players.values()){
-            if(p.getName().equalsIgnoreCase(name))
+    public static Player getPlayerByID(String name) {
+        for (Player p : players.values()) {
+            if (p.getName().equalsIgnoreCase(name))
                 return p;
         }
         return null;
     }
 
-    public static boolean containsUUID(UUID uuid){
+    public static boolean containsUUID(UUID uuid) {
         return players.containsKey(uuid);
     }
 
-    public static Player getPlayerByUUID(UUID UUID){
+    public static Player getPlayerByUUID(UUID UUID) {
         return players.get(UUID);
     }
 
-    public static void add(Player player, IPlayerLoadedCallback iPlayerLoadedCallback){
+    public static void add(Player player, IPlayerLoadedCallback iPlayerLoadedCallback) {
         players.put(player.getUUID(), player);
         iPlayerLoadedCallback.onPlayerLoadedCallback(player.getUUID());
     }

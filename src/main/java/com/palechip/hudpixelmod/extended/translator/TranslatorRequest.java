@@ -66,7 +66,7 @@ public class TranslatorRequest {
     private JsonObject response;
     private boolean failed;
 
-    public TranslatorRequest(String message, ITranslatorRequestCallback callback, String username){
+    public TranslatorRequest(String message, ITranslatorRequestCallback callback, String username) {
         this.message = message;
         this.callback = callback;
         this.username = username;
@@ -90,9 +90,9 @@ public class TranslatorRequest {
         return failed;
     }
 
-    private void request(){
+    private void request() {
 
-        new Thread( () -> {
+        new Thread(() -> {
             try {
                 String translate = message.replace(" ", "%20").replace("ä", "ae").replace("ö", "oe").replace("ü", "ue");
                 URL u = new URL("https://translate.unaussprechlich.net/?text=" + translate
@@ -113,8 +113,8 @@ public class TranslatorRequest {
             } catch (IOException e) {
                 e.printStackTrace();
                 failed = true;
-                HudPixelMod.instance().getLOGGER().info("Couldn't translate message->"
-                        + message + " username->" + username + " response->" +  response);
+                HudPixelMod.Companion.instance().getLogger().info("Couldn't translate message->"
+                        + message + " username->" + username + " response->" + response);
                 callback.translatorCallback(this);
             }
         }).start();

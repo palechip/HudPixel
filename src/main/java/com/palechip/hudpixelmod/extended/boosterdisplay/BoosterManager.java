@@ -215,7 +215,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
         }
     }
 
-    public void checkBooster(Booster b){
+    public void checkBooster(Booster b) {
         for (FancyListObject fco : fancyListObjects) {
             BoosterExtended be = (BoosterExtended) fco;
             if (be.getGameType() == b.getGameType()) {

@@ -54,27 +54,28 @@ import net.hypixel.api.request.RequestType;
 
 import java.util.UUID;
 
-public class ApiQueueEntryBuilder{
+public class ApiQueueEntryBuilder {
 
     private ApiCallback apiCallback;
     private Request request;
 
-    private ApiQueueEntryBuilder(){}
+    private ApiQueueEntryBuilder() {
+    }
 
     public static ApiQueueEntryBuilder newInstance() {
         return new ApiQueueEntryBuilder();
     }
 
-    public ApiQueueEntryBuilder setCallback(ApiCallback apiCallback){
+    public ApiQueueEntryBuilder setCallback(ApiCallback apiCallback) {
         this.apiCallback = apiCallback;
         return this;
     }
 
-    public void create(){
+    public void create() {
         ApiQueue.add(new ApiQueueEntry(request, apiCallback));
     }
 
-    public ApiQueueEntryBuilder friendsRequestByUUID(UUID uuid){
+    public ApiQueueEntryBuilder friendsRequestByUUID(UUID uuid) {
         request = RequestBuilder
                 .newBuilder(RequestType.FRIENDS)
                 .addParam(RequestParam.FRIENDS_BY_UUID, uuid)
@@ -82,14 +83,14 @@ public class ApiQueueEntryBuilder{
         return this;
     }
 
-    public ApiQueueEntryBuilder boosterRequest(){
+    public ApiQueueEntryBuilder boosterRequest() {
         request = RequestBuilder
                 .newBuilder(RequestType.BOOSTERS)
                 .createRequest();
         return this;
     }
 
-    public ApiQueueEntryBuilder playerRequestByUUID(UUID uuid){
+    public ApiQueueEntryBuilder playerRequestByUUID(UUID uuid) {
         request = RequestBuilder
                 .newBuilder(RequestType.PLAYER)
                 .addParam(RequestParam.PLAYER_BY_UUID, uuid)
@@ -97,7 +98,7 @@ public class ApiQueueEntryBuilder{
         return this;
     }
 
-    public ApiQueueEntryBuilder playerRequestByName(String name){
+    public ApiQueueEntryBuilder playerRequestByName(String name) {
         request = RequestBuilder
                 .newBuilder(RequestType.PLAYER)
                 .addParam(RequestParam.PLAYER_BY_NAME, name)

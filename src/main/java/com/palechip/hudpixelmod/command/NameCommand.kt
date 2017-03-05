@@ -103,7 +103,7 @@ object NameCommand : CommandBase() {
         }
 
     override fun processCommand(sender: ICommandSender, args: Array<String>) {
-        if (HudPixelMod.isHypixelNetwork() || Minecraft.getMinecraft().currentServerData == null) {
+        if (HudPixelMod.isHypixelNetwork || Minecraft.getMinecraft().currentServerData == null) {
             try {
                 val cSender = sender
                 if (args.size == 0) {

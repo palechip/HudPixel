@@ -48,6 +48,6 @@ package com.palechip.hudpixelmod.api.interaction.callbacks;
 
 import net.hypixel.api.reply.PlayerReply;
 
-public interface PlayerResponseCallback extends ApiCallback{
+public interface PlayerResponseCallback extends ApiCallback {
     void onPlayerResponse(PlayerReply player);
 }

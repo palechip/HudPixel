@@ -50,6 +50,6 @@ import net.hypixel.api.reply.BoostersReply;
 
 import java.util.List;
 
-public interface BoosterResponseCallback extends ApiCallback{
+public interface BoosterResponseCallback extends ApiCallback {
     void onBoosterResponse(List<BoostersReply.Booster> boosters);
 }

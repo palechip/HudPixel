@@ -46,19 +46,21 @@
 
 package com.palechip.hudpixelmod.extended.util;
 
-import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
+
+import static com.palechip.hudpixelmod.HudPixelMod.MODID;
 
 
 public class SoundManager {
 
     @ConfigPropertyBoolean(category = CCategory.HUDPIXEL, id = "sounds", comment = "Enable sounds", def = true)
     public static boolean enabled = true;
+
     public static void playSound(Sounds name) {
-        if(enabled)
-            Minecraft.getMinecraft().thePlayer.playSound(HudPixelMod.MODID + ":" + name, 5, 1);
+        if (enabled)
+            Minecraft.getMinecraft().thePlayer.playSound(MODID + ":" + name, 5, 1);
     }
 
     public enum Sounds {

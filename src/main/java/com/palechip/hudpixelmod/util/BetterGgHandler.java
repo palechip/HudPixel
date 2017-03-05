@@ -59,7 +59,7 @@ public class BetterGgHandler {
         @Override
         public void processCommand(ICommandSender sender, String[] args) throws CommandException {
             try {
-                if (HudPixelMod.isHypixelNetwork()) {
+                if (HudPixelMod.Companion.isHypixelNetwork()) {
                     if (args.length > 0) {
                         String message = String.join(" ", args);
                         Minecraft.getMinecraft().thePlayer.sendChatMessage("gg " + message);
@@ -80,7 +80,7 @@ public class BetterGgHandler {
     public static class GGThread
             implements Runnable {
         public void run() {
-            if (HudPixelMod.isHypixelNetwork()) {
+            if (HudPixelMod.Companion.isHypixelNetwork()) {
                 gg = true;
                 if ((!Objects.equals(chat, "a")) || (!first)) {
                     first = true;
@@ -97,7 +97,7 @@ public class BetterGgHandler {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(!Objects.equals(chat, ""))
+                if (!Objects.equals(chat, ""))
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/chat " + chat);
                 try {
                     Thread.sleep(1000L);

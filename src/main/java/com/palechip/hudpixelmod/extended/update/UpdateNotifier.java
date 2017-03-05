@@ -114,8 +114,8 @@ public class UpdateNotifier implements McColorHelper {
             String data = sBuilder.toString();
             out.println(data);
             JsonObject jsonObject = jsonParser(data);
-            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION) && !DEFAULT_VERSION.contains("dev"))
-                printUpdateMessage(jsonObject);
+            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION) && DEFAULT_VERSION.contains("dev"))
+            printUpdateMessage(jsonObject);
         } catch (MalformedURLException e) {
             logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");
             e.printStackTrace();
@@ -173,7 +173,7 @@ public class UpdateNotifier implements McColorHelper {
         printMessage("");
 
         //GOING TO PRINT THE UPDATE NOE OR DIE TEXT
-        printMessage(GRAY + "You are currently running v" + DEFAULT_VERSION + "! This version will now no longer be supported " +
+        printMessage(GRAY + "You are currently running v" +DEFAULT_VERSION + "! This version will now no longer be supported " +
                 "by the HudPixelTeam! Make sure to update to the newest version befor sending any bug-reports or feature requests!" +
                 " HudPixel Reloaded v3 is still in development state, so expect bugs and new features at any time!");
 
