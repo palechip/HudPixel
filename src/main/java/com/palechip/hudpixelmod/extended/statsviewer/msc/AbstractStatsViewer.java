@@ -59,7 +59,7 @@ import java.util.UUID;
 
 import static com.palechip.hudpixelmod.extended.util.LoggerHelper.logInfo;
 
-public abstract class AbstractStatsViewer implements IGameStatsViewer, PlayerResponseCallback{
+public abstract class AbstractStatsViewer implements IGameStatsViewer, PlayerResponseCallback {
 
     protected ArrayList<String> renderList;
     protected final UUID playerUUID;
@@ -89,18 +89,18 @@ public abstract class AbstractStatsViewer implements IGameStatsViewer, PlayerRes
 
     protected abstract void composeStats();
 
-    protected double calculateKD(int kills, int deaths){
+    protected double calculateKD(int kills, int deaths) {
         if (deaths > 0)
-            return  (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
+            return (double) Math.round(((double) kills / (double) deaths) * 1000) / 1000;
         else
-            return  kills;
+            return kills;
     }
 
-    protected int calculateWL(int wins, int losses){
+    protected int calculateWL(int wins, int losses) {
         if (losses > 0)
-            return  (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
+            return (int) Math.round(((double) wins / (double) (wins + losses)) * 100);
         else
-            return  100;
+            return 100;
     }
 
     /**

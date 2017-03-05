@@ -56,19 +56,19 @@ public interface IEventHandler {
     default void onClientTick() {
     }
 
-    default void everyTenTICKS(){
+    default void everyTenTICKS() {
 
     }
 
-    default void everySEC(){
+    default void everySEC() {
 
     }
 
-    default void everyFiveSEC(){
+    default void everyFiveSEC() {
 
     }
 
-    default void everyMIN(){
+    default void everyMIN() {
 
     }
 
@@ -94,11 +94,11 @@ public interface IEventHandler {
     }
 
 
-    default void onRenderPlayer(RenderPlayerEvent.Pre e){
+    default void onRenderPlayer(RenderPlayerEvent.Pre e) {
 
     }
 
-    default void onRenderWorld(RenderWorldLastEvent e){
+    default void onRenderWorld(RenderWorldLastEvent e) {
 
     }
 }

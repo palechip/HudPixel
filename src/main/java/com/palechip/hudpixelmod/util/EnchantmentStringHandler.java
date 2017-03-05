@@ -33,6 +33,7 @@ public class EnchantmentStringHandler {
             this.stack = stack;
         }
     }
+
     public static class RenderTooltipEvent extends Event {
 
         public final float y;
@@ -48,7 +49,7 @@ public class EnchantmentStringHandler {
 
     public static List<EnchInfo> getEnchants(ItemStack stack) {
         List<EnchInfo> list = Lists.newArrayList();
-        for(int i = 0; i < stack.getEnchantmentTagList().tagCount(); i++) {
+        for (int i = 0; i < stack.getEnchantmentTagList().tagCount(); i++) {
             NBTTagCompound tag = stack.getEnchantmentTagList().getCompoundTagAt(i);
             short id = tag.getShort("id");
             short lvl = tag.getShort("lvl");
@@ -80,11 +81,11 @@ public class EnchantmentStringHandler {
     @SideOnly(Side.CLIENT)
     public void makeTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.itemStack;
-        if(stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_DYE)) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_DYE)) {
             FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
             int len = font.getStringWidth(stack.getDisplayName());
             String spaces = "";
-            while(font.getStringWidth(spaces) < len)
+            while (font.getStringWidth(spaces) < len)
                 spaces += " ";
 
             event.toolTip.set(0, spaces);
@@ -95,9 +96,9 @@ public class EnchantmentStringHandler {
     @SideOnly(Side.CLIENT)
     public void renderTooltip(RenderTooltipEvent event) {
         ItemStack stack = event.stack;
-        if(stack != null && stack.hasTagCompound()) {
+        if (stack != null && stack.hasTagCompound()) {
             int dye = stack.getTagCompound().hasKey(TAG_DYE) ? stack.getTagCompound().getInteger(TAG_DYE) : -1;
-            if(dye != -1) {
+            if (dye != -1) {
                 int rgb = ItemDye.dyeColors[Math.min(15, dye)];
                 Color color = new Color(rgb);
                 Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stack.getDisplayName(), event.x, event.y, color.getRGB());

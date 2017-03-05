@@ -238,7 +238,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
                     load(props);
                 }
             } catch (IOException e) {
-                HudPixelMod.instance().getLOGGER().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
+                HudPixelMod.Companion.instance().getLogger().info("Could not load contributors list. Either you're offline or github is down. Nothing to worry about, carry on~");
             }
         }
     }

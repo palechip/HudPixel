@@ -62,7 +62,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.io.*;
 
 @SideOnly(Side.CLIENT)
-public class ApiKeyHandler implements IEventHandler{
+public class ApiKeyHandler implements IEventHandler {
     private static String API_KEY_STORAGE_PATH;
     private static String API_KEY_STORAGE_FILE;
     private static String API_KEY_REQUEST_MESSAGE_1 = "No API key found. This key is necessary for some cool features.";
@@ -80,7 +80,7 @@ public class ApiKeyHandler implements IEventHandler{
             // a file called hypixel_api_key.txt
             API_KEY_STORAGE_FILE = API_KEY_STORAGE_PATH + "hypixel_api_key.txt";
         } catch (IOException e) {
-            HudPixelMod.instance().logError("Critical error when finding the api key file: ");
+            HudPixelMod.Companion.instance().logError("Critical error when finding the api key file: ");
             e.printStackTrace();
         }
     }
@@ -102,7 +102,7 @@ public class ApiKeyHandler implements IEventHandler{
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
 
-    public void loadKey(ApiKeyLoadedCallback callback){
+    public void loadKey(ApiKeyLoadedCallback callback) {
         ApiKeyHandler.callback = callback;
         // load the api in a separate thread
         new Thread(ApiKeyHandler.getINSTANCE()::loadAPIKey).start();
@@ -124,7 +124,7 @@ public class ApiKeyHandler implements IEventHandler{
         callback.ApiKeyLoaded(false, apiKey);
 
         // and save it
-        new Thread( ApiKeyHandler.getINSTANCE()::saveAPIKey).start();
+        new Thread(ApiKeyHandler.getINSTANCE()::saveAPIKey).start();
 
         // tell the user
         new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
@@ -181,7 +181,7 @@ public class ApiKeyHandler implements IEventHandler{
             loadingFailed = false;
             callback.ApiKeyLoaded(false, apiKey);
         } catch (Exception e) {
-            HudPixelMod.instance().logError("Critical error when reading the api key file: ");
+            HudPixelMod.Companion.instance().logError("Critical error when reading the api key file: ");
             e.printStackTrace();
         }
     }
@@ -197,7 +197,7 @@ public class ApiKeyHandler implements IEventHandler{
             writer.write(this.apiKey);
             writer.close();
         } catch (Exception e) {
-            HudPixelMod.instance().logError("Critical error when storing the api key file: ");
+            HudPixelMod.Companion.instance().logError("Critical error when storing the api key file: ");
             e.printStackTrace();
         }
     }

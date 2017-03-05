@@ -50,13 +50,13 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.UUID;
 
-public class Player{
+public class Player {
 
     private final java.util.UUID UUID;
     private final String name;
     private final ResourceLocation resourceLocation;
 
-    public Player(UUID UUID, String name, ResourceLocation resourceLocation){
+    public Player(UUID UUID, String name, ResourceLocation resourceLocation) {
         this.UUID = UUID;
         this.name = name;
         this.resourceLocation = resourceLocation;

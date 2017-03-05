@@ -112,7 +112,7 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
             @Override
             public void run() {
                 try {
-                    if (HudPixelMod.isHypixelNetwork())
+                    if (HudPixelMod.Companion.isHypixelNetwork())
                         if (Minecraft.getMinecraft().getCurrentServerData() != null)
                             serverPinger.ping(Minecraft.getMinecraft().getCurrentServerData());
                 } catch (UnknownHostException e) {

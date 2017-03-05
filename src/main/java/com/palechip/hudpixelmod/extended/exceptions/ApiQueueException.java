@@ -49,7 +49,7 @@ package com.palechip.hudpixelmod.extended.exceptions;
 public class ApiQueueException extends HudPixelException {
 
     public ApiQueueException(Object parameter) {
-        super("Something went while requesting a ApiQueueEntry! More information below: \n" + parameter );
+        super("Something went while requesting a ApiQueueEntry! More information below: \n" + parameter);
     }
 
 }

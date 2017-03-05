@@ -73,7 +73,7 @@ public class TimerModularGuiProvider extends HudPixelModularGuiProvider {
     }
 
     @Override
-    public void setupNewGame()  {
+    public void setupNewGame() {
         // reset
         this.tickTime = 0;
         this.runningTime = "00:00";

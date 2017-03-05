@@ -66,6 +66,7 @@ public class MWFinalAssistCounterModularGuiProvider extends SimpleHudPixelModula
     public static boolean enabled = false;
     private int kills;
     private static Pattern KILL_PTRN = Pattern.compile("\\w*FINAL KILL ASSIST");
+
     @Override
     public boolean doesMatchForGame() {
         return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
@@ -90,7 +91,7 @@ public class MWFinalAssistCounterModularGuiProvider extends SimpleHudPixelModula
 
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
-        if(KILL_PTRN.matcher(textMessage).find()) kills++;
+        if (KILL_PTRN.matcher(textMessage).find()) kills++;
     }
 
     public String getRenderingString() {

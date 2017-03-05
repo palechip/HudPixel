@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  */
 object AfkCommand : CommandBase() {
     override fun processCommand(sender: ICommandSender, args: Array<out String>) {
-        if(args.size != 0) throw CommandException("AFK message not yet implemented")
-        if(enabled) {
+        if (args.size != 0) throw CommandException("AFK message not yet implemented")
+        if (enabled) {
             enabled = false
             sender.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Disabled AFK mode!"))
         } else {
@@ -36,11 +36,12 @@ object AfkCommand : CommandBase() {
     init {
         MinecraftForge.EVENT_BUS.register(Handler)
     }
+
     private object Handler {
         @SubscribeEvent
         fun onChatMessage(clientChatReceivedEvent: ClientChatReceivedEvent) {
-            if(!enabled) return
-            if(clientChatReceivedEvent.message.unformattedText.contains("From", true)) Minecraft.getMinecraft().thePlayer.sendChatMessage("/r $afkMessage")
+            if (!enabled) return
+            if (clientChatReceivedEvent.message.unformattedText.contains("From", true)) Minecraft.getMinecraft().thePlayer.sendChatMessage("/r $afkMessage")
         }
     }
 }

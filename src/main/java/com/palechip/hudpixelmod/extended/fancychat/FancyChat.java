@@ -222,7 +222,7 @@ public class FancyChat {
             // [IF] the message is a FancyChatMessage
         } else if (message.startsWith("To ")) {
             addFancyChatEntry(e.message.getFormattedText());
-        } else if (HudPixelMod.IS_DEBUGGING) {
+        } else if (HudPixelMod.Companion.getIS_DEBUGGING()) {
             if (message.startsWith("<aussprechlich2> messagebuffer.clear")) {
                 fancyChatMessages.messageBuffer.clear();
             }

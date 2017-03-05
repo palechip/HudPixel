@@ -59,7 +59,8 @@ public class Booster implements UuidCallback {
     private GameType gameType;
 
     private long length;
-    private static final long originalLength = 60 * 60;;
+    private static final long originalLength = 60 * 60;
+    ;
 
 
     // properties used by the mod
@@ -90,7 +91,7 @@ public class Booster implements UuidCallback {
     }
 
     public String getOwner() {
-        if (this.owner == null) return  "!ERROR!";
+        if (this.owner == null) return "!ERROR!";
         return owner;
     }
 

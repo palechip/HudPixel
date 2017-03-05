@@ -87,8 +87,8 @@ public abstract class FancyListButton {
         if (!isHover) RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.5f); //draws the background
         else RenderUtils.renderBoxWithColor(xStart, yStart, 24, 24, r, g, b, 0.8f);
         RenderUtils.texture_modularRect( //draws the image shown
-                                         round(xStart), round(yStart), 0, 0,
-                                         24, 24, 24, 24, resourceLocation, 1f);
+                round(xStart), round(yStart), 0, 0,
+                24, 24, 24, 24, resourceLocation, 1f);
     }
 }
 

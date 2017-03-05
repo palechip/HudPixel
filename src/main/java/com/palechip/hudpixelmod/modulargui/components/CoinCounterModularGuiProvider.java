@@ -65,7 +65,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
             String newCoins = message.substring(message.indexOf("+") + 1, message.indexOf(" "));
             return Integer.valueOf(newCoins);
         } catch (Exception e) {
-            HudPixelMod.instance().logInfo("Failed to parse coin message. Ignoring.");
+            HudPixelMod.Companion.instance().logInfo("Failed to parse coin message. Ignoring.");
             // we failed getting the coins. Hopefully this never happens.
         }
         return 0;
@@ -135,7 +135,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
                 String totalCoins = messageStartingWithCoins.substring(0, messageStartingWithCoins.indexOf(" "));
                 this.coins = Integer.valueOf(totalCoins.replace(" ", ""));
             } catch (Exception e) {
-                HudPixelMod.instance().logInfo("Failed to parse total coin message. Ignoring.");
+                HudPixelMod.Companion.instance().logInfo("Failed to parse total coin message. Ignoring.");
                 e.printStackTrace();
                 // we failed getting the coins. Hopefully this never happens.
             }

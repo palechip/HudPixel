@@ -98,7 +98,7 @@ public class UuidHelper extends Thread {
 
         // Did it fail?
         if (name == null) {
-            HudPixelMod.instance().logWarn("Failed to the username for the UUID. Using fallback API...");
+            HudPixelMod.Companion.instance().logWarn("Failed to the username for the UUID. Using fallback API...");
             try {
                 // make a request to the fallback API
                 URL url = new URL(FALLBACK_API + uuid);
@@ -108,7 +108,7 @@ public class UuidHelper extends Thread {
                 // get the nm
                 name = content.get("username").getAsString();
             } catch (Exception e) {
-                HudPixelMod.instance().logWarn("Failed to use the fallback API for " + uuid + " @ " + FALLBACK_API + uuid);
+                HudPixelMod.Companion.instance().logWarn("Failed to use the fallback API for " + uuid + " @ " + FALLBACK_API + uuid);
                 name = "!ERROR!";
             }
         }

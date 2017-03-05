@@ -56,6 +56,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.UUID;
+
 @SideOnly(Side.CLIENT)
 public class PlayerFactory implements UuidCallback, ILoadPlayerHeadCallback {
 
@@ -66,7 +67,7 @@ public class PlayerFactory implements UuidCallback, ILoadPlayerHeadCallback {
 
 
     public PlayerFactory(UUID uuid, IPlayerLoadedCallback iPlayerLoadedCallback) {
-        if(PlayerDatabase.containsUUID(uuid)){
+        if (PlayerDatabase.containsUUID(uuid)) {
             iPlayerLoadedCallback.onPlayerLoadedCallback(uuid);
             return;
         }

@@ -58,7 +58,7 @@ import net.hypixel.api.reply.PlayerReply;
 import net.hypixel.api.request.Request;
 import net.hypixel.api.util.Callback;
 
-public class ApiQueueEntry{
+public class ApiQueueEntry {
 
     private static final String debugInfo = "[API][QueueEntry]";
 
@@ -67,57 +67,62 @@ public class ApiQueueEntry{
     private ApiCallback apiCallback;
     private Request request;
 
-    public ApiQueueEntry(Request request, ApiCallback apiCallback){
+    public ApiQueueEntry(Request request, ApiCallback apiCallback) {
         this.request = request;
         this.apiCallback = apiCallback;
         this.creationTime = System.currentTimeMillis();
     }
 
-    public void execute(){
+    public void execute() {
         LoggerHelper.logInfo(debugInfo + "Making a request: " + request.getURL(HypixelAPI.getInstance()));
 
-        switch (request.getRequestType()){
-            case BOOSTERS: executeBoosterRequest(); break;
-            case FRIENDS:  executeFriendRequest();  break;
-            case PLAYER:  executePlayerRequest();  break;
+        switch (request.getRequestType()) {
+            case BOOSTERS:
+                executeBoosterRequest();
+                break;
+            case FRIENDS:
+                executeFriendRequest();
+                break;
+            case PLAYER:
+                executePlayerRequest();
+                break;
         }
 
         ApiQueue.removeCurrentEntry();
     }
 
-    private void executePlayerRequest(){
+    private void executePlayerRequest() {
         HypixelAPI.getInstance().getAsync(request, new Callback<PlayerReply>(PlayerReply.class) {
             @Override
             public void callback(Throwable failCause, PlayerReply result) {
                 if (failCause != null) failCause.printStackTrace();
-                else ((PlayerResponseCallback)apiCallback).onPlayerResponse(result);
+                else ((PlayerResponseCallback) apiCallback).onPlayerResponse(result);
                 //HypixelAPI.getInstance().finish();
             }
         });
     }
 
-    private void executeFriendRequest(){
+    private void executeFriendRequest() {
         HypixelAPI.getInstance().getAsync(request, new Callback<FriendsReply>(FriendsReply.class) {
             @Override
             public void callback(Throwable failCause, FriendsReply result) {
                 if (failCause != null) failCause.printStackTrace();
-                else ((FriendResponseCallback)apiCallback).onFriendResponse(result.getFriendShips());
+                else ((FriendResponseCallback) apiCallback).onFriendResponse(result.getFriendShips());
                 //HypixelAPI.getInstance().finish();
             }
         });
     }
 
-    private void executeBoosterRequest(){
+    private void executeBoosterRequest() {
         HypixelAPI.getInstance().getAsync(request, new Callback<BoostersReply>(BoostersReply.class) {
             @Override
             public void callback(Throwable failCause, BoostersReply result) {
                 System.out.println("Got a callback!");
                 if (failCause != null) failCause.printStackTrace();
-                else ((BoosterResponseCallback)apiCallback).onBoosterResponse(result.getBoosters());
+                else ((BoosterResponseCallback) apiCallback).onBoosterResponse(result.getBoosters());
             }
         });
     }
-
 
 
 }

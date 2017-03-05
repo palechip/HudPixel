@@ -77,15 +77,15 @@ public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
 
     }
 
-    public void setup(){
+    public void setup() {
         HudPixelExtendedEventHandler.registerIEvent(this);
         ApiKeyHandler.getINSTANCE().loadKey(this);
     }
 
     @Override
     public void everyTenTICKS() {
-        if(heat >= 100 || ApiQueue.isLocked() || ApiKeyHandler.isLoadingFailed()) return;
-        if(ApiQueue.hasNext())
+        if (heat >= 100 || ApiQueue.isLocked() || ApiKeyHandler.isLoadingFailed()) return;
+        if (ApiQueue.hasNext())
             ApiQueue.getNextEntry().execute();
         heat++;
     }

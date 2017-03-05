@@ -57,11 +57,11 @@ public class StatsViewerFactory {
      * Not really a factory ... but at least it generates and returns teh right class
      * for the given gametype ... i will maybe switch to a real design pattern
      *
-     * @param gameType   the gametype
+     * @param gameType the gametype
      * @return the right statsViewer for the given player and gametype
      */
-    public static IGameStatsViewer getStatsViewerClass(UUID uuid, GameType gameType){
-        switch (gameType){
+    public static IGameStatsViewer getStatsViewerClass(UUID uuid, GameType gameType) {
+        switch (gameType) {
             case WARLORDS:
                 return new WarlordsStatsViewer(uuid, gameType.getStatsName());
             case QUAKECRAFT:
@@ -76,7 +76,10 @@ public class StatsViewerFactory {
                 return new CvCStatsViewer(uuid, gameType.getStatsName());
             case UHC:
                 return new UHCStatsViewer(uuid, gameType.getStatsName());
-            case TNT_GAMES: case TNT_RUN: case TNT_TAG: case TNT_WIZARDS:
+            case TNT_GAMES:
+            case TNT_RUN:
+            case TNT_TAG:
+            case TNT_WIZARDS:
                 return new TNTStatsViewer(uuid, gameType.getStatsName());
             case BLITZ:
                 return new BlitzStatsViewer(uuid, gameType.getStatsName());

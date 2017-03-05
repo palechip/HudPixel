@@ -68,6 +68,7 @@ public class OnlineFriend extends FancyListObject implements ILoadPlayerHeadCall
 
     /**
      * Constructor ... also loads the playerhead
+     *
      * @param gamemode current string to render
      */
     OnlineFriend(UUID playerUUID, String gamemode) {

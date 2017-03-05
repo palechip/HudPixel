@@ -17,7 +17,7 @@ object ManagedGuiDisableCommand : CommandBase() {
     }
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
-        if(ManagedGui.isIsDisabled) {
+        if (ManagedGui.isIsDisabled) {
             ChatMessageComposer(EnumChatFormatting.GREEN + "Disabled managed GUI")
             ManagedGui.isIsDisabled = false
         } else {

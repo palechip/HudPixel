@@ -48,6 +48,6 @@ package com.palechip.hudpixelmod.api.interaction.callbacks;
 
 import com.palechip.hudpixelmod.api.interaction.representations.Session;
 
-public interface SessionResponseCallback extends ApiCallback{
+public interface SessionResponseCallback extends ApiCallback {
     void onSessionRespone(Session session);
 }

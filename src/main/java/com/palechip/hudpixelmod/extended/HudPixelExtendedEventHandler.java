@@ -68,7 +68,6 @@ import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
 
-import static com.palechip.hudpixelmod.HudPixelMod.MODID;
 import static com.palechip.hudpixelmod.util.DisplayUtil.getMcScale;
 
 
@@ -91,10 +90,9 @@ public class HudPixelExtendedEventHandler {
         iEventArrayList.remove(iEventHandler);
     }
 
-    public static ArrayList<IEventHandler> getIeventBuffer(){
+    public static ArrayList<IEventHandler> getIeventBuffer() {
         return new ArrayList<>(iEventArrayList);
     }
-
 
 
     private static void mouseClickEvent() {
@@ -163,12 +161,12 @@ public class HudPixelExtendedEventHandler {
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         try {
             // This event isn't bound to the Hypixel Network
-            if (eventArgs.modID.equals(MODID)) {
+            if (eventArgs.modID.equals(HudPixelMod.MODID)) {
                 EasyConfigHandler.INSTANCE.synchronize();
                 getIeventBuffer().forEach(IEventHandler::onConfigChanged);
             }
         } catch (Exception e) {
-            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onConfigChanged(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended] An exception occurred in onConfigChanged(). Stacktrace below.");
             e.printStackTrace();
         }
     }
@@ -181,13 +179,13 @@ public class HudPixelExtendedEventHandler {
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent e) {
         try {
-            if (!HudPixelMod.isHypixelNetwork()) return;
+            if (!HudPixelMod.Companion.isHypixelNetwork()) return;
 
             for (IEventHandler i : getIeventBuffer())
                 i.onRenderWorld(e);
 
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended] An exception occurred in onRenderWorldLast(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -196,7 +194,7 @@ public class HudPixelExtendedEventHandler {
     public void onRenderPlayer(RenderPlayerEvent.Pre e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.isHypixelNetwork()) {
+            if (HudPixelMod.Companion.isHypixelNetwork()) {
                 for (IEventHandler i : getIeventBuffer())
                     i.onRenderPlayer(e);
 
@@ -205,7 +203,7 @@ public class HudPixelExtendedEventHandler {
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onRenderPlayer(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended] An exception occurred in onRenderPlayer(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -214,7 +212,7 @@ public class HudPixelExtendedEventHandler {
     public void onOpenGui(GuiOpenEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.isHypixelNetwork()) {
+            if (HudPixelMod.Companion.isHypixelNetwork()) {
                 for (IEventHandler i : getIeventBuffer())
                     i.openGUI(Minecraft.getMinecraft().currentScreen);
                 if (Minecraft.getMinecraft().thePlayer != null)
@@ -223,7 +221,7 @@ public class HudPixelExtendedEventHandler {
 
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended] An exception occurred in onOpenGui(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended] An exception occurred in onOpenGui(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -232,7 +230,7 @@ public class HudPixelExtendedEventHandler {
     public void onChatMessage(ClientChatReceivedEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.isHypixelNetwork()) {
+            if (HudPixelMod.Companion.isHypixelNetwork()) {
                 final String message = e.message.getUnformattedText();
 
                 for (IEventHandler i : getIeventBuffer())
@@ -243,7 +241,7 @@ public class HudPixelExtendedEventHandler {
                 FancyChat.getInstance().onChat(e);
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occurred in onChatMessage(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in onChatMessage(). Stacktrace below.");
             ex.printStackTrace();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -254,22 +252,22 @@ public class HudPixelExtendedEventHandler {
     private static short sec;
     private static short min;
 
-    private static void processTickTimes(){
-        tick ++;
-        if(tick >= 20){
+    private static void processTickTimes() {
+        tick++;
+        if (tick >= 20) {
             tick = 0;
-            sec ++;
+            sec++;
             getIeventBuffer().forEach(IEventHandler::everySEC);
-            if(sec >= 60){
+            if (sec >= 60) {
                 sec = 0;
-                min ++;
+                min++;
                 getIeventBuffer().forEach(IEventHandler::everyMIN);
-                if(min >= 60)
+                if (min >= 60)
                     min = 0;
-            } else if(sec == 5){
+            } else if (sec == 5) {
                 getIeventBuffer().forEach(IEventHandler::everyFiveSEC);
             }
-        } else if(tick == 10){
+        } else if (tick == 10) {
             getIeventBuffer().forEach(IEventHandler::everyTenTICKS);
         }
 
@@ -279,7 +277,7 @@ public class HudPixelExtendedEventHandler {
     public void onClientTick(TickEvent.ClientTickEvent e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.isHypixelNetwork()) {
+            if (HudPixelMod.Companion.isHypixelNetwork()) {
 
                 processTickTimes();
 
@@ -299,11 +297,11 @@ public class HudPixelExtendedEventHandler {
                     lastSystemTime = System.currentTimeMillis();
                 }
 
-            } else if (HudPixelMod.IS_DEBUGGING) {
+            } else if (HudPixelMod.Companion.getIS_DEBUGGING()) {
                 FancyChat.getInstance().onClientTick();
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
             ex.printStackTrace();
         }
     }
@@ -312,12 +310,12 @@ public class HudPixelExtendedEventHandler {
     public void onRenderTick(RenderGameOverlayEvent.Post e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
+            if (HudPixelMod.Companion.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 getIeventBuffer().forEach(IEventHandler::onRender);
                 if (FancyChat.enabled) FancyChat.getInstance().onRenderTick();
             }
         } catch (Exception ex) {
-            HudPixelMod.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
+            HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");
             ex.printStackTrace();
         }
     }
