@@ -147,7 +147,7 @@ public class StaffManager implements IEventHandler, McColorHelper {
     private final String vipplus_tag = "§r§a[VIP§r§6+§r§a] ";
     private final String mvp_tag = "§r§b] ";
 
-    private static final String MVPPLUS_TAG_REGEX = ".*§r§b\\[MVP§r§[0-9a-f]\\+§r§b].";
+    private static final String MVPPLUS_TAG_REGEX = ".*?§r§b\\[MVP§r§[0-9a-f]\\+§r§b].";
     
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
@@ -160,9 +160,9 @@ public class StaffManager implements IEventHandler, McColorHelper {
         System.out.println(text);
 
         for (String s : tags.keySet()) { //for admins
-            String s1 = s + "§r§7: ";
+            String s1 = s;
 		    if (text.contains(default_tag + s1) || text.contains(vip_tag + s1) || text.contains(vipplus_tag + s1) ||
-                    text.contains(mvp_tag + s1) || Pattern.compile(MVPPLUS_TAG_REGEX + s1 + ".*").matcher(text).matches()) {
+                    text.contains(mvp_tag + s1) || Pattern.compile(MVPPLUS_TAG_REGEX + s1).matcher(text).matches()) {
 
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
                 FancyChat.getInstance().addMessage(e.message.getFormattedText());
