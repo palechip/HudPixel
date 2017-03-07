@@ -29,7 +29,7 @@ class TabContainer(val tabListElement: TabListElementContainer, val container: C
     init {
         registerChild(this.container)
         registerChild(this.tabListElement)
-        registerChild(chatField)
+        //registerChild(chatField)
         container.yOffset = TabListElementContainer.ELEMENT_HEIGHT
         tabListElement.registerClickedListener { clickType, container -> if (clickType == MouseHandler.ClickType.SINGLE) setActive() }
         setClosed()

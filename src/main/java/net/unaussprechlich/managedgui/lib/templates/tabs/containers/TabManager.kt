@@ -18,6 +18,7 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefCustomRenderContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefPictureContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.ICustomRenderer
+import net.unaussprechlich.managedgui.lib.util.DisplayUtil
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
@@ -30,9 +31,7 @@ import java.util.*
 class TabManager : Container() {
 
     private val tabs = ArrayList<TabContainer>()
-
     private val BS = 17
-
 
     private val minIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
@@ -40,8 +39,14 @@ class TabManager : Container() {
             val s = 2
             val s2 = s*2
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s , yStart + s, width - s2, height - s2, RGBA.P1B1_596068.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
 
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s - 4, width - s2*2 - 2, 1, RGBA.P1B1_596068.get())
 
             return true
         }
@@ -50,6 +55,29 @@ class TabManager : Container() {
     private val maxIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
             if(ees == EnumEventState.POST) return true
+            val s = 2
+            val s2 = s*2
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+
+            if(isMax){
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height / 2 , 4, 1, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 5, 1, 3, RGBA.P1B1_596068.get())
+
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 5, yStart + s2 + 1, 4, 1, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 3, RGBA.P1B1_596068.get())
+            } else {
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 4, 1, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 5, 1, 3, RGBA.P1B1_596068.get())
+
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 5, yStart + s2 + 1, 4, 1, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 3, RGBA.P1B1_596068.get())
+            }
 
 
             return true
@@ -59,15 +87,36 @@ class TabManager : Container() {
     private val moveIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
             if(ees == EnumEventState.POST) return true
+            val s = 2
+            val s2 = s*2
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart , yStart, width, height , RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 3, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 4, 1, 2, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 1, 3, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 2, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + height - s2 - 2, 3, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + height - s2 - 4, 1, 2, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 1, 3, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 2, 1, 2, RGBA.P1B1_596068.get())
+
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart +  width / 2, yStart + height /2 , 1, 1, RGBA.P1B1_596068.get())
 
             return true
         }
     }
 
     private val maxCon = DefCustomRenderContainer(maxIconRenderer).apply {
-        xOffset = BS * 2
+        xOffset = BS * 2 + 2
         width = BS
         height = BS
     }
@@ -75,14 +124,18 @@ class TabManager : Container() {
     private val moveCon = DefCustomRenderContainer(moveIconRenderer).apply {
         width = BS
         height = BS
-
+        xOffset = 2
     }
 
     private val minCon = DefCustomRenderContainer(minIconRenderer).apply {
-        xOffset = BS
+        xOffset = BS + 2
         width = BS
         height = BS
     }
+
+    private var prevX = 0
+    private var prevY = 0
+    private var isMax = false
 
     private val addCon =  DefPictureContainer(17, 17, ImageLoader.chatTabAddLocation())
     private var activeTab: TabContainer? = null
@@ -98,6 +151,21 @@ class TabManager : Container() {
             if (clickType == MouseHandler.ClickType.DRAG)
                 move = true
         }
+
+        maxCon.registerClickedListener({ clickType, container ->
+            if(clickType == MouseHandler.ClickType.SINGLE){
+                if(isMax){
+                    isMax = false
+                } else {
+                    isMax = true
+                    prevX = xOffset
+                    prevY = yOffset
+                    setXYOffset(0, 0)
+                    width = DisplayUtil.scaledMcWidth
+                    height = DisplayUtil.scaledMcHeight
+                }
+            }
+        })
 
 
     }
@@ -124,7 +192,7 @@ class TabManager : Container() {
     }
 
     private fun updatePositions() {
-        var offset = 3 * BS + 2
+        var offset = 3 * BS + 6
         for (element in tabs.map{it -> it.tabListElement}.toList()){
             element.xOffset = offset
             offset += element.width
@@ -142,8 +210,8 @@ class TabManager : Container() {
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
         if(ees == EnumEventState.POST){
-            RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, BS*3 , 17 , RGBA.P1B1_DEF.get())
-            //RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart, BS*3 + 12, 10, RGBA.BLACK_LIGHT3.get(), RGBA.P1B1_DEF.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, BS*3 + 4 , 17 , RGBA.P1B1_DEF.get())
+            RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart, BS*3 + 4, 10, RGBA.BLACK_LIGHT2.get(), RGBA.P1B1_DEF.get())
         } else {
 
         }
