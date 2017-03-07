@@ -11,10 +11,13 @@ package net.unaussprechlich.managedgui.lib.templates.tabs.containers
 import com.palechip.hudpixelmod.extended.util.ImageLoader
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefCustomRenderContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefPictureContainer
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.ICustomRenderer
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
@@ -31,14 +34,58 @@ class TabManager : Container() {
     private val BS = 17
 
 
-    private val minCon = DefPictureContainer(BS, BS, ImageLoader.chatMinimizeLocation())
-    private val maxCon = DefPictureContainer(BS, BS, ImageLoader.chatMaximizeLocation())
-    private val moveCon = DefPictureContainer(BS, BS, ImageLoader.chatMoveLocation())
+    private val minIconRenderer = object: ICustomRenderer{
+        override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
+            if(ees == EnumEventState.POST) return true
+            val s = 2
+            val s2 = s*2
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s , yStart + s, width - s2, height - s2, RGBA.P1B1_596068.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+
+
+            return true
+        }
+    }
+
+    private val maxIconRenderer = object: ICustomRenderer{
+        override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
+            if(ees == EnumEventState.POST) return true
+
+
+            return true
+        }
+    }
+
+    private val moveIconRenderer = object: ICustomRenderer{
+        override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
+            if(ees == EnumEventState.POST) return true
+
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart , yStart, width, height , RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+
+            return true
+        }
+    }
+
+    private val maxCon = DefCustomRenderContainer(maxIconRenderer).apply {
+        xOffset = BS * 2
+        width = BS
+        height = BS
+    }
+
+    private val moveCon = DefCustomRenderContainer(moveIconRenderer).apply {
+        width = BS
+        height = BS
+
+    }
+
+    private val minCon = DefCustomRenderContainer(minIconRenderer).apply {
+        xOffset = BS
+        width = BS
+        height = BS
+    }
 
     private val addCon =  DefPictureContainer(17, 17, ImageLoader.chatTabAddLocation())
-
     private var activeTab: TabContainer? = null
-
     private var move = false
 
     init {
@@ -47,22 +94,11 @@ class TabManager : Container() {
         registerChild(minCon)
         registerChild(addCon)
 
-        moveCon.apply {
-            registerClickedListener { clickType, container ->
-                if (clickType == MouseHandler.ClickType.DRAG)
-                    move = true
-            }
+        moveCon.registerClickedListener { clickType, container ->
+            if (clickType == MouseHandler.ClickType.DRAG)
+                move = true
         }
 
-        minCon.apply {
-            xOffset = BS
-
-        }
-
-        maxCon.apply {
-            xOffset = BS*2
-
-        }
 
     }
 

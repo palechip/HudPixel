@@ -107,7 +107,7 @@ public abstract class ContainerFrame extends Container {
         if(!requireFrameUpdate) return false;
 
         final int x = 0;
-        int y = DisplayUtil.INSTANCE.getScaledMcHeight() - getHeight() + 1;
+        int y = DisplayUtil.INSTANCE.getScaledMcHeight() - getHeight() ;
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();

@@ -102,7 +102,7 @@ public class CustomFontRenderer extends FontRenderer {
 
         for(int i = 0; i < s.length(); i++){
             char c0 = s.charAt(i);
-            if (c0 == '\u007a' && i + 1 < s.length()) {
+            if (c0 == '§' && i + 1 < s.length()) {
                 char c1 = s.toLowerCase(Locale.ENGLISH).charAt(i + 1);
                 int i1 = "0123456789abcdefklmnor".indexOf(c1);
                 //DRAW IT!
@@ -219,7 +219,7 @@ public class CustomFontRenderer extends FontRenderer {
                     j += getCharWidth(c0);
                     if (flag) ++j;
                     break;
-                case '\u007a':
+                case '\u00a7':
                     if (k < i - 1) {
                         ++k;
                         char c1 = str.charAt(k);
