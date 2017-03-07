@@ -101,7 +101,6 @@ object ChatDetector {
             get() = "Party\\s+>\\s+.*:\\s.*".toRegex()
     }
 
-    class EventInfo<T>(val type: Class<T>, val data: Data)
+    class EventInfo<T>(val type: Class<T>, val data: Map<String, String>)
 
 }
-typealias Data = Map<String, String>

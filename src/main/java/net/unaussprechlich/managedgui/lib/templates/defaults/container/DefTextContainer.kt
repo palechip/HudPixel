@@ -22,6 +22,9 @@ import net.unaussprechlich.managedgui.lib.util.FontUtil
  */
 class DefTextContainer(text: String) : Container() {
 
+    operator fun plusAssign(char: Char) {
+        text += char
+    }
     var text = ""
         set(text) {
             field = text

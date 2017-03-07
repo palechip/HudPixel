@@ -65,7 +65,7 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.BLITZ) && GameDetector.Companion.shouldRenderStuff();
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ) && GameDetector.shouldRenderStuff();
     }
 
     @Override

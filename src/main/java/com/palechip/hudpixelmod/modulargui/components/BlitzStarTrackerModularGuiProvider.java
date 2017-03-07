@@ -67,7 +67,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.BLITZ);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.BLITZ);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
     @Override
     public void onChatMessage(String textMessage, String formattedMessage) {
         // filter chat tag
-        textMessage = textMessage.replace("[" + GameDetector.Companion.getCurrentGameType().getNm() + "]: ", "");
+        textMessage = textMessage.replace("[" + GameDetector.getCurrentGameType().getNm() + "]: ", "");
         // hide message
         if (textMessage.contains("The Blitz Star has been hidden in a random chest!")) {
             this.currentPhase = Phase.HIDDEN;

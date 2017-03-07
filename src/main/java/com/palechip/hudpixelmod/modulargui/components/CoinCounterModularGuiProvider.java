@@ -73,7 +73,7 @@ public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.shouldRenderStuff();
+        return GameDetector.shouldRenderStuff();
     }
 
     @Override

@@ -66,7 +66,7 @@ public class KillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGu
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.ANY_TNT) || GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.QUAKECRAFT) || GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.ANY_ARCADE);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.ANY_TNT) || GameDetector.doesGameTypeMatchWithCurrent(GameType.QUAKECRAFT) || GameDetector.doesGameTypeMatchWithCurrent(GameType.ANY_ARCADE);
     }
 
     @Override

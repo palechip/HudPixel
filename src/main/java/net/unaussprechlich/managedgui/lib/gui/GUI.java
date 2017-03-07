@@ -24,9 +24,8 @@ public abstract class GUI extends ChildRegistry implements IChild {
         this.yStart = yStart;
     }
 
-    protected static boolean isInGameGUIShown(){
-        if(Minecraft.getMinecraft() == null) return false;
-        return Minecraft.getMinecraft().inGameHasFocus;
+    protected static boolean isInGameGUIShown() {
+        return Minecraft.getMinecraft() != null && Minecraft.getMinecraft().inGameHasFocus;
     }
 
     protected static boolean isChatGUIShown(){

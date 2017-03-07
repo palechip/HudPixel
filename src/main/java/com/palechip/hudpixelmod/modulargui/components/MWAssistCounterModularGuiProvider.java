@@ -69,7 +69,7 @@ public class MWAssistCounterModularGuiProvider extends SimpleHudPixelModularGuiP
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS);
     }
 
     @Override

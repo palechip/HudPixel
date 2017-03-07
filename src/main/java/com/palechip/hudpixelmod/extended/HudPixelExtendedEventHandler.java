@@ -199,7 +199,7 @@ public class HudPixelExtendedEventHandler {
                     i.onRenderPlayer(e);
 
                 //just triggeres the statsrenderer if the player is waiting for the game to start
-                if (GameDetector.Companion.getIsLobby() && StatsViewerManager.enabled)
+                if (GameDetector.getIsLobby() && StatsViewerManager.enabled)
                     StatsViewerManager.onRenderPlayer(e);
             }
         } catch (Exception ex) {
@@ -288,7 +288,7 @@ public class HudPixelExtendedEventHandler {
                 //Tick for FancyChat
                 FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
-                if (GameDetector.Companion.getIsLobby()) {
+                if (GameDetector.getIsLobby()) {
                     //System.out.print(GameDetector.getCurrentGameType().getNm());
                     StatsViewerManager.onClientTick();
                 }

@@ -72,7 +72,7 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.TURBO_KART_RACERS);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.TURBO_KART_RACERS);
     }
 
     @Override

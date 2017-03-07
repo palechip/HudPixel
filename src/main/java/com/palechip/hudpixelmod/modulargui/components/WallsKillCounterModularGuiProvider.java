@@ -65,7 +65,7 @@ public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGui
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.THE_WALLS);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.THE_WALLS);
     }
 
     @Override

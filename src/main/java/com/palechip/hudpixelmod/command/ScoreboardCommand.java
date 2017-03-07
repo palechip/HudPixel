@@ -74,7 +74,7 @@ public class ScoreboardCommand extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         ScoreboardReader.resetCache();
         String title = ScoreboardReader.getScoreboardTitle();
-        title = GameDetector.Companion.stripColor(title).toLowerCase();
+        title = GameDetector.stripColor(title).toLowerCase();
         System.out.println(title);
         new ChatMessageComposer("\"" + title + "\"").send();
     }

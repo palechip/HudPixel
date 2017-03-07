@@ -101,7 +101,7 @@ public class StatsViewerManager {
             if (mc.objectMouseOver.entityHit instanceof EntityOtherPlayerMP) {
                 if (!statsViewerRenderMap.containsKey(mc.objectMouseOver.entityHit.getName())) {
                     statsViewerRenderMap.put(mc.objectMouseOver.entityHit.getName(), new StatsViewerRender(
-                            GameDetector.Companion.getCurrentGameType(),
+                            GameDetector.getCurrentGameType(),
                             mc.objectMouseOver.entityHit.getUniqueID()));
                 }
             }

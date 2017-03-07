@@ -102,7 +102,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.PAINTBALL);
+        return GameDetector.doesGameTypeMatchWithCurrent(GameType.PAINTBALL);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
 
     @Override
     public boolean showElement() {
-        return doesMatchForGame() && !GameDetector.Companion.getIsLobby();
+        return doesMatchForGame() && !GameDetector.getIsLobby();
     }
 
     @Override

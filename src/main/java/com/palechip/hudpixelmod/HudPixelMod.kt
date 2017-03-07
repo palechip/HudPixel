@@ -152,13 +152,14 @@ class HudPixelMod {
         ModularGuiHelper.init()
         ContributorFancinessHandler.init()
         BansHandler.init()
+        KeyTracker
 
 
         // setup HudPixelExtended
         HudPixelExtended.getInstance().setup()
 
         // initialize createModList
-        this.gameDetector = GameDetector()
+        this.gameDetector = GameDetector
         this.warlordsChatFilter = WarlordsDamageChatFilter()
 
         // Initialize key bindings

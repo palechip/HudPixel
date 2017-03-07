@@ -52,7 +52,6 @@ object ChatGUI : GUI() {
 
     init {
         registerChild(tabManager)
-
         tabManager.registerTab(TabContainer(TabListElementContainer("ALL", RGBA.WHITE.get(), tabManager), scrollALL, tabManager))
         tabManager.registerTab(TabContainer(TabListElementContainer("PARTY", RGBA.BLUE.get(), tabManager), partyCon, tabManager))
         tabManager.registerTab(TabContainer(TabListElementContainer("GUILD", RGBA.GREEN.get(), tabManager), guildCon, tabManager))

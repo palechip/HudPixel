@@ -75,16 +75,16 @@ public class GameDetectorCommand extends CommandBase {
             new ChatMessageComposer(GameDetector.getCurrentGameType().toString()).send();
         else if (args.length == 1 && args[0].equals("reset")) {
             new ChatMessageComposer("Done").send();
-            GameDetector.Companion.reset();
+            GameDetector.reset();
         } else if (args.length == 1 && args[0].equals("debug")) {
-            new ChatMessageComposer("Is lobby: " + GameDetector.Companion.getIsLobby()).send();
-            new ChatMessageComposer("Enabled: " + GameDetector.Companion.getEnabled()).send();
+            new ChatMessageComposer("Is lobby: " + GameDetector.getIsLobby()).send();
+            new ChatMessageComposer("Enabled: " + GameDetector.getEnabled()).send();
             new ChatMessageComposer("Current game type: " + GameDetector.getCurrentGameType()).send();
-            new ChatMessageComposer("Game hasn't begun: " + GameDetector.Companion.getGameHasntBegan()).send();
-            new ChatMessageComposer("Should render: " + GameDetector.Companion.shouldRenderStuff()).send();
+            new ChatMessageComposer("Game hasn't begun: " + GameDetector.getGameHasntBegan()).send();
+            new ChatMessageComposer("Should render: " + GameDetector.shouldRenderStuff()).send();
         } else if (args.length == 1 && args[0].equals("setbegun")) {
             new ChatMessageComposer("Done").send();
-            GameDetector.Companion.setGameHasntBegan(true);
+            GameDetector.setGameHasntBegan(true);
         }
 
     }

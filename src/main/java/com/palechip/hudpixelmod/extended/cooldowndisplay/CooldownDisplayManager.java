@@ -97,7 +97,7 @@ public class CooldownDisplayManager implements IEventHandler {
     @Override
     public void onRender() {
 
-        if (cdModules.isEmpty() || !enabled || GameDetector.Companion.getIsLobby()) return;
+        if (cdModules.isEmpty() || !enabled || GameDetector.getIsLobby()) return;
 
         Minecraft mc = Minecraft.getMinecraft();
         int scale;

@@ -65,7 +65,7 @@ public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean doesMatchForGame() {
-        return GameDetector.Companion.shouldRenderStuff();
+        return GameDetector.shouldRenderStuff();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
     @Override
     public boolean showElement() {
-        return !GameDetector.Companion.shouldRenderStuff() && GameDetector.Companion.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS) && enabled;
+        return !GameDetector.shouldRenderStuff() && GameDetector.doesGameTypeMatchWithCurrent(GameType.MEGA_WALLS) && enabled;
     }
 
     @Override
