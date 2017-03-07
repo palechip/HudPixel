@@ -119,4 +119,19 @@ public class ImageLoader {
     public static ResourceLocation shadowLocation() {
         return new ResourceLocation(HudPixelMod.MODID, "textures/msc/SHADOW_TEST.png");
     }
+
+    public static ResourceLocation chatMaximizeLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "icons/chatGUIicons-01.png");
+    }
+    public static ResourceLocation chatMinimizeLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "icons/chatGUIicons-02.png");
+    }
+    public static ResourceLocation chatTabAddLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "icons/chatGUIicons-03.png");
+    }
+    public static ResourceLocation chatMoveLocation() {
+        return new ResourceLocation(HudPixelMod.MODID, "icons/chatGUIicons-04.png");
+    }
+
+
 }

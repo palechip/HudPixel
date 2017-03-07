@@ -29,7 +29,7 @@ import java.util.*
  * GuiManagerMG Created by unaussprechlich on 18.12.2016.
  * Description:
  */
-class GuiManagerMG private constructor() {
+object GuiManagerMG{
 
     //DEFAULT TYPED ----------------------------------------------------------------------------------------------------
 
@@ -37,9 +37,13 @@ class GuiManagerMG private constructor() {
         TEST, CHAT, ESC, INGAME
     }
 
+
     //EVENT_HANDLING ---------------------------------------------------------------------------------------------------
     private var prevWidth = DisplayUtil.scaledMcWidth
     private var prevHeight = DisplayUtil.scaledMcHeight
+    private val GUIs = HashMap<EnumGUITypes, GUI>()
+    private val GUIsDynamic = HashMap<String, GUI>()
+
     @SubscribeEvent
     fun onClientTick(e: TickEvent.ClientTickEvent) {
         if (ManagedGui.isIsDisabled) return
@@ -63,6 +67,13 @@ class GuiManagerMG private constructor() {
             ex.printStackTrace()
         }
 
+    }
+
+    init {
+        LoggerHelperMG.logInfo("Setting up GuiManager!")
+        for (type in EnumGUITypes.values()) {
+            GUIs.put(type, ManagedGui.iSetupHelper!!.loadDefaultGUI(type))
+        }
     }
 
     @SubscribeEvent
@@ -110,125 +121,115 @@ class GuiManagerMG private constructor() {
 
     }
 
-    companion object {
 
-        //FIELDS -----------------------------------------------------------------------------------------------------------
 
-        private val GUIs = HashMap<EnumGUITypes, GUI>()
-        private val GUIsDynamic = HashMap<String, GUI>()
+    //METHODS ----------------------------------------------------------------------------------------------------------
 
-        //METHODS ----------------------------------------------------------------------------------------------------------
-
-        fun <T : GUI> addGUI(name: String, GUI: T) {
-            if (GUIsDynamic.containsKey(name)) {
-                throw NameInUseException(name, "GuiManagerMG")
-            }
-            GUIsDynamic.put(name, GUI)
+    fun <T : GUI> addGUI(name: String, GUI: T) {
+        if (GUIsDynamic.containsKey(name)) {
+            throw NameInUseException(name, "GuiManagerMG")
         }
+        GUIsDynamic.put(name, GUI)
+    }
 
 
-        fun setup() {
-            LoggerHelperMG.logInfo("Setting up GuiManager!")
-            for (type in EnumGUITypes.values()) {
-                GUIs.put(type, ManagedGui.iSetupHelper!!.loadDefaultGUI(type))
-            }
-        }
 
 
-        private var tick: Short = 0
-        private var sec: Short = 0
-        private var min: Short = 0
 
-        private fun processTimeEvents() {
-            tick++
+    private var tick: Short = 0
+    private var sec: Short = 0
+    private var min: Short = 0
 
-            if (tick % 2 == 0)  postEvent(TimeEvent(EnumTime.TICK_2))
-            if (tick % 5 == 0)  postEvent(TimeEvent(EnumTime.TICK_5))
-            if (tick % 10 == 0) postEvent(TimeEvent(EnumTime.TICK_10))
-            if (tick % 15 == 0) postEvent(TimeEvent(EnumTime.TICK_15))
+    private fun processTimeEvents() {
 
-            if (tick >= 20) {
-                tick = 0
-                sec++
+        tick++
 
-                postEvent(TimeEvent(EnumTime.SEC_1))
+        if (tick % 2 == 0)  postEvent(TimeEvent(EnumTime.TICK_2))
+        if (tick % 5 == 0)  postEvent(TimeEvent(EnumTime.TICK_5))
+        if (tick % 10 == 0) postEvent(TimeEvent(EnumTime.TICK_10))
+        if (tick % 15 == 0) postEvent(TimeEvent(EnumTime.TICK_15))
 
-                if (sec % 2 == 0)  postEvent(TimeEvent(EnumTime.SEC_2))
-                if (sec % 5 == 0)  postEvent(TimeEvent(EnumTime.SEC_5))
-                if (sec % 10 == 0) postEvent(TimeEvent(EnumTime.SEC_10))
-                if (sec % 15 == 0) postEvent(TimeEvent(EnumTime.SEC_15))
-                if (sec % 30 == 0) postEvent(TimeEvent(EnumTime.SEC_30))
+        if (tick >= 20) {
+            tick = 0
+            sec++
+
+            postEvent(TimeEvent(EnumTime.SEC_1))
+
+            if (sec % 2 == 0)  postEvent(TimeEvent(EnumTime.SEC_2))
+            if (sec % 5 == 0)  postEvent(TimeEvent(EnumTime.SEC_5))
+            if (sec % 10 == 0) postEvent(TimeEvent(EnumTime.SEC_10))
+            if (sec % 15 == 0) postEvent(TimeEvent(EnumTime.SEC_15))
+            if (sec % 30 == 0) postEvent(TimeEvent(EnumTime.SEC_30))
 
 
-                if (sec >= 60) {
-                    sec = 0
-                    min++
+            if (sec >= 60) {
+                sec = 0
+                min++
 
-                    postEvent(TimeEvent(EnumTime.MIN_1))
+                postEvent(TimeEvent(EnumTime.MIN_1))
 
-                    if (min % 2 == 0)  postEvent(TimeEvent(EnumTime.MIN_2))
-                    if (min % 2 == 0)  postEvent(TimeEvent(EnumTime.MIN_2))
-                    if (min % 5 == 0)  postEvent(TimeEvent(EnumTime.MIN_5))
-                    if (min % 10 == 0) postEvent(TimeEvent(EnumTime.MIN_10))
-                    if (min % 15 == 0) postEvent(TimeEvent(EnumTime.MIN_15))
-                    if (min % 20 == 0) postEvent(TimeEvent(EnumTime.MIN_20))
-                    if (min % 30 == 0) postEvent(TimeEvent(EnumTime.MIN_30))
+                if (min % 2 == 0)  postEvent(TimeEvent(EnumTime.MIN_2))
+                if (min % 2 == 0)  postEvent(TimeEvent(EnumTime.MIN_2))
+                if (min % 5 == 0)  postEvent(TimeEvent(EnumTime.MIN_5))
+                if (min % 10 == 0) postEvent(TimeEvent(EnumTime.MIN_10))
+                if (min % 15 == 0) postEvent(TimeEvent(EnumTime.MIN_15))
+                if (min % 20 == 0) postEvent(TimeEvent(EnumTime.MIN_20))
+                if (min % 30 == 0) postEvent(TimeEvent(EnumTime.MIN_30))
 
-                    if (min >= 60) min = 0
+                if (min >= 60) min = 0
 
-                }
             }
         }
+    }
 
-        fun <T : Event<*>> postEvent(e: T) {
-            if (ManagedGui.isIsDisabled) return
-            try {
+    fun <T : Event<*>> postEvent(e: T) {
+        if (ManagedGui.isIsDisabled) return
+        try {
 
-                GUIs.values.forEach { gui -> gui.onEventBus(e) }
-                GUIsDynamic.values.forEach { gui -> gui.onEventBus(e) }
+            GUIs.values.forEach { gui -> gui.onEventBus(e) }
+            GUIsDynamic.values.forEach { gui -> gui.onEventBus(e) }
 
-            } catch (ex: Exception) {
-                //TODO print some nice debuging
-                ex.printStackTrace()
-            }
-
+        } catch (ex: Exception) {
+            //TODO print some nice debuging
+            ex.printStackTrace()
         }
 
-        fun onClick(clickType: MouseHandler.ClickType) {
-            if (ManagedGui.isIsDisabled) return
-            try {
-                GUIs.values.forEach { gui -> gui.onClick(clickType) }
-                GUIsDynamic.values.forEach { gui -> gui.onClick(clickType) }
-            } catch (ex: Exception) {
-                //TODO print some nice debuging
-                ex.printStackTrace()
-            }
+    }
 
+    fun onClick(clickType: MouseHandler.ClickType) {
+        if (ManagedGui.isIsDisabled) return
+        try {
+            GUIs.values.forEach { gui -> gui.onClick(clickType) }
+            GUIsDynamic.values.forEach { gui -> gui.onClick(clickType) }
+        } catch (ex: Exception) {
+            //TODO print some nice debuging
+            ex.printStackTrace()
         }
 
-        fun onScroll(i: Int) {
-            if (ManagedGui.isIsDisabled) return
-            try {
-                GUIs.values.forEach { gui -> gui.onScroll(i) }
-                GUIsDynamic.values.forEach { gui -> gui.onScroll(i) }
-            } catch (ex: Exception) {
-                //TODO print some nice debuging
-                ex.printStackTrace()
-            }
+    }
 
+    fun onScroll(i: Int) {
+        if (ManagedGui.isIsDisabled) return
+        try {
+            GUIs.values.forEach { gui -> gui.onScroll(i) }
+            GUIsDynamic.values.forEach { gui -> gui.onScroll(i) }
+        } catch (ex: Exception) {
+            //TODO print some nice debuging
+            ex.printStackTrace()
         }
 
-        fun onMouseMove(mX: Int, mY: Int) {
-            if (ManagedGui.isIsDisabled) return
-            try {
-                GUIs.values.forEach { gui -> gui.onMouseMove(mX, mY) }
-                GUIsDynamic.values.forEach { gui -> gui.onMouseMove(mX, mY) }
-            } catch (ex: Exception) {
-                //TODO print some nice debuging
-                ex.printStackTrace()
-            }
+    }
 
+    fun onMouseMove(mX: Int, mY: Int) {
+        if (ManagedGui.isIsDisabled) return
+        try {
+            GUIs.values.forEach { gui -> gui.onMouseMove(mX, mY) }
+            GUIsDynamic.values.forEach { gui -> gui.onMouseMove(mX, mY) }
+        } catch (ex: Exception) {
+            //TODO print some nice debuging
+            ex.printStackTrace()
         }
+
     }
 
 }

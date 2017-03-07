@@ -114,18 +114,13 @@ public class DefScrollableContainer extends ContainerFrame {
             RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart + 6, width, 30, getBackgroundRGBA() ,
                                                    new ColorRGBA(getBackgroundRGBA().getRed(), getBackgroundRGBA().getGreen(), getBackgroundRGBA().getBlue(), 0));
 
-
+            if(pixelSize < height) return true;
 
             int scroll = Math.round(Math.abs(pixelPos -(pixelSize - height)) * ((float)(height - 50)/(float)(pixelSize-height)));
 
-            //System.out.println(Math.abs(pixelPos - (pixelSize - height)) + " | " + pixelPos + " | " + pixelSize + " | " + scroll +  " | " + indexScroll + " | " + height);
-
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 10, yStart + 10, height - 20, 4, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2);
-
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + width - 11, yStart + scroll + 10, 30, 6, RGBA.P1B1_596068.get(), RGBA.NULL.get(), 2);
-
         }
-
         return true;
     }
 

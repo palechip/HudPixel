@@ -8,14 +8,16 @@
 
 package net.unaussprechlich.managedgui.lib.templates.tabs.containers
 
+import com.palechip.hudpixelmod.extended.util.ImageLoader
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
-import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefBackgroundContainer
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefPictureContainer
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
+import net.unaussprechlich.managedgui.lib.util.RenderUtils
 import java.util.*
 
 /**
@@ -25,7 +27,15 @@ import java.util.*
 class TabManager : Container() {
 
     private val tabs = ArrayList<TabContainer>()
-    private val moveCon = DefBackgroundContainer(RGBA.P1B1_596068.get(), 16, 16)
+
+    private val BS = 17
+
+
+    private val minCon = DefPictureContainer(BS, BS, ImageLoader.chatMinimizeLocation())
+    private val maxCon = DefPictureContainer(BS, BS, ImageLoader.chatMaximizeLocation())
+    private val moveCon = DefPictureContainer(BS, BS, ImageLoader.chatMoveLocation())
+
+    private val addCon =  DefPictureContainer(17, 17, ImageLoader.chatTabAddLocation())
 
     private var activeTab: TabContainer? = null
 
@@ -33,13 +43,27 @@ class TabManager : Container() {
 
     init {
         registerChild(moveCon)
-        moveCon.registerClickedListener { clickType, container ->
-            if (clickType == MouseHandler.ClickType.DRAG)
-                move = true
+        registerChild(maxCon)
+        registerChild(minCon)
+        registerChild(addCon)
 
-            if (clickType == MouseHandler.ClickType.DROP && move)
-                move = false
+        moveCon.apply {
+            registerClickedListener { clickType, container ->
+                if (clickType == MouseHandler.ClickType.DRAG)
+                    move = true
+            }
         }
+
+        minCon.apply {
+            xOffset = BS
+
+        }
+
+        maxCon.apply {
+            xOffset = BS*2
+
+        }
+
     }
 
     fun setTabActive(tab: TabContainer) {
@@ -64,21 +88,29 @@ class TabManager : Container() {
     }
 
     private fun updatePositions() {
-        var offset = 17
+        var offset = 3 * BS + 2
         for (element in tabs.map{it -> it.tabListElement}.toList()){
             element.xOffset = offset
             offset += element.width
         }
+        addCon.xOffset = offset
     }
 
     override fun doClientTickLocal(): Boolean {
+        updatePositions()
         if (move) {
-            setXYOffset(MouseHandler.mX - 8, MouseHandler.mY - 8)
+            setXYOffset(MouseHandler.mX - moveCon.xOffset - 7, MouseHandler.mY - moveCon.yOffset - 7)
         }
         return true
     }
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
+        if(ees == EnumEventState.POST){
+            RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, BS*3 , 17 , RGBA.P1B1_DEF.get())
+            //RenderUtils.rect_fade_horizontal_s1_d1(xStart, yStart, BS*3 + 12, 10, RGBA.BLACK_LIGHT3.get(), RGBA.P1B1_DEF.get())
+        } else {
+
+        }
         return true
     }
 
@@ -87,6 +119,8 @@ class TabManager : Container() {
     }
 
     override fun doClickLocal(clickType: MouseHandler.ClickType, isThisContainer: Boolean): Boolean {
+        if (clickType == MouseHandler.ClickType.DROP && move)
+            move = false
         return true
     }
 

@@ -121,6 +121,10 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         this.yStart = yStart + yOffset + padding.TOP()  + margin.TOP()  + border.TOP();
     }
 
+    public Container THIS(){
+        return this;
+    }
+
 
     //EVENT STUFF ------------------------------------------------------------------------------------------------------
 

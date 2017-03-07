@@ -71,7 +71,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.Mod.EventHandler
-import net.minecraftforge.fml.common.ModContainer
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
@@ -82,9 +81,7 @@ import net.unaussprechlich.project.connect.Connect
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.lwjgl.input.Keyboard
-
-import java.lang.reflect.Field
-import java.util.Date
+import java.util.*
 
 
 @Mod(modid = HudPixelMod.MODID, version = HudPixelMod.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory", acceptedMinecraftVersions = "1.8.9")
@@ -114,6 +111,7 @@ class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(ClickEventCommand)
             ClientCommandHandler.instance.registerCommand(AfkCommand)
             ClientCommandHandler.instance.registerCommand(ManagedGuiDisableCommand)
+
             ChatDetector
             HudPixelMethodHandles()
             FireAntiRenderer()

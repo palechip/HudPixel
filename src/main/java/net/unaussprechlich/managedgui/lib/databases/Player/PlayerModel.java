@@ -32,6 +32,7 @@ public class PlayerModel {
     }
 
     public String getRankName(){
+        if(rank.getRankFormatted().equalsIgnoreCase(rank.getRankColor().toString())) return rank.getRankColor() + name;
         return rank.getRankFormatted() + " " +  name;
     }
 

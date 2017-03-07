@@ -22,7 +22,7 @@ object ManagedGui {
     fun setup(ISetupHelper: SetupHelper) {
         LoggerHelperMG.logInfo("Setting up ManagedGuiLib!")
         ManagedGui.iSetupHelper = ISetupHelper
-        GuiManagerMG.setup()
+        GuiManagerMG
         MinecraftForge.EVENT_BUS.register(GuiManagerMG)
 
     }
