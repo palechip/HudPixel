@@ -82,3 +82,4 @@ $RECYCLE.BIN/
 /src/main/java/net/unaussprechlich/managedgui/lib/diagram.png
 /src/main/java/net/unaussprechlich/managedgui/lib/ManagedGuiLib.uml
 !/src/main/java/net/unaussprechlich/managedgui/lib/ManagedGui.java
+!/src/main/java/net/unaussprechlich/managedgui/lib/templates/tabs/containers/TabManager.kt

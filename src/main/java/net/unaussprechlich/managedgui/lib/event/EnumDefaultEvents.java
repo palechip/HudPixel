@@ -13,7 +13,7 @@ package net.unaussprechlich.managedgui.lib.event;
  * Description:
  **/
 public enum EnumDefaultEvents {
-    TIME(-1), CLICK(-2), SCREEN_RESIZE(-3), SCALE_CHANGED(-4);
+    TIME(-1), CLICK(-2), SCREEN_RESIZE(-3), SCALE_CHANGED(-4), KEY_PRESSED(-5), KEY_PRESSED_CODE(-6);
 
     private int ID;
 

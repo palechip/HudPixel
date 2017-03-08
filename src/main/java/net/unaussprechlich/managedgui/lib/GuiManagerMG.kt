@@ -8,11 +8,17 @@
 
 package net.unaussprechlich.managedgui.lib
 
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiScreen
+import net.minecraft.util.ChatAllowedCharacters
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.InputEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
+import net.unaussprechlich.managedgui.lib.event.events.KeyPressedCodeEvent
+import net.unaussprechlich.managedgui.lib.event.events.KeyPressedEvent
 import net.unaussprechlich.managedgui.lib.event.events.ScreenResizeEvent
 import net.unaussprechlich.managedgui.lib.event.events.TimeEvent
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime
@@ -23,13 +29,14 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil
 import net.unaussprechlich.managedgui.lib.util.LoggerHelperMG
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
+import org.lwjgl.input.Keyboard
 import java.util.*
 
 /**
  * GuiManagerMG Created by unaussprechlich on 18.12.2016.
  * Description:
  */
-object GuiManagerMG{
+object GuiManagerMG : GuiScreen() {
 
     //DEFAULT TYPED ----------------------------------------------------------------------------------------------------
 
@@ -43,6 +50,19 @@ object GuiManagerMG{
     private var prevHeight = DisplayUtil.scaledMcHeight
     private val GUIs = HashMap<EnumGUITypes, GUI>()
     private val GUIsDynamic = HashMap<String, GUI>()
+
+    var isBinded = false
+    fun bindScreen() {
+        isBinded = true
+        Minecraft.getMinecraft().displayGuiScreen(this)
+    }
+
+    fun unbindScreen(){
+        isBinded = false
+        this.mc.displayGuiScreen(null)
+        if (this.mc.currentScreen == null)
+            this.mc.setIngameFocus()
+    }
 
     @SubscribeEvent
     fun onClientTick(e: TickEvent.ClientTickEvent) {
@@ -74,6 +94,32 @@ object GuiManagerMG{
         for (type in EnumGUITypes.values()) {
             GUIs.put(type, ManagedGui.iSetupHelper!!.loadDefaultGUI(type))
         }
+    }
+
+    override fun handleMouseInput() {
+        MouseHandler.handleMouseClick()
+    }
+
+    var lastKeyAction = System.currentTimeMillis()
+    val delay = 10
+    override fun keyTyped(typedChar: Char, keyCode: Int) {
+        if(System.currentTimeMillis() < lastKeyAction + delay) return
+        lastKeyAction = System.currentTimeMillis()
+        super.keyTyped(typedChar, keyCode)
+        if(ChatAllowedCharacters.isAllowedCharacter(typedChar))
+            postEvent(KeyPressedEvent(typedChar + ""))
+        postEvent(KeyPressedCodeEvent(Keyboard.getEventKey()))
+    }
+
+    @SubscribeEvent
+    fun onKeyInput(event: InputEvent.KeyInputEvent){
+        if(System.currentTimeMillis() < lastKeyAction + delay) return
+        lastKeyAction = System.currentTimeMillis()
+        val c = (if (Keyboard.getEventKey() == 0) Keyboard.getEventCharacter() + 256 else Keyboard.getEventCharacter())
+
+        postEvent(KeyPressedCodeEvent(Keyboard.getEventKey()))
+        if(ChatAllowedCharacters.isAllowedCharacter(c))
+            postEvent(KeyPressedEvent(c.toString()))
     }
 
     @SubscribeEvent

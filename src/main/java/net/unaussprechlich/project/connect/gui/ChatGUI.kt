@@ -7,9 +7,12 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.hypixel.helper.HypixelRank
 import net.unaussprechlich.managedgui.lib.ConstantsMG
+import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel
 import net.unaussprechlich.managedgui.lib.databases.Player.data.Rank
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
+import net.unaussprechlich.managedgui.lib.event.events.KeyPressedCodeEvent
+import net.unaussprechlich.managedgui.lib.event.events.KeyPressedEvent
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.gui.GUI
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
@@ -24,6 +27,7 @@ import net.unaussprechlich.managedgui.lib.util.ColorRGBA
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
+import org.lwjgl.input.Keyboard
 import java.util.*
 
 /**
@@ -36,6 +40,8 @@ object ChatGUI : GUI() {
 
     private val WIDTH = 500
     private val HEIGHT = 200
+
+    private var visible = false
 
     private val scrollSpacerRenderer = object : IScrollSpacerRenderer {
         override fun render(xStart: Int, yStart: Int, width: Int) {
@@ -51,6 +57,7 @@ object ChatGUI : GUI() {
     private val privateCon = DefScrollableContainer(ConstantsMG.DEF_BACKGROUND_RGBA, WIDTH, HEIGHT - 17, scrollSpacerRenderer)
 
     init {
+        tabManager.isVisible = false
         registerChild(tabManager)
         tabManager.registerTab(TabContainer(TabListElementContainer("ALL", RGBA.WHITE.get(), tabManager), scrollALL, tabManager))
         tabManager.registerTab(TabContainer(TabListElementContainer("PARTY", RGBA.BLUE.get(), tabManager), partyCon, tabManager))
@@ -104,6 +111,7 @@ object ChatGUI : GUI() {
     }
 
     override fun doRender(xStart: Int, yStart: Int): Boolean {
+
         //GL11.glColor3f(1f, 1f, 1f)
         //GuiInventory.drawEntityOnScreen(1000, 500, 100, MouseHandler.getmX(), MouseHandler.getmY(), Minecraft.getMinecraft().thePlayer);
         return true
@@ -128,6 +136,17 @@ object ChatGUI : GUI() {
     override fun <T : Event<*>> doEventBus(event: T): Boolean {
         if (event.id == EnumDefaultEvents.SCREEN_RESIZE.get()) {
             updatePosition()
+        } else if (event.id == EnumDefaultEvents.KEY_PRESSED.get()){
+            if((event as KeyPressedEvent).data.equals("k" , true)){
+                GuiManagerMG.bindScreen()
+                tabManager.isVisible = true
+                Keyboard.enableRepeatEvents(true)
+            }
+        }else if (event.id == EnumDefaultEvents.KEY_PRESSED_CODE.get()){
+            if((event as KeyPressedCodeEvent).data == Keyboard.KEY_ESCAPE){
+                tabManager.isVisible = false
+                Keyboard.enableRepeatEvents(false)
+            }
         }
         return true
     }

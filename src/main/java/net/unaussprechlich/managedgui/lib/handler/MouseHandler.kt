@@ -50,8 +50,6 @@ object MouseHandler {
         if (!(mc.currentScreen is GuiIngameMenu || mc.currentScreen is GuiChat || mc.currentScreen is GuiInventory))
             return
         handleMouseClick()
-        handleMouseScroll()
-
     }
 
     private val clickDelay: Long = 150
@@ -59,14 +57,13 @@ object MouseHandler {
     private var mouseButtonDown = false
     private var doubleClick = false
 
-    private fun handleMouseClick() {
+    fun handleMouseClick() {
 
         val isDown = Mouse.isButtonDown(0)
 
         if (!mouseButtonDown && isDown) {
             GuiManagerMG.onClick(ClickType.DRAG)
         }
-
 
         if (mouseButtonDown && !isDown) {
             mouseButtonDown = false
@@ -86,6 +83,8 @@ object MouseHandler {
             GuiManagerMG.onClick(ClickType.SINGLE)
             lastTimeClicked = System.currentTimeMillis()
         }
+
+        handleMouseScroll()
 
 
     }

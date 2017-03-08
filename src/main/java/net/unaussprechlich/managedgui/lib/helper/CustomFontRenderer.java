@@ -23,6 +23,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -46,7 +47,7 @@ public class CustomFontRenderer extends FontRenderer {
     private boolean underlineStyle = false;
     private boolean italicStyle = false;
 
-    private static final int FONT_HEIGHT_FT = 18;
+    private static final int FONT_HEIGHT_FT = 15;
 
     private static CustomFontRenderer INSTANCE;
 
@@ -294,6 +295,7 @@ public class CustomFontRenderer extends FontRenderer {
 
     @Override
     public int getStringWidth(String string) {
+        if(Objects.equals(string, "")) return 0;
         return font.getWidth(string) / 2;
     }
 }

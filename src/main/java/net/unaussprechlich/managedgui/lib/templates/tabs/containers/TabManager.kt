@@ -13,6 +13,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.container.Container
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefCustomRenderContainer
@@ -237,6 +238,8 @@ class TabManager : Container() {
     }
 
     override fun <T : Event<*>> doEventBusLocal(iEvent: T): Boolean {
+        if (!isVisible && iEvent.id == EnumDefaultEvents.KEY_PRESSED.get()) return false
+        if (!isVisible && iEvent.id == EnumDefaultEvents.KEY_PRESSED_CODE.get()) return false
         return true
     }
 

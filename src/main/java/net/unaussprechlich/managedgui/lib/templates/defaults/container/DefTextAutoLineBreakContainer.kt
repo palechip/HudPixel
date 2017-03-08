@@ -10,51 +10,73 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.FontUtil
+import java.util.*
 
 /**
- * DefTextContainer Created by unaussprechlich on 20.12.2016.
+ * DefTextAutoLineBreakContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  */
-class DefTextContainer(text: String) : Container() {
+open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Container() {
 
-    operator fun plusAssign(char: Char) {
-        text += char
+    protected var renderList: MutableList<String> = ArrayList()
+        private set
+
+    private var prevText = ""
+    private var prevWidth = 0
+
+    protected open fun onUpdate(){
+        update()
     }
 
-    var text = ""
-        set(text) {
-            field = text
-            super.setWidth(FontUtil.getStringWidth(text))
-            super.setHeight(9)
-        }
-    var isShadow = false
+    fun update() {
+        if (text == prevText && prevWidth == width) return
+        prevText = text
+        prevWidth = width
+
+
+
+        var newRenderList : MutableList<String> = ArrayList()
+
+        if (FontUtil.getStringWidth(this.text) <= this.width)
+            newRenderList.add(text)
+        else
+            newRenderList = FontUtil.fontRenderer.listFormattedStringToWidth(text, width)
+        super.setHeight(ConstantsMG.TEXT_Y_OFFSET * renderList.size)
+
+        renderList = newRenderList
+        onUpdate()
+    }
 
     init {
-        this.text = text
-        super.setWidth(FontUtil.getStringWidth(text))
-        super.setHeight(9)
+        super.setWidth(width)
     }
 
-    override fun setWidth(width: Int) {
-        throw UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setWidth() is handled automatically use setPadding() instead!")
+    private fun render(xStart: Int, yStart: Int) {
+        var y = yStart
+        for (s in renderList) {
+            FontUtil.draw(s, xStart, y)
+            y += ConstantsMG.TEXT_Y_OFFSET
+        }
     }
 
     override fun setHeight(width: Int) {
-        throw UnsupportedOperationException("[ManagedGuiLib][DefTextContainer] setHeight() is handled automatically use setPadding() instead!")
+        throw UnsupportedOperationException("[ManagedGuiLib][DefTextAutoLineBreakContainer] setHeight() is handled automatically use setPadding() instead!")
     }
 
     override fun doClientTickLocal(): Boolean {
+        update()
         return true
     }
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
-        if (ees === EnumEventState.PRE) {
-            FontUtil.draw(this.text, xStart, yStart)
+        if (ees === EnumEventState.POST) {
+            render(xStart, yStart)
         }
         return true
     }
@@ -75,7 +97,7 @@ class DefTextContainer(text: String) : Container() {
         return true
     }
 
-    override fun <T : Event<*>> doEventBusLocal(e: T): Boolean {
+    override fun <T : Event<*>> doEventBusLocal(iEvent: T): Boolean {
         return true
     }
 
@@ -83,7 +105,8 @@ class DefTextContainer(text: String) : Container() {
         return true
     }
 
-    override fun doResizeLocal(width: Int, height: Int): Boolean {
+
+    public override fun doResizeLocal(width: Int, height: Int): Boolean {
         return true
     }
 }
