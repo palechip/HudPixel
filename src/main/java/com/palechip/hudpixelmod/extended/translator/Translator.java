@@ -50,7 +50,6 @@ import com.palechip.hudpixelmod.config.CCategory;
 import com.palechip.hudpixelmod.config.ConfigPropertyBoolean;
 import com.palechip.hudpixelmod.config.ConfigPropertyString;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.LoggerHelper;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
@@ -88,9 +87,7 @@ public class Translator implements IEventHandler, ITranslatorRequestCallback {
     @Override
     public void onChatReceivedMessage(ClientChatReceivedEvent e, final String m) throws Throwable {
         if (disableTranslator) return;
-        if (FancyChat.fancyChatChecker(m) || m.startsWith("[Lv")) {
-            new TranslatorRequest(m.substring(m.indexOf(":") + 2), this, getUsername(m));
-        }
+
     }
 
     private String getUsername(String m) {

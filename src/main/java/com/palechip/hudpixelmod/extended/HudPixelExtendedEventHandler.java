@@ -49,7 +49,6 @@ package com.palechip.hudpixelmod.extended;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.config.EasyConfigHandler;
-import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.onlinefriends.OnlineFriendManager;
 import com.palechip.hudpixelmod.extended.statsviewer.StatsViewerManager;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
@@ -136,7 +135,6 @@ public class HudPixelExtendedEventHandler {
         for (IEventHandler iE : getIeventBuffer()) {
             iE.handleMouseInput(i, mX, mY);
         }
-        FancyChat.getInstance().handleMouseInput(i);
     }
 
     public static void onGameStart() {
@@ -217,8 +215,6 @@ public class HudPixelExtendedEventHandler {
                     i.openGUI(Minecraft.getMinecraft().currentScreen);
                 if (Minecraft.getMinecraft().thePlayer != null)
                     OnlineFriendManager.getInstance();
-                FancyChat.getInstance().openGui();
-
             }
         } catch (Exception ex) {
             HudPixelMod.Companion.instance().logWarn("[Extended] An exception occurred in onOpenGui(). Stacktrace below.");
@@ -238,7 +234,6 @@ public class HudPixelExtendedEventHandler {
 
                 for (IEventHandler i : getIeventBuffer())
                     i.onChatReceived(e);
-                FancyChat.getInstance().onChat(e);
             }
         } catch (Exception ex) {
             HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in onChatMessage(). Stacktrace below.");
@@ -285,8 +280,6 @@ public class HudPixelExtendedEventHandler {
 
                 FancyListManager.processLoadingBar();
                 //handleMouseScroll();
-                //Tick for FancyChat
-                FancyChat.getInstance().onClientTick();
                 //Tick for the statsViewerManager
                 if (GameDetector.getIsLobby()) {
                     //System.out.print(GameDetector.getCurrentGameType().getNm());
@@ -298,7 +291,7 @@ public class HudPixelExtendedEventHandler {
                 }
 
             } else if (HudPixelMod.Companion.getIS_DEBUGGING()) {
-                FancyChat.getInstance().onClientTick();
+
             }
         } catch (Exception ex) {
             HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in onClientTick(). Stacktrace below.");
@@ -312,7 +305,7 @@ public class HudPixelExtendedEventHandler {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.Companion.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 getIeventBuffer().forEach(IEventHandler::onRender);
-                if (FancyChat.enabled) FancyChat.getInstance().onRenderTick();
+
             }
         } catch (Exception ex) {
             HudPixelMod.Companion.instance().logWarn("[Extended]An exception occurred in omRenderTick). Stacktrace below.");

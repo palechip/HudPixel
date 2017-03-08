@@ -22,7 +22,6 @@ import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefScroll
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.IScrollSpacerRenderer
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabListElementContainer
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabManager
-import net.unaussprechlich.managedgui.lib.util.ColorRGBA
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
@@ -45,10 +44,10 @@ object ChatGUI : GUI() {
 
     private val scrollSpacerRenderer = object : IScrollSpacerRenderer {
         override fun render(xStart: Int, yStart: Int, width: Int) {
-            RenderUtils.rect_fade_horizontal_s1_d1(xStart + 25, yStart, width - 42, 2, ConstantsMG.DEF_BACKGROUND_RGBA, ColorRGBA(30, 30, 30, 255))
+            RenderUtils.renderBoxWithColorBlend_s1_d0(xStart + 25, yStart, width - 42, 1, RGBA.P1B1_596068.get())
         }
         override val spacerHeight: Int
-            get() = 2
+            get() = 1
     }
 
     private val scrollALL = DefScrollableContainer(ConstantsMG.DEF_BACKGROUND_RGBA, WIDTH, HEIGHT - 17, scrollSpacerRenderer).apply {
@@ -81,7 +80,6 @@ object ChatGUI : GUI() {
         ChatDetector.registerEventHandler(ChatDetector.PrivateMessage) {
             addChatMessage(privateCon, it.data["name"].toString(), it.data["message"].toString(), HypixelRank.getRankByName(it.data["rank"].toString()))
         }
-
 
         ChatDetector.registerEventHandler(ChatDetector.GuildChat) {
             addChatMessage(guildCon, it.data["name"].toString(), it.data["message"].toString(), HypixelRank.getRankByName(it.data["rank"].toString()))

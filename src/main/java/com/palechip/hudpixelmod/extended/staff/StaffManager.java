@@ -48,7 +48,6 @@ package com.palechip.hudpixelmod.extended.staff;
 
 import com.palechip.hudpixelmod.HudPixelMod;
 import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler;
-import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import com.palechip.hudpixelmod.extended.util.IEventHandler;
 import com.palechip.hudpixelmod.extended.util.McColorHelper;
 import net.minecraft.util.ChatComponentText;
@@ -165,7 +164,6 @@ public class StaffManager implements IEventHandler, McColorHelper {
                     text.contains(mvp_tag + s1) || Pattern.compile(MVPPLUS_TAG_REGEX + s1).matcher(text).matches()) {
 
                 e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
-                FancyChat.getInstance().addMessage(e.message.getFormattedText());
                 return;
             }
         }

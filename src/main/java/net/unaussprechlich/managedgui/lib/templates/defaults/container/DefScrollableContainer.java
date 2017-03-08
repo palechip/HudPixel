@@ -190,8 +190,10 @@ public class DefScrollableContainer extends ContainerFrame {
 
         for(Container con :  scrollElements){
             con.setYOffset(pixelPos - offset + getHeight() - pixelSize - scrollAnimated);
-            spacerPositions.add(pixelPos - offset + con.getHeight() + getHeight() - pixelSize - scrollAnimated);
-            offset -= con.getHeight() + spacerHeight;
+            if(scrollElements.indexOf(con) != scrollElements.size() - 1){
+                spacerPositions.add(pixelPos - offset + con.getHeight() + getHeight() - pixelSize - scrollAnimated);
+                offset -= con.getHeight() + spacerHeight;
+            }
         }
     }
 
