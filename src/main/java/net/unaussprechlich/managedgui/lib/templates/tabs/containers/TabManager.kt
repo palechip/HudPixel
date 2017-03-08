@@ -139,7 +139,7 @@ class TabManager : Container() {
     private var isMax = false
 
     private val addCon =  DefPictureContainer(17, 17, ImageLoader.chatTabAddLocation())
-    private var activeTab: TabContainer? = null
+    internal var activeTab: TabContainer? = null
     private var move = false
 
     init {

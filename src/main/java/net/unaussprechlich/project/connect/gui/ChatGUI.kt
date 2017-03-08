@@ -35,7 +35,7 @@ import java.util.*
  */
 object ChatGUI : GUI() {
 
-    private val tabManager = TabManager()
+    internal val tabManager = TabManager()
 
     private val WIDTH = 500
     private val HEIGHT = 200

@@ -18,7 +18,7 @@ import net.unaussprechlich.managedgui.lib.util.*
  * TabListElementContainer Created by Alexander on 24.02.2017.
  * Description:
  */
-class TabListElementContainer(private val title: String, private val color: ColorRGBA, private val tabManager: TabManager) : DefBackgroundContainer(ConstantsMG.DEF_BACKGROUND_RGBA, FontUtil.getStringWidth(title) + 10, TabListElementContainer.ELEMENT_HEIGHT) {
+class TabListElementContainer(internal val title: String, private val color: ColorRGBA, private val tabManager: TabManager) : DefBackgroundContainer(ConstantsMG.DEF_BACKGROUND_RGBA, FontUtil.getStringWidth(title) + 10, TabListElementContainer.ELEMENT_HEIGHT) {
 
     fun setOpen(open: Boolean) {
         isOpen = open
