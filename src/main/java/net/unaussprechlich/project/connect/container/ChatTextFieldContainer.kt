@@ -78,7 +78,7 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
     override fun <T : Event<*>> doEventBusLocal(iEvent: T): Boolean {
         if(iEvent.id == EnumDefaultEvents.KEY_PRESSED_CODE.get()){
             when((iEvent as KeyPressedCodeEvent).data){
-                58 -> send()
+                28 -> send()
                 else -> println("data: ${iEvent.data.toInt()}")
             }
             updateCursor()
