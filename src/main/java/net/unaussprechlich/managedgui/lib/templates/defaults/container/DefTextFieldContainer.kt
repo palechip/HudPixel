@@ -53,7 +53,7 @@ class DefTextFieldContainer(text: String, width: Int) : DefTextAutoLineBreakCont
 
 
     override fun onUpdate(){
-
+        updateCursor()
     }
 
 
@@ -62,9 +62,9 @@ class DefTextFieldContainer(text: String, width: Int) : DefTextAutoLineBreakCont
         var index = 0
         var row = 0
         for(s in renderList){
-            println((index + s.length).toString() + " | " + cursorPos)
-            if((index + s.length) >= cursorPos){
-                cursorX = FontUtil.getStringWidth(s.substring(0, cursorPos - index) )
+            println((index + s.length ).toString() + " | " + (cursorPos - row))
+            if((index + s.length) >= cursorPos - row){
+                cursorX = FontUtil.getStringWidth(s.substring(0, cursorPos - index - row) )
                 cursorY = row * ConstantsMG.TEXT_Y_OFFSET
             } else {
                 index += s.length
