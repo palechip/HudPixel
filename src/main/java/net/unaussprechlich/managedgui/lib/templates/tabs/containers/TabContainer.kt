@@ -13,47 +13,38 @@ import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
-import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefTextFieldContainer
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 
 /**
  * TabContainer Created by Alexander on 24.02.2017.
  * Description:
  */
-class TabContainer(val tabListElement: TabListElementContainer, val container: Container, private val tabManager: TabManager) : Container() {
-
-    private val textField = DefTextFieldContainer("Hello", 400)
+open class TabContainer(val tabListElement: TabListElementContainer, val container: Container, private val tabManager: TabManager) : Container() {
 
     init {
         registerChild(this.container)
         registerChild(this.tabListElement)
-        registerChild(textField)
+
         container.yOffset = TabListElementContainer.ELEMENT_HEIGHT
         tabListElement.registerClickedListener { clickType, container -> if (clickType == MouseHandler.ClickType.SINGLE) setActive() }
-        setClosed()
-
     }
+
 
     fun setActive() {
         tabManager.setTabActive(this)
     }
 
-    fun setClosed() {
+    open fun setClosed() {
         tabListElement.setOpen(false)
         container.isVisible = false
-        textField.isVisible = false
     }
 
-    fun setOpen() {
+    open fun setOpen() {
         tabListElement.setOpen(true)
         container.isVisible = true
-        textField.isVisible = true
     }
 
     override fun doClientTickLocal(): Boolean {
-        textField.apply {
-            yOffset =  container.height + tabListElement.height
-        }
         return true
     }
 

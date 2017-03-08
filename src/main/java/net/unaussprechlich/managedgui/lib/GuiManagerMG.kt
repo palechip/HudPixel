@@ -101,7 +101,7 @@ object GuiManagerMG : GuiScreen() {
     }
 
     var lastKeyAction = System.currentTimeMillis()
-    val delay = 10
+    val delay = 20
     override fun keyTyped(typedChar: Char, keyCode: Int) {
         if(System.currentTimeMillis() < lastKeyAction + delay) return
         lastKeyAction = System.currentTimeMillis()

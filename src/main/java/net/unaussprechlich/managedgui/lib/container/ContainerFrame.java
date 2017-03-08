@@ -54,7 +54,7 @@ public abstract class ContainerFrame extends Container {
     public boolean doClick(MouseHandler.ClickType clickType) {
         if(clickType.equals(MouseHandler.ClickType.DRAG)){
             if(checkIfMouseOver(getXStart() + getWidth() - 10, getYStart() + getHeight() - 10,
-                                getXStart() + getWidth(), getYStart() + getHeight())){
+                                10, 10)){
                 isResize = true;
             }
         }
