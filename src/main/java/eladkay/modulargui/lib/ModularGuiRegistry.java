@@ -37,7 +37,7 @@ public class ModularGuiRegistry {
      * @param element The element to register
      */
     public static void registerElement(Element element) {
-        if (!allElements.contains(element) || element.shouldAllowDuplicates()) {
+        if (!allElements.contains(element) || element.allowsDuplicates) {
             allElements.add(element);
             MinecraftForge.EVENT_BUS.register(element.provider);
         } else Logger.getLogger("modulargui").warning("Tried to register element " + element.name +
@@ -82,6 +82,7 @@ public class ModularGuiRegistry {
         public Element(String name, IModularGuiProvider provider) {
             this.name = name;
             this.provider = provider;
+            this.allowsDuplicates = false;
         }
 
         /**
@@ -94,7 +95,7 @@ public class ModularGuiRegistry {
         public Element(String name, IModularGuiProvider provider, boolean allowDuplicate) {
             this.name = name;
             this.provider = provider;
-            this.allowDuplicate = allowDuplicate;
+            this.allowsDuplicates = allowDuplicate;
         }
 
         //the nm of the element
@@ -102,10 +103,6 @@ public class ModularGuiRegistry {
         //the provider of the element
         public final IModularGuiProvider provider;
         //should this templates be allowed to be registered more than once?
-        private boolean allowDuplicate = false;
-
-        public boolean shouldAllowDuplicates() {
-            return allowDuplicate;
-        }
+        public final boolean allowsDuplicates;
     }
 }

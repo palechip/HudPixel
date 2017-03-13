@@ -17,6 +17,7 @@ object KeyTracker {
         MinecraftForge.EVENT_BUS.register(this)
         Thread {
             while(true) {
+                if(!Keyboard.isCreated()) continue
                 for (i in 0 until Keyboard.getNumKeyboardEvents()) {
                     if (Keyboard.getEventKeyState()) {
                         val char = (if (Keyboard.getEventKey() == 0) Keyboard.getEventCharacter() + 256 else Keyboard.getEventCharacter())

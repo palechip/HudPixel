@@ -282,7 +282,7 @@ class HudPixelMod {
         private val devEnvOverride = false //if this is true, the environment will launch as normal, even in a
 
         //dev environment
-        val IS_DEBUGGING = Launch.blackboard["fml.deobfuscatedEnvironment"] as Boolean && !devEnvOverride
+        val IS_DEBUGGING = Launch.blackboard["fml.deobfuscatedEnvironment"]!!.asBoolean() && !devEnvOverride
 
         private var instance: HudPixelMod? = null
         private val modlist = Lists.newArrayList<String>()
