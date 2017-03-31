@@ -1,7 +1,7 @@
 package net.unaussprechlich.project.connect.socket.io;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import com.palechip.hudpixelmod.HudPixelMod;
+import eladkay.hudpixel.HudPixelMod;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import net.minecraft.client.Minecraft;

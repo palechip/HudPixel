@@ -7,8 +7,7 @@
  */
 package net.unaussprechlich.managedgui.lib.util;
 
-import com.palechip.hudpixelmod.config.GeneralConfigSettings;
-import com.palechip.hudpixelmod.extended.util.ImageLoader;
+import eladkay.hudpixel.config.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.RenderHelper;
@@ -18,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
+import net.unaussprechlich.hudpixelextended.util.ImageLoader;
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide;
 import org.lwjgl.opengl.GL11;
 

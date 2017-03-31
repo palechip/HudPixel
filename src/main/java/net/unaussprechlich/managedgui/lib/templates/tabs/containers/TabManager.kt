@@ -8,9 +8,9 @@
 
 package net.unaussprechlich.managedgui.lib.templates.tabs.containers
 
-import com.palechip.hudpixelmod.extended.util.ImageLoader
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.unaussprechlich.hudpixelextended.util.ImageLoader
 import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
@@ -180,7 +180,7 @@ class TabManager : Container() {
 
 
     fun registerTab(tab: TabContainer) {
-        if (activeTab == null) setTabActive(tab)
+        setTabActive(tab)
         registerChild(tab)
         tabs.add(tab)
         updatePositions()

@@ -13,7 +13,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.unaussprechlich.managedgui.lib.container.Container;
 import net.unaussprechlich.managedgui.lib.container.callback.ICallbackUpdateHeight;
-import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel;
+import net.unaussprechlich.managedgui.lib.databases.player.PlayerModel;
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents;
 import net.unaussprechlich.managedgui.lib.event.util.EnumTime;
 import net.unaussprechlich.managedgui.lib.event.util.Event;

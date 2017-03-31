@@ -1,15 +1,15 @@
 package net.unaussprechlich.project.connect.gui
 
-import com.palechip.hudpixelmod.ChatDetector
-import com.palechip.hudpixelmod.HudPixelMod
-import net.minecraft.util.ResourceLocation
+import com.mojang.realmsclient.gui.ChatFormatting
+import eladkay.hudpixel.ChatDetector
+import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.hypixel.helper.HypixelRank
 import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
-import net.unaussprechlich.managedgui.lib.databases.Player.PlayerModel
-import net.unaussprechlich.managedgui.lib.databases.Player.data.Rank
+import net.unaussprechlich.managedgui.lib.databases.player.PlayerDatabaseMG
+import net.unaussprechlich.managedgui.lib.databases.player.data.Rank
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
 import net.unaussprechlich.managedgui.lib.event.events.KeyPressedCodeEvent
 import net.unaussprechlich.managedgui.lib.event.events.KeyPressedEvent
@@ -20,6 +20,7 @@ import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefChatMe
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefPictureContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefScrollableContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.IScrollSpacerRenderer
+import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabContainer
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabListElementContainer
 import net.unaussprechlich.managedgui.lib.templates.tabs.containers.TabManager
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil
@@ -27,7 +28,6 @@ import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
 import net.unaussprechlich.project.connect.container.ChatTabContainer
 import org.lwjgl.input.Keyboard
-import java.util.*
 
 /**
  * ChatGUI Created by Alexander on 24.02.2017.
@@ -41,6 +41,8 @@ object ChatGUI : GUI() {
     private val HEIGHT = 200
 
     private var visible = false
+
+    var privateChatCons : MutableMap<String, ChatTabContainer> = hashMapOf()
 
     private val scrollSpacerRenderer = object : IScrollSpacerRenderer {
         override fun render(xStart: Int, yStart: Int, width: Int) {
@@ -70,6 +72,7 @@ object ChatGUI : GUI() {
     init {
         tabManager.isVisible = false
         registerChild(tabManager)
+
         tabManager.registerTab(ChatTabContainer(TabListElementContainer("ALL", RGBA.WHITE.get(), tabManager), scrollALL, tabManager))
         tabManager.registerTab(ChatTabContainer(TabListElementContainer("PARTY", RGBA.BLUE.get(), tabManager), partyCon, tabManager))
         tabManager.registerTab(ChatTabContainer(TabListElementContainer("GUILD", RGBA.GREEN.get(), tabManager), guildCon, tabManager))
@@ -78,7 +81,20 @@ object ChatGUI : GUI() {
         updatePosition()
 
         ChatDetector.registerEventHandler(ChatDetector.PrivateMessage) {
-            addChatMessage(privateCon, it.data["name"].toString(), it.data["message"].toString(), HypixelRank.getRankByName(it.data["rank"].toString()))
+            val name = it.data["name"].toString()
+            if(!privateChatCons.containsKey(name))
+                openPrivateChat(name)
+            addChatMessage((privateChatCons[name] as ChatTabContainer).container as DefScrollableContainer,
+                    if(it.data["type"] == "From")
+                        name
+                    else
+                        Minecraft.getMinecraft().thePlayer.name ,
+                    it.data["message"].toString(),
+                    if(it.data["type"] == "From")
+                        HypixelRank.getRankByName(it.data["rank"].toString())
+                    else
+                        Rank("[YOU]", "" + ChatFormatting.YELLOW + "[YOU]", ChatFormatting.YELLOW)
+            )
         }
 
         ChatDetector.registerEventHandler(ChatDetector.GuildChat) {
@@ -86,9 +102,28 @@ object ChatGUI : GUI() {
         }
 
         ChatDetector.registerEventHandler(ChatDetector.PartyChat) {
-            addChatMessage(privateCon, it.data["name"].toString(), it.data["message"].toString(), HypixelRank.getRankByName(it.data["rank"].toString()))
+            addChatMessage(partyCon, it.data["name"].toString(), it.data["message"].toString(), HypixelRank.getRankByName(it.data["rank"].toString()))
         }
 
+    }
+
+    fun openPrivateChat(user : String) {
+        val chatCon = ChatTabContainer(TabListElementContainer(user, RGBA.PURPLE_DARK_MC.get(), tabManager),
+                            DefScrollableContainer(ConstantsMG.DEF_BACKGROUND_RGBA, WIDTH, HEIGHT - 17, scrollSpacerRenderer).apply {
+                                minWidth = 400
+                                minHeight= 200
+                            },
+                            tabManager
+                      )
+        tabManager.registerTab(chatCon)
+        if(!privateChatCons.containsKey(user))
+            privateChatCons[user] to chatCon
+    }
+
+    fun closePrivateChatCon(user : String){
+        if(!privateChatCons.containsKey(user)) return
+        tabManager.unregisterTab(privateChatCons[user] as TabContainer)
+        privateChatCons.remove(user)
     }
 
 
@@ -100,14 +135,17 @@ object ChatGUI : GUI() {
                 return
             }
         }
-        con.registerScrollElement(
-                DefChatMessageContainer(
-                        PlayerModel(name, UUID.randomUUID(), rank, ResourceLocation(HudPixelMod.MODID, "textures/skins/SteveHead.png")),
-                        message,
-                        DefPictureContainer(),
-                        WIDTH
-                )
-        )
+        PlayerDatabaseMG.get(name){ player ->
+            con.registerScrollElement(
+                    DefChatMessageContainer(
+                            player,
+                            message,
+                            DefPictureContainer(),
+                            WIDTH
+                    )
+            )
+        }
+
     }
 
     private fun updatePosition() {

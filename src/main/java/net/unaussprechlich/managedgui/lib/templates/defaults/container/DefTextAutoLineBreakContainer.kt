@@ -31,7 +31,7 @@ open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Contain
     private var prevWidth = 0
 
     protected open fun onUpdate(){
-        update()
+
     }
 
     fun update() {
@@ -39,15 +39,16 @@ open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Contain
         prevText = text
         prevWidth = width
 
-
-
         var newRenderList : MutableList<String> = ArrayList()
 
         if (FontUtil.getStringWidth(this.text) <= this.width)
             newRenderList.add(text)
         else
             newRenderList = FontUtil.fontRenderer.listFormattedStringToWidth(text, width)
-        super.setHeight(ConstantsMG.TEXT_Y_OFFSET * renderList.size)
+        if(renderList.size == 0)
+            super.setHeight(ConstantsMG.TEXT_Y_OFFSET)
+        else
+            super.setHeight(ConstantsMG.TEXT_Y_OFFSET * renderList.size)
 
         renderList = newRenderList
         onUpdate()
@@ -55,6 +56,7 @@ open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Contain
 
     init {
         super.setWidth(width)
+        super.setHeight(ConstantsMG.TEXT_Y_OFFSET)
     }
 
     private fun render(xStart: Int, yStart: Int) {

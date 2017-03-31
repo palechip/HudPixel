@@ -8,12 +8,12 @@
 
 package net.unaussprechlich.managedgui.lib.util
 
-import com.palechip.hudpixelmod.HudPixelMod.Companion.instance
+import eladkay.hudpixel.HudPixelMod
 
 
 object LoggerHelperMG {
 
-    private val LOGGER = instance().logger!!
+    private val LOGGER = HudPixelMod.instance().logger!!
 
     fun logInfo(s: String) {
         LOGGER.info("[ManagedGui]" + s)

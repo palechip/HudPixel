@@ -1,6 +1,5 @@
 package net.unaussprechlich.project.connect.container
 
-import net.minecraft.client.Minecraft
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
 import net.unaussprechlich.managedgui.lib.event.events.KeyPressedCodeEvent
@@ -12,10 +11,9 @@ import net.unaussprechlich.managedgui.lib.templates.defaults.container.ICustomRe
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
-import net.unaussprechlich.project.connect.gui.ChatGUI
+import net.unaussprechlich.project.connect.handlers.HypixelChatHandler
 
 class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(text, width){
-
 
     private val sendIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
@@ -45,27 +43,14 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
         }
     }
 
-    fun String.sendAsPlayer() {
-        Minecraft.getMinecraft().thePlayer?.sendChatMessage(this)
-    }
     fun min(a: Int, b: Int) = if(a < b) a else b
-    fun send(title: String = "") {
-        if(title != "") {
-            val title = title.substring(0..min(title.length - 1, 100))
-            "/$title $text".sendAsPlayer()
-            println("wa1")
-            return
-        }
-        //val text = text.substring(0..min(title.length - 1, 100))
-        if(text.isEmpty()) {
-            return
-        }
-        when((ChatGUI.tabManager.activeTab ?: return).tabListElement.title) {
-            "ALL" -> "/achat $text".sendAsPlayer()
-            "PARTY" -> "/pchat $text".sendAsPlayer()
-            "GUILD" -> "/gchat $text".sendAsPlayer()
-            "PRIVATE" -> "/r $text".sendAsPlayer()
-            else -> println("wa")
+
+    fun send() {
+        if(text.isEmpty()) return
+        else {
+            HypixelChatHandler.sendHypixelMessage(text)
+            text = ""
+            cursorPos = 0
         }
     }
 
@@ -102,7 +87,6 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
                 28 -> send()
                 else -> println("data: ${iEvent.data.toInt()}")
             }
-            updateCursor()
         }
         return super.doEventBusLocal(iEvent)
     }

@@ -1,9 +1,10 @@
 package eladkay.modulargui.lib;
 
-import com.palechip.hudpixelmod.HudPixelMod;
-import com.palechip.hudpixelmod.config.GeneralConfigSettings;
-import com.palechip.hudpixelmod.util.BansHandler;
-import com.palechip.hudpixelmod.util.DisplayUtil;
+
+import eladkay.hudpixel.HudPixelMod;
+import eladkay.hudpixel.config.GeneralConfigSettings;
+import eladkay.hudpixel.util.BansHandler;
+import eladkay.hudpixel.util.DisplayUtil;
 import eladkay.modulargui.lib.base.SimpleModularGuiProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -32,7 +33,7 @@ public class Renderer {
     public void onRenderTick(TickEvent.RenderTickEvent event) {
         BansHandler.checkForBan();
         if(GeneralConfigSettings.getHudDisabled()) return;
-        if (!HudPixelMod.Companion.isHypixelNetwork() && !HudPixelMod.Companion.getIS_DEBUGGING()) return;
+        if (! HudPixelMod.Companion.isHypixelNetwork() && !HudPixelMod.Companion.getIS_DEBUGGING()) return;
         if (!(Minecraft.getMinecraft().inGameHasFocus)) return;
         ArrayList<ModularGuiRegistry.Element> display = ModularGuiRegistry.allElements; //the templates
         int w = GeneralConfigSettings.getDisplayXOffset(); //width, change this if needed

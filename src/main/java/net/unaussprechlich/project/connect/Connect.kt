@@ -1,6 +1,6 @@
 package net.unaussprechlich.project.connect
 
-import com.palechip.hudpixelmod.extended.util.LoggerHelper
+import net.unaussprechlich.hudpixelextended.util.LoggerHelper
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.ManagedGui
 import net.unaussprechlich.managedgui.lib.helper.SetupHelper
