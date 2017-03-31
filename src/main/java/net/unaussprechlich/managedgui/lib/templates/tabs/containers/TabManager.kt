@@ -153,7 +153,7 @@ class TabManager : Container() {
                 move = true
         }
 
-        maxCon.registerClickedListener({ clickType, container ->
+        maxCon.registerClickedListener { clickType, container ->
             if(clickType == MouseHandler.ClickType.SINGLE){
                 if(isMax){
                     isMax = false
@@ -166,7 +166,7 @@ class TabManager : Container() {
                     height = DisplayUtil.scaledMcHeight
                 }
             }
-        })
+        }
 
 
     }

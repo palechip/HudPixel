@@ -123,16 +123,14 @@ public class ScoreboardReader {
             // only update if there actually is something to update
             scoreboardTitle = sidebarObjective.getDisplayName();
             // Get a collection of all scores
-            Collection scores = scoreboard.getSortedScores(sidebarObjective);
+            Collection<Score> scores = scoreboard.getSortedScores(sidebarObjective);
             // Process all scores
-            for (Object score : scores) {
-                // Make sure it can be casted to Score
-                if (score instanceof Score) {
-                    // Get the team for the fake player
-                    ScorePlayerTeam team = scoreboard.getPlayersTeam(((Score) score).getPlayerName());
-                    // Add the nm to the array. formatPlayerName() is used to add prefix and suffix which are used to circumvent the 16 char limit for the nm.
-                    scoreboardNames.add(ScorePlayerTeam.formatPlayerName(team, ((Score) score).getPlayerName()));
-                }
+            for (Score score : scores) {
+                // Get the team for the fake player
+                ScorePlayerTeam team = scoreboard.getPlayersTeam(score.getPlayerName());
+                // Add the nm to the array. formatPlayerName() is used to add prefix and suffix which are used to circumvent the 16 char limit for the nm.
+                scoreboardNames.add(ScorePlayerTeam.formatPlayerName(team, score.getPlayerName()));
+
             }
         } catch (Exception e) {
             // it is possible that there is a null pointer exception thrown when there is no scoreboard
