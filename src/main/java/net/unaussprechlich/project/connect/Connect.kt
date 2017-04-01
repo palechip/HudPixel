@@ -1,5 +1,6 @@
 package net.unaussprechlich.project.connect
 
+import eladkay.hudpixel.HudPixelMod
 import net.unaussprechlich.hudpixelextended.util.LoggerHelper
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.ManagedGui
@@ -15,7 +16,11 @@ object Connect {
 
     fun setup() {
         LoggerHelper.logInfo("Setting up Connect!")
-        ManagedGui.setup(SetupHelper())
+        ManagedGui.setup(object: SetupHelper {
+            override fun getMODID(): String {
+                return HudPixelMod.MODID
+            }
+        })
         ManagedGui.isIsDisabled = false
 
         GuiManagerMG.addGUI("ConnectGUI", ConnectGUI)

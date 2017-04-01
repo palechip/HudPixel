@@ -25,7 +25,7 @@ import net.unaussprechlich.managedgui.lib.util.RenderUtils
  */
 class DefPictureContainer : Container {
 
-    private val resourceLocation: ResourceLocation?
+    var resourceLocation: ResourceLocation?
     private var textureHeight = 0
     private var textuewWidth = 0
 

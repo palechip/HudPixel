@@ -22,7 +22,7 @@ class UUIDResolver(val username : String, val callback: (UUID) -> Unit) : Thread
         var name: String? = null
     }
 
-    private val baseURL = "https://api.mojang.com/users/profiles/minecraft/%s"
+    private val baseURL = "https://api.mojang.com/users/profiles/minecraft/"
 
     init {
         callback.invoke(getRemoteUUIDfromAPI())
@@ -31,7 +31,7 @@ class UUIDResolver(val username : String, val callback: (UUID) -> Unit) : Thread
     private fun getRemoteUUIDfromAPI(): UUID {
         try {
 
-            val conn: HttpURLConnection = URL(String.format(baseURL, username)).openConnection() as HttpURLConnection
+            val conn: HttpURLConnection = URL(baseURL + username).openConnection() as HttpURLConnection
             conn.requestMethod = "GET"
 
             return UUID.fromString((Gson().fromJson(BufferedReader(InputStreamReader(conn.inputStream))

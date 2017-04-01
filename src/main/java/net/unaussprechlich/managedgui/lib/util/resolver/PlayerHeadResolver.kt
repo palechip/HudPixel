@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.util.ResourceLocation
 import net.unaussprechlich.hudpixelextended.util.LoggerHelper.logInfo
 import java.awt.image.BufferedImage
+import java.net.HttpURLConnection
 import java.net.URL
 import javax.imageio.ImageIO.read
 
@@ -35,7 +36,14 @@ class PlayerHeadResolver(val username: String, private val callback: (ResourceLo
     }
 
     private fun loadSkinFromURL() : BufferedImage? {
-        return read(URL("http://skins.minecraft.net/MinecraftSkins/$username.png"))
+        try {
+            println("http://skins.minecraft.net/MinecraftSkins/$username.png")
+            val conn: HttpURLConnection = URL("http://skins.minecraft.net/MinecraftSkins/$username.png").openConnection() as HttpURLConnection
+            conn.requestMethod = "GET"
+            return read(conn.inputStream)
+        } catch (e : Exception){
+            return null
+        }
     }
 
 

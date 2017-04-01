@@ -27,4 +27,7 @@ object ManagedGui {
 
     }
 
+    var MODID = ""
+        get() { return iSetupHelper!!.getMODID() }
+
 }

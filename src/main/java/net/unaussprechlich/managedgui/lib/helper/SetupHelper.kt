@@ -18,12 +18,14 @@ import net.unaussprechlich.managedgui.lib.templates.defaults.gui.DefInGameGUI
  * ISetupHelper Created by unaussprechlich on 18.12.2016.
  * Description:
  */
-class SetupHelper {
+ interface SetupHelper {
 
     fun loadDefaultGUI(type: GuiManagerMG.EnumGUITypes): GUI {
         if (type == GuiManagerMG.EnumGUITypes.CHAT) return DefChatGUI()
         if (type == GuiManagerMG.EnumGUITypes.INGAME) return DefInGameGUI()
         return DefGUI()
     }
+
+    fun getMODID() : String
 
 }

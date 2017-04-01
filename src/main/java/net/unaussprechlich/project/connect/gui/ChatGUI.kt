@@ -135,7 +135,9 @@ object ChatGUI : GUI() {
                 return
             }
         }
+        println("[TEST]" + name)
         PlayerDatabaseMG.get(name){ player ->
+            player.rank = rank
             con.registerScrollElement(
                     DefChatMessageContainer(
                             player,
