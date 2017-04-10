@@ -13,6 +13,8 @@ import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
 class ChatTabContainer(tabListElement: TabListElementContainer, container: ChatScrollContainer, tabManager: TabManager) : TabContainer(tabListElement, container, tabManager) {
 
+    //600 commits <3
+
     var unread = 0
     var isUnreadNotify = false
     var unreadNotify = DefButtonContainer(FontUtil.getStringWidth(unread.toString()) + 5, 9, RGBA.P1B1_596068.get(), RGBA.P1B1_DEF.get(),
