@@ -158,6 +158,7 @@ public class CustomFontRenderer extends FontRenderer {
 
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
+
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 0, 1);
 
         x *= 2;

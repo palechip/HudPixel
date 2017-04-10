@@ -43,7 +43,6 @@ public abstract class ContainerFrame extends Container {
         frameBuffer.setFramebufferColor(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
     }
 
-
     public void updateFrame(){
         requireFrameUpdate = true;
     }
@@ -62,11 +61,16 @@ public abstract class ContainerFrame extends Container {
         if(clickType.equals(MouseHandler.ClickType.DROP)){
             if(isResize){
                 isResize = false;
-                frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
                 onResize();
             }
         }
         return super.doClick(clickType);
+    }
+
+    @Override
+    public boolean doResize() {
+        frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
+        return super.doResize();
     }
 
     @Override

@@ -10,6 +10,8 @@ package net.unaussprechlich.managedgui.lib.util.resolver
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
@@ -35,21 +37,18 @@ class NameResolver(val uuid : UUID, val callback: (NameHistory) -> Unit) : Threa
     private val baseURL = "https://api.mojang.com/user/profiles/"
 
     init {
-        callback.invoke(getRemoteNameFromAPI())
+        asyncGetRemoteNameFromAPI()
     }
 
-    private fun getRemoteNameFromAPI(): NameHistory {
+    private fun asyncGetRemoteNameFromAPI() = async(CommonPool){
         try {
             val conn: HttpURLConnection = URL((baseURL + uuid.toString().replace("-", "")  + "/names")).openConnection() as HttpURLConnection
             conn.requestMethod = "GET"
 
-            val content = InputStreamReader(conn.inputStream)
-
-            return NameHistory(Gson().fromJson(content, JsonArray::class.java), false)
+            callback.invoke( NameHistory(Gson().fromJson(InputStreamReader(conn.inputStream), JsonArray::class.java), false))
 
         } catch (e: Exception) {
-            e.printStackTrace()
-            return NameHistory(null, true)
+            callback.invoke(NameHistory(null, true))
         }
     }
 }

@@ -21,13 +21,16 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.helper.DateHelper
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.storage.ContainerSide
-import java.util.*
 
 /**
  * DefChatMessageContainer Created by Alexander on 27.02.2017.
  * Description:
  */
 class DefChatMessageContainer(private val player: PlayerModel, message: String, private val avatar_con: DefPictureContainer, width: Int) : Container() {
+
+    private companion object {
+        val SPACE = 4
+    }
 
     private var message_con: DefTextListAutoLineBreakContainer? = null
     private val username_con: DefTextContainer
@@ -39,7 +42,7 @@ class DefChatMessageContainer(private val player: PlayerModel, message: String, 
         this.username_con = DefTextContainer(player.rankName + ChatFormatting.GRAY + ChatFormatting.ITALIC + "  " + date.dateTimeTextPassed)
         setWidth(width)
         setup(message)
-        player.getPlayerHeadLoc {avatar_con.resourceLocation = it}
+        player.getPlayerHeadLoc {avatar_con.backgroundImage = it}
     }
 
     fun setHeightCallback(callback: ICallbackUpdateHeight) {
@@ -50,9 +53,12 @@ class DefChatMessageContainer(private val player: PlayerModel, message: String, 
         get() = player.name
 
     private fun setup(message: String) {
-        avatar_con.setMargin(SPACE)
-        avatar_con.width = 18
-        avatar_con.height = 18
+        avatar_con.apply {
+            setMargin(SPACE)
+            width = 18
+            height = 18
+            yOffset = 1
+        }
         username_con.margin = ContainerSide().BOTTOM(4).TOP(4)
         username_con.xOffset = avatar_con.widthMargin
         message_con = DefTextListAutoLineBreakContainer(message, width - avatar_con.widthMargin - SPACE - 14) { data -> update() }
@@ -123,14 +129,4 @@ class DefChatMessageContainer(private val player: PlayerModel, message: String, 
         return true
     }
 
-    companion object {
-
-        private val SPACE = 4
-
-        private val styledTime: String
-            get() {
-                val date = Date()
-                return ChatFormatting.DARK_GRAY.toString() + "" + ChatFormatting.ITALIC + " " + date.hours + ":" + date.minutes
-            }
-    }
 }

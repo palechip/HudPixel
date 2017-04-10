@@ -19,14 +19,18 @@ import net.unaussprechlich.managedgui.lib.util.EnumEventState
  * TabContainer Created by Alexander on 24.02.2017.
  * Description:
  */
-open class TabContainer(val tabListElement: TabListElementContainer, val container: Container, private val tabManager: TabManager) : Container() {
+open class TabContainer(val tabListElement: TabListElementContainer, val container: Container, val tabManager: TabManager) : Container() {
 
     init {
-        registerChild(this.container)
-        registerChild(this.tabListElement)
-
         container.yOffset = TabListElementContainer.ELEMENT_HEIGHT
         tabListElement.registerClickedListener { clickType, container -> if (clickType == MouseHandler.ClickType.SINGLE) setActive() }
+        setup()
+    }
+
+    fun setup(){
+        tabListElement.tab = this
+        registerChild(this.container)
+        registerChild(this.tabListElement)
     }
 
 

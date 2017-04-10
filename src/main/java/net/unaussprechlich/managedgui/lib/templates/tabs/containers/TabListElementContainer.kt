@@ -12,13 +12,45 @@ import com.mojang.realmsclient.gui.ChatFormatting
 import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefBackgroundContainer
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefButtonContainer
 import net.unaussprechlich.managedgui.lib.util.*
+import java.util.*
 
 /**
  * TabListElementContainer Created by Alexander on 24.02.2017.
  * Description:
  */
 class TabListElementContainer(internal val title: String, private val color: ColorRGBA, private val tabManager: TabManager) : DefBackgroundContainer(ConstantsMG.DEF_BACKGROUND_RGBA, FontUtil.getStringWidth(title) + 10, TabListElementContainer.ELEMENT_HEIGHT) {
+
+    private var buttonList : ArrayList<DefButtonContainer> = arrayListOf()
+    var tab : TabContainer? = null
+
+    fun registerButton(button : DefButtonContainer){
+        registerChild(button)
+        buttonList.add(button)
+        updateButtons()
+    }
+
+    fun unregisterButton(button : DefButtonContainer){
+        unregisterChild(button)
+        buttonList.remove(button)
+        updateButtons()
+    }
+
+    private fun updateButtons(){
+        if(buttonList.isEmpty()){
+            width = 10 + FontUtil.getStringWidth(title)
+            return
+        }
+
+        var offset = 10 + FontUtil.getStringWidth(title)
+        buttonList.forEach {
+            it.yOffset = 4
+            it.xOffset = offset
+            offset += it.width + 2
+        }
+        width = offset + 5
+    }
 
     fun setOpen(open: Boolean) {
         isOpen = open
@@ -32,6 +64,11 @@ class TabListElementContainer(internal val title: String, private val color: Col
 
     override fun doMouseMoveLocal(mX: Int, mY: Int): Boolean {
         return true
+    }
+
+    override fun doClientTick(): Boolean {
+        updateButtons()
+        return super.doClientTick()
     }
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {

@@ -40,20 +40,16 @@ public class RenderUtils {
         processLoadingBar();
     }
 
-    //##################################################################################################################
+    public static void drawBorderInlineShadowBox(int xStart, int yStart, int width, int height, ColorRGBA cBorder, ColorRGBA cBackground){
+        RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, width, height, cBackground);
 
-    private static void glPop(){
-        //GlStateManager.popMatrix();
-        //GlStateManager.popAttrib();
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart , yStart , width, 1, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart, yStart + 1 , 1, height - 2, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - 1 , yStart + 1 , 1, height -2, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart, yStart + height - 1, width , 1, cBorder);
+
+        //RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + 1, yStart + 1, height -2, width -2, RGBA.BLACK_LIGHT.get(), cBackground, 2);
     }
-
-    private static void glPush(){
-        //GlStateManager.pushMatrix();
-        //GlStateManager.pushAttrib();
-    }
-
-
-    //##################################################################################################################
 
     /**
      * Draw a 1 pixel wide vertical line.
@@ -102,7 +98,6 @@ public class RenderUtils {
         if(iStack.getItem().showDurabilityBar(iStack))
             renderBoxWithColor(xStart + 1, yStart + 18, (int) Math.round(18 * dur), 1, (float)(1 - dur), (float)dur, 0, 1);
 
-        RenderHelper.disableStandardItemLighting();
         GlStateManager.disableBlend();
     }
 
@@ -162,7 +157,7 @@ public class RenderUtils {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
-        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 0, 1);
 
         GlStateManager.color(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
@@ -171,6 +166,8 @@ public class RenderUtils {
         worldrenderer.pos(xStart + width, yStart, 0.0D).endVertex();
         worldrenderer.pos(xStart, yStart, 0.0D).endVertex();
         tessellator.draw();
+
+        GlStateManager.color(1f, 1f, 1f, 1f);
 
         GlStateManager.enableTexture2D();
         GlStateManager.disableAlpha();
@@ -313,54 +310,11 @@ public class RenderUtils {
         RenderUtils.renderRectWithColorBlendFade_s1_d1(xStart + width - fade,  yStart + height - fade, fade, fade, shadowColor , shadowColor, shadowColor, fillColor);
     }
 
-
-
-
-
     /**
      * Draws a textured rectangle at z = 0. Args: x, y width, height, textureWidth, textureHeight
      */
-    public static void texture_modularRect(double x, double y, double width, double height, ResourceLocation resourceLocation, Float alpha) {
-
-        if(resourceLocation != null)
-            Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
-
-        //this line took me like 3 hours to fine out the color wasn't resetting :D
-        GlStateManager.color(1f, 1f, 1f, alpha);
-
-        float f = (float)(1.0F / height);
-        float f1 = (float)(1.0F / width);
-
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos( x, (y + height), 0.0D).tex(width * f, height + height * f1).endVertex();
-        worldrenderer.pos( (x + width),  (y + height), 0.0D).tex((width + width) * f, (height + height) * f1).endVertex();
-        worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
-        worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
-        tessellator.draw();
-
-    }
-
-    public static void drawRectWithTexture(double x, double y, double width, double height, int textureID, Float alpha) {
-        //this line took me like 3 hours to fine out the color wasn't resetting :D
-        GlStateManager.color(1f, 1f, 1f, alpha);
-
-        float f = (float)(1.0F / height);
-        float f1 = (float)(1.0F / width);
-
-        GlStateManager.bindTexture(textureID);
-
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos( x, (y + height), 0.0D).tex(width * f, height + height * f1).endVertex();
-        worldrenderer.pos( (x + width),  (y + height), 0.0D).tex((width + width) * f, (height + height) * f1).endVertex();
-        worldrenderer.pos( (x + width), y, 0.0D).tex((width + width) * f, height * f1).endVertex();
-        worldrenderer.pos( x,  y, 0.0D).tex(width * f, height * f1).endVertex();
-        tessellator.draw();
+    public static void texture_modularRect(int x, int y, int width, int height, ResourceLocation resourceLocation) {
+        texture_modularRect(x, y, 0, 0, width, height, width, height, resourceLocation, 1f);
     }
 
 
@@ -368,7 +322,6 @@ public class RenderUtils {
         if(resourceLocation != null)
             Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
 
-        //this line took me like 3 hours to fine out the color wasn't resetting :D
         GlStateManager.color(1f, 1f, 1f, alpha);
 
         float f = 1.0F / height;
@@ -402,7 +355,6 @@ public class RenderUtils {
 
 
     public static void drawPotionIcon(double x, double y, double width, double height, double uX, double uY, double vX, double vY, int tWidth, int tHeight, ResourceLocation resourceLocation, float alpha) {
-
         GlStateManager.enableBlend();
         Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         GlStateManager.color(1f, 1f, 1f, alpha);

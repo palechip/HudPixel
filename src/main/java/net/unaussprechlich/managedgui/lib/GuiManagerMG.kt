@@ -51,6 +51,21 @@ object GuiManagerMG : GuiScreen() {
     private val GUIs = HashMap<EnumGUITypes, GUI>()
     private val GUIsDynamic = HashMap<String, GUI>()
 
+    private val eventBusCallbacks = ArrayList<(T : Event<*>) -> Unit>()
+
+    private fun getEventBus() :ArrayList<(T : Event<*>) -> Unit> {
+        return ArrayList(eventBusCallbacks)
+    }
+
+
+    fun registerEventBusCallback(callback : (T : Event<*>) -> Unit){
+        eventBusCallbacks.add(callback)
+    }
+
+    fun unregisterEventBusCallback(callback : (T : Event<*>) -> Unit){
+        eventBusCallbacks.remove(callback)
+    }
+
     var isBinded = false
     fun bindScreen() {
         isBinded = true
@@ -127,6 +142,7 @@ object GuiManagerMG : GuiScreen() {
         if (ManagedGui.isIsDisabled) return
         if (e.type != RenderGameOverlayEvent.ElementType.ALL || e.isCanceled) return
         try {
+
             RenderUtils.setPartialTicks(e.partialTicks)
             GUIs.values.forEach { gui -> gui.onRender(0, 0) }
             GUIsDynamic.values.forEach { gui -> gui.onRender(0, 0) }
@@ -232,6 +248,7 @@ object GuiManagerMG : GuiScreen() {
         if (ManagedGui.isIsDisabled) return
         try {
 
+            getEventBus().forEach { it.invoke(e)}
             GUIs.values.forEach { gui -> gui.onEventBus(e) }
             GUIsDynamic.values.forEach { gui -> gui.onEventBus(e) }
 

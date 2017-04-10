@@ -39,7 +39,7 @@ class PlayerModel(val nameHistory : NameResolver.NameHistory, val uuid: UUID) {
             callback.invoke(playerHead!!)
         else
             PlayerHeadResolver(name){ res ->
-                playerHead = res ?: ResourceHandler.load(ResourcesMG.STEVE_HEAD)
+                playerHead = res ?: ResourceHandler.STEVE_HEAD.res
                 callback.invoke(playerHead!!)
             }
     }

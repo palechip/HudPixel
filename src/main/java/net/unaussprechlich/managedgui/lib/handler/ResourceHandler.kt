@@ -15,7 +15,7 @@ enum class ResourceHandler{
 
     STEVE_HEAD;
 
-    val res = ResourceLocation(ManagedGui.MODID, name)
+    val res = ResourceLocation(ManagedGui.MODID, "/managedgui/$name.png")
 
 
 

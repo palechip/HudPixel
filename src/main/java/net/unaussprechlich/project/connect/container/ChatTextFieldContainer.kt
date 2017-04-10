@@ -85,7 +85,7 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
         if(iEvent.id == EnumDefaultEvents.KEY_PRESSED_CODE.get()){
             when((iEvent as KeyPressedCodeEvent).data){
                 28 -> send()
-                else -> println("data: ${iEvent.data.toInt()}")
+                //else -> println("data: ${iEvent.data.toInt()}")
             }
         }
         return super.doEventBusLocal(iEvent)
