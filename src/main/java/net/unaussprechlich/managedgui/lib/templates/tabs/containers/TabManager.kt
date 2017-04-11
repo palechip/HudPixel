@@ -39,14 +39,18 @@ class TabManager : Container() {
             val s = 2
             val s2 = s*2
 
+            var color = RGBA.P1B1_596068.get()
+            if(con.isHover) color = RGBA.WHITE.get()
+
+
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s - 4, width - s2*2 - 2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s - 4, width - s2*2 - 2, 1, color)
 
             return true
         }
@@ -58,25 +62,28 @@ class TabManager : Container() {
             val s = 2
             val s2 = s*2
 
+            var color = RGBA.P1B1_596068.get()
+            if(con.isHover) color = RGBA.WHITE.get()
+
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, color)
 
             if(isMax){
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 0, yStart + height / 2  +1, 4, 1, RGBA.P1B1_596068.get())
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 3  ,yStart + height - s2 - 3, 1, 3, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 0, yStart + height / 2  +1, 4, 1, color)
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 3  ,yStart + height - s2 - 3, 1, 3, color)
 
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 3, 4, 1, RGBA.P1B1_596068.get())
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 0, 1, 3, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 3, 4, 1, color)
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 0, 1, 3, color)
             } else {
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 4, 1, RGBA.P1B1_596068.get())
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 5, 1, 3, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 4, 1, color)
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 5, 1, 3, color)
 
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 5, yStart + s2 + 1, 4, 1, RGBA.P1B1_596068.get())
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 3, RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 5, yStart + s2 + 1, 4, 1, color)
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 3, color)
             }
 
 
@@ -90,26 +97,29 @@ class TabManager : Container() {
             val s = 2
             val s2 = s*2
 
+            var color = RGBA.P1B1_596068.get()
+            if(con.isHover) color = RGBA.WHITE.get()
+
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s -1, yStart + s + 1, 1, height - 2 - s2, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + height - s - 1, width - s2, 1, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 3, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 4, 1, 2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 2, 3, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + height - s2 - 4, 1, 2, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 1, 3, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + s2 + 1, 3, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + s2 + 2, 1, 2, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + height - s2 - 2, 3, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + height - s2 - 4, 1, 2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 4, yStart + height - s2 - 2, 3, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - s2 - 2, yStart + height - s2 - 4, 1, 2, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 1, 3, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 2, 1, 2, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 1, 3, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s2 + 1, yStart + s2 + 2, 1, 2, color)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart +  width / 2, yStart + height /2 , 1, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart +  width / 2, yStart + height /2 , 1, 1, color)
 
             return true
         }

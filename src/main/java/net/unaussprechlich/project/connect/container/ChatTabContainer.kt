@@ -17,11 +17,16 @@ class ChatTabContainer(tabListElement: TabListElementContainer, container: ChatS
 
     var unread = 0
     var isUnreadNotify = false
-    var unreadNotify = DefButtonContainer(FontUtil.getStringWidth(unread.toString()) + 5, 9, RGBA.P1B1_596068.get(), RGBA.P1B1_DEF.get(),
-            {click, con -> }){ xStart, yStart, width, height ->
-        RenderUtils.renderBoxWithColor(xStart, yStart, width, height, RGBA.C_5E1919.get())
-        FontUtil.draw("" + ChatFormatting.BOLD + unread.toString(), xStart + 2, yStart)
-    }
+    var unreadNotify = DefButtonContainer(FontUtil.getStringWidth(unread.toString()) + 5, 9,
+            {click, con -> },
+            { xStart, yStart, width, height ->
+                RenderUtils.renderBoxWithColor(xStart, yStart - 1, width, height, RGBA.RED_MC.get())
+                FontUtil.draw("" + ChatFormatting.BOLD + unread.toString(), xStart + 2, yStart - 1 )
+            },{ xStart, yStart, width, height ->
+                RenderUtils.renderBoxWithColor(xStart, yStart - 1, width, height, RGBA.RED_MC.get())
+                FontUtil.draw("" + ChatFormatting.BOLD + unread.toString(), xStart + 2, yStart -1 )
+            }
+    )
 
     val textField = ChatTextFieldContainer("", container.width)
 

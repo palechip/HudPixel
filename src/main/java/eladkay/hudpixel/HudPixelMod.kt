@@ -225,7 +225,7 @@ public class HudPixelMod {
 
         const val MODID = "hudpixel"
         const val SHORT_VERSION = "4.0" // only to be used for the annotation which requires such a constant.
-        const val DEFAULT_VERSION = "4.0dev"
+        const val DEFAULT_VERSION = "4.0-SNAPSHOT"
         const val HYPIXEL_DOMAIN = "hypixel.net"
         const internal val NAME = "HudPixel Reloaded"
         // key related vars

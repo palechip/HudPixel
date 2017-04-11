@@ -13,13 +13,12 @@ import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
-import net.unaussprechlich.managedgui.lib.util.ColorRGBA
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
-import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
-open class DefButtonContainer(width: Int, height: Int, var cBorder : ColorRGBA, var cBackground : ColorRGBA,
+open class DefButtonContainer(width: Int, height: Int,
                                 clickedListener: (MouseHandler.ClickType, Container)  -> Unit,
-                                val customRender: (Int, Int, Int, Int) -> Unit
+                                val customRender: (Int, Int, Int, Int) -> Unit,
+                                val customRenderHoover: (Int, Int, Int, Int) -> Unit
                               ) : Container(){
 
     init {
@@ -30,8 +29,8 @@ open class DefButtonContainer(width: Int, height: Int, var cBorder : ColorRGBA, 
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState?): Boolean {
         if(ees!! == EnumEventState.PRE){
-            RenderUtils.drawBorderInlineShadowBox(xStart, yStart, width, height, cBorder, cBackground)
-            customRender.invoke(xStart, yStart, width, height)
+            if(isHover) customRenderHoover.invoke(xStart, yStart, width, height)
+            else        customRender.invoke(xStart, yStart, width, height)
         }
         return true
     }

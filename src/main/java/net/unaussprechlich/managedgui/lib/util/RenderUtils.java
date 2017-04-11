@@ -381,7 +381,7 @@ public class RenderUtils {
         renderBoxWithColor(xStart, yStart, width, height, RGBA.GRAY_T.get());
     }
 
-    public static void iconRender_resize(int xStartRight, int yStartBot){
+    public static void iconRender_resize(int xStartRight, int yStartBot, ColorRGBA color){
         final int l = 1;
         final int r = 10;
         final int r2 = 4;
@@ -389,11 +389,11 @@ public class RenderUtils {
 
         RenderUtils.renderRectWithColorBlendFade_s1_d1(xStartRight - r, yStartBot - r, r , r, RGBA.NULL.get(), RGBA.P1B1_596068.get(), RGBA.NULL.get(), RGBA.NULL.get());
 
-        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r, yStartBot - l, r, l, RGBA.P1B1_596068.get());
-        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - l, yStartBot - r, l, r, RGBA.P1B1_596068.get());
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r, yStartBot - l, r, l, color);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - l, yStartBot - r, l, r, color);
 
-        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r2 - s2, yStartBot - s2 - l, r2, l, RGBA.P1B1_596068.get());
-        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - s2 - l, yStartBot - s2 - r2, l, r2, RGBA.P1B1_596068.get());
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - r2 - s2, yStartBot - s2 - l, r2, l, color);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStartRight - s2 - l, yStartBot - s2 - r2, l, r2, color);
     }
 
     public static void iconRender_loadingBar(int xStart, int yStart) {

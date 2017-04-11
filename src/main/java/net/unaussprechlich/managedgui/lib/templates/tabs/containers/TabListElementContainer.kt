@@ -43,13 +43,13 @@ class TabListElementContainer(internal val title: String, private val color: Col
             return
         }
 
-        var offset = 10 + FontUtil.getStringWidth(title)
+        var offset = 7 + FontUtil.getStringWidth(title)
         buttonList.forEach {
-            it.yOffset = 4
+            it.yOffset = 5
             it.xOffset = offset
             offset += it.width + 2
         }
-        width = offset + 5
+        width = offset + 2
     }
 
     fun setOpen(open: Boolean) {

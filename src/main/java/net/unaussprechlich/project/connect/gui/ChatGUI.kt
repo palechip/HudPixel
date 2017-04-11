@@ -100,12 +100,18 @@ object ChatGUI : GUI() {
         tabManager.registerTab(chatCon)
         privateChatCons[user] = chatCon
 
-        chatCon.tabListElement.registerButton((DefButtonContainer(9, 9, RGBA.P1B1_596068.get(), RGBA.P1B1_DEF.get(), { click, con ->
+        chatCon.tabListElement.registerButton((DefButtonContainer(7, 7,
+            { click, con ->
                 if(click == MouseHandler.ClickType.SINGLE)
                     closePrivateChatCon(chatCon.tabListElement.title)
-            }){ xStart, yStart, width, height ->
-                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 2, yStart + height - 3, width - 4, 1, RGBA.P1B1_596068.get())
-        }))
+            },{ xStart, yStart, width, height ->
+                RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart, yStart , width , height, RGBA.P1B1_596068.get(), RGBA.P1B1_596068.get(), RGBA.P1B1_596068.get(), RGBA.P1B1_596068.get())
+                RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 1, yStart + height - 2, width - 2, 1, RGBA.P1B1_DEF.get())
+            },{ xStart, yStart, width, height ->
+            RenderUtils.renderRectWithColorBlendFade_s1_d0(xStart, yStart , width , height, RGBA.WHITE.get(), RGBA.WHITE.get(), RGBA.WHITE.get(), RGBA.WHITE.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 1, yStart + height - 2, width - 2, 1, RGBA.P1B1_DEF.get())
+            }))
+        )
     }
 
     fun closePrivateChatCon(user : String){

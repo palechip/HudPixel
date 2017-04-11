@@ -20,12 +20,15 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
             if(ees == EnumEventState.POST) return true
 
             val offY = (height - 7) / 2
+            var color = RGBA.P1B1_596068.get()
+            if(con.isHover) color =  RGBA.WHITE.get()
 
+            RenderUtils.drawBorderInlineShadowBox(xStart - 1, yStart - 1,  width + 2, height + 2 , color, RGBA.P1B1_DEF.get())
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart, yStart, height , width, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 9, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 9, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 9, 1, color)
 
             return true
         }
