@@ -48,7 +48,7 @@ package com.palechip.hudpixelmod
 
 import com.google.common.collect.Lists
 import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter
-import com.palechip.hudpixelmod.command.*
+import com.palechip.hudpixelmod.command.Commands
 import com.palechip.hudpixelmod.config.EasyConfigHandler
 import com.palechip.hudpixelmod.config.HudPixelConfigGui
 import com.palechip.hudpixelmod.extended.HudPixelExtended
@@ -61,7 +61,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.GameSettings
 import net.minecraft.client.settings.KeyBinding
 import net.minecraft.launchwrapper.Launch
-import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.common.config.Configuration
@@ -101,7 +100,8 @@ class HudPixelMod {
             CONFIG = Configuration(event.suggestedConfigurationFile)
             HudPixelMod.CONFIG.load()
 
-            ClientCommandHandler.instance.registerCommand(GameCommand())
+            Commands
+            /*ClientCommandHandler.instance.registerCommand(GameCommand())
             ClientCommandHandler.instance.registerCommand(ScoreboardCommand())
             ClientCommandHandler.instance.registerCommand(GameDetectorCommand())
             ClientCommandHandler.instance.registerCommand(BookVerboseInfoCommand())
@@ -110,7 +110,7 @@ class HudPixelMod {
             ClientCommandHandler.instance.registerCommand(VerboseChatOutputCommand)
             ClientCommandHandler.instance.registerCommand(ClickEventCommand)
             ClientCommandHandler.instance.registerCommand(AfkCommand)
-            ClientCommandHandler.instance.registerCommand(ManagedGuiDisableCommand)
+            ClientCommandHandler.instance.registerCommand(ManagedGuiDisableCommand)*/
 
             ChatDetector
             HudPixelMethodHandles()

@@ -47,7 +47,6 @@
 package com.palechip.hudpixelmod.extended.util;
 
 
-import com.palechip.hudpixelmod.extended.fancychat.FancyChat;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
@@ -66,10 +65,10 @@ public class MessageBuffer {
 
     public void addMinecraftEntry(String message) {
         @SuppressWarnings("LocalVariableDeclarationSideOnly") FontRenderer fontRenderer = FMLClientHandler.instance().getClient().fontRendererObj;
-        List messageList = fontRenderer.listFormattedStringToWidth(message, FancyChat.FIELD_WIDTH);
+        List<String> messageList = fontRenderer.listFormattedStringToWidth(message, 325);
 
-        for (Object o : messageList) {
-            messageBuffer.add(0, (String) o);
+        for (String o : messageList) {
+            messageBuffer.add(0, o);
             checkSize();
         }
     }

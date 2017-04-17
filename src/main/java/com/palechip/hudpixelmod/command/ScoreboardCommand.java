@@ -49,11 +49,10 @@ package com.palechip.hudpixelmod.command;
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
 import com.palechip.hudpixelmod.util.ScoreboardReader;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 
-public class ScoreboardCommand extends CommandBase {
+public class ScoreboardCommand extends HpCommandBase {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {

@@ -47,13 +47,12 @@
 package com.palechip.hudpixelmod.command;
 
 import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
-public class GameCommand extends CommandBase {
+public class GameCommand extends HpCommandBase {
 
 
     @Override

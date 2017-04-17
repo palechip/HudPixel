@@ -48,11 +48,10 @@ package com.palechip.hudpixelmod.command;
 
 import com.palechip.hudpixelmod.GameDetector;
 import com.palechip.hudpixelmod.util.ChatMessageComposer;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 
-public class GameDetectorCommand extends CommandBase {
+public class GameDetectorCommand extends HpCommandBase {
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {

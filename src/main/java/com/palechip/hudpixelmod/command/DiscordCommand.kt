@@ -58,7 +58,7 @@ import net.minecraft.util.ChatStyle
  */
 
 
-object DiscordCommand : CommandBase() {
+object DiscordCommand : HpCommandBase() {
 
 
     val array = arrayOf("e", "c", "a", "9", "D", "X", "8")

@@ -47,6 +47,7 @@
 package com.palechip.hudpixelmod.util;
 
 import com.google.common.base.Throwables;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagList;
@@ -68,12 +69,18 @@ public class HudPixelMethodHandles {
     @Nonnull
     private static final MethodHandle entityImmuneToFire;
 
+    @Nonnull
+    private static final MethodHandle rightClickDelayTimer;
+
     static {
         try {
             Field bookP = ReflectionHelper.findField(GuiScreenBook.class, "field_146483_y", "bookPages", "y");
             bookPages = publicLookup().unreflectGetter(bookP);
             Field entityF = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire", "ab");
             entityImmuneToFire = publicLookup().unreflectSetter(entityF);
+            //test
+            Field rightC = ReflectionHelper.findField(Minecraft.class, "rightClickDelayTimer");
+            rightClickDelayTimer = publicLookup().unreflectSetter(rightC);
         } catch (Throwable t) {
             Logger.getLogger("HudPixel").log(Level.SEVERE, "Couldn't initialize methodhandles! Things will be broken!");
             t.printStackTrace();
@@ -92,6 +99,14 @@ public class HudPixelMethodHandles {
     public static void setEntityImmuneToFire(Entity entity, boolean value) {
         try {
             entityImmuneToFire.invokeExact(entity, value);
+        } catch (Throwable t) {
+            throw propagate(t);
+        }
+    }
+
+    public static void setRightClickDelayTimer(int value) {
+        try {
+            rightClickDelayTimer.invokeExact(Minecraft.getMinecraft(), value);
         } catch (Throwable t) {
             throw propagate(t);
         }

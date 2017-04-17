@@ -49,7 +49,6 @@ package com.palechip.hudpixelmod.command;
 import com.palechip.hudpixelmod.util.HudPixelMethodHandles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenBook;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.nbt.NBTTagList;
@@ -59,7 +58,7 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class BookVerboseInfoCommand extends CommandBase {
+public class BookVerboseInfoCommand extends HpCommandBase {
 
     @Override
     public String getCommandName() {

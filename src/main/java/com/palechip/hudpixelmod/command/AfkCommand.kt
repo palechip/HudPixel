@@ -3,7 +3,6 @@ package com.palechip.hudpixelmod.command
 import com.palechip.hudpixelmod.config.CCategory
 import com.palechip.hudpixelmod.config.ConfigPropertyString
 import net.minecraft.client.Minecraft
-import net.minecraft.command.CommandBase
 import net.minecraft.command.CommandException
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.ChatComponentText
@@ -15,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Created by Elad on 12/22/2016.
  */
-object AfkCommand : CommandBase() {
+object AfkCommand : HpCommandBase() {
     override fun processCommand(sender: ICommandSender, args: Array<out String>) {
         if (args.size != 0) throw CommandException("AFK message not yet implemented")
         if (enabled) {

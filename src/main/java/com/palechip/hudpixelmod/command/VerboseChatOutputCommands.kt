@@ -1,7 +1,6 @@
 package com.palechip.hudpixelmod.command
 
 import net.minecraft.client.Minecraft
-import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.EnumChatFormatting
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 /**
  * Created by Elad on 12/21/2016.
  */
-object VerboseChatOutputCommand : CommandBase() {
+object VerboseChatOutputCommand : HpCommandBase() {
     var enabled = false
     override fun getCommandName() = "verbosechatoutput"
 
@@ -46,7 +45,7 @@ object VerboseChatOutputCommand : CommandBase() {
     }
 }
 
-object ClickEventCommand : CommandBase() {
+object ClickEventCommand : HpCommandBase() {
     var enabled = false
     override fun getCommandName() = "clickevent"
 

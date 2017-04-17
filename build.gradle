@@ -23,7 +23,7 @@ plugins {
 }
 */
 
-version = "3.3-latest"
+version = "3.3-9661c23"
 group = "" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HudPixelReloaded-1.8.9-v3"
 
@@ -47,7 +47,7 @@ configurations {
 dependencies {
     compile 'joda-time:joda-time:2.9.6'
     required 'joda-time:joda-time:2.9.6'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     required "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile ('io.socket:socket.io-client:0.8.3')
     required ('io.socket:socket.io-client:0.8.3')

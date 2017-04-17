@@ -63,7 +63,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
-object NameCommand : CommandBase() {
+object NameCommand : HpCommandBase() {
     private fun isOp(sender: ICommandSender): Boolean {
         return MinecraftServer.getServer().isSinglePlayer
                 || sender !is EntityPlayerMP
