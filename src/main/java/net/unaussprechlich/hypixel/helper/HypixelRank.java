@@ -1,7 +1,6 @@
 package net.unaussprechlich.hypixel.helper;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.unaussprechlich.managedgui.lib.databases.player.data.Rank;
 
 import static com.mojang.realmsclient.gui.ChatFormatting.*;
 
@@ -21,15 +20,15 @@ public enum HypixelRank {
     YT("[YT]" , GOLD + "[YT]", GOLD),
     ADMIN("[ADMIN]", RED + "[ADMIN]", RED);
 
-    private final Rank rank;
+    private final net.unaussprechlich.managedgui.lib.databases.player.data.Rank rank;
 
 
 
     HypixelRank(String name, String nameFormatted, ChatFormatting color){
-        this.rank = new Rank(name, nameFormatted, color);
+        this.rank = new net.unaussprechlich.managedgui.lib.databases.player.data.Rank(name, nameFormatted, color);
     }
 
-    public static Rank getRankByName(String name){
+    public static net.unaussprechlich.managedgui.lib.databases.player.data.Rank getRankByName(String name){
 
         for (HypixelRank hypixelRank : HypixelRank.values()) {
             if(hypixelRank.name().equals(name)){
@@ -40,7 +39,7 @@ public enum HypixelRank {
         return DEFAULT.get();
     }
 
-    public Rank get() {
+    public net.unaussprechlich.managedgui.lib.databases.player.data.Rank get() {
         return rank;
     }
 }

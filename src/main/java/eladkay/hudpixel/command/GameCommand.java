@@ -46,8 +46,7 @@
 
 package eladkay.hudpixel.command;
 
-import com.palechip.hudpixelmod.command.HpCommandBase;
-import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider;
+import eladkay.hudpixel.modulargui.modules.PlayGameModularGuiProvider;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;

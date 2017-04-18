@@ -45,18 +45,15 @@ package eladkay.hudpixel
  * reserve the right to take down any infringing project.
  */
 
-package com.palechip.hudpixelmod
 
 import com.google.common.collect.Lists
-import com.palechip.hudpixelmod.chat.WarlordsDamageChatFilter
-import com.palechip.hudpixelmod.command.*
-import com.palechip.hudpixelmod.config.EasyConfigHandler
-import com.palechip.hudpixelmod.config.HudPixelConfigGui
-import com.palechip.hudpixelmod.extended.HudPixelExtended
-import com.palechip.hudpixelmod.extended.update.UpdateNotifier
-import com.palechip.hudpixelmod.modulargui.ModularGuiHelper
-import com.palechip.hudpixelmod.modulargui.modules.PlayGameModularGuiProvider
-import com.palechip.hudpixelmod.util.*
+import eladkay.hudpixel.chat.WarlordsDamageChatFilter
+import eladkay.hudpixel.command.*
+import eladkay.hudpixel.config.EasyConfigHandler
+import eladkay.hudpixel.config.HudPixelConfigGui
+import eladkay.hudpixel.modulargui.ModularGuiHelper
+import eladkay.hudpixel.modulargui.modules.PlayGameModularGuiProvider
+import eladkay.hudpixel.util.*
 import eladkay.modulargui.lib.Renderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.GameSettings
@@ -78,6 +75,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
+import net.unaussprechlich.hudpixelextended.HudPixelExtended
+import net.unaussprechlich.hudpixelextended.update.UpdateNotifier
 import net.unaussprechlich.project.connect.Connect
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -290,7 +289,7 @@ class HudPixelMod {
         private var didTheThings = false
 
         /**
-         * Checks if the Player is on Hypixel Network.
+         * Checks if the player is on Hypixel Network.
          */
         // get the IP of the current server
         // only if there is one

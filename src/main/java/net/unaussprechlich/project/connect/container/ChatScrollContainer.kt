@@ -12,7 +12,7 @@ open class ChatScrollContainer : DefScrollableContainer(ConstantsMG.DEF_BACKGROU
 
     init {
         minWidth = 400
-        minHeight= 200
+        minHeight = 200
     }
 
     fun addChatMessage(name: String, message: String, rank: Rank) {

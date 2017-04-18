@@ -46,9 +46,8 @@
 
 package eladkay.hudpixel.command;
 
-import com.palechip.hudpixelmod.GameDetector;
-import com.palechip.hudpixelmod.command.HpCommandBase;
-import com.palechip.hudpixelmod.util.ChatMessageComposer;
+import eladkay.hudpixel.GameDetector;
+import eladkay.hudpixel.util.ChatMessageComposer;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 

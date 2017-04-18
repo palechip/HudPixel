@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.command
+package eladkay.hudpixel.command
 
 /**
  * Created by Elad on 3/13/2017.

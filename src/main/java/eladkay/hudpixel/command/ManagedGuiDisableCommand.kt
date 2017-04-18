@@ -1,9 +1,7 @@
 package eladkay.hudpixel.command
 
-import com.palechip.hudpixelmod.command.HpCommandBase
-import com.palechip.hudpixelmod.util.ChatMessageComposer
-import com.palechip.hudpixelmod.util.plus
-import net.minecraft.command.CommandBase
+import eladkay.hudpixel.util.ChatMessageComposer
+import eladkay.hudpixel.util.plus
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.EnumChatFormatting
 import net.unaussprechlich.managedgui.lib.ManagedGui

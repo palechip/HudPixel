@@ -1,4 +1,4 @@
-package com.palechip.hudpixelmod.command
+package eladkay.hudpixel.command
 
 import net.minecraft.command.CommandBase
 import net.minecraftforge.client.ClientCommandHandler
