@@ -106,7 +106,8 @@ public class DefScrollableContainer extends ContainerFrame {
 
         if(ees.equals(EnumEventState.PRE)){
             RenderUtils.renderBoxWithColor(xStart- 5, yStart - 5, width + 100, height + 100, getBackgroundRGBA());
-            spacerPositions.forEach(y -> spacer.render(xStart, yStart+y, width));
+            if(scrollElements.size() > 1)
+                spacerPositions.forEach(y -> spacer.render(xStart, yStart+y, width));
         }
 
         if(ees.equals(EnumEventState.POST)){

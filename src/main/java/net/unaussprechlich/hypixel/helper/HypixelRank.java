@@ -1,7 +1,7 @@
 package net.unaussprechlich.hypixel.helper;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.unaussprechlich.managedgui.lib.databases.Player.data.Rank;
+import net.unaussprechlich.managedgui.lib.databases.player.data.Rank;
 
 import static com.mojang.realmsclient.gui.ChatFormatting.*;
 

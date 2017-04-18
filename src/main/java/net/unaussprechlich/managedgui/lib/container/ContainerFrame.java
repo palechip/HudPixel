@@ -29,6 +29,8 @@ public abstract class ContainerFrame extends Container {
     private FrameBufferObj frameBuffer;
     private boolean requireFrameUpdate = true;
 
+    private boolean isHooverResize = false;
+
     public ContainerFrame(int width, int height, int minWidth, int minHeight, @Nonnull ColorRGBA color){
         this(width, height, color);
         setMinWidth(minWidth);
@@ -42,7 +44,6 @@ public abstract class ContainerFrame extends Container {
         frameBuffer = new FrameBufferObj(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale(), false);
         frameBuffer.setFramebufferColor(color.getRedf(), color.getGreenf(), color.getBluef(), color.getAlphaf());
     }
-
 
     public void updateFrame(){
         requireFrameUpdate = true;
@@ -62,11 +63,23 @@ public abstract class ContainerFrame extends Container {
         if(clickType.equals(MouseHandler.ClickType.DROP)){
             if(isResize){
                 isResize = false;
-                frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
                 onResize();
             }
         }
         return super.doClick(clickType);
+    }
+
+    @Override
+    public boolean doMouseMove(int mX, int mY) {
+        isHooverResize = checkIfMouseOver(getXStart() + getWidth() - 10, getYStart() + getHeight() - 10,
+                            10, 10);
+        return super.doMouseMove(mX, mY);
+    }
+
+    @Override
+    public boolean doResize() {
+        frameBuffer.createDeleteFramebuffer(getWidth() * DisplayUtil.INSTANCE.getMcScale(), getHeight() * DisplayUtil.INSTANCE.getMcScale());
+        return super.doResize();
     }
 
     @Override
@@ -96,7 +109,8 @@ public abstract class ContainerFrame extends Container {
 
         if(isResize){
             RenderUtils.renderBoxWithColor(getXStart(), getYStart(), getWidth(), getHeight(), getBackgroundRGBA());
-            RenderUtils.iconRender_resize(getXStart() + getWidth(), getYStart() + getHeight());
+            RenderUtils.iconRender_resize(getXStart() + getWidth(), getYStart() + getHeight(), RGBA.WHITE.get());
+
             return false;
         }
 
@@ -129,7 +143,10 @@ public abstract class ContainerFrame extends Container {
 
         this.doRenderTickLocal(x, y,  getWidth() , getHeight(), EnumEventState.POST);
 
-        RenderUtils.iconRender_resize(x + getWidth(), y + getHeight());
+        if(isHooverResize)
+            RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.WHITE.get());
+        else
+            RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.P1B1_596068.get());
 
         frameBuffer.unbindFramebuffer();
 

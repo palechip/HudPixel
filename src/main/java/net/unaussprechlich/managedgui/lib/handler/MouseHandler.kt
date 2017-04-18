@@ -8,12 +8,12 @@
 
 package net.unaussprechlich.managedgui.lib.handler
 
-import com.palechip.hudpixelmod.extended.HudPixelExtendedEventHandler
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiChat
 import net.minecraft.client.gui.GuiIngameMenu
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.gui.inventory.GuiInventory
+import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import org.lwjgl.input.Mouse
 

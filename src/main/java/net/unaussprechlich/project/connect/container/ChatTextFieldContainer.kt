@@ -1,6 +1,5 @@
 package net.unaussprechlich.project.connect.container
 
-import net.minecraft.client.Minecraft
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
 import net.unaussprechlich.managedgui.lib.event.events.KeyPressedCodeEvent
@@ -12,22 +11,24 @@ import net.unaussprechlich.managedgui.lib.templates.defaults.container.ICustomRe
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
-import net.unaussprechlich.project.connect.gui.ChatGUI
+import net.unaussprechlich.project.connect.handlers.HypixelChatHandler
 
 class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(text, width){
-
 
     private val sendIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
             if(ees == EnumEventState.POST) return true
 
             val offY = (height - 7) / 2
+            var color = RGBA.P1B1_596068.get()
+            if(con.isHover) color =  RGBA.WHITE.get()
 
+            RenderUtils.drawBorderInlineShadowBox(xStart - 1, yStart - 1,  width + 2, height + 2 , color, RGBA.P1B1_DEF.get())
             RenderUtils.renderRectWithInlineShadow_s1_d1(xStart, yStart, height , width, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 9, 1, RGBA.P1B1_596068.get())
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 9, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 9, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 9, 1, color)
 
             return true
         }
@@ -45,27 +46,14 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
         }
     }
 
-    fun String.sendAsPlayer() {
-        Minecraft.getMinecraft().thePlayer?.sendChatMessage(this)
-    }
     fun min(a: Int, b: Int) = if(a < b) a else b
-    fun send(title: String = "") {
-        if(title != "") {
-            val title = title.substring(0..min(title.length - 1, 100))
-            "/$title $text".sendAsPlayer()
-            println("wa1")
-            return
-        }
-        //val text = text.substring(0..min(title.length - 1, 100))
-        if(text.isEmpty()) {
-            return
-        }
-        when((ChatGUI.tabManager.activeTab ?: return).tabListElement.title) {
-            "ALL" -> "/achat $text".sendAsPlayer()
-            "PARTY" -> "/pchat $text".sendAsPlayer()
-            "GUILD" -> "/gchat $text".sendAsPlayer()
-            "PRIVATE" -> "/r $text".sendAsPlayer()
-            else -> println("wa")
+
+    fun send() {
+        if(text.isEmpty()) return
+        else {
+            HypixelChatHandler.sendHypixelMessage(text)
+            text = ""
+            cursorPos = 0
         }
     }
 
@@ -100,9 +88,8 @@ class ChatTextFieldContainer(text: String, width: Int) : DefTextFieldContainer(t
         if(iEvent.id == EnumDefaultEvents.KEY_PRESSED_CODE.get()){
             when((iEvent as KeyPressedCodeEvent).data){
                 28 -> send()
-                else -> println("data: ${iEvent.data.toInt()}")
+                //else -> println("data: ${iEvent.data.toInt()}")
             }
-            updateCursor()
         }
         return super.doEventBusLocal(iEvent)
     }

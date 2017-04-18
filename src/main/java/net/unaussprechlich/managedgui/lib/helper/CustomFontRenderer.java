@@ -103,7 +103,7 @@ public class CustomFontRenderer extends FontRenderer {
 
         for(int i = 0; i < s.length(); i++){
             char c0 = s.charAt(i);
-            if (c0 == '\u00A7' && i + 1 < s.length()) {
+            if (c0 == 167 && i + 1 < s.length()) {
                 char c1 = s.toLowerCase(Locale.ENGLISH).charAt(i + 1);
                 int i1 = "0123456789abcdefklmnor".indexOf(c1);
                 //DRAW IT!
@@ -158,6 +158,7 @@ public class CustomFontRenderer extends FontRenderer {
 
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
+
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 0, 1);
 
         x *= 2;

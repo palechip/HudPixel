@@ -35,7 +35,7 @@ object RenderHelper {
 
     private fun renderContainerBackground(xStart: Int, yStart: Int, color: ColorRGBA, width: Int, height: Int, image: ResourceLocation?) {
         if (image == null) RenderUtils.renderBoxWithColor(xStart, yStart, width, height, color)
-        else RenderUtils.texture_modularRect(xStart.toDouble(), yStart.toDouble(), width.toDouble(), height.toDouble(), image, color.alphaf)
+        else RenderUtils.texture_modularRect(xStart , yStart, width, height, image)
     }
 
 }

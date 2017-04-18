@@ -8,7 +8,6 @@
 
 package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
@@ -25,25 +24,18 @@ import net.unaussprechlich.managedgui.lib.util.RenderUtils
  */
 class DefPictureContainer : Container {
 
-    private val resourceLocation: ResourceLocation?
-    private var textureHeight = 0
-    private var textuewWidth = 0
-
-
     constructor(width: Int, height: Int, resourceLocation: ResourceLocation) {
-        this.resourceLocation = resourceLocation
+        backgroundImage = resourceLocation
         setWidth(width)
         setHeight(height)
+        backgroundRGBA = RGBA.NULL.get()
     }
 
     constructor(resourceLocation: ResourceLocation) {
-        this.resourceLocation = resourceLocation
+        backgroundImage = resourceLocation
     }
 
-    constructor() {
-        this.resourceLocation = null
-
-    }
+    constructor()
 
     override fun doClientTickLocal(): Boolean {
         return true
@@ -51,14 +43,11 @@ class DefPictureContainer : Container {
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
         if (ees == EnumEventState.POST) {
-            if (resourceLocation == null) {
-                RenderUtils.renderBoxWithColor(xStart, yStart, width, height, RGBA.RED.get())
-                RenderUtils.iconRender_loadingBar(xStart + width / 2 - 5, yStart + height / 2 - 3)
+            if (backgroundImage == null) {
+                RenderUtils.renderBoxWithColor(xStart , yStart, width, height, RGBA.P1B5_0B271F.get())
+                RenderUtils.iconRender_loadingBar(xStart + width / 2 - 5, yStart + height / 2 - 3 + 2)
             } else {
-                GlStateManager.enableBlend()
-                RenderUtils.texture_modularRect(xStart , yStart, getWidth(), getHeight(), 0, 0, getWidth(), getHeight(), resourceLocation, 1f)
-                GlStateManager.disableBlend()
-                //RenderUtils.texture_modularRect(xStart, yStart, getWidth(), getHeight(), resourceLocation, 1f);
+                //RenderUtils.texture_modularRect(xStart , yStart, 0, 0,  getWidth(), getHeight(), getWidth(), getHeight(), backgroundImage, 1f)
             }
         }
         return true
