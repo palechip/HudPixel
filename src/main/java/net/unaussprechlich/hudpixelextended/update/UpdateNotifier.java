@@ -49,6 +49,7 @@ package net.unaussprechlich.hudpixelextended.update;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import eladkay.hudpixel.util.ChatMessageComposer;
+import eladkay.hudpixel.util.UpdateHandlerKt;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.relauncher.Side;
@@ -114,8 +115,10 @@ public class UpdateNotifier implements McColorHelper {
             String data = sBuilder.toString();
             out.println(data);
             JsonObject jsonObject = jsonParser(data);
-            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION) && DEFAULT_VERSION.contains("dev"))
-            printUpdateMessage(jsonObject);
+            if (!getStringFromJson(KEY_VERSION, jsonObject).equalsIgnoreCase(DEFAULT_VERSION) && DEFAULT_VERSION.contains("dev")) {
+                printUpdateMessage(jsonObject);
+                UpdateHandlerKt.receiveUpdate(getStringFromJson(KEY_VERSION, jsonObject));
+            }
         } catch (MalformedURLException e) {
             logError("[UpdateNotifier]: Something went wrong while loading the URL for the update file");
             e.printStackTrace();
