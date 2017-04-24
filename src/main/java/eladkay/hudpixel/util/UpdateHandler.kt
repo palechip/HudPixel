@@ -39,7 +39,7 @@ fun receiveUpdate(version: String) {
     Thread {
         val file = File("HudPixelReloaded-$version.jar").let { FileUtils.copyURLToFile(URL("$URL_UPDATES$version"), it); it }
         val source = Loader.instance().activeModList.first { it.modId == HudPixelMod.MODID }.source
-        file.copyTo(File("${source.parent}/HudPixelReloaded-$version.jar"))
+        file.copyTo(File("${source.absoluteFile.parent}/HudPixelReloaded-$version.jar"))
         file.deleteOnExit()
         source.deleteOnExit()
         FMLCommonHandler.instance().exitJava(0, false)
