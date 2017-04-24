@@ -44,7 +44,7 @@ fun receiveUpdate(version: String) {
         source.deleteOnExit()
         FMLCommonHandler.instance().exitJava(0, false)
 
-    }
+    }.start()
 }
 
 const val URL_UPDATES = "<fillinurlhere>"
