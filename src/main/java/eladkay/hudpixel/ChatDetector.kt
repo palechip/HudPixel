@@ -1,5 +1,6 @@
 package eladkay.hudpixel
 
+import eladkay.hudpixel.util.ChatMessageComposer
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -100,6 +101,23 @@ object ChatDetector {
         override val pattern: Regex
             get() = "Party\\s+>\\s+.*:\\s.*".toRegex()
     }
+
+    class CustomChatEventHandler(override val pattern: Regex, val id: String, val onTrigger: (String)->Unit) : ChatEventBase<CustomChatEventHandler>() {
+        override fun handle(message: String): EventInfo<CustomChatEventHandler> {
+            return pattern.toPattern().matcher(message).toMatchResult().group(0).let { EventInfo(javaClass, mapOf("message" to it, "id" to id)) }
+        }
+        init {
+            registerEventHandler(this) {
+                val msg = it.data["message"]
+                if(it.data["id"] == id && msg != null)
+                    onTrigger(msg)
+            }
+        }
+        companion object {
+            val PRINT_TO_CHAT: (String)->Unit = { ChatMessageComposer(it).send() }
+        }
+    }
+
 
     class EventInfo<T>(val type: Class<T>, val data: Map<String, String>)
 
