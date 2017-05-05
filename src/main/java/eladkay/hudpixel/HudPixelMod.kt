@@ -165,8 +165,10 @@ class HudPixelMod {
         // Initialize key bindings
         this.pressToPlay = KeyBinding("Press this key to play the game set in the Modular GUI", Keyboard.KEY_P, KEY_CATEGORY)
         this.openConfigGui = KeyBinding("Open Config", Keyboard.KEY_M, KEY_CATEGORY)
+
         ClientRegistry.registerKeyBinding(this.pressToPlay)
         ClientRegistry.registerKeyBinding(this.openConfigGui)
+
         if (IS_DEBUGGING) {
             this.debugKey = KeyBinding("DEBUG KEY", Keyboard.KEY_J, KEY_CATEGORY)
             ClientRegistry.registerKeyBinding(this.debugKey)
@@ -207,6 +209,7 @@ class HudPixelMod {
                 if (!didTheThings && Minecraft.getMinecraft().thePlayer != null) {
 
                     Connect.setup()
+
 
                     createModList()
                     var s = ""

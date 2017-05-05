@@ -105,5 +105,6 @@ public class ApiManager implements IEventHandler, ApiKeyLoadedCallback {
         LoggerHelper.logInfo("[API][key] failed=" + failed + " key=" + key);
         if (failed) return;
         HypixelAPI.getInstance().setApiKey(UUID.fromString(key));
+
     }
 }

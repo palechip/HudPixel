@@ -23,6 +23,7 @@ object RenderHelper {
                 container.backgroundImage
         )
 
+        if(!container.border.isEmpty)
         RenderUtils.renderBorder(
                 container.xStartBorder,
                 container.yStartBorder,

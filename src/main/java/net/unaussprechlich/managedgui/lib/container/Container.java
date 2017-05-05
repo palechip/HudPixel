@@ -37,7 +37,8 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private int yOffset = 0;
 
     private boolean isHover = false;
-    private boolean visible = true; 
+    private boolean visible = true;
+    private boolean isRenderBackground = true;
 
     private ContainerSide border = new ContainerSide();
     private ContainerSide margin = new ContainerSide();
@@ -140,7 +141,7 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
         if (!doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.PRE)) return false;
 
-        RenderHelper.INSTANCE.renderContainer(this);
+        if(isRenderBackground) RenderHelper.INSTANCE.renderContainer(this);
 
         return doRenderTickLocal(this.xStart, this.yStart, width, height, EnumEventState.POST);
     }
@@ -325,6 +326,10 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
         return minWidth;
     }
 
+    public boolean isRenderBackground() {
+        return isRenderBackground;
+    }
+
     //SETTER -----------------------------------------------------------------------------------------------------------
 
     @Override
@@ -335,11 +340,13 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     @Override
     public void setHeight(int height) {
         this.height = height;
+        //onResize();
     }
 
     @Override
     public void setWidth(int width) {
         this.width = width;
+        //onResize();
     }
 
     @Override
@@ -409,5 +416,9 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
 
     public void setMinWidth(int minWidth) {
         this.minWidth = minWidth;
+    }
+
+    public void setIsRenderBackground(boolean value){
+        isRenderBackground = value;
     }
 }

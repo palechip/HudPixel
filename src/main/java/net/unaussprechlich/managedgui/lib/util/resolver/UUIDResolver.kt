@@ -10,14 +10,14 @@ package net.unaussprechlich.managedgui.lib.util.resolver
 
 import com.google.gson.Gson
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
-class UUIDResolver(val username : String, val callback: (UUID) -> Unit) : Thread() {
+class UUIDResolver(val username : String, val callback: (UUID) -> Unit){
 
     class APIResponse {
         var id: String? = null
@@ -30,7 +30,7 @@ class UUIDResolver(val username : String, val callback: (UUID) -> Unit) : Thread
         asyncGetRemoteUUIDFromAPI()
     }
 
-    private fun asyncGetRemoteUUIDFromAPI() = async(CommonPool){
+    private fun asyncGetRemoteUUIDFromAPI() = launch(CommonPool){
         try {
             val conn: HttpURLConnection = URL(baseURL + username).openConnection() as HttpURLConnection
             conn.requestMethod = "GET"

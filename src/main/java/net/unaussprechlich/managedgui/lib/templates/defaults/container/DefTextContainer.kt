@@ -20,7 +20,7 @@ import net.unaussprechlich.managedgui.lib.util.FontUtil
  * DefTextContainer Created by unaussprechlich on 20.12.2016.
  * Description:
  */
-class DefTextContainer(text: String) : Container() {
+open class DefTextContainer(text: String) : Container() {
 
     operator fun plusAssign(char: Char) {
         text += char

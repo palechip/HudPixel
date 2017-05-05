@@ -11,13 +11,13 @@ package net.unaussprechlich.managedgui.lib.util.resolver
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
-class NameResolver(val uuid : UUID, val callback: (NameHistory) -> Unit) : Thread() {
+class NameResolver(val uuid : UUID, val callback: (NameHistory) -> Unit){
 
     class NameHistory(result : JsonArray?, val failed : Boolean){
 
@@ -40,7 +40,7 @@ class NameResolver(val uuid : UUID, val callback: (NameHistory) -> Unit) : Threa
         asyncGetRemoteNameFromAPI()
     }
 
-    private fun asyncGetRemoteNameFromAPI() = async(CommonPool){
+    private fun asyncGetRemoteNameFromAPI() = launch(CommonPool){
         try {
             val conn: HttpURLConnection = URL((baseURL + uuid.toString().replace("-", "")  + "/names")).openConnection() as HttpURLConnection
             conn.requestMethod = "GET"

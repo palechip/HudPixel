@@ -40,6 +40,16 @@ public class RenderUtils {
         processLoadingBar();
     }
 
+    public static void drawBorderBox(int xStart, int yStart, int width, int height, ColorRGBA cBorder, ColorRGBA cBackground){
+        RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, width, height, cBackground);
+
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart , yStart , width, 1, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart, yStart + 1 , 1, height - 2, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - 1 , yStart + 1 , 1, height -2, cBorder);
+        RenderUtils.renderBoxWithColorBlend_s1_d1(xStart, yStart + height - 1, width , 1, cBorder);
+
+    }
+
     public static void drawBorderInlineShadowBox(int xStart, int yStart, int width, int height, ColorRGBA cBorder, ColorRGBA cBackground){
         RenderUtils.renderBoxWithColorBlend_s1_d0(xStart, yStart, width, height, cBackground);
 
@@ -48,7 +58,7 @@ public class RenderUtils {
         RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + width - 1 , yStart + 1 , 1, height -2, cBorder);
         RenderUtils.renderBoxWithColorBlend_s1_d1(xStart, yStart + height - 1, width , 1, cBorder);
 
-        //RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + 1, yStart + 1, height -2, width -2, RGBA.BLACK_LIGHT.get(), cBackground, 2);
+        RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + 1, yStart + 1, height -2, width -2, RGBA.BLACK_LIGHT.get(), cBackground, 2);
     }
 
     /**

@@ -64,6 +64,7 @@ import java.io.*;
 
 @SideOnly(Side.CLIENT)
 public class ApiKeyHandler implements IEventHandler {
+
     private static String API_KEY_STORAGE_PATH;
     private static String API_KEY_STORAGE_FILE;
     private static String API_KEY_REQUEST_MESSAGE_1 = "No API key found. This key is necessary for some cool features.";
@@ -103,10 +104,16 @@ public class ApiKeyHandler implements IEventHandler {
         HudPixelExtendedEventHandler.registerIEvent(this);
     }
 
+    public static String getApiKey() {
+        return apiKey;
+    }
+
     public void loadKey(ApiKeyLoadedCallback callback) {
         ApiKeyHandler.callback = callback;
-        // load the api in a separate thread
-        new Thread(ApiKeyHandler.getINSTANCE()::loadAPIKey).start();
+        if(apiKey != null && !loadingFailed)
+            callback.ApiKeyLoaded(false, apiKey);
+        else
+            new Thread(ApiKeyHandler.getINSTANCE()::loadAPIKey).start();
     }
 
     public static boolean isLoadingFailed() {
@@ -195,7 +202,7 @@ public class ApiKeyHandler implements IEventHandler {
             // we don't isHypixelNetwork whether the file exists since we already do it on startup
             // there is no way the user deletes the file after startup unintentionally
             PrintWriter writer = new PrintWriter(new File(API_KEY_STORAGE_FILE));
-            writer.write(this.apiKey);
+            writer.write(apiKey);
             writer.close();
         } catch (Exception e) {
             HudPixelMod.Companion.instance().logError("Critical error when storing the api key file: ");

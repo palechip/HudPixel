@@ -24,8 +24,8 @@ object Connect {
         ManagedGui.isIsDisabled = false
 
         GuiManagerMG.addGUI("ConnectGUI", ConnectGUI)
-        SocketConnection.getINSTANCE().setup()
 
+        SocketConnection
     }
 
 }

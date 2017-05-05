@@ -37,13 +37,10 @@ object GameDetector {
         eladkay.hudpixel.GameDetector.scheduleWhereami = 10
     }
 
-
-
     @JvmStatic
-    fun update(s: String) {
-        var s = s
-        //  System.out.println("UPDATE!" + "message:" + s);
-        s = s.toLowerCase()
+    fun update(st: String) {
+
+        val s = st.toLowerCase()
         if (s.equals("hypixel", ignoreCase = true)) {
             eladkay.hudpixel.GameDetector.currentGameType = eladkay.hudpixel.util.GameType.UNKNOWN //main lobby
         } else if (s.equals("hypixel.net", ignoreCase = true)) {

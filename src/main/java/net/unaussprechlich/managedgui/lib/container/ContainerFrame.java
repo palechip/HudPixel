@@ -28,7 +28,7 @@ public abstract class ContainerFrame extends Container {
 
     private FrameBufferObj frameBuffer;
     private boolean requireFrameUpdate = true;
-
+    public boolean isResizeable = true;
     private boolean isHooverResize = false;
 
     public ContainerFrame(int width, int height, int minWidth, int minHeight, @Nonnull ColorRGBA color){
@@ -53,14 +53,14 @@ public abstract class ContainerFrame extends Container {
 
     @Override
     public boolean doClick(MouseHandler.ClickType clickType) {
-        if(clickType.equals(MouseHandler.ClickType.DRAG)){
+        if(clickType.equals(MouseHandler.ClickType.DRAG) && isResizeable){
             if(checkIfMouseOver(getXStart() + getWidth() - 10, getYStart() + getHeight() - 10,
                                 10, 10)){
                 isResize = true;
             }
         }
 
-        if(clickType.equals(MouseHandler.ClickType.DROP)){
+        if(clickType.equals(MouseHandler.ClickType.DROP) && isResizeable){
             if(isResize){
                 isResize = false;
                 onResize();
@@ -71,7 +71,7 @@ public abstract class ContainerFrame extends Container {
 
     @Override
     public boolean doMouseMove(int mX, int mY) {
-        isHooverResize = checkIfMouseOver(getXStart() + getWidth() - 10, getYStart() + getHeight() - 10,
+        if(isResizeable) isHooverResize = checkIfMouseOver(getXStart() + getWidth() - 10, getYStart() + getHeight() - 10,
                             10, 10);
         return super.doMouseMove(mX, mY);
     }
@@ -143,10 +143,11 @@ public abstract class ContainerFrame extends Container {
 
         this.doRenderTickLocal(x, y,  getWidth() , getHeight(), EnumEventState.POST);
 
-        if(isHooverResize)
-            RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.WHITE.get());
-        else
-            RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.P1B1_596068.get());
+        if(isResizeable){
+            if(isHooverResize) RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.WHITE.get());
+            else                RenderUtils.iconRender_resize(x + getWidth(), y + getHeight(), RGBA.P1B1_596068.get());
+        }
+
 
         frameBuffer.unbindFramebuffer();
 

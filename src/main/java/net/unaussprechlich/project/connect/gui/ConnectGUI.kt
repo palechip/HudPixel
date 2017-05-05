@@ -16,7 +16,8 @@ import net.unaussprechlich.managedgui.lib.handler.MouseHandler
 object ConnectGUI : GUI() {
     init {
         GuiManagerMG.addGUI("NotificationGUI", NotificationGUI)
-        GuiManagerMG.addGUI("ConnectChatGui", ChatGUI)
+        //GuiManagerMG.addGUI("ConnectChatGui", ChatGUI)
+        GuiManagerMG.addGUI("TestGUI", TestGUI)
     }
 
     override fun doClientTick(): Boolean {
@@ -57,7 +58,4 @@ object ConnectGUI : GUI() {
     override fun doResize(): Boolean {
         return true
     }
-
-
-
 }

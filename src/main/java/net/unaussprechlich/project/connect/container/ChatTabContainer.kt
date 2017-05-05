@@ -18,7 +18,7 @@ class ChatTabContainer(tabListElement: TabListElementContainer, container: ChatS
     var unread = 0
     var isUnreadNotify = false
     var unreadNotify = DefButtonContainer(FontUtil.getStringWidth(unread.toString()) + 5, 9,
-            {click, con -> },
+            {_, _ -> },
             { xStart, yStart, width, height ->
                 RenderUtils.renderBoxWithColor(xStart, yStart - 1, width, height, RGBA.RED_MC.get())
                 FontUtil.draw("" + ChatFormatting.BOLD + unread.toString(), xStart + 2, yStart - 1 )
@@ -51,8 +51,9 @@ class ChatTabContainer(tabListElement: TabListElementContainer, container: ChatS
     override fun doClientTickLocal(): Boolean {
         textField.apply {
             yOffset =  container.height + tabListElement.height
-            setWidthLocal(container.width + 2)
+            width = container.width + 2
         }
+
         return super.doClientTickLocal()
     }
 

@@ -11,10 +11,10 @@ package net.unaussprechlich.managedgui.lib.handler
 import net.minecraft.util.ResourceLocation
 import net.unaussprechlich.managedgui.lib.ManagedGui
 
-enum class ResourceHandler{
+enum class ResourceHandlerConnect{
 
-    STEVE_HEAD;
+    HUDPIXEL_LOGO, DISCORD_LOGO, DISCORD_LOGO_2;
 
-    val res = ResourceLocation(ManagedGui.MODID, "/managedgui/$name.png")
+    val res = ResourceLocation(ManagedGui.MODID, "/connect/$name.png")
 
 }

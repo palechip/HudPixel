@@ -31,6 +31,11 @@ object FontUtil {
         return getStringWidth(c + "")
     }
 
+    fun drawWithColor(text: String, xStart: Int, yStart: Int, color : ColorRGBA){
+        fontRenderer.reset()
+        fontRenderer.renderString(text, xStart, yStart, color)
+    }
+
     fun draw(text: String, xStart: Int, yStart: Int) {
         fontRenderer.drawFormatted(text, xStart, yStart)
     }

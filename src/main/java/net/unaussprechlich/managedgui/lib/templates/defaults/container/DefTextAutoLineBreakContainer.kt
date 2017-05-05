@@ -24,7 +24,7 @@ import java.util.*
  */
 open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Container() {
 
-    protected var renderList: MutableList<String> = ArrayList()
+    var renderList: MutableList<String> = ArrayList()
         private set
 
     private var prevText = ""

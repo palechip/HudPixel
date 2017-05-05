@@ -44,7 +44,6 @@ object GuiManagerMG : GuiScreen() {
         TEST, CHAT, ESC, INGAME
     }
 
-
     //EVENT_HANDLING ---------------------------------------------------------------------------------------------------
     private var prevWidth = DisplayUtil.scaledMcWidth
     private var prevHeight = DisplayUtil.scaledMcHeight
@@ -74,14 +73,21 @@ object GuiManagerMG : GuiScreen() {
 
     fun unbindScreen(){
         isBinded = false
-        this.mc.displayGuiScreen(null)
-        if (this.mc.currentScreen == null)
-            this.mc.setIngameFocus()
+        Minecraft.getMinecraft().displayGuiScreen(null)
+        if (Minecraft.getMinecraft().currentScreen == null)
+            Minecraft.getMinecraft().setIngameFocus()
     }
 
     @SubscribeEvent
     fun onClientTick(e: TickEvent.ClientTickEvent) {
         if (ManagedGui.isIsDisabled) return
+
+        if(isBinded && this.mc.currentScreen != this){
+            bindScreen()
+        } else if(this.mc != null){
+            this.mc.setIngameFocus()
+        }
+
         if (prevWidth != DisplayUtil.scaledMcWidth || prevHeight != DisplayUtil.scaledMcHeight) {
             postEvent(ScreenResizeEvent())
             prevWidth = DisplayUtil.scaledMcWidth
@@ -194,8 +200,10 @@ object GuiManagerMG : GuiScreen() {
         GUIsDynamic.put(name, GUI)
     }
 
-
-
+    fun removeGUI(name: String) {
+        if (GUIsDynamic.containsKey(name)) GUIsDynamic.remove(name)
+        else throw Exception("There is not GUI called $name!")
+    }
 
 
     private var tick: Short = 0
