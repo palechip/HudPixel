@@ -2,7 +2,6 @@
 ### An unofficial client-side Minecraft modification designed for the Hypixel Network.
 
  1. Check out the original version by  [palechip](https://github.com/palechip/HudPixel).
- 2. Check out the ported version (for Minecraft 1.8.9/1.9) by [PixelModders/Eladkay](https://github.com/PixelModders/HudPixel).
 
 #### Contributing
 This mod is open source and contributions are always welcome.
