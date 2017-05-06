@@ -1,4 +1,4 @@
-# [HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
+## [HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and its dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
 
@@ -9,14 +9,14 @@ Parts of the code are based upon the [Hypixel Public API](https://github.com/Hyp
 The original version of the [HudPixel Mod](https://github.com/palechip/HudPixel) is made by palechip and published under the MIT license. The majority of code left from palechip's creations is the component implementation.
 
 The ported version to Minecraft 1.8.9 and up HudPixel Reloaded is made by PixelModders/Eladkay and is published on this license:
-###For the rest of the code and for the build the following license applies:
+#### For the rest of the code and for the build the following license applies:
 
 ![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
 [HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders) -disbanded-, [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
 Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixelExtended) &  [HudPixel](https://github.com/PixelModders/HudPixel).
 
-####Restrictions:
+#### Restrictions:
 The authors are allowed to change the license at their desire. 
 This license is void for members of PixelModders and to unaussprechlich, except for clause 3.
 The licensor cannot revoke these freedoms in most cases, as long as you follow the following license terms and the license terms given by the listed above Creative Commons License, however in extreme cases the authors reserve the right to revoke all rights for usage of the codebase.
