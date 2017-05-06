@@ -1,4 +1,4 @@
-#[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
+# [HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and its dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
 
