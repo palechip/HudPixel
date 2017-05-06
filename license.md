@@ -1,4 +1,4 @@
-##[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
+#[HudPixelReloaded](https://github.com/unaussprechlich/HudPixelExtended)
 
 The repository contains parts of [Minecraft Forge](https://github.com/MinecraftForge/MinecraftForge) and its dependencies. These parts have their licenses under forge-docs/. These parts can be downloaded at [files.minecraftforge.net](http://files.minecraftforge.net).
 
@@ -13,7 +13,7 @@ The ported version to Minecraft 1.8.9 and up HudPixel Reloaded is made by PixelM
 
 ![alt-tag](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
 
-[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
+[HudPixel](http://unaussprechlich.net/HudPixel/) by [PixelModders](https://github.com/PixelModders) -disbanded-, [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) with the following restrictions.
 Based on a work at [HudPixelExtended](https://github.com/unaussprechlich/HudPixelExtended) &  [HudPixel](https://github.com/PixelModders/HudPixel).
 
 ####Restrictions:
@@ -21,7 +21,7 @@ The authors are allowed to change the license at their desire.
 This license is void for members of PixelModders and to unaussprechlich, except for clause 3.
 The licensor cannot revoke these freedoms in most cases, as long as you follow the following license terms and the license terms given by the listed above Creative Commons License, however in extreme cases the authors reserve the right to revoke all rights for usage of the codebase.
 
-1. [PixelModders](https://github.com/PixelModders), [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material. GitHub contributors are NOT considered authors, neither are members of the HudHelper program. GitHub contributers still hold the rights for their code, but only when it is used separately from HudPixel and any license header must indicate that. 
+1. [PixelModders](https://github.com/PixelModders) -disbanded-, [Eladkay](https://github.com/Eladkay) & [unaussprechlich](https://github.com/unaussprechlich) are the authors of this licensed material. GitHub contributors are NOT considered authors, neither are members of the HudHelper program. GitHub contributers still hold the rights for their code, but only when it is used separately from HudPixel and any license header must indicate that. 
 1. You shall not claim ownership over this project and repost it in any case, without written permission from at least two of the authors.
 2. You shall not make money with the provided material. This project is 100% non commercial and will always stay that way. This clause is the only one remaining, should the rest of the license be revoked. The only exception to this clause is completely cosmetic features. Only the authors may sell cosmetic features for the mod.
 3. Every single contibutor owns copyright over his contributed code when separated from HudPixel. When it's part of HudPixel, it is only governed by this license, and any copyright header must indicate that. After the contributed code is merged to the release branch you cannot revoke the given freedoms by this license. 
