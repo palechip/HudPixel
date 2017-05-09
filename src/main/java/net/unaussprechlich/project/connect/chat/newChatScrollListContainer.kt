@@ -21,6 +21,9 @@ import java.util.*
  */
 open class newChatScrollListContainer(private val spacer: IScrollSpacerRenderer) : ContainerFrame(500, 300, 100, 50, RGBA.P1B1_DEF.get()) {
 
+    //TODO REPLACE WITH REAL _id
+    private val chat = Chat(UUID.randomUUID())
+
     private var indexScroll: Int = 0
     private val spacerHeight: Int = spacer.spacerHeight
 
@@ -50,6 +53,10 @@ open class newChatScrollListContainer(private val spacer: IScrollSpacerRenderer)
             else
                 return yStart + 5 + height - 20
         }
+
+    init {
+        isResizeable = false
+    }
 
     fun registerScrollElement(container: Container) {
         if (scrollElements.size + 1 > MAX_STORED)
@@ -200,6 +207,7 @@ open class newChatScrollListContainer(private val spacer: IScrollSpacerRenderer)
         scrollElements.forEach { container -> container.width = getWidth() }
         indexScroll = 0
         updateWithoutAnimation()
+
         return true
     }
 

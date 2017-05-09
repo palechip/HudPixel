@@ -14,7 +14,7 @@ import net.unaussprechlich.managedgui.lib.util.EnumEventState
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
-class ChatTextFieldContainer(text: String = "", width: Int = 400) : Container(){
+class ChatTextFieldContainer(text: String = "", width: Int = 400, val sizeCallback : (height : Int) -> Unit) : Container(){
 
     private val sendIconRenderer = object: ICustomRenderer{
         override fun onRender(xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState): Boolean {
@@ -28,15 +28,18 @@ class ChatTextFieldContainer(text: String = "", width: Int = 400) : Container(){
 
             //RenderUtils.renderRectWithInlineShadow_s1_d1(xStart, yStart, height , width, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_DEF.get(), 2)
 
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 9, 1, color)
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 9, 1, color)
-            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 9, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY     , buttonWidth - 8, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 3 , buttonWidth - 8, 1, color)
+            RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + 4, yStart + offY + 6 , buttonWidth - 8, 1, color)
 
             return true
         }
     }
 
-    val textFieldCon = DefTextFieldContainer(text, width - 19, "Enter your message ...")
+    val textFieldCon = DefTextFieldContainer(text, width - 19, "Enter your message ...", { height ->
+        update()
+        sizeCallback.invoke(height)
+    })
     val sendButton = DefCustomRenderContainer(sendIconRenderer).apply {
         yOffset = 2
     }
@@ -54,16 +57,27 @@ class ChatTextFieldContainer(text: String = "", width: Int = 400) : Container(){
         sendButton.registerClickedListener { clickType, _ ->
             if(clickType == MouseHandler.ClickType.SINGLE) send()
         }
-    }
 
-    fun update(){
-        height = textFieldCon.height
+        this.height = textFieldCon.height
         sendButton.height = height - 4
         sendButton.xOffset = width - buttonWidth - 2
     }
 
+    fun update(){
+        textFieldCon.width = width - 19
+        this.height = textFieldCon.height
+        sendButton.height = height - 4
+        sendButton.xOffset = width - buttonWidth - 2
+    }
+
+
     fun send(){
 
+    }
+
+    override fun doResizeLocal(width: Int, height: Int): Boolean {
+        update()
+        return true
     }
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
@@ -91,13 +105,13 @@ class ChatTextFieldContainer(text: String = "", width: Int = 400) : Container(){
         return true
     }
 
-    override fun doClientTickLocal(): Boolean {update(); return true }
+    override fun doClientTickLocal(): Boolean {return true }
     override fun doChatMessageLocal(e: ClientChatReceivedEvent?): Boolean { return true }
     override fun doClickLocal(clickType: MouseHandler.ClickType?, isThisContainer: Boolean): Boolean { return true }
     override fun doScrollLocal(i: Int, isThisContainer: Boolean): Boolean { return true }
     override fun doMouseMoveLocal(mX: Int, mY: Int): Boolean { return true }
     override fun doOpenGUILocal(e: GuiOpenEvent?): Boolean { return true }
-    override fun doResizeLocal(width: Int, height: Int): Boolean { return true }
+
 
 }
 

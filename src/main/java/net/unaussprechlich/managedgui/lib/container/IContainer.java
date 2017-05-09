@@ -51,8 +51,6 @@ public interface IContainer {
     ContainerSide getMargin();
     ContainerSide getBorder();
 
-
-
     void setVisible(boolean visible);
     void setHeight(int height);
     void setWidth(int width);

@@ -40,8 +40,18 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     private boolean visible = true;
     private boolean isRenderBackground = true;
 
-    private ContainerSide border = new ContainerSide();
-    private ContainerSide margin = new ContainerSide();
+    private Container parent = null;
+
+    private void setParent(Container con){
+        this.parent = con;
+    }
+
+    public Container getParent() {
+        return parent;
+    }
+
+    private ContainerSide border  = new ContainerSide();
+    private ContainerSide margin  = new ContainerSide();
     private ContainerSide padding = new ContainerSide();
 
     private ColorRGBA borderRGBA = RGBA.TRANSPARENT.get();
@@ -96,6 +106,19 @@ public abstract class Container extends ChildRegistry implements IContainer, ICh
     );
 
     //METHODS ----------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public <T extends IChild> void registerChild(T child) {
+        if(child instanceof  Container) ((Container) child).setParent(null);
+        super.registerChild(child);
+    }
+
+    @Override
+    public void unregisterChild(IChild child) {
+        if(child instanceof  Container) ((Container) child).setParent(this);
+        super.unregisterChild(child);
+    }
 
     public boolean checkIfMouseOver(int xStart, int yStart, int width, int height) {
         int mX = MouseHandler.INSTANCE.getMX();

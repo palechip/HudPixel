@@ -10,27 +10,40 @@ package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
-import net.unaussprechlich.managedgui.lib.container.Container
+import net.unaussprechlich.managedgui.lib.ConstantsMG
+import net.unaussprechlich.managedgui.lib.event.EnumDefaultEvents
+import net.unaussprechlich.managedgui.lib.event.util.EnumTime
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
+import net.unaussprechlich.managedgui.lib.util.ColorRGBA
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
+import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
 /**
- * DefCustomRenderContainer Created by Alexander on 07.03.2017.
+ * DefNotificationContainer Created by unaussprechlich on 30.12.2016.
  * Description:
  */
-class DefCustomRenderContainer() : Container() {
+class DefNotificationContainer(private val message: String, private val title: String, private val color: ColorRGBA, var showtime_sec: Int) : DefBackgroundContainer(ConstantsMG.DEF_BACKGROUND_RGBA, 400, 100) {
 
-    var customRenderer : ICustomRenderer? = null
-    var renderer : ((xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState) -> Unit)? = null
+    private val titleContainer = DefTextContainer(this.title)
+    private val messageContainer = DefTextAutoLineBreakContainer(this.message, width - 10)
 
 
-    constructor(customRenderer: ICustomRenderer) : this(){
-        this.customRenderer = customRenderer
+    init {
+        titleContainer.xOffset = 6
+        titleContainer.yOffset = 3
+
+        messageContainer.xOffset = 6
+        messageContainer.yOffset = 4 + titleContainer.height
+
+        updateHeight()
+
+        registerChild(titleContainer)
+        registerChild(messageContainer)
     }
 
-    constructor(renderer : (xStart: Int, yStart: Int, width: Int, height: Int, con: Container, ees: EnumEventState) -> Unit ) : this() {
-        this.renderer = renderer
+    private fun updateHeight() {
+        height = messageContainer.height + titleContainer.height + 5
     }
 
     override fun doClientTickLocal(): Boolean {
@@ -38,9 +51,12 @@ class DefCustomRenderContainer() : Container() {
     }
 
     override fun doRenderTickLocal(xStart: Int, yStart: Int, width: Int, height: Int, ees: EnumEventState): Boolean {
-        if(renderer != null) renderer!!.invoke(xStart, yStart, width, height, this, ees)
-        if(customRenderer != null) customRenderer!!.onRender(xStart, yStart, width, height, this, ees)
-       return true
+        if (showtime_sec < 0) return false
+        if (ees === EnumEventState.PRE) return true
+
+        RenderUtils.renderBoxWithColor(xStart, yStart, 2, getHeight(), color)
+
+        return true
     }
 
     override fun doChatMessageLocal(e: ClientChatReceivedEvent): Boolean {
@@ -60,14 +76,11 @@ class DefCustomRenderContainer() : Container() {
     }
 
     override fun <T : Event<*>> doEventBusLocal(iEvent: T): Boolean {
+        if (iEvent.id == EnumDefaultEvents.TIME.get() && iEvent.data === EnumTime.SEC_1) showtime_sec--
         return true
     }
 
     override fun doOpenGUILocal(e: GuiOpenEvent): Boolean {
-        return true
-    }
-
-    override fun doResizeLocal(width: Int, height: Int): Boolean {
         return true
     }
 }

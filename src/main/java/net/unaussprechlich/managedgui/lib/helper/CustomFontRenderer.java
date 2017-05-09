@@ -188,7 +188,7 @@ public class CustomFontRenderer extends FontRenderer {
         else {
             String s = str.substring(0, i);
             char c0 = str.charAt(i);
-            boolean flag = c0 == 32 || c0 == 10;
+            boolean flag = (c0 == 32 || c0 == 10);
             String s1 = getFormatFromString(s) + str.substring(i + (flag ? 1 : 0));
             return s + "\n" + wrapFormattedStringToWidth(s1, wrapWidth);
         }
@@ -221,9 +221,7 @@ public class CustomFontRenderer extends FontRenderer {
                         ++k;
                         char c1 = str.charAt(k);
                         if (c1 != 108 && c1 != 76)
-                            if (c1 == 114 || c1 == 82 || isFormatColor(c1))
-                                flag = false;
-                            else flag = true;
+                            flag = ! (c1 == 114 || c1 == 82 || isFormatColor(c1));
                     }
             }
 

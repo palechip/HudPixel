@@ -1,15 +1,14 @@
 package net.unaussprechlich.project.connect.chat
 
+import net.minecraft.util.EnumChatFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
-import net.unaussprechlich.managedgui.lib.ConstantsMG
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.container.Container
 import net.unaussprechlich.managedgui.lib.event.util.Event
 import net.unaussprechlich.managedgui.lib.handler.MouseHandler
-import net.unaussprechlich.managedgui.lib.handler.ResourceHandlerConnect
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefCustomRenderContainer
-import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefPictureContainer
+import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefTextContainer
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.ICustomRenderer
 import net.unaussprechlich.managedgui.lib.util.DisplayUtil
 import net.unaussprechlich.managedgui.lib.util.EnumEventState
@@ -19,6 +18,8 @@ import net.unaussprechlich.project.connect.chat.ChatWrapper.isMax
 import net.unaussprechlich.project.connect.chat.ChatWrapper.move
 import net.unaussprechlich.project.connect.chat.ChatWrapper.prevX
 import net.unaussprechlich.project.connect.chat.ChatWrapper.prevY
+import net.unaussprechlich.project.connect.chat.ChatWrapper.stdHeight
+import net.unaussprechlich.project.connect.chat.ChatWrapper.stdWidth
 
 
 class newChatWindowControllerContainer(width: Int) : Container(){
@@ -36,7 +37,7 @@ class newChatWindowControllerContainer(width: Int) : Container(){
             var color = RGBA.P1B1_596068.get()
             if(con.isHover) color = RGBA.WHITE.get()
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_0A1D31.get(), 2)
 
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
@@ -58,7 +59,7 @@ class newChatWindowControllerContainer(width: Int) : Container(){
             var color = RGBA.P1B1_596068.get()
             if(con.isHover) color = RGBA.WHITE.get()
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_0A1D31.get(), 2)
 
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
@@ -95,7 +96,7 @@ class newChatWindowControllerContainer(width: Int) : Container(){
             var color = RGBA.P1B1_596068.get()
             if(con.isHover) color = RGBA.WHITE.get()
 
-            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), ConstantsMG.DEF_BACKGROUND_RGBA, 2)
+            RenderUtils.renderRectWithInlineShadow_s1_d1(xStart + s +1 , yStart + s +1, width - s2 - 2, height - s2 -2, RGBA.BLACK_LIGHT.get(), RGBA.P1B1_0A1D31.get(), 2)
 
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s, width - s2, 1, color)
             RenderUtils.renderBoxWithColorBlend_s1_d1(xStart + s, yStart + s + 1, 1, height - 2 - s2, color)
@@ -121,7 +122,7 @@ class newChatWindowControllerContainer(width: Int) : Container(){
     }
 
     private val maxCon = DefCustomRenderContainer(maxIconRenderer).apply {
-        xOffset = width - BS * 3 - 4
+        xOffset = width - BS * 3
         height = BS
     }
 
@@ -131,16 +132,13 @@ class newChatWindowControllerContainer(width: Int) : Container(){
     }
 
     private val minCon = DefCustomRenderContainer(minIconRenderer).apply {
-        xOffset = width - BS * 2 - 2
+        xOffset = width - BS * 2
         height = BS
     }
 
-    private val logoCon = DefPictureContainer(ResourceHandlerConnect.HUDPIXEL_LOGO.res).apply {
-        height = BS
-    }
-
-    private fun getBarWidth() : Int{
-        return width
+    private val logoCon = DefTextContainer("[Hud" + EnumChatFormatting.GOLD + "Pixel" + EnumChatFormatting.WHITE + "]").apply {
+        yOffset = 3
+        xOffset = 4
     }
 
     init {
@@ -149,12 +147,10 @@ class newChatWindowControllerContainer(width: Int) : Container(){
         maxCon.width = BS
         minCon.width = BS
         moveCon.width = BS
-        logoCon.width = 50
 
         registerChild(moveCon)
         registerChild(maxCon)
         registerChild(minCon)
-
         registerChild(logoCon)
 
         height = BS
@@ -177,13 +173,13 @@ class newChatWindowControllerContainer(width: Int) : Container(){
                     isMax = false
                     ChatWrapper.xOffset = prevX
                     ChatWrapper.yOffset = prevY
+                    ChatWrapper.resizeThatThing(stdWidth, stdHeight)
                 } else {
                     isMax = true
                     prevX = ChatWrapper.xOffset
                     prevY = ChatWrapper.yOffset
                     ChatWrapper.setXYOffset(5, 5)
-                    ChatWrapper.width = DisplayUtil.scaledMcWidth - 10
-                    ChatWrapper.height = DisplayUtil.scaledMcHeight - 10
+                    ChatWrapper.resizeThatThing(DisplayUtil.scaledMcWidth - 10, DisplayUtil.scaledMcHeight - 10)
                 }
             }
         }
@@ -199,9 +195,9 @@ class newChatWindowControllerContainer(width: Int) : Container(){
     override fun doOpenGUILocal(e: GuiOpenEvent?): Boolean { return true }
 
     override fun doResizeLocal(width: Int, height: Int): Boolean {
-        maxCon.xOffset  = getBarWidth() - BS - BS * 3 - 4
-        moveCon.xOffset = getBarWidth() - BS - 2
-        minCon.xOffset  = getBarWidth() - BS * 2 - 2
+        maxCon.xOffset  = width - BS * 3 + 2
+        moveCon.xOffset = width - BS
+        minCon.xOffset  = width - BS * 2 + 1
         return true
     }
 }

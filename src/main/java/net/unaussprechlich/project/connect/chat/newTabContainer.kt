@@ -25,7 +25,7 @@ import net.unaussprechlich.project.connect.container.ChatTextFieldContainer
  * TabContainer Created by Alexander on 24.02.2017.
  * Description:
  */
-class newTabContainer(width: Int, height: Int) : Container() {
+class newTabContainer(width: Int, height: Int, val sizeCallback: () -> Unit) : Container() {
 
     val chatConSpacerRenderer = object : IScrollSpacerRenderer {
         override fun render(xStart: Int, yStart: Int, width: Int) {
@@ -35,20 +35,31 @@ class newTabContainer(width: Int, height: Int) : Container() {
             get() = 1
     }
 
-    private val scrollCon = newChatScrollListContainer(chatConSpacerRenderer)
-    private val chatInputField = ChatTextFieldContainer("", width)
+    val scrollCon = newChatScrollListContainer(chatConSpacerRenderer)
+    val chatInputField = ChatTextFieldContainer("", width, { _ ->
+        update()
+        sizeCallback.invoke()
+    })
 
     init {
         this.width = width
         this.height = height
+
+        registerChild(scrollCon)
+        registerChild(chatInputField)
 
         chatInputField.width = width
         chatInputField.yOffset = height - chatInputField.height
         scrollCon.width = width
         scrollCon.height = height - chatInputField.height
 
-        registerChild(scrollCon)
-        registerChild(chatInputField)
+    }
+
+    fun update(){
+        chatInputField.width = width
+        chatInputField.yOffset = height - chatInputField.height
+        scrollCon.width = width
+        scrollCon.height = height - chatInputField.height
     }
 
     /*
@@ -96,6 +107,7 @@ class newTabContainer(width: Int, height: Int) : Container() {
     }
 
     override fun doResizeLocal(width: Int, height: Int): Boolean {
+        update()
         return true
     }
 }

@@ -25,11 +25,13 @@ import net.unaussprechlich.managedgui.lib.util.FontUtil
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
 
-class DefTextFieldContainer(text: String, width: Int, var hint : String = "") : Container() {
+class DefTextFieldContainer(text: String, width: Int, var hint : String = "", val sizeCallback : (height : Int) -> Unit) : Container() {
 
     override fun doResizeLocal(width: Int, height: Int): Boolean { return true }
 
-    val textCon =  DefTextAutoLineBreakContainer(text, width - 10).apply {
+    val textCon =  DefTextAutoLineBreakContainer(text, width - 20, { h ->
+        update()
+    }).apply {
         yOffset = 5
         xOffset = 5
     }
@@ -48,12 +50,15 @@ class DefTextFieldContainer(text: String, width: Int, var hint : String = "") : 
         textCon.registerClickedListener { clickType, _ ->
             if(clickType == MouseHandler.ClickType.SINGLE) hasFocus = !hasFocus
         }
+
         cursorPos = text.length
         backgroundRGBA = RGBA.P1B1_DEF.get()
     }
 
     fun update(){
         height = textCon.height + 10
+        textCon.width = width - 27
+        sizeCallback.invoke(height)
     }
 
     fun updateCursor(){
@@ -129,7 +134,7 @@ class DefTextFieldContainer(text: String, width: Int, var hint : String = "") : 
         return true
     }
 
-    override fun doClientTickLocal(): Boolean { update(); return true }
+    override fun doClientTickLocal(): Boolean { return true }
     override fun doChatMessageLocal(e: ClientChatReceivedEvent?): Boolean { return true }
     override fun doClickLocal(clickType: MouseHandler.ClickType?, isThisContainer: Boolean): Boolean { return true }
     override fun doScrollLocal(i: Int, isThisContainer: Boolean): Boolean { return true }

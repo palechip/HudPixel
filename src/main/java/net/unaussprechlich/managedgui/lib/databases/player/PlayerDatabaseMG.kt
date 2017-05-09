@@ -35,6 +35,14 @@ object PlayerDatabaseMG {
         }
     }
 
+    fun get(name: String) : PlayerModel{
+        return playerDatabase[playerNameUUID[name]] ?: throw Exception("[PlayerDatabase] player $name is not loaded yet!")
+    }
+
+    fun get(uuid: UUID) : PlayerModel{
+        return playerDatabase[uuid] ?: throw Exception("[PlayerDatabase] player $uuid is not loaded yet!")
+    }
+
 
     fun get(name: String, callback : (PlayerModel) -> Unit){
         if(!contains(name)){

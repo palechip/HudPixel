@@ -28,7 +28,7 @@ class ChatTabContainer(tabListElement: TabListElementContainer, container: ChatS
             }
     )
 
-    val textField = ChatTextFieldContainer("", container.width)
+    val textField = ChatTextFieldContainer("", container.width, {})
 
     init {
         setClosed()

@@ -21,7 +21,8 @@ object Connect {
                 return HudPixelMod.MODID
             }
         })
-        ManagedGui.isIsDisabled = false
+        //TODO set to false if you want the ManagedGUI lib
+        ManagedGui.isIsDisabled = true
 
         GuiManagerMG.addGUI("ConnectGUI", ConnectGUI)
 

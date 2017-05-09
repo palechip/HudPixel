@@ -16,7 +16,13 @@ import org.joda.time.*
  */
 class DateHelper {
 
-    private val date = DateTime.now()
+    var date = DateTime.now()
+
+    constructor()
+
+    constructor(time : String){
+        date = DateTime.parse(time)
+    }
 
     val dateTimeTextPassed: String
         get() {

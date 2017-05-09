@@ -22,7 +22,7 @@ import java.util.*
  * DefTextAutoLineBreakContainer Created by unaussprechlich on 21.12.2016.
  * Description:
  */
-open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Container() {
+open class DefTextAutoLineBreakContainer(var text: String, width: Int, val sizeCallback : (height : Int) -> Unit = {}) : Container() {
 
     var renderList: MutableList<String> = ArrayList()
         private set
@@ -30,12 +30,10 @@ open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Contain
     private var prevText = ""
     private var prevWidth = 0
 
-    protected open fun onUpdate(){
-
-    }
 
     fun update() {
         if (text == prevText && prevWidth == width) return
+
         prevText = text
         prevWidth = width
 
@@ -51,7 +49,7 @@ open class DefTextAutoLineBreakContainer(var text: String, width: Int) : Contain
             super.setHeight(ConstantsMG.TEXT_Y_OFFSET * renderList.size)
 
         renderList = newRenderList
-        onUpdate()
+        sizeCallback.invoke(height)
     }
 
     init {
