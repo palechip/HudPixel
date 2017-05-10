@@ -93,13 +93,15 @@ enum class GameType private constructor(val modID: Int, val databaseID: Int, val
     SMASH_HEROES_WOSPACE(32, -1, "Smash Heroes", "smash", "SMASH HEROES", "SuperSmash"),
     SKYWARS(30, 0, "SkyWars", "skywars", "SKYWARS", "SkyWars"),
     HOUSING(34, 26, "Housing", "Housing", "HOUSING", "Housing"),
-    SKYCLASH(35, 55, "SkyClash", "SkyClash", "SKYCLASH", "SkyClash"),
+    SKYCLASH(35, 55, "SkyClash", "SkyClash", "SKYCLASH", "SkyClash"),/*
+    PROTOTYPE(36, NO_IDEA, "Prototype", "", "Prototype", "Prototype"),
+    CLASSIC(37, NO_IDEA, "Classic", "classic", "Classic", "Classic"),*/
 
     ANY_ARCADE(16, -1, ARCADE_GAMES.nm, ARCADE_GAMES.tipName, ARCADE_GAMES.scoreboardName, "Arcade");
 
 
     companion object {
-
+        val NO_IDEA get() = -21452412
         fun getTypeByDatabaseID(ID: Int): GameType {
             for (type in GameType.values())
                 if (type.databaseID == ID)

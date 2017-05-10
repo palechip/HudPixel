@@ -1,0 +1,8 @@
+{
+  "package": "eladkay.hudpixel.asm",
+  "mixins": [
+    "MixinRPR"
+  ],
+  "client": [],
+  "server": []
+}

@@ -84,7 +84,7 @@ import org.lwjgl.input.Keyboard
 import java.util.*
 
 
-@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "com.palechip.hudpixelmod.config.HudPixelGuiFactory", acceptedMinecraftVersions = "1.8.9")
+@Mod(modid = HudPixelMod.MODID, version = HudPixelMod.SHORT_VERSION, name = HudPixelMod.NAME, guiFactory = "eladkay.hudpixel.config.HudPixelGuiFactory", acceptedMinecraftVersions = "1.8.9")
 class HudPixelMod {
     lateinit var gameDetector: GameDetector
     var logger: Logger? = null
