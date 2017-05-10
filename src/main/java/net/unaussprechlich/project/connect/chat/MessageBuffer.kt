@@ -30,6 +30,7 @@ class MessageBuffer {
             e.printStackTrace()
         }
 
+
     }
 
     fun getEncodedMessages(): Array<Message?>{
