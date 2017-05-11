@@ -114,6 +114,7 @@ object GameDetector {
         if (message.equals("                            Reward Summary", ignoreCase = true)) {
             LoggerHelper.logInfo("[GameDetector]the game with gamemode " + currentGameType?.nm + " has ended!")
             HudPixelExtendedEventHandler.onGameEnd()
+            ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameEnd)
             gameHasntBegan = true
         }
         if (message.toLowerCase().contains("currently on server".toLowerCase())) {
