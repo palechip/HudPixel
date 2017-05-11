@@ -1,7 +1,7 @@
 {
   "package": "eladkay.hudpixel.asm",
   "mixins": [
-    "MixinRPR"
+    "MixinRPR", "MixinMinecraft", "MixinChunk"
   ],
   "client": [],
   "server": []
