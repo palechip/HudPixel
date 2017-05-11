@@ -16,6 +16,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.FrameTimer;
 import net.minecraft.util.Timer;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -24,42 +25,48 @@ import java.util.concurrent.FutureTask;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
-    @Shadow private Profiler mcProfiler;
-    @Shadow private WorldClient theWorld;
-    @Shadow private boolean isGamePaused;
-    @Shadow private Timer timer;
-    @Shadow private Queue< FutureTask<? >> scheduledTasks;
-    @Shadow private static Logger logger;
-    @Shadow private PlayerUsageSnooper usageSnooper;
-    @Shadow private EntityPlayerSP thePlayer;
-    @Shadow private SoundHandler mcSoundHandler;
-    @Shadow private Framebuffer framebufferMc;
-    @Shadow private GameSettings gameSettings;
-    @Shadow private boolean skipRenderWorld;
-    @Shadow private EntityRenderer entityRenderer;
-    @Shadow private int fpsCounter;
-    @Shadow private long prevFrameTime;
-    @Shadow private GuiAchievement guiAchievement;
-    @Shadow private int displayWidth;
-    @Shadow private int displayHeight;
-    @Shadow private long debugUpdateTime;
+    @Final
+    @Shadow public         Profiler               mcProfiler;
+    @Shadow public        WorldClient            theWorld;
+    @Shadow private        boolean                isGamePaused;
+    @Shadow private        Timer                  timer;
+    @Shadow public        Queue< FutureTask<? >> scheduledTasks;
+    @Shadow public static Logger                 logger;
+    @Shadow private        PlayerUsageSnooper     usageSnooper;
+    @Shadow public        EntityPlayerSP         thePlayer;
+    @Shadow private        SoundHandler           mcSoundHandler;
+    @Shadow private        Framebuffer            framebufferMc;
+    @Shadow public        GameSettings           gameSettings;
+    @Shadow public        boolean                skipRenderWorld;
+    @Shadow public EntityRenderer entityRenderer;
+    @Shadow public int fpsCounter;
+    @Shadow public long prevFrameTime;
+    @Shadow public GuiAchievement guiAchievement;
+    @Shadow public int displayWidth;
+    @Shadow public int displayHeight;
+    @Shadow public long debugUpdateTime;
     @Shadow private IStream stream;
-    @Shadow private String debug;
-    @Shadow private GuiScreen currentScreen;
+    @Shadow public String debug;
+    @Shadow public GuiScreen currentScreen;
     @Shadow private IntegratedServer theIntegratedServer;
-    @Shadow private FrameTimer frameTimer;
-    @Shadow private long startNanoTime;
+    @Shadow public FrameTimer frameTimer;
+    @Shadow public long startNanoTime;
     @Shadow private static int debugFPS;
 
-    @Shadow abstract boolean isSingleplayer();
+    @Shadow
+    public abstract boolean isSingleplayer();
 
-    @Shadow abstract void updateDisplay();
+    @Shadow
+    public abstract void updateDisplay();
 
-    @Shadow abstract void displayDebugInfo(long i1);
+    @Shadow
+    protected abstract void displayDebugInfo(long i1);
 
-    @Shadow abstract void checkGLError(String s);
+    @Shadow
+    protected abstract void checkGLError(String s);
 
-    @Shadow abstract boolean isFramerateLimitBelowMax();
+    @Shadow
+    public abstract boolean isFramerateLimitBelowMax();
 
     @Shadow abstract int getLimitFramerate();
 

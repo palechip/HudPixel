@@ -9,6 +9,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.NibbleArray;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -112,6 +114,7 @@ public abstract class MixinChunk {
     @Shadow
     private ConcurrentLinkedQueue<BlockPos> tileEntityPosQueue;
 
+    @SideOnly(Side.CLIENT)
     @Overwrite
     public void fillChunk(byte[] p_177439_1_, int p_177439_2_, boolean p_177439_3_) {
         try {
