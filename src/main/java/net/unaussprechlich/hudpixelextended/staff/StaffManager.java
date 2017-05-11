@@ -70,7 +70,6 @@ import java.util.regex.Pattern;
  */
 public class StaffManager implements IEventHandler, McColorHelper {
 
-
     /**
      * constructor -> requests the file
      */
@@ -156,8 +155,6 @@ public class StaffManager implements IEventHandler, McColorHelper {
             return; //return if the message contains a link .... so you can still click it :)
 
         String text = e.message.getFormattedText();
-
-        System.out.println(text);
 
         for (String s : tags.keySet()) { //for admins
             String s1 = s;
