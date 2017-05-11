@@ -2,6 +2,7 @@
 ### An unofficial client-side Minecraft modification designed for the Hypixel Network.
 
  1. Check out the original version by  [palechip](https://github.com/palechip/HudPixel).
+ 2. Check out the [extended version](https://github.com/unaussprechlich/HudPixelExtended) by [Eladkay](https://github.com/Eladkay) and [unaussprechlich](https://github.com/unaussprechlich).
 
 #### Contributing
 This mod is open source and contributions are always welcome.
