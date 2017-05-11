@@ -76,6 +76,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 import net.unaussprechlich.hudpixelextended.HudPixelExtended
+import net.unaussprechlich.hudpixelextended.hypixelapi.ApiManager
 import net.unaussprechlich.hudpixelextended.update.UpdateNotifier
 import net.unaussprechlich.project.connect.Connect
 import org.apache.logging.log4j.LogManager
@@ -174,6 +175,11 @@ class HudPixelMod {
         }
     }
 
+    fun setupOncePlayerNotNull(){
+        Connect.setup()
+        ApiManager.getINSTANCE().setup()
+    }
+
     @EventHandler
     fun onPostInit(event: FMLPostInitializationEvent) {
         HudPixelExtended.getInstance().setupPOST()
@@ -207,7 +213,7 @@ class HudPixelMod {
                 //NOTE: THIS DOES NOT SEND ANY SESSION KEYS OR PERSONALLY IDENTIFIER INFORMATION!
                 if (!didTheThings && Minecraft.getMinecraft().thePlayer != null) {
                     didTheThings = true
-                    Connect.setup()
+                    setupOncePlayerNotNull()
                 }
             }
         } catch (e: Exception) {

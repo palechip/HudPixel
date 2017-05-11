@@ -8,7 +8,6 @@ import net.unaussprechlich.hudpixelextended.boosterdisplay.BoosterManager;
 import net.unaussprechlich.hudpixelextended.cooldowndisplay.CooldownDisplayManager;
 import net.unaussprechlich.hudpixelextended.gui.ArmorHud;
 import net.unaussprechlich.hudpixelextended.gui.EffectHud;
-import net.unaussprechlich.hudpixelextended.hypixelapi.ApiManager;
 import net.unaussprechlich.hudpixelextended.staff.StaffManager;
 import net.unaussprechlich.hudpixelextended.translator.Translator;
 
@@ -37,7 +36,6 @@ public class HudPixelExtended {
         Translator.getINSTANCE().init();
         boosterManager = new BoosterManager();
         staffManager = new StaffManager();
-        ApiManager.getINSTANCE().setup();
         CooldownDisplayManager.getInstance();
         ArmorHud.INSTANCE.init();
         EffectHud.getINSTANCE().init();
