@@ -71,9 +71,9 @@ $RECYCLE.BIN/
 /run/
 /build/
 /out/
-/HudPixelExtended.iml
-/HudPixelExtended.ipr
-/HudPixelExtended.iws
+*.iml
+*.ipr
+*.iws
 /Server/
 /Website/
 /.idea/
