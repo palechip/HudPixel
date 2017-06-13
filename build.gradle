@@ -64,15 +64,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     required group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.14.1'
     compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.14.1'
-    required 'org.spongepowered:mixin:0.6.8-SNAPSHOT'
-    compile 'org.spongepowered:mixin:0.6.8-SNAPSHOT'
-
-}
-repositories {
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven/'
-    }
 }
 
 
