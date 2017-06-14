@@ -11,7 +11,6 @@ import eladkay.hudpixel.config.GeneralConfigSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -165,7 +164,7 @@ public class RenderUtils {
         GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 0, 1);
 
@@ -190,7 +189,7 @@ public class RenderUtils {
         GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
 
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, sfatorAlpha, dfactorAlpha);
 
@@ -252,7 +251,7 @@ public class RenderUtils {
         GlStateManager.color(1f, 1f, 1f, 1f);
 
         Tessellator   tessellator   = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
@@ -338,7 +337,7 @@ public class RenderUtils {
         float f1 = 1.0F / width;
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
@@ -373,7 +372,7 @@ public class RenderUtils {
         float f1 = 1.0F / tHeight ;
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
 
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 

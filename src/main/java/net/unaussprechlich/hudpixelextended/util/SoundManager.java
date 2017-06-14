@@ -49,6 +49,9 @@ package net.unaussprechlich.hudpixelextended.util;
 import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import static eladkay.hudpixel.HudPixelMod.MODID;
 
@@ -60,7 +63,7 @@ public class SoundManager {
 
     public static void playSound(Sounds name) {
         if (enabled)
-            Minecraft.getMinecraft().thePlayer.playSound(MODID + ":" + name, 5, 1);
+            FMLClientHandler.instance().getClientPlayerEntity().playSound(new SoundEvent(new ResourceLocation(MODID + ":" + name)), 5, 1);
     }
 
     public enum Sounds {

@@ -46,9 +46,9 @@
 
 package net.unaussprechlich.hudpixelextended.util;
 
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
-import static net.minecraft.util.EnumChatFormatting.*;
+import javax.xml.soap.Text;
 
 public interface McColorHelper {
 
@@ -57,18 +57,18 @@ public interface McColorHelper {
      * there will be no conflict while extending
      */
 
-    EnumChatFormatting GOLD = EnumChatFormatting.GOLD;
-    EnumChatFormatting WHITE = EnumChatFormatting.WHITE;
-    EnumChatFormatting RED = EnumChatFormatting.RED;
-    EnumChatFormatting BLUE = EnumChatFormatting.BLUE;
-    EnumChatFormatting D_RED = DARK_RED;
-    EnumChatFormatting GRAY = EnumChatFormatting.GRAY;
-    EnumChatFormatting GREEN = EnumChatFormatting.GREEN;
-    EnumChatFormatting D_GRAY = DARK_GRAY;
-    EnumChatFormatting YELLOW = EnumChatFormatting.YELLOW;
-    EnumChatFormatting OBFUSCATED = EnumChatFormatting.OBFUSCATED;
-    EnumChatFormatting ITALIC = EnumChatFormatting.ITALIC;
-    EnumChatFormatting AQUA = EnumChatFormatting.AQUA;
-    EnumChatFormatting D_GREEN = DARK_GREEN;
+    TextFormatting GOLD = TextFormatting.GOLD;
+    TextFormatting WHITE = TextFormatting.WHITE;
+    TextFormatting RED = TextFormatting.RED;
+    TextFormatting BLUE = TextFormatting.BLUE;
+    TextFormatting D_RED = TextFormatting.DARK_RED;
+    TextFormatting GRAY = TextFormatting.GRAY;
+    TextFormatting GREEN = TextFormatting.GREEN;
+    TextFormatting D_GRAY = TextFormatting.DARK_GRAY;
+    TextFormatting YELLOW = TextFormatting.YELLOW;
+    TextFormatting OBFUSCATED = TextFormatting.OBFUSCATED;
+    TextFormatting ITALIC = TextFormatting.ITALIC;
+    TextFormatting AQUA = TextFormatting.AQUA;
+    TextFormatting D_GREEN = TextFormatting.DARK_GREEN;
 
 }

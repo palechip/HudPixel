@@ -52,10 +52,10 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelModularGuiProvider {
-    private static final String DISPLAY_STRING = EnumChatFormatting.GOLD + "DEATHMATCH STARTING SOON!";
+    private static final String DISPLAY_STRING = TextFormatting.GOLD + "DEATHMATCH STARTING SOON!";
     private static final int ANIMATION_TIME = 5; // in MC-Ticks
     private static final int DISPLAY_TIME = 140; // = 7s
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "blitzDeathmatchNotifier", comment = "The Blitz Deathmatch Notifier", def = true)
@@ -98,16 +98,16 @@ public class BlitzDeathmatchNotifierModularGuiProvider extends SimpleHudPixelMod
             // update the color
             switch((this.ticksLeft / ANIMATION_TIME) % 4) {
                 case 0:
-                    this.renderingString = EnumChatFormatting.LIGHT_PURPLE + DISPLAY_STRING;
+                    this.renderingString = TextFormatting.LIGHT_PURPLE + DISPLAY_STRING;
                     break;
                 case 1:
-                    this.renderingString = EnumChatFormatting.YELLOW + DISPLAY_STRING;
+                    this.renderingString = TextFormatting.YELLOW + DISPLAY_STRING;
                     break;
                 case 2:
-                    this.renderingString = EnumChatFormatting.GREEN + DISPLAY_STRING;
+                    this.renderingString = TextFormatting.GREEN + DISPLAY_STRING;
                     break;
                 case 3:
-                    this.renderingString = EnumChatFormatting.RED + DISPLAY_STRING;
+                    this.renderingString = TextFormatting.RED + DISPLAY_STRING;
                     break;
             }*/
 

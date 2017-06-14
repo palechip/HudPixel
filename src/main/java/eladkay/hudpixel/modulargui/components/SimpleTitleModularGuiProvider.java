@@ -50,7 +50,7 @@ package eladkay.hudpixel.modulargui.components;
 import eladkay.hudpixel.HudPixelMod;
 import eladkay.hudpixel.config.GeneralConfigSettings;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvider {
     @Override
@@ -90,7 +90,7 @@ public class SimpleTitleModularGuiProvider extends SimpleHudPixelModularGuiProvi
 
     @Override
     public String content() {
-        return EnumChatFormatting.AQUA + "HudPixel Reloaded " + HudPixelMod.DEFAULT_VERSION;
+        return TextFormatting.AQUA + "HudPixel Reloaded " + HudPixelMod.DEFAULT_VERSION;
     }
 
     @Override

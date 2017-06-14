@@ -8,7 +8,7 @@
 
 package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.container.Container
@@ -62,7 +62,7 @@ open class DefPasswordFieldContainer(val hint : String = "", widthBox : Int = 10
         RenderUtils.drawBorderInlineShadowBox(xStart, yStart, width, height, RGBA.P1B1_596068.get(), RGBA.P1B1_DEF.get()  )
 
         if(realText == "" && hint != "")
-            FontUtil.draw("" + EnumChatFormatting.GRAY + EnumChatFormatting.ITALIC + hint, xStart+5, yStart+4)
+            FontUtil.draw("" + TextFormatting.GRAY + TextFormatting.ITALIC + hint, xStart+5, yStart+4)
         else
             FontUtil.draw(text, xStart + 5 , yStart + 4)
 

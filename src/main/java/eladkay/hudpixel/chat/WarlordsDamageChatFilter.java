@@ -112,7 +112,7 @@ public class WarlordsDamageChatFilter {
         if (GameDetector.getCurrentGameType().equals(GameType.WARLORDS)) {
             // isHypixelNetwork if the filter is enabled
             if (warlordsFilterDamageDone > 0 || warlordsFilterDamageTaken > 0 || warlordsFilterHealingDone > 0 || warlordsFilterHealingReceived > 0 || warlordsFilterAbsorbtion || warlordsFilterWounded) {
-                String message = e.message.getUnformattedText();
+                String message = e.getMessage().getUnformattedText();
                 // incoming
                 if (message.startsWith(take))
                     messageFilter(e, message);

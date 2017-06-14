@@ -50,15 +50,15 @@ package eladkay.hudpixel.modulargui.components;
 import eladkay.hudpixel.GameDetector;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.HashMap;
 
 public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixelModularGuiProvider {
 
-    private static final String COOLDOWN_SIGN = EnumChatFormatting.RED + "\u2717"; // fancy x
-    private static final String ACTIVE_SIGN = EnumChatFormatting.GREEN + "\u2713"; // isHypixelNetwork mark
+    private static final String COOLDOWN_SIGN = TextFormatting.RED + "\u2717"; // fancy x
+    private static final String ACTIVE_SIGN = TextFormatting.GREEN + "\u2713"; // isHypixelNetwork mark
     private static HashMap<String, PaintballKillstreakTrackerModularGuiProvider> cooldownDependantKillstreaks = new HashMap<String, PaintballKillstreakTrackerModularGuiProvider>();
     private static HashMap<String, Long> durationStorage = new HashMap<String, Long>();
     private String renderedString;
@@ -130,7 +130,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
                 this.renderedString = this.getColorForTime(remainingTime / 1000) + remainingTime / 1000 + "s";
             } else {
                 long timePast = System.currentTimeMillis() - this.startTime;
-                this.renderedString = EnumChatFormatting.YELLOW + "" + timePast / 1000 + "s (m)";
+                this.renderedString = TextFormatting.YELLOW + "" + timePast / 1000 + "s (m)";
             }
         }
     }
@@ -169,7 +169,7 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
         return "";
         /*
         if(this.isActive) {
-            return ACTIVE_SIGN +  EnumChatFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
+            return ACTIVE_SIGN +  TextFormatting.DARK_PURPLE + this.listenedKillstreak + ": " + renderedString;
         } else if(this.isCoolingDown ||
                 ((!this.cooldownDependantKillstreak.isEmpty() && cooldownDependantKillstreaks.containsKey(this.cooldownDependantKillstreak)) && cooldownDependantKillstreaks.get(this.cooldownDependantKillstreak).isCoolingDown)) {
             // the listened killstreak will be RED because the color from COOLDOWN_SIGN isn't reset
@@ -182,13 +182,13 @@ public class PaintballKillstreakTrackerModularGuiProvider extends SimpleHudPixel
     private String getColorForTime(long time) {
         if (time >= 10) {
             // GREEN
-            return String.valueOf(EnumChatFormatting.GREEN);
+            return String.valueOf(TextFormatting.GREEN);
         } else if (time >= 5) {
             // orange
-            return String.valueOf(EnumChatFormatting.GOLD);
+            return String.valueOf(TextFormatting.GOLD);
         } else {
             // RED and bold
-            return String.valueOf(EnumChatFormatting.RED + "" + EnumChatFormatting.BOLD);
+            return String.valueOf(TextFormatting.RED + "" + TextFormatting.BOLD);
         }
     }
 

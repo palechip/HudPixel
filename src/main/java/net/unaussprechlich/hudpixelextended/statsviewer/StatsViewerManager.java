@@ -52,6 +52,7 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -77,11 +78,11 @@ public class StatsViewerManager {
     public static void onRenderPlayer(Pre event) {
 
         //returns if when the rendered player is the user
-        if (event.entityPlayer.getUniqueID().equals(UUID)) return;
+        if (event.getEntityPlayer().getUniqueID().equals(UUID)) return;
 
         //renders every entry in the map
-        if (statsViewerRenderMap.containsKey(event.entityPlayer.getName()))
-            statsViewerRenderMap.get(event.entityPlayer.getName()).onRenderPlayer(event);
+        if (statsViewerRenderMap.containsKey(event.getEntityPlayer().getName()))
+            statsViewerRenderMap.get(event.getEntityPlayer().getName()).onRenderPlayer(event);
     }
 
     /**
@@ -94,7 +95,7 @@ public class StatsViewerManager {
         Minecraft mc = getMinecraft();
 
         //don't display if the player is not sneaking
-        if (mc.thePlayer == null || !mc.thePlayer.isSneaking()) return;
+        if (FMLClientHandler.instance().getClientPlayerEntity() == null || !FMLClientHandler.instance().getClientPlayerEntity().isSneaking()) return;
 
         //checks if there is a new stats viewer to add
         if (!enabled) return;

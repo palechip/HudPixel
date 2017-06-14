@@ -2,6 +2,7 @@ package eladkay.modulargui.lib.base;
 
 import eladkay.modulargui.lib.IModularGuiProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 /**
  * This class is meant to show a correct implementation of IModularGuiProvider.
@@ -18,9 +19,9 @@ public class NameModularGuiProvider implements IModularGuiProvider {
 
     @Override
     public String content() {
-        if (Minecraft.getMinecraft().thePlayer == null)
+        if (FMLClientHandler.instance().getClientPlayerEntity() == null)
             return ""; //if the player object is null (in the title screen etc) don't show anything
-        return Minecraft.getMinecraft().thePlayer.getName(); //else just return the player's nm
+        return FMLClientHandler.instance().getClientPlayerEntity().getName(); //else just return the player's nm
     }
 
     @Override

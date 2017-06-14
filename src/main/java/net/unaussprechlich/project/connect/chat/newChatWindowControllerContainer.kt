@@ -1,6 +1,6 @@
 package net.unaussprechlich.project.connect.chat
 
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
@@ -136,7 +136,7 @@ class newChatWindowControllerContainer(width: Int) : Container(){
         height = BS
     }
 
-    private val logoCon = DefTextContainer("[Hud" + EnumChatFormatting.GOLD + "Pixel" + EnumChatFormatting.WHITE + "]").apply {
+    private val logoCon = DefTextContainer("[Hud" + TextFormatting.GOLD + "Pixel" + TextFormatting.WHITE + "]").apply {
         yOffset = 3
         xOffset = 4
     }

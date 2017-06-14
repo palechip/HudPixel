@@ -53,6 +53,7 @@ import eladkay.hudpixel.config.GeneralConfigSettings
 import eladkay.hudpixel.util.DisplayUtil
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler
 import net.unaussprechlich.hudpixelextended.util.IEventHandler
 import net.unaussprechlich.managedgui.lib.util.RenderUtils
@@ -122,22 +123,26 @@ object ArmorHud : IEventHandler {
     }
 
     override fun onRender() {
-        if (Minecraft.getMinecraft().thePlayer == null) return
+        val player = FMLClientHandler.instance()?.clientPlayerEntity
+        if (player == null) return
         if (disable_ArmorHud || !Minecraft.getMinecraft().inGameHasFocus) return
 
-        for (i in 0..3) {
-            val iStack: ItemStack = Minecraft.getMinecraft().thePlayer.getCurrentArmor(3 - i) ?: continue
-
+        // TODO: Test and fix
+        // The port to MC 1.11 forced me to use this loop instead of a list addressable by index.
+        // This should naturally throw off the variable i when wearing less than a complete set.
+        var i : Int = 0
+        player.armorInventoryList.forEach {
             if (renderVertical_ArmorHud)
                 if (GeneralConfigSettings.hudBackground)
-                    RenderUtils.renderItemStackHudBackground(iStack, xStart, yStart + (i * size))
+                    RenderUtils.renderItemStackHudBackground(it, xStart, yStart + (i * size))
                 else
-                    RenderUtils.renderItemStack(iStack, xStart, yStart + (i * size))
+                    RenderUtils.renderItemStack(it, xStart, yStart + (i * size))
             else
                 if (GeneralConfigSettings.hudBackground)
-                    RenderUtils.renderItemStackHudBackground(iStack, xStart + (i * size), yStart)
+                    RenderUtils.renderItemStackHudBackground(it, xStart + (i * size), yStart)
                 else
-                    RenderUtils.renderItemStack(iStack, xStart + (i * size), yStart)
+                    RenderUtils.renderItemStack(it, xStart + (i * size), yStart)
+            i += 1
         }
     }
 

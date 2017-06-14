@@ -51,6 +51,7 @@ import eladkay.hudpixel.config.CCategory
 import eladkay.hudpixel.config.ConfigPropertyBoolean
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider
 import net.minecraft.client.Minecraft
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.hudpixelextended.util.DamageReductionCalc
 
 /**
@@ -78,7 +79,7 @@ object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
 
 
     override fun onTickUpdate() {
-        if (Minecraft.getMinecraft().thePlayer != null)
+        if (FMLClientHandler.instance().clientPlayerEntity != null)
             content = DamageReductionCalc.getReduction()[2]
     }
 
@@ -87,7 +88,7 @@ object ArmorProtectionModularGuiProvider : HudPixelModularGuiProvider() {
     }
 
     override fun showElement(): Boolean {
-        return doesMatchForGame() && Minecraft.getMinecraft().thePlayer.inventory.armorInventory.isNotEmpty() && enabled
+        return doesMatchForGame() && FMLClientHandler.instance().clientPlayerEntity.inventory.armorInventory.isNotEmpty() && enabled
     }
 
     var content: String = ""

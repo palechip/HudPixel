@@ -47,7 +47,7 @@
 package net.unaussprechlich.hudpixelextended.boosterdisplay;
 
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.unaussprechlich.hudpixelextended.HudPixelExtended;
@@ -121,7 +121,7 @@ public class BoosterExtended extends FancyListObject implements McColorHelper {
                 HudPixelExtended.boosterManager.requestBoosters(true);
             }
 
-        this.renderPicture = EnumChatFormatting.WHITE + countDown();
+        this.renderPicture = TextFormatting.WHITE + countDown();
         this.renderLineSmall = YELLOW + gameType.getNm();
         this.renderLine1 = GOLD + gameType.getNm();
         if (booster == null) {

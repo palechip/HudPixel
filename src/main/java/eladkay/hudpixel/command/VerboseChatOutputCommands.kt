@@ -1,33 +1,40 @@
 package eladkay.hudpixel.command
 
+import eladkay.hudpixel.util.ChatMessageComposer
 import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
-import net.minecraft.util.ChatComponentText
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.server.MinecraftServer
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 /**
  * Created by Elad on 12/21/2016.
  */
+
+/*
+    NOTE: Most likely broken with update to MC 1.11. TODO: Fix
+ */
 object VerboseChatOutputCommand : HpCommandBase() {
     var enabled = false
-    override fun getCommandName() = "verbosechatoutput"
+    override fun getName() = "verbosechatoutput"
 
-    override fun getCommandUsage(sender: ICommandSender?) = "/verbosechatoutput"
+    override fun getUsage(sender: ICommandSender?) = "/verbosechatoutput"
 
-    override fun processCommand(sender: ICommandSender, args: Array<out String>?) {
+    override fun execute(server: MinecraftServer?, sender: ICommandSender?, args: Array<out String>?) {
+        if (sender == null) return
         if (enabled) {
             enabled = false
-            sender.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Disabled verbose chat output!"))
+            sender.sendMessage(ChatMessageComposer("Disabled verbose chat output!").addFormatting(TextFormatting.RED).assembleMessage(true))
         } else {
             enabled = true
-            sender.addChatMessage(ChatComponentText("${EnumChatFormatting.GREEN}Enabled verbose chat output!"))
+            sender.sendMessage(ChatMessageComposer("Enabled verbose chat output!").addFormatting(TextFormatting.GREEN).assembleMessage(true))
         }
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
+    override fun checkPermission(server: MinecraftServer?, sender: ICommandSender?): Boolean {
         return true
     }
 
@@ -39,7 +46,8 @@ object VerboseChatOutputCommand : HpCommandBase() {
         @SubscribeEvent
         fun onChatMessage(clientChatReceivedEvent: ClientChatReceivedEvent) {
             if (!enabled) return
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ChatComponentText(clientChatReceivedEvent.message.toString().replace("§", "&")))
+            // Please note that this will likely not have the desired effect. But the original method is no longer available in MC 1.11
+            ChatMessageComposer(clientChatReceivedEvent.message.toString().replace("§", "&")).send(false)
             clientChatReceivedEvent.isCanceled = true
         }
     }
@@ -47,21 +55,22 @@ object VerboseChatOutputCommand : HpCommandBase() {
 
 object ClickEventCommand : HpCommandBase() {
     var enabled = false
-    override fun getCommandName() = "clickevent"
+    override fun getName() = "clickevent"
 
-    override fun getCommandUsage(sender: ICommandSender?) = "/clickevent"
+    override fun getUsage(sender: ICommandSender?) = "/clickevent"
 
-    override fun processCommand(sender: ICommandSender, args: Array<out String>?) {
+    override fun execute(server: MinecraftServer?, sender: ICommandSender?, args: Array<out String>?) {
+        if (sender == null) return
         if (enabled) {
             enabled = false
-            sender.addChatMessage(ChatComponentText("${EnumChatFormatting.RED}Disabled click event chat output!"))
+            sender.sendMessage(ChatMessageComposer("Disabled click event chat output!").addFormatting(TextFormatting.RED).assembleMessage(true))
         } else {
             enabled = true
-            sender.addChatMessage(ChatComponentText("${EnumChatFormatting.GREEN}Enabled click event chat output!"))
+            sender.sendMessage(ChatMessageComposer("Enabled click event chat output!").addFormatting(TextFormatting.GREEN).assembleMessage(true))
         }
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
+    override fun checkPermission(server: MinecraftServer?, sender: ICommandSender?): Boolean {
         return true
     }
 
@@ -73,7 +82,8 @@ object ClickEventCommand : HpCommandBase() {
         @SubscribeEvent
         fun onChatMessage(clientChatReceivedEvent: ClientChatReceivedEvent) {
             if (!enabled || !clientChatReceivedEvent.message.toString().contains("play") || clientChatReceivedEvent.message.toString().contains("player")) return
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ChatComponentText(clientChatReceivedEvent.message.toString().replace("§", "&")))
+            // Please note that this will likely not have the desired effect. But the original method is no longer available in MC 1.11
+            ChatMessageComposer(clientChatReceivedEvent.message.toString().replace("§", "&")).send(false);
             clientChatReceivedEvent.isCanceled = true
         }
     }

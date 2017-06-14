@@ -83,8 +83,8 @@ public class GuiBlacklisted extends GuiScreen {
     public void initGui() {
         this.buttonList.add(this.btnAppeal = new GuiButton(102, (this.width - 175) / 2, this.height / 2 - 25, "Appeal (Will open web browser)"));
         this.buttonList.add(this.btnQuit = new GuiButton(104, (this.width - 175) / 2, this.height / 2, "Quit"));
-        if (mc.theWorld != null)
-            this.mc.theWorld.sendQuittingDisconnectingPacket();
+        if (mc.world != null)
+            this.mc.world.sendQuittingDisconnectingPacket();
         this.mc.loadWorld(null);
     }
 

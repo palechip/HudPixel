@@ -8,7 +8,7 @@
 
 package net.unaussprechlich.managedgui.lib.templates.defaults.container
 
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.unaussprechlich.managedgui.lib.ConstantsMG
@@ -80,7 +80,7 @@ class DefTextFieldContainer(text: String, width: Int, var hint : String = "", va
 
         RenderUtils.drawBorderInlineShadowBox(xStart + 2 , yStart + 2, width - 4, height - 4, RGBA.P1B1_596068.get(), RGBA.P1B1_DEF.get())
 
-        if(textCon.text == "" && hint != "") FontUtil.draw("" + EnumChatFormatting.GRAY + EnumChatFormatting.ITALIC + hint, xStart+5, yStart+5)
+        if(textCon.text == "" && hint != "") FontUtil.draw("" + TextFormatting.GRAY + TextFormatting.ITALIC + hint, xStart+5, yStart+5)
         if(cursorBlink)                      RenderUtils.renderBoxWithColorBlend_s1_d0(xStart + 5 + cursorX, yStart + 5 + cursorY, 1, 9, RGBA.P1B1_596068.get())
 
         return true

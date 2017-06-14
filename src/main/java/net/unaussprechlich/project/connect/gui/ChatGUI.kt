@@ -5,6 +5,7 @@ import eladkay.hudpixel.ChatDetector
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.hypixel.helper.HypixelRank
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.databases.player.data.Rank
@@ -72,7 +73,7 @@ object ChatGUI : GUI() {
                     if(it.data["type"] == "From")
                         name
                     else
-                        Minecraft.getMinecraft().thePlayer.name ,
+                        FMLClientHandler.instance().clientPlayerEntity.name ,
                     it.data["message"].toString(),
                     if(it.data["type"] == "From")
                         HypixelRank.getRankByName(it.data["rank"].toString())

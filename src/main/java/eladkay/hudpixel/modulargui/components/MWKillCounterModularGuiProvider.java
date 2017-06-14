@@ -52,17 +52,17 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.unaussprechlich.hudpixelextended.util.McColorHelper;
 
 import java.util.regex.Pattern;
 
 public class MWKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
-    private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
-    private static final String FINAL_KILL_DISPLAY = EnumChatFormatting.BLUE + "Final Kills: " + EnumChatFormatting.RED;
-    private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
-    private static final String FINAL_ASSISTS_DISPLAY = EnumChatFormatting.BLUE + "" + EnumChatFormatting.ITALIC + "Final Assists: " + EnumChatFormatting.DARK_GRAY;
-    private static final String WITHER_COINS_DISPLAY = EnumChatFormatting.GOLD + "Wither Coins: ";
+    private static final String KILL_DISPLAY = TextFormatting.AQUA + "Kills: " + TextFormatting.RED;
+    private static final String FINAL_KILL_DISPLAY = TextFormatting.BLUE + "Final Kills: " + TextFormatting.RED;
+    private static final String ASSISTS_DISPLAY = TextFormatting.AQUA + "" + TextFormatting.ITALIC + "Assists: " + TextFormatting.DARK_GRAY;
+    private static final String FINAL_ASSISTS_DISPLAY = TextFormatting.BLUE + "" + TextFormatting.ITALIC + "Final Assists: " + TextFormatting.DARK_GRAY;
+    private static final String WITHER_COINS_DISPLAY = TextFormatting.GOLD + "Wither Coins: ";
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "megaWallsKillCounter", comment = "The MW Kill Tracker", def = true)
     public static boolean enabled = false;
     private int kills;

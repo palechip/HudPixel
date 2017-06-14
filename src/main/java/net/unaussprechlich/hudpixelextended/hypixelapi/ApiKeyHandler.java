@@ -49,8 +49,9 @@ package net.unaussprechlich.hudpixelextended.hypixelapi;
 
 import eladkay.hudpixel.HudPixelMod;
 import eladkay.hudpixel.util.ChatMessageComposer;
-import net.minecraft.event.ClickEvent.Action;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.event.ClickEvent.Action;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -122,7 +123,7 @@ public class ApiKeyHandler implements IEventHandler {
 
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        String message = e.message.getUnformattedText();
+        String message = e.getMessage().getUnformattedText();
         if (!message.startsWith("Your new API key is ")) return;
 
         // extract the key
@@ -135,7 +136,7 @@ public class ApiKeyHandler implements IEventHandler {
         new Thread(ApiKeyHandler.getINSTANCE()::saveAPIKey).start();
 
         // tell the user
-        new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", EnumChatFormatting.GREEN).send();
+        new ChatMessageComposer("API key successfully detected and saved. The API is ready for usage.", TextFormatting.GREEN).send();
 
     }
 
@@ -144,7 +145,7 @@ public class ApiKeyHandler implements IEventHandler {
      */
     public static void requestApiKey() {
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_1).send();
-        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api new", EnumChatFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api new", new ChatMessageComposer("Runs ", EnumChatFormatting.GRAY).appendMessage(new ChatMessageComposer("/api new", EnumChatFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
+        new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART1).appendMessage(new ChatMessageComposer("/api new", TextFormatting.RED).makeClickable(Action.RUN_COMMAND, "/api new", new ChatMessageComposer("Runs ", TextFormatting.GRAY).appendMessage(new ChatMessageComposer("/api new", TextFormatting.RED)))).appendMessage(new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_2_PART2)).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_3).send();
         new ChatMessageComposer(API_KEY_REQUEST_MESSAGE_4).send();
     }

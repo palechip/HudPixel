@@ -50,8 +50,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import eladkay.hudpixel.util.ChatMessageComposer;
 import eladkay.hudpixel.util.UpdateHandlerKt;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.unaussprechlich.hudpixelextended.util.McColorHelper;
@@ -168,9 +168,9 @@ public class UpdateNotifier implements McColorHelper {
 
         //GOING TO PRINT THE DOWLOADLINK
         printMessage(GOLD + "------" + GREEN + " A new version of " + WHITE + "[" + GOLD + "Hud"
-                + EnumChatFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" + GOLD + " ------");
-        new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), EnumChatFormatting.YELLOW).appendMessage
-                (new ChatMessageComposer(" > click here to download the newest version < ", EnumChatFormatting.ITALIC)
+                + TextFormatting.YELLOW + "Pixel" + WHITE + "]" + GREEN + " has been published" + GOLD + " ------");
+        new ChatMessageComposer("v" + getStringFromJson(KEY_VERSION, jsonObject), TextFormatting.YELLOW).appendMessage
+                (new ChatMessageComposer(" > click here to download the newest version < ", TextFormatting.ITALIC)
                         .makeLink(getStringFromJson(KEY_DOWNLOADLINK, jsonObject))).send();
 
         printMessage("");
@@ -190,7 +190,7 @@ public class UpdateNotifier implements McColorHelper {
         //GOING TO PRINT THE CHANGELOG
         printMessage("");
         printMessage(GOLD + "----------------- " + GREEN + "Changelog for "
-                + EnumChatFormatting.YELLOW + "v" + getStringFromJson(KEY_VERSION, jsonObject)
+                + TextFormatting.YELLOW + "v" + getStringFromJson(KEY_VERSION, jsonObject)
                 + GOLD + " -----------------");
         JsonObject jsonObject2 = jsonObject.get("UpdateMessages").getAsJsonObject();
         for (int i = 1; true; i++) {
@@ -220,7 +220,7 @@ public class UpdateNotifier implements McColorHelper {
                     + printChangelogText(s.substring(3))
             );
         } else {
-            printMessage(EnumChatFormatting.YELLOW + s.substring(0, s.indexOf("]") + 1)
+            printMessage(TextFormatting.YELLOW + s.substring(0, s.indexOf("]") + 1)
                     + printChangelogText(s.substring(s.indexOf("]") + 1)));
         }
     }
@@ -251,8 +251,7 @@ public class UpdateNotifier implements McColorHelper {
      * @param message the message
      **/
     private void printMessage(String message) {
-        getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-                new ChatComponentText(message));
+        new ChatMessageComposer(message).send();
     }
 
 }

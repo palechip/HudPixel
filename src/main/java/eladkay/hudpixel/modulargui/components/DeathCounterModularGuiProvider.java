@@ -52,13 +52,13 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DeathCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
-    public static final String DEATH_TEXT = EnumChatFormatting.RED + "Deaths";
+    public static final String DEATH_TEXT = TextFormatting.RED + "Deaths";
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "deathsCounter", comment = "The Deaths Counter", def = true)
     public static boolean enabled = false;
     protected int deaths;

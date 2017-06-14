@@ -1,24 +1,25 @@
 package eladkay.hudpixel.command
 
 import net.minecraft.command.ICommandSender
+import net.minecraft.server.MinecraftServer
 
 /**
  * Created by Elad on 3/13/2017.
  */
 object TestCommand : HpCommandBase() {
-    override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
+    override fun execute(server: MinecraftServer?, sender: ICommandSender?, args: Array<out String>?) {
 
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
+    override fun checkPermission(server: MinecraftServer?, sender: ICommandSender?): Boolean {
         return true
     }
 
-    override fun getCommandName(): String {
+    override fun getName(): String {
         return "hptest"
     }
 
-    override fun getCommandUsage(sender: ICommandSender?): String {
+    override fun getUsage(sender: ICommandSender?): String {
         return "/hptest"
     }
 }

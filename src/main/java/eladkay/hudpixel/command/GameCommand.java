@@ -47,36 +47,37 @@
 package eladkay.hudpixel.command;
 
 import eladkay.hudpixel.modulargui.modules.PlayGameModularGuiProvider;
+import eladkay.hudpixel.util.ChatMessageComposer;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextFormatting;
 
 public class GameCommand extends HpCommandBase {
 
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "game";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "/game <Game ID>";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length != 1) {
-            sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
+            sender.sendMessage(new ChatMessageComposer(getUsage(sender)).assembleMessage(true));
         } else {
             PlayGameModularGuiProvider.content = args[0];
-            sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Game set!"));
+            sender.sendMessage(new ChatMessageComposer("Game set!", TextFormatting.GREEN).assembleMessage(true));
         }
     }
 }

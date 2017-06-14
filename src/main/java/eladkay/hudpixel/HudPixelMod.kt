@@ -211,7 +211,7 @@ class HudPixelMod {
 
                 //Send info to remote server
                 //NOTE: THIS DOES NOT SEND ANY SESSION KEYS OR PERSONALLY IDENTIFIER INFORMATION!
-                if (!didTheThings && Minecraft.getMinecraft().thePlayer != null) {
+                if (!didTheThings && FMLClientHandler.instance().clientPlayerEntity != null) {
                     didTheThings = true
                     setupOncePlayerNotNull()
                 }
@@ -234,7 +234,7 @@ class HudPixelMod {
                     FMLClientHandler.instance().client.displayGuiScreen(HudPixelConfigGui(null))
                 } else if (this.pressToPlay!!.isPressed) {
                     // open the config screen
-                    FMLClientHandler.instance().client.thePlayer.sendChatMessage("/play " + PlayGameModularGuiProvider.content)
+                    FMLClientHandler.instance().clientPlayerEntity.sendChatMessage("/play " + PlayGameModularGuiProvider.content)
                 } else if (IS_DEBUGGING) {
                     if (this.debugKey!!.isPressed) {
                         // Add debug code here
@@ -304,18 +304,21 @@ class HudPixelMod {
                     instance().logDebug("Disconnected from Hypixel Network")
                     return false
                 }
-                val ip = FMLClientHandler.instance().client.currentServerData.serverIP
-                if (ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
-                    instance().logDebug("Joined Hypixel Network")
-                    if (!isUpdateNotifierDone) {
-                        UpdateNotifier(true)
-                        isUpdateNotifierDone = true
-                    }
-                    return true
-                } else if (!ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
+                val ip = FMLClientHandler.instance().client.currentServerData?.serverIP
 
-                    instance().logDebug("Disconnected from Hypixel Network")
-                    return false
+                if(ip != null) {
+                    if (ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
+                        instance().logDebug("Joined Hypixel Network")
+                        if (!isUpdateNotifierDone) {
+                            UpdateNotifier(true)
+                            isUpdateNotifierDone = true
+                        }
+                        return true
+                    } else if (!ip.toLowerCase().endsWith(HYPIXEL_DOMAIN.toLowerCase())) {
+
+                        instance().logDebug("Disconnected from Hypixel Network")
+                        return false
+                    }
                 }
                 return false
             }

@@ -50,7 +50,7 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.config.ConfigPropertyString;
 import eladkay.hudpixel.util.ChatMessageComposer;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler;
 import net.unaussprechlich.hudpixelextended.util.IEventHandler;
@@ -64,7 +64,7 @@ public class Translator implements IEventHandler, ITranslatorRequestCallback {
     private static String language = "en";
 
     private static Translator INSTANCE;
-    private static final String TAG = EnumChatFormatting.DARK_GRAY + "[Hud" + EnumChatFormatting.GOLD + "Translator" + EnumChatFormatting.DARK_GRAY + "]";
+    private static final String TAG = TextFormatting.DARK_GRAY + "[Hud" + TextFormatting.GOLD + "Translator" + TextFormatting.DARK_GRAY + "]";
 
     public static Translator getINSTANCE() {
         if (INSTANCE == null)
@@ -104,7 +104,7 @@ public class Translator implements IEventHandler, ITranslatorRequestCallback {
     public void translatorCallback(TranslatorRequest tR) {
         try {
             if (tR.isFailed())
-                new ChatMessageComposer(TAG + EnumChatFormatting.DARK_RED + "[FAILED]" + tR.getMessage()).send(false);
+                new ChatMessageComposer(TAG + TextFormatting.DARK_RED + "[FAILED]" + tR.getMessage()).send(false);
 
             if (tR.getMessage().equalsIgnoreCase(tR.getResponse().get("text").getAsString())) {
                 LoggerHelper.logInfo("[HudTranslator] messages were identical!");
@@ -114,12 +114,12 @@ public class Translator implements IEventHandler, ITranslatorRequestCallback {
                 return;
             }
 
-            new ChatMessageComposer(TAG + EnumChatFormatting.YELLOW + tR.getUsername() + EnumChatFormatting.WHITE + ": "
-                    + EnumChatFormatting.GRAY + EnumChatFormatting.ITALIC + tR.getResponse().get("text").getAsString()).send(false);
+            new ChatMessageComposer(TAG + TextFormatting.YELLOW + tR.getUsername() + TextFormatting.WHITE + ": "
+                    + TextFormatting.GRAY + TextFormatting.ITALIC + tR.getResponse().get("text").getAsString()).send(false);
         } catch (NullPointerException e) {
             LoggerHelper.logInfo("[HudTranslator] NullPointer, we love it :)!");
             e.printStackTrace();
-            new ChatMessageComposer(TAG + EnumChatFormatting.DARK_RED + "[FAILED]" + tR.getMessage()).send(false);
+            new ChatMessageComposer(TAG + TextFormatting.DARK_RED + "[FAILED]" + tR.getMessage()).send(false);
         }
 
     }

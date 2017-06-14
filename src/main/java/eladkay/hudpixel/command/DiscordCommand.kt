@@ -46,12 +46,10 @@
 
 package eladkay.hudpixel.command
 
-import com.mojang.realmsclient.gui.ChatFormatting
-import net.minecraft.command.CommandBase
+import eladkay.hudpixel.util.ChatMessageComposer
 import net.minecraft.command.ICommandSender
-import net.minecraft.event.ClickEvent
-import net.minecraft.util.ChatComponentText
-import net.minecraft.util.ChatStyle
+import net.minecraft.server.MinecraftServer
+import net.minecraft.util.text.TextFormatting
 
 /**
  * Created by Elad on 10/28/2016.
@@ -62,20 +60,21 @@ object DiscordCommand : HpCommandBase() {
 
 
     val array = arrayOf("e", "c", "a", "9", "D", "X", "8")
-    override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
-        sender?.addChatMessage(ChatComponentText("${ChatFormatting.RED}Please please please read #announcements before asking any questions about anything related to the server itself"))
-        sender?.addChatMessage(ChatComponentText("${ChatFormatting.BLUE}https://discord.gg/${array.reversedArray().joinToString("")}").setChatStyle(ChatStyle().setChatClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/${array.reversedArray().joinToString("")}"))))
+    override fun execute(server: MinecraftServer?, sender: ICommandSender?, args: Array<out String>?) {
+        sender?.sendMessage(ChatMessageComposer("Please please please read #announcements before asking any questions about anything related to the server itself").addFormatting(TextFormatting.RED).assembleMessage(true))
+        val url = "https://discord.gg/${array.reversedArray().joinToString("")}"
+        sender?.sendMessage(ChatMessageComposer(url).addFormatting(TextFormatting.BLUE).makeLink(url).assembleMessage(true))
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
+    override fun checkPermission(server: MinecraftServer?, sender: ICommandSender?): Boolean {
         return true
     }
 
-    override fun getCommandName(): String? {
+    override fun getName(): String? {
         return "discord"
     }
 
-    override fun getCommandUsage(sender: ICommandSender?): String? {
+    override fun getUsage(sender: ICommandSender?): String? {
         return "/discord"
     }
 }

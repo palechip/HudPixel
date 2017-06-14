@@ -50,26 +50,27 @@ import eladkay.hudpixel.GameDetector;
 import eladkay.hudpixel.util.ChatMessageComposer;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 public class GameDetectorCommand extends HpCommandBase {
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "gd";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "/gd";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 0)
             new ChatMessageComposer(GameDetector.getCurrentGameType().toString()).send();
         else if (args.length == 1 && args[0].equals("reset")) {

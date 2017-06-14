@@ -52,10 +52,10 @@ import eladkay.hudpixel.HudPixelMod;
 import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
-    public static final String NEGATIVE_COINS_DISPLAY_TEXT = EnumChatFormatting.RED + "Coins Spent";
+    public static final String NEGATIVE_COINS_DISPLAY_TEXT = TextFormatting.RED + "Coins Spent";
     public static final String TOTAL_COINS_DISPLAY_TEXT = "Balance";
 
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "vampireZBalance", comment = "The VZ Time Tracker", def = true)
@@ -92,9 +92,9 @@ public class VZBalanceModularGuiProvider extends CoinCounterModularGuiProvider {
                     return NEGATIVE_COINS_DISPLAY_TEXT + (-this.coins);
                 case Total:
                     if (this.coins < 0) {
-                        return EnumChatFormatting.RED + "" + this.coins;
+                        return TextFormatting.RED + "" + this.coins;
                     } else {
-                        return EnumChatFormatting.GREEN + "" + this.coins;
+                        return TextFormatting.GREEN + "" + this.coins;
                     }
             }
         }

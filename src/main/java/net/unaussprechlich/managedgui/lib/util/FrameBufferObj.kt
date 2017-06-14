@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.OpenGlHelper
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.client.shader.Framebuffer
+import net.minecraftforge.fml.client.FMLClientHandler
 
 /**
  * FrameBufferObj unaussprechlich on 26.02.2017.
@@ -47,7 +48,8 @@ class FrameBufferObj(width: Int, height: Int, p_i45078_3_: Boolean) : Framebuffe
         this.bindFramebufferTexture()
 
         val tessellator = Tessellator.getInstance()
-        val worldrenderer = tessellator.worldRenderer
+        // This is the instance which is named worldrenderer in Tessellator
+        val worldrenderer = tessellator.getBuffer()
 
         val f1 = 1f / width.toFloat()
         val f2 = 1f / height.toFloat()

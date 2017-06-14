@@ -52,11 +52,11 @@ import eladkay.hudpixel.HudPixelMod;
 import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class CoinCounterModularGuiProvider extends HudPixelModularGuiProvider {
 
-    public static final String COINS_DISPLAY_TEXT = EnumChatFormatting.GOLD + "Coins";
+    public static final String COINS_DISPLAY_TEXT = TextFormatting.GOLD + "Coins";
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "coinsCounter", comment = "The Coin Counter", def = true)
     public static boolean enabled = false;
     protected int coins;

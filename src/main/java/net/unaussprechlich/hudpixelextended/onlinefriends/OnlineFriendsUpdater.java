@@ -47,8 +47,9 @@
 package net.unaussprechlich.hudpixelextended.onlinefriends;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler;
 import net.unaussprechlich.hudpixelextended.util.IEventHandler;
 import net.unaussprechlich.hudpixelextended.util.LoggerHelper;
@@ -93,9 +94,9 @@ public class OnlineFriendsUpdater implements IEventHandler {
     private void requestPage(int page) {
         requestNextPage = false;
         lastRequest = System.currentTimeMillis();
-        if (Minecraft.getMinecraft().thePlayer == null) return;
+        if (FMLClientHandler.instance().getClientPlayerEntity() == null) return;
         friendListExpected = true;
-        Minecraft.getMinecraft().thePlayer.sendChatMessage("/f list " + page);
+        FMLClientHandler.instance().getClientPlayerEntity().sendChatMessage("/f list " + page);
     }
 
     /**
@@ -123,7 +124,7 @@ public class OnlineFriendsUpdater implements IEventHandler {
         //TODO: THIS IS PRETTY AF ... I NEED MORE VARS TO MAKE IT WORK ... YOU CAN STILL UNDERSTAND HOW IT SEPARATES o.O
         // checks first if there is a request
         if (friendListExpected) {
-            String m = e.message.getUnformattedText();
+            String m = e.getMessage().getUnformattedText();
             //starts and stops the friendlistchatparser by the separation message
 
             if (m.startsWith(SEPARATION_MESSAGE)) {
@@ -169,15 +170,15 @@ public class OnlineFriendsUpdater implements IEventHandler {
 
         //the first element has to be the playername
         String playerName = singleWords[0];
-        String gameType = EnumChatFormatting.GRAY + "in an unknown realm.";
+        String gameType = TextFormatting.GRAY + "in an unknown realm.";
 
         //if the player is in any gamemode game/lobby
         if (singleWords[3].equalsIgnoreCase("a")) {
 
             if (singleWords[singleWords.length - 1].equalsIgnoreCase("game"))
-                gameType = EnumChatFormatting.RED + singleWords[4];
+                gameType = TextFormatting.RED + singleWords[4];
             else if (singleWords[singleWords.length - 1].equalsIgnoreCase("lobby"))
-                gameType = EnumChatFormatting.GREEN + singleWords[4];
+                gameType = TextFormatting.GREEN + singleWords[4];
 
             //needed to add support for games like Crazy Walls who are written in two words
             for (int i = 5; i < singleWords.length; i++) {
@@ -187,11 +188,11 @@ public class OnlineFriendsUpdater implements IEventHandler {
 
             // if the player is in housing
         } else if (singleWords[3].equalsIgnoreCase("housing"))
-            gameType = EnumChatFormatting.GREEN + singleWords[3];
+            gameType = TextFormatting.GREEN + singleWords[3];
 
             // if the player is idling in the limbo
         else if (singleWords[2].equalsIgnoreCase("idle"))
-            gameType = EnumChatFormatting.GRAY + "idle in Limbo";
+            gameType = TextFormatting.GRAY + "idle in Limbo";
         LoggerHelper.logInfo("[OnlineFriends][Updater]: [" + playerName + "] -> " + gameType);
         onlineFriends.put(playerName, gameType);
     }

@@ -51,26 +51,27 @@ import eladkay.hudpixel.util.ChatMessageComposer;
 import eladkay.hudpixel.util.ScoreboardReader;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 public class ScoreboardCommand extends HpCommandBase {
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "sb";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "/sb";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         ScoreboardReader.resetCache();
         String title = ScoreboardReader.getScoreboardTitle();
         title = GameDetector.stripColor(title).toLowerCase();

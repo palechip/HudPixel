@@ -6,6 +6,7 @@ import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
 import net.minecraft.client.Minecraft
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.managedgui.lib.templates.defaults.container.DefNotificationContainer
 import net.unaussprechlich.managedgui.lib.util.RGBA
 import net.unaussprechlich.project.connect.ConnectAPI
@@ -40,9 +41,10 @@ object SocketConnection{
             socket.on(Socket.EVENT_CONNECT) { args ->
                 try {
                     val obj = JSONObject()
+                    val player = FMLClientHandler.instance().clientPlayerEntity;
 
-                    obj.put("NAME", Minecraft.getMinecraft().thePlayer.name)
-                    obj.put("UUID", Minecraft.getMinecraft().thePlayer.gameProfile.id.toString())
+                    obj.put("NAME", player.name)
+                    obj.put("UUID", player.gameProfile.id.toString())
                     obj.put("VERSION", HudPixelMod.DEFAULT_VERSION.replace(" ", ""))
 
                     emit(EnumSocketEvents.PRELOGIN, obj, Ack { args ->

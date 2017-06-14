@@ -46,6 +46,7 @@
 
 package net.unaussprechlich.hudpixelextended.onlinefriends;
 
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.util.gui.FancyListButton;
 
 import static net.minecraft.client.Minecraft.getMinecraft;
@@ -62,6 +63,6 @@ public class OnlineFriendsMessageButton extends FancyListButton {
 
     @Override
     protected void onClick() {
-        getMinecraft().thePlayer.sendChatMessage("/msg " + playerName);
+        FMLClientHandler.instance().getClientPlayerEntity().sendChatMessage("/msg " + playerName);
     }
 }

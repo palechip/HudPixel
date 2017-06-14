@@ -139,7 +139,7 @@ public class Effect {
             startDuration = potionEffect.getDuration() + 5;
         }
         RenderUtils.renderBox(xStart, yStart, 18, 18);
-        RenderUtils.renderPotionIcon(xStart, yStart, Potion.potionTypes[potionEffect.getPotionID()]);
+        RenderUtils.renderPotionIcon(xStart, yStart, potionEffect.getPotion());
         mc.fontRendererObj.drawStringWithShadow(getAmpifireString(potionEffect),
                 xStart + +9 - (mc.fontRendererObj.getStringWidth(getAmpifireString(potionEffect)) / 2),
                 yStart + 6,

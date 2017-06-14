@@ -5,12 +5,13 @@ import eladkay.hudpixel.GameDetector;
 import eladkay.hudpixel.HudPixelMod;
 import eladkay.hudpixel.config.EasyConfigHandler;
 import eladkay.hudpixel.modulargui.ModularGuiHelper;
+import eladkay.hudpixel.util.ChatMessageComposer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -106,15 +107,14 @@ public class HudPixelExtendedEventHandler {
      * @param message the message
      **/
     private static void printMessage(String message) {
-        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-                new ChatComponentText(message));
+        new ChatMessageComposer(message).send();
     }
 
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
         try {
             // This event isn't bound to the Hypixel Network
-            if (eventArgs.modID.equals(HudPixelMod.MODID)) {
+            if (eventArgs.getModID().equals(HudPixelMod.MODID)) {
                 EasyConfigHandler.INSTANCE.synchronize();
                 getIeventBuffer().forEach(IEventHandler::onConfigChanged);
             }
@@ -168,7 +168,7 @@ public class HudPixelExtendedEventHandler {
             if (HudPixelMod.Companion.isHypixelNetwork()) {
                 for (IEventHandler i : getIeventBuffer())
                     i.openGUI(Minecraft.getMinecraft().currentScreen);
-                if (Minecraft.getMinecraft().thePlayer != null)
+                if (FMLClientHandler.instance().getClientPlayerEntity() != null)
                     OnlineFriendManager.getInstance();
             }
         } catch (Exception ex) {
@@ -182,7 +182,7 @@ public class HudPixelExtendedEventHandler {
         try {
             //Don't do anything unless we are on Hypixel
             if (HudPixelMod.Companion.isHypixelNetwork()) {
-                final String message = e.message.getUnformattedText();
+                final String message = e.getMessage().getUnformattedText();
 
                 for (IEventHandler i : getIeventBuffer())
                     i.onChatReceivedMessage(e, message);
@@ -258,7 +258,7 @@ public class HudPixelExtendedEventHandler {
     public void onRenderTick(RenderGameOverlayEvent.Post e) {
         try {
             //Don't do anything unless we are on Hypixel
-            if (HudPixelMod.Companion.isHypixelNetwork() && e.type == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
+            if (HudPixelMod.Companion.isHypixelNetwork() && e.getType() == RenderGameOverlayEvent.ElementType.ALL && !e.isCancelable()) {
                 getIeventBuffer().forEach(IEventHandler::onRender);
 
             }

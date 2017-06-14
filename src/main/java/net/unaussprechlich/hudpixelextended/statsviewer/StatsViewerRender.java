@@ -49,8 +49,8 @@ package net.unaussprechlich.hudpixelextended.statsviewer;
 import eladkay.hudpixel.util.GameType;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -89,7 +89,7 @@ public class StatsViewerRender {
      * @param y        y-cord
      * @param z        z-cord
      */
-    private static void renderName(RendererLivingEntity renderer, String str, EntityPlayer entityIn, double x, double y, double z) {
+    private static void renderName(RenderPlayer renderer, String str, EntityPlayer entityIn, double x, double y, double z) {
         FontRenderer fontrenderer = renderer.getFontRendererFromRenderManager();
         float f = 1.6F;
         float f1 = 0.016666668F * f;
@@ -106,7 +106,7 @@ public class StatsViewerRender {
 
         tryBlendFuncSeparate(770, 771, 1, 0);
         Tessellator tessellator = getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer worldrenderer = tessellator.getBuffer();
         int i = 0;
 
         int j = fontrenderer.getStringWidth(str) / 2;
@@ -144,11 +144,11 @@ public class StatsViewerRender {
 
         if (this.iGameStatsViewer.getRenderList() != null) {
             for (String s : this.iGameStatsViewer.getRenderList()) {
-                renderName(event.renderer, s, event.entityPlayer, event.x, event.y + (offset * i), event.z);
+                renderName(event.getRenderer(), s, event.getEntityPlayer(), event.getX(), event.getY() + (offset * i), event.getZ());
                 i++;
             }
         } else {
-            renderName(event.renderer, "Loading stats ....", event.entityPlayer, event.x, event.y + offset, event.z);
+            renderName(event.getRenderer(), "Loading stats ....", event.getEntityPlayer(), event.getX(), event.getY() + offset, event.getZ());
         }
     }
 }

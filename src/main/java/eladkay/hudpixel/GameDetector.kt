@@ -5,12 +5,12 @@ import eladkay.hudpixel.config.ConfigPropertyBoolean
 import eladkay.hudpixel.modulargui.IHudPixelModularGuiProviderBase
 import eladkay.hudpixel.modulargui.ModularGuiHelper
 import eladkay.hudpixel.modulargui.components.TimerModularGuiProvider
+import eladkay.hudpixel.util.ChatMessageComposer
 import eladkay.hudpixel.util.GameType
 import eladkay.hudpixel.util.ScoreboardReader
-import net.minecraft.client.Minecraft
-import net.minecraft.util.ChatComponentText
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler
@@ -40,6 +40,9 @@ object GameDetector {
     @JvmStatic
     fun update(st: String) {
 
+        // Get the player in a way which is unlikely to change between Minecraft versions.
+        val player = FMLClientHandler.instance().clientPlayerEntity;
+
         val s = st.toLowerCase()
         if (s.equals("hypixel", ignoreCase = true)) {
             eladkay.hudpixel.GameDetector.currentGameType = eladkay.hudpixel.util.GameType.UNKNOWN //main lobby
@@ -55,19 +58,19 @@ object GameDetector {
 
             for (type in eladkay.hudpixel.util.GameType.values()) {
                 if (s.toLowerCase().replace(" ", "").contains(type.scoreboardName.toLowerCase().replace(" ", ""))) {
-                    if (net.minecraft.client.Minecraft.getMinecraft().thePlayer == null || net.minecraft.client.Minecraft.getMinecraft().thePlayer.isDead || type === eladkay.hudpixel.GameDetector.currentGameType) return
+                    if (player == null || player.isDead || type === eladkay.hudpixel.GameDetector.currentGameType) return
                     eladkay.hudpixel.GameDetector.currentGameType = type
                     //success!
                     eladkay.hudpixel.modulargui.ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::setupNewGame)
                     ModularGuiHelper.providers.forEach(IHudPixelModularGuiProviderBase::onGameStart)
                     if (HudPixelMod.IS_DEBUGGING)
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText("Changed server! Game is now " + currentGameType))
+                        ChatMessageComposer("Changed server! Game is now " + currentGameType).send();
                     isLobby = false
                     return
                 }
             }
 
-            if (Minecraft.getMinecraft().thePlayer != null && !Minecraft.getMinecraft().thePlayer.isDead) {
+            if (player != null && !player.isDead) {
                 currentGameType = GameType.UNKNOWN
                 schedule = true
             }
@@ -88,16 +91,20 @@ object GameDetector {
         tick = 0
 
         if (!enabled) return
-        if (Minecraft.getMinecraft().thePlayer == null) return
-        if (Minecraft.getMinecraft().thePlayer.isDead) return
+
+        // Get the player in a way which is unlikely to change between Minecraft versions.
+        val player = FMLClientHandler.instance().clientPlayerEntity;
+
+        if (player == null) return
+        if (player.isDead) return
         var title = ScoreboardReader.getScoreboardTitle()
         title = stripColor(title)!!.toLowerCase()
         cooldown--
         scheduleWhereami--
         if (schedule || cooldown == 0) update(title)
-        if (scheduleWhereami == 0 && Minecraft.getMinecraft().thePlayer != null) {
+        if (scheduleWhereami == 0 && player != null) {
             scheduleWhereami = -1
-            Minecraft.getMinecraft().thePlayer.sendChatMessage("/whereami")
+            player.sendChatMessage("/whereami")
         }
     }
 

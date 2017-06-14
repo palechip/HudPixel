@@ -1,6 +1,7 @@
 package net.unaussprechlich.project.connect.handlers
 
 import net.minecraft.client.Minecraft
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.project.connect.gui.ChatGUI
 
 enum class EnumHypixelChats(val command: String){
@@ -32,7 +33,7 @@ object HypixelChatHandler{
     }
 
     fun String.sendAsPlayer() {
-        Minecraft.getMinecraft().thePlayer?.sendChatMessage(this)
+        FMLClientHandler.instance().clientPlayerEntity.sendChatMessage(this)
     }
 }
 

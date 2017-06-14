@@ -52,13 +52,13 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.util.McColorHelper;
 
 public class WallsKillCounterModularGuiProvider extends SimpleHudPixelModularGuiProvider implements McColorHelper {
-    private static final String KILL_DISPLAY = EnumChatFormatting.AQUA + "Kills: " + EnumChatFormatting.RED;
-    private static final String ASSISTS_DISPLAY = EnumChatFormatting.AQUA + "" + EnumChatFormatting.ITALIC + "Assists: " + EnumChatFormatting.DARK_GRAY;
+    private static final String KILL_DISPLAY = TextFormatting.AQUA + "Kills: " + TextFormatting.RED;
+    private static final String ASSISTS_DISPLAY = TextFormatting.AQUA + "" + TextFormatting.ITALIC + "Assists: " + TextFormatting.DARK_GRAY;
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "wallsKillCounter", comment = "The Walls Kill Tracker", def = true)
     public static boolean enabled = false;
     private KillType trackedType = KillType.Normal;

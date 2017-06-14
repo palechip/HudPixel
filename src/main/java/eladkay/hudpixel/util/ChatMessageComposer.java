@@ -48,13 +48,13 @@ package eladkay.hudpixel.util;
 
 
 import eladkay.hudpixel.HudPixelMod;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.ClickEvent.Action;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.util.ArrayList;
@@ -65,20 +65,20 @@ import java.util.ArrayList;
  * @author palechip
  */
 public class ChatMessageComposer {
-    public static String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
-    private static IChatComponent CHAT_PREFIX;
+    public static final String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
+    private static ITextComponent CHAT_PREFIX;
 
     // Builds the chat prefix
     static {
-        IChatComponent name1 = new ChatComponentText("Hud");
-        IChatComponent name2 = new ChatComponentText("Pixel");
-        name1.getChatStyle().setColor(EnumChatFormatting.GOLD);
-        name2.getChatStyle().setColor(EnumChatFormatting.YELLOW);
+        ITextComponent name1 = new TextComponentString("Hud");
+        ITextComponent name2 = new TextComponentString("Pixel");
+        name1.getStyle().setColor(TextFormatting.GOLD);
+        name2.getStyle().setColor(TextFormatting.YELLOW);
 
-        CHAT_PREFIX = new ChatComponentText("[").appendSibling(name1).appendSibling(name2).appendSibling(new ChatComponentText("] "));
+        CHAT_PREFIX = new TextComponentString("[").appendSibling(name1).appendSibling(name2).appendSibling(new TextComponentString("] "));
     }
 
-    private IChatComponent chatComponent;
+    private ITextComponent chatComponent;
     private ArrayList<ChatMessageComposer> appendedMessages;
 
     /**
@@ -87,7 +87,7 @@ public class ChatMessageComposer {
      * @param text Text of the chat message.
      */
     public ChatMessageComposer(String text) {
-        this.chatComponent = new ChatComponentText(text);
+        this.chatComponent = new TextComponentString(text);
     }
 
     /**
@@ -96,7 +96,7 @@ public class ChatMessageComposer {
      * @param text  Text of the chat message.
      * @param color Color of the chat message.
      */
-    public ChatMessageComposer(String text, EnumChatFormatting color) {
+    public ChatMessageComposer(String text, TextFormatting color) {
         this(text);
         this.addFormatting(color);
     }
@@ -104,8 +104,8 @@ public class ChatMessageComposer {
     /**
      * Prints a Hypixel style separaton message using the provided color.
      */
-    public static void printSeparationMessage(EnumChatFormatting color) {
-        new ChatMessageComposer(SEPARATION_MESSAGE, color).addFormatting(EnumChatFormatting.BOLD).send(false);
+    public static void printSeparationMessage(TextFormatting color) {
+        new ChatMessageComposer(SEPARATION_MESSAGE, color).addFormatting(TextFormatting.BOLD).send(false);
     }
 
     /**
@@ -113,8 +113,8 @@ public class ChatMessageComposer {
      *
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
-    public ChatMessageComposer addFormatting(EnumChatFormatting formatting) {
-        ChatStyle style = this.chatComponent.getChatStyle();
+    public ChatMessageComposer addFormatting(TextFormatting formatting) {
+        Style style = this.chatComponent.getStyle();
         switch (formatting) {
             case ITALIC:
                 style.setItalic(true);
@@ -135,7 +135,7 @@ public class ChatMessageComposer {
                 style.setColor(formatting);
                 break;
         }
-        this.chatComponent.setChatStyle(style);
+        this.chatComponent.setStyle(style);
 
         return this;
     }
@@ -170,12 +170,12 @@ public class ChatMessageComposer {
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
     public ChatMessageComposer makeClickable(Action action, String execute, ChatMessageComposer description) {
-        ChatStyle style = this.chatComponent.getChatStyle();
+        Style style = this.chatComponent.getStyle();
 
-        style.setChatClickEvent(new ClickEvent(action, execute));
-        style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, description.assembleMessage(false)));
+        style.setClickEvent(new ClickEvent(action, execute));
+        style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, description.assembleMessage(false)));
 
-        this.chatComponent.setChatStyle(style);
+        this.chatComponent.setStyle(style);
 
         return this;
     }
@@ -188,8 +188,8 @@ public class ChatMessageComposer {
      */
     public ChatMessageComposer makeLink(String url) {
         // Compose a generic description
-        ChatMessageComposer description = new ChatMessageComposer("Click to visit ", EnumChatFormatting.GRAY);
-        description.appendMessage(new ChatMessageComposer(url, EnumChatFormatting.AQUA).addFormatting(EnumChatFormatting.UNDERLINE));
+        ChatMessageComposer description = new ChatMessageComposer("Click to visit ", TextFormatting.GRAY);
+        description.appendMessage(new ChatMessageComposer(url, TextFormatting.AQUA).addFormatting(TextFormatting.UNDERLINE));
         // and make it clickable
         this.makeClickable(Action.OPEN_URL, url, description);
 
@@ -203,11 +203,11 @@ public class ChatMessageComposer {
      * @return The ChatMessageComposer instance in order to make code more compact.
      */
     public ChatMessageComposer makeHover(ChatMessageComposer text) {
-        ChatStyle style = this.chatComponent.getChatStyle();
+        Style style = this.chatComponent.getStyle();
 
-        style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, text.assembleMessage(false)));
+        style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, text.assembleMessage(false)));
 
-        this.chatComponent.setChatStyle(style);
+        this.chatComponent.setStyle(style);
 
         return this;
     }
@@ -227,7 +227,7 @@ public class ChatMessageComposer {
     public void send(boolean prefix) {
         try {
             // send the assebled message to the player
-            FMLClientHandler.instance().getClientPlayerEntity().addChatMessage(this.assembleMessage(prefix));
+            FMLClientHandler.instance().getClientPlayerEntity().sendMessage(this.assembleMessage(prefix));
         } catch (Exception e) {
             HudPixelMod.Companion.instance().logError("Failed to send chat message");
             if (!(e instanceof NullPointerException))
@@ -237,13 +237,13 @@ public class ChatMessageComposer {
     }
 
     /**
-     * Builds an IChatComponent including all appended messages.
+     * Builds an ITextComponent including all appended messages.
      *
      * @param prefix should [HudPixel] be added as chat prefix?
-     * @return the IChatComponent containing all appended messages
+     * @return the ITextComponent containing all appended messages
      */
-    protected IChatComponent assembleMessage(boolean prefix) {
-        IChatComponent result;
+    public ITextComponent assembleMessage(boolean prefix) {
+        ITextComponent result;
         if (prefix) {
             // Copy the prefix
             result = CHAT_PREFIX.createCopy();
@@ -252,7 +252,7 @@ public class ChatMessageComposer {
             return this.chatComponent;
         } else {
             // this step is important so that the appended messages don't inherit the style
-            result = new ChatComponentText("");
+            result = new TextComponentString("");
         }
 
         // add the main message

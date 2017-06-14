@@ -52,11 +52,11 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvider {
 
-    public static final String DISPLAY_MESSAGE = EnumChatFormatting.DARK_GREEN + "Blitz Star";
+    public static final String DISPLAY_MESSAGE = TextFormatting.DARK_GREEN + "Blitz Star";
     @ConfigPropertyBoolean(category = CCategory.HUD, id = "blitzStarTracker", comment = "The Blitz Star Tracker", def = true)
     public static boolean enabled = false;
     private final long DURATION = 60000; // = 60s The blitz star ability only lasts 30s. It's intentionally inaccurate.
@@ -140,16 +140,16 @@ public class BlitzStarTrackerModularGuiProvider extends HudPixelModularGuiProvid
                 return "Not released";
             case HIDDEN:
                 // it's hidden
-                return EnumChatFormatting.YELLOW + "Hidden";
+                return TextFormatting.YELLOW + "Hidden";
             case FOUND:
                 // tell the player who had it.
-                return EnumChatFormatting.LIGHT_PURPLE + (this.owner.isEmpty() ? "Found" : this.owner);
+                return TextFormatting.LIGHT_PURPLE + (this.owner.isEmpty() ? "Found" : this.owner);
             case ACTIVE:
-                return EnumChatFormatting.RED + this.owner + " -> " + this.activatedBlitz;
+                return TextFormatting.RED + this.owner + " -> " + this.activatedBlitz;
             case FORFEIT:
             case USED:
                 // it's gone
-                return EnumChatFormatting.GREEN + "Gone";
+                return TextFormatting.GREEN + "Gone";
         }
         return "";
     }

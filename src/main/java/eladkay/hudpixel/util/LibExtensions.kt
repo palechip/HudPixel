@@ -46,14 +46,14 @@
 
 package eladkay.hudpixel.util
 
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.text.TextFormatting
 
 /**
  * Created by Elad on 10/29/2016.
  */
-operator infix fun String.plus(other: EnumChatFormatting) = "$this$other"
+operator infix fun String.plus(other: TextFormatting) = "$this$other"
 
-operator infix fun EnumChatFormatting.plus(other: String) = "$this$other"
+operator infix fun TextFormatting.plus(other: String) = "$this$other"
 
 fun Any.asBoolean() = this as Boolean
 fun Any.asInt() = this as Int

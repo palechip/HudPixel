@@ -49,6 +49,7 @@ package eladkay.hudpixel.util;
 import com.google.common.collect.Maps;
 import eladkay.hudpixel.HudPixelMod;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -67,8 +68,8 @@ public class BansHandler {
 
     public static void checkForBan() {
         if (HudPixelMod.Companion.getIS_DEBUGGING()) return;
-        if (Minecraft.getMinecraft().thePlayer != null && map.containsKey(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()))
-            Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(Minecraft.getMinecraft().thePlayer.getName().toLowerCase())));
+        if (FMLClientHandler.instance().getClientPlayerEntity() != null && map.containsKey(FMLClientHandler.instance().getClientPlayerEntity().getName().toLowerCase()))
+            Minecraft.getMinecraft().displayGuiScreen(new GuiBlacklisted(map.get(FMLClientHandler.instance().getClientPlayerEntity().getName().toLowerCase())));
     }
 
     private static void load(Properties props) {

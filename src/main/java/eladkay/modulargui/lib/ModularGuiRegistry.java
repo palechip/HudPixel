@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import eladkay.modulargui.lib.base.EmptyModularGuiProvider;
 import eladkay.modulargui.lib.base.NameModularGuiProvider;
 import eladkay.modulargui.lib.base.StringAbstractModularGuiProvider;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ModularGuiRegistry {
      * Example templates.
      * You should keep a constant of your templates in some sort of registry class.
      */
-    public static final Element TITLE = new Element("", new StringAbstractModularGuiProvider(EnumChatFormatting.AQUA + "Modular" + EnumChatFormatting.GOLD + "GUI"));
+    public static final Element TITLE = new Element("", new StringAbstractModularGuiProvider(TextFormatting.AQUA + "Modular" + TextFormatting.GOLD + "GUI"));
     public static final Element NAME = new Element("IGN", new NameModularGuiProvider());
     public static final Element GROUPER = new Element("", new EmptyModularGuiProvider(), true);
 

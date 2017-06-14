@@ -47,7 +47,7 @@
 package eladkay.hudpixel.modulargui.modules;
 
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class PlayGameModularGuiProvider extends HudPixelModularGuiProvider {
 
@@ -91,9 +91,9 @@ public class PlayGameModularGuiProvider extends HudPixelModularGuiProvider {
     @Override
     public String content() {
         if (content.equals("solo_insane") || content.equals("solo_normal") || content.equals("team_insane") || content.equals("team_normal"))
-            return EnumChatFormatting.AQUA + "Press P to play " + EnumChatFormatting.BLUE + "SkyWars";
+            return TextFormatting.AQUA + "Press P to play " + TextFormatting.BLUE + "SkyWars";
         if (content.equals("blitz_solo_insane"))
-            return EnumChatFormatting.AQUA + "Press P to play " + EnumChatFormatting.BLUE + "BSG";
+            return TextFormatting.AQUA + "Press P to play " + TextFormatting.BLUE + "BSG";
         return content;
     }
 

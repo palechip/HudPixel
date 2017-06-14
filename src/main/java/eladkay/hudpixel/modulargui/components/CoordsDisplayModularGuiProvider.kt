@@ -51,6 +51,7 @@ import eladkay.hudpixel.config.CCategory
 import eladkay.hudpixel.config.ConfigPropertyBoolean
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider
 import net.minecraft.client.Minecraft
+import net.minecraftforge.fml.client.FMLClientHandler
 
 /**
  * Created by Elad on 10/24/2016.
@@ -85,7 +86,7 @@ object CoordsDisplayModularGuiProvider : SimpleHudPixelModularGuiProvider() {
 
 
     override fun content(): String? {
-        val pos = Minecraft.getMinecraft().thePlayer.position
+        val pos = FMLClientHandler.instance().clientPlayerEntity.position
         return "X: ${pos.x}, Y: ${pos.y}, Z: ${pos.z}"
     }
 

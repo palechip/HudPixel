@@ -53,7 +53,7 @@ public class EnchantmentStringHandler {
             NBTTagCompound tag = stack.getEnchantmentTagList().getCompoundTagAt(i);
             short id = tag.getShort("id");
             short lvl = tag.getShort("lvl");
-            Enchantment ench = Enchantment.getEnchantmentById(id);
+            Enchantment ench = Enchantment.REGISTRY.getObjectById(id);
             list.add(new EnchInfo(ench, lvl, stack));
         }
         return list;
@@ -80,7 +80,7 @@ public class EnchantmentStringHandler {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void makeTooltip(ItemTooltipEvent event) {
-        ItemStack stack = event.itemStack;
+        ItemStack stack = event.getItemStack();
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey(TAG_DYE)) {
             FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
             int len = font.getStringWidth(stack.getDisplayName());
@@ -88,7 +88,7 @@ public class EnchantmentStringHandler {
             while (font.getStringWidth(spaces) < len)
                 spaces += " ";
 
-            event.toolTip.set(0, spaces);
+            event.getToolTip().set(0, spaces);
         }
     }
 
@@ -99,7 +99,7 @@ public class EnchantmentStringHandler {
         if (stack != null && stack.hasTagCompound()) {
             int dye = stack.getTagCompound().hasKey(TAG_DYE) ? stack.getTagCompound().getInteger(TAG_DYE) : -1;
             if (dye != -1) {
-                int rgb = ItemDye.dyeColors[Math.min(15, dye)];
+                int rgb = ItemDye.DYE_COLORS[Math.min(15, dye)];
                 Color color = new Color(rgb);
                 Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stack.getDisplayName(), event.x, event.y, color.getRGB());
             }

@@ -39,7 +39,7 @@ compileJava {
 
 // Configure the Forge version.
 minecraft {
-    version = "$mc_version-$forge_version-$mc_version"
+    version = "$mc_version-$forge_version"
     runDir = "run"
     mappings = forge_mappings
 }

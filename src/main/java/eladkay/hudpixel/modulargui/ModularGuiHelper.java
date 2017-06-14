@@ -49,10 +49,9 @@ package eladkay.hudpixel.modulargui;
 import com.google.common.collect.Lists;
 import eladkay.hudpixel.modulargui.components.*;
 import eladkay.hudpixel.modulargui.modules.PlayGameModularGuiProvider;
+import eladkay.hudpixel.util.ChatMessageComposer;
 import eladkay.modulargui.lib.ModularGuiRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -80,9 +79,9 @@ public class ModularGuiHelper implements McColorHelper {
     public static final ModularGuiRegistry.Element WALLS2_KILLCOUNTER = new ModularGuiRegistry.Element("simp4", new WallsKillCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element WALLS3_KILLCOUNTER = new ModularGuiRegistry.Element("simp5", new MWKillCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element PB_KILLSTREAK_TRACKER = new ModularGuiRegistry.Element("simp6", new PaintballKillstreakTrackerModularGuiProvider());
-    public static final ModularGuiRegistry.Element WARLORDS_DAMAGE_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.RED + "Damage", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Damage));
-    public static final ModularGuiRegistry.Element WARLORDS_HEALING_TRACKER = new ModularGuiRegistry.Element(EnumChatFormatting.GREEN + "Healing", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Healing));
-    public static final ModularGuiRegistry.Element PLAY_GAME_MODULE = new ModularGuiRegistry.Element(EnumChatFormatting.DARK_RED + "Game", new PlayGameModularGuiProvider());
+    public static final ModularGuiRegistry.Element WARLORDS_DAMAGE_TRACKER = new ModularGuiRegistry.Element(TextFormatting.RED + "Damage", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Damage));
+    public static final ModularGuiRegistry.Element WARLORDS_HEALING_TRACKER = new ModularGuiRegistry.Element(TextFormatting.GREEN + "Healing", new WarlordsDamageAndHealingCounterModularGuiProvider(WarlordsDamageAndHealingCounterModularGuiProvider.Type.Healing));
+    public static final ModularGuiRegistry.Element PLAY_GAME_MODULE = new ModularGuiRegistry.Element(TextFormatting.DARK_RED + "Game", new PlayGameModularGuiProvider());
 
     public static final ModularGuiRegistry.Element WALLS3_AKILLCOUNTER = new ModularGuiRegistry.Element("simp7", new MWAssistCounterModularGuiProvider());
     public static final ModularGuiRegistry.Element WALLS3_AFKILLCOUNTER = new ModularGuiRegistry.Element("simp8", new MWFinalAssistCounterModularGuiProvider());
@@ -184,14 +183,13 @@ public class ModularGuiHelper implements McColorHelper {
      * @param message the message
      **/
     private static void printMessage(String message) {
-        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(
-                new ChatComponentText(message));
+        new ChatMessageComposer(message).send();
     }
 
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent e) {
         for (IHudPixelModularGuiProviderBase provider : providers)
-            provider.onChatMessage(e.message.getUnformattedText(), e.message.getFormattedText());
+            provider.onChatMessage(e.getMessage().getUnformattedText(), e.getMessage().getFormattedText());
     }
 
     @SubscribeEvent

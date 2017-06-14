@@ -46,14 +46,15 @@
 
 package eladkay.hudpixel.command;
 
+import eladkay.hudpixel.util.ChatMessageComposer;
 import eladkay.hudpixel.util.HudPixelMethodHandles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -61,24 +62,27 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class BookVerboseInfoCommand extends HpCommandBase {
 
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "bookverboseinfo";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "/bookverboseinfo";
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        sender.addChatMessage(new ChatComponentText(BookVerboseInfo.showVerboseBookInfo ? EnumChatFormatting.RED +
-                "Disabling verbose info!" : EnumChatFormatting.GREEN + "Enabling verbose info!"));
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if(BookVerboseInfo.showVerboseBookInfo) {
+            new ChatMessageComposer("Disabling verbose info!", TextFormatting.RED).send();
+        } else {
+            new ChatMessageComposer("Enabling verbose info!", TextFormatting.GREEN).send();
+        }
         BookVerboseInfo.showVerboseBookInfo = !BookVerboseInfo.showVerboseBookInfo;
     }
 
@@ -91,12 +95,12 @@ public class BookVerboseInfoCommand extends HpCommandBase {
 
         @SubscribeEvent
         public void onGuiOpen(GuiOpenEvent event) {
-            if (event.gui instanceof GuiScreenBook) {
-                @SuppressWarnings("LocalVariableDeclarationSideOnly") GuiScreenBook book = (GuiScreenBook) event.gui;
+            if (event.getGui() instanceof GuiScreenBook) {
+                @SuppressWarnings("LocalVariableDeclarationSideOnly") GuiScreenBook book = (GuiScreenBook) event.getGui();
                 NBTTagList tags = HudPixelMethodHandles.getBookPages(book);
                 if (tags == null || !showVerboseBookInfo) return;
                 for (int i = 0; i < tags.tagCount(); i++)
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(tags.getStringTagAt(i)));
+                    new ChatMessageComposer(tags.getStringTagAt(i)).send();
 
             }
         }

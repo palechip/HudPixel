@@ -48,7 +48,7 @@ package net.unaussprechlich.hudpixelextended.staff;
 
 
 import eladkay.hudpixel.HudPixelMod;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -95,8 +95,8 @@ public class StaffManager implements IEventHandler, McColorHelper {
      */
     @SubscribeEvent
     public void onPlayerName(PlayerEvent.NameFormat e) {
-        if (tags.keySet().contains(e.username) || e.username.contains("PixelPlus")) {
-            e.displayname = tags.get(e.username) + e.displayname + "§r";
+        if (tags.keySet().contains(e.getUsername()) || e.getUsername().contains("PixelPlus")) {
+            e.setDisplayname(tags.get(e.getUsername()) + e.getDisplayname() + "§r");
         }
     }
 
@@ -150,18 +150,19 @@ public class StaffManager implements IEventHandler, McColorHelper {
     
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) throws Throwable {
-        if (e.type != 0) return; //return if it isn't a normal chat message
-        if (e.message.getUnformattedText().contains("http://") || e.message.getUnformattedText().contains("https://"))
+        if (e.getType() != 0) return; //return if it isn't a normal chat message
+        if (e.getMessage().getUnformattedText().contains("http://") || e.getMessage().getUnformattedText().contains("https://"))
             return; //return if the message contains a link .... so you can still click it :)
 
-        String text = e.message.getFormattedText();
+        String text = e.getMessage().getFormattedText();
 
         for (String s : tags.keySet()) { //for admins
             String s1 = s;
 		    if (text.contains(default_tag + s1) || text.contains(vip_tag + s1) || text.contains(vipplus_tag + s1) ||
                     text.contains(mvp_tag + s1) || Pattern.compile(MVPPLUS_TAG_REGEX + s1).matcher(text).matches()) {
 
-                e.message = new ChatComponentText(e.message.getFormattedText().replaceFirst(s, tags.get(s) + s));
+		        //TODO: Test and potentially fix.
+                e.setMessage(new TextComponentString(e.getMessage().getFormattedText().replaceFirst(s, tags.get(s) + s)));
                 return;
             }
         }

@@ -60,8 +60,18 @@ public class HudPixelGuiFactory implements IModGuiFactory {
     }
 
     @Override
+    public boolean hasConfigGui() {
+        return true;
+    }
+
+    @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() {
         return HudPixelConfigGui.class;
+    }
+
+    @Override
+    public GuiScreen createConfigGui(GuiScreen parentScreen) {
+        return new HudPixelConfigGui(parentScreen);
     }
 
     @Override

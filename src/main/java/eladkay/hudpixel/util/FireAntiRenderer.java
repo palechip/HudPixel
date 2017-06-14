@@ -50,7 +50,9 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -64,9 +66,9 @@ public class FireAntiRenderer {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (Minecraft.getMinecraft().thePlayer == null || !enabled) return;
-        if (Minecraft.getMinecraft().thePlayer.getActivePotionEffect(Potion.fireResistance) != null)
-            HudPixelMethodHandles.setEntityImmuneToFire(Minecraft.getMinecraft().thePlayer, true);
-        else HudPixelMethodHandles.setEntityImmuneToFire(Minecraft.getMinecraft().thePlayer, false);
+        if (FMLClientHandler.instance().getClientPlayerEntity() == null || !enabled) return;
+        if (FMLClientHandler.instance().getClientPlayerEntity().getActivePotionEffect(Potion.REGISTRY.getObject(new ResourceLocation("fire_resistance"))) != null)
+            HudPixelMethodHandles.setEntityImmuneToFire(FMLClientHandler.instance().getClientPlayerEntity(), true);
+        else HudPixelMethodHandles.setEntityImmuneToFire(FMLClientHandler.instance().getClientPlayerEntity(), false);
     }
 }

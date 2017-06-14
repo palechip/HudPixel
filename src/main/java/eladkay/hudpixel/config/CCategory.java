@@ -46,7 +46,7 @@
 
 package eladkay.hudpixel.config;
 
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 /**
  * Little HelperEnum to avoid spelling mistakes :P
@@ -55,18 +55,18 @@ import net.minecraft.util.EnumChatFormatting;
 public enum CCategory {
 
     //ADD A NEW CATEGORY HERE >>
-    ENUM_UNKNOWN("Unknown", EnumChatFormatting.BLACK),
-    ENUM_BOOSTER_DISPLAY("BoosterDisplay", EnumChatFormatting.GOLD),
-    ENUM_COOLDOWN_DISPLAY("CooldownDisplay", EnumChatFormatting.GOLD),
-    ENUM_FRIENDS_DISPLAY("FriendsDisplay", EnumChatFormatting.GOLD),
-    ENUM_FANCY_CHAT("FancyChat", EnumChatFormatting.GOLD),
-    ENUM_HUDPIXEL("HudPixel", EnumChatFormatting.GOLD),
-    ENUM_WARLORDS("Warlords", EnumChatFormatting.GOLD),
-    ENUM_GENERAL("General", EnumChatFormatting.GOLD),
-    ENUM_HUD("Hud", EnumChatFormatting.GOLD),
-    ENUM_POTION_HUD("PotionHUD", EnumChatFormatting.GOLD),
-    ENUM_TRANSLATOR("Translator", EnumChatFormatting.GOLD),
-    ENUM_ARMOR_HUD("ArmorHud", EnumChatFormatting.GOLD);
+    ENUM_UNKNOWN("Unknown", TextFormatting.BLACK),
+    ENUM_BOOSTER_DISPLAY("BoosterDisplay", TextFormatting.GOLD),
+    ENUM_COOLDOWN_DISPLAY("CooldownDisplay", TextFormatting.GOLD),
+    ENUM_FRIENDS_DISPLAY("FriendsDisplay", TextFormatting.GOLD),
+    ENUM_FANCY_CHAT("FancyChat", TextFormatting.GOLD),
+    ENUM_HUDPIXEL("HudPixel", TextFormatting.GOLD),
+    ENUM_WARLORDS("Warlords", TextFormatting.GOLD),
+    ENUM_GENERAL("General", TextFormatting.GOLD),
+    ENUM_HUD("Hud", TextFormatting.GOLD),
+    ENUM_POTION_HUD("PotionHUD", TextFormatting.GOLD),
+    ENUM_TRANSLATOR("Translator", TextFormatting.GOLD),
+    ENUM_ARMOR_HUD("ArmorHud", TextFormatting.GOLD);
 
     //CAN'T CAST ENUMS IN @ConfigProperty<T> SO HERE ARE SOME STATIC FINALS, WE ALL LOVE STATIC FINALS!!!
     //ALSO ADD HERE >>
@@ -85,11 +85,11 @@ public enum CCategory {
 
 
     private final String name;
-    private final EnumChatFormatting enumChatFormatting;
+    private final TextFormatting formatting;
 
-    CCategory(String name, EnumChatFormatting enumChatFormatting) {
+    CCategory(String name, TextFormatting TextFormatting) {
         this.name = name;
-        this.enumChatFormatting = enumChatFormatting;
+        this.formatting = TextFormatting;
     }
 
     public static CCategory getCategoryByName(String name) {
@@ -103,7 +103,7 @@ public enum CCategory {
         return name;
     }
 
-    public EnumChatFormatting getEnumChatFormatting() {
-        return enumChatFormatting;
+    public TextFormatting getTextFormatting() {
+        return formatting;
     }
 }

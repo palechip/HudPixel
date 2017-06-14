@@ -179,7 +179,7 @@ public class BoosterManager extends FancyListManager implements BoosterResponseC
      */
     @Override
     public void onChatReceived(ClientChatReceivedEvent e) {
-        String chat = e.message.getUnformattedText();
+        String chat = e.getMessage().getUnformattedText();
         if (!chat.contains("You tipped ") || chat.contains(":")) return;
 
         String[] split = chat.split(" ");

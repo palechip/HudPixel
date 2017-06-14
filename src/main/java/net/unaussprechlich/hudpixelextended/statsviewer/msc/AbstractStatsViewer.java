@@ -49,7 +49,7 @@ package net.unaussprechlich.hudpixelextended.statsviewer.msc;
 import com.google.gson.JsonObject;
 import eladkay.hudpixel.util.ChatMessageComposer;
 import net.hypixel.api.reply.PlayerReply;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.unaussprechlich.hudpixelextended.hypixelapi.ApiQueueEntryBuilder;
 import net.unaussprechlich.hudpixelextended.hypixelapi.callbacks.PlayerResponseCallback;
 import net.unaussprechlich.hudpixelextended.util.LoggerHelper;
@@ -135,7 +135,7 @@ public abstract class AbstractStatsViewer implements IGameStatsViewer, PlayerRes
             composeStats();
             return;
         }
-        new ChatMessageComposer("Failed to load stats for: " + playerUUID + "!", EnumChatFormatting.RED).send();
+        new ChatMessageComposer("Failed to load stats for: " + playerUUID + "!", TextFormatting.RED).send();
         renderList.add(RED + "FAILED!");
     }
 }

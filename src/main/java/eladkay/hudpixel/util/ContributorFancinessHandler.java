@@ -53,7 +53,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -64,9 +64,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler;
 import net.unaussprechlich.hudpixelextended.util.IEventHandler;
 import org.lwjgl.opengl.GL11;
@@ -149,7 +150,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             ItemStack item = (ItemStack) object;
             GlStateManager.pushMatrix();
             translateToHeadLevel(player);
-            getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+            getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GlStateManager.rotate(180, 0, 0, 1);
             GlStateManager.translate(0, -0.85, 0);
             GlStateManager.rotate(-90, 0, 1, 0);
@@ -176,7 +177,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
             double bottom = height / 4;
 
             @SuppressWarnings("LocalVariableDeclarationSideOnly") Tessellator tessellator = Tessellator.getInstance();
-            @SuppressWarnings("LocalVariableDeclarationSideOnly") WorldRenderer vb = tessellator.getWorldRenderer();
+            @SuppressWarnings("LocalVariableDeclarationSideOnly") VertexBuffer vb = tessellator.getBuffer();
 
             vb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
             vb.pos(height - bottom, -left, 0).tex(0, 0).endVertex();
@@ -207,7 +208,7 @@ public final class ContributorFancinessHandler implements LayerRenderer<EntityPl
         GlStateManager.rotate(pitch, 0, 0, 1);
         firstStart();
         if (!displayYourOwn) {
-            stacks.remove(Minecraft.getMinecraft().thePlayer.getName());
+            stacks.remove(FMLClientHandler.instance().getClientPlayerEntity().getName());
         }
         if (stacks.keySet().stream().map((s) -> {
             if (s == null) return null;

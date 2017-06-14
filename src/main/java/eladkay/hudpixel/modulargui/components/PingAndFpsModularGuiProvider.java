@@ -52,7 +52,7 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.HudPixelModularGuiProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.OldServerPinger;
+import net.minecraft.client.network.ServerPinger;
 
 import java.net.UnknownHostException;
 
@@ -62,7 +62,7 @@ public class PingAndFpsModularGuiProvider extends HudPixelModularGuiProvider {
     public static boolean enabled = false;
     private static long nextTimeStamp;
     private static long lastValidPing;
-    private static OldServerPinger serverPinger = new OldServerPinger();
+    private static ServerPinger serverPinger = new ServerPinger();
     private static String pingString;
     PingOrFps pingOrFps;
 

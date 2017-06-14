@@ -53,7 +53,7 @@ import eladkay.hudpixel.config.CCategory;
 import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.modulargui.SimpleHudPixelModularGuiProvider;
 import eladkay.hudpixel.util.GameType;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.util.McColorHelper;
 
@@ -171,10 +171,10 @@ public class TkrTimerModularGuiProvider extends SimpleHudPixelModularGuiProvider
         } else {
             if (this.running) {
                 // show the result if the timer is running
-                return EnumChatFormatting.YELLOW + "Lap " + this.lap + ": " + this.runningTime;
+                return TextFormatting.YELLOW + "Lap " + this.lap + ": " + this.runningTime;
             } else {
                 // return the official time if it isn't running. This may also be empty if it hasn't started yet
-                return this.officialTime.isEmpty() ? "" : EnumChatFormatting.YELLOW + "Lap " + this.lap + ": " + this.officialTime;
+                return this.officialTime.isEmpty() ? "" : TextFormatting.YELLOW + "Lap " + this.lap + ": " + this.officialTime;
             }
         }
     }

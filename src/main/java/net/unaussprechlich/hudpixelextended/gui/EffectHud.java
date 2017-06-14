@@ -51,8 +51,10 @@ import eladkay.hudpixel.config.ConfigPropertyBoolean;
 import eladkay.hudpixel.config.ConfigPropertyInt;
 import eladkay.hudpixel.util.DisplayUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.HudPixelExtendedEventHandler;
 import net.unaussprechlich.hudpixelextended.util.IEventHandler;
 
@@ -109,15 +111,16 @@ public class EffectHud implements IEventHandler {
                 .collect(Collectors.toCollection(ArrayList::new))
         );
 
+        EntityPlayerSP player = FMLClientHandler.instance().getClientPlayerEntity();
         effects.removeAll(effects
                 .stream()
-                .filter(effect -> !(mc.thePlayer.getActivePotionEffects().contains(effect.getPotionEffect())))
+                .filter(effect -> !(player.getActivePotionEffects().contains(effect.getPotionEffect())))
                 .collect(Collectors.toCollection(ArrayList::new))
         );
 
-        if (mc.thePlayer == null || mc.thePlayer.getActivePotionEffects() == null || disable_PotionHud) return;
+        if (player == null || player.getActivePotionEffects() == null || disable_PotionHud) return;
 
-        effects.addAll(mc.thePlayer.getActivePotionEffects()
+        effects.addAll(player.getActivePotionEffects()
                 .stream()
                 .filter(potionEffect -> !isPotionEffectInEffects(potionEffect))
                 .map(Effect::new)

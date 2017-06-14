@@ -1,9 +1,10 @@
 package net.unaussprechlich.project.connect.gui
 
 import net.minecraft.client.Minecraft
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.client.event.GuiOpenEvent
+import net.minecraftforge.fml.client.FMLClientHandler
 import net.unaussprechlich.hudpixelextended.hypixelapi.ApiKeyHandler
 import net.unaussprechlich.managedgui.lib.GuiManagerMG
 import net.unaussprechlich.managedgui.lib.container.Container
@@ -69,12 +70,13 @@ object LoginGUI : GUI() {
                         isBlocked = false
                     }
                 }).apply {
-                    val uuid = Minecraft.getMinecraft().thePlayer.gameProfile.id.toString()
+                    val player = FMLClientHandler.instance().clientPlayerEntity;
+                    val uuid = player.gameProfile.id.toString()
                     val md = MessageDigest.getInstance("SHA-256")
                     md.update((uuid + passwordFieldCon.realText).toByteArray())
 
                     PASSWORD = String.format("%064x", java.math.BigInteger(1, md.digest()))
-                    NAME = Minecraft.getMinecraft().thePlayer.displayNameString
+                    NAME = player.displayNameString
                     UUID = uuid
                     API_KEY = ApiKeyHandler.getApiKey()
                 }.send()
@@ -138,7 +140,7 @@ object LoginGUI : GUI() {
 
 
     fun displayError(msg : String){
-        error.text = "" + EnumChatFormatting.DARK_RED + msg
+        error.text = "" + TextFormatting.DARK_RED + msg
         error.isVisible = true
     }
 
@@ -161,7 +163,7 @@ object LoginGUI : GUI() {
             }
         })
 
-        textCon.addEntry("Hi ${Minecraft.getMinecraft().thePlayer.displayNameString}, ")
+        textCon.addEntry("Hi ${FMLClientHandler.instance().clientPlayerEntity.displayNameString}, ")
         textCon.addEntry("")
         textCon.addEntry("Welcome to HudPixel! HudPixel is a client-side mod especially designed for Hypixel players and officially allowed by the Hypixel Team. You can disable or enable features in the config by pressing <config key>.")
         textCon.addEntry("We hope you enjoy the mod and if you have any feedback, contact us on our discord server!")

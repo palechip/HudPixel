@@ -46,6 +46,7 @@
 
 package net.unaussprechlich.hudpixelextended.boosterdisplay;
 
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.unaussprechlich.hudpixelextended.hypixelapi.representations.Booster;
 import net.unaussprechlich.hudpixelextended.util.gui.FancyListButton;
 
@@ -64,6 +65,6 @@ class BoosterTipButton extends FancyListButton {
 
     @Override
     protected void onClick() {
-        getMinecraft().thePlayer.sendChatMessage("/tip " + booster.getOwner() + " " + booster.getTipName());
+        FMLClientHandler.instance().getClientPlayerEntity().sendChatMessage("/tip " + booster.getOwner() + " " + booster.getTipName());
     }
 }
