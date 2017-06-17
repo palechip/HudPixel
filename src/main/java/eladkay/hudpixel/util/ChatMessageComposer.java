@@ -63,7 +63,9 @@ import java.util.ArrayList;
  * A mighty chat message manager. His nickname is Skype. ;)
  *
  * @author palechip
+ * @deprecated Use net.hudpixel.util.chat.ChatMsg.
  */
+@Deprecated
 public class ChatMessageComposer {
     public static final String SEPARATION_MESSAGE = "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC";
     private static ITextComponent CHAT_PREFIX;
