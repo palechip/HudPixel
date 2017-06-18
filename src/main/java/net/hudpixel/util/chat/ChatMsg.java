@@ -32,15 +32,21 @@
 package net.hudpixel.util.chat;
 
 
+import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiUtilRenderComponents;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Compose pretty formatted chat messages with ease.
@@ -84,6 +90,22 @@ public class ChatMsg {
 
     // The prefix
     protected final static ChatMsg HUDPIXEL_PREFIX = new ChatMsg("[", TextFormatting.GOLD, "Hud", TextFormatting.YELLOW, "Pixel", "] ");
+
+    // A separation messaage in the Hypixel style (using unicode "black rectangle")
+
+    // It isn't public because you have to use sendSeparationMessage(TextFormatting color)!
+    protected final static ChatMsgPart SEPARATION_MESSAGE = new ChatMsgPart(TextFormatting.BOLD, "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+            "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+            "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+            "\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC" +
+            "\u25AC\u25AC\u25AC\u25AC");
+
+    // Caching for the separation messages.
+    protected static ChatMsgPart shortenedSeparationMessageCache = null;
+    protected static int lastChatWidth = -1;
+    protected static Map<TextFormatting, ChatMsg> separationMessageCache = new HashMap<>();
+
+
 
     /**
      * Create a complex chat message providing a sequence of the following objects:
@@ -191,6 +213,58 @@ public class ChatMsg {
     public void sendFormat(ICommandSender sender, boolean usePrefix, Object... formatArgs) {
         // Assemble using cache (if possible) and send.
         sender.sendMessage(this.asssemble(usePrefix, true, formatArgs));
+    }
+
+    /**
+     * Sends a Hypixel style separation message. This message is guaranteed to only be one line long even if
+     * non-default chat settings are used. The maximum length is exactly as long as the original Hypixel messages.
+     *
+     * @param sender The recipient of the message. Usually this will be the player.
+     * @param color The color for the separation message.
+     */
+    public static void sendSeparationMessage(ICommandSender sender, TextFormatting color) {
+        // The following calculations are analogous to the way Minecraft does it in GuiNewChat.
+        // This important for compatibility. If this method ever breaks, check GuiNewChat.setChatLine() or equivalent.
+
+        GameSettings settings = FMLClientHandler.instance().getClient().gameSettings;
+
+        // Calculate maxLength like GuiNewChat.
+        int maxlength = MathHelper.floor((float) GuiNewChat.calculateChatboxWidth(settings.chatWidth) / settings.chatScale);
+
+        // Check if the chat size has changed.
+        if(maxlength != ChatMsg.lastChatWidth) {
+            // Create a new template for the current chat size.
+            // Use the same line wrapping util as GuiNewChat.
+            // Note that the SEPARATION_MESSAGE is bold.
+            List<ITextComponent> list = GuiUtilRenderComponents.splitText(SEPARATION_MESSAGE.assemble(), maxlength,
+                    FMLClientHandler.instance().getClient().fontRendererObj, false, false);
+
+            // Now extract the first line. The separation message should only be one line long.
+            String newSeparationMessage = list.get(0).getUnformattedText();
+
+            // Cache the separation message.
+            ChatMsg.shortenedSeparationMessageCache = new ChatMsgPart(TextFormatting.BOLD, newSeparationMessage);
+
+            // Now clear the color cache and set the length.
+            ChatMsg.separationMessageCache.clear();
+            ChatMsg.lastChatWidth = maxlength;
+
+        }
+
+        // Now use the cached message if available.
+        ChatMsg separationMessage;
+        if(ChatMsg.separationMessageCache.containsKey(color)) {
+            // Load the cached message.
+            separationMessage = ChatMsg.separationMessageCache.get(color);
+        } else {
+            // There is no cached message for this color, create it.
+            separationMessage = new ChatMsg(color, ChatMsg.shortenedSeparationMessageCache);
+            // Save in the cache.
+            ChatMsg.separationMessageCache.put(color, separationMessage);
+        }
+
+        // Send the separation message message. Don't use the prefix.
+        separationMessage.send(sender, false);
     }
 
     /**
@@ -311,5 +385,22 @@ public class ChatMsg {
     public void sendFormat(ICommandSender sender, Object... formatArgs) {
         // Use main sendFormat.
         this.sendFormat(sender, true, formatArgs);
+    }
+
+    //
+    // Options for the sendSeparationMessage function.
+    //
+
+    /**
+     * Sends a Hypixel style separation message to the player. This message is guaranteed to only be one line long even if
+     * non-default chat settings are used. The maximum length is exactly as long as the original Hypixel messages.
+     *
+     * @param color The color for the separation message.
+     */
+    public static void sendSeparationMessage(TextFormatting color) {
+        // Get the player.
+        ICommandSender sender = FMLClientHandler.instance().getClientPlayerEntity();
+        // Use main method.
+        ChatMsg.sendSeparationMessage(sender, color);
     }
 }
